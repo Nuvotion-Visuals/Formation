@@ -1,10 +1,6 @@
 # Formation
 
-Formation is styled component library based around the Unimpeded Interface design system.
-
-### The Unimpeded Interface Philosophy 
-
-Formation is a Styled Components library that conforms to the Unimpeded Interface Philosophy. 
+Formation is a comprehensive React component library based on Styled Components and CSS variables.
 
 ### Core principals
  - No right clicks
