@@ -1,0 +1,7 @@
+:root {
+	--Primary: #c00c00;
+}
+
+button {
+	background: var(--Primary);
+}
