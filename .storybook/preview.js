@@ -6,8 +6,12 @@ import {
   faHeart, faPaperPlane, faFolder, faFolderBlank, faPlusSquare
 } from '@fortawesome/free-regular-svg-icons'
 
+import { 
+  faHeart as fasHeart
+} from '@fortawesome/free-solid-svg-icons'
+
 library.add(
-  faHeart, faPaperPlane, faFolderBlank, faPlusSquare
+  faHeart, faPaperPlane, faFolderBlank, faPlusSquare, fasHeart
 )
 
 export const parameters = {
