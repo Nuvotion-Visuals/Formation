@@ -1,6 +1,6 @@
 {
   "name": "@avsync.live/formation",
-  "homepage": "https://github.com/AVsync-LIVE/formation",
+  "homepage": "https://avsync-live.github.io/formation",
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
   },
@@ -10,7 +10,8 @@
     "rollup": "rollup -c",
     "test": "jest",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "deploy-storybook": "gh-pages -d storybook-static"
   },
   "author": "AVsync.LIVE LLC",
   "license": "MIT",
@@ -37,6 +38,7 @@
     "babel-jest": "^27.3.1",
     "babel-loader": "^8.2.3",
     "css-loader": "^6.5.1",
+    "gh-pages": "^4.0.0",
     "html-webpack-plugin": "^5.5.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^28.1.3",
