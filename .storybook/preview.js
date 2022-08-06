@@ -2,10 +2,13 @@
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import { library, config } from '@fortawesome/fontawesome-svg-core'
 
-import { faHeart } from '@fortawesome/free-solid-svg-icons'
-import { faHeart as farHeart, faPaperPlane as farPaperPlane } from '@fortawesome/free-regular-svg-icons'
+import { 
+  faHeart, faPaperPlane, faFolder, faFolderBlank, faPlusSquare
+} from '@fortawesome/free-regular-svg-icons'
 
-library.add(faHeart, farHeart, farPaperPlane)
+library.add(
+  faHeart, faPaperPlane, faFolderBlank, faPlusSquare
+)
 
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },
