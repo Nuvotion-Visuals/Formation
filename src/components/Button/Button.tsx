@@ -1,13 +1,15 @@
 import React, { FC } from 'react'
 import styled, { keyframes, css } from 'styled-components'
 
+import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
+
 import { Icon } from '../Icon/Icon'
 
 type Props = {
   href?: string,
   hero?: boolean,
   name?: string,
-  icon?: string,
+  icon?: IconName,
   onClick?: Function,
   primary?: boolean,
   text?: string,
@@ -18,7 +20,7 @@ type Props = {
   expand?: boolean,
   submit?: boolean,
   id?: string,
-  iconStyle?: string,
+  iconPrefix?: IconPrefix,
   secondary?: boolean,
   singleBlink? : boolean,
   tab? : boolean,
@@ -40,7 +42,7 @@ export const Button: FC<Props> = React.memo(({
   expand,
   submit,
   id,
-  iconStyle,
+  iconPrefix,
   secondary,
   singleBlink,
   tab,
@@ -57,19 +59,24 @@ export const Button: FC<Props> = React.memo(({
         disabled={disabled}
         hero={hero}
         expand={expand}
-        // type={submit ? 'submit' : 'button'}
+        type={submit ? 'submit' : undefined}
         id={id}
         secondary={secondary && !primary}
         singleBlink={singleBlink}
         tab={tab}
         name={name}
       >
-        <Icon 
-          prefix={iconStyle ? iconStyle : 'far'} 
-          icon={icon}  
-          rotate={rotate}
-          size={hero ? 'xl' : '1x'} 
-        />
+        {
+          icon
+            ? <Icon 
+                iconPrefix={iconPrefix ? iconPrefix : 'far'} 
+                icon={icon}  
+                rotation={rotate ? 90 : undefined}
+                size={hero ? '2x' : '1x'} 
+              />
+            : null
+        }
+      
         {
           text 
             ? 
@@ -92,7 +99,7 @@ export const Button: FC<Props> = React.memo(({
       {
         href 
         ? 
-          <S.Link href={href} target={newTab ? '_blank' : '_href'}>
+          <S.Link href={href} target={newTab ? '_blank' : '_self'}>
             { renderButton() }
           </S.Link>
         : renderButton()
@@ -135,7 +142,9 @@ const S = {
     display: flex;
     flex-grow: ${props => props.expand ? '1' : 'auto'};
   `,
-  Link: styled.a``,
+  Link: styled.a`
+    text-decoration: none;
+  `,
   Text: styled.div<TextProps>`
     font-size: ${props => props.hero ? 'var(--Font_Size_Title)' : 'var(--Font_Size)'};
     margin-left: ${props => props.hero
@@ -143,6 +152,8 @@ const S = {
       : props.icon ? '.5rem' : '0'
     };
     display: flex;
+    height: 100%;
+    align-items: center;
   `,
   Button: styled.button.attrs({ 
     type: 'submit',
@@ -173,7 +184,7 @@ const S = {
     min-width: var(--Font_Size_Icon);
     padding: ${props => 
       props.hero && !props.square 
-        ? '1.25rem 2rem' 
+        ? '1rem 2rem' 
         : props.square
             ? '1.5rem'
             : 'var(--Font_Size)'

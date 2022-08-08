@@ -55,3 +55,16 @@ Disabled.args = {
   text: 'Send message',
   disabled: true
 }
+
+export const Link = Template.bind({})
+Link.args = {
+  text: 'Open link',
+  href: 'https://www.npmjs.com/package/@avsync.live/formation'
+}
+
+export const LinkNewTab = Template.bind({})
+LinkNewTab.args = {
+  text: 'Open link in new tab',
+  href: 'https://www.npmjs.com/package/@avsync.live/formation',
+  newTab: true
+}

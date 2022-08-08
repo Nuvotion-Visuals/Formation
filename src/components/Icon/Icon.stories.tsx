@@ -13,19 +13,19 @@ const Template: ComponentStory<typeof Icon> = (args) => <Icon {...args} />
 export const Solid = Template.bind({})
 Solid.args = {
   icon: 'heart',
-  prefix: 'fas'
+  iconPrefix: 'fas'
 }
 
 export const Regular = Template.bind({})
 Regular.args = {
   icon: 'heart',
-  prefix: 'far'
+  iconPrefix: 'far'
 }
 
 export const Rotate = Template.bind({})
 Rotate.args = {
   icon: 'heart',
-  prefix: 'far',
+  iconPrefix: 'far',
   rotation: 90
 }
 

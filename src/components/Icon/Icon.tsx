@@ -6,17 +6,17 @@ import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 import React from 'react'
 
 interface Props extends FontAwesomeIconProps{
-  prefix: IconPrefix
+  iconPrefix: IconPrefix | undefined
 }
 
 export const Icon = React.memo((props : Props) => {
-  const { prefix, icon } = props
+  const { iconPrefix, icon } = props
 
   return <FontAwesomeIcon 
     {...props}
     icon={[
-      prefix
-        ? prefix
+      iconPrefix
+        ? iconPrefix
         : 'far',
       (icon as IconName)
     ]} 
