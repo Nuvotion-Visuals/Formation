@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 
-import { Button } from 'components/Button/Button'
+import { Button } from '../Button/Button'
 
 type Tab = {
   name: string,
