@@ -14,16 +14,24 @@ const Template: ComponentStory<typeof Button> = args =>
     <div style={{width: '100%'}} />
   </div>
 
-export const Primary = Template.bind({})
-Primary.args = {
+export const Regular = Template.bind({})
+Regular.args = {
   text: 'Send message',
   icon: 'paper-plane',
 }
 
-export const Outline = Template.bind({})
-Outline.args = {
+
+export const Primary = Template.bind({})
+Primary.args = {
   text: 'Send message',
-  outline: true,
+  icon: 'paper-plane',
+  primary: true
+}
+
+export const Secondary = Template.bind({})
+Secondary.args = {
+  text: 'Send message',
+  secondary: true,
   icon: 'paper-plane',
 }
 
@@ -34,12 +42,12 @@ Hero.args = {
   icon: 'paper-plane',
 }
 
-export const HeroEmphasize = Template.bind({})
-HeroEmphasize.args = {
+export const HeroPrimary = Template.bind({})
+HeroPrimary.args = {
   text: 'Send message',
   hero: true,
   icon: 'paper-plane',
-  emphasize: true
+  primary: true
 }
 
 export const Disabled = Template.bind({})

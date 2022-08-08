@@ -10,10 +10,11 @@ import React from 'react'
 interface Props {
   prefix?: string,
   icon?: string,
-  rotate?: boolean
+  rotate?: boolean,
+  size?: string
 }
 
-export const Icon = React.memo(({ prefix, icon, rotate } : Props) => {
+export const Icon = React.memo(({ prefix, icon, rotate, size } : Props) => {
   return (<>
     {
       icon
@@ -25,6 +26,7 @@ export const Icon = React.memo(({ prefix, icon, rotate } : Props) => {
                 (icon as IconName)
             ]} 
             rotate={rotate}
+            size={size ? size : '1x'}
           />
         : null
     }

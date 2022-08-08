@@ -291,3 +291,7 @@ select:active, select:hover {
     --Font_Size_Page_Header: 55px;
   }
 }
+
+.storybook {
+  font-family: sans-serif;
+}

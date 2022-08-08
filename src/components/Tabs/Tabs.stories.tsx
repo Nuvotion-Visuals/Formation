@@ -18,7 +18,7 @@ const Template: ComponentStory<typeof Tabs> = (args) => {
       initialActiveTab={activeTab}
       onSetActiveTab={name => setActiveTab(name)}
     />
-    Active tab: { activeTab }
+    <div className='storybook'>Active tab: { activeTab }</div>
   </>
 }
 

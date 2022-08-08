@@ -9,7 +9,7 @@ type Props = {
   name?: string,
   icon?: string,
   onClick?: Function,
-  emphasize?: boolean,
+  primary?: boolean,
   text?: string,
   blink?: boolean,
   rotate?: boolean,
@@ -19,7 +19,7 @@ type Props = {
   submit?: boolean,
   id?: string,
   iconStyle?: string,
-  outline?: boolean,
+  secondary?: boolean,
   singleBlink? : boolean,
   tab? : boolean,
   newTab?: boolean
@@ -30,7 +30,7 @@ export const Button: FC<Props> = React.memo(({
   name, 
   icon, 
   onClick, 
-  emphasize, 
+  primary, 
   text, 
   blink, 
   rotate, 
@@ -41,7 +41,7 @@ export const Button: FC<Props> = React.memo(({
   submit,
   id,
   iconStyle,
-  outline,
+  secondary,
   singleBlink,
   tab,
   newTab
@@ -50,7 +50,7 @@ export const Button: FC<Props> = React.memo(({
     return (
       <S.Button
         onClick={onClick ? (e) => onClick(e) : () => {}} 
-        emphasize={emphasize} 
+        primary={primary} 
         blink={blink}
         square={!text}
         title={title ? title : ''}
@@ -59,7 +59,7 @@ export const Button: FC<Props> = React.memo(({
         expand={expand}
         // type={submit ? 'submit' : 'button'}
         id={id}
-        outline={outline && !emphasize}
+        secondary={secondary && !primary}
         singleBlink={singleBlink}
         tab={tab}
         name={name}
@@ -67,7 +67,8 @@ export const Button: FC<Props> = React.memo(({
         <Icon 
           prefix={iconStyle ? iconStyle : 'far'} 
           icon={icon}  
-          rotate={rotate} 
+          rotate={rotate}
+          size={hero ? 'xl' : '1x'} 
         />
         {
           text 
@@ -110,10 +111,10 @@ interface ButtonProps {
   onClick?: Function,
   title?: string,
   disabled?: boolean,
-  outline?: boolean,
+  secondary?: boolean,
   hero?: boolean,
   square?: boolean,
-  emphasize?: boolean,
+  primary?: boolean,
   singleBlink?: boolean,
   blink?: boolean,
   expand?: boolean,
@@ -137,7 +138,10 @@ const S = {
   Link: styled.a``,
   Text: styled.div<TextProps>`
     font-size: ${props => props.hero ? 'var(--Font_Size_Title)' : 'var(--Font_Size)'};
-    margin-left: ${props => props.icon ? '.5rem' : '0'};
+    margin-left: ${props => props.hero
+      ? props.icon ? '.75rem' : '0'
+      : props.icon ? '.5rem' : '0'
+    };
     display: flex;
   `,
   Button: styled.button.attrs({ 
@@ -151,7 +155,7 @@ const S = {
     overflow: hidden;
     color: ${props => props.disabled 
       ? 'var(--Font_Color_Disabled)' 
-      : props.outline
+      : props.secondary
         ? 'var(--Font_Color_Label)'
         : 'var(--Font_Color)'
     };
@@ -162,16 +166,14 @@ const S = {
     align-items: center;
     justify-content: center;
     height: ${props => 
-      props.hero && props.square 
-        ? '54px' 
-        : props.hero 
-            ? 'auto' 
-            : 'var(--Input_Height)'
-        };
+      props.hero
+        ? 'auto' 
+        : 'var(--Input_Height)'
+    };
     min-width: var(--Font_Size_Icon);
     padding: ${props => 
       props.hero && !props.square 
-        ? '1.5rem 1.75rem' 
+        ? '1.25rem 2rem' 
         : props.square
             ? '1.5rem'
             : 'var(--Font_Size)'
@@ -186,16 +188,16 @@ const S = {
           ? '.5rem .5rem 0 0' 
           : '.5rem'
     };
-    background: ${props => props.emphasize 
+    background: ${props => props.primary 
         ? `var(--Primary)`
         : props.blink
           ? 'var(--Hover_Single)'
-          : props.outline 
+          : props.secondary 
             ? 'none'
             : 'var(--Surface)'
     }; 
   
-    box-shadow: ${props => props.outline ? 'var(--Outline)' : 'none'};
+    box-shadow: ${props => props.secondary ? 'var(--Outline)' : 'none'};
     animation: ${props => props.blink 
       ? css`${blink} 1s linear infinite` 
       : props.singleBlink
@@ -207,14 +209,14 @@ const S = {
     svg {
       color: ${props => props.disabled 
         ? 'var(--Font_Color_Disabled)' 
-        : props.outline
+        : props.secondary
           ? 'var(--Font_Color_Label)'
           : 'var(--Font_Color)'
       };
     }
     
     &:hover {
-      background: ${props => props.emphasize 
+      background: ${props => props.primary 
         ? `var(--Primary_Hover)`
         : 'var(--Surface_1)'
       };
@@ -225,7 +227,7 @@ const S = {
     };
   
     &:active {
-      background: ${props => props.emphasize 
+      background: ${props => props.primary 
         ? `var(--Primary)`
         : 'var(--Surface_2)'
       };
@@ -234,9 +236,7 @@ const S = {
   `,
 }
 
-
 const blink = keyframes`
-{
   0% {
     background: var(--Surface);
   }
@@ -246,5 +246,4 @@ const blink = keyframes`
   100% {
     background: var(--Surface);
   }
-}
 `
