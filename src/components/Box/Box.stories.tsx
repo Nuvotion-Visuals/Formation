@@ -2,6 +2,7 @@ import React from 'react'
 
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
+import { Button } from '../Button/Button'
 import { Box } from './Box'
 
 export default {
@@ -10,11 +11,14 @@ export default {
 } as ComponentMeta<typeof Box>
 
 const Template: ComponentStory<typeof Box> = args => 
-  <Box {...args} >
-    test
-  </Box>
+  <div style={{background: 'black', display: 'flex'}}>
+    <Box {...args}>
+      <Button text='Click me' />
+    </Box>
+  </div>
+
 
 export const Regular = Template.bind({})
 Regular.args = {
-  px: 4
+  m: 0
 }

@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
 interface Props {
@@ -18,50 +18,53 @@ interface Props {
   py?: number,
   children?: any,
   width?: number | string,
-  wrap?: boolean,
-  height?: number | string,
-  alignLeft?: boolean,
-  gap?: number
+  hide?: boolean
 }
 
-export const Box: FC<Props> = React.memo((props : Props) => <S.Box { ...props }>
-  {
-    props.children
+export const Box = React.memo((props : Props) => {
+  return (
+    <S.Box { ...props }>
+      {
+        props.children
+      }
+    </S.Box>
+  )
+})
+
+const calculateMargin = (props : Props) => {
+  if (props.m) {
+    return `${props.m}rem`
   }
-</S.Box>)
+  if (props.my) {
+    return `${props.my}rem 0`
+  }
+  if (props.mx) {
+    return `0 ${props.mx}rem`
+  }
+  return `${props.mt ? `${props.mt}rem` : '0'} ${props.mr ? `${props.mr}rem` : '0'} ${props.mb ? `${props.mb}rem` : '0'} ${props.ml ? `${props.ml}rem` : '0'}`
+}
+
+const calculatePadding = (props : Props) => {
+  if (props.p) {
+    return `${props.p}rem`
+  }
+  if (props.py) {
+    return `${props.py}rem 0`
+  }
+  if (props.px) {
+    return `0 ${props.px}rem`
+  }
+  return `${props.pt ? `${props.pt}rem` : '0'} ${props.pr ? `${props.pr}rem` : '0'} ${props.pb ? `${props.pb}rem` : '0'} ${props.pl ? `${props.pl}rem` : '0'}`
+}
 
 const S = {
   Box: styled.div<Props>`
-    flex-wrap: ${props => props.wrap ? 'wrap' : 'none'};
-    display: flex;
-    gap: ${props => props.gap ? `${props.gap}rem` : '0'};
-    justify-content: ${props => props.alignLeft ? 'auto' : 'center'};
+    display: ${props => props.hide ? 'none' : 'flex'};
+    justify-content: center;
     align-items: center;
-    margin: ${props => {
-      if (props?.m) {
-        return `${props.m}rem`
-      }
-      if (props?.my) {
-        return `${props.my}rem 0`
-      }
-      if (props?.mx) {
-        return `0 ${props.mx}rem`
-      }
-      return `${props?.mt ? `${props.mt}rem` : '0'} ${props?.mr ? `${props.mr}rem` : '0'} ${props?.mb ? `${props.mb}rem` : '0'} ${props?.ml ? `${props?.ml}rem` : '0'}`
-    }};
-    padding: ${props => {
-      if (props?.p) {
-        return `${props.p}rem`
-      }
-      if (props?.py) {
-        return `${props.py}rem 0`
-      }
-      if (props?.px) {
-        return `0 ${props.px}rem`
-      }
-      return `${props?.pt ? `${props.pt}rem` : '0'} ${props.pr ? `${props.pr}rem` : '0'} ${props.pb ? `${props.pb}rem` : '0'} ${props.pl ? `${props.pl}rem` : '0'}`
-    }};
+    margin: ${props => calculateMargin(props)};
+    padding: ${props => calculatePadding(props)};
     width: ${props => typeof props.width === 'string' ? props.width : `${props.width}rem`};
-    height: ${props => typeof props.height === 'string' ? props.height : `${props.height}rem`};
+
   `
 }
