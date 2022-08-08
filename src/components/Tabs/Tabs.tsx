@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
+import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
+
 import { Button } from '../Button/Button'
 
 type Tab = {
   name: string,
-  icon?: string,
+  icon?: IconName,
+  iconPrefix?: IconPrefix,
   onClick?: () => void,
-  prefix?: string,
+  prefix?: IconPrefix,
   suffix?: string
 }
 
@@ -32,11 +35,12 @@ export const Tabs = React.memo(({
   return (
     <S.Tabs>
       {
-        tabs.map(({ name, icon, onClick, prefix, suffix }) => 
+        tabs.map(({ name, icon, onClick, prefix, suffix, iconPrefix }) => 
           <Button
             key={name}
             text={`${prefix ? prefix : ''}${name}${suffix ? suffix : ''}`} 
             icon={icon} 
+            iconPrefix={iconPrefix}
             onClick={() => {
               set_localActiveTab(name)
               onClick
@@ -46,6 +50,7 @@ export const Tabs = React.memo(({
             expand={true}
             secondary={name !== localActiveTab}
             tab={true}
+
           /> 
         )
       }
