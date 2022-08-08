@@ -7,7 +7,6 @@
     "esModuleInterop": true,
     "moduleResolution": "node",
     "jsx": "react",
-    "baseUrl": "./src",
     "outDir": "dist",
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
@@ -15,6 +14,7 @@
     "declarationDir": "types",
     "emitDeclarationOnly": true,
     "allowSyntheticDefaultImports": true,
+    "baseUrl": "./src"
   },
   "exclude": [
     "**/*.stories.tsx"
