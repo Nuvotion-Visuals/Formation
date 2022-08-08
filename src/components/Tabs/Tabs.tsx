@@ -6,54 +6,56 @@ import { Button } from '../Button/Button'
 type Tab = {
   name: string,
   icon?: string,
-  onClickFunction?: () => void,
-  suffix?: string,
-  forceActive?: boolean
+  onClick?: () => void,
+  prefix?: string,
+  suffix?: string
 }
 
-type Type = {
+type Props = {
   tabs: Tab[],
   onSetActiveTab: (arg0: string) => any,
-  initialActiveTab?: string,
-  expand?: boolean,
-  activeTab?: string
+  initialActiveTab: string
 }
 
-export const Tabs = React.memo(({ tabs, onSetActiveTab, initialActiveTab, expand, activeTab }: Type) => {
+export const Tabs = React.memo(({ 
+  tabs, 
+  onSetActiveTab, 
+  initialActiveTab, 
+}: Props) => {
 
-  const [localSelectedTab, setLocalSelectedTab] = useState(initialActiveTab ? initialActiveTab : '')
+  const [localActiveTab, set_localActiveTab] = useState(initialActiveTab)
 
   useEffect(() => {
-    onSetActiveTab(localSelectedTab)
-  }, [localSelectedTab])
+    onSetActiveTab(localActiveTab)
+  }, [localActiveTab])
 
   return (
-    <S_Tabs>
+    <S.Tabs>
       {
-        tabs.map(({ name, icon, onClickFunction, suffix, forceActive }) => 
+        tabs.map(({ name, icon, onClick, prefix, suffix }) => 
           <Button
             key={name}
-            text={`${name}${suffix ? suffix : ''}`} 
+            text={`${prefix ? prefix : ''}${name}${suffix ? suffix : ''}`} 
             icon={icon} 
             onClick={() => {
-              setLocalSelectedTab(name)
-              onClickFunction
-                ? onClickFunction()
+              set_localActiveTab(name)
+              onClick
+                ? onClick()
                 : null
             }} 
             expand={true}
-            outline={name !== localSelectedTab}
+            secondary={name !== localActiveTab}
             tab={true}
           /> 
         )
       }
-    </S_Tabs>
+    </S.Tabs>
   )
 })
 
-const S_Tabs = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`
+const S = {
+  Tabs: styled.div`
+    width: 100%;
+    display: flex;
+  `
+}

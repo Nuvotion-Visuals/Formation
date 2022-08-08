@@ -22,8 +22,8 @@ const Template: ComponentStory<typeof Tabs> = (args) => {
   </>
 }
 
-export const Primary = Template.bind({})
-Primary.args = {
+export const Regular= Template.bind({})
+Regular.args = {
   tabs: [
     {
       name: 'Scene',
@@ -37,6 +37,5 @@ Primary.args = {
       name: 'Add',
       icon: 'plus-square'
     }
-  ],
-  expand: true
+  ]
 }
