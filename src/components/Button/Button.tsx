@@ -1,15 +1,14 @@
+import React, { FC } from 'react'
 import styled, { keyframes, css } from 'styled-components'
 
-import React from 'react'
+import { Icon } from '../Icon/Icon'
 
-import Icon from '../Icon/Icon'
-
-type ButtonType = {
+type Props = {
   href?: string,
   hero?: boolean,
   name?: string,
   icon?: string,
-  onClickFunction?: Function,
+  onClick?: Function,
   emphasize?: boolean,
   text?: string,
   blink?: boolean,
@@ -18,7 +17,6 @@ type ButtonType = {
   disabled?: boolean,
   expand?: boolean,
   submit?: boolean,
-  cta?: boolean,
   id?: string,
   iconStyle?: string,
   outline?: boolean,
@@ -27,11 +25,11 @@ type ButtonType = {
   newTab?: boolean
 }
 
-const Button = React.memo(({ 
+export const Button: FC<Props> = React.memo(({ 
   hero, 
   name, 
   icon, 
-  onClickFunction, 
+  onClick, 
   emphasize, 
   text, 
   blink, 
@@ -41,21 +39,17 @@ const Button = React.memo(({
   href,
   expand,
   submit,
-  cta,
   id,
   iconStyle,
   outline,
   singleBlink,
   tab,
   newTab
-}: ButtonType) => {
-
-  cta = true
-
+}: Props) => {
   const renderButton = () => {
     return (
-      <S_Button
-        onClick={onClickFunction ? (e) => onClickFunction(e) : () => {}} 
+      <S.Button
+        onClick={onClick ? (e) => onClick(e) : () => {}} 
         emphasize={emphasize} 
         blink={blink}
         square={!text}
@@ -63,35 +57,183 @@ const Button = React.memo(({
         disabled={disabled}
         hero={hero}
         expand={expand}
-        type={submit ? 'submit' : 'button'}
+        // type={submit ? 'submit' : 'button'}
         id={id}
         outline={outline && !emphasize}
         singleBlink={singleBlink}
         tab={tab}
+        name={name}
       >
-        <Icon prefix={iconStyle ? iconStyle : 'far'} icon={icon}  rotate={rotate} />
+        <Icon 
+          prefix={iconStyle ? iconStyle : 'far'} 
+          icon={icon}  
+          rotate={rotate} 
+        />
         {
-          text ? <S_Text id={`${id}_text`} hero={hero} icon={icon} disabled={disabled} cta={cta} outline={outline}>{text}</S_Text> : null
+          text 
+            ? 
+              <S.Text 
+                hero={hero}
+                icon={icon}
+              >
+                {
+                  text
+                }
+              </S.Text> 
+            : null
         }
-      </S_Button>
+      </S.Button>
     )
   }
 
   return (
-    <S_ButtonContainer disabled={disabled} expand={expand}>
+    <S.Container disabled={disabled} expand={expand}>
       {
         href 
         ? 
-          <S_Link href={href} newTab={newTab}>
+          <S.Link href={href} target={newTab ? '_blank' : '_href'}>
             { renderButton() }
-          </S_Link>
+          </S.Link>
         : renderButton()
       }
-    </S_ButtonContainer>
+    </S.Container>
   )
 })
 
-export default Button
+interface ContainerProps {
+  disabled?: boolean,
+  expand?: boolean
+}
+
+interface ButtonProps {
+  id?: string,
+  onClick?: Function,
+  title?: string,
+  disabled?: boolean,
+  outline?: boolean,
+  hero?: boolean,
+  square?: boolean,
+  emphasize?: boolean,
+  singleBlink?: boolean,
+  blink?: boolean,
+  expand?: boolean,
+  tab?: boolean,
+  type?: string
+} 
+
+interface TextProps {
+  hero?: boolean,
+  icon?: string,
+}
+
+const S = {
+  Container: styled.div<ContainerProps>`
+    cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'}; 
+    flex-shrink: 0;
+    user-select: none;
+    display: flex;
+    flex-grow: ${props => props.expand ? '1' : 'auto'};
+  `,
+  Link: styled.a``,
+  Text: styled.div<TextProps>`
+    font-size: ${props => props.hero ? 'var(--Font_Size_Title)' : 'var(--Font_Size)'};
+    margin-left: ${props => props.icon ? '.5rem' : '0'};
+    display: flex;
+  `,
+  Button: styled.button.attrs({ 
+    type: 'submit',
+    value: 'Submit'
+  })<ButtonProps>`
+    letter-spacing: var(--Letter_Spacing);
+    background: none;
+    border: none;
+    position: relative;
+    overflow: hidden;
+    color: ${props => props.disabled 
+      ? 'var(--Font_Color_Disabled)' 
+      : props.outline
+        ? 'var(--Font_Color_Label)'
+        : 'var(--Font_Color)'
+    };
+    
+    pointer-events: ${props => props.disabled ? 'none' : 'default'}; 
+    display: flex;
+    flex: 0 0 100%;
+    align-items: center;
+    justify-content: center;
+    height: ${props => 
+      props.hero && props.square 
+        ? '54px' 
+        : props.hero 
+            ? 'auto' 
+            : 'var(--Input_Height)'
+        };
+    min-width: var(--Font_Size_Icon);
+    padding: ${props => 
+      props.hero && !props.square 
+        ? '1.5rem 1.75rem' 
+        : props.square
+            ? '1.5rem'
+            : 'var(--Font_Size)'
+    };
+    width: ${props => props.square && !props.hero 
+      ? '52px' 
+      : props.expand ? '100%' : 'auto'}; 
+    border-radius: ${props => 
+      props.hero && props.square 
+        ? '100%' 
+        : props.tab 
+          ? '.5rem .5rem 0 0' 
+          : '.5rem'
+    };
+    background: ${props => props.emphasize 
+        ? `var(--Primary)`
+        : props.blink
+          ? 'var(--Hover_Single)'
+          : props.outline 
+            ? 'none'
+            : 'var(--Surface)'
+    }; 
+  
+    box-shadow: ${props => props.outline ? 'var(--Outline)' : 'none'};
+    animation: ${props => props.blink 
+      ? css`${blink} 1s linear infinite` 
+      : props.singleBlink
+          ? css`${blink} 2s linear forwards` 
+          : 'none'
+    };
+    cursor: ${props => props.disabled ? 'default' : 'pointer'}; 
+
+    svg {
+      color: ${props => props.disabled 
+        ? 'var(--Font_Color_Disabled)' 
+        : props.outline
+          ? 'var(--Font_Color_Label)'
+          : 'var(--Font_Color)'
+      };
+    }
+    
+    &:hover {
+      background: ${props => props.emphasize 
+        ? `var(--Primary_Hover)`
+        : 'var(--Surface_1)'
+      };
+      * {
+        color: var(--Font_Color);
+      }
+      box-shadow: none;
+    };
+  
+    &:active {
+      background: ${props => props.emphasize 
+        ? `var(--Primary)`
+        : 'var(--Surface_2)'
+      };
+      transform: translateY(1px);
+    };
+  `,
+}
+
 
 const blink = keyframes`
 {
@@ -106,117 +248,3 @@ const blink = keyframes`
   }
 }
 `
-
-const S_Link = styled.a`
-  
-`
-
-const S_ButtonContainer = styled.div`
-  cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'}; 
-  flex-shrink: 0;
-  user-select: none;
-  display: flex;
-  flex-grow: ${props => props.expand ? '1' : 'auto'};
-`
-
-const S_Button = styled.button.attrs({ 
-  type: 'submit',
-  value: 'Submit'
-})`
-  letter-spacing: var(--Letter_Spacing);
-  background: none;
-  border: none;
-  position: relative;
-  overflow: hidden;
-  color: ${props => props.disabled 
-    ? 'var(--Font_Color_Disabled)' 
-    : props.outline
-      ? 'var(--Font_Color_Label)'
-      : 'var(--Font_Color)'
-  };
-
-  svg {
-    color: ${props => props.disabled 
-      ? 'var(--Font_Color_Disabled)' 
-      : props.outline
-        ? 'var(--Font_Color_Label)'
-        : 'var(--Font_Color)'
-    };
-  }
-  
-  pointer-events: ${props => props.disabled ? 'none' : 'default'}; 
-  display: flex;
-  flex: 0 0 100%;
-  align-items: center;
-  justify-content: center;
-  height: ${props => 
-    props.hero && props.square 
-      ? '54px' 
-      : props.hero 
-          ? 'auto' 
-          : 'var(--Input_Height)'
-      };
-  min-width: var(--Font_Size_Icon);
-  padding: ${props => 
-    props.hero && !props.square 
-      ? '16px 24px' 
-      : props.square
-          ? '16px'
-          : 'var(--Font_Size)'
-  };
-  width: ${props => props.square && !props.hero 
-    ? '52px' 
-    : props.expand ? '100%' : 'auto'}; 
-  border-radius: ${props => 
-    props.hero && props.square 
-      ? '100%' 
-      : props.tab 
-        ? '8px 8px 0 0' 
-        : '8px'
-  };
-  background: ${props => props.emphasize 
-      ? `var(--Primary)`
-      : props.blink
-        ? 'var(--Hover_Single)'
-        : props.outline 
-          ? 'none'
-          : 'var(--Surface)'
-  }; 
-
-  box-shadow: ${props => props.outline ? 'var(--Outline)' : 'none'};
-  animation: ${props => props.blink 
-    ? css`${blink} 1s linear infinite` 
-    : props.singleBlink
-        ? css`${blink} 2s linear forwards` 
-        : 'none'
-  };
-  cursor: ${props => props.disabled ? 'default' : 'pointer'}; 
-  
-  &:hover {
-    background: ${props => props.emphasize 
-      ? `var(--Primary_Hover)`
-      : 'var(--Surface_1)'
-    };
-    * {
-      color: var(--Font_Color);
-    }
-    box-shadow: none;
-  };
-
-  &:active {
-    background: ${props => props.emphasize 
-      ? `var(--Primary)`
-      : 'var(--Surface_2)'
-    };
-    transform: translateY(1px);
-  };
-`
-
-const S_Text = styled.div`
-  font-size: ${props => props.hero ? 'var(--Font_Size_Title)' : 'var(--Font_Size)'};
-  /* font-weight: ${props => props.cta && !props.outline ? '600' : '400'}; */
-  /* text-transform: uppercase; */
-  margin-left: ${props => props.icon ? '8px' : '0px'};
-  display: flex;
-`
-

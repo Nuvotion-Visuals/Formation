@@ -1,8 +1,7 @@
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
-import Button from '../Button/Button'
-import { useEffect, useState } from 'react'
-import React from 'react'
+import { Button } from '../Button/Button'
 
 type Tab = {
   name: string,
@@ -14,15 +13,15 @@ type Tab = {
 
 type Type = {
   tabs: Tab[],
-  onSetActiveTab: (string) => any,
+  onSetActiveTab: (arg0: string) => any,
   initialActiveTab?: string,
   expand?: boolean,
   activeTab?: string
 }
 
-const Tabs = React.memo(({ tabs, onSetActiveTab, initialActiveTab, expand, activeTab }: Type) => {
+export const Tabs = React.memo(({ tabs, onSetActiveTab, initialActiveTab, expand, activeTab }: Type) => {
 
-  const [localSelectedTab, setLocalSelectedTab] = useState(initialActiveTab ? initialActiveTab : tabs[0])
+  const [localSelectedTab, setLocalSelectedTab] = useState(initialActiveTab ? initialActiveTab : '')
 
   useEffect(() => {
     onSetActiveTab(localSelectedTab)
@@ -36,7 +35,7 @@ const Tabs = React.memo(({ tabs, onSetActiveTab, initialActiveTab, expand, activ
             key={name}
             text={`${name}${suffix ? suffix : ''}`} 
             icon={icon} 
-            onClickFunction={() => {
+            onClick={() => {
               setLocalSelectedTab(name)
               onClickFunction
                 ? onClickFunction()
@@ -51,8 +50,6 @@ const Tabs = React.memo(({ tabs, onSetActiveTab, initialActiveTab, expand, activ
     </S_Tabs>
   )
 })
-
-export default Tabs
 
 const S_Tabs = styled.div`
   width: 100%;

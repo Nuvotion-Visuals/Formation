@@ -13,7 +13,7 @@ interface Props {
   rotate?: boolean
 }
 
-const Icon = React.memo(({ prefix, icon, rotate } : Props) => {
+export const Icon = React.memo(({ prefix, icon, rotate } : Props) => {
   return (<>
     {
       icon
@@ -24,7 +24,6 @@ const Icon = React.memo(({ prefix, icon, rotate } : Props) => {
                 : ('far' as IconPrefix),
                 (icon as IconName)
             ]} 
-            
             rotate={rotate}
           />
         : null
@@ -32,9 +31,7 @@ const Icon = React.memo(({ prefix, icon, rotate } : Props) => {
   </>)
 })
 
-export default Icon
-
-const S_Icon = styled(FontAwesomeIcon)`
+const S_Icon = styled(FontAwesomeIcon as any)`
   color: var(--Font_Color);
   transform : ${(props : Props) => props.rotate ? 'rotate(-90deg)' : 'none'}; 
 `
