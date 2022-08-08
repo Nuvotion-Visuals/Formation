@@ -26,6 +26,6 @@ export const Rotate = Template.bind({})
 Rotate.args = {
   icon: 'heart',
   prefix: 'far',
-  rotate: true
+  rotation: 90
 }
 
