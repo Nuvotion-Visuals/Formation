@@ -80,7 +80,7 @@ html {
 }
 
 :root {
-  --Zoom: .85;
+  --Zoom: 1;
   --Zoom_Scale: calc(1 / var(--Zoom));
 
   --Primary:#7a120b;
