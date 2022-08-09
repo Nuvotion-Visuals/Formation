@@ -73,6 +73,7 @@ export const Button: FC<Props> = React.memo(({
                 icon={icon}  
                 rotation={rotate ? 90 : undefined}
                 size={hero ? '2x' : '1x'} 
+                fixedWidth
               />
             : null
         }
@@ -184,7 +185,7 @@ const S = {
     min-width: var(--Font_Size_Icon);
     padding: ${props => 
       props.hero && !props.square 
-        ? '1rem 2rem' 
+        ? '1rem 1.5rem' 
         : props.square
             ? '1.5rem'
             : 'var(--Font_Size)'
