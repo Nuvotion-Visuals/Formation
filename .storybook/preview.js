@@ -10,7 +10,8 @@ import {
   faHeart as fasHeart, faEllipsisVertical as fasEllipsisVertical,
   faTimes as fasTimes, faPlus as fasPlus, faSearch as fasSearch,
   faSortAlphaDown as fasSortAlphaDown, faFilter as fasFilter,
-  faSortAlphaUp as fasSortAlphaUp, faCalendarAlt as fasCalendarAlt, faChevronCircleRight, faChevronCircleLeft
+  faSortAlphaUp as fasSortAlphaUp, faCalendarAlt as fasCalendarAlt, faChevronCircleRight, faChevronCircleLeft,
+  faCheck, faTimes, faExclamationTriangle, faInfoCircle
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -19,7 +20,8 @@ library.add(
   fasFilter, fasSortAlphaUp, fasCalendarAlt, 
   
   
-  faChevronCircleRight, faChevronCircleLeft
+  faChevronCircleRight, faChevronCircleLeft,
+  faCheck, faTimes, faExclamationTriangle, faInfoCircle
 )
 
 export const parameters = {
