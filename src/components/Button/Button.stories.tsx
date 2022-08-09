@@ -8,6 +8,7 @@ export default {
   component: Button,
 } as ComponentMeta<typeof Button>
 
+
 const Template: ComponentStory<typeof Button> = args => 
   <div style={{display: 'flex'}}>
     <Button {...args} />
@@ -17,9 +18,8 @@ const Template: ComponentStory<typeof Button> = args =>
 export const Regular = Template.bind({})
 Regular.args = {
   text: 'Send message',
-  icon: 'paper-plane',
+  icon: 'paper-plane'
 }
-
 
 export const Primary = Template.bind({})
 Primary.args = {

@@ -11,14 +11,12 @@ export default {
 } as ComponentMeta<typeof Box>
 
 const Template: ComponentStory<typeof Box> = args => 
-  <div style={{background: 'black', display: 'flex'}}>
-    <Box {...args}>
-      <Button text='Click me' />
-    </Box>
-  </div>
+  <Box {...args}>
+    <Button text='Click me' />
+  </Box>
 
 
 export const Regular = Template.bind({})
 Regular.args = {
-  m: 0
+
 }
