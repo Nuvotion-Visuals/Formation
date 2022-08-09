@@ -3,15 +3,16 @@ import '@fortawesome/fontawesome-svg-core/styles.css'
 import { library, config } from '@fortawesome/fontawesome-svg-core'
 
 import { 
-  faHeart, faPaperPlane, faFolder, faFolderBlank, faPlusSquare
+  faHeart, faPaperPlane, faFolder, faFolderBlank, faPlusSquare, 
 } from '@fortawesome/free-regular-svg-icons'
 
 import { 
-  faHeart as fasHeart
+  faHeart as fasHeart, faEllipsisVertical as fasEllipsisVertical
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
-  faHeart, faPaperPlane, faFolderBlank, faPlusSquare, fasHeart
+  faHeart, faPaperPlane, faFolderBlank, faPlusSquare, fasHeart,
+  fasEllipsisVertical
 )
 
 export const parameters = {

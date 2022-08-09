@@ -75,6 +75,10 @@ select:active, select:hover {
   outline-color: var(--Primary);
 }
 
+html {
+  font-family: sans-serif;
+}
+
 :root {
   --Zoom: .85;
   --Zoom_Scale: calc(1 / var(--Zoom));
