@@ -2,7 +2,8 @@ import React from 'react'
 
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { Button } from '../Button/Button'
+import { Grid } from '../Grid/Grid'
+import { TransparentBackground } from '../TransparentBackground/TransparentBackground'
 import { AspectRatio } from './AspectRatio'
 
 export default {
@@ -11,12 +12,29 @@ export default {
 } as ComponentMeta<typeof AspectRatio>
 
 const Template: ComponentStory<typeof AspectRatio> = args => 
-  <AspectRatio {...args}>
-    <Button text='Click me' />
-  </AspectRatio>
+  <Grid maxWidth={10}>
+    {
+      new Array(20).fill(0).map(i =>
+        <AspectRatio {...args}>
+          <TransparentBackground />
+        </AspectRatio>  
+      )
+    }
+  </Grid>
 
 
-export const Regular = Template.bind({})
-Regular.args = {
-  aspectRatio: 16/9
+export const Widescreen16x9 = Template.bind({})
+Widescreen16x9.args = {
+  ratio: 16/9
 }
+
+export const Fullscreen4x3 = Template.bind({})
+Fullscreen4x3 .args = {
+  ratio: 4/3
+}
+
+export const Square1x1 = Template.bind({})
+Square1x1.args = {
+  ratio: 1
+}
+
