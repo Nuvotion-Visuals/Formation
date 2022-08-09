@@ -8,4 +8,4 @@ export { LoadingSpinner } from './LoadingSpinner/LoadingSpinner'
 export { Ripple } from './Ripple/Ripple'
 export { Search } from './Search/Search'
 export { Tabs } from './Tabs/Tabs'
-
+export { Tags } from './Tags/Tags'
