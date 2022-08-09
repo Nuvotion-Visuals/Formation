@@ -16,7 +16,7 @@ interface Props {
   pl?: number,
   px?: number,
   py?: number,
-  children?: (JSX.Element | null)[] | null | JSX.Element,
+  children?: React.ReactNode,
   width?: number | string,
   hide?: boolean
 }

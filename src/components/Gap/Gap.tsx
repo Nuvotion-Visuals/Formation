@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 interface Props {
-  children: (JSX.Element | null)[] | null | JSX.Element,
+  children: React.ReactNode,
   autoWidth?: boolean,
   disableWrap?: boolean,
   gap?: number | string
