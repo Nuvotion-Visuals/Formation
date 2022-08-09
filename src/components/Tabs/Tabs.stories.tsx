@@ -35,7 +35,8 @@ Regular.args = {
     },
     {
       name: 'Add',
-      icon: 'plus-square'
+      icon: 'plus',
+      iconPrefix: 'fas'
     }
   ]
 }

@@ -13,8 +13,8 @@ const Template: ComponentStory<typeof Dropdown> = args =>
   <Dropdown {...args} />
   
 
-export const Regular = Template.bind({})
-Regular.args = {
+export const Options = Template.bind({})
+Options.args = {
   options: [
     {
       icon: 'ellipsis-vertical',
@@ -29,7 +29,8 @@ Regular.args = {
           text: 'Send'
         },
         {
-          icon: 'plus-square',
+          icon: 'plus',
+          iconPrefix: 'fas',
           text: 'Add'
         }
       ]
