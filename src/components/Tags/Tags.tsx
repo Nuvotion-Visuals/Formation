@@ -1,22 +1,30 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import styled from 'styled-components'
+import { union, xor } from 'lodash'
 
 import { Button } from '../Button/Button'
 import { Icon } from '../Icon/Icon'
 
 type TagsType = {
   allTags: string[],
-  activeTags: string[],
-  setActiveTag: (tag: string) => void,
+  initialActiveTags: string[],
+  onChange: (tags: string[]) => void,
   noPadding?: boolean
 }
 
 export const Tags = ({ 
   allTags, 
-  activeTags, 
-  setActiveTag, 
+  initialActiveTags, 
+  onChange, 
   noPadding 
 }: TagsType) => {
+
+  const [activeTags, set_activeTags] = useState(initialActiveTags)
+
+  useEffect(() => {
+    onChange(activeTags)
+  }, [activeTags])
+
   const ref = useRef<HTMLDivElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
 
@@ -48,6 +56,13 @@ export const Tags = ({
     }
   }
 
+  const toggleTagActive = (tag : string) => {
+    set_activeTags(activeTags.includes(tag) 
+        ? xor(activeTags, [tag]) 
+        : union(activeTags, [tag])
+      )  
+  }
+
   return (
     <S.Container ref={containerRef} >
       <S.Tags ref={ref} onScroll={onScroll} noPadding={noPadding}>
@@ -57,7 +72,7 @@ export const Tags = ({
               <Button 
                 text={tag} 
                 primary={activeTags.includes(tag)}
-                onClick={() => setActiveTag(tag)} 
+                onClick={() => toggleTagActive(tag)} 
                 secondary={!activeTags.includes(tag)}
               />
             </S.ButtonContainer>
