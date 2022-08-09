@@ -16,7 +16,7 @@ interface Props {
   pl?: number,
   px?: number,
   py?: number,
-  children?: any,
+  children?: (JSX.Element | null)[] | null | JSX.Element,
   width?: number | string,
   hide?: boolean
 }
