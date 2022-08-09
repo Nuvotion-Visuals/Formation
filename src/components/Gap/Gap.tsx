@@ -39,7 +39,6 @@ const S = {
     flex-wrap: ${props => props.disableWrap ? 'none' : 'wrap'};
     justify-content: center;
     gap: 8px;
-    gap: ${props => props.gap ? 'none' : 'flex'};
     gap: ${props => 
       props.gap 
         ? typeof props.gap === 'string' 
