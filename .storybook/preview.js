@@ -3,7 +3,7 @@ import '@fortawesome/fontawesome-svg-core/styles.css'
 import { library, config } from '@fortawesome/fontawesome-svg-core'
 
 import { 
-  faHeart, faPaperPlane, faFolder, faFolderBlank, faPlusSquare
+  faHeart, faPaperPlane, faFolder, faFolderBlank, faPlusSquare, faSquare, faCheckSquare
 } from '@fortawesome/free-regular-svg-icons'
 
 import { 
@@ -17,7 +17,7 @@ import {
 library.add(
   faHeart, faPaperPlane, faFolderBlank, faPlusSquare, fasHeart,
   fasEllipsisVertical, fasTimes, fasPlus, fasSearch, fasSortAlphaDown,
-  fasFilter, fasSortAlphaUp, fasCalendarAlt, 
+  fasFilter, fasSortAlphaUp, fasCalendarAlt, faSquare, faCheckSquare,
   
   
   faChevronCircleRight, faChevronCircleLeft,

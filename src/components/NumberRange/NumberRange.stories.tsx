@@ -18,8 +18,8 @@ const Template: ComponentStory<typeof NumberRange> = (args) => {
   />
 }
 
-export const Info = Template.bind({})
-Info.args = {
+export const Default = Template.bind({})
+Default.args = {
   min: 0,
   max: 100,
   value: [25, 75]

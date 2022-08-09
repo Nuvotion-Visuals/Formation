@@ -18,8 +18,8 @@ const Template: ComponentStory<typeof NumberSlider> = (args) => {
   />
 }
 
-export const Info = Template.bind({})
-Info.args = {
+export const Default = Template.bind({})
+Default.args = {
   min: 0,
   max: 100,
   value: 50
