@@ -1,5 +1,7 @@
 # Formation
 
+> **Note:** This library is still actively in development and should not be used for production projections yet.
+
 Formation is a comprehensive React component library based on Styled Components and CSS variables.
 
 [View Source on GitHub](https://github.com/AVsync-LIVE/formation)
@@ -9,6 +11,10 @@ Formation is a comprehensive React component library based on Styled Components 
 Click on the image below to view Formation's Storybook. [Learn more about Storybook](https://storybook.js.org/).
 
 [![image](https://user-images.githubusercontent.com/18317587/183244327-7204046a-009c-4a69-ba93-ef77f1e78618.png)](https://avsync-live.github.io/formation)
+
+## Installation
+
+`yarn add @avsync.live/formation`
 
 ## Philosophy
 
