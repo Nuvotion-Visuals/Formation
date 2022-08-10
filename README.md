@@ -59,12 +59,3 @@ Theming is based on CSS variables.
 The name [Formation](https://www.etymonline.com/word/formation) expresses both the *form* embodied by the user interface, and the process by which user interaction *forms* the desired outcome of the application. The layout of the document is also composed of a *formation* of components.
 
 Formation adheres to the Unimpeded Design System, where users do not have to wait for animations to complete, or for the app to finishing changing modes in order to proceed with their task. 
-
-Animations should be minimized or avoided, as they can degrade performance and make interactions feel less responsive.
-
-In Unimpeded Design, right clicking is avoided because touch inputs require a slower, secondary interaction like "tap and hold."
-
-Interface elements must not rely on hover states to function, as not all devices support hovering. Basic functionality should not be obscured behind device-specific capabilities.
-
-If different application modes are required, unobtrusive dropdown menus are prefered to full-screen modal popups. Dropdowns are less disruptive to the user's context.
-
