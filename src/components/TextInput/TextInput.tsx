@@ -1,5 +1,5 @@
-import React from 'react'
-import styled from 'styled-components'
+import React, { useCallback, useState } from 'react'
+import styled, { css, keyframes } from 'styled-components'
 
 import { Icon } from '../Icon/Icon'
 
@@ -13,7 +13,8 @@ type Props = {
   type?: string,
   id?: string,
   onChange?: (value: string) => void,
-  value: string
+  value: string,
+  autoFocus?: boolean
 }
 
 export const TextInput = ({ 
@@ -26,18 +27,20 @@ export const TextInput = ({
   onChange,
   id,
   value,
+  autoFocus,
   ...props
 }: Props) => {
+
+  const [textValue, setTextValue] = useState('')
+  const [locked, setLocked] = useState(false)
+  const [focused, setFocused] = useState(false)
+
+  // const autoFocusRef = useCallback((el : any) => el && autoFocus ? el.focus() : null, [])
+
+  const icon = null
+
   return (
     <S.Container>
-      <S.FloatingLabel 
-        error={error} 
-        success={success}
-        disabled={disabled}
-      >
-        {label}
-      </S.FloatingLabel>
-
       <S.ErrorIconContainer>
         {
           success 
@@ -55,21 +58,49 @@ export const TextInput = ({
         }
       </S.ErrorIconContainer>
 
-      <S.Input {...props} 
-        type={'text'}
-        placeholder={label} 
-        error={error}
-        disabled={disabled}
-        component={textarea ? 'textarea' : 'input'}
-        pad={!!error || !!success}
-        id={id}
+      <S.Input
         value={value}
-        onChange={(e) => {
+        // ref={autoFocusRef}
+        id={id}
+        icon={icon !== null}
+        type={type ? type : 'text'}
+        locked={locked}
+        focused={focused}
+        onChange={event => {
+          const newValue = (event.target as HTMLInputElement).value
+
           if (onChange) {
-            onChange((e.target as HTMLInputElement).value)
+            onChange(newValue)
+          }
+
+          setTextValue(newValue)
+          setLocked(newValue == '')
+          if (focused === true) {
+            setLocked(true)
+          } else {
+            setLocked(false)
           }
         }}
+        autoComplete={'off'}
+        onFocus={event => {
+          setLocked(true)
+          setFocused(true)
+        }}
+        onBlur={event => {
+          setLocked(textValue == '' ? false : true)
+          setFocused(false)
+        }}
       />
+      <S.Label 
+        locked={locked} 
+        focused={focused} 
+        icon={icon !== null} 
+        shrink={value !== '' || focused}
+      >
+        {
+          label
+        }
+      </S.Label>
       
       {
         error
@@ -89,13 +120,20 @@ interface InputProps {
   label?: string,
   error?: string,
   disabled?: boolean,
-  success?: boolean,
-  textarea?: boolean,
-  component: string,
+  focused: boolean,
   type?: string,
+  locked: boolean,
   id?: string,
   pad?: boolean,
+  icon: boolean,
   onChange?: (e : any) => void
+}
+
+interface LabelProps {
+  locked: boolean,
+  icon: boolean,
+  focused: boolean,
+  shrink: boolean
 }
 
 interface FloatingLabelProps {
@@ -108,10 +146,15 @@ interface IconContainerProps {
   error: boolean
 }
 
+const moveUp = keyframes`
+  0% { top: 0.5rem; }
+  100% { top: -.5rem; }
+`
+
 const S = {
   Container: styled.div`
     position: relative;
-    margin-bottom: 1rem;
+    width: 100%;
     &:focus-within {
       input {
         color: white;
@@ -119,38 +162,32 @@ const S = {
     }
   `,
   Input: styled.input<InputProps>`
-    display: flex;
-    flex-grow: 1;
-    background: var(--Background_Alternating);
-    font-size: var(--Font_Size_Title);
-    color: ${props => props.disabled ? 'var(--Font_Color_Disabled)' : 'var(--Font_Color)'};
-    width: ${props => props.pad ? 'calc(100% - 72px)' : 'calc(100% - 32px)'};
-    border-radius: 8px;
-    resize: vertical;
-    border: none;
-    padding: .75rem 1rem;
-    padding-left: ${props => props.pad ? '52px' : '16px'};
+    width: 100%;
+    box-sizing: border-box;
+    height: var(--Input_Height);
     position: relative;
-    box-shadow: ${props => props.error 
-      ? 'var(--Outline_Error)' 
-      : props.disabled
-        ? 'var(--Outline_Disabled)'
-        : props.success 
-          ? 'var(--Outline_Success)'
-          : 'var(--Outline)'
-    };
-    &:hover, &:focus {
-      box-shadow: ${props => props.error 
-        ? 'var(--Outline_Error)' 
-        : props.disabled
-          ? 'var(--Outline_Disabled)'
-          : props.success 
-            ? 'var(--Outline_Success)'
-            : 'var(--Outline_Hover)'
-      };
+    font-size: var(--Font_Size);
+    color: var(--EC_Black_1100);
+    border-radius: 0.5rem;
+    border: none;
+    padding: 0 1rem;
+    outline: none;
+    -webkit-appearance: none;
+    box-shadow: var(--Outline);
+    border-radius: 16px;
+    background: var(--Background_Alternating);
+    color: var(--Font_Color);
 
-    }
-    cursor: ${props => props.disabled ? 'not-allowed' : 'text'};
+  `,
+  Label: styled.label<LabelProps>`
+    position: absolute;
+    top: 0.5rem;
+    left: ${props => props.icon ? '2.75rem' : '1.1rem'};
+    color: ${props => props.focused ? 'var(--Font_Color)' : 'var(--Font_Color_Label)'};
+    font-size: ${props => props.shrink ? '13px' : '15px'};
+    pointer-events: none;
+    background: var(--Background);
+    animation: ${props => props.locked ? css`${moveUp} .15s ease-in forwards` : 'none'};
   `,
   FloatingLabel: styled.div<FloatingLabelProps>`
     display: flex;

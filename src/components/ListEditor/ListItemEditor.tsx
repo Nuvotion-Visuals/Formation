@@ -56,6 +56,7 @@ export const ListItemEditor = ({  onCreate, onClose, hide }: Props) => {
           </S.CountWrap>
           <Button
             text={'Create'}
+            disabled={textValue === ''}
             onClick={() => {
               if (onCreate) {
                 onCreate(textValue, countValue)
@@ -71,31 +72,24 @@ export const ListItemEditor = ({  onCreate, onClose, hide }: Props) => {
 
 const S = {
   NewPositionContainer: styled.div`
-    width: calc(100% - 1.5rem);
+    width: 100%;
     position: relative;
     display: flex;
     align-items: center;
-    padding: 0 0.75rem;
     padding-bottom: 1rem;
     border-bottom: 1px solid #bbb;
   `,
   TopContainer: styled.div`
     width: 100%;
     display: flex;
-    justify-content: space-between;
     gap: 0.75rem;
   `,
   CountWrap: styled.div`
     position: relative;
     display: flex;
-    justify-content: space-between;
     align-items: center;
     height: var(--Input_Height);
     border: none;
-
-    * {
-      color: var(--Font_Color);
-    }
 
     select {
       height: var(--Input_Height);
@@ -108,6 +102,9 @@ const S = {
       display: flex;
       align-items: center;
       padding: 0 0.75rem;
+      color: var(--Font_Color);
+      background: var(--Background);
     }
+
   `
 }

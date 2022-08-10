@@ -124,7 +124,6 @@ const S = {
     display: flex;
     flex-direction: column;
     width: fit-content;
-    max-width: 15rem;
   `,
   Title: styled.div`
     color: var(--Font_Color);
