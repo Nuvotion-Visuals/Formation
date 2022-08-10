@@ -51,7 +51,7 @@ export const Slot = ({ avatar,
       <S.ListItem avatar={avatar}>
         
         <S.AvatarContainer>
-          <S.Avatar color={title ? genPastelFromGuid(title) : ''}>
+          <S.Avatar color={title ? genPastelFromGuid(title) : genPastelFromGuid(String(Math.random()))}>
             {
               title ? initials(title) : '?'
             }
@@ -113,24 +113,29 @@ interface StatusChipProps {
 
 const S = {
   ListItem: styled.div<ListItemProps>`
-    width: calc(100% - 1.5rem);
+    width: 100%;
+    padding: .5rem;
     background: ${props => props.avatar ? 'var(--EC_White_100)' : 'var(--EC_Action_Orange)'};
     display: flex;
     align-items: center;
-    padding: .75rem .75rem;
-    border-bottom: 1px solid #bbb;
+    border-bottom: 2px solid var(--Surface_1);
     position: relative;
     cursor: pointer;
     &:hover {
+      background: var(--Surface_1);
+    }
+    &:active {
       background: var(--Surface_2);
     }
   `,
   AvatarContainer: styled.div`
     height: 100%;
+    display: flex;
+    align-items: center;
   `,
   Avatar: styled.div`
-    height: 2.25rem;
-    min-width: 2.25rem;
+    height: 1.75rem;
+    min-width: 1.75rem;
     border-radius: 50%;
     background: ${props => props.color};
     display: flex;
@@ -152,8 +157,7 @@ const S = {
     font-size: var(--Font_Size);
     font-weight: 400;
     color: var(--Font_Color);
-    padding-left: .75rem;
-    margin-right: 0.5rem;
+    padding-left: .5rem;
     display: flex;
     align-items: center;
   `,
@@ -175,7 +179,7 @@ const S = {
   Absolute: styled.div`
     position: absolute;
     height: 100%;
-    right: .75rem;
+    right: .5rem;
     cursor: pointer;
     display: flex;
     align-items: center;

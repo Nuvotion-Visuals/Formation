@@ -22,8 +22,8 @@ const Template: ComponentStory<typeof ListEditor> = args =>
 // calculateRecentLists?: () => Lists,
 // isCreating: boolean
 
-export const Regular = Template.bind({})
-Regular.args = {
+export const Positions = Template.bind({})
+Positions.args = {
   calculateInitialValue: () =>[],
   onChange: (lists) => { console.log(lists)},
   onRemoveFunction: () => alert('remove'),

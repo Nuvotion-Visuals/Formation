@@ -76,13 +76,13 @@ const S = {
     position: relative;
     display: flex;
     align-items: center;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid #bbb;
+    padding-bottom: .5rem;
+    border-bottom: 2px solid var(--Surface_1);
   `,
   TopContainer: styled.div`
     width: 100%;
     display: flex;
-    gap: 0.75rem;
+    gap: 0.5rem;
   `,
   CountWrap: styled.div`
     position: relative;

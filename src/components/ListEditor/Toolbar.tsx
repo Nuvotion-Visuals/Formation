@@ -80,8 +80,6 @@ export const Toolbar = ({
   )
 }
 
-
-
 const S = {
   ListItemToolbar: styled.div`
     display: flex;
@@ -95,6 +93,7 @@ const S = {
   `,
   PositionCapacity: styled.div`
     font-size: var(--Font_Size);
+    color: var(--Font_Color_Label);
     font-weight: 400;
     display: flex;
     justify-content: center;

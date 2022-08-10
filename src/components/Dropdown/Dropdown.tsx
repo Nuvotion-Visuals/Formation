@@ -176,7 +176,7 @@ const S = {
   `,
   DropDownText: styled.div`
     padding-left: .5rem;
-    font-size: var(--Font_Size_Label);
+    font-size: var(--Font_Size);
     display: flex;
   `
 }

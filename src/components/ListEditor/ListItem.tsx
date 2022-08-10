@@ -35,7 +35,7 @@ export const ListItem = ({ avatar,
   blinkAnimation
 }: Props): JSX.Element => {
   
-  const [expandPosition, setExpandPosition] = useState(false)
+  const [expandPosition, setExpandPosition] = useState(true)
 
   return (
     <>
@@ -71,22 +71,18 @@ export const ListItem = ({ avatar,
         </S.ResponsiveWrap>
       </S.ListItemContainer>
       
-      <S.PositionSlots expandPosition={expandPosition}>
-        <ul>
-        
-          {
-            listItems?.map((listItem, index) => 
-              <Slot
-                key={index}
-                title={listItem.title}
-                avatar={listItem.avatar}
-                status={listItem.status}
-                statusColor={listItem.statusColor}
-              /> 
-            )
-          } 
-          
-        </ul>
+      <S.PositionSlots hide={!expandPosition}>
+        {
+          listItems?.map((listItem, index) => 
+            <Slot
+              key={index}
+              title={listItem.title}
+              avatar={listItem.avatar}
+              status={listItem.status}
+              statusColor={listItem.statusColor}
+            /> 
+          )
+        } 
       </S.PositionSlots>
     </>
   )
@@ -97,7 +93,7 @@ interface ListItemContainerProps {
 }
 
 interface PositionSlotsProps {
-  expandPosition: boolean,
+  hide: boolean,
 }
 
 const S = {
@@ -105,20 +101,24 @@ const S = {
     width: 100%;
     display: flex;
     align-items: center;
-    border-bottom: 1px solid #bbb;
+    border-bottom: 2px solid var(--Surface_1);
     animation: ${props => props.blinkAnimation ? css`${blink} 1s linear forwards` : 'none'};
-
-    &:hover {
-      background: var(--Surface_2);
-    }
+    
   `,
   ResponsiveWrap: styled.div`
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0.75rem;
+    padding: 0.5rem;
     cursor: pointer;
+    background: var(--Surface_0);
+    &:hover {
+      background: var(--Surface_1);
+    }
+    &:active {
+      background: var(--Surface_2);
+    }
   `,
   ResponsiveContainer: styled.div`
     display: flex;
@@ -131,16 +131,12 @@ const S = {
     display: flex;
     align-items: center;
     font-size: var(--Font_Size_Title);
-    font-weight: 600;
     padding-left: .25rem;
   `,
   PositionSlots: styled.div<PositionSlotsProps>`
-    display: ${props => props.expandPosition ? 'flex' : 'none'};
+    display: ${props => props.hide ? 'none' : 'flex'};
+    flex-wrap: wrap;
     width: 100%;
-
-    ul {
-      width: 100%;
-    }
   `
 }
 
