@@ -234,13 +234,15 @@ export const Location = ({
       tooltip='The name of location may be shared with Google'
     />
 
-    <S_Map id='map'></S_Map>
+    <S.Map id='map'></S.Map>
   </>)
 }
 
-const S_Map = styled.div`
-  margin-top: .5rem;
-  width: 100%;
-  min-height: 300px;
-  max-height: 500px;
-`
+const S = {
+  Map: styled.div`
+    margin-top: .5rem;
+    width: 100%;
+    min-height: 300px;
+    max-height: 500px;
+  `
+}
