@@ -25,3 +25,32 @@ export const Regular = Template.bind({})
 Regular.args = {
   label: 'Email address',
 }
+
+export const Icon = Template.bind({})
+Icon.args = {
+  label: 'Email address',
+  icon: 'envelope'
+}
+
+export const Error = Template.bind({})
+Error.args = {
+  label: 'Email address',
+  icon: 'envelope',
+  error: 'Error: Please use a valid email'
+}
+
+export const Success = Template.bind({})
+Success.args = {
+  label: 'Email address',
+  icon: 'envelope',
+  success: true
+}
+
+export const Tooltip = Template.bind({})
+Tooltip.args = {
+  label: 'Email address',
+  icon: 'envelope',
+  tooltip: 'Your email address is never shared with third parties.'
+}
+
+

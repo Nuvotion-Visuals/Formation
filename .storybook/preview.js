@@ -12,13 +12,14 @@ import {
   faSortAlphaDown as fasSortAlphaDown, faFilter as fasFilter,
   faSortAlphaUp as fasSortAlphaUp, faCalendarAlt as fasCalendarAlt, faChevronCircleRight, faChevronCircleLeft,
   faCheck, faTimes, faExclamationTriangle, faInfoCircle, faChevronDown, faChevronUp,
+  faEnvelope
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
   faHeart, faPaperPlane, faFolderBlank, faPlusSquare, fasHeart,
   fasEllipsisVertical, fasTimes, fasPlus, fasSearch, fasSortAlphaDown,
   fasFilter, fasSortAlphaUp, fasCalendarAlt, faSquare, faCheckSquare,
-  
+  faEnvelope,
   
   faChevronCircleRight, faChevronCircleLeft,
   faCheck, faTimes, faExclamationTriangle, faInfoCircle, faChevronDown, faChevronUp,

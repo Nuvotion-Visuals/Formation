@@ -1,6 +1,8 @@
 import React, { useCallback, useState } from 'react'
 import styled, { css, keyframes } from 'styled-components'
 
+import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
+
 import { Icon } from '../Icon/Icon'
 
 type Props = {
@@ -14,7 +16,10 @@ type Props = {
   id?: string,
   onChange?: (value: string) => void,
   value: string,
-  autoFocus?: boolean
+  autoFocus?: boolean,
+  icon?: IconName,
+  iconPrefix?: IconPrefix,
+  tooltip?: string
 }
 
 export const TextInput = ({ 
@@ -28,6 +33,9 @@ export const TextInput = ({
   id,
   value,
   autoFocus,
+  icon,
+  iconPrefix,
+  tooltip,
   ...props
 }: Props) => {
 
@@ -37,15 +45,13 @@ export const TextInput = ({
 
   // const autoFocusRef = useCallback((el : any) => el && autoFocus ? el.focus() : null, [])
 
-  const icon = null
-
-  return (
-    <S.Container>
+  return (<S.OutterContainer>
+    <S.Container error={error} disabled={disabled} success={success}>
       <S.ErrorIconContainer>
         {
           success 
             ? <S.IconContainer error={false}>
-                <Icon icon='check' iconPrefix='fas'/>
+                <Icon icon='check' iconPrefix='fas' fixedWidth/>
               </S.IconContainer> 
             : null
         }
@@ -54,6 +60,11 @@ export const TextInput = ({
             ? <S.IconContainer error={true}>
                 <Icon icon='exclamation-triangle' iconPrefix='fas'/>
               </S.IconContainer> 
+            : null
+        }
+        {
+          !error && !success && icon
+            ? <Icon icon={icon} iconPrefix='fas' />
             : null
         }
       </S.ErrorIconContainer>
@@ -101,17 +112,24 @@ export const TextInput = ({
           label
         }
       </S.Label>
-      
-      {
-        error
-          ? <S.ErrorContainer>
-              <S.Error>{ error }</S.Error>
-            </S.ErrorContainer>
-          : null
-      }
-      
-      
+
+        {
+          tooltip
+            ? <S.ErrorIconContainer title={tooltip}>
+                <Icon icon={'info-circle'} iconPrefix='fas' />
+              </S.ErrorIconContainer>
+            : null
+        }
     </S.Container>
+    
+    {
+      error
+        ? <S.ErrorContainer>
+            <S.Error>{ error }</S.Error>
+          </S.ErrorContainer>
+        : null
+    }
+    </S.OutterContainer>
   )
 }
 
@@ -152,14 +170,32 @@ const moveUp = keyframes`
 `
 
 const S = {
-  Container: styled.div`
+  OutterContainer: styled.div`
+    display: flex;
+    flex-wrap: wrap;
+  `,
+  Container: styled.div<FloatingLabelProps>`
     position: relative;
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
     width: 100%;
     &:focus-within {
       input {
         color: white;
       }
     }
+    background: var(--Background_Alternating);
+    /* box-shadow: var(--Outline); */
+    box-shadow: ${props => 
+      props.success 
+        ? 'var(--Outline_Success)' 
+        : props.error
+          ? 'var(--Outline_Error)'
+          : 'var(--Outline)'
+    };
+    border-radius: 16px;
+
   `,
   Input: styled.input<InputProps>`
     width: 100%;
@@ -167,17 +203,16 @@ const S = {
     height: var(--Input_Height);
     position: relative;
     font-size: var(--Font_Size);
-    color: var(--EC_Black_1100);
     border-radius: 0.5rem;
     border: none;
-    padding: 0 1rem;
+    padding-left: .75rem;
+    /* padding: 0 1rem; */
     outline: none;
     -webkit-appearance: none;
-    box-shadow: var(--Outline);
+    
     border-radius: 16px;
-    background: var(--Background_Alternating);
     color: var(--Font_Color);
-
+    background: none;
   `,
   Label: styled.label<LabelProps>`
     position: absolute;
@@ -221,24 +256,17 @@ const S = {
     /* line-height: 1; */
   `,
   Error: styled.div`
-    margin-left: .5rem;
-    font-size: 14px;
+    margin-top: -.25rem;
+    margin-left: 1rem;
+    font-size: 13px;
   `,
   ErrorIconContainer: styled.div`
     position: relative;
   `,
   IconContainer: styled.div<IconContainerProps>`
     position: relative;
-
     * {
-      position: absolute;
-      height: 36px;
-      width: 36px;
-      top: 4px;
-      left: 12px;
-      z-index: 1;
-      font-size: 24px;
-      color: ${props => props.error ? 'var(--Font_Color_Error)' : 'var(--Font_Color_Success)'};
+      color: ${props => props.error ? 'var(--Font_Color_Error)' : 'var(--Font_Color)'};
     }
   `
 }
