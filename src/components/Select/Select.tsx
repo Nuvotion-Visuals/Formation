@@ -11,11 +11,11 @@ interface Props {
   value: string, 
   onChange: Function, 
   onChangeIndexFunction?: Function,
-  title: string, 
-  id: string, 
+  title?: string, 
+  id?: string, 
   options: string[], 
   placeholder?: string,
-  disabled: boolean,
+  disabled?: boolean,
   activeOptionIndex?: number
 }
 
