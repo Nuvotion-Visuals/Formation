@@ -3,6 +3,7 @@ import commonjs from "@rollup/plugin-commonjs";
 import typescript from "@rollup/plugin-typescript";
 import dts from "rollup-plugin-dts";
 import css from "rollup-plugin-import-css"
+import { visualizer } from "rollup-plugin-visualizer"
 
 const packageJson = require("./package.json");
 
@@ -25,7 +26,8 @@ export default [
       resolve(),
       commonjs(),
       typescript({ tsconfig: "./tsconfig.json" }),
-      css()
+      css(),
+      visualizer(),
     ],
   },
   {

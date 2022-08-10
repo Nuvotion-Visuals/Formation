@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react'
 import styled from 'styled-components'
-import { union, xor } from 'lodash'
+import xor from 'lodash.xor'
+import union from 'lodash.union'
 
 import { Button } from '../Button/Button'
 import { Icon } from '../Icon/Icon'
