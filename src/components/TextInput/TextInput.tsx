@@ -171,6 +171,7 @@ const moveUp = keyframes`
 
 const S = {
   OutterContainer: styled.div`
+    width: 100%;
     display: flex;
     flex-wrap: wrap;
   `,

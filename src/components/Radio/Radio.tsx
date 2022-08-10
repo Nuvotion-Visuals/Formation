@@ -16,21 +16,24 @@ interface Props {
 export const Radio = ({ options, value, onChange } : Props) => {
   return <Gap>
     {
-      options.map((option, index) => <S.OptionContainer active={value === option.value}>
-        <S.OptionSelected>
-          <Icon icon={value === option.value ? 'check-square' : 'square'} iconPrefix={'far'} fixedWidth/>
-        </S.OptionSelected>
-        <S.Option
-            onClick={() => onChange(option.value)}
-            active={value === option.value}
-            key={`option${index}`}
-          >
-            {
-              option.name
-            }
-        </S.Option> 
-      </S.OptionContainer>   
-        
+      options.map((option, index) => 
+        <S.OptionContainer 
+          active={value === option.value}
+          onClick={() => onChange(option.value)}
+        >
+          <S.OptionSelected>
+            <Icon icon={value === option.value ? 'check-square' : 'square'} iconPrefix={'far'} fixedWidth/>
+          </S.OptionSelected>
+          <S.Option
+              
+              active={value === option.value}
+              key={`option${index}`}
+            >
+              {
+                option.name
+              }
+          </S.Option> 
+        </S.OptionContainer>   
       )
     }
   </Gap>

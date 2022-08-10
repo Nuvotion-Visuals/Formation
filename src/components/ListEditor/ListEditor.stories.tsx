@@ -12,7 +12,6 @@ export default {
 const Template: ComponentStory<typeof ListEditor> = args => 
   <div style={{display: 'flex'}}>
     <ListEditor {...args} />
-    <div style={{width: '100%'}} />
   </div>
 
 // calculateInitialValue: () => Lists,

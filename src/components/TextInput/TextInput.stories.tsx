@@ -11,14 +11,11 @@ export default {
 
 const Template: ComponentStory<typeof TextInput> = args => {
   const [value, set_value] = useState('')
-  return <div style={{display: 'flex'}}>
-    <TextInput 
-      {...args} 
-      value={value}
-      onChange={newValue => set_value(newValue)}
-    />
-    <div style={{width: '100%'}} />
-  </div>
+  return <TextInput 
+    {...args} 
+    value={value}
+    onChange={newValue => set_value(newValue)}
+  />
 }
 
 export const Regular = Template.bind({})
