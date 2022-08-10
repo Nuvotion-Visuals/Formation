@@ -1,4 +1,5 @@
 export { AspectRatio } from './AspectRatio/AspectRatio'
+export { Auth } from './Auth/Auth'
 export { Box } from './Box/Box'
 export { Break } from './Break/Break'
 export { Button } from './Button/Button'
