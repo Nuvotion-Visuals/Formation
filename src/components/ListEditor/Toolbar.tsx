@@ -36,7 +36,7 @@ export const Toolbar = ({
                   </S.PositionCapacity>
                   <S.IconContainer>
                     <S.IconTransform onClick={onClick}>
-                      <Icon icon='chevron-down' iconPrefix='fas'/>
+                      <Icon icon={expand ? 'chevron-up' : 'chevron-down'} iconPrefix='fas'/>
                     </S.IconTransform>
           
                     <Dropdown

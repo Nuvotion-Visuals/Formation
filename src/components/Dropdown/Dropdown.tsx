@@ -47,7 +47,10 @@ export const Dropdown = React.memo(({ options }: Props) => {
 
   return (<>
     <S.Options 
-      onClick={() => setOpen(!open)}
+      onClick={(e) => {
+        e.stopPropagation()
+        setOpen(!open)
+      }}
       ref={myRef}
     >
       {

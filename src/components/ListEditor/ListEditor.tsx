@@ -166,12 +166,12 @@ export const ListEditor = ({
         hide={isCreating}
         lastAddedIndex={lastAddedIndex}
       />
-      <ListItems
+      {/* <ListItems
         lists={recommendedLists}
         onRemove={(index) => onRemove(index)}
         onAdd={(title, index) => onAddFromRecommended(title, index)}
         hide={!isCreating}
-      />
+      /> */}
     </S.ListEditor>
   )
 }
