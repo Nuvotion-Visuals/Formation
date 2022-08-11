@@ -18,9 +18,9 @@ It’s easy to picture how a less saturated version of a color would look like, 
   --Font_Color: hsl(0, 0%, 7%);
   --Font_Color_Disabled: hsl(0, 0%, 50%);
   --Font_Color_Label: hsl(0, 0%, 27%);
-  --Font_Color_Error: hsl(0, 100%, 48%);
-  --Font_Color_Success: hsl(120, 100%, 25%);
-  --Font_Color_Warning: hsl(25, 100%, 40%);
+  --Font_Color_Error: hsl(0, 90%, 60%);
+  --Font_Color_Success: hsl(147, 70%, 45%);
+  --Font_Color_Warning: hsl(25, 100%, 55%);
   --Font_Color_Link: hsl(201, 100%, 80%);
 }
 
