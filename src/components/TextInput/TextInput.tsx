@@ -73,7 +73,7 @@ export const TextInput = ({
         value={value}
         // ref={autoFocusRef}
         id={id}
-        icon={icon !== null}
+        hasIcon={icon !== undefined} 
         type={type ? type : 'text'}
         locked={locked}
         focused={focused}
@@ -105,7 +105,7 @@ export const TextInput = ({
       <S.Label 
         locked={locked} 
         focused={focused} 
-        icon={icon !== null} 
+        hasIcon={icon !== undefined} 
         shrink={value !== '' || focused}
       >
         {
@@ -141,15 +141,15 @@ interface InputProps {
   focused: boolean,
   type?: string,
   locked: boolean,
+  hasIcon: boolean
   id?: string,
   pad?: boolean,
-  icon: boolean,
   onChange?: (e : any) => void
 }
 
 interface LabelProps {
   locked: boolean,
-  icon: boolean,
+  hasIcon: boolean,
   focused: boolean,
   shrink: boolean
 }
@@ -165,8 +165,15 @@ interface IconContainerProps {
 }
 
 const moveUp = keyframes`
-  0% { top: 0.5rem; }
-  100% { top: 0rem; }
+  0% { 
+    top: 0.6rem; 
+    font-size: var(--Font_Size);
+  }
+  100% { 
+    top: 0rem; 
+    font-size: calc(var(--Font_Size) * .9);
+
+  }
 `
 
 const S = {
@@ -174,6 +181,7 @@ const S = {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
   `,
   Container: styled.div<FloatingLabelProps>`
     position: relative;
@@ -218,8 +226,9 @@ const S = {
     position: relative;
     font-size: var(--Font_Size);
     border-radius: 0.5rem;
+    vertical-align: center;
     border: none;
-    padding-left: .75rem;
+    padding-left: ${props => props.hasIcon ? '.5rem' : '0'};
     outline: none;
     -webkit-appearance: none;
     border-radius: 16px;
@@ -231,12 +240,13 @@ const S = {
     top: 50%;
     line-height: 0;
     height: .5rem;
-    left: ${props => props.icon ? '2.75rem' : '1.1rem'};
+    left: ${props => props.hasIcon ? '2.5rem' : '1rem'};
     color: var(--Font_Color_Label);
-    font-size: ${props => props.shrink ? '13px' : '15px'};
+    font-size: var(--Font_Size);
+    
     pointer-events: none;
     background: var(--Background);
-    animation: ${props => props.locked ? css`${moveUp} .15s ease-in forwards` : 'none'};
+    animation: ${props => props.locked ? css`${moveUp} .15s forwards` : 'none'};
   `,
   FloatingLabel: styled.div<FloatingLabelProps>`
     display: flex;
