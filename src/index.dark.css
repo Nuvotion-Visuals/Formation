@@ -10,7 +10,6 @@ It’s easy to picture how a less saturated version of a color would look like, 
   --Background: hsl(0, 0%, 7%);
   --Background_Alternating: hsl(0, 0%, 5%);
 
-  --Surface_0_Variant: hsl(0, 0%, 11%);
   --Surface_0: hsl(0, 0%, 12%);
   --Surface: hsl(0, 0%, 16%);
   --Surface_1: hsl(0, 0%, 25%);
@@ -36,6 +35,7 @@ It’s easy to picture how a less saturated version of a color would look like, 
 /* Outlines use box shadows so as to not take up space in the document */
 :root {
   --Outline: inset 0 0 0 2px var(--Surface);
+  --Outline_Light: inset 0 0 0 2px hsl(0, 0%, 14%);
   --Outline_Hover: inset 0 0 0 2px var(--Surface_1);
   --Outline_Primary: inset 0 0 0 2px var(--Primary);
   --Outline_Error: inset 0 0 0 2px var(--Font_Color_Error);

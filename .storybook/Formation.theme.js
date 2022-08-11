@@ -6,12 +6,12 @@ export const FormationTheme = create({
   base: 'dark',
 
   colorPrimary: 'white',
-  colorSecondary: 'hsl(0, 0%, 30%)',
+  colorSecondary: 'hsl(0, 0%, 34%)',
 
   // UI
   appBg: 'hsl(0, 0%, 10%)',
   appContentBg: 'hsl(0, 0%, 10%)',
-  appBorderColor: 'hsl(0, 0%, 20%)',
+  appBorderColor: 'hsl(0, 0%, 34%)',
   appBorderRadius: 0,
 
   // Typography
@@ -29,7 +29,7 @@ export const FormationTheme = create({
 
   // Form colors
   inputBg: 'hsl(0, 0%, 10%)',
-  inputBorder: 'hsl(0, 0%, 16%)',
+  inputBorder: 'hsl(0, 0%, 24%)',
   inputTextColor: 'white',
   inputBorderRadius: 4,
 

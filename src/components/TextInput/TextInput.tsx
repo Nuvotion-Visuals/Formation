@@ -181,13 +181,30 @@ const S = {
     align-items: center;
     padding: 0 1rem;
     width: 100%;
+
+    &:hover {
+      box-shadow: ${props => 
+        props.success 
+          ? 'var(--Outline_Success)' 
+          : props.error
+            ? 'var(--Outline_Error)'
+            : 'var(--Outline_Hover)'
+      };
+    }
+    
     &:focus-within {
       input {
         color: white;
       }
-    }
+      box-shadow: ${props => 
+        props.success 
+          ? 'var(--Outline_Success)' 
+          : props.error
+            ? 'var(--Outline_Error)'
+            : 'var(--Outline_Hover)'
+      };
+    };
     background: var(--Background_Alternating);
-    /* box-shadow: var(--Outline); */
     box-shadow: ${props => 
       props.success 
         ? 'var(--Outline_Success)' 
@@ -207,10 +224,8 @@ const S = {
     border-radius: 0.5rem;
     border: none;
     padding-left: .75rem;
-    /* padding: 0 1rem; */
     outline: none;
     -webkit-appearance: none;
-    
     border-radius: 16px;
     color: var(--Font_Color);
     background: none;
@@ -245,7 +260,6 @@ const S = {
           ? 'var(--Font_Color_Success)'
           : 'var(--Font_Color_Label)'
     };
-    
   `,
   ErrorContainer: styled.div`
     width: 100%;

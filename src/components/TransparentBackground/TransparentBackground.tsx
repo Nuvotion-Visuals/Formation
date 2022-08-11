@@ -9,7 +9,7 @@ export const TransparentBackgroundSrc = 'data:image/svg+xml;base64,PD94bWwgdmVyc
 
 export const TransparentBackground = ({ children }: Props) => {
   return (
-    <S.TransparentBackground src={TransparentBackgroundSrc}>
+    <S.TransparentBackground src={TransparentBackgroundSrc} className='F_TransparentBackground'>
       {
         children
       }

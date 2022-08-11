@@ -3,26 +3,29 @@
 it’s often more intuitive than defining a color only in terms of the Red, Green and Blue values. 
 It’s easy to picture how a less saturated version of a color would look like, for example. */
 :root {
-  --Primary: hsl(4, 83%, 26%);
-  --Primary_Hover: hsl(4, 83%, 32%);
-  --Primary_Variant: hsl(4, 100%, 38%); /* More saturated, vibrant variant */
+  --Primary: hsl(165, 87%, 39%);
+  --Primary_Hover: hsl(165, 87%, 35%);
+  --Primary_Variant: hsl(165, 87%, 43%); /* More saturated, vibrant variant */
 
-  --Background: hsl(0, 0%, 7%);
-  --Background_Alternating: hsl(0, 0%, 5%);
+  --Background: hsl(0, 0%, 95%);
+  --Background_Alternating: hsl(0, 0%, 98%);
 
-  --Surface_0_Variant: hsl(0, 0%, 11%);
-  --Surface_0: hsl(0, 0%, 12%);
-  --Surface: hsl(0, 0%, 16%);
-  --Surface_1: hsl(0, 0%, 25%);
-  --Surface_2: hsl(0, 0%, 34%);
+  --Surface_0: hsl(0, 0%, 88%);
+  --Surface: hsl(0, 0%, 84%);
+  --Surface_1: hsl(0, 0%, 75%);
+  --Surface_2: hsl(0, 0%, 66%);
 
-  --Font_Color: hsl(0, 0%, 93%);
+  --Font_Color: hsl(0, 0%, 7%);
   --Font_Color_Disabled: hsl(0, 0%, 50%);
-  --Font_Color_Label: hsl(0, 0%, 73%);
+  --Font_Color_Label: hsl(0, 0%, 27%);
   --Font_Color_Error: hsl(0, 100%, 48%);
   --Font_Color_Success: hsl(120, 100%, 25%);
   --Font_Color_Warning: hsl(25, 100%, 40%);
   --Font_Color_Link: hsl(201, 100%, 80%);
+}
+
+.F_TransparentBackground {
+  filter: invert();
 }
 
 /* Zoom */
@@ -35,8 +38,9 @@ It’s easy to picture how a less saturated version of a color would look like, 
 /* Outlines */
 /* Outlines use box shadows so as to not take up space in the document */
 :root {
-  --Outline: inset 0 0 0 2px var(--Surface);
-  --Outline_Hover: inset 0 0 0 2px var(--Surface_1);
+  --Outline: inset 0 0 0 2px hsl(0, 0%, 70%);
+  --Outline_Light: inset 0 0 0 2px hsl(0, 0%, 80%);
+  --Outline_Hover: inset 0 0 0 2px hsl(0, 0%, 50%);
   --Outline_Primary: inset 0 0 0 2px var(--Primary);
   --Outline_Error: inset 0 0 0 2px var(--Font_Color_Error);
   --Outline_Disabled: inset 0 0 0 2px var(--Font_Color_Disabled);
@@ -53,6 +57,7 @@ It’s easy to picture how a less saturated version of a color would look like, 
 :root {
   --Font_Family: sans-serif;
   --Font_Size: 15px;
+  --Font_Size_Title: 17px;
 
   --Letter_Spacing: .04em;
   --Letter_Spacing_Title: .04em;

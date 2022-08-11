@@ -109,11 +109,11 @@ const S_Auth = styled.div`
   flex-wrap: wrap;
   max-width: calc(100vw - 6rem);
   padding: 1em;
-  border: 2px solid var(--Surface);
   background: var(--Background);
   border-radius: 1rem;
   color: var(--Font_Color);
   padding-top: 1.5rem;
+  box-shadow: var(--Outline_Light);
 `
 
 const S_Logo = styled.img`
@@ -131,7 +131,7 @@ const S_LogoContainer = styled.div`
   position: relative;
   z-index: 1;
   margin-bottom: -2.5rem;
-  border: 2px solid var(--Surface);
+  box-shadow: var(--Outline_Light);
   padding: 1rem;
   background: var(--Background);
   border-radius: 100%;
