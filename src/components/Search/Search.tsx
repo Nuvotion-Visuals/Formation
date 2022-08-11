@@ -178,8 +178,9 @@ const S = {
     display: flex;
     height: 100%;
     align-items: center;
-    padding-left: 1.5rem;
+    padding-left: 1rem;
     color: var(--Font_Color);
+    font-size: var(--Font_Size);
     border-radius: var(--Input-Radius);
     border-radius: 0px 16px 16px 0px;
     font-size: ${props => props.hero ? 'var(--Font_Size_Title)' : 'var(--Font_Size)'};

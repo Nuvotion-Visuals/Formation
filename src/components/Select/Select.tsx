@@ -9,7 +9,7 @@ interface Props {
   icon?: IconName, 
   iconPrefix?: IconPrefix,
   value: string, 
-  onChange: Function, 
+  onChange: (value: string) => void, 
   onChangeIndexFunction?: Function,
   title?: string, 
   id?: string, 
@@ -39,80 +39,80 @@ export const Select = ({
   }
   
   return (
-    <S_SelectContainer>
+    <S.SelectContainer>
       {
         icon
-          ? <S_IconContainer>
+          ? <S.IconContainer>
               <Icon icon={icon} iconPrefix={iconPrefix} fixedWidth/>
-            </S_IconContainer>
+            </S.IconContainer>
           : null
       }
         
-      <S_Select 
+      <S.Select 
         value={value}
         onChange={e => handleOnChange(e)} 
         title={title}
         id={id}
         disabled={disabled}
+        hasIcon={icon !== undefined}
       >
         {
           placeholder 
-            ? <S_Option disabled>{ placeholder }</S_Option> 
+            ? <S.Option disabled>{ placeholder }</S.Option> 
             : null
         }
         {
-          options.map((option, index) => <S_Option key={index + option} value={activeOptionIndex !== null ? `${option}${index}` : option}>{option}</S_Option>)
+          options.map((option, index) => <S.Option key={index + option} value={option}>{option}</S.Option>)
         } 
-      </S_Select>
-    </S_SelectContainer>
+      </S.Select>
+    </S.SelectContainer>
   )
 }
 
-const S_IconContainer = styled.div`
-  display: flex;
-  align-items: center;
-  height: var(--Input_Height);
-  padding-left: 1rem;
-  user-select: none;
-`
+interface SelectProps {
+  hasIcon: boolean
+}
 
-const S_SelectContainer = styled.div`
-  display: flex;
-  align-items: center;
-  width: 100%;
-  height: var(--Input_Height);
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: var(--Outline);
+const S = {
+  IconContainer: styled.div`
+    display: flex;
+    align-items: center;
+    height: var(--Input_Height);
+    padding-left: .75rem;
+    user-select: none;
+  `,
+  SelectContainer: styled.div`
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: var(--Input_Height);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: var(--Outline);
+    min-width: 66px;
 
-  transition: 0s;
-  &:hover {
-    background: var(--Surface_1);
-  }
-  &:active {
-    background: var(--Surface_2);
-    
-  }
-  &:focus {
-    background: var(--Surface_1);
-  }
-`
+    transition: 0s;
+    &:hover {
+      box-shadow: var(--Outline_Hover);
+    }
 
-const S_Select = styled.select`
-  display: flex;
-  width: 100%;
-  font-size: var(--Font_Size);
-  letter-spacing: 0.4px;
-  padding-left: .5rem;
-  cursor: pointer;
-  background: none;
-  border: none;
-  color: var(--Font_Color);
-  height: 100%;
-  user-select: none;
-`
-
-const S_Option = styled.option`
-  background: var(--Background);
-  color: var(--Font_Color);
-`
+  `,
+  Select: styled.select<SelectProps>`
+    display: flex;
+    width: 100%;
+    font-size: var(--Font_Size);
+    letter-spacing: 0.4px;
+    padding-left: .125rem;
+    cursor: pointer;
+    background: none;
+    border: none;
+    color: var(--Font_Color);
+    height: 100%;
+    user-select: none;
+    padding-left: ${props => props.hasIcon ? '.125rem' : '.75rem'};
+  `,
+  Option: styled.option`
+    background: var(--Background);
+    color: var(--Font_Color);
+  `
+}

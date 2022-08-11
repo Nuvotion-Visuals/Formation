@@ -112,12 +112,11 @@ const S = {
     justify-content: space-between;
     padding: 0.5rem;
     cursor: pointer;
-    background: var(--Surface_0);
     &:hover {
-      background: var(--Surface_1);
+      background: var(--Surface_0);
     }
     &:active {
-      background: var(--Surface_2);
+      background: var(--Surface);
     }
   `,
   ResponsiveContainer: styled.div`

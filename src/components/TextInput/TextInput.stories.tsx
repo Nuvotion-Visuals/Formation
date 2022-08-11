@@ -20,7 +20,7 @@ const Template: ComponentStory<typeof TextInput> = args => {
 
 export const Regular = Template.bind({})
 Regular.args = {
-  label: 'Email address',
+  label: 'First name',
 }
 
 export const Icon = Template.bind({})

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { useState } from 'react'
 
@@ -7,6 +7,7 @@ import { Button } from '../Button/Button'
 
 import { Lists } from './ListEditor'
 import { Gap } from '../Gap/Gap';
+import { Select } from '../Select/Select';
 
 interface Props {
   lists?: Lists,
@@ -16,18 +17,13 @@ interface Props {
 }
 
 export const ListItemEditor = ({  onCreate, onClose, hide }: Props) => {
-  const [textValue, setTextValue] = useState('')
-  const [countValue, setCountValue] = useState(1)
-  const [dropdown, set_dropdown] = useState(new Array(50).fill(0).map((item, index) => index + 1))
-
-  const dropdownItems = dropdown.map((item) =>
-    <option key={item} value={item}>{item}</option>
-  );
+  const [text, set_text] = useState('')
+  const [count, set_count] = useState(1)
 
   // reset input fields upon user creating a new listItem
   const resetInput = () => {
-    setTextValue('')
-    setCountValue(1)
+    set_text('')
+    set_count(1)
   }
   
   return (
@@ -37,29 +33,25 @@ export const ListItemEditor = ({  onCreate, onClose, hide }: Props) => {
           <TextInput
             label="Position Title"
             onChange={value=> { 
-              setTextValue(value)
+              set_text(value)
             }}
-            value={textValue}
+            value={text}
           />
           <S.CountWrap>
-            
-              <select
-                name='count'
-                id='count'
-                value={countValue}
-                onChange={(e) => setCountValue(Number(e.target.value))}
-              >
-              
-                { dropdownItems }
-              </select>
-            
+            <Select
+              options={new Array(50).fill(0).map((item, index) => { 
+                return (index + 1).toString()
+              })}
+              onChange={value => set_count(Number(value))}
+              value={count.toString()}
+            />
           </S.CountWrap>
           <Button
             text={'Create'}
-            disabled={textValue === ''}
+            disabled={text === ''}
             onClick={() => {
               if (onCreate) {
-                onCreate(textValue, countValue)
+                onCreate(text, count)
               }
               resetInput()
             }}

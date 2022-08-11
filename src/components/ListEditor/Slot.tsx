@@ -122,10 +122,10 @@ const S = {
     position: relative;
     cursor: pointer;
     &:hover {
-      background: var(--Surface_1);
+      background: var(--Surface_0);
     }
     &:active {
-      background: var(--Surface_2);
+      background: var(--Surface);
     }
   `,
   AvatarContainer: styled.div`
