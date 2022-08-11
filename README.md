@@ -1,48 +1,72 @@
 # Formation
 
-Formation is a comprehensive React component library that uses Styled Components and CSS variables.
+[Storybook](https://avsync-live.github.io/formation) |
+[GitHub Repository](https://github.com/AVsync-LIVE/formation) |
+[NPM Package](https://www.npmjs.com/package/@avsync.live/formation)
 
-[View Source on GitHub](https://github.com/AVsync-LIVE/formation)
+Formation is a component library based on React, Styled Components and CSS variables.
 
-[View Package on NPM](https://www.npmjs.com/package/@avsync.live/formation)
 
-[View Components in Storybook](https://avsync-live.github.io/formation)
 
-[![image](https://user-images.githubusercontent.com/18317587/183244327-7204046a-009c-4a69-ba93-ef77f1e78618.png)](https://avsync-live.github.io/formation)
 
-> **Note:** This library is still actively in development and should not be used for production projections yet.
+
+
 
 ## Installation
 
-`yarn add @avsync.live/formation`
+```shell
+yarn add @avsync.live/formation
+```
 
 ## Usage
 
-<pre>
+```jsx
   import React from 'react'
   import { Button } from '@avsync.live/formation'
 
   const MyComponent = () => {
-    return &lt;Button text='Click me'&gt;
+    return <Button text='Click me' />
   }
-</pre>
+```
 
 ## Icons
 
 Formation uses [FontAwesome v6](https://fontawesome.com/v6/search?m=free) and supports both pro and free icons.
 
+```jsx
+// import FontAwesome in your project
+import '@fortawesome/fontawesome-svg-core/styles.css'
+import { library } from '@fortawesome/fontawesome-svg-core'
+
+import { faHeart } from '@fortawesome/free-solid-svg-icons'
+
+library.add(faHeart)
+
+// in your component
+import React from 'react'
+import { Button } from '@avsync.live/formation'
+
+const MyComponent = () => {
+  return <Button 
+    text='Click me' 
+    icon='heart' // name of the icon without the "fa" and in kebab-case
+    iconPrefix='fas' // fas, far, fal, etc
+   />;
+}
+```
+
 ## Theming
 
 Theming is based on CSS variables.
 
-## Core principals
+## Why Formation?
  - Responsive from the smallest of phones to the largest of multi-window 4K monitors
  - Touch-first
  - No reliance on right clicks
  - No reliance on hover states
  - Allow for hold-to-drag and swiping, but also provide tap/click-only alternatives
  - Minimal use of animations
- - Easily modify the styling using interchangeable themes
+ - Easily modify the styling using css variables
  - Prefer a small inline dropdown over a context-changing modal popup.
 
 ## Implementation
@@ -58,4 +82,4 @@ Theming is based on CSS variables.
 
 The name [Formation](https://www.etymonline.com/word/formation) expresses both the *form* embodied by the user interface, and the process by which user interaction *forms* the desired outcome of the application. The layout of the document is also composed of a *formation* of components.
 
-Formation adheres to the Unimpeded Design System, where users do not have to wait for animations to complete, or for the app to finishing changing modes in order to proceed with their task. 
+Formation adheres to the Unimpeded Design System philosophy, where users do not have to wait for animations to complete, or for the app to finishing changing modes in order to proceed with their task. The user is only limited physically by their reaction time.
