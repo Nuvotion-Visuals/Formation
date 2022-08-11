@@ -4,9 +4,12 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
   },
-  "version": "0.4.3",
+  "version": "0.4.4",
   "description": "A component library based on React, Styled Components and CSS variables.",
   "keywords": [
+    "formation",
+    "avsync",
+    "avsync.live",
     "react",
     "styled-components",
     "styled",
