@@ -3,7 +3,7 @@ import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
 import { AspectRatio } from '../AspectRatio/AspectRatio'
-import { TransparentBackground } from '../TransparentBackground/TransparentBackground'
+import { Empty } from '../Empty/Empty'
 import { Grid } from './Grid'
 
 export default {
@@ -16,7 +16,7 @@ const Template: ComponentStory<typeof Grid> = args =>
     {
       new Array(20).fill(0).map(i =>
         <AspectRatio ratio={16/9}>
-          <TransparentBackground />
+          <Empty />
         </AspectRatio>  
       )
     }

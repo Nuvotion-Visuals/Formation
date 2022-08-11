@@ -24,7 +24,7 @@ It’s easy to picture how a less saturated version of a color would look like, 
   --Font_Color_Link: hsl(201, 100%, 80%);
 }
 
-.F_TransparentBackground {
+.F_Empty {
   filter: invert();
 }
 

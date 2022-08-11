@@ -4,7 +4,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react'
 
 import { Button } from '../Button/Button'
 import { Auth } from './Auth'
-import { TransparentBackground } from '../TransparentBackground/TransparentBackground'
+import { Empty } from '../Empty/Empty'
 import { AspectRatio } from '../AspectRatio/AspectRatio'
 import { TextInput } from '../TextInput/TextInput'
 import { Gap } from '../Gap/Gap'
