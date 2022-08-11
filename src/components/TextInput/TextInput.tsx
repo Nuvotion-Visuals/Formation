@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled, { css, keyframes } from 'styled-components'
 
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
@@ -193,9 +193,6 @@ const S = {
     }
     
     &:focus-within {
-      /* input {
-        color: white;
-      } */
       box-shadow: ${props => 
         props.success 
           ? 'var(--Outline_Success)' 
