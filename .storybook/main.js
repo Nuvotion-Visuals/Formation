@@ -7,7 +7,7 @@ module.exports = {
     "@storybook/addon-links",
     "@storybook/addon-essentials",
     "@storybook/addon-interactions",
-    '@etchteam/storybook-addon-css-variables-theme'
+    '@etchteam/storybook-addon-css-variables-theme',
   ],
   "framework": "@storybook/react",
 }

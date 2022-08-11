@@ -166,7 +166,7 @@ interface IconContainerProps {
 
 const moveUp = keyframes`
   0% { top: 0.5rem; }
-  100% { top: -.5rem; }
+  100% { top: 0rem; }
 `
 
 const S = {
@@ -217,7 +217,8 @@ const S = {
   `,
   Label: styled.label<LabelProps>`
     position: absolute;
-    top: 0.5rem;
+    top: 50%;
+    line-height: 0;
     left: ${props => props.icon ? '2.75rem' : '1.1rem'};
     color: ${props => props.focused ? 'var(--Font_Color)' : 'var(--Font_Color_Label)'};
     font-size: ${props => props.shrink ? '13px' : '15px'};

@@ -111,7 +111,7 @@ const S_Auth = styled.div`
   padding: 1em;
   border: 2px solid var(--Surface);
   background: var(--Background);
-  border-radius: var(--ControlRadius);
+  border-radius: 1rem;
   color: var(--Font_Color);
   padding-top: 1.5rem;
 `
