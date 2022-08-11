@@ -59,6 +59,7 @@ const S = {
     background-position: center;
     background-size: cover;
     background-color: ${props => props.backgroundColor};
+    filter: invert(1);
   `,
   Content: styled.div`
     position: absolute;

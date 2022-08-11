@@ -132,8 +132,8 @@ const S_LogoContainer = styled.div`
   z-index: 1;
   margin-bottom: -2.5rem;
   border: 2px solid var(--Surface);
-  background: black;
   padding: 1rem;
+  background: var(--Background);
   border-radius: 100%;
 `
 

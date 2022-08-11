@@ -6,7 +6,8 @@ module.exports = {
   "addons": [
     "@storybook/addon-links",
     "@storybook/addon-essentials",
-    "@storybook/addon-interactions"
+    "@storybook/addon-interactions",
+    '@etchteam/storybook-addon-css-variables-theme'
   ],
-  "framework": "@storybook/react"
+  "framework": "@storybook/react",
 }

@@ -43,7 +43,7 @@ export const Select = ({
       {
         icon
           ? <S_IconContainer>
-              <Icon icon={icon} iconPrefix={iconPrefix} />
+              <Icon icon={icon} iconPrefix={iconPrefix} fixedWidth/>
             </S_IconContainer>
           : null
       }

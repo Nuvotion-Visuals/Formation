@@ -68,11 +68,11 @@ const S = {
         case 'success':
           return 'var(--Font_Color_Success)'
         case 'error':
-          return 'var(--Primary_Variant)'
+          return 'var(--Font_Color_Error)'
         case 'warning':
           return 'var(--Font_Color_Warning)'
         case 'info':
-          return 'var(--Surface_0)'
+          return 'var(--Surface)'
       }
     }};
   `,

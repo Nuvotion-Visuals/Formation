@@ -1,5 +1,3 @@
-import '../../index.css'
-
 import { FontAwesomeIcon, FontAwesomeIconProps } from '@fortawesome/react-fontawesome'
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 
@@ -26,6 +24,6 @@ export const Icon = React.memo((props : Props) => {
 
 const S = {
   Icon: styled(FontAwesomeIcon)`
-    color: var(--Font_Color);
+    color: var(--Font_Color_Label);
   `
 }
