@@ -17,42 +17,35 @@ const Template: ComponentStory<typeof Button> = args =>
 
 export const Regular = Template.bind({})
 Regular.args = {
-  text: 'Send message',
-  icon: 'paper-plane'
+  text: 'Bookmark',
+  icon: 'bookmark'
 }
 
 export const Primary = Template.bind({})
 Primary.args = {
-  text: 'Send message',
-  icon: 'paper-plane',
+  text: 'Bookmark',
+  icon: 'bookmark',
   primary: true
 }
 
 export const Secondary = Template.bind({})
 Secondary.args = {
-  text: 'Send message',
+  text: 'Bookmark',
   secondary: true,
-  icon: 'paper-plane',
-}
-
-export const Hero = Template.bind({})
-Hero.args = {
-  text: 'Send message',
-  hero: true,
-  icon: 'paper-plane',
+  icon: 'bookmark',
 }
 
 export const HeroPrimary = Template.bind({})
 HeroPrimary.args = {
-  text: 'Send message',
+  text: 'Bookmark',
   hero: true,
-  icon: 'paper-plane',
+  icon: 'bookmark',
   primary: true
 }
 
 export const Disabled = Template.bind({})
 Disabled.args = {
-  text: 'Send message',
+  text: 'Bookmark',
   disabled: true
 }
 

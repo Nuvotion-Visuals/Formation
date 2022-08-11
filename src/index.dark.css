@@ -53,7 +53,8 @@ It’s easy to picture how a less saturated version of a color would look like, 
 :root {
   --Font_Family: sans-serif;
   --Font_Size: 15px;
-
+  --Font_Size_Title: 17px;
+  
   --Letter_Spacing: .04em;
   --Letter_Spacing_Title: .04em;
 

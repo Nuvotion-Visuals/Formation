@@ -34,7 +34,7 @@ import '@fortawesome/fontawesome-svg-core/styles.css'
 import { library, config } from '@fortawesome/fontawesome-svg-core'
 
 import { 
-  faHeart, faPaperPlane, faFolder, faFolderBlank, faPlusSquare, faSquare, faCheckSquare,
+  faHeart, faPaperPlane, faFolder, faFolderBlank, faPlusSquare, faSquare, faCheckSquare, faBookmark
 } from '@fortawesome/free-regular-svg-icons'
 
 import { 
@@ -43,14 +43,14 @@ import {
   faSortAlphaDown as fasSortAlphaDown, faFilter as fasFilter,
   faSortAlphaUp as fasSortAlphaUp, faCalendarAlt as fasCalendarAlt, faChevronCircleRight, faChevronCircleLeft,
   faCheck, faTimes, faExclamationTriangle, faInfoCircle, faChevronDown, faChevronUp,
-  faEnvelope, faMapPin, faLock, faUser, faGlobe, faUsers
+  faEnvelope, faMapPin, faLock, faUser, faGlobe, faUsers, faPlus,
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
   faHeart, faPaperPlane, faFolderBlank, faPlusSquare, fasHeart,
   fasEllipsisVertical, fasTimes, fasPlus, fasSearch, fasSortAlphaDown,
   fasFilter, fasSortAlphaUp, fasCalendarAlt, faSquare, faCheckSquare,
-  faEnvelope, faMapPin, faLock, faUser, faGlobe, faUsers,
+  faEnvelope, faMapPin, faLock, faUser, faGlobe, faUsers, faPlus, faBookmark,
   
   faChevronCircleRight, faChevronCircleLeft,
   faCheck, faTimes, faExclamationTriangle, faInfoCircle, faChevronDown, faChevronUp,

@@ -65,6 +65,7 @@ export const Button: FC<Props> = React.memo(({
         singleBlink={singleBlink}
         tab={tab}
         name={name}
+        hasIcon={icon !== undefined}
       >
         {
           icon
@@ -72,7 +73,7 @@ export const Button: FC<Props> = React.memo(({
                 iconPrefix={iconPrefix ? iconPrefix : 'far'} 
                 icon={icon}  
                 rotation={rotate ? 90 : undefined}
-                size={hero ? '2x' : '1x'} 
+                size={hero ? 'xl' : '1x'} 
                 fixedWidth
               />
             : null
@@ -127,7 +128,8 @@ interface ButtonProps {
   blink?: boolean,
   expand?: boolean,
   tab?: boolean,
-  type?: string
+  type?: string,
+  hasIcon: boolean
 } 
 
 interface TextProps {
@@ -149,8 +151,8 @@ const S = {
   Text: styled.div<TextProps>`
     font-size: ${props => props.hero ? 'var(--Font_Size_Title)' : 'var(--Font_Size)'};
     margin-left: ${props => props.hero
-      ? props.icon ? '.75rem' : '0'
-      : props.icon ? '.5rem' : '0'
+      ? props.icon ? '.5rem' : '0'
+      : props.icon ? '.375rem' : '0'
     };
     display: flex;
     height: 100%;
@@ -167,9 +169,7 @@ const S = {
     overflow: hidden;
     color: ${props => props.disabled 
       ? 'var(--Font_Color_Disabled)' 
-      : props.secondary
-        ? 'var(--Font_Color_Label)'
-        : 'var(--Font_Color)'
+      : 'var(--Font_Color)'
     };
     
     pointer-events: ${props => props.disabled ? 'none' : 'default'}; 
@@ -185,10 +185,12 @@ const S = {
     min-width: var(--Font_Size_Icon);
     padding: ${props => 
       props.hero && !props.square 
-        ? '1rem 1.5rem' 
+        ? '1rem 1.5rem 1rem 1rem' 
         : props.square
             ? '1.5rem'
-            : 'var(--Font_Size)'
+            : props.hasIcon
+                ? '1rem 1rem 1rem .75rem' 
+                : '1rem' 
     };
     width: ${props => props.square && !props.hero 
       ? '52px' 

@@ -193,9 +193,9 @@ const S = {
     }
     
     &:focus-within {
-      input {
+      /* input {
         color: white;
-      }
+      } */
       box-shadow: ${props => 
         props.success 
           ? 'var(--Outline_Success)' 
@@ -217,7 +217,6 @@ const S = {
   `,
   Input: styled.input<InputProps>`
     width: 100%;
-    box-sizing: border-box;
     height: var(--Input_Height);
     position: relative;
     font-size: var(--Font_Size);
@@ -234,8 +233,9 @@ const S = {
     position: absolute;
     top: 50%;
     line-height: 0;
+    height: .5rem;
     left: ${props => props.icon ? '2.75rem' : '1.1rem'};
-    color: ${props => props.focused ? 'var(--Font_Color)' : 'var(--Font_Color_Label)'};
+    color: var(--Font_Color_Label);
     font-size: ${props => props.shrink ? '13px' : '15px'};
     pointer-events: none;
     background: var(--Background);
