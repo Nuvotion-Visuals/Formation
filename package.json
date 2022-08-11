@@ -4,8 +4,8 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
   },
-  "version": "0.4.1",
-  "description": "A comprehensive React component library based on Styled Components",
+  "version": "0.4.2",
+  "description": "A component library based on React, Styled Components and CSS variables.",
   "scripts": {
     "rollup": "rollup -c",
     "test": "jest",

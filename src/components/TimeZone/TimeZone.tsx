@@ -59,7 +59,7 @@ export const TimeZone = ({
       options={
         minimalTimeZoneSet.map(timeZone => timeZone.label)
       }
-      onChange={(e : React.FormEvent<HTMLSelectElement>) => onChange((e.target as HTMLSelectElement).value)}
+      onChange={value=> onChange(value)}
     />
   )
 }
