@@ -1,279 +1,77 @@
-*:focus {
-outline: none;
-}
-
-::-webkit-scrollbar {
-width: 1rem;
-height: 1rem;
-}
-::-webkit-scrollbar-track {
-background: var(--Background_Alternating);
-border-radius: 6px;
-
-}
-::-webkit-scrollbar-thumb {
-background: var(--Surface_1);
-border-radius: 6px;
-}
-::-webkit-scrollbar-thumb:hover {
-background: var(--Surface_1);
-}
-::-webkit-scrollbar-thumb:active {
-background: var(--Surface_1);
-}
-::-webkit-scrollbar-corner {
-background: var(--Background);
-}
-
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button {  
-opacity: 1;
-}
-
-
-/*** Works on common browsers ***/
-::selection {
-	background-color: var(--Surface_2);
-	color: #fff;
-}
-
-/*** Mozilla based browsers ***/
-::-moz-selection {
-	background-color: var(--Surface_2);
-	color: #fff;
-}
-
-/***For Other Browsers ***/
-::-o-selection {
-	background-color: var(--Surface_2);
-	color: #fff;
-}
-
-::-ms-selection {
-	background-color: var(--Surface_2);
-	color: #fff;
-}
-
-
-/*** For Webkit ***/
-::-webkit-selection {
-	background-color: var(--Surface_2);
-	color: #fff;
-}
-
-/* turn it off completely */
-select:active, select:hover {
-  outline: none;
-}
-
-/* make it red instead (with with same width and style) */
-select:active, select:hover {
-  outline-color: var(--Primary);
-}
-
-html {
-  font-family: sans-serif;
-}
-
+/* Colors */
+/* The main advantage of defining colors in terms of hue, saturation and lightness (hsl) is that 
+it’s often more intuitive than defining a color only in terms of the Red, Green and Blue values. 
+It’s easy to picture how a less saturated version of a color would look like, for example. */
 :root {
-  --Zoom: 1;
-  --Zoom_Scale: calc(1 / var(--Zoom));
+  --Primary: hsl(4, 83%, 26%);
+  --Primary_Hover: hsl(4, 83%, 32%);
+  --Primary_Variant: hsl(4, 100%, 38%); /* More saturated, vibrant variant */
 
-  --Primary:#0DBB8F;
-  --Primary_Hover:#14cc9e;
-  --Primary_Variant: #14cc9e;
-  --Secondary: blue;
-
-  --Error: #E53935;
-
-  --Background: #fff;
-  --Background_Alternating: #fff;
+  --Background: hsl(0, 0%, 7%);
+  --Background_Alternating: hsl(0, 0%, 5%);
 
   --Surface_0_Variant: hsl(0, 0%, 11%);
   --Surface_0: hsl(0, 0%, 12%);
-  --Surface: #dfdddb;
-  --Surface_1: #dfdddb;
-  --Surface_2: #bfbfbf;
+  --Surface: hsl(0, 0%, 16%);
+  --Surface_1: hsl(0, 0%, 25%);
+  --Surface_2: hsl(0, 0%, 34%);
 
-  --Hover: rgba(192, 12, 0, 0.12);
-  --Hover_Single: #3C2625;
-  --Hover_OnSurface: #5e2a27;
-  --Focus: rgba(192, 12, 0, 0.12);
+  --Font_Color: hsl(0, 0%, 93%);
+  --Font_Color_Disabled: hsl(0, 0%, 50%);
+  --Font_Color_Label: hsl(0, 0%, 73%);
+  --Font_Color_Error: hsl(0, 100%, 48%);
+  --Font_Color_Success: hsl(120, 100%, 25%);
+  --Font_Color_Warning: hsl(25, 100%, 40%);
+  --Font_Color_Link: hsl(201, 100%, 80%);
+}
 
-  --On_Background: #ffffff;
-  --On_Surface: #ffffff;
-  --On_Primary: #000000;
-  --On_Secondary:#000000;
-  --On_Error: #000000;
+/* Zoom */
+/* Zoom is equivalent to the brower's native zoom 1.0 = 100% */
+:root {
+  --Zoom: 1;
+  --Zoom_Scale: calc(1 / var(--Zoom)); /* Derived property, do not edit*/
+}
 
-  --Background_Tint: rgba(0,0,0,.5);
-  --Disabled_Tint: rgb(42, 42, 42, .6);
-
-  --Tile_Taskbar_Height: 36px;
-  --Tile_Footer_Height: 34px;
-
-  --ControlRadius: 12px;
-  --Tile_Radius: 8px;
-  --BottomRadius: 0px 0px 8px 8px;
-
-  --Header_Height: 50px;
-
-  --Playlist_Height_Collapsed: 7.65rem;
-  --Playlist_Height_Expanded: 22.25rem;
-
-  --Sidebar_Width: 0;
-  --Sidebar_Icon_Width: 72px;
-  --Sidebar_Width_Collapsed: 0px;
-  --Sidebar_Width_Expanded: 246px;
-  --Sidebar_Width_Collapsable: 246px;
-
-  --Input_Height: 36px;
-  --Input_Height_Hero: 48px;
-  --Input_Padding: 0px 12px;
-  --Input_Padding_Square: 8px;
-  --Input_Width_Square: 40px;
-  --Input-Radius: 12px;
-
-  --Theme_Color_Hover: rgba(144, 54, 48, .6);
-
-  --Outline: inset 0 0 0 2px var(--Surface_2);
-  --Outline_Primary: inset 0 0 0 2px var(--Primary_Variant);
-  --Outline_Error: inset 0 0 0 2px var(--Font_Color_Error);
-  --Outline_Error_Thick: inset 0 0 0 2px var(--Font_Color_Error);
-  --Outline_Disabled: inset 0 0 0 2px var(var(--Font_Color_Disabled));
-  --Outline_Success: inset 0 0 0 2px green;
-  --Outline_Success_Thick: inset 0 0 0 3px green;
+/* Outlines */
+/* Outlines use box shadows so as to not take up space in the document */
+:root {
+  --Outline: inset 0 0 0 2px var(--Surface);
+  --Outline_Hover: inset 0 0 0 2px var(--Surface_1);
   --Outline_Primary: inset 0 0 0 2px var(--Primary);
-  --Outline_Hover: inset 0 0 0 2px #bbb;
+  --Outline_Error: inset 0 0 0 2px var(--Font_Color_Error);
+  --Outline_Disabled: inset 0 0 0 2px var(--Font_Color_Disabled);
+  --Outline_Success: inset 0 0 0 2px var(--Font_Color_Success);
+}
 
-  --Font_Color: #111;
-  --Font_Color_Disabled: #808080;
-  --Font_Color_Label: rgb(87, 87, 87);
-  --Font_Color_Error: #F40000;
-  --Font_Color_Success: #008000;
-  --Font_Color_Warning: #cc5500;
-  --Font_Color_Link: #98dbff;
+/* Element proportions */
+:root {
+  --Header_Height: 50px;
+  --Input_Height: 36px;
+}
 
-  --Gradient_to_Left: linear-gradient(to left, rgba(255,255,255,0) 0%, rgba(255,255,255,.8) 20%, rgba(255,255,255,1) 100%);
-  --Gradient_to_Right: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,.8) 20%, rgba(255,255,255,1) 100%);
-
+/* Typography */
+:root {
+  --Font_Family: sans-serif;
   --Font_Size: 15px;
-  --Font_Size_Article: 18px;
-  --Font_Size_Title: 17px;
-  --Font_Size_Title_Large: 30px;
-  --Font_Size_Title_Section: 40px;
-  --Font_Size_Header: 24px;
-  --Font_Size_Page_Header: 50px;
-
-  --Font_Size_Icon_Large: 40px;
-  --Font_Size_Icon: 25px;
-  --Font_Size_Icon_Small: 18px;
 
   --Letter_Spacing: .04em;
   --Letter_Spacing_Title: .04em;
 
-  --Tint_Active: inset 0 0 2000px rgba(192, 12, 0, .7);
-  --Tint_Hover: inset 0 0 2000px rgba(144, 54, 48, .6);
-  --Tint_Control: inset 0 0 2000px rgba(0, 0, 0, .7);
-  --Tint_Control_Light: inset 0 0 2000px rgba(0, 0, 0, .5);
-  --Tint_Tile: inset 0 0 2000px rgba(200,200,200,0.12);
-  --Tint_Disabled_Error: inset 0 0 2000px rgba(192,12,0,0.8);
-  --Tint_Disabled: inset 0 0 2000px rgba(31,31,31,1);
-  --Tint_Background: rgba(0,0,0,0);
-
-  --Glow_Large: 0px 0px 16px 4px rgba(192,12,0,0.3);
-  --Glow: 0px 0px 8px 2px rgba(192,12,0,0.3);
-
-  --Margin: 4px;
-
-  --Blur: blur(5px);
-
-  --PageWidth: calc(100% - 2em);
-
-  --ambrosia:						#FCDBBA;
-	--apricot: 						#FF8652;
-	--aubergine: 					#6A2352;
-	--auburn: 						#A12F2F;
-	--asparagus: 					#A0C259;
-	--beetroot:						#7F0421;
-	--blue-tack: 					#82BFE0;
-	--bloom:							#363A57;
-	--blush: 							#D67B71;
-	--bronze:							#C27940;
-	--bud:								#94C15C;
-	--burnt-orange:				#FF5F00;
-	--butter:							#F2C94C;
-	--strawberry-yogurt:	#E4BCAD;
-	--carmine:						#9A133E;
-	--chocolate: 					#8F5D38;
-	--chestnut: 					#81291F;
-	--clay: 							#7D6050;
-	--conker: 						#6F3131;
-	--coral: 							#EB4444;
-	--dusty-purple: 			#7D6391;
-	--dusty-pink: 				#E4ADAD;
-	--emerald: 						#55B95F;
-	--fern:								#4F8D08;
-	--forest: 						#2E644A;
-	--fudge:							#C28742;
-	--grassy: 						#A8D363;
-	--green:							#62B90A;
-	--hazelnut: 					#D08E5A;
-	--ink:								#292C31;
-	--ivory:							#F2EFE3;
-	--lapis:							#2B4D8D;
-	--leafy:							#318553;
-	--lemon:							#EAFC7E;
-	--lime: 							#73D645;
-	--limestone:					#C9C5B5;
-	--magenta:						#BC2767;
-	--meadow:							#7A9A3E;
-	--melon:							#F2994A;
-	--midnight:						#1B3955;
-	--mink:								#E8C9A1;
-	--mint:								#C4EA70;
-	--moss:								#7DB21C;
-	--mushroom:						#EDE8D5;
-	--navy:								#363A57;
-	--orange:							#FD8A04;
-	--pale-lemon:					#F4FFDC;
-	--peach:							#FFB190;
-	--pond-bottom:				#264A46;
-	--powder-blue:				#B5D0E0;
-	--powder-pink:				#FBD1D1;
-	--primrose:						#E1F7B0;
-	--purple:							#A95AF3;
-	--purple-slate:				#545375;
-	--rainforest:					#25422E;
-	--raspberry-jam:			#3C0D2B;
-	--robins-egg:					#B8DEE0;
-	--rouge:							#CC3737;
-	--royal:							#4169E1;
-	--ruby:								#D1314B;
-	--sage:								#87A376;
-	--sakura:							#FFE4E4;
-	--sea-glass:					#7FD1AE;
-	--sea-foam:						#5D998B;
-	--sea-fog:						#758C92;
-	--slate:							#7184A5;
-	--spearmint:					#94E0CF;
-	--spring:							#5ACB65;
-	--succulent:					#83A944;
-	--twilight:						#203763;
-	--vavavoom:						#BF0D0D;
-	--white:							#FFFFFF;
-	--yellow:							#FFE03D;
-	
-	--trans: transparent;
-	--trans05: rgba(255,255,255,0.05);
-	--trans1: rgba(255,255,255,0.1);
-	--trans2: rgba(255,255,255,0.2);
-	--trans4: rgba(255,255,255,0.4);
+  --Page_Width: calc(100% - 2em);
 }
 
-@media screen and (max-width: 800px) {
+/* Breakpoints */
+:root {
+  --Mobile: 480px;
+  --Tablet: 768px;
+  --Laptop_Small: 1024px;
+  --Laptop_Large: 1200px;
+  --Desktop: 1600px;
+  --Desktop_Large: 1920px;
+}
+@media only screen and (max-width: var(--Mobile)) {
   :root {
-    --PageWidth: calc(100% - 2em);
+    --Page_Width: calc(100% - 2em);
     --Font_Size_Page_Header: 40px;
     --Font_Size_Title_Section: 28px;
     --Font_Size_Title_Large: 24px;
@@ -281,20 +79,128 @@ html {
     --Font_Size_Article: 18px;
   }
 }
-
-@media screen and (min-width: 1333px) {
+@media only screen and (max-width: var(--Tablet)) {
   :root {
-    --PageWidth: 80%;
+
   }
 }
-
-@media screen and (min-width: 1600px) {
+@media only screen and (max-width: var(--Laptop_Small)) {
   :root {
-    --PageWidth: 65%;
+    --Page_Width: 80%;
+  }
+}
+@media only screen and (max-width: var(--Large_Laptop)) {
+  :root {
+    
+  }
+}
+@media only screen and (max-width: var(--Desktop)) {
+  :root {
+    --Page_Width: 65%;
     --Font_Size_Page_Header: 55px;
   }
 }
+@media only screen and (min-width: var(--Desktop_Large)) {
+  :root {
+    
+  }
+}
 
-.storybook {
+html, body {
   font-family: sans-serif;
+}
+
+*:focus {
+  outline: none;
+}
+
+/* Scrollbars */
+::-webkit-scrollbar {
+  width: 1rem;
+  height: 1rem;
+}
+::-webkit-scrollbar-track {
+  background: var(--Background_Alternating);
+  border-radius: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--Surface_1);
+  border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--Surface_1);
+}
+::-webkit-scrollbar-thumb:active {
+  background: var(--Surface_1);
+}
+::-webkit-scrollbar-corner {
+  background: var(--Background);
+}
+
+/* Number Input */
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button {  
+  opacity: 1;
+}
+
+/* Selection */
+::selection {
+	background-color: var(--Surface_2);
+	color: var(--Font_Color);
+}
+::-moz-selection { /*** Mozilla based browsers ***/
+	background-color: var(--Surface_2);
+	color: var(--Font_Color);
+}
+::-o-selection { /***For Other Browsers ***/
+	background-color: var(--Surface_2);
+	color: var(--Font_Color);
+}
+::-webkit-selection {
+	background-color: var(--Surface_2);
+	color: var(--Font_Color);
+}
+
+/* CSS Reset for consistent cross-browser styling */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
 }
