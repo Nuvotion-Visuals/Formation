@@ -14,8 +14,5 @@ module.exports = {
     'storybook-mobile'
   ],
   "framework": "@storybook/react",
+  staticDirs: ['./public']
 }
-
-module.exports = {
-  staticDirs: ['./public'],
-};
