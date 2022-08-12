@@ -25,6 +25,16 @@ export const Theme = ({  }: Props) => {
     '--Outline_Success'
   ]
 
+  const fontColors = [
+    '--Font_Color',
+    '--Font_Color_Label',
+    '--Font_Color_Disabled',
+    '--Font_Color_Error',
+    '--Font_Color_Success',
+    '--Font_Color_Warning',
+    '--Font_Color_Link'
+  ]
+
   return (
     <S.Theme>
       <S.H1>Theming With CSS Variables</S.H1>
@@ -91,7 +101,30 @@ export const Theme = ({  }: Props) => {
           
         )
       }
+    </S.Table>
 
+    <S.H2>Typography</S.H2>
+    <S.Table>
+      <tr>
+        <th>CSS Variable</th>
+        <th>Value</th>
+      </tr>
+      {
+        fontColors.map(fontColor =>
+          <tr>
+            <S.Label>{
+              fontColor
+            }</S.Label>
+            <td><S.Color fontColor={fontColor}>
+            
+            {
+              getComputedStyle(document.documentElement).getPropertyValue(fontColor)
+            }
+          </S.Color></td>
+          </tr>
+          
+        )
+      }
     </S.Table>
     </S.Theme>
   )
@@ -99,13 +132,14 @@ export const Theme = ({  }: Props) => {
 
 interface ColorProps {
   background?: string,
-  outline?: string
+  outline?: string,
+  fontColor?: string
 }
 
 const S = {
   H1: styled.h1`
     font-size: 20px;
-    padding-bottom: 1.75rem;
+    padding-bottom: 1.5rem;
   `,
   H2: styled.h2`
     font-size: var(--Font_Size_Title);
@@ -134,7 +168,7 @@ const S = {
     padding: 0 1rem;
     /* justify-content: center; */
     background: ${props => props.background ? `var(${props.background})` : null};
-    color: var(--Font_Color);
+    color: ${props => props.fontColor ? `var(${props.fontColor})` : 'var(--Font_Color)'};
     box-shadow: ${props => props.outline ? `var(${props.outline})` : null};
     font-family: monospace;
   `,

@@ -2,10 +2,7 @@ import React from 'react'
 
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { Button } from '../components/Button/Button'
 import { Theme as MyTheme } from './Theme'
-import { Empty } from '../components/Empty/Empty'
-import { AspectRatio } from '../components/AspectRatio/AspectRatio'
 
 export default {
   title: 'Theme',
@@ -14,11 +11,8 @@ export default {
 
 const Template: ComponentStory<typeof MyTheme> = args => 
   <MyTheme>
-    <AspectRatio ratio={1}>
-      <Empty />
-    </AspectRatio>
-  </MyTheme>
 
+  </MyTheme>
 
 export const Theme = Template.bind({})
 Theme.args = {
