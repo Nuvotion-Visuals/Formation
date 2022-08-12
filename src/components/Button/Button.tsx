@@ -2,6 +2,7 @@ import React, { FC } from 'react'
 import styled, { keyframes, css } from 'styled-components'
 
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
+import { SizeProp } from '@fortawesome/fontawesome-svg-core' // type coersion needed until FA SizeProp defintion is fixed to include "xl"
 
 import { Icon } from '../Icon/Icon'
 
@@ -73,7 +74,11 @@ export const Button: FC<Props> = React.memo(({
                 iconPrefix={iconPrefix ? iconPrefix : 'far'} 
                 icon={icon}  
                 rotation={rotate ? 90 : undefined}
-                size={hero ? 'xl' : '1x'} 
+                size={
+                  hero 
+                    ? ('xl' as SizeProp) // type coersion needed until FA SizeProp defintion is fixed to include "xl"
+                    : '1x'
+                  } 
                 fixedWidth
               />
             : null
