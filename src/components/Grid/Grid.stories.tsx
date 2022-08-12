@@ -7,7 +7,7 @@ import { Empty } from '../Empty/Empty'
 import { Grid } from './Grid'
 
 export default {
-  title: 'Components/Grid',
+  title: 'Layout/Grid',
   component: Grid,
 } as ComponentMeta<typeof Grid>
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-type AspectRatioType = {
+export interface Props {
   children: React.ReactNode,
   ratio: number,
   backgroundSrc?: string,
@@ -15,7 +15,7 @@ export const AspectRatio = ({
   backgroundSrc,
   backgroundColor,
   coverBackground
-} : AspectRatioType) => {
+} : Props) => {
   return (
     <S.AspectRatio 
       ratio={`${100 / ratio}%`} 

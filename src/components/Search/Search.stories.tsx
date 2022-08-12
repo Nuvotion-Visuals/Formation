@@ -6,7 +6,7 @@ import { Button } from '../Button/Button'
 import { Search } from './Search'
 
 export default {
-  title: 'Components/Search',
+  title: 'Input/Search',
   component: Search,
 } as ComponentMeta<typeof Search>
 

@@ -4,7 +4,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react'
 import { ListEditor } from './ListEditor'
 
 export default {
-  title: 'Components/ListEditor',
+  title: 'AdvancedInput/ListEditor',
   component: ListEditor,
 } as ComponentMeta<typeof ListEditor>
 

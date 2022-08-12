@@ -4,7 +4,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react'
 import { Location } from './Location'
 
 export default {
-  title: 'Components/Location',
+  title: 'Input/Location',
   component: Location,
 } as ComponentMeta<typeof Location>
 

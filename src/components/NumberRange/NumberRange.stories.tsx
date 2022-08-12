@@ -5,7 +5,7 @@ import { NumberRange } from './NumberRange'
 
 
 export default {
-  title: 'Components/NumberRange',
+  title: 'Input/NumberRange',
   component: NumberRange,
 } as ComponentMeta<typeof NumberRange>
 

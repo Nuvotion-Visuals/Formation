@@ -11,7 +11,7 @@ import { Gap } from '../Gap/Gap'
 
 
 export default {
-  title: 'Components/Auth',
+  title: 'Auth/Auth',
   component: Auth,
 } as ComponentMeta<typeof Auth>
 

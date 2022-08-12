@@ -5,7 +5,7 @@ import { Radio } from './Radio'
 
 
 export default {
-  title: 'Components/Radio',
+  title: 'Input/Radio',
   component: Radio,
 } as ComponentMeta<typeof Radio>
 

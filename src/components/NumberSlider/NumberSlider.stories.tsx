@@ -5,7 +5,7 @@ import { NumberSlider } from './NumberSlider'
 
 
 export default {
-  title: 'Components/NumberSlider',
+  title: 'Input/NumberSlider',
   component: NumberSlider,
 } as ComponentMeta<typeof NumberSlider>
 

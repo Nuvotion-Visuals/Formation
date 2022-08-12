@@ -1,12 +1,10 @@
 import React, { useState } from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import RichTextEditor from 'react-rte';
-
 import { RichText } from './RichText'
 
 export default {
-  title: 'Components/RichText',
+  title: 'Input/RichText',
   component: RichText,
 } as ComponentMeta<typeof RichText>
 
