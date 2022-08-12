@@ -15,3 +15,7 @@ module.exports = {
   ],
   "framework": "@storybook/react",
 }
+
+module.exports = {
+  staticDirs: ['./public'],
+};
