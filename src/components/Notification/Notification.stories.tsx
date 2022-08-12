@@ -4,7 +4,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react'
 import { Notification } from './Notification'
 
 export default {
-  title: 'Formation/Notification',
+  title: 'Components/Notification',
   component: Notification,
 } as ComponentMeta<typeof Notification>
 

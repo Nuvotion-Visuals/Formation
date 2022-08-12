@@ -4,7 +4,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react'
 import { Select } from './Select'
 
 export default {
-  title: 'Formation/Select',
+  title: 'Components/Select',
   component: Select,
 } as ComponentMeta<typeof Select>
 

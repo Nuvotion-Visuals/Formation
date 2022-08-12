@@ -6,7 +6,7 @@ import { Button } from '../Button/Button'
 import { Break } from './Break'
 
 export default {
-  title: 'Formation/Break',
+  title: 'Components/Break',
   component: Break,
 } as ComponentMeta<typeof Break>
 

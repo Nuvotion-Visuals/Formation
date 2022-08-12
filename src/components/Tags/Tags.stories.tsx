@@ -6,7 +6,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react'
 import { Tags } from './Tags'
 
 export default {
-  title: 'Formation/Tags',
+  title: 'Components/Tags',
   component: Tags,
 } as ComponentMeta<typeof Tags>
 

@@ -4,7 +4,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react'
 import { LoadingSpinner } from './LoadingSpinner'
 
 export default {
-  title: 'Formation/LoadingSpinner',
+  title: 'Components/LoadingSpinner',
   component: LoadingSpinner,
 } as ComponentMeta<typeof LoadingSpinner>
 

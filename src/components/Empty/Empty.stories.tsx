@@ -6,7 +6,7 @@ import { Empty } from './Empty'
 import { AspectRatio } from '../AspectRatio/AspectRatio'
 
 export default {
-  title: 'Formation/Empty',
+  title: 'Components/Empty',
   component: Empty,
 } as ComponentMeta<typeof Empty>
 

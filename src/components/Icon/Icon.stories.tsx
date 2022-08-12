@@ -4,7 +4,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react'
 import { Icon } from './Icon'
 
 export default {
-  title: 'Formation/Icon',
+  title: 'Components/Icon',
   component: Icon,
 } as ComponentMeta<typeof Icon>
 

@@ -7,7 +7,7 @@ import { Empty } from '../Empty/Empty'
 import { Grid } from './Grid'
 
 export default {
-  title: 'Formation/Grid',
+  title: 'Components/Grid',
   component: Grid,
 } as ComponentMeta<typeof Grid>
 

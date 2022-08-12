@@ -4,7 +4,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react'
 import { Ripple } from './Ripple'
 
 export default {
-  title: 'Formation/Ripple',
+  title: 'Components/Ripple',
   component: Ripple,
 } as ComponentMeta<typeof Ripple>
 

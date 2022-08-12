@@ -6,7 +6,7 @@ import { Button } from '../Button/Button'
 import { Gap } from './Gap'
 
 export default {
-  title: 'Formation/Gap',
+  title: 'Components/Gap',
   component: Gap,
 } as ComponentMeta<typeof Gap>
 

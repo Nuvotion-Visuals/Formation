@@ -4,7 +4,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react'
 import { TimeZone } from './TimeZone'
 
 export default {
-  title: 'Formation/TimeZone',
+  title: 'Components/TimeZone',
   component: TimeZone,
 } as ComponentMeta<typeof TimeZone>
 

@@ -5,7 +5,7 @@ import { NumberSlider } from './NumberSlider'
 
 
 export default {
-  title: 'Formation/NumberSlider',
+  title: 'Components/NumberSlider',
   component: NumberSlider,
 } as ComponentMeta<typeof NumberSlider>
 

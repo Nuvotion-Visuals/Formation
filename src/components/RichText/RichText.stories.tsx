@@ -6,7 +6,7 @@ import RichTextEditor from 'react-rte';
 import { RichText } from './RichText'
 
 export default {
-  title: 'Formation/RichText',
+  title: 'Components/RichText',
   component: RichText,
 } as ComponentMeta<typeof RichText>
 

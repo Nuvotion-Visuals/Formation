@@ -6,7 +6,7 @@ import { Button } from '../Button/Button'
 import { Spacer } from './Spacer'
 
 export default {
-  title: 'Formation/Spacer',
+  title: 'Components/Spacer',
   component: Spacer,
 } as ComponentMeta<typeof Spacer>
 
