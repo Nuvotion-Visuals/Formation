@@ -82,8 +82,6 @@ const S_Flex = styled.div`
   width: 100%;
   align-items: center;
   justify-content: center;
-  /* background: var(--Background_Alternating); */
-  /* background: radial-gradient(circle at center, rgba(0,0,0,.95) 0, rgba(0,0,0,.90) 25%, rgba(0,0,0,.75) 50%, rgba(0,0,0,.0) 100%); */
 `
 
 const S_AuthContainer = styled.div`
@@ -95,13 +93,10 @@ const S_AuthContainer = styled.div`
   @media screen and (max-height: 650px) {
     padding-top: 4.25rem;
   }
-  /* margin-bottom: -1rem; */
-  
 `
 
 const S_Auth = styled.div`
   position: relative;
-  /* margin-top: calc(var(--Header_Height) + 1rem); */
   margin-bottom: 1rem;
   width: 340px;
   display: flex;
@@ -117,11 +112,8 @@ const S_Auth = styled.div`
 `
 
 const S_Logo = styled.img`
-  
   width: 48px;
   height: 48px;
-  
- 
 `
 
 const S_LogoContainer = styled.div`

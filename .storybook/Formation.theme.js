@@ -5,7 +5,7 @@ import logo from '../logo-white.svg'
 export const FormationTheme = create({
   base: 'dark',
 
-  colorPrimary: 'rgba(255,255,255,0.9)',
+  colorPrimary: 'hsl(0, 0%, 50%)',
   colorSecondary: 'hsl(0, 0%, 34%)',
 
   // UI
@@ -20,11 +20,11 @@ export const FormationTheme = create({
 
   // Text colors
   textColor: 'rgba(255,255,255,0.9)',
-  textInverseColor: 'rgba(255,255,255,0.9)',
+  textInverseColor: 'rgba(255,255,255,0.1)',
 
   // Toolbar default and active colors
   barTextColor: 'rgba(255,255,255,0.9)',
-  barSelectedColor: 'rgba(255,255,255,0.9)',
+  barSelectedColor: 'hsl(0, 0%, 90%)',
   barBg: 'hsl(0, 0%, 10%)',
 
   // Form colors
