@@ -48,14 +48,14 @@ import {
   faSortAlphaDown as fasSortAlphaDown, faFilter as fasFilter,
   faSortAlphaUp as fasSortAlphaUp, faCalendarAlt as fasCalendarAlt, faChevronCircleRight, faChevronCircleLeft,
   faCheck, faTimes, faExclamationTriangle, faInfoCircle, faChevronDown, faChevronUp,
-  faEnvelope, faMapPin, faLock, faUser, faGlobe, faUsers, faPlus,
+  faEnvelope, faMapPin, faLock, faUser, faGlobe, faUsers, faPlus, faBars
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
   faHeart, faPaperPlane, faFolderBlank, faPlusSquare, fasHeart,
   fasEllipsisVertical, fasTimes, fasPlus, fasSearch, fasSortAlphaDown,
   fasFilter, fasSortAlphaUp, fasCalendarAlt, faSquare, faCheckSquare,
-  faEnvelope, faMapPin, faLock, faUser, faGlobe, faUsers, faPlus, faBookmark,
+  faEnvelope, faMapPin, faLock, faUser, faGlobe, faUsers, faPlus, faBookmark, faBars,
   
   faChevronCircleRight, faChevronCircleLeft,
   faCheck, faTimes, faExclamationTriangle, faInfoCircle, faChevronDown, faChevronUp,
