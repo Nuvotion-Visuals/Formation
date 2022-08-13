@@ -24,10 +24,14 @@ export const NavHeader = ({
 const S = {
   NavHeader: styled.div`
     width: 100%;
-    height: var(--Header_Height);
-    background: var(--Surface_0);
+    display: flex;
+    align-items: center;
+    height: calc(var(--Header_Height) - 2px);
+    background: var(--Background);
+    border-bottom: 2px solid var(--Surface);
     position: fixed;
     top: 0;
     left: 0;
+    z-index: 20;
   `
 }

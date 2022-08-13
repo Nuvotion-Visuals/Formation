@@ -16,7 +16,7 @@ export const HamburgerMenu = ({ onClick }: Props) => {
 }
 
 const S_HamburgerMenu = styled.div`
-  width: var(--Header_Height);
+  width: var(--Sidebar_Icon_Width);
   height: var(--Header_Height);
   display: flex;
   flex-wrap: wrap;

@@ -33,6 +33,9 @@ It’s easy to picture how a less saturated version of a color would look like, 
 :root {
   --Zoom: 1;
   --Zoom_Scale: calc(1 / var(--Zoom)); /* Derived property, do not edit*/
+  --Sidebar_Width: 246px;
+  --Sidebar_Width_Expanded: 246px;
+  --Sidebar_Icon_Width: 72px;
 }
 
 /* Outlines */

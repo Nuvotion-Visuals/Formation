@@ -47,6 +47,9 @@ It’s easy to picture how a less saturated version of a color would look like, 
 :root {
   --Header_Height: 50px;
   --Input_Height: 36px;
+  --Sidebar_Width: 246px;
+  --Sidebar_Width_Expanded: 246px;
+  --Sidebar_Icon_Width: 72px;
 }
 
 /* Typography */
