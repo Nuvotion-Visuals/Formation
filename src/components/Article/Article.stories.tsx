@@ -2,6 +2,7 @@ import React from 'react'
 
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
+import { Page } from '../Page/Page'
 import { Article } from './Article'
 
 export default {
@@ -10,6 +11,7 @@ export default {
 } as ComponentMeta<typeof Article>
 
 const Template: ComponentStory<typeof Article> = args => 
+  <Page>
   <Article {...args}>
     <>
   <h1 id="formation">Formation</h1>
@@ -139,6 +141,7 @@ const Template: ComponentStory<typeof Article> = args =>
 </>
 
   </Article>  
+</Page>
 
 export const Regular = Template.bind({})
 Regular.args = {

@@ -1,5 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
+      
+import { Page } from '../components/Page/Page'
+import { Article } from '../components/Article/Article'
 
 interface Props {
   
@@ -37,95 +40,100 @@ export const Theme = ({  }: Props) => {
 
   return (
     <S.Theme>
-      <S.H1>Theming With CSS Variables</S.H1>
-      <S.P>
-        Formation uses CSS variables to adjust the colors, typography, and proportions of components.
-      </S.P>
+      <Page>
+        <Article>
+          <h1>Theme</h1>
+          <h2>Theming With CSS Variables</h2>
+          <p>
+            Formation uses CSS variables to adjust the colors, typography, and proportions of components.
+          </p>
 
-      <S.P>
-        To modify these properties, add them to your project's global CSS stylesheet.
-      </S.P>
+          <p>
+            To modify these properties, add them to your project's global CSS stylesheet.
+          </p>
 
-      <S.Pre>
-{`
-  :root {
-    --Primary: hotpink;
-  }
+          <pre>
+{`:root {
+  --Primary: hotpink;
+}
 `}
-      </S.Pre>
+          </pre>
 
-      <S.H2>Background Colors</S.H2>
-      <S.Table>
-      <tr>
-        <th>CSS Variable</th>
-        <th>Value</th>
-      </tr>
-      {
-        colors.map(color =>
+          <h2>Background Colors</h2>
+          <table>
           <tr>
-            <S.Label>{
-              color
-            }</S.Label>
-            <td><S.Color background={color}>
-            
-            {
-              getComputedStyle(document.documentElement).getPropertyValue(color)
-            }
-          </S.Color></td>
+            <th>CSS Variable</th>
+            <th>Value</th>
           </tr>
-          
-        )
-      }
+          {
+            colors.map(color =>
+              <tr>
+                <S.Label>{
+                  color
+                }</S.Label>
+                <td><S.Color background={color}>
+                
+                {
+                  getComputedStyle(document.documentElement).getPropertyValue(color)
+                }
+              </S.Color></td>
+              </tr>
+              
+            )
+          }
 
-    </S.Table>
+        </table>
 
-    <S.H2>Outlines</S.H2>
-    <S.Table>
-      <tr>
-        <th>CSS Variable</th>
-        <th>Value</th>
-      </tr>
-      {
-        outlines.map(outline =>
+        <h2>Outlines</h2>
+        <table>
           <tr>
-            <S.Label>{
-              outline
-            }</S.Label>
-            <td><S.Color outline={outline} >
-            
-            {
-              getComputedStyle(document.documentElement).getPropertyValue(outline)
-            }
-          </S.Color></td>
+            <th>CSS Variable</th>
+            <th>Value</th>
           </tr>
-          
-        )
-      }
-    </S.Table>
+          {
+            outlines.map(outline =>
+              <tr>
+                <S.Label>{
+                  outline
+                }</S.Label>
+                <td><S.Color outline={outline} >
+                
+                {
+                  getComputedStyle(document.documentElement).getPropertyValue(outline)
+                }
+              </S.Color></td>
+              </tr>
+              
+            )
+          }
+        </table>
 
-    <S.H2>Typography</S.H2>
-    <S.Table>
-      <tr>
-        <th>CSS Variable</th>
-        <th>Value</th>
-      </tr>
-      {
-        fontColors.map(fontColor =>
+        <h2>Typography</h2>
+        <table>
           <tr>
-            <S.Label>{
-              fontColor
-            }</S.Label>
-            <td><S.Color fontColor={fontColor}>
-            
-            {
-              getComputedStyle(document.documentElement).getPropertyValue(fontColor)
-            }
-          </S.Color></td>
+            <th>CSS Variable</th>
+            <th>Value</th>
           </tr>
-          
-        )
-      }
-    </S.Table>
+          {
+            fontColors.map(fontColor =>
+              <tr>
+                <S.Label>{
+                  fontColor
+                }</S.Label>
+                <td><S.Color fontColor={fontColor}>
+                
+                {
+                  getComputedStyle(document.documentElement).getPropertyValue(fontColor)
+                }
+              </S.Color></td>
+              </tr>
+              
+            )
+          }
+        </table>
+        </Article>
+    </Page>
+
     </S.Theme>
   )
 }
@@ -171,27 +179,6 @@ const S = {
     color: ${props => props.fontColor ? `var(${props.fontColor})` : 'var(--Font_Color)'};
     box-shadow: ${props => props.outline ? `var(${props.outline})` : null};
     font-family: monospace;
-  `,
-  Table: styled.table`
-    color: var(--Font_Color);
-    margin-bottom: 2rem;
-    /* border: 2px solid var(--Surface); */
-    th {
-      padding: 1rem;
-      border: 1px solid var(--Surface);
-    }
-    td {
-      /* padding: 0 1rem; */
-    /* border: 2px solid var(--Surface); */
-      padding: .75rem;
-    border: 1px solid var(--Surface);
-
-    }
-    tr {
-    border: 1px solid var(--Surface);
-
-      /* border: 2px solid var(--Surface); */
-    }
   `,
   Label: styled.div`
     font-family: monospace;
