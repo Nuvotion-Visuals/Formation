@@ -18,3 +18,6 @@ export const Theme = Template.bind({})
 Theme.args = {
 
 }
+Theme.parameters = {
+  layout: 'fullscreen'
+}
