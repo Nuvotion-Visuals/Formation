@@ -8,156 +8,7 @@ interface Props {
   open: boolean
 }
 
-export const NavBar = ({ onClose, open }: Props) => {
-
-  return (<>
-    <S.Sidebar>
-
-
-  
-    <S.Sidebar2>
-      <Sidebar3 />
-    </S.Sidebar2>
-
-
-    </S.Sidebar>
-    <S.Backdrop 
-      hide={open}
-      onClick={() => !open ? onClose() : null}
-    />
-  </>)
-}
-
-interface BackdropProps {
-  hide: boolean
-}
-
-const S = {
-  Sidebar: styled.div`
-    width: var(--Sidebar_Width);
-    display: flex;
-    height: calc(100vh * var(--Zoom_Scale));
-
-    a {
-      text-decoration: none;
-    }
-
-    @media screen and (max-width: 1333px) {
-      position: fixed;
-      left: 0;
-      top: var(--Header_Height);
-      z-index: 4;
-    }
-  `,
-  Backdrop: styled.div<BackdropProps>`
-    display: ${props => props.hide ? 'none' : 'flex'};
-
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: calc(100vw * var(--Zoom_Scale));
-    height: calc(100vh * var(--Zoom_Scale));
-    background: rgb(0, 0, 0, .4);
-    z-index: 3;
-    @media screen and (min-width: 1333px) {
-      display: none;
-    }
-  `,
-  Sidebar2: styled.div`
-
-    top: 0;
-    /* position: fixed; */
-    width: var(--Sidebar_Width);
-    height: calc(100vh * var(--Zoom_Scale));
-    overflow-y: auto;
-    overflow-x: hidden;
-    user-select: none;
-    z-index: 3;
-    ::-webkit-scrollbar {
-      width: 0;
-    }
-
-    &:hover {
-      ::-webkit-scrollbar {
-        width: .75rem;
-      }
-    }
-  `,
-  SidebarContent: styled.div`
-    height: 100%;
-    background: var(--Background);
-    border-right: 2px solid var(--Surface);
-  `,
-  NavOptions: styled.div`
-    width: 100%;
-  `,
-  NavOption: styled.div`
-    cursor: pointer;
-    background: ${props => props.active ? 'var(--Surface)' : 'none'};
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: ${props => props.expanded ? 'auto' : 'center'};
-    align-items: center;
-    height: ${props => props.expanded ? '46px' : 'var(--Sidebar_Icon_Width)'};
-    width: 100%;
-
-    * {
-      color: ${props => props.active ? 'var(--Font_Color)' : 'auto'};
-    }
-
-    div {
-      color: ${props => props.active ? 'var(--Font_Color)' : 'var(--Font_Color)'};
-    }
-
-    &:hover {
-      background: ${props => props.active ? 'var(--Surface)' : 'var(--Surface_1)'};
-      * {
-        color: var(--Font_Color);
-      }
-    }
-  `,
-  NavContent: styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: ${props => props.expanded ? '0' : '8px'};
-    height: ${props => props.expanded ? '100%' : 'auto'};
-    align-items: ${props => props.expanded ? 'center' : 'auto'};
-  `,
-  IconContainer: styled.div`
-    width: var(--Sidebar_Icon_Width);
-    display: flex;
-    justify-content: center;
-  `,
-  Text: styled.div`
-    font-size: ${props => props.shrink ? '12px' : 'var(--Font_Size)'};
-    letter-spacing: var(--Letter_Spacing_Title);
-    /* font-weight: ${props => props.active ? '600' : '400'}; */
-  `,
-  Spacer: styled.div`
-    width: 100%;
-    height: 2px;
-    margin: .5rem 0;
-    background: var(--Surface);
-  `,
-  Title: styled.div`
-    text-transform: uppercase;
-    color: var(--Font_Color_Label);
-    font-weight: 600;
-    padding: .5rem 0;
-    padding-left: 1.5rem;
-    padding-bottom: .5rem;
-    font-size: var(--Font_Size);
-  `,
-  SocialContainer: styled.div`
-    width: calc(100% - 2rem);
-    padding: 0 1rem;
-  `
-}
-
-
-
-const Sidebar3 = ({  }) => {
+export const Sidebar = ({ onClose, open }: Props) => {
   const navs = [
     {
       type: 'nav',
@@ -180,7 +31,7 @@ const Sidebar3 = ({  }) => {
       href: '/app',
       active: false,
       onClickFunction: ()=> {
-       
+      
       }
     },
     {
@@ -314,7 +165,7 @@ const Sidebar3 = ({  }) => {
     </S.NavOption>
   )
 
-  const renderSpacer = props => (
+  const renderSpacer = () => (
     <S.Spacer />
   )
 
@@ -347,8 +198,9 @@ const Sidebar3 = ({  }) => {
         return null
     }
   }
-  
-  return (
+
+  return (<>
+    <S.Sidebar>
       <S.SidebarContent>
         <S.NavOptions>
           {
@@ -359,10 +211,138 @@ const Sidebar3 = ({  }) => {
             ) 
           }
         </S.NavOptions>
+      </S.SidebarContent>
+    </S.Sidebar>
+    <S.Backdrop 
+      hide={open}
+      onClick={() => onClose()}
+    />
+  </>)
+}
 
-      
+interface BackdropProps {
+  hide: boolean
+}
 
-    </S.SidebarContent>
-  )
+const S = {
+  Sidebar: styled.div`
+    width: var(--Sidebar_Width);
+    display: flex;
+    height: calc(calc(100vh - var(--Header_Height)) * var(--Zoom_Scale));
+    padding-top: var(--Header_Height);
+    a {
+      text-decoration: none;
+    }
+
+    @media screen and (max-width: 1024px) {
+      height: calc(100vh * var(--Zoom_Scale));
+      padding-top: 0;
+      position: fixed;
+      left: 0;
+      top: var(--Header_Height);
+      z-index: 4;
+    }
+  `,
+  Backdrop: styled.div<BackdropProps>`
+    display: ${props => props.hide ? 'flex' : 'none'};
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: calc(100vw * var(--Zoom_Scale));
+    height: calc(100vh * var(--Zoom_Scale));
+    background: rgb(0, 0, 0, .4);
+    z-index: 3;
+    @media screen and (min-width: 1024px) {
+      display: none;
+    }
+  `,
+  SidebarContent: styled.div`
+    height: 100%;
+    background: var(--Background);
+    border-right: 2px solid var(--Surface);
+    top: 0;
+    /* position: fixed; */
+    width: var(--Sidebar_Width);
+    height: calc(100vh * var(--Zoom_Scale));
+    overflow-y: auto;
+    overflow-x: hidden;
+    user-select: none;
+    z-index: 3;
+    ::-webkit-scrollbar {
+      width: 0;
+    }
+
+    &:hover {
+      ::-webkit-scrollbar {
+        width: .75rem;
+      }
+    }
+  `,
+  NavOptions: styled.div`
+    width: 100%;
+    padding-top: .5rem;
+  `,
+  NavOption: styled.div`
+    cursor: pointer;
+    background: ${props => props.active ? 'var(--Surface)' : 'none'};
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: ${props => props.expanded ? 'auto' : 'center'};
+    align-items: center;
+    height: ${props => props.expanded ? '46px' : 'var(--Sidebar_Icon_Width)'};
+    width: 100%;
+
+    * {
+      color: ${props => props.active ? 'var(--Font_Color)' : 'auto'};
+    }
+
+    div {
+      color: ${props => props.active ? 'var(--Font_Color)' : 'var(--Font_Color)'};
+    }
+
+    &:hover {
+      background: ${props => props.active ? 'var(--Surface)' : 'var(--Surface)'};
+      * {
+        color: var(--Font_Color);
+      }
+    }
+  `,
+  NavContent: styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: ${props => props.expanded ? '0' : '8px'};
+    height: ${props => props.expanded ? '100%' : 'auto'};
+    align-items: ${props => props.expanded ? 'center' : 'auto'};
+  `,
+  IconContainer: styled.div`
+    width: var(--Sidebar_Icon_Width);
+    display: flex;
+    justify-content: center;
+  `,
+  Text: styled.div`
+    font-size: ${props => props.shrink ? '12px' : 'var(--Font_Size)'};
+    letter-spacing: var(--Letter_Spacing_Title);
+    /* font-weight: ${props => props.active ? '600' : '400'}; */
+  `,
+  Spacer: styled.div`
+    width: 100%;
+    height: 2px;
+    margin: .5rem 0;
+    background: var(--Surface);
+  `,
+  Title: styled.div`
+    text-transform: uppercase;
+    color: var(--Font_Color_Label);
+    font-weight: 600;
+    padding: .5rem 0;
+    padding-left: 1.5rem;
+    padding-bottom: .5rem;
+    font-size: var(--Font_Size);
+  `,
+  SocialContainer: styled.div`
+    width: calc(100% - 2rem);
+    padding: 0 1rem;
+  `
 }
 

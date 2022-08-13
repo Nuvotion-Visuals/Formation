@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 import { NavHeader } from '../NavHeader/NavHeader'
 import { HamburgerMenu } from '../HamburgerMenu/HamburgerMenu'
-import { NavBar } from '../NavBar/NavBar'
+import { Sidebar } from '../Sidebar/Sidebar'
 import { NavLogo } from '../NavLogo/NavLogo'
 
 interface Props {
@@ -27,7 +27,7 @@ export const Navigation = ({  }: Props) => {
       <HamburgerMenu onClick={() => set_open(!open)}/>
       <NavLogo src="logo-white.svg"/>
     </NavHeader>
-    <NavBar onClose={() => set_open(false)} open={open} />
+    <Sidebar onClose={() => set_open(false)} open={open} />
   </>
 )
 }

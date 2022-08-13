@@ -1,14 +1,14 @@
 import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { NavBar } from './NavBar'
+import { Sidebar } from './Sidebar'
 
 export default {
-  title: 'Navigation/NavBar',
-  component: NavBar,
-} as ComponentMeta<typeof NavBar>
+  title: 'Navigation/Sidebar',
+  component: Sidebar,
+} as ComponentMeta<typeof Sidebar>
 
-const Template: ComponentStory<typeof NavBar> = (args) => <NavBar {...args} />
+const Template: ComponentStory<typeof Sidebar> = (args) => <Sidebar {...args} />
 
 export const Regular = Template.bind({})
 Regular.args = {

@@ -12,7 +12,6 @@ export const NavLogo = ({ src }: Props) => {
       
       </S.NavLogo>
     </S.Link>
-   
   )
 }
 
