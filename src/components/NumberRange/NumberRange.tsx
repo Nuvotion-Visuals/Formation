@@ -20,8 +20,7 @@ export const NumberRange = ({ value, min, max, onChange } : Props) => {
 
   return (
     <S.Container>
-      <S.RangeSliderContainer>
-        <S.NumberInput
+        <S.NumberRange
           type='number'
           value={value[0]}
           onChange={(e) => handleChange(Number(e.target.value), 0)}
@@ -33,12 +32,11 @@ export const NumberRange = ({ value, min, max, onChange } : Props) => {
           onChange={value => typeof value === 'number' ? null: onChange(value)} 
           range
         />
-        <S.NumberInput 
+        <S.NumberRange 
           type='number' 
           value={value[1]} 
           onChange={(e) => handleChange(Number(e.target.value), 1)}
         />
-      </S.RangeSliderContainer>
     </S.Container>
   )
 }
@@ -50,33 +48,20 @@ const S = {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: auto;
-    height: auto;
     width: 100%;
-    border-radius: 16px;
   `,
-  RangeSliderContainer: styled.div`
+  NumberRange: styled.input`
     display: flex;
     align-items: center;
     justify-content: center;
-    width: calc(100% - 16px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  `,
-  NumberInput: styled.input`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
+    width: 2rem;
     -webkit-appearance: none; 
     margin: 0;
-    font-size: 16px;
+    font-size: var(--Font_Size);
     border: none;
     color: var(--Font_Color);
     background: none;
     text-align: center;
-
     &::-webkit-inner-spin-button, ::-webkit-outer-spin-button { 
       -webkit-appearance: none; 
       margin: 0; 
@@ -84,11 +69,11 @@ const S = {
   `,
   Range: styled(Slider)`
     position: relative;
-    height: 12px;
-    margin: 8px 0;
-    padding: 5px 0;
+    height: .75rem;
+    margin: .5rem 0;
+    padding: .25rem 0;
     width: 100%;
-    border-radius: 8px;
+    border-radius: .5rem;
     -ms-touch-action: none;
         touch-action: none;
     box-sizing: border-box;
@@ -103,24 +88,24 @@ const S = {
       position: absolute;
       width: 100%;
       background: var(--Surface_1);
-      height: 4px;
-      border-radius: 8px;
+      height: .25rem;
+      border-radius: .5rem;
       cursor: grab;
     }
     .rc-slider-track {
       position: absolute;
       left: 0;
-      height: 4px;
-      border-radius: 8px;
+      height: .25rem;
+      border-radius: .5rem;
       background: var(--Primary_Variant);
     }
     .rc-slider-handle {
       position: absolute;
-      width: 16px;
-      height: 16px;
+      width: 1rem;
+      height: 1rem;
       cursor: pointer;
       cursor: -webkit-grab;
-      margin-top: -7px;
+      margin-top: -.375rem;
       cursor: grab;
       border-radius: 50%;
       background: var(--Primary_Variant);

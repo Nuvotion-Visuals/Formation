@@ -19,7 +19,6 @@ const Template: ComponentStory<typeof Tags> = args => {
       noPadding={true}
       onChange={tags => set_activeTags(tags)}
     />
-    <div style={{color: 'white'}}>{ activeTags.join(', ') }</div>
   </>
 }
 
