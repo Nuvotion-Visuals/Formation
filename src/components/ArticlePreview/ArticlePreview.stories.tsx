@@ -24,6 +24,6 @@ export const Regular = Template.bind({})
 Regular.args = {
   title: 'Learn How to Contribute to Formation',
   previewSrc: 'https://user-images.githubusercontent.com/18317587/184470102-db7c9a55-123a-4cef-88f2-497ba2181864.png',
-  summary: 'Formation is an open source project. That means anyone can submit a pull request to add features of fix bugs. Learn how to make pull requests to help improve Formation',
+  summary: 'Formation is an open source project. Learn how you can submit a pull request to add features or fix bugs.',
   href: '/?path=/story/article-article--regular'
 }

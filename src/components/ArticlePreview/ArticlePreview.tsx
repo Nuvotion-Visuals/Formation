@@ -72,8 +72,7 @@ const S_Container = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
   width: 100%;
-  width: 900px;
-  max-width: 95vw;
+  max-width: var(--Page_Width);
 
   @media only screen and (max-width: 600px) {
     grid-template-columns: auto;

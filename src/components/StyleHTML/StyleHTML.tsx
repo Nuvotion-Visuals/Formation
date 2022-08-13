@@ -145,8 +145,17 @@ const S = {
       border-radius:.5rem;
       color: var(--Font_Color);
       margin-top: 1rem;
-      width: 100%;
       table-layout: fixed;
+      display: block;
+      max-width: 100%;
+      overflow-x: auto;
+      white-space: nowrap;
+      width: 100%;
+      
+    }
+
+    tr {
+      width: 100%;
     }
 
     td, th {
@@ -163,7 +172,10 @@ const S = {
 
     td {
       border-top: solid var(--Surface_1) 2px;
+    }
 
+    td:last-child {
+      width: 100%;
     }
 
     td:first-child, th:first-child {
