@@ -22,6 +22,7 @@ const S = {
     font-size: 16px;
     line-height: 1.5em;
     padding-bottom: 1rem;
+    color: var(--Font_Color);
     * {
       color: var(--Font_Color);
     }
@@ -97,6 +98,12 @@ const S = {
       line-height: 1.5rem;
       overflow-wrap: break-word;
       white-space: pre-wrap;
+    }
+
+    ol {
+      li {
+        list-style-type: decimal; 
+      }
     }
 
     li {
@@ -187,5 +194,28 @@ const S = {
 
     tr:last-child td:first-child { border-radius: 0 0 0 .5rem; }
     tr:last-child td:last-child { border-radius: 0 0 .5rem 0; }
+
+    button {
+      height: var(--Input_Height);
+      background: var(--Primary);
+      padding: 0 1rem;
+      border: none;
+      font-size: var(--Font_Size);
+      border-radius: 8px;
+      margin-top: 10px;
+      cursor: pointer;
+      &:hover {
+        background: var(--Primary_Hover);
+
+      }
+      &:active {
+        background: var(--Primary_Variant);
+
+      }
+    }
+
+    mark {
+      background: var(--Primary);
+    }
   `
 }

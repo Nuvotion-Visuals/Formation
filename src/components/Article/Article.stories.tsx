@@ -143,11 +143,11 @@ const Template: ComponentStory<typeof Article> = args =>
   </Article>  
 </Page>
 
-export const Regular = Template.bind({})
-Regular.args = {
+export const README = Template.bind({})
+README.args = {
   ratio: 16/9
 }
-Regular.parameters = {
+README.parameters = {
   layout: 'fullscreen'
 }
 
