@@ -1,6 +1,6 @@
 /* Colors */
 /* The main advantage of defining colors in terms of hue, saturation and lightness (hsl) is that 
-it’s often more intuitive than defining a color only in terms of the Red, Green and Blue values. 
+it’s often more intuitive than defining a color in terms of the Red, Green and Blue values. 
 It’s easy to picture how a less saturated version of a color would look like, for example. */
 :root {
   --Primary: hsl(4, 83%, 26%);
@@ -61,16 +61,8 @@ It’s easy to picture how a less saturated version of a color would look like, 
   --Page_Width: calc(100% - 2em);
 }
 
-/* Breakpoints */
-:root {
-  --Mobile: 480px;
-  --Tablet: 768px;
-  --Laptop_Small: 1024px;
-  --Laptop_Large: 1200px;
-  --Desktop: 1600px;
-  --Desktop_Large: 1920px;
-}
-@media only screen and (max-width: var(--Mobile)) {
+/* Mobile */
+@media screen and (max-width: 480px) { 
   :root {
     --Page_Width: calc(100% - 2em);
     --Font_Size_Page_Header: 40px;
@@ -80,28 +72,30 @@ It’s easy to picture how a less saturated version of a color would look like, 
     --Font_Size_Article: 18px;
   }
 }
-@media only screen and (max-width: var(--Tablet)) {
+/* Tablet */
+@media screen and (min-width: 768px) {
   :root {
-
+    --Page_Width: calc(100% - 2em);
   }
 }
-@media only screen and (max-width: var(--Laptop_Small)) {
+/* Laptop_Small */
+@media screen and (min-width: 1024px) {
   :root {
-    --Page_Width: 80%;
+    --Page_Width: 800px;
   }
 }
-@media only screen and (max-width: var(--Large_Laptop)) {
+/* Laptop_Large */
+@media screen and (min-width: 1200px) {
   :root {
-    
   }
 }
-@media only screen and (max-width: var(--Desktop)) {
+/* Desktop */
+@media screen and (min-width: 1600px) {
   :root {
-    --Page_Width: 65%;
-    --Font_Size_Page_Header: 55px;
   }
 }
-@media only screen and (min-width: var(--Desktop_Large)) {
+/* Desktop_Large */
+@media screen and (min-width: 1920px) {
   :root {
     
   }

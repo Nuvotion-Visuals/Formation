@@ -40,7 +40,7 @@
     "test": "jest",
     "storybook": "start-storybook -p 6006",
     "storybook-build": "build-storybook",
-    "storybook-deploy": "gh-pages -d storybook-static"
+    "deploy-storybook": "gh-pages -d storybook-static"
   },
   "author": "AVsync.LIVE LLC",
   "license": "MIT",
