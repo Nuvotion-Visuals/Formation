@@ -23,8 +23,7 @@ const S = {
     line-height: 1.5em;
     padding-bottom: 1rem;
     * {
-    color: var(--Font_Color);
-
+      color: var(--Font_Color);
     }
 
     h1 {
@@ -102,7 +101,6 @@ const S = {
 
     li {
       display: list-item;
-      text-align: -webkit-match-parent;
       list-style-type: disc;
     }
 
@@ -113,6 +111,7 @@ const S = {
       font-size: var(--Font_Size);
       background: var(--Surface_0);
       padding: 1rem;
+      border-radius: .5rem;
     }
 
     blockquote {
@@ -133,7 +132,6 @@ const S = {
 
     figure {
       text-align: center;
-    
     }
     figcaption {
       font-size: var(--Font_Size);
@@ -142,27 +140,40 @@ const S = {
     }
 
     table {
+      border-collapse:separate;
+      border: solid var(--Surface_1) 2px;
+      border-radius:.5rem;
       color: var(--Font_Color);
       margin-top: 1rem;
       width: 100%;
       table-layout: fixed;
-      /* border: 1px solid var(--Surface); */
-    th {
-      padding: 1rem;
-      border: 1px solid var(--Surface_1);
-      background: var(--Surface_0);
-    }
-    td {
-      /* padding: 0 1rem; */
-    /* border: 1px solid var(--Surface); */
-      padding: .75rem;
-      border: 1px solid var(--Surface_1);
-    }
-    tr {
-      border: 1px solid var(--Surface_1);
-      /* border: 1px solid var(--Surface); */
     }
 
+    td, th {
+      border-left: solid var(--Surface_1) 2px;
+      padding: 5px;
+      padding: .75rem;
+    }
+
+    th {
+      border-top: none;
+      background: var(--Surface_0);
+      padding: 1rem;
+    }
+
+    td {
+      border-top: solid var(--Surface_1) 2px;
+
+    }
+
+    td:first-child, th:first-child {
+        border-left: none;
+    }
+
+    th:first-child { border-radius: .5rem 0 0 0; }
+    th:last-child { border-radius: 0 .5rem 0 0; }
+
+    tr:last-child td:first-child { border-radius: 0 0 0 .5rem; }
+    tr:last-child td:last-child { border-radius: 0 0 .5rem 0; }
   `
-    
 }

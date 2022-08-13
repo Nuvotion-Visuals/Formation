@@ -180,7 +180,7 @@ const S = {
     box-shadow: ${props => props.outline ? `var(${props.outline})` : null};
     font-family: monospace;
   `,
-  Label: styled.div`
+  Label: styled.td`
     font-family: monospace;
     padding: 0 .75rem;
   `
