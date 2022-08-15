@@ -3,14 +3,15 @@ import styled from 'styled-components'
 
 import { NavHeader } from '../NavHeader/NavHeader'
 import { HamburgerMenu } from '../HamburgerMenu/HamburgerMenu'
-import { Sidebar } from '../Sidebar/Sidebar'
+import { Sidebar, Navs } from '../Sidebar/Sidebar'
 import { NavLogo } from '../NavLogo/NavLogo'
 
 interface Props {
-  
+  navs: Navs,
+  navLogoSrc: string
 }
 
-export const Navigation = ({  }: Props) => {
+export const Navigation = ({ navs, navLogoSrc }: Props) => {
   const [open, set_open] = useState(true)
 
   useEffect(() => {
@@ -25,9 +26,13 @@ export const Navigation = ({  }: Props) => {
   return (<>
     <NavHeader>
       <HamburgerMenu onClick={() => set_open(!open)}/>
-      <NavLogo src="logo-white.svg"/>
+      <NavLogo src={navLogoSrc}/>
     </NavHeader>
-    <Sidebar onClose={() => set_open(false)} open={open} />
+    <Sidebar 
+      navs={navs}
+      onClose={() => set_open(false)} 
+      open={open} 
+    />
   </>
 )
 }

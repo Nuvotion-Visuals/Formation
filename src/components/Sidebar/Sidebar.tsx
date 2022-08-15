@@ -1,79 +1,33 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
+import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
+
 import { Icon } from '../Icon/Icon'
+
+interface NavProps {
+  type?: string,
+  href: string,
+  index: string,
+  title?: string,
+  icon: IconName,
+  iconPrefix?: IconPrefix,
+  name: string,
+  toolTipTitle: string,
+  active?: boolean,
+  newTab: boolean,
+  onClick: () => void
+}
+
+export type Navs = NavProps[]
 
 interface Props {
   onClose: () => void,
-  open: boolean
+  open: boolean,
+  navs: Navs
 }
 
-export const Sidebar = ({ onClose, open }: Props) => {
-  const navs = [
-    {
-      type: 'nav',
-      name: 'Home',
-      icon: 'info-circle',
-      href: '/'
-    },
-    {
-      type: 'nav',
-      name: 'Scenes',
-      icon: 'info-circle',
-      href: '/scenes',
-      toolTipTitle: 'Browse scenes to build your playlist'
-    },
-    {
-      type: 'clickNav',
-      name: 'Deck',
-      toolTipTitle: 'Perform live music visuals with the scenes in your playlist',
-      icon: 'info-circle',
-      href: '/app',
-      active: false,
-      onClickFunction: ()=> {
-      
-      }
-    },
-    {
-      type: 'nav',
-      name: 'Mosh',
-      icon: 'info-circle',
-      href: '/mosh',
-      toolTipTitle: 'Datamosh video files'
-    },
-    {
-      type: 'spacer'
-    },
-    {
-      type: 'title',
-      title: 'Learn'
-    },
-    {
-      type: 'nav',
-      name: 'Tutorials',
-      icon: 'info-circle',
-      href: '/tutorials',
-      toolTipTitle: 'Learn how to create, perform, and share live music visuals'
-    },
-    {
-      type: 'nav',
-      name: 'FAQ',
-      icon: 'info-circle',
-      href: '/faq',
-      hideWhenCollapsed: true,
-      toolTipTitle: 'Get answers about AVsync.LIVE'
-    },
-    {
-      type: 'nav',
-      name: 'Contact Us',
-      icon: 'info-circle',
-      hideWhenCollapsed: true,
-      toolTipTitle: 'Contact us on Facebook Messenger, Instagram, or Discord',
-      onClickFunction: () => {
-      }
-    }
-  ]
-
+export const Sidebar = ({ onClose, open, navs }: Props) => {
   const renderNavlink = ({ 
     href, 
     index, 
@@ -81,8 +35,8 @@ export const Sidebar = ({ onClose, open }: Props) => {
     name, 
     toolTipTitle,
     newTab,
-    onClickFunction
-  }) => {
+    onClick
+  } : NavProps) => {
 
     const renderNavOption = () => (
       <S.NavOption 
@@ -94,8 +48,8 @@ export const Sidebar = ({ onClose, open }: Props) => {
           if (window.innerWidth < 1333) {
             // setSidebarExpanded(false)
           }
-          if (onClickFunction) {
-            onClickFunction()
+          if (onClick) {
+            onClick()
           }
         }}
       >
@@ -106,7 +60,6 @@ export const Sidebar = ({ onClose, open }: Props) => {
           </S.IconContainer>
           <S.Text
             shrink={false}
-            active={false}
           >
             { name }
           </S.Text>
@@ -132,14 +85,14 @@ export const Sidebar = ({ onClose, open }: Props) => {
     icon, 
     name, 
     active, 
-    onClickFunction, 
+    onClick, 
     toolTipTitle 
-  }) => (
+  }: NavProps) => (
     <S.NavOption 
       active={active} 
       onClick={() => {
-        if (onClickFunction) {
-          onClickFunction()
+        if (onClick) {
+          onClick()
         }
         if (window.innerWidth < 1333) {
           // setSidebarExpanded(false)
@@ -150,13 +103,12 @@ export const Sidebar = ({ onClose, open }: Props) => {
       title={toolTipTitle}
     >
       
-      <S.NavContent expanded={true}>
+      <S.NavContent expanded={true} active={active}>
         <S.IconContainer>
           <Icon icon={icon} iconPrefix={active ? 'fas' : 'fas'} />
         </S.IconContainer>
         <S.Text
           shrink={!true}
-          active={active}
         >
           { name }
         </S.Text>
@@ -165,21 +117,7 @@ export const Sidebar = ({ onClose, open }: Props) => {
     </S.NavOption>
   )
 
-  const renderSpacer = () => (
-    <S.Spacer />
-  )
-
-  const renderTitle = ({ title }) => (
-    <S.Title>{ title }</S.Title>
-  )
-
-  const renderSocials = ({ title }) => (
-    <S.SocialContainer>
-      {/* <Socials /> */}
-    </S.SocialContainer>
-  )
-
-  const renderNav = props => {
+  const renderNav = (props : NavProps) => {
     const { type } = props
 
     switch(type) {
@@ -188,12 +126,9 @@ export const Sidebar = ({ onClose, open }: Props) => {
       case 'clickNav':
         return renderClickNav(props)
       case 'spacer':
-        return true ? renderSpacer(props) : null
+        return <S.Spacer />
       case 'title':
-        return true ? renderTitle(props) : null
-
-      case 'socials':
-        return renderSocials(props)
+        return <S.Title>{ props.title }</S.Title>
       default:
         return null
     }
@@ -201,13 +136,11 @@ export const Sidebar = ({ onClose, open }: Props) => {
 
   return (<>
     <S.Sidebar>
-      <S.SidebarContent>
+      <S.SidebarContent hide={!open}>
         <S.NavOptions>
           {
-            navs.map((props, index) => 
-              props.hideWhenCollapsed && !true
-                ? null
-                : renderNav(props)
+            navs.map(props => 
+              renderNav(props)
             ) 
           }
         </S.NavOptions>
@@ -222,6 +155,17 @@ export const Sidebar = ({ onClose, open }: Props) => {
 
 interface BackdropProps {
   hide: boolean
+}
+
+interface SidebarContentProps {
+  hide: boolean
+}
+interface NavContentProps {
+  expanded?: boolean,
+  active?: boolean
+}
+interface TextProps {
+  shrink?: boolean
 }
 
 const S = {
@@ -256,10 +200,10 @@ const S = {
       display: none;
     }
   `,
-  SidebarContent: styled.div`
+  SidebarContent: styled.div<SidebarContentProps>`
     height: 100%;
     background: var(--Background);
-    border-right: 2px solid var(--Surface);
+    border-right: ${props => props.hide ? 'none' : '2px solid var(--Surface)'};
     top: 0;
     /* position: fixed; */
     width: var(--Sidebar_Width);
@@ -282,7 +226,7 @@ const S = {
     width: 100%;
     padding-top: .5rem;
   `,
-  NavOption: styled.div`
+  NavOption: styled.div<NavContentProps>`
     cursor: pointer;
     background: ${props => props.active ? 'var(--Surface)' : 'none'};
     display: flex;
@@ -307,7 +251,7 @@ const S = {
       }
     }
   `,
-  NavContent: styled.div`
+  NavContent: styled.div<NavContentProps>`
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -320,10 +264,9 @@ const S = {
     display: flex;
     justify-content: center;
   `,
-  Text: styled.div`
+  Text: styled.div<TextProps>`
     font-size: ${props => props.shrink ? '12px' : 'var(--Font_Size)'};
     letter-spacing: var(--Letter_Spacing_Title);
-    /* font-weight: ${props => props.active ? '600' : '400'}; */
   `,
   Spacer: styled.div`
     width: 100%;

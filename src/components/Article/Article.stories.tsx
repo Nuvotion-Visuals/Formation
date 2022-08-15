@@ -16,8 +16,8 @@ const Template: ComponentStory<typeof Article> = args =>
     <>
   <h1 id="formation">Formation</h1>
   <p>
-    <a href="https://avsync-live.github.io/formation">Storybook</a> |
-    <a href="https://github.com/AVsync-LIVE/formation">GitHub Repository</a> |
+    <a href="https://avsync-live.github.io/formation">Storybook</a> |&nbsp;
+    <a href="https://github.com/AVsync-LIVE/formation">GitHub Repository</a> |&nbsp;
     <a href="https://www.npmjs.com/package/@avsync.live/formation">
       NPM Package
     </a>
