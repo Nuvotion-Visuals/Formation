@@ -8,7 +8,6 @@ import { Icon } from '../Icon/Icon'
 interface NavProps {
   type?: string,
   href: string,
-  index: string,
   title?: string,
   icon: IconName,
   iconPrefix?: IconPrefix,
@@ -30,37 +29,29 @@ interface Props {
 export const Sidebar = ({ onClose, open, navs }: Props) => {
   const renderNavlink = ({ 
     href, 
-    index, 
     icon, 
     name, 
     toolTipTitle,
     newTab,
     onClick
   } : NavProps) => {
-
     const renderNavOption = () => (
       <S.NavOption 
         active={false} 
         key={`navOption${name}`} 
-        expanded={true}
+        open={true}
         title={toolTipTitle}
         onClick={() => {
-          if (window.innerWidth < 1333) {
-            // setSidebarExpanded(false)
-          }
           if (onClick) {
             onClick()
           }
         }}
       >
-        
-        <S.NavContent expanded={true}>
+        <S.NavContent open={true}>
           <S.IconContainer>
             <Icon icon={icon} iconPrefix={'fas'} />
           </S.IconContainer>
-          <S.Text
-            shrink={false}
-          >
+          <S.Text>
             { name }
           </S.Text>
         </S.NavContent>
@@ -69,11 +60,10 @@ export const Sidebar = ({ onClose, open, navs }: Props) => {
 
     return (
       href
-        ? <a 
-            href={href} 
-      
-          >
-            { renderNavOption() }
+        ? <a href={href}>
+            { 
+              renderNavOption() 
+            }
           </a>
         : renderNavOption()
       
@@ -81,7 +71,6 @@ export const Sidebar = ({ onClose, open, navs }: Props) => {
   }
 
   const renderClickNav = ({ 
-    index, 
     icon, 
     name, 
     active, 
@@ -94,26 +83,22 @@ export const Sidebar = ({ onClose, open, navs }: Props) => {
         if (onClick) {
           onClick()
         }
-        if (window.innerWidth < 1333) {
-          // setSidebarExpanded(false)
-        }
       }}
       key={`navOption${name}`} 
-      expanded={true}
+      open={true}
       title={toolTipTitle}
     >
-      
-      <S.NavContent expanded={true} active={active}>
+      <S.NavContent open={true} active={active}>
         <S.IconContainer>
-          <Icon icon={icon} iconPrefix={active ? 'fas' : 'fas'} />
+          <Icon 
+            icon={icon} 
+            iconPrefix={active ? 'fas' : 'fas'} 
+          />
         </S.IconContainer>
-        <S.Text
-          shrink={!true}
-        >
+        <S.Text>
           { name }
         </S.Text>
       </S.NavContent>
-      
     </S.NavOption>
   )
 
@@ -126,7 +111,7 @@ export const Sidebar = ({ onClose, open, navs }: Props) => {
       case 'clickNav':
         return renderClickNav(props)
       case 'spacer':
-        return <S.Spacer />
+        return <S.VSpacer />
       case 'title':
         return <S.Title>{ props.title }</S.Title>
       default:
@@ -136,36 +121,31 @@ export const Sidebar = ({ onClose, open, navs }: Props) => {
 
   return (<>
     <S.Sidebar>
-      <S.SidebarContent hide={!open}>
+      <S.SidebarContent open={open}>
         <S.NavOptions>
           {
-            navs.map(props => 
-              renderNav(props)
-            ) 
+            navs.map(props => renderNav(props))
           }
         </S.NavOptions>
       </S.SidebarContent>
     </S.Sidebar>
     <S.Backdrop 
-      hide={open}
+      open={open}
       onClick={() => onClose()}
     />
   </>)
 }
 
 interface BackdropProps {
-  hide: boolean
+  open: boolean
 }
 
 interface SidebarContentProps {
-  hide: boolean
+  open: boolean
 }
 interface NavContentProps {
-  expanded?: boolean,
+  open?: boolean,
   active?: boolean
-}
-interface TextProps {
-  shrink?: boolean
 }
 
 const S = {
@@ -188,7 +168,7 @@ const S = {
     }
   `,
   Backdrop: styled.div<BackdropProps>`
-    display: ${props => props.hide ? 'flex' : 'none'};
+    display: ${props => props.open ? 'flex' : 'none'};
     position: fixed;
     left: 0;
     top: 0;
@@ -203,9 +183,8 @@ const S = {
   SidebarContent: styled.div<SidebarContentProps>`
     height: 100%;
     background: var(--Background);
-    border-right: ${props => props.hide ? 'none' : '2px solid var(--Surface)'};
+    border-right: ${props => props.open ? '2px solid var(--Surface)' : 'none'};
     top: 0;
-    /* position: fixed; */
     width: var(--Sidebar_Width);
     height: calc(100vh * var(--Zoom_Scale));
     overflow-y: auto;
@@ -231,9 +210,9 @@ const S = {
     background: ${props => props.active ? 'var(--Surface)' : 'none'};
     display: flex;
     flex-wrap: wrap;
-    justify-content: ${props => props.expanded ? 'auto' : 'center'};
+    justify-content: ${props => props.open ? 'auto' : 'center'};
     align-items: center;
-    height: ${props => props.expanded ? '46px' : 'var(--Sidebar_Icon_Width)'};
+    height: ${props => props.open ? '46px' : 'var(--Sidebar_Icon_Width)'};
     width: 100%;
 
     * {
@@ -255,20 +234,20 @@ const S = {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: ${props => props.expanded ? '0' : '8px'};
-    height: ${props => props.expanded ? '100%' : 'auto'};
-    align-items: ${props => props.expanded ? 'center' : 'auto'};
+    gap: ${props => props.open ? '0' : '.5rem'};
+    height: ${props => props.open ? '100%' : 'auto'};
+    align-items: ${props => props.open ? 'center' : 'auto'};
   `,
   IconContainer: styled.div`
     width: var(--Sidebar_Icon_Width);
     display: flex;
     justify-content: center;
   `,
-  Text: styled.div<TextProps>`
-    font-size: ${props => props.shrink ? '12px' : 'var(--Font_Size)'};
+  Text: styled.div`
+    font-size: var(--Font_Size);
     letter-spacing: var(--Letter_Spacing_Title);
   `,
-  Spacer: styled.div`
+  VSpacer: styled.div`
     width: 100%;
     height: 2px;
     margin: .5rem 0;
@@ -282,10 +261,6 @@ const S = {
     padding-left: 1.5rem;
     padding-bottom: .5rem;
     font-size: var(--Font_Size);
-  `,
-  SocialContainer: styled.div`
-    width: calc(100% - 2rem);
-    padding: 0 1rem;
   `
 }
 
