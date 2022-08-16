@@ -9,6 +9,7 @@ import { LineBreak } from '../LineBreak/LineBreak'
 import { getSuperscriptOrdinal } from '../../utils'
 
 import { DatePicker } from '../DatePicker/DatePicker'
+import { TimePicker } from '../TimePicker/TimePicker'
 
 interface DateAndTime {
   date: string,
@@ -61,7 +62,7 @@ export const DateAndTimePicker = ({
         value.map((item, index) => (
           <>
             <S.DateAndTime key={index}>
-              <Gap>
+              <Gap  gap={.75}>
                 <Gap disableWrap={true}>
                   <DatePicker
                     label={value.length > 1 ? `${index + 1}${getSuperscriptOrdinal(index + 1)} Day` : 'Date'}
@@ -85,15 +86,15 @@ export const DateAndTimePicker = ({
                 </Gap>
 
                 <Gap disableWrap={true}>
-                  <input type='time' 
-                    onChange={(e) => {
-                      setValue(index, 'startTime', e.target.value)
-                    }}
+                  <TimePicker
+                    value={item.startTime}
+                    label='Start time'
+                    onChange={newStartTime => setValue(index, 'startTime', newStartTime)}
                   />
-                  <input type='time'
-                    onChange={(e) => {
-                      setValue(index, 'endTime', e.target.value)
-                    }}
+                  <TimePicker
+                    value={item.endTime}
+                    label='End time'
+                    onChange={newEndTime => setValue(index, 'endTime', newEndTime)}
                   />
                   {
                     value.length > 1
@@ -119,7 +120,7 @@ export const DateAndTimePicker = ({
             e?.preventDefault()
             addDate()
           }}
-          text="Add day"
+          text="Add a day"
           icon={"plus"}
           expand={true}
         />
