@@ -192,7 +192,7 @@ const S = {
       props.hero && !props.square 
         ? '1rem 1.5rem 1rem 1rem' 
         : props.square
-            ? '1.5rem'
+            ? '1rem'
             : props.hasIcon
                 ? '1rem 1rem 1rem .75rem' 
                 : '1rem' 
