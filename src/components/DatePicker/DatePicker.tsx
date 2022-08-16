@@ -1,9 +1,10 @@
 import { styled } from '@storybook/theming';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { TextInput } from '../TextInput/TextInput'
 import { Icon } from '../Icon/Icon'
 import { Button } from '../Button/Button';
 import { Box } from '../Box/Box';
+import { useOnClickOutside } from '../../hooks/useOnClickOutside'
 
 const cloneDate = (date : Date) => new Date(date.valueOf())
 
@@ -100,7 +101,7 @@ const Day = ({
     <S.Day
       onMouseUp={onChange.bind(null, day)}
       selected={day.getTime() === selected.getTime()}
-      disabled={day.getMonth() !== month || isWeekend(day)}
+      disabled={day.getMonth() !== month}
     >
       {
         day.getDate()
@@ -258,6 +259,12 @@ export const DatePicker = ({
     set_displayValue(value.toLocaleDateString())
   }, [value])
 
+  const ref = useRef<HTMLDivElement | null>(null)
+
+  useOnClickOutside(ref, () => {
+    set_isOpen(false)
+  })
+
   return (
     <S.DatePicker>
       <TextInput
@@ -272,7 +279,7 @@ export const DatePicker = ({
 
       {
         isOpen
-          ? <S.DatePickerCalendar>
+          ? <S.DatePickerCalendar ref={ref}>
               <Calendar
                 onChange={newValue => onChange(newValue)}
                 value={value}
