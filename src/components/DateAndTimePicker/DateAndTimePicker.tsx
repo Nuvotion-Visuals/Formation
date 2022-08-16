@@ -56,6 +56,21 @@ export const DateAndTimePicker = ({
     )
   }
 
+  const calculateTimeDifference = (timeStart: string, timeEnd: string) => {
+    const diff = (Number(new Date("01/01/2007 " + timeEnd)) - Number(new Date("01/01/2007 " + timeStart))) / 60000
+
+    const minutes = diff % 60
+    const hours = (diff - minutes) / 60
+
+    const difference = hours > 0 
+      ? `${hours} hr${hours > 1 ? 's' : ''}` + (minutes > 0 ? ` ${minutes} min${minutes > 1 ? 's' : ''}` : '')
+      : hours === 0
+        ? `${minutes} min${minutes > 0 ? 's' : ''}`
+        : `${24 + hours} hr${24 + hours > 1 ? 's' : ''}` + (60 + minutes > 0 ? ` ${60 + minutes} min${60 + minutes > 1 ? 's' : ''}` : '')
+
+    return difference
+  }
+
   return (
     <>
       {
@@ -97,13 +112,24 @@ export const DateAndTimePicker = ({
                     onChange={newEndTime => setValue(index, 'endTime', newEndTime)}
                   />
                   {
-                    value.length > 1
-                      ? <Box width={'8.125rem'} />
+                    value.length > 1 || (item.startTime && item.endTime)
+                      ? <Box width={'8.125rem'} >
+                        {
+                          item.startTime && item.endTime
+                            ? <S.Duration>
+                                {
+                                  calculateTimeDifference(item.startTime, item.endTime)
+                                }
+                              </S.Duration>
+                            : null
+                        }
+                      </Box>
                       : null
                   }
                 </Gap>
               </Gap>
             </S.DateAndTime>
+            
             {
               index == value.length - 1
                 ? <Spacer/>
@@ -148,5 +174,10 @@ const S = {
       color: var(--Font_Color);
     }
   
+  `,
+  Duration: styled.div`
+    font-size: var(--Font_Size);
+    color: var(--Font_Color_Label);
+    text-align: center;
   `
 }
