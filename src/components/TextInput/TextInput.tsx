@@ -19,7 +19,8 @@ type Props = {
   autoFocus?: boolean,
   icon?: IconName,
   iconPrefix?: IconPrefix,
-  tooltip?: string
+  tooltip?: string,
+  onClick?: () => void
 }
 
 export const TextInput = ({ 
@@ -36,6 +37,7 @@ export const TextInput = ({
   icon,
   iconPrefix,
   tooltip,
+  onClick
 }: Props) => {
 
   const [locked, setLocked] = useState(value !== '')
@@ -48,7 +50,11 @@ export const TextInput = ({
     }
   }, [value])
 
-  return (<S.OutterContainer>
+  return (<S.OutterContainer onClick={() => {
+    if (onClick) {
+      onClick()
+    }
+  }}>
     <S.Container 
       error={error} 
       disabled={disabled} 

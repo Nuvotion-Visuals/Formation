@@ -6,6 +6,9 @@ import { Box } from '../Box/Box'
 import { Spacer } from '../Spacer/Spacer'
 import { Gap } from '../Gap/Gap'
 import { LineBreak } from '../LineBreak/LineBreak'
+import { getSuperscriptOrdinal } from '../../utils'
+
+import { DatePicker } from '../DatePicker/DatePicker'
 
 interface DateAndTime {
   date: string,
@@ -60,11 +63,12 @@ export const DateAndTimePicker = ({
             <S.DateAndTime key={index}>
               <Gap>
                 <Gap disableWrap={true}>
-                  <input type='date' 
-                    onChange={e => {
-                      setValue(index, 'date', e.target.value)
-                    }} 
+                  <DatePicker
+                    label={value.length > 1 ? `${index + 1}${getSuperscriptOrdinal(index + 1)} Day` : 'Date'}
+                    value={new Date(item?.date ? item.date : new Date())}
+                    onChange={newDate => setValue(index, 'date', newDate.toString())}
                   />
+                
                   {
                     value.length > 1
                     ? <Button
@@ -132,7 +136,7 @@ const S = {
     margin-bottom: .5rem;
 
     // temporary - replace with real components
-    input {
+    input[type="time"] {
       width: 100%;
       height: var(--Input_Height);
       padding: 0 .75rem;

@@ -232,14 +232,18 @@ const Calendar = ({
 
 interface Props {
   value: Date,
-  onChange: (arg0: Date) => void
+  label?: string,
+  onChange: (arg0: Date) => void,
+  error?: string
 }
 
 export const DatePicker = ({
   value,
-  onChange
+  onChange,
+  label,
+  error
 }: Props) => {
-  const [isOpen, set_isOpen] = useState(true)
+  const [isOpen, set_isOpen] = useState(false)
   const [displayValue, set_displayValue] = useState(value.toLocaleDateString())
 
   const updateDate = (value: string) => {
@@ -255,16 +259,16 @@ export const DatePicker = ({
   }, [value])
 
   return (
-    <>
-      <div onClick={() => set_isOpen(true)}>
-        <TextInput
-          label={'Date'}
-          icon={'calendar-alt'}
-          iconPrefix='far'
-          value={displayValue}
-          onChange={value => updateDate(value)}
-        />
-      </div>
+    <S.DatePicker>
+      <TextInput
+        label={label ? label : 'Date'}
+        icon={'calendar-alt'}
+        iconPrefix='far'
+        value={displayValue}
+        onChange={value => updateDate(value)}
+        onClick={() => set_isOpen(true)}
+        error={error}
+      />
 
       {
         isOpen
@@ -278,18 +282,23 @@ export const DatePicker = ({
             </S.DatePickerCalendar>
         : null
       }
-    </>
+    </S.DatePicker>
   )
 } 
 
 const S = {
+  DatePicker: styled.div`
+    position: relative;
+    width: 100%;
+  `,
   DatePickerCalendar: styled.div`
     position: absolute;
+    z-index: 1;
     background: var(--Background);
     border-radius: .5rem;
     padding: .5rem;
     box-shadow: var(--Outline);
-    top: 3rem;
+    top: calc(var(--Input_Height) - .25rem);
     width: 196px;
     left: 2rem;
     user-select: none;
