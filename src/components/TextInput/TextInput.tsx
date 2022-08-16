@@ -36,35 +36,56 @@ export const TextInput = ({
   icon,
   iconPrefix,
   tooltip,
-  ...props
 }: Props) => {
 
-  const [textValue, setTextValue] = useState('')
-  const [locked, setLocked] = useState(false)
-  const [focused, setFocused] = useState(false)
+  const [locked, setLocked] = useState(value !== '')
+  const [focused, setFocused] = useState(value !== '')
 
-  // const autoFocusRef = useCallback((el : any) => el && autoFocus ? el.focus() : null, [])
+  useEffect(() => {
+    if (value) {
+      setLocked(false)
+      setFocused(false)
+    }
+  }, [value])
 
   return (<S.OutterContainer>
-    <S.Container error={error} disabled={disabled} success={success}>
+    <S.Container 
+      error={error} 
+      disabled={disabled} 
+      success={success}
+    >
       <S.ErrorIconContainer>
         {
           success 
-            ? <S.IconContainer error={false}>
-                <Icon icon='check' iconPrefix='fas' fixedWidth/>
+            ? <S.IconContainer 
+              error={false}
+            >
+                <Icon 
+                  icon='check' 
+                  iconPrefix='fas' 
+                  fixedWidth
+                />
               </S.IconContainer> 
             : null
         }
         {
           error 
-            ? <S.IconContainer error={true}>
-                <Icon icon='exclamation-triangle' iconPrefix='fas'/>
+            ? <S.IconContainer 
+                error={true}
+              >
+                <Icon 
+                  icon='exclamation-triangle' 
+                  iconPrefix='fas'
+                />
               </S.IconContainer> 
             : null
         }
         {
           !error && !success && icon
-            ? <Icon icon={icon} iconPrefix='fas' />
+            ? <Icon 
+                icon={icon} 
+                iconPrefix='fas' 
+              />
             : null
         }
       </S.ErrorIconContainer>
@@ -79,12 +100,9 @@ export const TextInput = ({
         focused={focused}
         onChange={event => {
           const newValue = (event.target as HTMLInputElement).value
-
-          if (onChange) {
+          if (newValue && onChange) {
             onChange(newValue)
           }
-
-          setTextValue(newValue)
           setLocked(newValue == '')
           if (focused === true) {
             setLocked(true)
@@ -93,12 +111,12 @@ export const TextInput = ({
           }
         }}
         autoComplete={'off'}
-        onFocus={event => {
+        onFocus={() => {
           setLocked(true)
           setFocused(true)
         }}
-        onBlur={event => {
-          setLocked(textValue == '' ? false : true)
+        onBlur={() => {
+          setLocked(value == '' ? false : true)
           setFocused(false)
         }}
       />
@@ -115,8 +133,13 @@ export const TextInput = ({
 
         {
           tooltip
-            ? <S.ErrorIconContainer title={tooltip}>
-                <Icon icon={'info-circle'} iconPrefix='fas' />
+            ? <S.ErrorIconContainer 
+                title={tooltip}
+              >
+                <Icon 
+                  icon={'info-circle'} 
+                  iconPrefix='fas' 
+                />
               </S.ErrorIconContainer>
             : null
         }
@@ -125,7 +148,9 @@ export const TextInput = ({
     {
       error
         ? <S.ErrorContainer>
-            <S.Error>{ error }</S.Error>
+            <S.Error>
+              { error }
+            </S.Error>
           </S.ErrorContainer>
         : null
     }
@@ -246,7 +271,7 @@ const S = {
     
     pointer-events: none;
     background: var(--Background);
-    animation: ${props => props.locked ? css`${moveUp} .15s forwards` : 'none'};
+    animation: ${props => props.shrink ? css`${moveUp} .15s forwards` : 'none'};
   `,
   FloatingLabel: styled.div<FloatingLabelProps>`
     display: flex;

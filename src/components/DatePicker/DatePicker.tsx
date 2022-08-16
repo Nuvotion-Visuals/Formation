@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { TextInput } from '../TextInput/TextInput'
 
 const cloneDate = (date : Date) => new Date(date.valueOf())
 
@@ -49,7 +50,6 @@ const WeekHeader = () => ['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((day, index) =>
     { day }
   </span>
 )
-
 
 const buildWeeks = (date : Date) : Date[] => {
   const tempDate = cloneDate(date)
@@ -105,8 +105,6 @@ const Day = ({
   )
 }
 
-
-
 const Week = ({ 
   weekStart, 
   selected, 
@@ -156,7 +154,6 @@ const Weeks = ({
       )
     }
   </div>
-
 
 const Calendar = ({ 
   selectedDate, 
@@ -248,25 +245,6 @@ export const DatePicker = ({
     set_isFocused(false)
   }
 
-// const handleWindowMouseDown = (event) {
-//   const datepicker = ReactDOM.findDOMNode(datePicker);
-//   const calendar = ReactDOM.findDOMNode(calendar);
-
-//   if (!(calendar && datepicker)) {
-//       return;
-//   }
-
-//   const eventIsOutside =
-//       !calendar.contains(event.target) && calendar !== event.target;
-//   const eventIsOnPopoverAnchor =
-//       datepicker.contains(event.target) || datepicker === event.target;
-
-//   if (eventIsOutside && !eventIsOnPopoverAnchor) {
-//       setState({ isOpen: false });
-//   }
-// },
-
-
   let invalidDate = false
   const isInvalid = invalidDate ? ' is-invalid' : '';
   const focusClass = !invalidDate && (isFocused || isOpen) ? ' is-focused' : '';
@@ -292,104 +270,26 @@ export const DatePicker = ({
         onClick={open}
         className={'datepicker-input' + focusClass + isInvalid}
       >
-        <span className='arrow-down' />
-        <label className='datepicker-label'>From</label>
-        <input
-            type='text'
-            value={tempDate}
-            placeholder={'mm/dd/yyyy'}
-            onChange={e => updateDate(e.target.value)}
-            // onKeyDown={handleKeyDown}
-            ref={input => (input = input)}
-            className={'datepicker-value' + focusClass + isInvalid}
+        <TextInput
+          label={'Date'}
+          icon={'calendar-alt'}
+          iconPrefix='far'
+          value={tempDate}
+          onChange={value => updateDate(value)}
         />
       </div>
-      {isOpen && (
-        <div
-          className='datepicker-calendar'
-          // ref={ref => (calendar = ref)}
-        >
-          <Calendar
-            onSelect={select}
-            selectedDate={currentSelected}
-            onMonthChange={() => {
-              // input.focus()
-            }}
-          />
-        </div>
-      )}
+      
+      {
+        isOpen
+          ? <div className='datepicker-calendar'>
+              <Calendar
+                onSelect={select}
+                selectedDate={currentSelected}
+                onMonthChange={() => {}}
+              />
+            </div>
+        : null
+      }
   </div>
 )
 }
-
-// const LameDatePicker = React.createClass({
-  
-  // handleKeyDown: function(event) {
-  //     switch (event.keyCode) {
-  //         case 37:
-  //         case 38:
-  //         case 39:
-  //         case 40:
-  //             if (!event.shiftKey) {
-  //                 return;
-  //             }
-
-  //             event.preventDefault();
-
-  //             const newDate = new Date(state.currentSelected);
-
-  //             newDate.setDate(
-  //                 newDate.getDate() + daysToAdjust[event.keyCode]
-  //             );
-
-  //             setState({ currentSelected: newDate });
-
-  //             return;
-  //         case 13:
-  //             event.preventDefault();
-
-  //             const { isOpen, currentSelected } = state;
-
-  //             if (!isOpen) {
-  //                 setState({ isOpen: true });
-  //             } else {
-  //                 setState({
-  //                     isOpen: false,
-  //                     currentSelected,
-  //                     tempDate: currentSelected.toLocaleDateString()
-  //                 });
-  //             }
-  //             return;
-  //         case 9:
-  //             if (event.shiftKey || !state.isOpen) {
-  //                 return;
-  //             }
-
-  //             close();
-
-  //             return;
-  //         case 27:
-  //             close();
-
-  //             return;
-  //     }
-  // },
-
-  // handleFocus: function() {
-  //     setState({ isFocused: true });
-  // },
-
-  // handleBlur: function() {
-  //     setState({ isFocused: false });
-  // },
-
-  // open: function() {
-  //     if (state.isOpen) {
-  //         return;
-  //     }
-
-  //     setState({ isOpen: true });
-
-  //     input.focus();
-  // },
-
