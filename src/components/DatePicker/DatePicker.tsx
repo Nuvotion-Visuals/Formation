@@ -1,5 +1,9 @@
+import { styled } from '@storybook/theming';
 import React, { useEffect, useState } from 'react'
 import { TextInput } from '../TextInput/TextInput'
+import { Icon } from '../Icon/Icon'
+import { Button } from '../Button/Button';
+import { Box } from '../Box/Box';
 
 const cloneDate = (date : Date) => new Date(date.valueOf())
 
@@ -45,19 +49,23 @@ const getAllDaysInAWeek = (date : Date) : Date[] => {
   return days
 }
 
-const WeekHeader = () => ['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((day, index) =>
-  <span key={day + index} className='day-header'>
-    { day }
-  </span>
-)
+const WeekHeader = ({}) => <S.DayHeaderWrapper>
+  {
+    ['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((day, index) =>
+      <S.DayHeader key={day + index}>
+        { day }
+      </S.DayHeader>
+    )
+  }
+</S.DayHeaderWrapper>
 
 const buildWeeks = (date : Date) : Date[] => {
-  const tempDate = cloneDate(date)
+  const displayValue = cloneDate(date)
 
-  tempDate.setDate(1)
+  displayValue.setDate(1)
 
-  const month = tempDate.getMonth()
-  const weekStartDate = getFirstDayofWeek(tempDate)
+  const month = displayValue.getMonth()
+  const weekStartDate = getFirstDayofWeek(displayValue)
   const currentDate = cloneDate(weekStartDate)
   const weeks = [cloneDate(currentDate)]
 
@@ -80,28 +88,24 @@ const Day = ({
   day, 
   month, 
   selected, 
-  onSelect 
+  onChange 
 } : {
   day: Date,
   month: number,
   selected: Date,
-  onSelect: (arg0: any) => void
+  onChange: (arg0: any) => void
 }) => {
-  let className = day.getMonth() !== month || isWeekend(day) ? 'disabled' : ''
-
-  if (day.getTime() === selected.getTime()) {
-    className = 'selected';
-  }
 
   return (
-    <span
-      className={'day ' + className}
-      onMouseUp={onSelect.bind(null, day)}
+    <S.Day
+      onMouseUp={onChange.bind(null, day)}
+      selected={day.getTime() === selected.getTime()}
+      disabled={day.getMonth() !== month || isWeekend(day)}
     >
       {
         day.getDate()
       }
-    </span>
+    </S.Day>
   )
 }
 
@@ -109,14 +113,14 @@ const Week = ({
   weekStart, 
   selected, 
   month, 
-  onSelect 
+  onChange 
 } : {
   weekStart: Date,
   selected: Date,
   month: number,
-  onSelect: (arg0: any) => void
+  onChange: (arg0: any) => void
 }) => 
-  <div className='days-wrapper'>
+  <>
     {
       getAllDaysInAWeek(weekStart).map((day, i) =>
         <Day
@@ -124,24 +128,24 @@ const Week = ({
           month={month}
           day={new Date(day)}
           selected={selected}
-          onSelect={onSelect}
+          onChange={onChange}
         />
       )
     }
-  </div>
+  </>
 
 const Weeks = ({ 
   date, 
   month, 
   selected, 
-  onSelect 
+  onChange 
 } : {
   date: Date,
   month: number,
   selected: Date,
-  onSelect: (arg0: any) => void
+  onChange: (arg0: any) => void
 }) => 
-  <div>
+  <S.Weeks>
     {
       buildWeeks(date).map((day, i) =>
         <Week
@@ -149,71 +153,81 @@ const Weeks = ({
           month={month}
           weekStart={day}
           selected={selected}
-          onSelect={onSelect}
+          onChange={onChange}
         />
       )
     }
-  </div>
+  </S.Weeks>
 
 const Calendar = ({ 
-  selectedDate, 
+  value,
   onMonthChange, 
-  onSelect 
+  onChange,
+  onClose
 } : {
-  selectedDate: Date,
+  value: Date,
   onMonthChange: (arg0: Date) => void,
-  onSelect: (arg0: any) => void
+  onChange: (arg0: Date) => void,
+  onClose: () => void
 }) => {
-  const [selected, set_selected] = useState(new Date(selectedDate))
 
   const setDate = (newDate: Date) => {
     onMonthChange(newDate)
+    onChange(newDate)
   }
 
   const nextMonth = () => {
-    const clone = new Date(selected)
+    const clone = new Date(value)
 
-    clone.setMonth(selected.getMonth() + 1)
+    clone.setMonth(value.getMonth() + 1)
     setDate(clone)
   }
 
   const previousMonth = () => {
-    const clone = new Date(selected)
+    const clone = new Date(value)
 
-    clone.setMonth(selected.getMonth() - 1)
+    clone.setMonth(value.getMonth() - 1)
     setDate(clone)
   }
 
-  const year = selected.getFullYear()
-  const month = selected.toLocaleString('en-us', { month: 'long' })
+  const year = value.getFullYear()
+  const month = value.toLocaleString('en-us', { month: 'long' })
 
-  return (
-    <div>
-      <div className='month-header-wrapper'>
-        <span className='title-wrapper'>
-          <span className='month-title'>{month}</span>
-          <span className='year-title '>{year}</span>
-        </span>
-        <span className='arrow right' onClick={nextMonth}>
-          &gt;
-        </span>
-        <span className='arrow right' onClick={previousMonth}>
-          &lt;
-        </span>
-      </div>
-      <div className='day-header-wrapper'>
-        {
-          WeekHeader()
-        }
-      </div>
-      <Weeks
-        date={selected}
-        onSelect={onSelect}
-        selected={selectedDate}
-        month={selected.getMonth()}
+  return (<>
+    <S.MonthHeaderWrapper>
+      <S.Arrow onClick={previousMonth}>
+        <Icon icon='arrow-left' iconPrefix='fas' size='sm'/>
+      </S.Arrow>
+
+      <S.TitleWrapper>
+        <span className='month-title'>{ month }&nbsp;</span>
+        <span className='year-title '>{ year }</span>
+      </S.TitleWrapper>
+
+      <S.Arrow onClick={nextMonth}>
+        <Icon icon='arrow-right' iconPrefix='fas' size='sm'/>
+      </S.Arrow>
+
+    </S.MonthHeaderWrapper>
+
+    <S.DateHeaderWrapper>
+      <WeekHeader />
+    </S.DateHeaderWrapper>
+
+    <Weeks
+      date={value}
+      onChange={onChange}
+      selected={value}
+      month={value.getMonth()}
+    />
+    <Box mt={.375} mb={.25} ml={.25} mr={.25}>
+      <Button
+        text='Done'
+        expand={true}
+        onClick={onClose}
       />
-    </div>
-  )
+    </Box>
+  </>)
 }
 
 interface Props {
@@ -225,71 +239,168 @@ export const DatePicker = ({
   value,
   onChange
 }: Props) => {
-  const [isOpen, set_isOpen] = useState(false)
-  const [isFocused, set_isFocused] = useState(false)
-  const [currentSelected, set_currentSelected] = useState(value)
-  const [tempDate, set_tempDate] = useState(value.toLocaleDateString())
+  const [isOpen, set_isOpen] = useState(true)
+  const [displayValue, set_displayValue] = useState(value.toLocaleDateString())
+
+  const updateDate = (value: string) => {
+    set_displayValue(new Date(value).toLocaleDateString())
+
+    if (isValidDate(value)) {
+      onChange(new Date(value))
+    }
+  }
 
   useEffect(() => {
-    onChange(currentSelected)
-
-  }, [currentSelected])
-
-  const open = () => {
-    set_isOpen(true)
-    set_isFocused(true)
-  }
-
-  const close = () => {
-    set_isOpen(false)
-    set_isFocused(false)
-  }
-
-  let invalidDate = false
-  const isInvalid = invalidDate ? ' is-invalid' : '';
-  const focusClass = !invalidDate && (isFocused || isOpen) ? ' is-focused' : '';
-
-  const select = (value: Date) => {
-    set_isOpen(false)
-    set_currentSelected(value)
-    }
-
-    const updateDate = (value: string) => {
-      set_tempDate(new Date(value).toLocaleDateString())
-
-      if (isValidDate(value)) {
-        set_currentSelected(new Date(value))
-      }
-    }
+    set_displayValue(value.toLocaleDateString())
+  }, [value])
 
   return (
-    <div
-      className='datepicker-wrapper'
-    >
-      <div
-        onClick={open}
-        className={'datepicker-input' + focusClass + isInvalid}
-      >
+    <>
+      <div onClick={() => set_isOpen(true)}>
         <TextInput
           label={'Date'}
           icon={'calendar-alt'}
           iconPrefix='far'
-          value={tempDate}
+          value={displayValue}
           onChange={value => updateDate(value)}
         />
       </div>
-      
+
       {
         isOpen
-          ? <div className='datepicker-calendar'>
+          ? <S.DatePickerCalendar>
               <Calendar
-                onSelect={select}
-                selectedDate={currentSelected}
-                onMonthChange={() => {}}
+                onChange={newValue => onChange(newValue)}
+                value={value}
+                onMonthChange={newDate => onChange(newDate)}
+                onClose={() => set_isOpen(false)}
               />
-            </div>
+            </S.DatePickerCalendar>
         : null
       }
-  </div>
-)
+    </>
+  )
+} 
+
+const S = {
+  DatePickerCalendar: styled.div`
+    position: absolute;
+    background: var(--Background);
+    border-radius: .5rem;
+    padding: .5rem;
+    box-shadow: var(--Outline);
+    top: 3rem;
+    width: 196px;
+    left: 2rem;
+    user-select: none;
+  `,
+  DateHeaderWrapper: styled.div`
+    display: flex;
+    align-items: center;
+    margin-top: .125rem;
+    margin-bottom: .25rem;
+    padding: .125rem 0;
+  `,
+  MonthHeaderWrapper: styled.div`
+    height: 100%;
+    display: flex;
+    align-items: center;
+    font-size: var(--Font_Size);
+    padding-bottom: .25rem;
+    border-bottom: 2px solid var(--Surface);
+  `,
+  DayHeaderWrapper: styled.div`
+    display: flex;
+    border-bottom: 2px solid var(--Surface);
+  `,
+  DayHeader: styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 20px;
+    width: 28px;
+    height: 24px;
+    font-size: 11px;
+    text-align: center;
+    color: var(--Font_Color_Label);
+    font-weight: 600;
+  `,
+  Weeks: styled.div`
+    display: flex;
+    flex-wrap: wrap;
+  `,
+  Day: styled.div<{
+    selected: boolean,
+    disabled: boolean
+  }>`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 28px;
+    height: 24px;
+    font-size: 11px;
+    border-radius: .25rem;
+
+    cursor: ${props => 
+      props.disabled 
+        ? 'auto' 
+        : 'pointer'
+    };
+
+    color: ${props => 
+      props.disabled 
+        ? 'var(--Font_Color_Disabled)' 
+        : 'var(--Font_Color)'
+    };
+
+    background: ${props =>
+      props.selected
+        ? 'var(--Primary)'
+        : 'none'
+    };
+
+    &:hover {
+      color: ${props => 
+        props.disabled 
+          ? 'var(--Font_Color_Disabled)' 
+          : 'var(--Font_Color)'
+      };
+      background: ${props =>
+        props.selected
+          ? 'var(--Primary)'
+          : props.disabled
+            ? 'none'
+            : 'var(--Surface)'
+      };
+    }
+  `,
+  TitleWrapper: styled.div`
+    display: flex;
+    justify-content: center;
+    width: calc(100% - 40px);
+    color: var(--Font_Color);
+    height: 100%;
+  `,
+  YearTitle: styled.div`
+    height: 100%;
+    font-size: var(--Font_Size);
+  `,
+  Arrow: styled.div`
+    color: var(--Font_Color);
+    width: 2rem;
+    height: 100%;
+    border-radius: .25rem;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background: var(--Surface);
+    &:hover {
+      background: var(--Surface_1);
+    }
+    &:active {
+      background: var(--Surface_2);
+    }
+  `
 }
