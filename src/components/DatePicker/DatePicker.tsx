@@ -5,6 +5,8 @@ import { Icon } from '../Icon/Icon'
 import { Button } from '../Button/Button';
 import { Box } from '../Box/Box';
 import { useOnClickOutside } from '../../hooks/useOnClickOutside'
+import { Spacer } from '../Spacer/Spacer';
+import { LineBreak } from '../LineBreak/LineBreak';
 
 const cloneDate = (date : Date) => new Date(date.valueOf())
 
@@ -196,14 +198,16 @@ const Calendar = ({
 
   return (<>
     <S.MonthHeaderWrapper>
-      <S.Arrow onClick={previousMonth}>
-        <Icon icon='arrow-left' iconPrefix='fas' size='sm'/>
-      </S.Arrow>
-
       <S.TitleWrapper>
         <span className='month-title'>{ month }&nbsp;</span>
         <span className='year-title '>{ year }</span>
       </S.TitleWrapper>
+
+      <Spacer />
+
+      <S.Arrow onClick={previousMonth}>
+        <Icon icon='arrow-left' iconPrefix='fas' size='sm'/>
+      </S.Arrow>
 
       <S.Arrow onClick={nextMonth}>
         <Icon icon='arrow-right' iconPrefix='fas' size='sm'/>
@@ -211,9 +215,13 @@ const Calendar = ({
 
     </S.MonthHeaderWrapper>
 
+    <LineBreak />
+
     <S.DateHeaderWrapper>
       <WeekHeader />
     </S.DateHeaderWrapper>
+
+    <LineBreak />
 
     <Weeks
       date={value}
@@ -221,7 +229,7 @@ const Calendar = ({
       selected={value}
       month={value.getMonth()}
     />
-    <Box mt={.375} mb={.25} ml={.25} mr={.25}>
+    <Box mt={.375} mb={.125} >
       <Button
         text='Done'
         expand={true}
@@ -313,27 +321,25 @@ const S = {
   DateHeaderWrapper: styled.div`
     display: flex;
     align-items: center;
-    margin-top: .125rem;
-    margin-bottom: .25rem;
-    padding: .125rem 0;
   `,
   MonthHeaderWrapper: styled.div`
     height: 100%;
     display: flex;
     align-items: center;
     font-size: var(--Font_Size);
-    padding-bottom: .25rem;
-    border-bottom: 2px solid var(--Surface);
+    padding-bottom: .375rem;
+    box-sizing: content-box;
+    gap: .25rem;
   `,
   DayHeaderWrapper: styled.div`
     display: flex;
-    border-bottom: 2px solid var(--Surface);
+    height: 24px;
+    align-items: center;
   `,
   DayHeader: styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    line-height: 20px;
     width: 28px;
     height: 24px;
     font-size: 11px;
@@ -344,6 +350,7 @@ const S = {
   Weeks: styled.div`
     display: flex;
     flex-wrap: wrap;
+    margin-top: .375rem;
   `,
   Day: styled.div<{
     selected: boolean,
@@ -393,8 +400,8 @@ const S = {
   TitleWrapper: styled.div`
     display: flex;
     justify-content: center;
-    width: calc(100% - 40px);
     color: var(--Font_Color);
+    padding: .25rem;
     height: 100%;
   `,
   YearTitle: styled.div`

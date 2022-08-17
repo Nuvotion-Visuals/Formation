@@ -1,6 +1,7 @@
-import { styled } from '@storybook/theming';
+import { styled } from '@storybook/theming'
 import React, { useEffect, useRef, useState } from 'react'
-import { useOnClickOutside } from '../../hooks/useOnClickOutside'
+import { useOnClickOutside } from '../../hooks'
+import { useScrollTo } from '../../hooks'
 
 import { TextInput } from '../TextInput/TextInput'
 
@@ -37,70 +38,88 @@ const Times = ({
   onMonthChange: (arg0: string) => void,
   onChange: (arg0: string) => void,
   onClose: () => void
-}) => <>
-  {
-    [
-      '12:30 AM',
-      '1:00 AM',
-      '1:30 AM',
-      '2:00 AM',
-      '2:30 AM',
-      '3:00 AM',
-      '3:30 AM',
-      '4:00 AM',
-      '4:30 AM',
-      '5:00 AM',
-      '5:30 AM',
-      '6:00 AM',
-      '6:30 AM',
-      '7:00 AM',
-      '7:30 AM',
-      '8:00 AM',
-      '8:30 AM',
-      '9:00 AM',
-      '9:30 AM',
-      '10:00 AM',
-      '10:30 AM',
-      '11:00 AM',
-      '11:30 AM',
-      '12:00 PM',
-      '12:30 PM',
-      '1:00 PM',
-      '1:30 PM',
-      '2:00 PM',
-      '2:30 PM',
-      '3:00 PM',
-      '3:30 PM',
-      '4:00 PM',
-      '4:30 PM',
-      '5:00 PM',
-      '5:30 PM',
-      '6:00 PM',
-      '6:30 PM',
-      '7:00 PM',
-      '7:30 PM',
-      '8:00 PM',
-      '8:30 PM',
-      '9:00 PM',
-      '9:30 PM',
-      '10:00 PM',
-      '10:30 PM',
-      '11:00 PM',
-      '11:30 PM',
-    ].map(item =>
-      
-      <S.Item 
-        onClick={() => {
-          onChange(item)
-          onClose()
-        }}
-        active={value === item}
-      >
-        { item }
-      </S.Item>  
-    )
-  }
-</>
+}) => {
+
+  const scrollContainerRef = useRef<HTMLDivElement | null>(null)
+  const scrollToRef = useRef<HTMLDivElement | null>(null)
+
+  useOnClickOutside(scrollContainerRef, () => {
+    onClose()
+  })
+
+
+  const { set_scrollTo } = useScrollTo(scrollContainerRef, scrollToRef);
+
+  useEffect(() => {
+    set_scrollTo(true)
+  }, [])
+
+  return <S.TimesDropdown ref={scrollContainerRef}>
+    {
+      [
+        '12:30 AM',
+        '1:00 AM',
+        '1:30 AM',
+        '2:00 AM',
+        '2:30 AM',
+        '3:00 AM',
+        '3:30 AM',
+        '4:00 AM',
+        '4:30 AM',
+        '5:00 AM',
+        '5:30 AM',
+        '6:00 AM',
+        '6:30 AM',
+        '7:00 AM',
+        '7:30 AM',
+        '8:00 AM',
+        '8:30 AM',
+        '9:00 AM',
+        '9:30 AM',
+        '10:00 AM',
+        '10:30 AM',
+        '11:00 AM',
+        '11:30 AM',
+        '12:00 PM',
+        '12:30 PM',
+        '1:00 PM',
+        '1:30 PM',
+        '2:00 PM',
+        '2:30 PM',
+        '3:00 PM',
+        '3:30 PM',
+        '4:00 PM',
+        '4:30 PM',
+        '5:00 PM',
+        '5:30 PM',
+        '6:00 PM',
+        '6:30 PM',
+        '7:00 PM',
+        '7:30 PM',
+        '8:00 PM',
+        '8:30 PM',
+        '9:00 PM',
+        '9:30 PM',
+        '10:00 PM',
+        '10:30 PM',
+        '11:00 PM',
+        '11:30 PM',
+      ].map(item =>
+        
+        <S.Item 
+          onClick={() => {
+            onChange(item)
+            onClose()
+          }}
+          active={value === item}
+          ref={value === item ? scrollToRef : null}
+        >
+          { item }
+        </S.Item>  
+      )
+    }
+  </S.TimesDropdown>
+}
 
 interface Props {
   value: string,
@@ -128,12 +147,7 @@ export const TimePicker = ({
     set_displayValue(value)
   }, [value])
 
-  const ref = useRef<HTMLDivElement | null>(null)
-
-  useOnClickOutside(ref, () => {
-    set_isOpen(false)
-  })
-
+ 
   return (
     <S.TimePicker>
       <TextInput
@@ -148,14 +162,12 @@ export const TimePicker = ({
 
       {
         isOpen
-          ? <S.TimesDropdown ref={ref}>
-              <Times
-                onChange={newValue => onChange(newValue)}
-                value={value}
-                onMonthChange={newDate => onChange(newDate)}
-                onClose={() => set_isOpen(false)}
-              />
-            </S.TimesDropdown>
+          ? <Times
+              onChange={newValue => onChange(newValue)}
+              value={value}
+              onMonthChange={newDate => onChange(newDate)}
+              onClose={() => set_isOpen(false)}
+            />
         : null
       }
     </S.TimePicker>
