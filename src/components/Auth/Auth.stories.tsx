@@ -16,7 +16,13 @@ export default {
 } as ComponentMeta<typeof Auth>
 
 const Template: ComponentStory<typeof Auth> = args => 
-  <Auth {...args}>
+  <Auth {...args} />
+
+export const UsernamePassword = Template.bind({})
+UsernamePassword.args = {
+  title: 'Login',
+  logoSrc: 'logo-icon-color.png',
+  children: <>
     <Gap gap={.75}>
       <TextInput 
         value=''
@@ -34,16 +40,29 @@ const Template: ComponentStory<typeof Auth> = args =>
         expand={true}
       />
     </Gap>
-  </Auth>
-
-
-export const UsernamePassword = Template.bind({})
-UsernamePassword.args = {
-  title: 'Login'
+  </>
 }
 
 
-
+export const Passwordless = Template.bind({})
+Passwordless.args = {
+  title: 'Login',
+  logoSrc: 'logo-icon-color.png',
+  children: <>
+    <Gap gap={.75}>
+      <TextInput 
+        value=''
+        icon='phone'
+        label='Phone number'
+      />
+      <Button
+        primary={true}
+        text='Send login code'
+        expand={true}
+      />
+    </Gap>
+  </>
+}
 
 
 

@@ -175,8 +175,9 @@ const S = {
     padding: .5rem 1rem;
     font-size: var(--Font_Size);
     background: ${props => props.active ? 'var(--Surface_1)' : 'none'};
+    cursor: pointer;
     &:hover {
-      background: ${props => props.active ? 'var(--Surface_1)' : 'var(--Surface)'};
+      background: ${props => props.active ? 'var(--Surface_2)' : 'var(--Surface)'};
     }
   `,
   TimesDropdown: styled.div`

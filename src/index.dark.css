@@ -9,11 +9,11 @@ It’s easy to picture how a less saturated version of a color would look like, 
 
   --Background: hsl(0, 0%, 7%);
   --Background_Alternating: hsl(0, 0%, 5%);
-
+  
   --Surface_0: hsl(0, 0%, 12%);
   --Surface: hsl(0, 0%, 16%);
-  --Surface_1: hsl(0, 0%, 25%);
-  --Surface_2: hsl(0, 0%, 34%);
+  --Surface_1: hsl(0, 0%, 25%); /* hover */
+  --Surface_2: hsl(0, 0%, 34%); /* active */
 
   --Font_Color: hsl(0, 0%, 93%);
   --Font_Color_Disabled: hsl(0, 0%, 50%);
@@ -118,7 +118,7 @@ html, body {
   height: 1rem;
 }
 ::-webkit-scrollbar-track {
-  background: var(--Background_Alternating);
+  background: var(--Surface_0);
   border-radius: 6px;
 }
 ::-webkit-scrollbar-thumb {
@@ -126,10 +126,10 @@ html, body {
   border-radius: 6px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--Surface_1);
+  background: var(--Surface_2);
 }
 ::-webkit-scrollbar-thumb:active {
-  background: var(--Surface_1);
+  background: var(--Surface_2);
 }
 ::-webkit-scrollbar-corner {
   background: var(--Background);

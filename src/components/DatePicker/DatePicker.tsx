@@ -371,7 +371,7 @@ const S = {
 
     background: ${props =>
       props.selected
-        ? 'var(--Primary)'
+        ? 'var(--Surface_2)'
         : 'none'
     };
 
@@ -383,7 +383,7 @@ const S = {
       };
       background: ${props =>
         props.selected
-          ? 'var(--Primary)'
+          ? 'var(--Surface_2)'
           : props.disabled
             ? 'none'
             : 'var(--Surface)'

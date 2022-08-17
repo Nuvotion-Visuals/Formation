@@ -1,47 +1,46 @@
 import React from 'react'
 import styled from 'styled-components'
 
-
 interface Props {
   title: string,
-  children: React.ReactNode
+  children: React.ReactNode,
+  logoSrc: string
 }
 
-export const Auth = ({ title, children }: Props) => {
-
-  return (<>
-    <S_Container>
-
+export const Auth = ({ 
+  title, 
+  children, 
+  logoSrc 
+}: Props) =>
+  <S_Container>
     <S_Side>
-        <S_SideBackground />
-        <S_Overlay />
-      </S_Side>
+      <S_SideBackground />
+      <S_Overlay />
+    </S_Side>
 
-      <S_Flex>
-        <S_AuthContainer>
-          
-        </S_AuthContainer>
-      </S_Flex>
+    <S_Flex>
+      <S_AuthContainer>
+        
+      </S_AuthContainer>
+    </S_Flex>
 
-      <S_Center>
-        <S_LogoContainer>
-            <S_Logo src={''} />
-          </S_LogoContainer>
-          <S_Auth>
-            <S_TitleContainer>
-              {title
-              }
-            </S_TitleContainer>
+    <S_Center>
+      <S_LogoContainer>
+          <S_Logo src={logoSrc} />
+        </S_LogoContainer>
+        <S_Auth>
+          <S_TitleContainer>
             {
-              children
+              title
             }
-          </S_Auth>
-      </S_Center>
-    </S_Container>
+          </S_TitleContainer>
+          {
+            children
+          }
+        </S_Auth>
+    </S_Center>
 
-  </>)
-}
-
+  </S_Container>
 
 const S_TitleContainer = styled.h1`
   width: 100%;
@@ -49,8 +48,8 @@ const S_TitleContainer = styled.h1`
   align-items: center;
   justify-content: center;
   text-align: center;
-  margin-top: 1.25rem;
-  margin-bottom: .75rem;
+  margin-top: 2.5rem;
+  margin-bottom: 1.25rem;
   font-size: 26px;
 `
 
@@ -97,7 +96,6 @@ const S_AuthContainer = styled.div`
 
 const S_Auth = styled.div`
   position: relative;
-  margin-bottom: 1rem;
   width: 340px;
   display: flex;
   justify-content: center;
@@ -107,13 +105,14 @@ const S_Auth = styled.div`
   background: var(--Background);
   border-radius: 1rem;
   color: var(--Font_Color);
-  padding-top: 1.5rem;
   box-shadow: var(--Outline_Light);
 `
 
 const S_Logo = styled.img`
-  width: 48px;
-  height: 48px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  overflow: hidden;
 `
 
 const S_LogoContainer = styled.div`
@@ -123,10 +122,14 @@ const S_LogoContainer = styled.div`
   position: relative;
   z-index: 1;
   margin-bottom: -2.5rem;
-  box-shadow: var(--Outline_Light);
-  padding: 1rem;
+  outline: 2px solid var(--Surface);
   background: var(--Background);
   border-radius: 100%;
+  width: 72px;
+  height: 72px;
+
+  overflow: hidden;
+
 `
 
 const S_Side = styled.div`

@@ -145,7 +145,6 @@ const Template: ComponentStory<typeof Article> = args =>
 
 export const README = Template.bind({})
 README.args = {
-  ratio: 16/9
 }
 README.parameters = {
   layout: 'fullscreen'
