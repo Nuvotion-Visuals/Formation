@@ -199,11 +199,11 @@ const S = {
     border-radius: .5rem;
     box-shadow: var(--Outline);
     top: calc(var(--Input_Height) - .25rem);
-    width: calc(196px + 1rem);
+    width: calc(136px + 1rem);
     max-height: 300px;
     overflow-y: auto;
     overflow-x: hidden;
-    left: 2rem;
+    left: 1.5rem;
     user-select: none;
   `
 }

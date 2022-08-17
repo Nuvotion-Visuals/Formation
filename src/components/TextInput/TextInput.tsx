@@ -131,6 +131,7 @@ export const TextInput = ({
         focused={focused} 
         hasIcon={icon !== undefined} 
         shrink={value !== '' || focused}
+        disableAnimation={value !== '' && !focused}
       >
         {
           label
@@ -182,7 +183,8 @@ interface LabelProps {
   locked: boolean,
   hasIcon: boolean,
   focused: boolean,
-  shrink: boolean
+  shrink: boolean,
+  disableAnimation: boolean
 }
 
 interface FloatingLabelProps {
@@ -277,7 +279,7 @@ const S = {
     
     pointer-events: none;
     background: var(--Background);
-    animation: ${props => props.shrink ? css`${moveUp} .15s forwards` : 'none'};
+    animation: ${props => props.shrink ? css`${moveUp} ${props.disableAnimation ? '0s' : '.15s'} forwards` : 'none'};
   `,
   FloatingLabel: styled.div<FloatingLabelProps>`
     display: flex;

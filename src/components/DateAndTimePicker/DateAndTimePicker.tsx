@@ -6,7 +6,7 @@ import { Box } from '../Box/Box'
 import { Spacer } from '../Spacer/Spacer'
 import { Gap } from '../Gap/Gap'
 import { LineBreak } from '../LineBreak/LineBreak'
-import { getSuperscriptOrdinal } from '../../utils'
+import { getSuperscriptOrdinal, getOrdinal } from '../../utils'
 
 import { DatePicker } from '../DatePicker/DatePicker'
 import { TimePicker } from '../TimePicker/TimePicker'
@@ -29,12 +29,15 @@ export const DateAndTimePicker = ({
   onChange 
 }: Props) => {
   const addDate = () => {
+    const lastState = value
+    const length = lastState.length
+    const { date, startTime, endTime} = lastState[length - 1]
     onChange([
       ...value,
       {
-        date: '',
-        startTime: '',
-        endTime: ''
+        date,
+        startTime,
+        endTime
       }
     ])
   }
@@ -43,13 +46,19 @@ export const DateAndTimePicker = ({
     onChange(value.filter((x, i) => i !== index))
   }
 
-  const setValue = (index: number, field: string, fieldValue: string) => {
+  const setValue = (index: number, field: 'date' | 'startTime' | 'endTime', fieldValue: string) => {
     onChange(
       value.map((day, i) =>
         index === i
           ? {
               ...day,
-              [field]: fieldValue
+              [field]: fieldValue,
+              endTime: 
+                field === 'startTime' 
+                  ? fieldValue // if a startTime is being set, also set the endTime
+                  : field === 'endTime'
+                    ? fieldValue // endTime is the field being updated, so should be replaced
+                    : day.endTime // do not change
             }
           : day
       )
@@ -63,10 +72,10 @@ export const DateAndTimePicker = ({
     const hours = (diff - minutes) / 60
 
     const difference = hours > 0 
-      ? `${hours} hr${hours > 1 ? 's' : ''}` + (minutes > 0 ? ` ${minutes} min${minutes > 1 ? 's' : ''}` : '')
+      ? `${hours}h` + (minutes > 0 ? ` ${minutes}m` : '')
       : hours === 0
-        ? `${minutes} min${minutes > 0 ? 's' : ''}`
-        : `${24 + hours} hr${24 + hours > 1 ? 's' : ''}` + (60 + minutes > 0 ? ` ${60 + minutes} min${60 + minutes > 1 ? 's' : ''}` : '')
+        ? `${minutes}m`
+        : `${24 + hours}h` + (60 + minutes > 0 ? ` ${60 + minutes}m` : '')
 
     return difference
   }
@@ -146,12 +155,12 @@ export const DateAndTimePicker = ({
             e?.preventDefault()
             addDate()
           }}
-          text="Add a day"
-          icon={"plus"}
+          text={`Add a ${getOrdinal(value.length + 1)} day`}
+          icon={'plus'}
+          iconPrefix={'fas'}
           expand={true}
         />
       </Box>
-      
     </>
   )
 }
@@ -179,5 +188,7 @@ const S = {
     font-size: var(--Font_Size);
     color: var(--Font_Color_Label);
     text-align: center;
+    display: flex;
+    flex-shrink: 0;
   `
 }

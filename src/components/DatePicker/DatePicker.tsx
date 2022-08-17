@@ -205,11 +205,17 @@ const Calendar = ({
 
       <Spacer />
 
-      <S.Arrow onClick={previousMonth}>
+      <S.Arrow 
+        onClick={previousMonth}
+        title='Previous month'
+      >
         <Icon icon='arrow-left' iconPrefix='fas' size='sm'/>
       </S.Arrow>
 
-      <S.Arrow onClick={nextMonth}>
+      <S.Arrow 
+        onClick={nextMonth}
+        title='Next month'
+      >
         <Icon icon='arrow-right' iconPrefix='fas' size='sm'/>
       </S.Arrow>
 
@@ -315,7 +321,7 @@ const S = {
     box-shadow: var(--Outline);
     top: calc(var(--Input_Height) - .25rem);
     width: 196px;
-    left: 2rem;
+    left: 1.5rem;
     user-select: none;
   `,
   DateHeaderWrapper: styled.div`
