@@ -147,7 +147,6 @@ export const TimePicker = ({
     set_displayValue(value)
   }, [value])
 
- 
   return (
     <S.TimePicker>
       <TextInput

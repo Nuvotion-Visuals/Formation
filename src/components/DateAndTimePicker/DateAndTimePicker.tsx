@@ -11,6 +11,14 @@ import { getSuperscriptOrdinal, getOrdinal } from '../../utils'
 import { DatePicker } from '../DatePicker/DatePicker'
 import { TimePicker } from '../TimePicker/TimePicker'
 
+
+const addMinutes = (time: string, minutes: number) : string => {
+  const date = new Date("1/1/2013 " + time)
+  date.setMinutes(date.getMinutes() + minutes)
+  return new Date(date).toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
+}
+
+
 interface DateAndTime {
   date: string,
   startTime: string,
@@ -32,10 +40,19 @@ export const DateAndTimePicker = ({
     const lastState = value
     const length = lastState.length
     const { date, startTime, endTime} = lastState[length - 1]
+
+    var ndate = new Date(date)
+
+    // Add a day
+    ndate.setDate(ndate.getDate() + 1)
+
+
+    // Add a day
+
     onChange([
       ...value,
       {
-        date,
+        date: ndate.toDateString(),
         startTime,
         endTime
       }
@@ -55,7 +72,7 @@ export const DateAndTimePicker = ({
               [field]: fieldValue,
               endTime: 
                 field === 'startTime' 
-                  ? fieldValue // if a startTime is being set, also set the endTime
+                  ? addMinutes(fieldValue, 30) // if a startTime is being set, also set the endTime
                   : field === 'endTime'
                     ? fieldValue // endTime is the field being updated, so should be replaced
                     : day.endTime // do not change

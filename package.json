@@ -4,7 +4,7 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
   },
-  "version": "0.5.6",
+  "version": "0.5.7",
   "description": "A component library based on React, Styled Components and CSS variables.",
   "keywords": [
     "react",
@@ -42,7 +42,7 @@
     "test": "jest",
     "storybook": "start-storybook -p 6006",
     "storybook-build": "build-storybook",
-    "deploy-storybook": "gh-pages -d storybook-static"
+    "storybook-deploy": "gh-pages -d storybook-static"
   },
   "author": "AVsync.LIVE LLC",
   "license": "MIT",
