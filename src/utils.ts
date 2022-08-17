@@ -19,3 +19,5 @@ export const getOrdinal = (number : number) => {
   if (number%10 === 0) return deca[Math.floor(number/10)-2] + 'ieth'
   return deca[Math.floor(number/10)-2] + 'y-' + special[number%10]
 }
+
+export const isMobile = () => 'ontouchstart' in document?.documentElement

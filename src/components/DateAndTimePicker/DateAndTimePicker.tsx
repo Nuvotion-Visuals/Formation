@@ -166,18 +166,19 @@ export const DateAndTimePicker = ({
           </>
         ))
       }
-      <Box mt={.5}>
-        <Button
-          onClick={(e : MouseEvent) => {
-            e?.preventDefault()
-            addDate()
-          }}
-          text={`Add a ${getOrdinal(value.length + 1)} day`}
-          icon={'plus'}
-          iconPrefix={'fas'}
-          expand={true}
-        />
+      <Box pt={.5}>
       </Box>
+
+      <Button
+        onClick={(e : MouseEvent) => {
+          e?.preventDefault()
+          addDate()
+        }}
+        text={`Add a ${getOrdinal(value.length + 1)} day`}
+        icon={'plus'}
+        iconPrefix={'fas'}
+        expand={true}
+      />
     </>
   )
 }

@@ -1,12 +1,13 @@
-import { styled } from '@storybook/theming';
+import { styled } from '@storybook/theming'
 import React, { useEffect, useRef, useState } from 'react'
 import { TextInput } from '../TextInput/TextInput'
 import { Icon } from '../Icon/Icon'
-import { Button } from '../Button/Button';
-import { Box } from '../Box/Box';
+import { Button } from '../Button/Button'
+import { Box } from '../Box/Box'
 import { useOnClickOutside } from '../../hooks/useOnClickOutside'
-import { Spacer } from '../Spacer/Spacer';
-import { LineBreak } from '../LineBreak/LineBreak';
+import { Spacer } from '../Spacer/Spacer'
+import { LineBreak } from '../LineBreak/LineBreak'
+import { isMobile } from '../../utils'
 
 const cloneDate = (date : Date) => new Date(date.valueOf())
 

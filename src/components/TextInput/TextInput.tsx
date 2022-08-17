@@ -165,38 +165,6 @@ export const TextInput = ({
   )
 }
 
-interface InputProps {
-  name?: string,
-  label?: string,
-  error?: string,
-  disabled?: boolean,
-  focused: boolean,
-  type?: string,
-  locked: boolean,
-  hasIcon: boolean
-  id?: string,
-  pad?: boolean,
-  onChange?: (e : any) => void
-}
-
-interface LabelProps {
-  locked: boolean,
-  hasIcon: boolean,
-  focused: boolean,
-  shrink: boolean,
-  disableAnimation: boolean
-}
-
-interface FloatingLabelProps {
-  error?: string,
-  disabled?: boolean,
-  success?: boolean
-}
-
-interface IconContainerProps {
-  error: boolean
-}
-
 const moveUp = keyframes`
   0% { 
     top: 0.6rem; 
@@ -216,7 +184,11 @@ const S = {
     flex-wrap: wrap;
     align-items: center;
   `,
-  Container: styled.div<FloatingLabelProps>`
+  Container: styled.div<{
+    error?: string,
+    disabled?: boolean,
+    success?: boolean
+  }>`
     position: relative;
     display: flex;
     align-items: center;
@@ -253,7 +225,19 @@ const S = {
     border-radius: 16px;
 
   `,
-  Input: styled.input<InputProps>`
+  Input: styled.input<{
+    name?: string,
+    label?: string,
+    error?: string,
+    disabled?: boolean,
+    focused: boolean,
+    type?: string,
+    locked: boolean,
+    hasIcon: boolean
+    id?: string,
+    pad?: boolean,
+    onChange?: (e : any) => void
+  }>`
     width: 100%;
     height: var(--Input_Height);
     position: relative;
@@ -268,7 +252,13 @@ const S = {
     color: var(--Font_Color);
     background: none;
   `,
-  Label: styled.label<LabelProps>`
+  Label: styled.label<{
+    locked: boolean,
+    hasIcon: boolean,
+    focused: boolean,
+    shrink: boolean,
+    disableAnimation: boolean
+  }>`
     position: absolute;
     top: 50%;
     line-height: 0;
@@ -281,7 +271,11 @@ const S = {
     background: var(--Background);
     animation: ${props => props.shrink ? css`${moveUp} ${props.disableAnimation ? '0s' : '.15s'} forwards` : 'none'};
   `,
-  FloatingLabel: styled.div<FloatingLabelProps>`
+  FloatingLabel: styled.div<{
+    error?: string,
+    disabled?: boolean,
+    success?: boolean
+  }>`
     display: flex;
     font-size: var(--Font_Size);
     line-height: 1;
@@ -319,7 +313,9 @@ const S = {
   ErrorIconContainer: styled.div`
     position: relative;
   `,
-  IconContainer: styled.div<IconContainerProps>`
+  IconContainer: styled.div<{
+    error: boolean
+  }>`
     position: relative;
     * {
       color: ${props => props.error ? 'var(--Font_Color_Error)' : 'var(--Font_Color)'};
