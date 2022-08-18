@@ -20,7 +20,10 @@ type Props = {
   icon?: IconName,
   iconPrefix?: IconPrefix,
   tooltip?: string,
-  onClick?: () => void
+  onClick?: () => void,
+  preventFocus?: boolean,
+  onBlur?: () => void,
+  ref?: any
 }
 
 export const TextInput = ({ 
@@ -37,7 +40,10 @@ export const TextInput = ({
   icon,
   iconPrefix,
   tooltip,
-  onClick
+  onClick,
+  preventFocus,
+  onBlur,
+  ref
 }: Props) => {
 
   const [locked, setLocked] = useState(value !== '')
@@ -98,7 +104,9 @@ export const TextInput = ({
 
       <S.Input
         value={value}
+        preventFocus={preventFocus}
         // ref={autoFocusRef}
+        ref={ref}
         id={id}
         hasIcon={icon !== undefined} 
         type={type ? type : 'text'}
@@ -124,6 +132,9 @@ export const TextInput = ({
         onBlur={() => {
           setLocked(value == '' ? false : true)
           setFocused(false)
+          if (onBlur) {
+            onBlur()
+          }
         }}
       />
       <S.Label 
@@ -236,7 +247,8 @@ const S = {
     hasIcon: boolean
     id?: string,
     pad?: boolean,
-    onChange?: (e : any) => void
+    onChange?: (e : any) => void,
+    preventFocus?: boolean
   }>`
     width: 100%;
     height: var(--Input_Height);
@@ -251,6 +263,7 @@ const S = {
     border-radius: 16px;
     color: var(--Font_Color);
     background: none;
+    pointer-events: ${props => props.preventFocus ? 'none' : 'auto'};
   `,
   Label: styled.label<{
     locked: boolean,

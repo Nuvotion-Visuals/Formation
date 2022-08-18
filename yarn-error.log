@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/bin/node /usr/local/bin/yarn publish
+  /usr/bin/node /usr/local/bin/yarn storybook-publish
 
 PATH: 
   /usr/lib/code-server/lib/vscode/bin/remote-cli:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin
@@ -14,17 +14,12 @@ Platform:
   linux x64
 
 Trace: 
-  Error: canceled
-      at Interface.<anonymous> (/usr/local/lib/node_modules/yarn/lib/cli.js:137150:13)
-      at Interface.emit (events.js:314:20)
-      at Interface._ttyWrite (readline.js:868:16)
-      at ReadStream.onkeypress (readline.js:205:10)
-      at ReadStream.emit (events.js:314:20)
-      at emitKeys (internal/readline/utils.js:335:14)
-      at emitKeys.next (<anonymous>)
-      at ReadStream.onData (readline.js:1137:36)
-      at ReadStream.emit (events.js:314:20)
-      at addChunk (_stream_readable.js:297:12)
+  SyntaxError: /home/tom/dev/avsync.live/formation/package.json: Unexpected token } in JSON at position 925
+      at JSON.parse (<anonymous>)
+      at /usr/local/lib/node_modules/yarn/lib/cli.js:1629:59
+      at Generator.next (<anonymous>)
+      at step (/usr/local/lib/node_modules/yarn/lib/cli.js:310:30)
+      at /usr/local/lib/node_modules/yarn/lib/cli.js:321:13
 
 npm manifest: 
   {
@@ -33,7 +28,7 @@ npm manifest:
     "publishConfig": {
       "registry": "https://registry.npmjs.org"
     },
-    "version": "0.4.8",
+    "version": "0.5.10",
     "description": "A component library based on React, Styled Components and CSS variables.",
     "keywords": [
       "react",
@@ -42,6 +37,8 @@ npm manifest:
       "theme",
       "ui",
       "material",
+      "date",
+      "time",
       "css",
       "css variables",
       "styled",
@@ -68,8 +65,7 @@ npm manifest:
       "rollup": "rollup -c",
       "test": "jest",
       "storybook": "start-storybook -p 6006",
-      "storybook-build": "build-storybook",
-      "storybook-deploy": "gh-pages -d storybook-static"
+      "storybook-publish": "build-storybook && gh-pages -d storybook-static",
     },
     "author": "AVsync.LIVE LLC",
     "license": "MIT",
@@ -119,6 +115,7 @@ npm manifest:
       "rc-slider": "^10.0.1",
       "react": "^18.2.0",
       "react-dom": "^18.2.0",
+      "react-recorder": "^1.0.0",
       "react-responsive": "^9.0.0-beta.10",
       "react-rte": "^0.16.5",
       "rollup": "^2.60.0",
@@ -10470,6 +10467,11 @@ Lockfile:
     version "1.1.0"
     resolved "https://registry.yarnpkg.com/react-merge-refs/-/react-merge-refs-1.1.0.tgz#73d88b892c6c68cbb7a66e0800faa374f4c38b06"
     integrity sha512-alTKsjEL0dKH/ru1Iyn7vliS2QRcBp9zZPGoWxUOvRGWPUYgjo+V01is7p04It6KhgrzhJGnIj9GgX8W4bZoCQ==
+  
+  react-recorder@^1.0.0:
+    version "1.0.0"
+    resolved "https://registry.yarnpkg.com/react-recorder/-/react-recorder-1.0.0.tgz#ed05c20ce2284af1d4c894ea35903bdb32095fcb"
+    integrity sha512-KC1wTpJ3Ti7S7U93eG2tiJKfG15JquSTXpeHTT4FvMHcc6cB9/7UfR2Lz5xjIOp2u7iFkTf0tSZsvu3UfiR1rg==
   
   react-refresh@^0.11.0:
     version "0.11.0"

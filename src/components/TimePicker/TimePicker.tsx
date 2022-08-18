@@ -1,5 +1,6 @@
 import { styled } from '@storybook/theming'
 import React, { useEffect, useRef, useState } from 'react'
+import { isMobile } from '../../utils'
 import { useOnClickOutside } from '../../hooks'
 import { useScrollTo } from '../../hooks'
 
@@ -138,25 +139,37 @@ export const TimePicker = ({
   const [displayValue, set_displayValue] = useState(value)
 
   const updateTime = (value: string) => {
-    // if (isValidDate(value) || true) {
-      onChange(value)
-    // }
+    onChange(value) // TODO: validate time using regex
   }
 
   useEffect(() => {
     set_displayValue(value)
   }, [value])
 
+  const [preventFocus, set_preventFocus] = useState(isMobile())
+
+  useEffect(() => {
+    if (isOpen) {
+      set_preventFocus(false)
+    }
+  }, [isOpen])
+
   return (
-    <S.TimePicker>
+    <S.TimePicker 
+      onClick={() => {
+        set_preventFocus(isMobile())
+        set_isOpen(!isOpen)
+      }}
+    >
       <TextInput
         label={label ? label : 'Time'}
         icon={'clock'}
         iconPrefix='far'
         value={displayValue}
         onChange={value => updateTime(value)}
-        onClick={() => set_isOpen(true)}
         error={error}
+        preventFocus={preventFocus}
+        onBlur={() => set_preventFocus(isMobile())}
       />
 
       {

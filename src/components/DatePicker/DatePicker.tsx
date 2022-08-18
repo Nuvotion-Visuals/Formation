@@ -280,16 +280,31 @@ export const DatePicker = ({
     set_isOpen(false)
   })
 
+  const [preventFocus, set_preventFocus] = useState(isMobile())
+
+  useEffect(() => {
+    if (isOpen) {
+      set_preventFocus(false)
+    }
+  }, [isOpen])
+
   return (
-    <S.DatePicker>
+    <S.DatePicker
+      onClick={() => {
+        set_preventFocus(isMobile())
+        
+      }}
+    >
       <TextInput
         label={label ? label : 'Date'}
         icon={'calendar-alt'}
         iconPrefix='far'
         value={displayValue}
         onChange={value => updateDate(value)}
-        onClick={() => set_isOpen(true)}
         error={error}
+        preventFocus={preventFocus}
+        onBlur={() => set_preventFocus(isMobile())}
+        onClick={() => set_isOpen(!isOpen)}
       />
 
       {
@@ -318,10 +333,11 @@ const S = {
     z-index: 1;
     background: var(--Background);
     border-radius: .5rem;
-    padding: .5rem;
+    padding: .75rem;
     box-shadow: var(--Outline);
     top: calc(var(--Input_Height) - .25rem);
-    width: 196px;
+    /* width: 196px; */
+    width: 14rem;
     left: 1.5rem;
     user-select: none;
   `,
@@ -334,22 +350,22 @@ const S = {
     display: flex;
     align-items: center;
     font-size: var(--Font_Size);
-    padding-bottom: .375rem;
+    padding-bottom: .5rem;
     box-sizing: content-box;
-    gap: .25rem;
+    gap: .5rem;
   `,
   DayHeaderWrapper: styled.div`
     display: flex;
-    height: 24px;
+    height: 2rem;
     align-items: center;
   `,
   DayHeader: styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 28px;
-    height: 24px;
-    font-size: 11px;
+    width: 2rem;
+    height: 2rem;
+    font-size: 12px;
     text-align: center;
     color: var(--Font_Color_Label);
     font-weight: 600;
@@ -366,9 +382,9 @@ const S = {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 28px;
-    height: 24px;
-    font-size: 11px;
+    width: 2rem;
+    height: 2rem;
+    font-size: 12px;
     border-radius: .25rem;
 
     cursor: ${props => 
@@ -420,7 +436,8 @@ const S = {
     width: 2rem;
     height: 100%;
     border-radius: .25rem;
-    height: 24px;
+    height: var(--Input_Height);
+    width: var(--Input_Height);
     display: flex;
     align-items: center;
     justify-content: center;
