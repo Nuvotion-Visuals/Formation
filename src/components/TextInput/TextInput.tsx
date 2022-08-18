@@ -180,11 +180,11 @@ const moveUp = keyframes`
   0% { 
     top: 0.6rem; 
     font-size: var(--Font_Size);
+
   }
   100% { 
     top: 0rem; 
     font-size: calc(var(--Font_Size) * .9);
-
   }
 `
 
@@ -279,9 +279,8 @@ const S = {
     left: ${props => props.hasIcon ? '2.5rem' : '1rem'};
     color: var(--Font_Color_Label);
     font-size: var(--Font_Size);
-    
     pointer-events: none;
-    background: var(--Background);
+    background: ${props => props.shrink ? 'var(--Background_Alternating)' : 'none'};
     animation: ${props => props.shrink ? css`${moveUp} ${props.disableAnimation ? '0s' : '.15s'} forwards` : 'none'};
   `,
   FloatingLabel: styled.div<{

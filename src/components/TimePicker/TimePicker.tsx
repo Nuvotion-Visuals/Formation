@@ -1,6 +1,6 @@
 import { styled } from '@storybook/theming'
 import React, { useEffect, useRef, useState } from 'react'
-import { isMobile } from '../../utils'
+import { isTouchCapable } from '../../utils'
 import { useOnClickOutside } from '../../hooks'
 import { useScrollTo } from '../../hooks'
 
@@ -146,7 +146,7 @@ export const TimePicker = ({
     set_displayValue(value)
   }, [value])
 
-  const [preventFocus, set_preventFocus] = useState(isMobile())
+  const [preventFocus, set_preventFocus] = useState(isTouchCapable())
 
   useEffect(() => {
     if (isOpen) {
@@ -157,7 +157,7 @@ export const TimePicker = ({
   return (
     <S.TimePicker 
       onClick={() => {
-        set_preventFocus(isMobile())
+        set_preventFocus(isTouchCapable())
         set_isOpen(!isOpen)
       }}
     >
@@ -169,7 +169,7 @@ export const TimePicker = ({
         onChange={value => updateTime(value)}
         error={error}
         preventFocus={preventFocus}
-        onBlur={() => set_preventFocus(isMobile())}
+        onBlur={() => set_preventFocus(isTouchCapable())}
       />
 
       {
@@ -209,8 +209,8 @@ const S = {
     z-index: 1;
     background: var(--Background);
     border-radius: .5rem;
-    box-shadow: var(--Outline);
-    top: calc(var(--Input_Height) - .25rem);
+    box-shadow: var(--Outline_Hover);
+    top: var(--Input_Height);
     width: calc(136px + 1rem);
     max-height: 300px;
     overflow-y: auto;

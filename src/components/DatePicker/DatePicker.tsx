@@ -7,7 +7,7 @@ import { Box } from '../Box/Box'
 import { useOnClickOutside } from '../../hooks/useOnClickOutside'
 import { Spacer } from '../Spacer/Spacer'
 import { LineBreak } from '../LineBreak/LineBreak'
-import { isMobile } from '../../utils'
+import { isTouchCapable } from '../../utils'
 
 const cloneDate = (date : Date) => new Date(date.valueOf())
 
@@ -236,7 +236,7 @@ const Calendar = ({
       selected={value}
       month={value.getMonth()}
     />
-    <Box mt={.375} mb={.125} >
+    <Box mt={.375} >
       <Button
         text='Done'
         expand={true}
@@ -280,7 +280,7 @@ export const DatePicker = ({
     set_isOpen(false)
   })
 
-  const [preventFocus, set_preventFocus] = useState(isMobile())
+  const [preventFocus, set_preventFocus] = useState(isTouchCapable())
 
   useEffect(() => {
     if (isOpen) {
@@ -291,7 +291,7 @@ export const DatePicker = ({
   return (
     <S.DatePicker
       onClick={() => {
-        set_preventFocus(isMobile())
+        set_preventFocus(isTouchCapable())
         
       }}
     >
@@ -303,7 +303,7 @@ export const DatePicker = ({
         onChange={value => updateDate(value)}
         error={error}
         preventFocus={preventFocus}
-        onBlur={() => set_preventFocus(isMobile())}
+        onBlur={() => set_preventFocus(isTouchCapable())}
         onClick={() => set_isOpen(!isOpen)}
       />
 
@@ -334,8 +334,8 @@ const S = {
     background: var(--Background);
     border-radius: .5rem;
     padding: .75rem;
-    box-shadow: var(--Outline);
-    top: calc(var(--Input_Height) - .25rem);
+    box-shadow: var(--Outline_Hover);
+    top: var(--Input_Height);
     /* width: 196px; */
     width: 14rem;
     left: 1.5rem;
