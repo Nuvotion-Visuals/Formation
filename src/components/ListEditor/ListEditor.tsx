@@ -2,8 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 import { useEffect, useState } from 'react'
 
-import { ListItemEditor } from './ListItemEditor'
-import { ListItems } from './ListItems'
+import { ListItemEditor } from '../../internal'
+import { ListItems } from '../../internal'
 
 export interface Assignee {
   name: string,
@@ -11,7 +11,7 @@ export interface Assignee {
   assigned: boolean
 }
 
-export interface ListItem {
+export interface ListItemType {
   name?: string,
   type?: string,
   title?: string,
@@ -30,12 +30,12 @@ export interface List {
   title?: string,
   guid?: string,
   avatar?: boolean,
-  listItems?: ListItem[]
+  listItems?: ListItemType[]
 }
 
 export type Lists = List[]
 
-export enum ListItemType {
+export enum ListItemMode {
   counter = 'counter',
   add = 'add',
   remove = 'remove',

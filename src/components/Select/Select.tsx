@@ -1,7 +1,8 @@
 import styled from 'styled-components'
 
 import React from 'react'
-import { Icon } from '../Icon/Icon'
+
+import { Icon } from '../../internal'
 
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 

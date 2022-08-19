@@ -1,9 +1,9 @@
 import styled, { keyframes, css } from 'styled-components'
 
 import React, { useState, useRef } from 'react'
-import { Icon } from '../Icon/Icon'
-import { Gap } from '../Gap/Gap'
-import { Dropdown, OptionsType } from '../Dropdown/Dropdown'
+import { Icon } from '../../internal'
+import { Gap } from '../../internal'
+import { Dropdown, OptionsType } from '../../internal'
 
 type SearchType = {
   value?: string, 

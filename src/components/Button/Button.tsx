@@ -4,7 +4,7 @@ import styled, { keyframes, css } from 'styled-components'
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 import { SizeProp } from '@fortawesome/fontawesome-svg-core' // type coersion needed until FA SizeProp defintion is fixed to include "xl"
 
-import { Icon } from '../Icon/Icon'
+import { Icon } from '../../internal'
 
 type Props = {
   href?: string,

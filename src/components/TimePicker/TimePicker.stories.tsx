@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { TimePicker } from './TimePicker'
+import { TimePicker } from '../../internal'
 
 export default {
   title: 'Input/TimePicker',

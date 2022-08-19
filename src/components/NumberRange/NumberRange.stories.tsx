@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { NumberRange } from './NumberRange'
+import { NumberRange } from '../../internal'
 
 
 export default {

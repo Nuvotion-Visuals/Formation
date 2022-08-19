@@ -2,13 +2,10 @@ import React from 'react'
 
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { Button } from '../Button/Button'
-import { Auth } from './Auth'
-import { Empty } from '../Empty/Empty'
-import { AspectRatio } from '../AspectRatio/AspectRatio'
-import { TextInput } from '../TextInput/TextInput'
-import { Gap } from '../Gap/Gap'
-
+import { Button } from '../../internal'
+import { Auth } from '../../internal'
+import { TextInput } from '../../internal'
+import { Gap } from '../../internal'
 
 export default {
   title: 'Auth/Auth',

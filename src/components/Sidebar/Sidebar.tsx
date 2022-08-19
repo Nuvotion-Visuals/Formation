@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 
-import { Icon } from '../Icon/Icon'
+import { Icon } from '../../internal'
 
 interface NavProps {
   type?: string,

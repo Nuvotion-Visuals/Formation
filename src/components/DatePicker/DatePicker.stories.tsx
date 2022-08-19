@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { DatePicker } from './DatePicker'
+import { DatePicker } from '../../internal'
 
 export default {
   title: 'Input/DatePicker',

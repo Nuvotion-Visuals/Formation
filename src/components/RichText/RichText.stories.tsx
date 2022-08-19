@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { RichText } from './RichText'
+import { RichText } from '../../internal'
 
 export default {
   title: 'Input/RichText',

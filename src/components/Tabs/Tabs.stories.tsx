@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { Tabs } from './Tabs'
+import { Tabs } from '../../internal'
 
 export default {
   title: 'Navigation/Tabs',

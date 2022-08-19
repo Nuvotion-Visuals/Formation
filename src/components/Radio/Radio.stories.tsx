@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { Radio } from './Radio'
+import { Radio } from '../../internal'
 
 
 export default {

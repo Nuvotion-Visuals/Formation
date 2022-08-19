@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { TimeZone } from './TimeZone'
+import { TimeZone } from '../../internal'
 
 export default {
   title: 'Input/TimeZone',

@@ -2,12 +2,12 @@ import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { useState } from 'react'
 
-import { TextInput } from '../TextInput/TextInput';
-import { Button } from '../Button/Button'
+import { TextInput } from '../../internal'
+import { Button } from '../../internal'
 
-import { Lists } from './ListEditor'
-import { Gap } from '../Gap/Gap';
-import { Select } from '../Select/Select';
+import { Lists } from '../../internal'
+import { Gap } from '../../internal'
+import { Select } from '../../internal'
 
 interface Props {
   lists?: Lists,

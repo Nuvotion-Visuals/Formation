@@ -1,15 +1,15 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Button } from '../Button/Button'
-import { Box } from '../Box/Box'
-import { Spacer } from '../Spacer/Spacer'
-import { Gap } from '../Gap/Gap'
-import { LineBreak } from '../LineBreak/LineBreak'
+import { Button } from '../../internal'
+import { Box } from '../../internal'
+import { Spacer } from '../../internal'
+import { Gap } from '../../internal'
+import { LineBreak } from '../../internal'
 import { getSuperscriptOrdinal, getOrdinal } from '../../utils'
 
-import { DatePicker } from '../DatePicker/DatePicker'
-import { TimePicker } from '../TimePicker/TimePicker'
+import { DatePicker } from '../../internal'
+import { TimePicker } from '../../internal'
 
 
 const addMinutes = (time: string, minutes: number) : string => {

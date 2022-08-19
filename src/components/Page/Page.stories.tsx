@@ -2,10 +2,9 @@ import React from 'react'
 
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { Page } from './Page'
-import { Empty } from '../Empty/Empty'
-import { AspectRatio } from '../AspectRatio/AspectRatio'
-import { Box } from '../Box/Box'
+import { Page } from '../../internal'
+import { Empty } from '../../internal'
+import { AspectRatio } from '../../internal'
 
 export default {
   title: 'Layout/Page',

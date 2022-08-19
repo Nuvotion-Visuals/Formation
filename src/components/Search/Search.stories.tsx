@@ -2,8 +2,8 @@ import React from 'react'
 
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { Button } from '../Button/Button'
-import { Search } from './Search'
+import { Button } from '../../internal'
+import { Search } from '../../internal'
 
 export default {
   title: 'Input/Search',

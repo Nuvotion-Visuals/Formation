@@ -2,10 +2,9 @@ import React from 'react'
 import styled, { keyframes, css } from 'styled-components'
 import { useState } from 'react'
 
-import { Slot } from './Slot'
-import { Toolbar } from './Toolbar'
-
-import { ListItem as ListItemType } from './ListEditor'
+import { Slot } from '../../internal'
+import { Toolbar } from '../../internal'
+import { ListItemType } from '../../internal'
 
 interface Props {
   key?: any,

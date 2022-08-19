@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { StyleHTML } from '../StyleHTML/StyleHTML'
+import { StyleHTML } from '../../internal'
 
 interface Props {
   children: React.ReactNode

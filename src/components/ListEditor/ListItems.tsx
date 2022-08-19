@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { ListItem } from './ListItem'
-import { Lists } from './ListEditor'
+import { ListItem } from '../../internal'
+import { Lists } from '../../internal'
 
 interface Props {
   lists: Lists,

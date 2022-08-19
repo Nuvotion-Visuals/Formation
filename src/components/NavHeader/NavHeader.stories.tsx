@@ -1,7 +1,7 @@
 import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { NavHeader } from './NavHeader'
+import { NavHeader } from '../../internal'
 
 export default {
   title: 'Navigation/NavHeader',

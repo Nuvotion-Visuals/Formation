@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { NumberSlider } from './NumberSlider'
+import { NumberSlider } from '../../internal'
 
 
 export default {

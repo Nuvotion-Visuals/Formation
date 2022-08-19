@@ -1,7 +1,7 @@
 import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { NavLogo } from './NavLogo'
+import { NavLogo } from '../../internal'
 
 export default {
   title: 'Navigation/NavLogo',

@@ -2,8 +2,7 @@ import React from 'react'
 
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { Button } from '../Button/Button'
-import { StyleHTML } from './StyleHTML'
+import { StyleHTML } from '../../internal'
 
 export default {
   title: 'Layout/StyleHTML',

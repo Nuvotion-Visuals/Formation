@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Dropdown } from '../Dropdown/Dropdown'
+import { Dropdown } from '../../internal'
 
 const genPastelFromGuid = (guid : string) => {
   if (guid) {

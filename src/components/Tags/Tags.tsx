@@ -3,8 +3,8 @@ import styled from 'styled-components'
 import xor from 'lodash.xor'
 import union from 'lodash.union'
 
-import { Button } from '../Button/Button'
-import { Icon } from '../Icon/Icon'
+import { Button } from '../../internal'
+import { Icon } from '../../internal'
 
 type TagsType = {
   allTags: string[],
