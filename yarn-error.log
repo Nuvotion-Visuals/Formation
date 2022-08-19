@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/bin/node /usr/local/bin/yarn storybook-publish
+  /usr/bin/node /usr/local/bin/yarn rollup
 
 PATH: 
   /usr/lib/code-server/lib/vscode/bin/remote-cli:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin
@@ -14,7 +14,7 @@ Platform:
   linux x64
 
 Trace: 
-  SyntaxError: /home/tom/dev/avsync.live/formation/package.json: Unexpected token } in JSON at position 925
+  SyntaxError: /home/tom/dev/avsync.live/formation/package.json: Unexpected token } in JSON at position 3551
       at JSON.parse (<anonymous>)
       at /usr/local/lib/node_modules/yarn/lib/cli.js:1629:59
       at Generator.next (<anonymous>)
@@ -28,7 +28,7 @@ npm manifest:
     "publishConfig": {
       "registry": "https://registry.npmjs.org"
     },
-    "version": "0.5.10",
+    "version": "0.6.3",
     "description": "A component library based on React, Styled Components and CSS variables.",
     "keywords": [
       "react",
@@ -65,7 +65,7 @@ npm manifest:
       "rollup": "rollup -c",
       "test": "jest",
       "storybook": "start-storybook -p 6006",
-      "storybook-publish": "build-storybook && gh-pages -d storybook-static",
+      "storybook-publish": "build-storybook && gh-pages -d storybook-static"
     },
     "author": "AVsync.LIVE LLC",
     "license": "MIT",
@@ -108,16 +108,8 @@ npm manifest:
       "identity-obj-proxy": "^3.0.0",
       "jest": "^28.1.3",
       "jest-environment-jsdom": "^28.1.3",
-      "lodash.union": "^4.6.0",
-      "lodash.xor": "^4.5.0",
       "postcss": "^8.1.9",
       "postcss-import": "12.0.1",
-      "rc-slider": "^10.0.1",
-      "react": "^18.2.0",
-      "react-dom": "^18.2.0",
-      "react-recorder": "^1.0.0",
-      "react-responsive": "^9.0.0-beta.10",
-      "react-rte": "^0.16.5",
       "rollup": "^2.60.0",
       "rollup-plugin-dts": "^4.0.1",
       "rollup-plugin-import-css": "^3.0.3",
@@ -129,7 +121,6 @@ npm manifest:
       "storybook-dark-mode": "^1.1.0",
       "storybook-mobile": "^1.0.0",
       "style-loader": "2.0.0",
-      "styled-components": "^5.3.5",
       "typescript": "^4.7.4"
     },
     "main": "dist/cjs/index.js",
@@ -142,7 +133,15 @@ npm manifest:
       "@fortawesome/fontawesome-free": "^6.1.2",
       "@fortawesome/fontawesome-svg-core": "^6.1.2",
       "@fortawesome/free-regular-svg-icons": "^6.1.2",
-      "@fortawesome/free-solid-svg-icons": "^6.1.2"
+      "@fortawesome/free-solid-svg-icons": "^6.1.2",
+      "styled-components": "^5.3.5",
+      "react": "^18.2.0",
+      "react-dom": "^18.2.0",
+      "rc-slider": "^10.0.1",
+      "react-responsive": "^9.0.0-beta.10",
+      "react-rte": "^0.16.5",
+      "lodash.union": "^4.6.0",
+      "lodash.xor": "^4.5.0",
     }
   }
 
