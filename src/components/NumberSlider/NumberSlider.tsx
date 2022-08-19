@@ -23,7 +23,7 @@ export const NumberSlider = ({ value, min, max, onChange } : Props) => {
           min={min} 
           max={max} 
           value={value} 
-          onChange={value => typeof value === 'number' ? onChange(value) :  null } 
+          onChange={(value : any) => typeof value === 'number' ? onChange(value) :  null } 
         />
     </S.Container>
   )
@@ -56,7 +56,7 @@ const S = {
       margin: 0; 
     }
   `,
-  Range: styled(Slider)`
+  Range: styled(props => <Slider {...props} />)`
     position: relative;
     height: .75rem;
     margin: .5rem 0;

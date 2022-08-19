@@ -29,7 +29,7 @@ export const NumberRange = ({ value, min, max, onChange } : Props) => {
           min={min} 
           max={max} 
           value={value} 
-          onChange={value => typeof value === 'number' ? null: onChange(value)} 
+          onChange={(value: any) => typeof value === 'number' ? null: onChange(value)} 
           range
         />
         <S.NumberRange 
@@ -67,7 +67,7 @@ const S = {
       margin: 0; 
     }
   `,
-  Range: styled(Slider)`
+  Range: styled(props => <Slider {...props} />)`
     position: relative;
     height: .75rem;
     margin: .5rem 0;

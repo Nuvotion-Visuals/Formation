@@ -46,7 +46,7 @@ export const RichText = ({
 }
 
 const S = {
-  RichTextEditor: styled(RichTextEditor)`
+  RichTextEditor: styled(props => <RichTextEditor {...props} />)`
 
   `
 }

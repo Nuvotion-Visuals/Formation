@@ -23,7 +23,7 @@ export const Icon = React.memo((props : Props) => {
 })
 
 const S = {
-  Icon: styled(FontAwesomeIcon)`
+  Icon: styled(props => <FontAwesomeIcon {...props} />)`
     color: var(--Font_Color_Label);
   `
 }
