@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import styled from 'styled-components'
 
-import { NavHeader } from '../NavHeader/NavHeader'
-import { HamburgerMenu } from '../HamburgerMenu/HamburgerMenu'
-import { Sidebar, Navs } from '../Sidebar/Sidebar'
-import { NavLogo } from '../NavLogo/NavLogo'
+import { NavHeader } from '../../internal'
+import { HamburgerMenu } from '../../internal'
+import { Sidebar, Navs } from '../../internal'
+import { NavLogo } from '../../internal'
 
 interface Props {
   navs: Navs,

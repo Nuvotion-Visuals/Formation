@@ -1,10 +1,5 @@
 import styled from 'styled-components'
-import React, { useEffect, useState } from 'react'
-
-import { Box } from '../Box/Box'
-import { TextInput } from '../TextInput/TextInput';
-import { HamburgerMenu } from 'components/HamburgerMenu/HamburgerMenu';
-
+import React from 'react'
 
 interface Props {
   children: React.ReactNode

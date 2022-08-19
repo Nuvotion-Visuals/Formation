@@ -1,7 +1,7 @@
 import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { Ripple } from './Ripple'
+import { Ripple } from '../../internal'
 
 export default {
   title: 'Misc/Ripple',

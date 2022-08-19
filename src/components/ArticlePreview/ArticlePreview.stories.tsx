@@ -2,10 +2,9 @@ import React from 'react'
 
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { ArticlePreview } from './ArticlePreview'
-import { Empty } from '../Empty/Empty'
-import { AspectRatio } from '../AspectRatio/AspectRatio'
-import { Box } from '../Box/Box'
+import { ArticlePreview } from '../../internal'
+import { Empty } from '../../internal'
+import { AspectRatio } from '../../internal'
 
 export default {
   title: 'Article/ArticlePreview',

@@ -2,9 +2,9 @@ import React from 'react'
 
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { Grid } from '../Grid/Grid'
-import { Empty } from '../Empty/Empty'
-import { AspectRatio } from './AspectRatio'
+import { Grid } from '../../internal'
+import { Empty } from '../../internal'
+import { AspectRatio } from '../../internal'
 
 export default {
   title: 'Layout/AspectRatio',

@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { AspectRatio } from '../AspectRatio/AspectRatio'
-import { StyleHTML } from '../StyleHTML/StyleHTML'
+import { AspectRatio } from '../../internal'
+import { StyleHTML } from '../../internal'
 
 interface Props {
   title: string,

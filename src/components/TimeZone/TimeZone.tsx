@@ -1,7 +1,6 @@
 import React from 'react'
 
-import { Select } from '../Select/Select'
-
+import { Select } from '../../internal'
 
 export const minimalTimeZoneSet = [
   { offset: '-11:00', label: '(GMT-11:00) Pago Pago', tzCode: 'Pacific/Pago_Pago' },

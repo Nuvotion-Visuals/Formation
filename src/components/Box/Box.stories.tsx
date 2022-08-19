@@ -2,10 +2,9 @@ import React from 'react'
 
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { Button } from '../Button/Button'
-import { Box } from './Box'
-import { Empty } from '../Empty/Empty'
-import { AspectRatio } from '../AspectRatio/AspectRatio'
+import { Box } from '../../internal'
+import { Empty } from '../../internal'
+import { AspectRatio } from '../../internal'
 
 export default {
   title: 'Layout/Box',

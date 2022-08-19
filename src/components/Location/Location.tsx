@@ -1,8 +1,7 @@
 import styled from 'styled-components'
 import React, { useEffect, useState } from 'react'
 
-import { Box } from '../Box/Box'
-import { TextInput } from '../TextInput/TextInput';
+import { TextInput } from '../../internal'
 
 export interface Place {
   address_components?: (AddressComponentsEntity)[] | null;

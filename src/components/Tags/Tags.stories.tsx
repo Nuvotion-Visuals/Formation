@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react'
 
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-
-import { Tags } from './Tags'
+import { Tags } from '../../internal'
 
 export default {
   title: 'Input/Tags',

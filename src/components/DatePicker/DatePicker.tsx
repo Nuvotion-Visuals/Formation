@@ -1,13 +1,15 @@
 import { styled } from '@storybook/theming'
 import React, { useEffect, useRef, useState } from 'react'
-import { TextInput } from '../TextInput/TextInput'
-import { Icon } from '../Icon/Icon'
-import { Button } from '../Button/Button'
-import { Box } from '../Box/Box'
-import { useOnClickOutside } from '../../hooks/useOnClickOutside'
-import { Spacer } from '../Spacer/Spacer'
-import { LineBreak } from '../LineBreak/LineBreak'
-import { isTouchCapable } from '../../utils'
+
+import { isTouchCapable } from '../../internal'
+import { useOnClickOutside } from '../../internal'
+
+import { TextInput } from '../../internal'
+import { Icon } from '../../internal'
+import { Button } from '../../internal'
+import { Box } from '../../internal'
+import { Spacer } from '../../internal'
+import { LineBreak } from '../../internal'
 
 const cloneDate = (date : Date) => new Date(date.valueOf())
 

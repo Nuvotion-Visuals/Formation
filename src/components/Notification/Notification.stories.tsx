@@ -1,7 +1,7 @@
 import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { Notification } from './Notification'
+import { Notification } from '../../internal'
 
 export default {
   title: 'Displays/Notification',

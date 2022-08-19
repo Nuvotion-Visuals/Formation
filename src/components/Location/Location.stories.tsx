@@ -1,7 +1,7 @@
 import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { Location } from './Location'
+import { Location } from '../../internal'
 
 export default {
   title: 'Input/Location',

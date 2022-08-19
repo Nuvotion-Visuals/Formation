@@ -1,8 +1,8 @@
-import { Icon } from '../Icon/Icon'
 import React from 'react'
 import styled from 'styled-components'
 
-import { Gap } from '../Gap/Gap'
+import { Gap } from '../../internal'
+import { Icon } from '../../internal'
 
 interface Props {
   options: {

@@ -1,13 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { ListItem } from './ListEditor'
+import { ListItemType } from '../../internal'
 
-import { Icon } from '../Icon/Icon'
-import { Dropdown } from '../Dropdown/Dropdown'
+import { Icon } from '../../internal'
+import { Dropdown } from '../../internal'
 
 interface Props {
-  listItems: ListItem[],
+  listItems: ListItemType[],
   onClick?: any,
   expand?: any,
   index: number,

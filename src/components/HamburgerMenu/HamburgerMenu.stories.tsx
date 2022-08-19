@@ -1,7 +1,7 @@
 import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { HamburgerMenu } from './HamburgerMenu'
+import { HamburgerMenu } from '../../internal'
 
 export default {
   title: 'Navigation/HamburgerMenu',

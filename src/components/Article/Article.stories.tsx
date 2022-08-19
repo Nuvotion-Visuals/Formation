@@ -2,8 +2,8 @@ import React from 'react'
 
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { Page } from '../Page/Page'
-import { Article } from './Article'
+import { Page } from '../../internal'
+import { Article } from '../../internal'
 
 export default {
   title: 'Article/Article',

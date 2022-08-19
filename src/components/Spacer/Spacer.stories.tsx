@@ -2,8 +2,8 @@ import React from 'react'
 
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { Button } from '../Button/Button'
-import { Spacer } from './Spacer'
+import { Button } from '../../internal'
+import { Spacer } from '../../internal'
 
 export default {
   title: 'Layout/Spacer',

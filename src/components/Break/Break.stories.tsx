@@ -2,8 +2,8 @@ import React from 'react'
 
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { Button } from '../Button/Button'
-import { Break } from './Break'
+import { Button } from '../../internal'
+import { Break } from '../../internal'
 
 export default {
   title: 'Layout/Break',

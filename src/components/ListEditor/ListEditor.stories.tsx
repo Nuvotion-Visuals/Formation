@@ -1,7 +1,7 @@
 import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { ListEditor } from './ListEditor'
+import { ListEditor } from '../../internal'
 
 export default {
   title: 'Advanced Input/ListEditor',

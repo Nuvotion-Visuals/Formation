@@ -3,7 +3,7 @@ import styled, { keyframes, css } from 'styled-components'
 
 import { IconPrefix } from '@fortawesome/fontawesome-common-types'
 
-import { Icon } from '../Icon/Icon'
+import { Icon } from '../../internal'
 
 interface Props {
   children: React.ReactNode,

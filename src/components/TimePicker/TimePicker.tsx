@@ -1,10 +1,10 @@
 import { styled } from '@storybook/theming'
 import React, { useEffect, useRef, useState } from 'react'
-import { isTouchCapable } from '../../utils'
-import { useOnClickOutside } from '../../hooks'
-import { useScrollTo } from '../../hooks'
+import { isTouchCapable } from '../../internal'
+import { useOnClickOutside } from '../../internal'
+import { useScrollTo } from '../../internal'
 
-import { TextInput } from '../TextInput/TextInput'
+import { TextInput } from '../../internal'
 
 // rewrite as isValidTime
 

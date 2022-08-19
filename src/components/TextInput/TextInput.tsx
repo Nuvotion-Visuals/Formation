@@ -3,7 +3,7 @@ import styled, { css, keyframes } from 'styled-components'
 
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 
-import { Icon } from '../Icon/Icon'
+import { Icon } from '../../internal'
 
 type Props = {
   name?: string,

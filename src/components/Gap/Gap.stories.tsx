@@ -2,8 +2,8 @@ import React from 'react'
 
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { Button } from '../Button/Button'
-import { Gap } from './Gap'
+import { Button } from '../../internal'
+import { Gap } from '../../internal'
 
 export default {
   title: 'Layout/Gap',
