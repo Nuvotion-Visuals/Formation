@@ -4,7 +4,7 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
   },
-  "version": "0.6.1",
+  "version": "0.6.2",
   "description": "A component library based on React, Styled Components and CSS variables.",
   "keywords": [
     "react",
@@ -46,6 +46,10 @@
   "author": "AVsync.LIVE LLC",
   "license": "MIT",
   "devDependencies": {
+    "@fortawesome/fontawesome-free": "^6.1.2",
+    "@fortawesome/fontawesome-svg-core": "^6.1.2",
+    "@fortawesome/free-regular-svg-icons": "^6.1.2",
+    "@fortawesome/free-solid-svg-icons": "^6.1.2",
     "@babel/core": "^7.16.0",
     "@babel/preset-env": "^7.16.4",
     "@babel/preset-react": "^7.16.0",
@@ -89,11 +93,6 @@
     "postcss": "^8.1.9",
     "postcss-import": "12.0.1",
     "rc-slider": "^10.0.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-recorder": "^1.0.0",
-    "react-responsive": "^9.0.0-beta.10",
-    "react-rte": "^0.16.5",
     "rollup": "^2.60.0",
     "rollup-plugin-dts": "^4.0.1",
     "rollup-plugin-import-css": "^3.0.3",
@@ -105,7 +104,6 @@
     "storybook-dark-mode": "^1.1.0",
     "storybook-mobile": "^1.0.0",
     "style-loader": "2.0.0",
-    "styled-components": "^5.3.5",
     "typescript": "^4.7.4"
   },
   "main": "dist/cjs/index.js",
@@ -115,9 +113,10 @@
   ],
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^6.1.2",
-    "@fortawesome/fontawesome-svg-core": "^6.1.2",
-    "@fortawesome/free-regular-svg-icons": "^6.1.2",
-    "@fortawesome/free-solid-svg-icons": "^6.1.2"
+    "styled-components": "^5.3.5",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-responsive": "^9.0.0-beta.10",
+    "react-rte": "^0.16.5"
   }
 }
