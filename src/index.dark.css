@@ -106,6 +106,8 @@ It’s easy to picture how a less saturated version of a color would look like, 
 
 html, body {
   font-family: sans-serif;
+  background: var(--Background);
+  color: var(--Font_Color);
 }
 
 *:focus {
