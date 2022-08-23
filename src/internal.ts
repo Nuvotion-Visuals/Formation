@@ -46,7 +46,6 @@ export {
 import { Auth } from './components/Auth/Auth'
 import { Ripple } from './components/Ripple/Ripple'
 import { LoadingSpinner } from './components/LoadingSpinner/LoadingSpinner'
-import { RichText } from './components/RichText/RichText'
 import { Empty } from './components/Empty/Empty'
 import { AspectRatio } from './components/AspectRatio/AspectRatio'
 import { StyleHTML } from './components/StyleHTML/StyleHTML'
@@ -68,7 +67,6 @@ export {
   Auth,
   Ripple,
   LoadingSpinner,
-  RichText,
   Empty,
   AspectRatio,
   StyleHTML,

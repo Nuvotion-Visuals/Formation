@@ -4,7 +4,7 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
   },
-  "version": "0.7.10",
+  "version": "0.7.11",
   "description": "A component library based on React, Styled Components and CSS variables.",
   "keywords": [
     "react",
@@ -97,7 +97,10 @@
     "storybook-dark-mode": "^1.1.0",
     "storybook-mobile": "^1.0.0",
     "style-loader": "2.0.0",
-    "typescript": "^4.7.4"
+    "typescript": "^4.7.4",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "styled-components": "^5.3.5"
   },
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
@@ -110,11 +113,10 @@
     "@fortawesome/fontawesome-svg-core": "^6.1.2",
     "@fortawesome/free-regular-svg-icons": "^6.1.2",
     "@fortawesome/free-solid-svg-icons": "^6.1.2",
-    "rc-slider": "^10.0.1",
-    "react-responsive": "^9.0.0-beta.10",
-    "react-rte": "^0.16.5",
     "lodash.union": "^4.6.0",
-    "lodash.xor": "^4.5.0"
+    "lodash.xor": "^4.5.0",
+    "rc-slider": "^10.0.1",
+    "react-responsive": "^9.0.0-beta.10"
   },
   "peerDependencies": {
     "react": "^18.0.0",
