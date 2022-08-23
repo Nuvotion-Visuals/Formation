@@ -4,6 +4,7 @@ import typescript from "@rollup/plugin-typescript";
 import dts from "rollup-plugin-dts";
 import css from "rollup-plugin-import-css"
 import { visualizer } from "rollup-plugin-visualizer"
+import autoExternal from 'rollup-plugin-auto-external'
 
 const packageJson = require("./package.json");
 
@@ -28,6 +29,7 @@ export default [
       typescript({ tsconfig: "./tsconfig.json" }),
       css(),
       visualizer(),
+      autoExternal()
     ],
   },
   {
