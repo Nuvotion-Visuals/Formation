@@ -6,12 +6,6 @@
 
 Formation is a component library based on React, Styled Components and CSS variables.
 
-
-
-
-
-
-
 ## Installation
 
 ```shell
@@ -20,44 +14,53 @@ yarn add @avsync.live/formation
 
 ## Usage
 
-```jsx
-  import React from 'react'
-  import { Button } from '@avsync.live/formation'
+### CSS and Customization
 
-  const MyComponent = () => {
-    return <Button text='Click me' />
-  }
+Formation uses CSS variables to adjust the colors, typography, and proportions of components.
+
+You should import Formation's CSS index file. It is available in both dark and light themes.
+
+```jsx
+// in your app's entrypoint (_app.tsx, App.js, etc)
+import '@avsync.live/formation/dist/index.dark.css' // or index.light.css
 ```
 
-## Icons
+To modify these properties, you can overwrite them in your project's global style sheet.
+
+```css
+:root {
+  --Primary: hotpink;
+}
+```
+
+### Icons
 
 Formation uses [FontAwesome v6](https://fontawesome.com/v6/search?m=free) and supports both pro and free icons.
 
 ```jsx
-// import FontAwesome in your project
-import '@fortawesome/fontawesome-svg-core/styles.css'
+// in your app entrypoint (_app.tsx, App.js, etc)
+import '@fortawesome/fontawesome-svg-core/styles.css' // add FontAwesome
 import { library } from '@fortawesome/fontawesome-svg-core'
-
 import { faHeart } from '@fortawesome/free-solid-svg-icons'
-
 library.add(faHeart)
+```
 
+### Usage
+
+```jsx
 // in your component
 import React from 'react'
 import { Button } from '@avsync.live/formation'
 
 const MyComponent = () => {
   return <Button 
-    text='Click me' 
+    text='Like' 
     icon='heart' // name of the icon without the "fa" and in kebab-case
     iconPrefix='fas' // fas, far, fal, etc
-   />;
+  />
 }
 ```
 
-## Theming
-
-Theming is based on CSS variables.
 
 ## Why Formation?
  - Responsive from the smallest of phones to the largest of multi-window 4K monitors

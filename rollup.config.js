@@ -27,7 +27,6 @@ export default [
       resolve(),
       commonjs(),
       typescript({ tsconfig: './tsconfig.json' }),
-      // css(),
       postcss({
         include: '**/index.dark.css',
         extract: 'css/index.dark.css'
@@ -45,5 +44,35 @@ export default [
     output: [{ file: 'dist/index.d.ts', format: 'esm' }],
     plugins: [dts()],
     external: [/\.css$/]
+  },
+  {
+    input: 'dist/esm/css/index.dark.css',
+    output: [
+      { 
+        file: 'dist/index.dark.css',
+        format: 'es'
+      }
+    ],
+    plugins: [
+      postcss({
+        modules: true,
+        extract: true
+      })
+    ]
+  },
+  {
+    input: 'dist/esm/css/index.light.css',
+    output: [
+      { 
+        file: 'dist/index.light.css',
+        format: 'es'
+      }
+    ],
+    plugins: [
+      postcss({
+        modules: true,
+        extract: true
+      })
+    ]
   }
 ]
