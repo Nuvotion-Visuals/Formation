@@ -14,18 +14,53 @@ yarn add @avsync.live/formation
 
 ## Usage
 
+The following is a minimal example for [Create React App](https://create-react-app.dev/docs/getting-started).
+
+[CodeSandbox](https://codesandbox.io/s/formation-minimal-example-xmir9o)
+
+```jsx
+// App.js
+import React from 'react'
+
+import '@avsync.live/formation/dist/index.dark.css' // or index.light.css
+
+import '@fortawesome/fontawesome-svg-core/styles.css'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faHeart } from '@fortawesome/free-solid-svg-icons'
+library.add(faHeart)
+
+import { Page, StyleHTML, Button } from '@avsync.live/formation'
+
+export default function App() {
+  return (
+    <Page>
+      <StyleHTML>
+        <h1>Formation</h1>
+        <p>This is a minimal example for Create React App</p>
+      </StyleHTML>
+      <Button
+        text='Like'
+        icon='heart' // name of the icon without the 'fa' and in kebab-case
+        iconPrefix='fas' // fas, far, fal, etc
+      />
+    </Page>
+  )
+}
+
+```
+
 ### CSS and Customization
 
 Formation uses CSS variables to adjust the colors, typography, and proportions of components.
 
-You should import Formation's CSS index file. It is available in both dark and light themes.
+You must import Formation's CSS index file. It is available in both dark and light themes.
 
 ```jsx
 // in your app's entrypoint (_app.tsx, App.js, etc)
 import '@avsync.live/formation/dist/index.dark.css' // or index.light.css
 ```
 
-To modify these properties, you can overwrite them in your project's global style sheet.
+To modify these properties, overwrite them in your project's global style sheet.
 
 ```css
 :root {
@@ -34,42 +69,24 @@ To modify these properties, you can overwrite them in your project's global styl
 ```
 
 ### Icons
-
 Formation uses [FontAwesome v6](https://fontawesome.com/v6/search?m=free) and supports both pro and free icons.
 
 ```jsx
-// in your app entrypoint (_app.tsx, App.js, etc)
-import '@fortawesome/fontawesome-svg-core/styles.css' // add FontAwesome
+// in your app's entrypoint (_app.tsx, App.js, etc)
+import '@fortawesome/fontawesome-svg-core/styles.css'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faHeart } from '@fortawesome/free-solid-svg-icons'
 library.add(faHeart)
 ```
 
-### Usage
-
-```jsx
-// in your component
-import React from 'react'
-import { Button } from '@avsync.live/formation'
-
-const MyComponent = () => {
-  return <Button 
-    text='Like' 
-    icon='heart' // name of the icon without the "fa" and in kebab-case
-    iconPrefix='fas' // fas, far, fal, etc
-  />
-}
-```
-
-
 ## Why Formation?
- - Responsive from the smallest of phones to the largest of multi-window 4K monitors
+ - Easily modify styling using css variables
+ - Responsive from 5" mobile touchscreens to 4K TVs
  - Touch-first
  - No reliance on right clicks
  - No reliance on hover states
  - Allow for hold-to-drag and swiping, but also provide tap/click-only alternatives
  - Minimal use of animations
- - Easily modify the styling using css variables
  - Prefer a small inline dropdown over a context-changing modal popup.
 
 ## Implementation
