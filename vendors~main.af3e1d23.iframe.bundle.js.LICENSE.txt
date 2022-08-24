@@ -24,6 +24,13 @@ object-assign
  */
 
 /*!
+ * The buffer module from node.js, for the browser.
+ *
+ * @author   Feross Aboukhadijeh <http://feross.org>
+ * @license  MIT
+ */
+
+/*!
  * https://github.com/es-shims/es5-shim
  * @license es5-shim Copyright 2009-2020 by contributors, MIT License
  * see https://github.com/es-shims/es5-shim/blob/master/LICENSE
@@ -88,9 +95,13 @@ PERFORMANCE OF THIS SOFTWARE.
 
 /*! ./useMediaQuery */
 
+/*! @license DOMPurify 2.3.12 | (c) Cure53 and other contributors | Released under the Apache license 2.0 and Mozilla Public License 2.0 | github.com/cure53/DOMPurify/blob/2.3.12/LICENSE */
+
 /*! css-mediaquery */
 
 /*! hyphenate-style-name */
+
+/*! ieee754. BSD-3-Clause License. Feross Aboukhadijeh <https://feross.org/opensource> */
 
 /*! matchmediaquery */
 
@@ -102,7 +113,11 @@ PERFORMANCE OF THIS SOFTWARE.
 
 /*! react-is */
 
+/*! safe-buffer. MIT License. Feross Aboukhadijeh <https://feross.org/opensource> */
+
 /*! shallow-equal */
+
+/*! showdown v 2.1.0 - 21-04-2022 */
 
 /*!**********************!*\
   !*** ./src/index.ts ***!
