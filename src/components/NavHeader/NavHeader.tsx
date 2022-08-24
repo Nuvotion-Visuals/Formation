@@ -28,5 +28,6 @@ const S = {
     top: 0;
     left: 0;
     z-index: 20;
+    user-select: none;
   `
 }

@@ -63,6 +63,7 @@ import { NavLogo } from './components/NavLogo/NavLogo'
 import { NumberSlider } from './components/NumberSlider/NumberSlider'
 import { NumberRange } from './components/NumberRange/NumberRange'
 import { Page } from './components/Page/Page'
+import { ParseHTML } from './components/ParseHTML/ParseHTML'
 export {
   Auth,
   Ripple,
@@ -83,7 +84,8 @@ export {
   NavLogo,
   NumberSlider,
   NumberRange,
-  Page
+  Page,
+  ParseHTML
 }
 
 // Molecules (1)
