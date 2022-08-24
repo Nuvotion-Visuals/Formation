@@ -1,3 +1,5 @@
+import styled from 'styled-components'
+
 import React, { useState, useEffect } from 'react'
 
 import { NavHeader } from '../../internal'
@@ -7,10 +9,15 @@ import { NavLogo } from '../../internal'
 
 interface Props {
   navs: Navs,
-  navLogoSrc: string
+  navLogoSrc: string,
+  children: React.ReactNode
 }
 
-export const Navigation = ({ navs, navLogoSrc }: Props) => {
+export const Navigation = ({ 
+  navs, 
+  navLogoSrc,
+  children
+}: Props) => {
   const [open, set_open] = useState(true)
 
   useEffect(() => {
@@ -22,7 +29,7 @@ export const Navigation = ({ navs, navLogoSrc }: Props) => {
     )
   }, [open])
 
-  return (<>
+  return (<S.Navigation>
     <NavHeader>
       <HamburgerMenu onClick={() => set_open(!open)}/>
       <NavLogo src={navLogoSrc}/>
@@ -32,6 +39,25 @@ export const Navigation = ({ navs, navLogoSrc }: Props) => {
       onClose={() => set_open(false)} 
       open={open} 
     />
-  </>
-)
+    <S.Content>
+      {
+        children
+      }
+    </S.Content>
+  </S.Navigation>)
+}
+
+const S = {
+  Navigation: styled.div`
+    width: 100%;
+    display: flex;
+    height: var(calc(100vh * var(--Zoom)));
+    overflow: hidden;
+  `,
+  Content: styled.div`
+    margin-top: var(--Header_Height);
+    height: calc(100vh - var(--Header_Height));
+    width: 100%;
+    overflow-y: auto;
+  `
 }

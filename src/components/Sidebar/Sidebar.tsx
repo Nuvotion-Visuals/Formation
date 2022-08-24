@@ -153,7 +153,6 @@ const S = {
     width: var(--Sidebar_Width);
     display: flex;
     height: calc(calc(100vh - var(--Header_Height)) * var(--Zoom_Scale));
-    padding-top: var(--Header_Height);
     a {
       text-decoration: none;
     }
