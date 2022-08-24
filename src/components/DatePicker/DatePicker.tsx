@@ -1,4 +1,4 @@
-import { styled } from '@storybook/theming'
+import styled from 'styled-components'
 import React, { useEffect, useRef, useState } from 'react'
 
 import { isTouchCapable } from '../../internal'

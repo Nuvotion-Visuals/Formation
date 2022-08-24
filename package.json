@@ -4,7 +4,7 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
   },
-  "version": "0.8.1",
+  "version": "0.8.2",
   "description": "A component library utilizing React, Styled Components, and CSS variables.",
   "keywords": [
     "react",
@@ -38,7 +38,7 @@
     "formation"
   ],
   "scripts": {
-    "rollup": "NODE_ENV=production rollup -c",
+    "rollup": "rm -rf dist && NODE_ENV=production rollup -c",
     "test": "jest",
     "storybook": "start-storybook -p 6006",
     "storybook-publish": "build-storybook && gh-pages -d storybook-static"
