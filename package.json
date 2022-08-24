@@ -41,8 +41,8 @@
     "rollup": "rm -rf dist && NODE_ENV=production rollup -c",
     "package": "yarn rollup && npm pack",
     "test": "jest",
-    "storybook": "start-storybook -p 6006",
-    "storybook-publish": "build-storybook && gh-pages -d storybook-static"
+    "storybook": "NODE_OPTIONS=--openssl-legacy-provider start-storybook -p 6006",
+    "storybook-publish": "NODE_OPTIONS=--openssl-legacy-provider build-storybook && gh-pages -d storybook-static"
   },
   "author": "AVsync.LIVE LLC",
   "license": "MIT",
