@@ -160,13 +160,11 @@ const S = {
     max-width: var(--F_Sidebar_Width);
     margin-top: var(--F_Header_Height);
     display: flex;
-    height: calc(100vh * var(--F_Zoom_Scale));
+    height: calc(calc(100vh * var(--F_Zoom_Scale)) - var(--F_Header_Height));
     a {
       text-decoration: none;
     }
-
     @media screen and (max-width: 1024px) {
-      height: calc(100vh * var(--F_Zoom_Scale));
       position: fixed;
       left: 0;
       margin-top: 0;
