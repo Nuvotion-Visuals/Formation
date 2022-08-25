@@ -4,7 +4,13 @@
 [GitHub Repository](https://github.com/AVsync-LIVE/formation) |
 [NPM Package](https://www.npmjs.com/package/@avsync.live/formation)
 
-Formation is a component library based on React, Styled Components and CSS variables.
+Formation is a comprehensive component library built on [React](https://reactjs.org/docs/getting-started.html), 
+[Styled Components](https://styled-components.com/docs) and [CSS variables](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties).
+
+ - Dynamically bind all page structure and styles to your data
+ - Easily customize colors, sizing, and typography using CSS variables
+ - Powerful dev environment and living documentation using [Storybook](https://avsync-live.github.io/formation) 
+ - Useful hooks and utilities included
 
 ## Installation
 
@@ -16,7 +22,7 @@ yarn add @avsync.live/formation
 
 The following is a minimal example for [Create React App](https://create-react-app.dev/docs/getting-started).
 
-[CodeSandbox](https://codesandbox.io/s/formation-minimal-example-xmir9o)
+[Edit on CodeSandbox](https://codesandbox.io/s/formation-minimal-example-xmir9o)
 
 ```jsx
 // App.js
@@ -82,6 +88,8 @@ To modify these properties, overwrite them in your project's global style sheet.
 }
 ```
 
+[View all customiziable CSS variables](https://avsync-live.github.io/formation/?path=/story/theme--theme)
+
 ### Icons
 Formation uses [FontAwesome v6](https://fontawesome.com/v6/search?m=free) and supports both pro and free icons.
 
@@ -109,27 +117,23 @@ library.add(
 
 ```
 
-## Why Formation?
- - Easily modify styling using css variables
- - Responsive from 5" mobile touchscreens to 4K TVs
- - Touch-first
- - No reliance on right clicks
- - No reliance on hover states
- - Allow for hold-to-drag and swiping, but also provide tap/click-only alternatives
- - Minimal use of animations
- - Prefer a small inline dropdown over a context-changing modal popup.
+## Next.js
 
-## Implementation
- - [React](https://reactjs.org/docs/getting-started.html)
- - [Styled Components](https://styled-components.com/docs)
- - [CSS variables](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties)
- - Surface-based background-color system
- - Use of Storybook to develop, manage, and visualize components outside of an application
- - [TODO] Code sandbox examples for all components
- - [TODO] Design system guide similar to [Material Design documentation](https://material.io/design/environment/elevation.html)
+Formation integrates well with Next.js, the popular React framework. 
+
+[View formation-next-example on GitHub](https://github.com/AVsync-LIVE/formation-next-example)
+
+The example project above includes the proper configuration for server-side rendering styled-components.
 
 ## Philosophy
 
 The name [Formation](https://www.etymonline.com/word/formation) expresses both the *form* embodied by the user interface, and the process by which user interaction *forms* the desired outcome of the application. The layout of the document is also composed of a *formation* of components.
 
 Formation adheres to the Unimpeded Design System philosophy, where users do not have to wait for animations to complete, or for the app to finishing changing modes in order to proceed with their task. The user is only limited physically by their reaction time.
+
+ - Touch-first
+ - No reliance on right clicks
+ - No reliance on hover states
+ - Allow for hold-to-drag and swiping, but also provide tap/click-only alternatives
+ - Minimal use of animations
+ - Prefer a small inline dropdown over a context-changing modal popup

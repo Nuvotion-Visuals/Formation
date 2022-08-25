@@ -5,6 +5,8 @@ import dts from 'rollup-plugin-dts'
 import { visualizer } from 'rollup-plugin-visualizer'
 import autoExternal from 'rollup-plugin-auto-external'
 import postcss from 'rollup-plugin-postcss'
+import cleanup from 'rollup-plugin-cleanup'
+import { terser } from 'rollup-plugin-terser'
 
 const packageJson = require('./package.json')
 
@@ -36,7 +38,9 @@ export default [
         extract: 'css/index.light.css'
       }),
       visualizer(),
-      autoExternal()
+      autoExternal(),
+      cleanup(),
+      terser()
     ]
   },
   {
