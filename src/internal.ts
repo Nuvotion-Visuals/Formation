@@ -52,6 +52,7 @@ import { Empty } from './components/Empty/Empty'
 import { AspectRatio } from './components/AspectRatio/AspectRatio'
 import { StyleHTML } from './components/StyleHTML/StyleHTML'
 import { LineBreak } from './components/LineBreak/LineBreak'
+import { Label } from './components/Label/Label'
 import { Box } from './components/Box/Box'
 import { Gap } from './components/Gap/Gap'
 import { Spacer } from './components/Spacer/Spacer'
@@ -75,6 +76,7 @@ export {
   AspectRatio,
   StyleHTML,
   LineBreak,
+  Label,
   Box,
   Gap,
   Spacer,
