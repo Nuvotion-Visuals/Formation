@@ -22,14 +22,28 @@ The following is a minimal example for [Create React App](https://create-react-a
 // App.js
 import React from 'react'
 
+import { Page, StyleHTML, Button } from '@avsync.live/formation'
+
 import '@avsync.live/formation/dist/index.dark.css' // or index.light.css
 
+// fontawesome
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faHeart } from '@fortawesome/free-solid-svg-icons'
-library.add(faHeart)
+import * as far from '@fortawesome/free-regular-svg-icons'
+import * as fas from '@fortawesome/free-solid-svg-icons'
+library.add(
+  // regular
+  far.faHeart, far.faPaperPlane, far.faCheckSquare, far.faSquare,
+  fas.faEnvelope,
 
-import { Page, StyleHTML, Button } from '@avsync.live/formation'
+  // solid
+  fas.faInfoCircle, fas.faBars, fas.faHeart, fas.faPlus,
+  fas.faEllipsisV, fas.faPaperPlane, fas.faCalendarAlt,
+  fas.faArrowRight, fas.faArrowLeft, fas.faClock, fas.faSearch,
+  fas.faSortAlphaUp, fas.faSortAlphaDown, fas.faFilter,
+  fas.faChevronCircleRight, fas.faChevronCircleLeft, fas.faEnvelope,
+  fas.faCheck, fas.faExclamationTriangle
+)
 
 export default function App() {
   return (
@@ -71,12 +85,28 @@ To modify these properties, overwrite them in your project's global style sheet.
 ### Icons
 Formation uses [FontAwesome v6](https://fontawesome.com/v6/search?m=free) and supports both pro and free icons.
 
+The free icons below are used by some components, and should be included in your project.
+
 ```jsx
 // in your app's entrypoint (_app.tsx, App.js, etc)
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faHeart } from '@fortawesome/free-solid-svg-icons'
-library.add(faHeart)
+import * as far from '@fortawesome/free-regular-svg-icons'
+import * as fas from '@fortawesome/free-solid-svg-icons'
+library.add(
+  // regular
+  far.faHeart, far.faPaperPlane, far.faCheckSquare, far.faSquare,
+  fas.faEnvelope,
+
+  // solid
+  fas.faInfoCircle, fas.faBars, fas.faHeart, fas.faPlus,
+  fas.faEllipsisV, fas.faPaperPlane, fas.faCalendarAlt,
+  fas.faArrowRight, fas.faArrowLeft, fas.faClock, fas.faSearch,
+  fas.faSortAlphaUp, fas.faSortAlphaDown, fas.faFilter,
+  fas.faChevronCircleRight, fas.faChevronCircleLeft, fas.faEnvelope,
+  fas.faCheck, fas.faExclamationTriangle
+)
+
 ```
 
 ## Why Formation?

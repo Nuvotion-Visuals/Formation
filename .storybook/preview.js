@@ -33,34 +33,23 @@ import { withPerformance } from 'storybook-addon-performance';
 
 addDecorator(withPerformance);
 
-
 // fontawesome
 import '@fortawesome/fontawesome-svg-core/styles.css'
-import { library, config } from '@fortawesome/fontawesome-svg-core'
-
-import { 
-  faHeart, faPaperPlane, faFolder, faFolderBlank, faPlusSquare, faSquare, faCheckSquare, faBookmark, faTrashAlt
-} from '@fortawesome/free-regular-svg-icons'
-
-import { 
-  faHeart as fasHeart, faEllipsisVertical as fasEllipsisVertical,
-  faTimes as fasTimes, faPlus as fasPlus, faSearch as fasSearch,
-  faSortAlphaDown as fasSortAlphaDown, faFilter as fasFilter,
-  faSortAlphaUp as fasSortAlphaUp, faCalendarAlt as fasCalendarAlt, faChevronCircleRight, faChevronCircleLeft,
-  faCheck, faTimes, faExclamationTriangle, faInfoCircle, faChevronDown, faChevronUp,
-  faEnvelope, faMapPin, faLock, faUser, faGlobe, faUsers, faPlus, faBars, faArrowLeft, faArrowRight, faClock,
-  faPhone
-} from '@fortawesome/free-solid-svg-icons'
-
+import { library } from '@fortawesome/fontawesome-svg-core'
+import * as far from '@fortawesome/free-regular-svg-icons'
+import * as fas from '@fortawesome/free-solid-svg-icons'
 library.add(
-  faHeart, faPaperPlane, faFolderBlank, faPlusSquare, fasHeart,
-  fasEllipsisVertical, fasTimes, fasPlus, fasSearch, fasSortAlphaDown,
-  fasFilter, fasSortAlphaUp, fasCalendarAlt, faSquare, faCheckSquare,
-  faEnvelope, faMapPin, faLock, faUser, faGlobe, faUsers, faPlus, faBookmark, faBars,
-  faTrashAlt, faArrowLeft, faArrowRight, faClock, faPhone,
-  
-  faChevronCircleRight, faChevronCircleLeft,
-  faCheck, faTimes, faExclamationTriangle, faInfoCircle, faChevronDown, faChevronUp,
+  // regular
+  far.faHeart, far.faPaperPlane, far.faCheckSquare, far.faSquare,
+  fas.faEnvelope,
+
+  // solid
+  fas.faInfoCircle, fas.faBars, fas.faHeart, fas.faPlus,
+  fas.faEllipsisV, fas.faPaperPlane, fas.faCalendarAlt,
+  fas.faArrowRight, fas.faArrowLeft, fas.faClock, fas.faSearch,
+  fas.faSortAlphaUp, fas.faSortAlphaDown, fas.faFilter,
+  fas.faChevronCircleRight, fas.faChevronCircleLeft, fas.faEnvelope,
+  fas.faCheck, fas.faExclamationTriangle
 )
 
 export const parameters = {

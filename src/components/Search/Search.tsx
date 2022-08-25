@@ -180,10 +180,9 @@ const S = {
     align-items: center;
     padding-left: 1rem;
     color: var(--Font_Color);
-    font-size: var(--Font_Size);
     border-radius: var(--Input-Radius);
     border-radius: 0px 16px 16px 0px;
-    font-size: ${props => props.hero ? 'var(--Font_Size_Title)' : 'var(--Font_Size)'};
+    font-size: var(--Font_Size);
     width: 100%;
     animation: ${props => props.invalidInput ? css`0.7s ease-out 0s 1 ${shake} forwards` : 'none'};
   `
