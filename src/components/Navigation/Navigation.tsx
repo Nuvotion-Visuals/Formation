@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import React, { useState, useEffect } from 'react'
 
 import { NavHeader } from '../../internal'
-import { HamburgerMenu } from '../../internal'
+import { NavMenuBars } from '../../internal'
 import { Sidebar, Navs } from '../../internal'
 import { NavLogo } from '../../internal'
 
@@ -31,7 +31,7 @@ export const Navigation = ({
 
   return (<S.Navigation>
     <NavHeader>
-      <HamburgerMenu onClick={() => set_open(!open)}/>
+      <NavMenuBars onClick={() => set_open(!open)}/>
       <NavLogo src={navLogoSrc}/>
     </NavHeader>
     <Sidebar 

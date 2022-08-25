@@ -1,14 +1,14 @@
 import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { HamburgerMenu } from '../../internal'
+import { NavMenuBars } from '../../internal'
 
 export default {
-  title: 'Navigation/HamburgerMenu',
-  component: HamburgerMenu,
-} as ComponentMeta<typeof HamburgerMenu>
+  title: 'Navigation/NavMenuBars',
+  component: NavMenuBars,
+} as ComponentMeta<typeof NavMenuBars>
 
-const Template: ComponentStory<typeof HamburgerMenu> = (args) => <HamburgerMenu {...args} />
+const Template: ComponentStory<typeof NavMenuBars> = (args) => <NavMenuBars {...args} />
 
 export const Regular = Template.bind({})
 Regular.args = {

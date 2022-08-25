@@ -60,7 +60,7 @@ import { ColorPicker } from './components/ColorPicker/ColorPicker'
 import { Break } from './components/Break/Break'
 import { Grid } from './components/Grid/Grid'
 import { NavHeader } from './components/NavHeader/NavHeader'
-import { HamburgerMenu } from './components/HamburgerMenu/HamburgerMenu'
+import { NavMenuBars } from './components/NavMenuBars/NavMenuBars'
 import { NavLogo } from './components/NavLogo/NavLogo'
 import { NumberSlider } from './components/NumberSlider/NumberSlider'
 import { NumberRange } from './components/NumberRange/NumberRange'
@@ -83,7 +83,7 @@ export {
   Break,
   Grid,
   NavHeader,
-  HamburgerMenu,
+  NavMenuBars,
   NavLogo,
   NumberSlider,
   NumberRange,

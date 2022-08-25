@@ -7,15 +7,15 @@ interface Props {
   onClick: () => void
 }
 
-export const HamburgerMenu = ({ onClick }: Props) => {
+export const NavMenuBars = ({ onClick }: Props) => {
   return (
-    <S_HamburgerMenu onClick={onClick}>
+    <S_NavMenuBars onClick={onClick}>
       <Icon icon='bars' iconPrefix='fas' />
-    </S_HamburgerMenu>
+    </S_NavMenuBars>
   )
 }
 
-const S_HamburgerMenu = styled.div`
+const S_NavMenuBars = styled.div`
   width: var(--Sidebar_Icon_Width);
   height: var(--Header_Height);
   display: flex;
