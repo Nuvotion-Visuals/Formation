@@ -3,19 +3,19 @@ import styled from 'styled-components'
 
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 
-import { Icon } from '../../internal'
+import { Icon, Box } from '../../internal'
 
 interface NavProps {
   type?: string,
-  href: string,
+  href?: string,
   title?: string,
-  icon: IconName,
+  icon?: IconName,
   iconPrefix?: IconPrefix,
-  name: string,
-  toolTipTitle: string,
+  name?: string,
+  toolTipTitle?: string,
   active?: boolean,
-  newTab: boolean,
-  onClick: () => void
+  newTab?: boolean,
+  onClick?: () => void
 }
 
 export type Navs = NavProps[]
@@ -48,9 +48,13 @@ export const Sidebar = ({ onClose, open, navs }: Props) => {
         }}
       >
         <S.NavContent open={true}>
-          <S.IconContainer>
-            <Icon icon={icon} iconPrefix={'fas'} />
-          </S.IconContainer>
+          {
+            icon
+              ? <S.IconContainer>
+                  <Icon icon={icon} iconPrefix={'fas'} />
+                </S.IconContainer>
+              : <Box pl={2.25}/>
+          }
           <S.Text>
             { name }
           </S.Text>
@@ -89,12 +93,13 @@ export const Sidebar = ({ onClose, open, navs }: Props) => {
       title={toolTipTitle}
     >
       <S.NavContent open={true} active={active}>
-        <S.IconContainer>
-          <Icon 
-            icon={icon} 
-            iconPrefix={active ? 'fas' : 'fas'} 
-          />
-        </S.IconContainer>
+        {
+          icon
+            ? <S.IconContainer>
+                <Icon icon={icon} iconPrefix={'fas'} />
+              </S.IconContainer>
+            : <Box pl={2.25}/>
+        }
         <S.Text>
           { name }
         </S.Text>

@@ -49,7 +49,8 @@ library.add(
   fas.faArrowRight, fas.faArrowLeft, fas.faClock, fas.faSearch,
   fas.faSortAlphaUp, fas.faSortAlphaDown, fas.faFilter,
   fas.faChevronCircleRight, fas.faChevronCircleLeft, fas.faEnvelope,
-  fas.faCheck, fas.faExclamationTriangle
+  fas.faCheck, fas.faExclamationTriangle, fas.faUser, fas.faLock,
+  fas.faPhone
 )
 
 export const parameters = {
