@@ -65,13 +65,12 @@ It’s easy to picture how a less saturated version of a color would look like, 
   --F_Letter_Spacing: .04em;
   --F_Letter_Spacing_Title: .04em;
 
-  --F_Page_Width: calc(100% - 2em);
+  --F_Page_Width: 700px;
 }
 
 /* Mobile */
 @media screen and (max-width: 480px) { 
   :root {
-    --F_Page_Width: calc(100% - 2em);
     --F_Font_Size_Page_Header: 40px;
     --F_Font_Size_Title_Section: 28px;
     --F_Font_Size_Title_Large: 24px;
@@ -82,13 +81,11 @@ It’s easy to picture how a less saturated version of a color would look like, 
 /* Tablet */
 @media screen and (min-width: 768px) {
   :root {
-    --F_Page_Width: calc(100% - 2em);
   }
 }
 /* Laptop_Small */
 @media screen and (min-width: 1024px) {
   :root {
-    --F_Page_Width: 800px;
   }
 }
 /* Laptop_Large */

@@ -156,17 +156,20 @@ interface NavContentProps {
 const S = {
   Sidebar: styled.div`
     width: var(--F_Sidebar_Width);
+    min-width: var(--F_Sidebar_Width);
+    max-width: var(--F_Sidebar_Width);
+    margin-top: var(--F_Header_Height);
     display: flex;
-    height: calc(calc(100vh - var(--F_Header_Height)) * var(--F_Zoom_Scale));
+    height: calc(100vh * var(--F_Zoom_Scale));
     a {
       text-decoration: none;
     }
 
     @media screen and (max-width: 1024px) {
       height: calc(100vh * var(--F_Zoom_Scale));
-      padding-top: 0;
       position: fixed;
       left: 0;
+      margin-top: 0;
       top: var(--F_Header_Height);
       z-index: 4;
     }
