@@ -22,6 +22,29 @@ It’s easy to picture how a less saturated version of a color would look like, 
   --F_Font_Color_Success: hsl(147, 70%, 45%);
   --F_Font_Color_Warning: hsl(25, 100%, 55%);
   --F_Font_Color_Link: hsl(201, 66%, 29%);
+
+  --F_Label_Background_Red: #b71c1c;
+  --F_Label_Outline_Red: #8e0000;
+  --F_Label_Background_Pink: #880e4f;
+  --F_Label_Outline_Pink: #560027;
+  --F_Label_Background_Purple: #4a148c;
+  --F_Label_Outline_Purple: #38006b;
+  --F_Label_Background_Dark_Purple: #311b92;
+  --F_Label_Outline_Dark_Purple: #000063;
+  --F_Label_Background_Indigo: #1a237e;
+  --F_Label_Outline_Indigo: #000051;
+  --F_Label_Background_Blue: #0d47a1;
+  --F_Label_Outline_Blue: #002171;
+  --F_Label_Background_Light_Blue: #01579b;
+  --F_Label_Outline_Light_Blue: #002f6c;
+  --F_Label_Background_Cyan: #006064;
+  --F_Label_Outline_Cyan: #00363a;
+  --F_Label_Background_Teal: #004d40;
+  --F_Label_Outline_Teal: #00251a;
+  --F_Label_Background_Orange: #bf360c;
+  --F_Label_Outline_Orange: #870000;
+  --F_Label_Background_Gray: #424242;
+  --F_Label_Outline_Gray: #1b1b1b;
 }
 
 .F_Empty {
