@@ -4,7 +4,7 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
   },
-  "version": "0.9.6",
+  "version": "0.9.7",
   "description": "A component library utilizing React, Styled Components, and CSS variables.",
   "keywords": [
     "react",
@@ -124,6 +124,7 @@
     "marked": "^4.0.19",
     "rc-slider": "^10.0.1",
     "react-html-parser": "^2.0.2",
+    "react-reorder": "^3.0.0-alpha.7",
     "react-responsive": "^9.0.0-beta.10",
     "reading-time": "^1.5.0",
     "showdown": "^2.1.0"

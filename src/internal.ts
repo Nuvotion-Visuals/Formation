@@ -22,12 +22,14 @@
 import {
   getSuperscriptOrdinal,
   getOrdinal,
-  isTouchCapable
+  isTouchCapable,
+  reorderItems
 } from './utils'
 export {
   getSuperscriptOrdinal,
   getOrdinal,
-  isTouchCapable
+  isTouchCapable,
+  reorderItems
 }
 
 // hooks
@@ -64,6 +66,7 @@ import { NumberSlider } from './components/NumberSlider/NumberSlider'
 import { NumberRange } from './components/NumberRange/NumberRange'
 import { Page } from './components/Page/Page'
 import { ParseHTML } from './components/ParseHTML/ParseHTML'
+import { Reorder } from './components/Reorder/Reorder'
 export {
   Auth,
   Ripple,
@@ -85,7 +88,8 @@ export {
   NumberSlider,
   NumberRange,
   Page,
-  ParseHTML
+  ParseHTML,
+  Reorder
 }
 
 // Molecules (1)
