@@ -78,7 +78,7 @@ To modify these properties, overwrite them in your project's global style sheet.
 
 ```css
 :root {
-  --Primary: hotpink;
+  --F_Primary: hotpink;
 }
 ```
 

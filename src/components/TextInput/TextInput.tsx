@@ -179,12 +179,12 @@ export const TextInput = ({
 const moveUp = keyframes`
   0% { 
     top: 0.6rem; 
-    font-size: var(--Font_Size);
+    font-size: var(--F_Font_Size);
 
   }
   100% { 
     top: 0rem; 
-    font-size: calc(var(--Font_Size) * .9);
+    font-size: calc(var(--F_Font_Size) * .9);
   }
 `
 
@@ -209,29 +209,29 @@ const S = {
     &:hover {
       box-shadow: ${props => 
         props.success 
-          ? 'var(--Outline_Success)' 
+          ? 'var(--F_Outline_Success)' 
           : props.error
-            ? 'var(--Outline_Error)'
-            : 'var(--Outline_Hover)'
+            ? 'var(--F_Outline_Error)'
+            : 'var(--F_Outline_Hover)'
       };
     }
     
     &:focus-within {
       box-shadow: ${props => 
         props.success 
-          ? 'var(--Outline_Success)' 
+          ? 'var(--F_Outline_Success)' 
           : props.error
-            ? 'var(--Outline_Error)'
-            : 'var(--Outline_Hover)'
+            ? 'var(--F_Outline_Error)'
+            : 'var(--F_Outline_Hover)'
       };
     };
-    background: var(--Background_Alternating);
+    background: var(--F_Background_Alternating);
     box-shadow: ${props => 
       props.success 
-        ? 'var(--Outline_Success)' 
+        ? 'var(--F_Outline_Success)' 
         : props.error
-          ? 'var(--Outline_Error)'
-          : 'var(--Outline)'
+          ? 'var(--F_Outline_Error)'
+          : 'var(--F_Outline)'
     };
     border-radius: 16px;
 
@@ -251,9 +251,9 @@ const S = {
     preventFocus?: boolean
   }>`
     width: 100%;
-    height: var(--Input_Height);
+    height: var(--F_Input_Height);
     position: relative;
-    font-size: var(--Font_Size);
+    font-size: var(--F_Font_Size);
     border-radius: 0.5rem;
     vertical-align: center;
     border: none;
@@ -261,7 +261,7 @@ const S = {
     outline: none;
     -webkit-appearance: none;
     border-radius: 16px;
-    color: var(--Font_Color);
+    color: var(--F_Font_Color);
     background: none;
     pointer-events: ${props => props.preventFocus ? 'none' : 'auto'};
   `,
@@ -277,10 +277,10 @@ const S = {
     line-height: 0;
     height: .5rem;
     left: ${props => props.hasIcon ? '2.5rem' : '1rem'};
-    color: var(--Font_Color_Label);
-    font-size: var(--Font_Size);
+    color: var(--F_Font_Color_Label);
+    font-size: var(--F_Font_Size);
     pointer-events: none;
-    background: ${props => props.shrink ? 'var(--Background_Alternating)' : 'none'};
+    background: ${props => props.shrink ? 'var(--F_Background_Alternating)' : 'none'};
     animation: ${props => props.shrink ? css`${moveUp} ${props.disableAnimation ? '0s' : '.15s'} forwards` : 'none'};
   `,
   FloatingLabel: styled.div<{
@@ -289,29 +289,29 @@ const S = {
     success?: boolean
   }>`
     display: flex;
-    font-size: var(--Font_Size);
+    font-size: var(--F_Font_Size);
     line-height: 1;
     pointer-events: none;
-    letter-spacing: var(--Letter_Spacing_Header);
+    letter-spacing: var(--F_Letter_Spacing_Header);
     left: 1rem;
     transition: 0.2s ease all;
     z-index: 1;
     margin-left: .5rem;
     padding-bottom: 8px;
     color: ${props => props.error 
-      ? 'var(--Font_Color_Error)' 
+      ? 'var(--F_Font_Color_Error)' 
       : props.disabled
-        ? 'var(--Font_Color_Disabled)'
+        ? 'var(--F_Font_Color_Disabled)'
         : props.success
-          ? 'var(--Font_Color_Success)'
-          : 'var(--Font_Color_Label)'
+          ? 'var(--F_Font_Color_Success)'
+          : 'var(--F_Font_Color_Label)'
     };
   `,
   ErrorContainer: styled.div`
     width: 100%;
     margin-top: .5rem;
 
-    color: var(--Font_Color_Error);
+    color: var(--F_Font_Color_Error);
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -330,7 +330,7 @@ const S = {
   }>`
     position: relative;
     * {
-      color: ${props => props.error ? 'var(--Font_Color_Error)' : 'var(--Font_Color)'};
+      color: ${props => props.error ? 'var(--F_Font_Color_Error)' : 'var(--F_Font_Color)'};
     }
   `
 }

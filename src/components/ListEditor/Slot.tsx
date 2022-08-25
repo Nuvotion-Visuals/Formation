@@ -118,14 +118,14 @@ const S = {
     background: ${props => props.avatar ? 'var(--EC_White_100)' : 'var(--EC_Action_Orange)'};
     display: flex;
     align-items: center;
-    border-bottom: 2px solid var(--Surface_1);
+    border-bottom: 2px solid var(--F_Surface_1);
     position: relative;
     cursor: pointer;
     &:hover {
-      background: var(--Surface_0);
+      background: var(--F_Surface_0);
     }
     &:active {
-      background: var(--Surface);
+      background: var(--F_Surface);
     }
   `,
   AvatarContainer: styled.div`
@@ -141,7 +141,7 @@ const S = {
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: var(--Outline_Label);
+    box-shadow: var(--F_Outline_Label);
   `,
   ResponsiveWrap: styled.div`
     width: 100%;
@@ -154,9 +154,9 @@ const S = {
     width: fit-content;
   `,
   Title: styled.div`
-    font-size: var(--Font_Size);
+    font-size: var(--F_Font_Size);
     font-weight: 400;
-    color: var(--Font_Color);
+    color: var(--F_Font_Color);
     padding-left: .5rem;
     display: flex;
     align-items: center;
@@ -167,7 +167,7 @@ const S = {
     padding: 0 .5rem;
     display: ${props => props.status ? 'flex' : 'none'};
     align-items: center;
-    font-size: var(--Font_Size_Tiny);
+    font-size: var(--F_Font_Size_Tiny);
     color: var(--EC_Black_700);
     line-height: 8px;
     text-transform: lowercase;

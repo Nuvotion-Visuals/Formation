@@ -3,88 +3,88 @@
 it’s often more intuitive than defining a color in terms of the Red, Green and Blue values. 
 It’s easy to picture how a less saturated version of a color would look like, for example. */
 :root {
-  --Primary: hsl(4, 83%, 26%);
-  --Primary_Hover: hsl(4, 83%, 32%);
-  --Primary_Variant: hsl(4, 100%, 38%); /* More saturated, vibrant variant */
+  --F_Primary: hsl(4, 83%, 26%);
+  --F_Primary_Hover: hsl(4, 83%, 32%);
+  --F_Primary_Variant: hsl(4, 100%, 38%); /* More saturated, vibrant variant */
 
-  --Background: hsl(0, 0%, 7%);
-  --Background_Alternating: hsl(0, 0%, 5%);
+  --F_Background: hsl(0, 0%, 7%);
+  --F_Background_Alternating: hsl(0, 0%, 5%);
   
-  --Surface_0: hsl(0, 0%, 12%);
-  --Surface: hsl(0, 0%, 16%);
-  --Surface_1: hsl(0, 0%, 25%); /* hover */
-  --Surface_2: hsl(0, 0%, 34%); /* active */
+  --F_Surface_0: hsl(0, 0%, 12%);
+  --F_Surface: hsl(0, 0%, 16%);
+  --F_Surface_1: hsl(0, 0%, 25%); /* hover */
+  --F_Surface_2: hsl(0, 0%, 34%); /* active */
 
-  --Font_Color: hsl(0, 0%, 93%);
-  --Font_Color_Disabled: hsl(0, 0%, 50%);
-  --Font_Color_Label: hsl(0, 0%, 73%);
-  --Font_Color_Error: hsl(0, 100%, 48%);
-  --Font_Color_Success: hsl(120, 100%, 25%);
-  --Font_Color_Warning: hsl(25, 100%, 40%);
-  --Font_Color_Link: hsl(201, 100%, 80%);
+  --F_Font_Color: hsl(0, 0%, 93%);
+  --F_Font_Color_Disabled: hsl(0, 0%, 50%);
+  --F_Font_Color_Label: hsl(0, 0%, 73%);
+  --F_Font_Color_Error: hsl(0, 100%, 48%);
+  --F_Font_Color_Success: hsl(120, 100%, 25%);
+  --F_Font_Color_Warning: hsl(25, 100%, 40%);
+  --F_Font_Color_Link: hsl(201, 100%, 80%);
 }
 
 /* Zoom */
 /* Zoom is equivalent to the brower's native zoom 1.0 = 100% */
 :root {
-  --Zoom: 1;
-  --Zoom_Scale: calc(1 / var(--Zoom)); /* Derived property, do not edit*/
+  --F_Zoom: 1;
+  --F_Zoom_Scale: calc(1 / var(--F_Zoom)); /* Derived property, do not edit*/
 }
 
 /* Outlines */
 /* Outlines use box shadows so as to not take up space in the document */
 :root {
-  --Outline: inset 0 0 0 2px var(--Surface);
-  --Outline_Light: inset 0 0 0 2px hsl(0, 0%, 14%);
-  --Outline_Hover: inset 0 0 0 2px var(--Surface_1);
-  --Outline_Primary: inset 0 0 0 2px var(--Primary);
-  --Outline_Error: inset 0 0 0 2px var(--Font_Color_Error);
-  --Outline_Disabled: inset 0 0 0 2px var(--Font_Color_Disabled);
-  --Outline_Success: inset 0 0 0 2px var(--Font_Color_Success);
+  --F_Outline: inset 0 0 0 2px var(--F_Surface);
+  --F_Outline_Light: inset 0 0 0 2px hsl(0, 0%, 14%);
+  --F_Outline_Hover: inset 0 0 0 2px var(--F_Surface_1);
+  --F_Outline_Primary: inset 0 0 0 2px var(--F_Primary);
+  --F_Outline_Error: inset 0 0 0 2px var(--F_Font_Color_Error);
+  --F_Outline_Disabled: inset 0 0 0 2px var(--F_Font_Color_Disabled);
+  --F_Outline_Success: inset 0 0 0 2px var(--F_Font_Color_Success);
 }
 
 /* Element proportions */
 :root {
-  --Header_Height: 50px;
-  --Input_Height: 36px;
-  --Sidebar_Width: 246px;
-  --Sidebar_Width_Expanded: 246px;
-  --Sidebar_Icon_Width: 72px;
+  --F_Header_Height: 50px;
+  --F_Input_Height: 36px;
+  --F_Sidebar_Width: 246px;
+  --F_Sidebar_Width_Expanded: 246px;
+  --F_Sidebar_Icon_Width: 72px;
 }
 
 /* Typography */
 :root {
-  --Font_Family: sans-serif;
-  --Font_Size: 15px;
-  --Font_Size_Title: 17px;
+  --F_Font_Family: sans-serif;
+  --F_Font_Size: 15px;
+  --F_Font_Size_Title: 17px;
   
-  --Letter_Spacing: .04em;
-  --Letter_Spacing_Title: .04em;
+  --F_Letter_Spacing: .04em;
+  --F_Letter_Spacing_Title: .04em;
 
-  --Page_Width: calc(100% - 2em);
+  --F_Page_Width: calc(100% - 2em);
 }
 
 /* Mobile */
 @media screen and (max-width: 480px) { 
   :root {
-    --Page_Width: calc(100% - 2em);
-    --Font_Size_Page_Header: 40px;
-    --Font_Size_Title_Section: 28px;
-    --Font_Size_Title_Large: 24px;
-    --Font_Size_Header: 18px;
-    --Font_Size_Article: 18px;
+    --F_Page_Width: calc(100% - 2em);
+    --F_Font_Size_Page_Header: 40px;
+    --F_Font_Size_Title_Section: 28px;
+    --F_Font_Size_Title_Large: 24px;
+    --F_Font_Size_Header: 18px;
+    --F_Font_Size_Article: 18px;
   }
 }
 /* Tablet */
 @media screen and (min-width: 768px) {
   :root {
-    --Page_Width: calc(100% - 2em);
+    --F_Page_Width: calc(100% - 2em);
   }
 }
 /* Laptop_Small */
 @media screen and (min-width: 1024px) {
   :root {
-    --Page_Width: 800px;
+    --F_Page_Width: 800px;
   }
 }
 /* Laptop_Large */
@@ -106,8 +106,8 @@ It’s easy to picture how a less saturated version of a color would look like, 
 
 html, body {
   font-family: sans-serif;
-  background: var(--Background);
-  color: var(--Font_Color);
+  background: var(--F_Background);
+  color: var(--F_Font_Color);
 }
 
 *:focus {
@@ -120,21 +120,21 @@ html, body {
   height: 1rem;
 }
 ::-webkit-scrollbar-track {
-  background: var(--Surface_0);
+  background: var(--F_Surface_0);
   border-radius: 6px;
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--Surface_1);
+  background: var(--F_Surface_1);
   border-radius: 6px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--Surface_2);
+  background: var(--F_Surface_2);
 }
 ::-webkit-scrollbar-thumb:active {
-  background: var(--Surface_2);
+  background: var(--F_Surface_2);
 }
 ::-webkit-scrollbar-corner {
-  background: var(--Background);
+  background: var(--F_Background);
 }
 
 /* Number Input */
@@ -145,20 +145,20 @@ input[type=number]::-webkit-outer-spin-button {
 
 /* Selection */
 ::selection {
-	background-color: var(--Surface_2);
-	color: var(--Font_Color);
+	background-color: var(--F_Surface_2);
+	color: var(--F_Font_Color);
 }
 ::-moz-selection { /*** Mozilla based browsers ***/
-	background-color: var(--Surface_2);
-	color: var(--Font_Color);
+	background-color: var(--F_Surface_2);
+	color: var(--F_Font_Color);
 }
 ::-o-selection { /***For Other Browsers ***/
-	background-color: var(--Surface_2);
-	color: var(--Font_Color);
+	background-color: var(--F_Surface_2);
+	color: var(--F_Font_Color);
 }
 ::-webkit-selection {
-	background-color: var(--Surface_2);
-	color: var(--Font_Color);
+	background-color: var(--F_Surface_2);
+	color: var(--F_Font_Color);
 }
 
 /* CSS Reset for consistent cross-browser styling */

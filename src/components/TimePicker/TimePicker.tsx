@@ -195,22 +195,22 @@ const S = {
     active: boolean
   }>`
     width: 100%;
-    color: var(--Font_Color);
+    color: var(--F_Font_Color);
     padding: .5rem 1rem;
-    font-size: var(--Font_Size);
-    background: ${props => props.active ? 'var(--Surface_1)' : 'none'};
+    font-size: var(--F_Font_Size);
+    background: ${props => props.active ? 'var(--F_Surface_1)' : 'none'};
     cursor: pointer;
     &:hover {
-      background: ${props => props.active ? 'var(--Surface_2)' : 'var(--Surface)'};
+      background: ${props => props.active ? 'var(--F_Surface_2)' : 'var(--F_Surface)'};
     }
   `,
   TimesDropdown: styled.div`
     position: absolute;
     z-index: 1;
-    background: var(--Background);
+    background: var(--F_Background);
     border-radius: .5rem;
-    box-shadow: var(--Outline_Hover);
-    top: var(--Input_Height);
+    box-shadow: var(--F_Outline_Hover);
+    top: var(--F_Input_Height);
     width: calc(136px + 1rem);
     max-height: 300px;
     overflow-y: auto;

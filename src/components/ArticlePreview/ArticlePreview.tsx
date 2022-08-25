@@ -72,7 +72,7 @@ const S_Container = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
   width: 100%;
-  max-width: var(--Page_Width);
+  max-width: var(--F_Page_Width);
 
   @media only screen and (max-width: 600px) {
     grid-template-columns: auto;
@@ -104,10 +104,10 @@ const S_Name = styled.h2`
   margin: 0;
   padding: 0;
   display: block;
-  font-size: var(--Font_Size_Title_Large);
+  font-size: var(--F_Font_Size_Title_Large);
   font-weight: 600;
   width: 100%;
-  color: var(--Font_Color);
+  color: var(--F_Font_Color);
   margin-bottom: 1rem;
   text-underline-offset: 1px;
 `
@@ -115,7 +115,7 @@ const S_Name = styled.h2`
 const S_Description = styled.p`
   display: block;
   width: 100%;
-  color: var(--Font_Color_Label);
+  color: var(--F_Font_Color_Label);
   line-height: 1.9em;
   margin-bottom: 1rem;
 `

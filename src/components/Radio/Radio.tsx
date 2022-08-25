@@ -51,12 +51,12 @@ const S = {
   OptionContainer: styled.div<OptionContainer>`
     width: 100%;
     display: flex;
-    background: ${props => props.active ? 'var(--Surface_2)' : 'var(--Surface)'};
+    background: ${props => props.active ? 'var(--F_Surface_2)' : 'var(--F_Surface)'};
     cursor: pointer;
     border-radius: 8px;
 
     &:hover {
-      background: ${props => props.active ? 'var(--Surface_2)' : 'var(--Surface_1)'};
+      background: ${props => props.active ? 'var(--F_Surface_2)' : 'var(--F_Surface_1)'};
     }
     &:active {
       transform: translateY(1px);
@@ -64,17 +64,17 @@ const S = {
   `,
   Option: styled.div<OptionProps>`
     width: 100%;
-    color: var(--Font_Color);
-    color: ${props => props.active ? 'var(--Font_Color)' : 'var(--Font_Color_Label)'};
+    color: var(--F_Font_Color);
+    color: ${props => props.active ? 'var(--F_Font_Color)' : 'var(--F_Font_Color_Label)'};
     display: flex;
     align-items: center;
     height: var(--Tile_Taskbar_Height);
-    font-size: var(--Font_Size);
+    font-size: var(--F_Font_Size);
     
   `,
   OptionSelected: styled.div`
-    height: var(--Input_Height);
-    width: var(--Input_Height);
+    height: var(--F_Input_Height);
+    width: var(--F_Input_Height);
     display: flex;
     align-items: center;
     justify-content: center;

@@ -155,19 +155,19 @@ interface NavContentProps {
 
 const S = {
   Sidebar: styled.div`
-    width: var(--Sidebar_Width);
+    width: var(--F_Sidebar_Width);
     display: flex;
-    height: calc(calc(100vh - var(--Header_Height)) * var(--Zoom_Scale));
+    height: calc(calc(100vh - var(--F_Header_Height)) * var(--F_Zoom_Scale));
     a {
       text-decoration: none;
     }
 
     @media screen and (max-width: 1024px) {
-      height: calc(100vh * var(--Zoom_Scale));
+      height: calc(100vh * var(--F_Zoom_Scale));
       padding-top: 0;
       position: fixed;
       left: 0;
-      top: var(--Header_Height);
+      top: var(--F_Header_Height);
       z-index: 4;
     }
   `,
@@ -176,8 +176,8 @@ const S = {
     position: fixed;
     left: 0;
     top: 0;
-    width: calc(100vw * var(--Zoom_Scale));
-    height: calc(100vh * var(--Zoom_Scale));
+    width: calc(100vw * var(--F_Zoom_Scale));
+    height: calc(100vh * var(--F_Zoom_Scale));
     background: rgb(0, 0, 0, .4);
     z-index: 3;
     @media screen and (min-width: 1024px) {
@@ -186,11 +186,11 @@ const S = {
   `,
   SidebarContent: styled.div<SidebarContentProps>`
     height: 100%;
-    background: var(--Background);
-    border-right: ${props => props.open ? '2px solid var(--Surface)' : 'none'};
+    background: var(--F_Background);
+    border-right: ${props => props.open ? '2px solid var(--F_Surface)' : 'none'};
     top: 0;
-    width: var(--Sidebar_Width);
-    height: calc(100vh * var(--Zoom_Scale));
+    width: var(--F_Sidebar_Width);
+    height: calc(100vh * var(--F_Zoom_Scale));
     overflow-y: auto;
     overflow-x: hidden;
     user-select: none;
@@ -211,26 +211,26 @@ const S = {
   `,
   NavOption: styled.div<NavContentProps>`
     cursor: pointer;
-    background: ${props => props.active ? 'var(--Surface)' : 'none'};
+    background: ${props => props.active ? 'var(--F_Surface)' : 'none'};
     display: flex;
     flex-wrap: wrap;
     justify-content: ${props => props.open ? 'auto' : 'center'};
     align-items: center;
-    height: ${props => props.open ? '46px' : 'var(--Sidebar_Icon_Width)'};
+    height: ${props => props.open ? '46px' : 'var(--F_Sidebar_Icon_Width)'};
     width: 100%;
 
     * {
-      color: ${props => props.active ? 'var(--Font_Color)' : 'auto'};
+      color: ${props => props.active ? 'var(--F_Font_Color)' : 'auto'};
     }
 
     div {
-      color: ${props => props.active ? 'var(--Font_Color)' : 'var(--Font_Color)'};
+      color: ${props => props.active ? 'var(--F_Font_Color)' : 'var(--F_Font_Color)'};
     }
 
     &:hover {
-      background: ${props => props.active ? 'var(--Surface)' : 'var(--Surface)'};
+      background: ${props => props.active ? 'var(--F_Surface)' : 'var(--F_Surface)'};
       * {
-        color: var(--Font_Color);
+        color: var(--F_Font_Color);
       }
     }
   `,
@@ -243,28 +243,28 @@ const S = {
     align-items: ${props => props.open ? 'center' : 'auto'};
   `,
   IconContainer: styled.div`
-    width: var(--Sidebar_Icon_Width);
+    width: var(--F_Sidebar_Icon_Width);
     display: flex;
     justify-content: center;
   `,
   Text: styled.div`
-    font-size: var(--Font_Size);
-    letter-spacing: var(--Letter_Spacing_Title);
+    font-size: var(--F_Font_Size);
+    letter-spacing: var(--F_Letter_Spacing_Title);
   `,
   VSpacer: styled.div`
     width: 100%;
     height: 2px;
     margin: .5rem 0;
-    background: var(--Surface);
+    background: var(--F_Surface);
   `,
   Title: styled.div`
     text-transform: uppercase;
-    color: var(--Font_Color_Label);
+    color: var(--F_Font_Color_Label);
     font-weight: 600;
     padding: .5rem 0;
     padding-left: 1.5rem;
     padding-bottom: .5rem;
-    font-size: var(--Font_Size);
+    font-size: var(--F_Font_Size);
   `
 }
 

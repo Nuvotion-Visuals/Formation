@@ -130,19 +130,19 @@ const S = {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: ${props => props.open ? 'var(--Surface)' : 'none'};
+    background: ${props => props.open ? 'var(--F_Surface)' : 'none'};
     width: 2rem;
     height: 2rem;
     border-radius: 100%;
     cursor: pointer;
 
     &:hover {
-      background: var(--Surface);
+      background: var(--F_Surface);
     }
   `,
   IconContainer: styled.div<IconContainerProps>`
     position: relative;
-    color: var(--Font_Color_Label);
+    color: var(--F_Font_Color_Label);
   `,
   Dropdown: styled.div`
     position: absolute;
@@ -150,8 +150,8 @@ const S = {
     z-index: 100;
     right: 0;
     min-width: 140px;
-    background: var(--Background);
-    box-shadow: var(--Outline);
+    background: var(--F_Background);
+    box-shadow: var(--F_Outline);
     border-radius: .5rem;
     user-select: none;
   `,
@@ -162,13 +162,13 @@ const S = {
     cursor: pointer;
 
     &:hover {
-      background: var(--Surface_1);
+      background: var(--F_Surface_1);
       * {
-        color: var(--Font_Color)
+        color: var(--F_Font_Color)
       }
     }
     &:active {
-      background: var(--Surface_2);
+      background: var(--F_Surface_2);
     }
   `,
   IconSpacer: styled.div`
@@ -179,7 +179,7 @@ const S = {
   `,
   DropDownText: styled.div`
     padding-left: .5rem;
-    font-size: var(--Font_Size);
+    font-size: var(--F_Font_Size);
     display: flex;
   `
 }

@@ -78,7 +78,7 @@ const S = {
   IconContainer: styled.div`
     display: flex;
     align-items: center;
-    height: var(--Input_Height);
+    height: var(--F_Input_Height);
     padding-left: .75rem;
     user-select: none;
   `,
@@ -86,34 +86,34 @@ const S = {
     display: flex;
     align-items: center;
     width: 100%;
-    height: var(--Input_Height);
+    height: var(--F_Input_Height);
     border-radius: 8px;
     overflow: hidden;
-    box-shadow: var(--Outline);
+    box-shadow: var(--F_Outline);
     min-width: 66px;
 
     transition: 0s;
     &:hover {
-      box-shadow: var(--Outline_Hover);
+      box-shadow: var(--F_Outline_Hover);
     }
 
   `,
   Select: styled.select<SelectProps>`
     display: flex;
     width: 100%;
-    font-size: var(--Font_Size);
+    font-size: var(--F_Font_Size);
     letter-spacing: 0.4px;
     padding-left: .125rem;
     cursor: pointer;
     background: none;
     border: none;
-    color: var(--Font_Color);
+    color: var(--F_Font_Color);
     height: 100%;
     user-select: none;
     padding-left: ${props => props.hasIcon ? '.125rem' : '.75rem'};
   `,
   Option: styled.option`
-    background: var(--Background);
-    color: var(--Font_Color);
+    background: var(--F_Background);
+    color: var(--F_Font_Color);
   `
 }

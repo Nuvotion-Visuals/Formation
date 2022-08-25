@@ -69,7 +69,7 @@ const S = {
     display: flex;
     align-items: center;
     padding-bottom: .5rem;
-    border-bottom: 2px solid var(--Surface_1);
+    border-bottom: 2px solid var(--F_Surface_1);
   `,
   TopContainer: styled.div`
     width: 100%;
@@ -80,22 +80,22 @@ const S = {
     position: relative;
     display: flex;
     align-items: center;
-    height: var(--Input_Height);
+    height: var(--F_Input_Height);
     border: none;
 
     select {
-      height: var(--Input_Height);
-      font-size: var(--Font_Size);
+      height: var(--F_Input_Height);
+      font-size: var(--F_Font_Size);
       border-radius: 0.5rem;
       background: none;
-      box-shadow: var(--Outline);
+      box-shadow: var(--F_Outline);
       outline: none;
       border: none;
       display: flex;
       align-items: center;
       padding: 0 0.75rem;
-      color: var(--Font_Color);
-      background: var(--Background);
+      color: var(--F_Font_Color);
+      background: var(--F_Background);
     }
 
   `

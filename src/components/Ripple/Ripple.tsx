@@ -35,8 +35,8 @@ export const Ripple = () => {
       if (newNode) {
         try {
           (newNode as HTMLElement).classList.add('animate');
-          (newNode as HTMLElement).style.left = `calc(${e.clientX - 5}px * var(--Zoom_Scale))`;
-          (newNode as HTMLElement).style.top = `calc(${e.clientY - 5}px * var(--Zoom_Scale))`;
+          (newNode as HTMLElement).style.left = `calc(${e.clientX - 5}px * var(--F_Zoom_Scale))`;
+          (newNode as HTMLElement).style.top = `calc(${e.clientY - 5}px * var(--F_Zoom_Scale))`;
           (newNode as HTMLElement).style.pointerEvents = 'none'
           node?.parentNode?.replaceChild(newNode, node)
         }

@@ -22,9 +22,9 @@ export const Navigation = ({
 
   useEffect(() => {
     document.documentElement.style.setProperty(
-      '--Sidebar_Width', 
+      '--F_Sidebar_Width', 
       open 
-        ? 'var(--Sidebar_Width_Expanded)' 
+        ? 'var(--F_Sidebar_Width_Expanded)' 
         : '0'
     )
   }, [open])
@@ -51,12 +51,12 @@ const S = {
   Navigation: styled.div`
     width: 100%;
     display: flex;
-    height: var(calc(100vh * var(--Zoom)));
+    height: var(calc(100vh * var(--F_Zoom)));
     overflow: hidden;
   `,
   Content: styled.div`
-    margin-top: var(--Header_Height);
-    height: calc(100vh - var(--Header_Height));
+    margin-top: var(--F_Header_Height);
+    height: calc(100vh - var(--F_Header_Height));
     width: 100%;
     overflow-y: auto;
   `

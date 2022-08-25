@@ -128,13 +128,13 @@ const S = {
     align-items: center;
     width: 100%;
     justify-content: center;
-    box-shadow: var(--Outline);
+    box-shadow: var(--F_Outline);
     border-radius: 16px;
-    background: var(--Background_Alternating);
+    background: var(--F_Background_Alternating);
     &:hover, &:focus, &:focus-within {
-      box-shadow: var(--Outline_Hover);
+      box-shadow: var(--F_Outline_Hover);
       i {
-        color: var(--Font_Color);
+        color: var(--F_Font_Color);
       }
       
     }
@@ -144,13 +144,13 @@ const S = {
     display: flex;
     align-items: center;
     padding-left: 12px;
-    color: var(--Font_Color_Label);
-    height: var(--Input_Height);
+    color: var(--F_Font_Color_Label);
+    height: var(--F_Input_Height);
     border-radius: 0 1rem 1rem 0;
     padding: 0 2rem;
-    background: var(--Surface);
+    background: var(--F_Surface);
     &:hover, &:active {
-      background: var(--Surface_1);
+      background: var(--F_Surface_1);
     }
   `,
   ClearContainer: styled.div`
@@ -158,15 +158,15 @@ const S = {
     display: flex;
     align-items: center;
     right: 0;
-    height: var(--Input_Height);
+    height: var(--F_Input_Height);
     padding: 0 1rem;
     cursor: pointer;
     * {
-      color: var(--Font_Color_Label);
+      color: var(--F_Font_Color_Label);
     }
     &:hover, &:active {
       * {
-        color: var(--Font_Color);
+        color: var(--F_Font_Color);
       }
     }
   `,
@@ -179,10 +179,10 @@ const S = {
     height: 100%;
     align-items: center;
     padding-left: 1rem;
-    color: var(--Font_Color);
-    border-radius: var(--Input-Radius);
+    color: var(--F_Font_Color);
+    border-radius: var(--F_Input-Radius);
     border-radius: 0px 16px 16px 0px;
-    font-size: var(--Font_Size);
+    font-size: var(--F_Font_Size);
     width: 100%;
     animation: ${props => props.invalidInput ? css`0.7s ease-out 0s 1 ${shake} forwards` : 'none'};
   `

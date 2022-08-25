@@ -31,7 +31,7 @@ export const NumberSlider = ({ value, min, max, onChange } : Props) => {
 
 const S = {
   Container: styled.div`
-    color: var(--Font_Color);
+    color: var(--F_Font_Color);
     position: relative;
     display: flex;
     align-items: center;
@@ -45,9 +45,9 @@ const S = {
     width: 2rem;
     -webkit-appearance: none; 
     margin: 0;
-    font-size: var(--Font_Size);
+    font-size: var(--F_Font_Size);
     border: none;
-    color: var(--Font_Color);
+    color: var(--F_Font_Color);
     background: none;
     text-align: center;
 
@@ -76,7 +76,7 @@ const S = {
     .rc-slider-rail {
       position: absolute;
       width: 100%;
-      background: var(--Surface_1);
+      background: var(--F_Surface_1);
       height: .25rem;
       border-radius: .5rem;
       cursor: grab;
@@ -86,7 +86,7 @@ const S = {
       left: 0;
       height: .25rem;
       border-radius: .5rem;
-      background: var(--Primary_Variant);
+      background: var(--F_Primary_Variant);
     }
     .rc-slider-handle {
       position: absolute;
@@ -97,7 +97,7 @@ const S = {
       margin-top: -.375rem;
       cursor: grab;
       border-radius: 50%;
-      background: var(--Primary_Variant);
+      background: var(--F_Primary_Variant);
       -ms-touch-action: pan-x;
           touch-action: pan-x;
     }

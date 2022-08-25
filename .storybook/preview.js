@@ -12,10 +12,10 @@ export const decorators = [
   
     const styleContent = `
     .docs-story {
-      background-color: var(--Background);
+      background-color: var(--F_Background);
     }
     body {
-      background-color: var(--Background);
+      background-color: var(--F_Background);
 
     }
     `

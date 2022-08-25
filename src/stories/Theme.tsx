@@ -10,32 +10,32 @@ interface Props {
 
 export const Theme = ({  }: Props) => {
   const colors = [
-    '--Background',
-    '--Primary',
-    '--Surface_0',
-    '--Surface',
-    '--Surface_1',
-    '--Surface_2'
+    '--F_Background',
+    '--F_Primary',
+    '--F_Surface_0',
+    '--F_Surface',
+    '--F_Surface_1',
+    '--F_Surface_2'
   ]
 
   const outlines = [
-    '--Outline',
-    '--Outline_Light',
-    '--Outline_Hover',
-    '--Outline_Primary',
-    '--Outline_Error',
-    '--Outline_Disabled',
-    '--Outline_Success'
+    '--F_Outline',
+    '--F_Outline_Light',
+    '--F_Outline_Hover',
+    '--F_Outline_Primary',
+    '--F_Outline_Error',
+    '--F_Outline_Disabled',
+    '--F_Outline_Success'
   ]
 
   const fontColors = [
-    '--Font_Color',
-    '--Font_Color_Label',
-    '--Font_Color_Disabled',
-    '--Font_Color_Error',
-    '--Font_Color_Success',
-    '--Font_Color_Warning',
-    '--Font_Color_Link'
+    '--F_Font_Color',
+    '--F_Font_Color_Label',
+    '--F_Font_Color_Disabled',
+    '--F_Font_Color_Error',
+    '--F_Font_Color_Success',
+    '--F_Font_Color_Warning',
+    '--F_Font_Color_Link'
   ]
 
   return (
@@ -54,7 +54,7 @@ export const Theme = ({  }: Props) => {
 
           <pre>
 {`:root {
-  --Primary: hotpink;
+  --F_Primary: hotpink;
 }
 `}
           </pre>
@@ -150,14 +150,14 @@ const S = {
     padding-bottom: 1.5rem;
   `,
   H2: styled.h2`
-    font-size: var(--Font_Size_Title);
+    font-size: var(--F_Font_Size_Title);
     padding-top: 1rem;
     padding-bottom: 1rem;
   `,
   P: styled.p`
     padding-bottom: 1rem;
     line-height: 1.1em;
-    font-size: var(--Font_Size);
+    font-size: var(--F_Font_Size);
   `,
   Pre: styled.pre`
     margin-bottom: 1rem;
@@ -167,7 +167,7 @@ const S = {
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    color: var(--Font_Color);
+    color: var(--F_Font_Color);
   `,
   Color: styled.div<ColorProps>`
     height: 3rem;
@@ -176,7 +176,7 @@ const S = {
     padding: 0 1rem;
     /* justify-content: center; */
     background: ${props => props.background ? `var(${props.background})` : null};
-    color: ${props => props.fontColor ? `var(${props.fontColor})` : 'var(--Font_Color)'};
+    color: ${props => props.fontColor ? `var(${props.fontColor})` : 'var(--F_Font_Color)'};
     box-shadow: ${props => props.outline ? `var(${props.outline})` : null};
     font-family: monospace;
   `,

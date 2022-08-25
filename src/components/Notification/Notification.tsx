@@ -66,13 +66,13 @@ const S = {
     background: ${({ type }) => {
       switch(type) {
         case 'success':
-          return 'var(--Font_Color_Success)'
+          return 'var(--F_Font_Color_Success)'
         case 'error':
-          return 'var(--Font_Color_Error)'
+          return 'var(--F_Font_Color_Error)'
         case 'warning':
-          return 'var(--Font_Color_Warning)'
+          return 'var(--F_Font_Color_Warning)'
         case 'info':
-          return 'var(--Surface)'
+          return 'var(--F_Surface)'
       }
     }};
   `,
@@ -81,18 +81,18 @@ const S = {
     align-items: center;
     justify-content: center;
     margin-left: .5rem;
-    width: var(--Input_Height);
-    min-height: var(--Input_Height);
+    width: var(--F_Input_Height);
+    min-height: var(--F_Input_Height);
     height: 100%;
   `,
   Content: styled.div`
-    width: calc(100% - var(--Input_Height));
+    width: calc(100% - var(--F_Input_Height));
     display: flex;
     align-items: center;
     padding: .75rem .5rem;
     padding-right: 1rem;
     line-height: 1.5;
-    color: var(--Font_Color);
+    color: var(--F_Font_Color);
   `
 }
 

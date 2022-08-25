@@ -333,11 +333,11 @@ const S = {
   DatePickerCalendar: styled.div`
     position: absolute;
     z-index: 1;
-    background: var(--Background);
+    background: var(--F_Background);
     border-radius: .5rem;
     padding: .75rem;
-    box-shadow: var(--Outline_Hover);
-    top: var(--Input_Height);
+    box-shadow: var(--F_Outline_Hover);
+    top: var(--F_Input_Height);
     /* width: 196px; */
     width: 14rem;
     left: 1.5rem;
@@ -351,7 +351,7 @@ const S = {
     height: 100%;
     display: flex;
     align-items: center;
-    font-size: var(--Font_Size);
+    font-size: var(--F_Font_Size);
     padding-bottom: .5rem;
     box-sizing: content-box;
     gap: .5rem;
@@ -369,7 +369,7 @@ const S = {
     height: 2rem;
     font-size: 12px;
     text-align: center;
-    color: var(--Font_Color_Label);
+    color: var(--F_Font_Color_Label);
     font-weight: 600;
   `,
   Weeks: styled.div`
@@ -397,59 +397,59 @@ const S = {
 
     color: ${props => 
       props.disabled 
-        ? 'var(--Font_Color_Disabled)' 
-        : 'var(--Font_Color)'
+        ? 'var(--F_Font_Color_Disabled)' 
+        : 'var(--F_Font_Color)'
     };
 
     background: ${props =>
       props.selected
-        ? 'var(--Surface_2)'
+        ? 'var(--F_Surface_2)'
         : 'none'
     };
 
     &:hover {
       color: ${props => 
         props.disabled 
-          ? 'var(--Font_Color_Disabled)' 
-          : 'var(--Font_Color)'
+          ? 'var(--F_Font_Color_Disabled)' 
+          : 'var(--F_Font_Color)'
       };
       background: ${props =>
         props.selected
-          ? 'var(--Surface_2)'
+          ? 'var(--F_Surface_2)'
           : props.disabled
             ? 'none'
-            : 'var(--Surface)'
+            : 'var(--F_Surface)'
       };
     }
   `,
   TitleWrapper: styled.div`
     display: flex;
     justify-content: center;
-    color: var(--Font_Color);
+    color: var(--F_Font_Color);
     padding: .25rem;
     height: 100%;
   `,
   YearTitle: styled.div`
     height: 100%;
-    font-size: var(--Font_Size);
+    font-size: var(--F_Font_Size);
   `,
   Arrow: styled.div`
-    color: var(--Font_Color);
+    color: var(--F_Font_Color);
     width: 2rem;
     height: 100%;
     border-radius: .25rem;
-    height: var(--Input_Height);
-    width: var(--Input_Height);
+    height: var(--F_Input_Height);
+    width: var(--F_Input_Height);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    background: var(--Surface);
+    background: var(--F_Surface);
     &:hover {
-      background: var(--Surface_1);
+      background: var(--F_Surface_1);
     }
     &:active {
-      background: var(--Surface_2);
+      background: var(--F_Surface_2);
     }
   `
 }

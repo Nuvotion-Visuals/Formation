@@ -154,7 +154,7 @@ const S = {
     text-decoration: none;
   `,
   Text: styled.div<TextProps>`
-    font-size: ${props => props.hero ? 'var(--Font_Size_Title)' : 'var(--Font_Size)'};
+    font-size: ${props => props.hero ? 'var(--F_Font_Size_Title)' : 'var(--F_Font_Size)'};
     margin-left: ${props => props.hero
       ? props.icon ? '.5rem' : '0'
       : props.icon ? '.375rem' : '0'
@@ -167,14 +167,14 @@ const S = {
     type: 'submit',
     value: 'Submit'
   })<ButtonProps>`
-    letter-spacing: var(--Letter_Spacing);
+    letter-spacing: var(--F_Letter_Spacing);
     background: none;
     border: none;
     position: relative;
     overflow: hidden;
     color: ${props => props.disabled 
-      ? 'var(--Font_Color_Disabled)' 
-      : 'var(--Font_Color)'
+      ? 'var(--F_Font_Color_Disabled)' 
+      : 'var(--F_Font_Color)'
     };
     
     pointer-events: ${props => props.disabled ? 'none' : 'default'}; 
@@ -185,9 +185,9 @@ const S = {
     height: ${props => 
       props.hero
         ? 'auto' 
-        : 'var(--Input_Height)'
+        : 'var(--F_Input_Height)'
     };
-    min-width: var(--Font_Size_Icon);
+    min-width: var(--F_Font_Size_Icon);
     padding: ${props => 
       props.hero && !props.square 
         ? '1rem 1.5rem 1rem 1rem' 
@@ -208,15 +208,15 @@ const S = {
           : '.5rem'
     };
     background: ${props => props.primary 
-        ? `var(--Primary)`
+        ? `var(--F_Primary)`
         : props.blink
           ? 'var(--Hover_Single)'
           : props.secondary 
             ? 'none'
-            : 'var(--Surface)'
+            : 'var(--F_Surface)'
     }; 
   
-    box-shadow: ${props => props.secondary ? 'var(--Outline)' : 'none'};
+    box-shadow: ${props => props.secondary ? 'var(--F_Outline)' : 'none'};
     animation: ${props => props.blink 
       ? css`${blink} 1s linear infinite` 
       : props.singleBlink
@@ -227,28 +227,28 @@ const S = {
 
     svg {
       color: ${props => props.disabled 
-        ? 'var(--Font_Color_Disabled)' 
+        ? 'var(--F_Font_Color_Disabled)' 
         : props.secondary
-          ? 'var(--Font_Color_Label)'
-          : 'var(--Font_Color)'
+          ? 'var(--F_Font_Color_Label)'
+          : 'var(--F_Font_Color)'
       };
     }
     
     &:hover {
       background: ${props => props.primary 
-        ? `var(--Primary_Hover)`
-        : 'var(--Surface_1)'
+        ? `var(--F_Primary_Hover)`
+        : 'var(--F_Surface_1)'
       };
       * {
-        color: var(--Font_Color);
+        color: var(--F_Font_Color);
       }
       box-shadow: none;
     };
   
     &:active {
       background: ${props => props.primary 
-        ? `var(--Primary)`
-        : 'var(--Surface_2)'
+        ? `var(--F_Primary)`
+        : 'var(--F_Surface_2)'
       };
       transform: translateY(1px);
     };
@@ -257,12 +257,12 @@ const S = {
 
 const blink = keyframes`
   0% {
-    background: var(--Surface);
+    background: var(--F_Surface);
   }
   50% {
     background: rgba(192, 12, 0, .7);
   }
   100% {
-    background: var(--Surface);
+    background: var(--F_Surface);
   }
 `

@@ -69,7 +69,7 @@ const S_Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: var(--Background_Alternating);
+  background: var(--F_Background_Alternating);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: 20% 70%;
@@ -102,10 +102,10 @@ const S_Auth = styled.div`
   flex-wrap: wrap;
   max-width: calc(100vw - 6rem);
   padding: 1em;
-  background: var(--Background);
+  background: var(--F_Background);
   border-radius: 1rem;
-  color: var(--Font_Color);
-  box-shadow: var(--Outline_Light);
+  color: var(--F_Font_Color);
+  box-shadow: var(--F_Outline_Light);
 `
 
 const S_Logo = styled.img`
@@ -122,8 +122,8 @@ const S_LogoContainer = styled.div`
   position: relative;
   z-index: 1;
   margin-bottom: -2.5rem;
-  outline: 2px solid var(--Surface);
-  background: var(--Background);
+  outline: 2px solid var(--F_Surface);
+  background: var(--F_Background);
   border-radius: 100%;
   width: 72px;
   height: 72px;

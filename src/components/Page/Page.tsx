@@ -25,7 +25,7 @@ const S = {
     justify-content: center;
   `,
   Content: styled.div`
-    max-width: var(--Page_Width);
+    max-width: var(--F_Page_Width);
     width: 100%;
   `
 }

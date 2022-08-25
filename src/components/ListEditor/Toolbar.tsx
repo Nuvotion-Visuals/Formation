@@ -92,8 +92,8 @@ const S = {
     flex-wrap: nowrap;
   `,
   PositionCapacity: styled.div`
-    font-size: var(--Font_Size);
-    color: var(--Font_Color_Label);
+    font-size: var(--F_Font_Size);
+    color: var(--F_Font_Color_Label);
     font-weight: 400;
     display: flex;
     justify-content: center;

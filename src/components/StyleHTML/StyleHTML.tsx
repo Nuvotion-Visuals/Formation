@@ -20,9 +20,9 @@ const S = {
     font-size: 16px;
     line-height: 1.5em;
     padding-bottom: 1rem;
-    color: var(--Font_Color);
+    color: var(--F_Font_Color);
     * {
-      color: var(--Font_Color);
+      color: var(--F_Font_Color);
     }
 
     h1 {
@@ -59,14 +59,14 @@ const S = {
       font-size: 0.857em;
       line-height: 1.333;
       margin-top: 10px;
-      color: var(--Font_Color_Label);
+      color: var(--F_Font_Color_Label);
     }
 
     h6 {
       line-height: 1.454;
       font-size: 0.785em;
       margin-top: 10px;
-      color: var(--Font_Color_Label);
+      color: var(--F_Font_Color_Label);
     }
 
     p {
@@ -79,7 +79,7 @@ const S = {
     }
 
     a {
-      color: var(--Font_Color_Link);
+      color: var(--F_Font_Color_Link);
       text-decoration: none;
     }
 
@@ -113,18 +113,18 @@ const S = {
       max-width: calc(100% - 2rem);
       overflow: auto;
       margin-top: 10px;
-      font-size: var(--Font_Size);
-      background: var(--Surface_0);
+      font-size: var(--F_Font_Size);
+      background: var(--F_Surface_0);
       padding: 1rem;
       border-radius: .5rem;
     }
 
     blockquote {
       margin-top: 10px;
-      background: var(--Surface_0);
+      background: var(--F_Surface_0);
       padding: 1rem;
-      color: var(--Font_Color_Label);
-      border-left: .5rem solid var(--Surface_2);
+      color: var(--F_Font_Color_Label);
+      border-left: .5rem solid var(--F_Surface_2);
     }
 
     img {
@@ -139,16 +139,16 @@ const S = {
       text-align: center;
     }
     figcaption {
-      font-size: var(--Font_Size);
+      font-size: var(--F_Font_Size);
       margin-bottom: 20px;
-      color: var(--Font_Color_Label);
+      color: var(--F_Font_Color_Label);
     }
 
     table {
       border-collapse:separate;
-      border: solid var(--Surface_1) 2px;
+      border: solid var(--F_Surface_1) 2px;
       border-radius:.5rem;
-      color: var(--Font_Color);
+      color: var(--F_Font_Color);
       margin-top: 1rem;
       table-layout: fixed;
       display: block;
@@ -164,19 +164,19 @@ const S = {
     }
 
     td, th {
-      border-left: solid var(--Surface_1) 2px;
+      border-left: solid var(--F_Surface_1) 2px;
       padding: 5px;
       padding: .75rem;
     }
 
     th {
       border-top: none;
-      background: var(--Surface_0);
+      background: var(--F_Surface_0);
       padding: 1rem;
     }
 
     td {
-      border-top: solid var(--Surface_1) 2px;
+      border-top: solid var(--F_Surface_1) 2px;
     }
 
     td:last-child {
@@ -194,26 +194,26 @@ const S = {
     tr:last-child td:last-child { border-radius: 0 0 .5rem 0; }
 
     button {
-      height: var(--Input_Height);
-      background: var(--Primary);
+      height: var(--F_Input_Height);
+      background: var(--F_Primary);
       padding: 0 1rem;
       border: none;
-      font-size: var(--Font_Size);
+      font-size: var(--F_Font_Size);
       border-radius: 8px;
       margin-top: 10px;
       cursor: pointer;
       &:hover {
-        background: var(--Primary_Hover);
+        background: var(--F_Primary_Hover);
 
       }
       &:active {
-        background: var(--Primary_Variant);
+        background: var(--F_Primary_Variant);
 
       }
     }
 
     mark {
-      background: var(--Primary);
+      background: var(--F_Primary);
     }
   `
 }

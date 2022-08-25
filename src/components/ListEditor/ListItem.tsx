@@ -100,7 +100,7 @@ const S = {
     width: 100%;
     display: flex;
     align-items: center;
-    border-bottom: 2px solid var(--Surface_1);
+    border-bottom: 2px solid var(--F_Surface_1);
     animation: ${props => props.blinkAnimation ? css`${blink} 1s linear forwards` : 'none'};
     
   `,
@@ -112,10 +112,10 @@ const S = {
     padding: 0.5rem;
     cursor: pointer;
     &:hover {
-      background: var(--Surface_0);
+      background: var(--F_Surface_0);
     }
     &:active {
-      background: var(--Surface);
+      background: var(--F_Surface);
     }
   `,
   ResponsiveContainer: styled.div`
@@ -124,11 +124,11 @@ const S = {
     width: fit-content;
   `,
   Title: styled.div`
-    color: var(--Font_Color);
+    color: var(--F_Font_Color);
     margin-right: 0.5rem;
     display: flex;
     align-items: center;
-    font-size: var(--Font_Size_Title);
+    font-size: var(--F_Font_Size_Title);
     padding-left: .25rem;
   `,
   PositionSlots: styled.div<PositionSlotsProps>`

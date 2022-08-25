@@ -24,7 +24,7 @@ const S = {
     line-height: 1.5em;
     padding-bottom: 1rem;
     * {
-    color: var(--Font_Color);
+    color: var(--F_Font_Color);
 
     }
   `

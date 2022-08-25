@@ -65,7 +65,7 @@ interface ActiveProps {
 
 const S = {
   Container: styled.div`
-    color: var(--Font_Color);
+    color: var(--F_Font_Color);
     position: relative;
     display: flex;
     flex-wrap: wrap;

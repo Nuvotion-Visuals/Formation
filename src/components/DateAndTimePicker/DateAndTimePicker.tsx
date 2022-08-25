@@ -192,19 +192,19 @@ const S = {
     // temporary - replace with real components
     input[type="time"] {
       width: 100%;
-      height: var(--Input_Height);
+      height: var(--F_Input_Height);
       padding: 0 .75rem;
       border: none;
-      box-shadow: var(--Outline);
+      box-shadow: var(--F_Outline);
       border-radius: 8px;
-      background: var(--Background_Alternating);
-      color: var(--Font_Color);
+      background: var(--F_Background_Alternating);
+      color: var(--F_Font_Color);
     }
   
   `,
   Duration: styled.div`
-    font-size: var(--Font_Size);
-    color: var(--Font_Color_Label);
+    font-size: var(--F_Font_Size);
+    color: var(--F_Font_Color_Label);
     text-align: center;
     display: flex;
     flex-shrink: 0;
