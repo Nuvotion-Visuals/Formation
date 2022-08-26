@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
@@ -10,12 +10,18 @@ export default {
 } as ComponentMeta<typeof SwipeableNavigation>
 
 const Template: ComponentStory<typeof SwipeableNavigation> = args => {
+
+  const [activeSwipeIndex, set_activeSwipeIndex] = useState(0)
+
   return (
-    <SwipeableNavigation {...args} />
+    <SwipeableNavigation {...args} 
+      activeSwipeIndex={activeSwipeIndex}
+      onSwipe={index => set_activeSwipeIndex(index)}
+      secondPage={'Second page'}
+      thirdPage={'Third page'}
+    />
   )
 }
-
-
 
 export const Default = Template.bind({})
 Default.args = {

@@ -11,7 +11,7 @@ It’s easy to picture how a less saturated version of a color would look like, 
   --F_Background_Alternating: hsl(0, 0%, 98%);
 
   --F_Surface_0: hsl(0, 0%, 86%);
-  --F_Surface: hsl(0, 0%, 84%);
+  --F_Surface: hsl(0, 0%, 80%);
   --F_Surface_1: hsl(0, 0%, 75%); /* hover */
   --F_Surface_2: hsl(0, 0%, 66%); /* active */
 
@@ -45,6 +45,8 @@ It’s easy to picture how a less saturated version of a color would look like, 
   --F_Label_Outline_Orange: #870000;
   --F_Label_Background_Gray: #424242;
   --F_Label_Outline_Gray: #1b1b1b;
+
+  --F_Backdrop: rgb(0, 0, 0, .4);
 }
 
 .F_Empty {
@@ -83,6 +85,7 @@ It’s easy to picture how a less saturated version of a color would look like, 
 :root {
   --F_Font_Family: sans-serif;
   --F_Font_Size: 15px;
+  --F_Font_Size_Label: 14px;
   --F_Font_Size_Title: 17px;
 
   --F_Letter_Spacing: .04em;

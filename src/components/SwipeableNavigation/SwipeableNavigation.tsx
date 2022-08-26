@@ -1,156 +1,231 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
-
-import { SwipeableViews } from './SwipeableViews'
-import { NavHeader, useBreakpoint } from '../../internal'
-import { EventSidebar } from './EventSidebar'
-import { BottomNav } from './BottomNav'
-
-import { Sidebar } from './Sidebar'
 
 import Div100vh from 'react-div-100vh'
 
-export const SwipeableNavigation = ({  }) => {
+import { SwipeableViews } from './SwipeableViews'
+import { useBreakpoint } from '../../internal'
+import { SpaceSidebar } from './SpaceSidebar'
+import { NavBottom } from './NavBottom'
+import { NavTop } from './NavTop'
+import { SpacesSidebar } from './SpacesSidebar'
 
-  const [activeSwipeIndex, set_activeSwipeIndex] = useState(0)
+interface Props {
+  activeSwipeIndex: number,
+  onSwipe: (index: number) => void,
+  secondPage: React.ReactNode,
+  thirdPage: React.ReactNode
+}
 
+export const SwipeableNavigation = ({ 
+  activeSwipeIndex, 
+  onSwipe,
+  secondPage,
+  thirdPage
+}: Props) => {
   const { isDesktop, isTablet, isMobile } = useBreakpoint()
 
+  const renderFirstPage = () => {
+    return <>
+      <S.MainScroll>
+        <SpacesSidebar />
+        <SpaceSidebar />
+      </S.MainScroll>
+      <NavBottom
+        navs={[
+          {
+            icon: 'calendar-alt',
+            iconPrefix: 'fas',
+            title: 'All events',
+            href: '#'
+          },
+          {
+            icon: 'check-square',
+            iconPrefix: 'fas',
+            title: 'Tasks',
+            href: '#'
+          },
+          {
+            icon: 'bell',
+            iconPrefix: 'fas',
+            title: 'Notifications',
+            href: '#'
+          },
+          {
+            icon: 'user',
+            iconPrefix: 'fas',
+            title: 'Profile',
+            href: '#'
+          }
+        ]}
+      />
+    </>
+  }
+  
   const renderSecondPage = () => {
-    return 'second page'
+    return secondPage
   }
 
   const renderThirdPage = () => {
-    return 'third page'
+    return thirdPage
   }
 
   const renderContentMobile = () => {
-      return (<>
-        <SwipeableViews
-          activeSwipeIndex={activeSwipeIndex}
-          onSwipe={index => set_activeSwipeIndex(index)}
-          onIncrement={() => set_activeSwipeIndex(activeSwipeIndex + 1)}
-        >
-          <S_PagePlaceholder>
-            <S_Expand>
-              <S_MainScroll>
-                <Sidebar />
-                <EventSidebar />
-              </S_MainScroll>
-              <BottomNav/>
-            </S_Expand>
-          </S_PagePlaceholder>
+    return (<>
+      <SwipeableViews
+        activeSwipeIndex={activeSwipeIndex}
+        onSwipe={index => onSwipe(index)}
+        onIncrement={() => onSwipe(activeSwipeIndex + 1)}
+      >
 
-          <S_PagePlaceholder>
-            <S_Expand>
-              <NavHeader>Header</NavHeader>
-              <S_Scroll doubleHeader={true}>
+        <S.PagePlaceholder>
+          <S.Expand>
+            {
+              renderFirstPage()
+            }
+          </S.Expand>
+        </S.PagePlaceholder>
+
+        <S.PagePlaceholder>
+          <S.Expand>
+            <NavTop
+              title={'Unnamed event'}
+              onBack={() => onSwipe(activeSwipeIndex - 1)}
+            />
+            <S.Scroll doubleHeader={true}>
+              {
+                renderSecondPage()
+              }
+              <S.HeaderSpacerY />
+              <S.HeaderSpacerY />
+            </S.Scroll>
+            <NavBottom
+              navs={[
                 {
-                  renderSecondPage()
-                }
-                <S_HeaderSpacerY />
-                <S_HeaderSpacerY />
-
-              </S_Scroll>
-              <BottomNav/>
-            </S_Expand>
-          </S_PagePlaceholder>
-
-          <S_PagePlaceholder>
-            <S_Expand>
-              <NavHeader>Header</NavHeader>
-              <S_Scroll doubleHeader={false}>
+                  icon: 'info-circle',
+                  iconPrefix: 'fas',
+                  title: 'Details',
+                  href: '#'
+                },
                 {
-                  renderThirdPage()
+                  icon: 'users',
+                  iconPrefix: 'fas',
+                  title: 'Tasks',
+                  href: '#'
+                },
+                {
+                  icon: 'check-square',
+                  iconPrefix: 'fas',
+                  title: 'Notifications',
+                  href: '#'
+                },
+                {
+                  icon: 'compass',
+                  iconPrefix: 'fas',
+                  title: 'Areas',
+                  href: '#'
                 }
-              </S_Scroll>
-            </S_Expand>
-          </S_PagePlaceholder>
-          
-        </SwipeableViews>
+              ]}
+            />
+          </S.Expand>
+        </S.PagePlaceholder>
 
-  
-      </>)
+        <S.PagePlaceholder>
+          <S.Expand>
+            <NavTop
+              title={'Unnamed event'}
+              onBack={() => onSwipe(activeSwipeIndex - 1)}
+            />
+            <S.Scroll doubleHeader={false}>
+              {
+                renderThirdPage()
+              }
+            </S.Scroll>
+          </S.Expand>
+        </S.PagePlaceholder>
+        
+      </SwipeableViews>
+    </>)
   }
 
   const renderContentTablet = () => {
     return (<>
-      <S_Container>
-        <S_SidebarContainer>
-            <S_MainScroll>
-              <Sidebar />
-              <EventSidebar />
-            </S_MainScroll>
-            <BottomNav />
-        </S_SidebarContainer>
+      <S.Container>
+
+        <S.SidebarContainer>
+          {
+            renderFirstPage()
+          }
+        </S.SidebarContainer>
+
         <SwipeableViews
           activeSwipeIndex={activeSwipeIndex}
-          onSwipe={index => set_activeSwipeIndex(index)}
-          onIncrement={() => set_activeSwipeIndex(activeSwipeIndex + 1)}
+          onSwipe={index => onSwipe(index)}
+          onIncrement={() => onSwipe(activeSwipeIndex + 1)}
         >
-          <S_PagePlaceholder >
-            <S_Expand>
-              <S_Scroll noHeaders={false}>
+          <S.PagePlaceholder >
+            <S.Expand>
+              <NavTop
+                title={'Unnamed event'}
+                onBack={() => onSwipe(activeSwipeIndex - 1)}
+              />
+              <S.Scroll noHeaders={false}>
                 {
                   renderSecondPage()
                 }
-                <S_HeaderSpacerY />
+                <S.HeaderSpacerY />
+              </S.Scroll>
+              
+            </S.Expand>
+          </S.PagePlaceholder>
 
-              </S_Scroll>
-            </S_Expand>
-          </S_PagePlaceholder>
-
-          <S_PagePlaceholder>
-            <S_Expand>
-              <S_Scroll noHeaders={true}>
+          <S.PagePlaceholder>
+            <S.Expand>
+              <NavTop
+                title={'Unnamed event'}
+                onBack={() => onSwipe(activeSwipeIndex - 1)}
+              />
+              <S.Scroll noHeaders={true}>
                 {
                   renderThirdPage()
                 }
-              </S_Scroll>
-            </S_Expand>
-          </S_PagePlaceholder>
+              </S.Scroll>
+            </S.Expand>
+          </S.PagePlaceholder>
         </SwipeableViews>
-      </S_Container>
 
-
+      </S.Container>
     </>)
   }
 
 
   const renderContentDesktop = () => {
     return (<>
-      <S_Container>
+      <S.Container>
+        <S.SidebarContainer>
+          {
+            renderFirstPage()
+          }
+        </S.SidebarContainer>
 
-        <S_SidebarContainer>
-            <S_MainScroll>
-              <Sidebar />
-              <EventSidebar />
-            </S_MainScroll>
-            <BottomNav  />
-        </S_SidebarContainer>
-
-        <S_MainContent>
-          <S_Scroll  >
+        <S.MainContent>
+          <S.Scroll>
             {
               renderSecondPage()
             }
-          </S_Scroll>
-        </S_MainContent>
+          </S.Scroll>
+        </S.MainContent>
 
-        <S_SecondaryContent>
-          <S_Scroll doubleHeader={false}>
+        <S.SecondaryContent>
+          <S.Scroll doubleHeader={false}>
             {
               renderThirdPage()
             }
-          </S_Scroll>
-        </S_SecondaryContent>
-      </S_Container>
-
-
+          </S.Scroll>
+        </S.SecondaryContent>
+      </S.Container>
     </>)
   }
-
- 
 
   const renderContent = () => {
     if (isDesktop) {
@@ -171,83 +246,67 @@ export const SwipeableNavigation = ({  }) => {
   </>)
 }
 
-const S_Container = styled.div`
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-`
+const S = {
+  Container: styled.div`
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+  `,
+  SidebarContainer: styled.div`
+    min-width: 320px;
+    max-width: 320px;
+    display: flex;
+    position: relative;
+  `,
+  MainContent: styled.div`
+    width: var(100vw - 640px);
+    display: flex;
+    flex-grow: 1;
+    position: relative;
+  `,
+  SecondaryContent: styled.div`
+    max-width: 320px;
+    display: flex;
+    position: relative;
+    border-left: 2px solid var(--F_Surface);
+    min-width: 320px;
 
-const S_SidebarContainer = styled.div`
-  min-width: 320px;
-  max-width: 320px;
-  display: flex;
-  position: relative;
-`
-
-const S_MainContent = styled.div`
-  width: var(100vw - 640px);
-  display: flex;
-  flex-grow: 1;
-  position: relative;
-`
-
-const S_SecondaryContent = styled.div`
-  max-width: 320px;
-  display: flex;
-  position: relative;
-  border-left: 1px solid #bbb;
-  min-width: 320px;
-
-  @media (min-width: 1400px) {
-    min-width: 600px;
-    max-width: 600px;
-  }
-`
-
-const S_PagePlaceholder = styled.div`
-  height: 100%;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  background: white;
-  position: relative;
-  z-index: 1;
-  overflow: hidden;
-`
-
-const S_DrawerScroll = styled.div`
-  height: calc(70vh - 25px);
-  overflow-y: auto;
-  overflow-x: hidden;
-  width: 100%;
-  -webkit-overflow-scrolling: touch;
-  display: unset !important;
-`
-
-const S_Expand = styled(Div100vh)`
-  width: 100%;
-`
-
-const S_Scroll = styled.div<{
-  noHeaders?: boolean,
-  doubleHeader?: boolean
-}>`
-  height: calc(100vh - calc(var(--Header_Height) * 2));
-  height: ${props => props.noHeaders
-    ? '100vh'
-    : `calc(100vh - calc(var(--Header_Height) * ${ props.doubleHeader ? 2 : 1 }));`};
-  width: 100%;
-  overflow-y: auto;
-`
-
-const S_MainScroll = styled.div`
-  display: flex;
-  height: calc(100vh - var(--Header_Height));
-  width: 100%;
-  overflow-y: auto;
-`
-
-const S_HeaderSpacerY = styled.div`
-  height: var(--Header_Height);
-  width: 100%;
-`
+    @media (min-width: 1400px) {
+      min-width: 600px;
+      max-width: 600px;
+    }
+  `,
+  PagePlaceholder: styled.div`
+    height: 100%;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+  `,
+  Expand: styled(Div100vh)`
+    width: 100%;
+  `,
+  Scroll: styled.div<{
+    noHeaders?: boolean,
+    doubleHeader?: boolean
+  }>`
+    height: calc(100vh - calc(var(--F_Header_Height) * 2));
+    height: ${props => props.noHeaders
+      ? '100vh'
+      : `calc(100vh - calc(var(--F_Header_Height) * ${ props.doubleHeader ? 2 : 1 }));`};
+    width: 100%;
+    overflow-y: auto;
+  `,
+  MainScroll: styled.div`
+    display: flex;
+    height: calc(100vh - var(--F_Header_Height));
+    width: 100%;
+    overflow-y: auto;
+  `,
+  HeaderSpacerY: styled.div`
+    height: var(--F_Header_Height);
+    width: 100%;
+  `
+}

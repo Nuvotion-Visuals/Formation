@@ -3,7 +3,6 @@ import styled from 'styled-components'
 
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 
-
 import { Icon, Spacer, Box } from '../../internal'
 
 interface Props {
@@ -11,9 +10,7 @@ interface Props {
 }
 
 export const Channels = ({  }: Props) => {
-
   const activeEventGuid = 'test'
-
 
   const channels = [
     'Everyone',
@@ -35,31 +32,31 @@ export const Channels = ({  }: Props) => {
     }) => {
 
     return (
-      <S_ChannelContainer 
+      <S.ChannelContainer 
         active={active}
       >
-          <Box width='100%'>
-            <S_Channel >
-              <S_IconContainer>
-                <Icon icon={icon} iconPrefix={iconPrefix} />
-              </S_IconContainer>
-              <S_ChannelName>{ name }</S_ChannelName>
-            </S_Channel>
-            <Spacer />
-            {
-              hideOptions
-                ? null
-                : <S_Option>
-                    <Icon icon='ellipsis-v' iconPrefix='fas'/>
-                  </S_Option>
-            }
-          </Box>
-      </S_ChannelContainer>
+        <Box width='100%'>
+          <S.Channel >
+            <S.IconContainer>
+              <Icon icon={icon} iconPrefix={iconPrefix} fixedWidth/>
+            </S.IconContainer>
+            <S.ChannelName>{ name }</S.ChannelName>
+          </S.Channel>
+          <Spacer />
+          {
+            hideOptions
+              ? null
+              : <S.Option>
+                  <Icon icon='ellipsis-v' iconPrefix='fas'/>
+                </S.Option>
+          }
+        </Box>
+      </S.ChannelContainer>
     )
   }
 
   return (<>
-    <S_Channels>
+    <S.Channels>
       <Channel
         name='Details'
         icon='info-circle'
@@ -92,11 +89,11 @@ export const Channels = ({  }: Props) => {
         hideOptions={true}
         active={false}
       />
-    </S_Channels>
+    </S.Channels>
 
-    <S_HLine />
+    <S.HLine />
 
-    <S_Channels>
+    <S.Channels>
       {
         channels.map((channel, index) => 
           <Channel 
@@ -109,58 +106,53 @@ export const Channels = ({  }: Props) => {
           />
         )
       }
-    </S_Channels>
-    </>)
+    </S.Channels>
+  </>)
 }
 
-
-const S_Channels = styled.ul`
-  width: calc(100% - 1rem);
-  display: flex;
-  flex-wrap: wrap;
-  padding: 0;
-  margin: 0;
-  padding: .5rem .5rem;
-  * {
-    color: var(--Font_Color_Label);
-  }
-`
-
-const S_HLine = styled.div`
-  width: 100%;
-  border-bottom: 1px solid #bbb;
-`
-
-const S_ChannelContainer = styled.div<{
-  active: boolean
-}>`
-  width: 100%;
-  font-weight: ${props => props.active ? '600' : '400'};
-  background: ${props => props.active ? 'var(--Surface_2)' : 'none'};
-  padding: 0 .5rem;
-  border-radius: .25rem;
-
-  &:hover {
-    background: ${props => props.active ? 'var(--Surface_2)' : 'var(--Surface_1)'};
-  };
-`
-
-const S_Channel = styled.li`
-  width: 100%;
-  display: flex;
-  gap: .5rem;
-  padding: .5rem 0;
-`
-
-const S_IconContainer = styled.div`
-  width: 1.25rem;
-`
-
-const S_ChannelName = styled.div`
-  display: flex;
-`
-
-const S_Option = styled.div`
-  color: var(--Font_Color_Label);
-  padding-right: .375rem;
-`
+const S = {
+  Channels: styled.ul`
+    width: calc(100% - 1rem);
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0;
+    margin: 0;
+    padding: .5rem .5rem;
+    * {
+      color: var(--Font_Color_Label);
+    }
+  `,
+  HLine: styled.div`
+    width: 100%;
+    border-bottom: 2px solid var(--F_Surface);
+  `,
+  Channel: styled.li`
+    width: 100%;
+    display: flex;
+    gap: .5rem;
+    padding: .5rem 0;
+  `,
+  IconContainer: styled.div`
+    width: 1.25rem;
+  `,
+  ChannelName: styled.div`
+    display: flex;
+  `,
+  Option: styled.div`
+    color: var(--F_Font_Color_Label);
+    padding-right: .375rem;
+  `,
+  ChannelContainer: styled.div<{
+    active: boolean
+  }>`
+    width: 100%;
+    font-weight: ${props => props.active ? '600' : '400'};
+    background: ${props => props.active ? 'var(--F_Surface_2)' : 'none'};
+    padding: 0 .5rem;
+    border-radius: .25rem;
+    cursor: pointer;
+    &:hover {
+      background: ${props => props.active ? 'var(--F_Surface_1)' : 'var(--F_Surface)'};
+    };
+  `
+}
