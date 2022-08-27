@@ -6,10 +6,19 @@ import { SpaceIcon } from './SpaceIcon'
 import { Icon } from '../../internal'
 
 interface Props {
-  
+  spaces: {
+    src?: string,
+    title: string
+  }[],
+  onClickIndex: (index: number) => void,
+  activeSpaceIndex: number
 }
 
-export const SpacesSidebar = ({  }: Props) => {
+export const SpacesSidebar = ({ 
+  spaces,
+  onClickIndex,
+  activeSpaceIndex
+}: Props) => {
   return (<>
     <S.Sidebar>
       <S.LeftBar />
@@ -18,15 +27,18 @@ export const SpacesSidebar = ({  }: Props) => {
         <Icon icon='plus' iconPrefix='fas'/>
       </S.SpaceIcon>
         {
-          new Array(5).fill(0).map((event, index) =>
+          spaces.map((space, index) =>
             <S.SidebarContainer key={index}>
               {
-                index === 1
+                activeSpaceIndex === index
                   ? <S.Active />
                   : null
               }
 
-              <SpaceIcon/>
+              <SpaceIcon
+                src={space.src}
+                onClick={() => onClickIndex(index)}
+              />
             </S.SidebarContainer>
           )
         }
@@ -66,13 +78,13 @@ const S = {
     left: 0px;
     background: var(--F_Font_Color);
     width: 6px;
-    height: 60px;
+    height: 52px;
     z-index: 99;
   `,
   LeftBar: styled.div`
     position: absolute;
     left: 0px;
-    background: var(--F_Surface);
+    background: var(--F_Surface_0);
     width: 6px;
     height: calc(100vh - var(--F_Header_Height));
     z-index: 99;
@@ -81,8 +93,8 @@ const S = {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 48px;
-    height: 48px;
+    width: 52px;
+    height: 52px;
     margin-top: 8px;
     margin-left: 6px;
     border-radius: 100%;

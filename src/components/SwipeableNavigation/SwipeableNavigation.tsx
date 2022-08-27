@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 
 import Div100vh from 'react-div-100vh'
@@ -25,11 +25,34 @@ export const SwipeableNavigation = ({
 }: Props) => {
   const { isDesktop, isTablet, isMobile } = useBreakpoint()
 
+  const [spaces, set_spaces] = useState([
+    {
+      title: 'Jive DJs Cork',
+      src: 'https://api.avsync.live/uploads/medium_jive_djs_d7e9e4490a.jpg'
+    },
+    {
+      title: 'Kino Battle of the Bands',
+      src: 'https://api.avsync.live/uploads/medium_Hero_ab87aace42.jpg'
+    },
+    {
+      title: 'The III Studios Session',
+      src: 'https://api.avsync.live/uploads/medium_Poster_6ad4c91377.jpg'
+    }
+  ])
+  const [activeSpaceIndex, set_activeSpaceIndex] = useState(0)
+
   const renderFirstPage = () => {
     return <>
       <S.MainScroll>
-        <SpacesSidebar />
-        <SpaceSidebar />
+        <SpacesSidebar 
+          spaces={spaces}
+          activeSpaceIndex={activeSpaceIndex}
+          onClickIndex={index => set_activeSpaceIndex(index)}
+        />
+        <SpaceSidebar 
+          title={spaces[activeSpaceIndex].title}
+          src={spaces[activeSpaceIndex].src}
+        />
       </S.MainScroll>
       <NavBottom
         navs={[

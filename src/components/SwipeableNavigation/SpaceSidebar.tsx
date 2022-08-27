@@ -7,10 +7,14 @@ import { AspectRatio } from '../../internal'
 import { Channels } from './Channels'
 
 interface Props {
-  
+  title: string,
+  src?: string
 }
 
-export const SpaceSidebar = ({  }: Props) => {
+export const SpaceSidebar = ({  
+  title,
+  src
+}: Props) => {
   return (
     <S.SpaceSidebar>
       <>
@@ -18,14 +22,14 @@ export const SpaceSidebar = ({  }: Props) => {
           <AspectRatio 
             ratio={2}
             coverBackground={true}
-            backgroundSrc={`https://api.avsync.live/uploads/medium_jive_djs_d7e9e4490a.jpg`} 
+            backgroundSrc={src} 
           />
         }
         <S.HeaderArea>
           <header>
             <S.Title>
               { 
-                'Unnamed event'
+                title
               }
             </S.Title>
           </header>

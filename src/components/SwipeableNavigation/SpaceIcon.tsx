@@ -2,12 +2,16 @@ import React from 'react'
 import styled from 'styled-components'
 
 interface Props {
-
+  src?: string,
+  onClick: () => void
 }
 
-export const SpaceIcon = ({ }: Props) => {
+export const SpaceIcon = ({ src, onClick }: Props) => {
   return (
-    <S.SpaceIcon>
+    <S.SpaceIcon 
+      src={src}
+      onClick={onClick}
+    >
       
     </S.SpaceIcon>
   )
@@ -15,24 +19,25 @@ export const SpaceIcon = ({ }: Props) => {
 
 const S = {
   SpaceIcon: styled.div<{
-    active?: boolean
+    active?: boolean,
+    src?: string
   }>`
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    width: 48px;
-    height: 60px;
+    width: 52px;
+    height: 52px;
     background-size: cover;
     background-position: center;
     box-shadow: ${props => props.active ? 'none' : 'var(--F_Outline)'};
     overflow: hidden;
     align-items: start;
-    border-radius: 4px;
+    border-radius: 8px;
     cursor: pointer;
-
-    &:hover {
-      background: var(--F_Surface);
-    }
+    background-image: url(${props => props.src});
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
   `
 }
