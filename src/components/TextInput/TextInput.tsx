@@ -234,7 +234,7 @@ const S = {
           ? 'var(--F_Outline_Error)'
           : 'var(--F_Outline)'
     };
-    border-radius: 16px;
+    border-radius: .75rem;
 
   `,
   Input: styled.input<{

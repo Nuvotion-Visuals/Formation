@@ -216,6 +216,39 @@ const Template: ComponentStory<typeof SwipeableNavigation> = args => {
     date: new Date(spaces[activeSpaceIndex].date).toDateString()
   }])
 
+//   <Channel
+//   name='Details'
+//   icon='info-circle'
+//   iconPrefix='fas'
+//   route={`/events/${activeEventGuid}`}
+//   hideOptions={true}
+//   active={false}
+// />
+// <Channel
+//   name='People'
+//   icon='users'
+//   iconPrefix='fas'
+//   route={`/events/${activeEventGuid}/people`}
+//   hideOptions={true}
+//   active={true}
+// />
+// <Channel
+//   name='Tasks'
+//   icon='check-square'
+//   iconPrefix='fas'
+//   route={`/events/${activeEventGuid}/tasks`}
+//   hideOptions={true}
+//   active={false}
+// />
+// <Channel
+//   name='Areas'
+//   icon='compass'
+//   iconPrefix='fas'
+//   route={`/events/${activeEventGuid}/areas`}
+//   hideOptions={true}
+//   active={false}
+// />
+
   return (
     <SwipeableNavigation {...args} 
       activeSwipeIndex={activeSwipeIndex}
@@ -223,6 +256,104 @@ const Template: ComponentStory<typeof SwipeableNavigation> = args => {
       spaces={spaces}
       activeSpaceIndex={activeSpaceIndex}
       onSetActiveSpacesIndex={index => set_activeSpaceIndex(index)}
+      channels={[
+        {
+          name: 'Details',
+          icon: 'info-circle',
+          iconPrefix: 'fas',
+          route: '',
+          hideOptions: true,
+          active: false
+        },
+        {
+          name: 'People',
+          icon: 'users',
+          iconPrefix: 'fas',
+          route: '',
+          hideOptions: true,
+          active: true
+        },
+        {
+          name: 'Tasks',
+          icon: 'check-square',
+          iconPrefix: 'fas',
+          route: '',
+          hideOptions: true,
+          active: false
+        },
+        {
+          name: 'Areas',
+          icon: 'compass',
+          iconPrefix: 'fas',
+          route: '',
+          hideOptions: true,
+          active: false
+        },
+        {
+          name: 'Finances',
+          icon: 'money-check-dollar',
+          iconPrefix: 'fas',
+          route: '',
+          hideOptions: true,
+          active: false
+        }
+      ]
+      
+    }
+      navsPrimary={[
+        {
+          icon: 'calendar-alt',
+          iconPrefix: 'fas',
+          title: 'All events',
+          href: '#',
+          active: true
+        },
+        {
+          icon: 'check-square',
+          iconPrefix: 'fas',
+          title: 'Tasks',
+          href: '#'
+        },
+        {
+          icon: 'bell',
+          iconPrefix: 'fas',
+          title: 'Notifications',
+          href: '#'
+        },
+        {
+          icon: 'user',
+          iconPrefix: 'fas',
+          title: 'Profile',
+          href: '#'
+        }
+      ]}
+      navsSecondary={[
+        {
+          icon: 'info-circle',
+          iconPrefix: 'fas',
+          title: 'Details',
+          href: '#'
+        },
+        {
+          icon: 'users',
+          iconPrefix: 'fas',
+          title: 'People',
+          href: '#',
+          active: true
+        },
+        {
+          icon: 'check-square',
+          iconPrefix: 'fas',
+          title: 'Tasks',
+          href: '#'
+        },
+        {
+          icon: 'compass',
+          iconPrefix: 'fas',
+          title: 'Areas',
+          href: '#'
+        }
+      ]}
       secondPage={<>
         <NavTabs
           navs={[

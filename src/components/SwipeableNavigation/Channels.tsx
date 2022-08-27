@@ -5,32 +5,30 @@ import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 
 import { Icon, Spacer, Box } from '../../internal'
 
-interface Props {
-  
+type Channel = {
+  name: string,
+  icon: IconName,
+  iconPrefix: IconPrefix,
+  route: string,
+  hideOptions?: boolean,
+  active: boolean
 }
 
-export const Channels = ({  }: Props) => {
+interface Props {
+  channels: Channel[]
+}
+
+export const Channels = ({ channels }: Props) => {
   const activeEventGuid = 'test'
 
-  const channels = [
-    'Everyone',
-    'Organizers',
-    'Production',
-    'Performers',
-    'Doors',
-    'Bar'
-  ]
-
-  const Channel = ({ name, icon, route, iconPrefix, hideOptions, active }:
-    {
-      name: string,
-      icon: IconName,
-      iconPrefix: IconPrefix,
-      route: string,
-      hideOptions?: boolean,
-      active: boolean
-    }) => {
-
+  const Channel = ({ 
+    name, 
+    icon, 
+    route, 
+    iconPrefix, 
+    hideOptions, 
+    active 
+  } : Channel ) => {
     return (
       <S.ChannelContainer 
         active={active}
@@ -55,47 +53,29 @@ export const Channels = ({  }: Props) => {
     )
   }
 
-  return (<>
+  return (<S.Container>
     <S.Channels>
-      <Channel
-        name='Details'
-        icon='info-circle'
-        iconPrefix='fas'
-        route={`/events/${activeEventGuid}`}
-        hideOptions={true}
-        active={false}
-      />
-      <Channel
-        name='People'
-        icon='users'
-        iconPrefix='fas'
-        route={`/events/${activeEventGuid}/people`}
-        hideOptions={true}
-        active={true}
-      />
-      <Channel
-        name='Tasks'
-        icon='check-square'
-        iconPrefix='fas'
-        route={`/events/${activeEventGuid}/tasks`}
-        hideOptions={true}
-        active={false}
-      />
-      <Channel
-        name='Areas'
-        icon='compass'
-        iconPrefix='fas'
-        route={`/events/${activeEventGuid}/areas`}
-        hideOptions={true}
-        active={false}
-      />
+      {
+        channels.map(channel =>
+          <Channel
+            {...channel}
+          />
+        )
+      }
     </S.Channels>
 
     <S.HLine />
 
     <S.Channels>
       {
-        channels.map((channel, index) => 
+        [
+          'Everyone',
+          'Organizers',
+          'Production',
+          'Performers',
+          'Doors',
+          'Bar'
+        ].map((channel, index) => 
           <Channel 
             key={index}
             name={channel} 
@@ -106,11 +86,16 @@ export const Channels = ({  }: Props) => {
           />
         )
       }
+
     </S.Channels>
-  </>)
+  </S.Container>)
 }
 
 const S = {
+  Container: styled.div`
+    width: 100%;
+    margin-bottom: 5.5rem;
+  `,
   Channels: styled.ul`
     width: calc(100% - 1rem);
     display: flex;
@@ -159,5 +144,9 @@ const S = {
         color: var(--F_Font_Color);
       }
     };
+  `,
+  BottomSpacer: styled.div`
+    width: 100%;
+    height: var(--F_Header_Height);
   `
 }

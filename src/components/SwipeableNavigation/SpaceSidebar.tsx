@@ -10,14 +10,16 @@ interface Props {
   title: string,
   src?: string,
   dateString?: string,
-  location?: string
+  location?: string,
+  channels: any
 }
 
 export const SpaceSidebar = ({  
   title,
   src,
   dateString,
-  location
+  location,
+  channels
 }: Props) => {
   return (
     <S.SpaceSidebar>
@@ -67,7 +69,10 @@ export const SpaceSidebar = ({
           </S.DetailsContainer>
         </S.HeaderArea>
       
-        <Channels />
+        <Channels 
+          channels={channels}
+        />
+
       </>
     </S.SpaceSidebar>
   )
@@ -117,5 +122,5 @@ const S = {
   `,
   Detail: styled.div`
     font-size: var(--F_Font_Size_Label);
-  `,
+  `
 }

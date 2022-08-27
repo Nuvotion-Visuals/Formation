@@ -74,7 +74,6 @@ const S = {
     height: 100%;
     align-items: center;
     justify-content: center;
-    pointer-events: none;
     padding-left: .5rem;
   `,
   Title: styled.div`

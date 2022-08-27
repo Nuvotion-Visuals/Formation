@@ -17,7 +17,10 @@ interface Props {
   thirdPage: React.ReactNode,
   spaces: any,
   activeSpaceIndex: number,
-  onSetActiveSpacesIndex: (index: number) => void
+  onSetActiveSpacesIndex: (index: number) => void,
+  navsPrimary: any,
+  navsSecondary: any,
+  channels: any
 }
 
 export const SwipeableNavigation = ({ 
@@ -27,7 +30,10 @@ export const SwipeableNavigation = ({
   thirdPage,
   spaces,
   activeSpaceIndex,
-  onSetActiveSpacesIndex
+  onSetActiveSpacesIndex,
+  navsPrimary,
+  navsSecondary,
+  channels
 }: Props) => {
   const { isDesktop, isTablet, isMobile } = useBreakpoint()
 
@@ -51,37 +57,12 @@ export const SwipeableNavigation = ({
                 year: 'numeric' 
               })}
           location={spaces[activeSpaceIndex].location}
+          channels={channels}
         />
       </S.MainScroll>
       <NavBottom
         trimRight={true}
-        navs={[
-          {
-            icon: 'calendar-alt',
-            iconPrefix: 'fas',
-            title: 'All events',
-            href: '#',
-            active: true
-          },
-          {
-            icon: 'check-square',
-            iconPrefix: 'fas',
-            title: 'Tasks',
-            href: '#'
-          },
-          {
-            icon: 'bell',
-            iconPrefix: 'fas',
-            title: 'Notifications',
-            href: '#'
-          },
-          {
-            icon: 'user',
-            iconPrefix: 'fas',
-            title: 'Profile',
-            href: '#'
-          }
-        ]}
+        navs={navsPrimary}
       />
     </>
   }
@@ -127,33 +108,7 @@ export const SwipeableNavigation = ({
               <S.HeaderSpacerY />
             </S.Scroll>
             <NavBottom
-              navs={[
-                {
-                  icon: 'info-circle',
-                  iconPrefix: 'fas',
-                  title: 'Details',
-                  href: '#'
-                },
-                {
-                  icon: 'users',
-                  iconPrefix: 'fas',
-                  title: 'People',
-                  href: '#',
-                  active: true
-                },
-                {
-                  icon: 'check-square',
-                  iconPrefix: 'fas',
-                  title: 'Tasks',
-                  href: '#'
-                },
-                {
-                  icon: 'compass',
-                  iconPrefix: 'fas',
-                  title: 'Areas',
-                  href: '#'
-                }
-              ]}
+              navs={navsSecondary}
             />
           </S.Expand>
         </S.PagePlaceholder>
