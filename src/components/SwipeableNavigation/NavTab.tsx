@@ -74,7 +74,7 @@ const S = {
     font-size: ${props => props.fullSize ? 'var(--F_Font_Size)' : '12px'};
     width: 100%;
     text-align: center;
-    margin-top: ${props => !props.fullSize ? '-2px' : '.325rem'};
+    margin-top: ${props => !props.fullSize ? '-2px' : '.125rem'};
     font-weight: ${props => props.fullSize && props.active ? '600' : '400'};
   `,
   Active: styled.div`

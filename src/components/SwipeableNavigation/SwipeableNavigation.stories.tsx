@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
+import { DateAndTimePicker, Box } from '../../internal'
 import { ListEditor } from '../ListEditor'
 import { SwipeableNavigation } from './SwipeableNavigation'
 import { NavTabs } from './NavTabs'
@@ -14,6 +15,16 @@ export default {
 const Template: ComponentStory<typeof SwipeableNavigation> = args => {
 
   const [activeSwipeIndex, set_activeSwipeIndex] = useState(0)
+
+  const [value, set_value] = useState([{
+    startTime: '',
+    endTime: '',
+    date: new Date().toDateString()
+  }])
+
+  useEffect(() => {
+    console.log(value)
+  }, [value])
 
   return (
     <SwipeableNavigation {...args} 
@@ -52,7 +63,15 @@ const Template: ComponentStory<typeof SwipeableNavigation> = args => {
       </>
           
         }
-      thirdPage={<></>}
+      thirdPage={
+        <DateAndTimePicker 
+   
+          onChange={result => {
+            set_value(result)
+          }}
+          value={value}
+        />
+      }
     />
   )
 }

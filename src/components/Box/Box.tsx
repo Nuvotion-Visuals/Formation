@@ -18,7 +18,8 @@ interface Props {
   py?: number,
   children?: React.ReactNode,
   width?: number | string,
-  hide?: boolean
+  hide?: boolean,
+  wrap?: boolean
 }
 
 export const Box = React.memo((props : Props) => {
@@ -65,6 +66,6 @@ const S = {
     margin: ${props => calculateMargin(props)};
     padding: ${props => calculatePadding(props)};
     width: ${props => typeof props.width === 'string' ? props.width : `${props.width}rem`};
-
+    flex-wrap: ${props => props.wrap ? 'wrap' : 'auto'};
   `
 }
