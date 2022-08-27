@@ -68,7 +68,7 @@ const S = {
     position: relative;
     display: flex;
     align-items: center;
-    padding: .5rem;
+    padding: .75rem .5rem;
     border-bottom: 2px solid var(--F_Surface);
   `,
   TopContainer: styled.div`

@@ -53,7 +53,7 @@ library.add(
   fas.faPhone, fas.faUsers, fas.faTasks, fas.faCheckSquare,
   fas.faCompass, fas.faHashtag, fas.faBell, fas.faChevronLeft,
   fas.faChevronRight, fas.faChevronDown, fas.faChevronUp,
-  fas.faTrashAlt
+  fas.faTrashAlt, fas.faMapMarkerAlt
 )
 
 export const parameters = {

@@ -2,20 +2,22 @@ import React from 'react'
 
 import styled from 'styled-components'
 
-import { AspectRatio } from '../../internal'
+import { AspectRatio, Icon } from '../../internal'
 
 import { Channels } from './Channels'
 
 interface Props {
   title: string,
   src?: string,
-  dateString?: string
+  dateString?: string,
+  location?: string
 }
 
 export const SpaceSidebar = ({  
   title,
   src,
-  dateString
+  dateString,
+  location
 }: Props) => {
   return (
     <S.SpaceSidebar>
@@ -36,15 +38,33 @@ export const SpaceSidebar = ({
             </S.Title>
           </header>
 
-          {
-            dateString
-              ? <S.Details>
-                  {
-                    dateString
-                  }
-                </S.Details>
-              : null
-          }
+          <S.DetailsContainer>
+            {
+              dateString
+                ? <S.Details>
+                    <Icon icon='calendar-alt' iconPrefix='fas' fixedWidth size='sm'/>
+                    <S.Detail>
+                      {
+                        dateString
+                      }
+                    </S.Detail>
+                  </S.Details>
+                : null
+            }
+
+            {
+              location
+                ? <S.Details>
+                    <Icon icon='map-marker-alt' iconPrefix='fas' fixedWidth size='sm' />
+                    <S.Detail>
+                      {
+                        location
+                      }
+                    </S.Detail>
+                  </S.Details>
+                : null
+            }
+          </S.DetailsContainer>
         </S.HeaderArea>
       
         <Channels />
@@ -79,11 +99,22 @@ const S = {
     font-size: 20px;
     padding: 0;
     margin: 0;
-    margin-bottom: 1rem;
+    margin-bottom: .75rem;
+    line-height: 1.25em;
   `,
-  Details: styled.div`
+  DetailsContainer: styled.div`
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
-  `
+    gap: .75rem;
+  `,
+  Details: styled.div`
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+    color: var(--F_Font_Color_Disabled);
+  `,
+  Detail: styled.div`
+    font-size: var(--F_Font_Size_Label);
+  `,
 }

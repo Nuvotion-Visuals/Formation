@@ -29,17 +29,38 @@ export const SwipeableNavigation = ({
     {
       title: 'Jive DJs Cork',
       src: 'https://api.avsync.live/uploads/medium_jive_djs_d7e9e4490a.jpg',
-      date: new Date(Date.parse('Sep 1, 2022'))
+      date: new Date(Date.parse('Sep 1, 2022')),
+      location: 'Cypress Avenue'
     },
     {
       title: 'Kino Battle of the Bands',
       src: 'https://api.avsync.live/uploads/medium_Hero_ab87aace42.jpg',
-      date: new Date(Date.parse('Sep 8, 2022'))
+      date: new Date(Date.parse('Sep 8, 2022')),
+      location: 'Kino'
     },
     {
       title: 'The III Studios Session',
       src: 'https://api.avsync.live/uploads/medium_Poster_6ad4c91377.jpg',
-      date: new Date(Date.parse('Oct 29, 2022'))
+      date: new Date(Date.parse('Oct 29, 2022')),
+      location: 'The III Studios'
+    },
+    {
+      title: 'Society Chi Presents',
+      src: 'https://api.avsync.live/uploads/2_82322a7fdb.jpg',
+      date: new Date(Date.parse('Nov 29, 2022')),
+      location: 'The Aux'
+    },
+    {
+      title: 'Pretty Happy',
+      src: 'https://api.avsync.live/uploads/pretty_happy_95bcc1e160.jpg',
+      date: new Date(Date.parse('Dec 4, 2022')),
+      location: 'Kino'
+    },
+    {
+      title: 'Cyprus Avenue Hip Hop Festival',
+      src: 'https://api.avsync.live/uploads/1_bc67779458.jpg',
+      date: new Date(Date.parse('Dec 6, 2022')),
+      location: 'Cypress Avenue'
     }
   ])
   const [activeSpaceIndex, set_activeSpaceIndex] = useState(0)
@@ -55,10 +76,19 @@ export const SwipeableNavigation = ({
         <SpaceSidebar 
           title={spaces[activeSpaceIndex].title}
           src={spaces[activeSpaceIndex].src}
-          dateString={spaces[activeSpaceIndex].date?.toLocaleString('en-us', { month: 'long', day: 'numeric', year: 'numeric' })}
+          dateString={
+            spaces[activeSpaceIndex]
+              .date?.toLocaleString('en-us', { 
+                weekday: 'long', 
+                month: 'short', 
+                day: 'numeric', 
+                year: 'numeric' 
+              })}
+          location={spaces[activeSpaceIndex].location}
         />
       </S.MainScroll>
       <NavBottom
+        trimRight={true}
         navs={[
           {
             icon: 'calendar-alt',
@@ -243,10 +273,7 @@ export const SwipeableNavigation = ({
         </S.MainContent>
 
         <S.SecondaryContent>
-          <NavTop
-            title={'Unnamed event'}
-            onBack={() => onSwipe(activeSwipeIndex - 1)}
-          />
+         
           <S.Scroll doubleHeader={false}>
             {
               renderThirdPage()

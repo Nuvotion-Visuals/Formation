@@ -167,7 +167,7 @@ export const DateAndTimePicker = ({
         ))
       }
     
-      <Box py={.25} />
+      <Box py={.15} />
 
       <Box p={.5}>
         <Button

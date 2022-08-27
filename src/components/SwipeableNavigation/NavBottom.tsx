@@ -12,11 +12,12 @@ interface Props {
     title: string,
     href: string,
     active?: boolean
-  }[]
+  }[],
+  trimRight?: boolean
 }
 
-export const NavBottom = ({ navs } : Props) => {
-  return (<S.Header>
+export const NavBottom = ({ navs, trimRight } : Props) => {
+  return (<S.Header trimRight={trimRight}>
     <NavTabs
       navs={navs}
     />
@@ -24,13 +25,16 @@ export const NavBottom = ({ navs } : Props) => {
 }
 
 const S = {
-  Header: styled.div`
+  Header: styled.div<{
+    trimRight?: boolean
+  }>`
     position: absolute;
     bottom: 0;
-    width: 100%;
     z-index: 1;
     border-top: 2px solid var(--F_Surface);
     background: var(--F_Background);
+    width: ${props => props.trimRight ? 'calc(100% - 2px)' : '100%'};
+    border-right: ${props => props.trimRight ? '2px solid var(--F_Surface)' : 'none'};
   `,
   NavContainer: styled.div<{
     width: number

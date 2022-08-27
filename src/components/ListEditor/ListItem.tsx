@@ -100,7 +100,7 @@ const S = {
     width: 100%;
     display: flex;
     align-items: center;
-    border-bottom: 2px solid var(--F_Surface_1);
+    border-bottom: 2px solid var(--F_Surface);
     animation: ${props => props.blinkAnimation ? css`${blink} 1s linear forwards` : 'none'};
     
   `,

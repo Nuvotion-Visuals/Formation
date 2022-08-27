@@ -117,7 +117,7 @@ const S = {
     padding: .5rem;
     display: flex;
     align-items: center;
-    border-bottom: 2px solid var(--F_Surface_1);
+    border-bottom: 2px solid var(--F_Surface);
     position: relative;
     cursor: pointer;
     background: var(--F_Background_Alternating);
