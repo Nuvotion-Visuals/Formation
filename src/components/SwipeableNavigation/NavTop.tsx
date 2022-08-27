@@ -6,26 +6,42 @@ import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 import { Button, Spacer } from '../../internal'
 
 import { NavBack } from './NavBack'
+import { SpaceIcon } from './SpaceIcon'
 
 interface Props {
   title: string,
-  onBack: () => void
+  src?: string,
+  date?: Date,
+  onBack: () => void,
+  hideContext?: boolean
 }
 
-export const NavTop = ({ title, onBack } : Props) => {
+export const NavTop = ({ 
+  title,
+  src,
+  date, 
+  onBack,
+  hideContext
+} : Props) => {
   return (<S.Header>
-    <S.Inner>
+    <S.Inner onClick={onBack}>
       <NavBack
         onClick={onBack}
       />
-      <Spacer />
-      <S.Center>
+      <S.SpaceInfo hide={hideContext}>
+        <SpaceIcon
+          src={src}
+          date={date}
+          small={true}
+        />
         <S.Title>
           {
             title
           }
         </S.Title>
-      </S.Center>
+      </S.SpaceInfo>
+      
+      <Spacer />
     </S.Inner>
   </S.Header>)
 }
@@ -40,6 +56,7 @@ const S = {
     height: var(--F_Header_Height);
     display: flex;
     align-items: center;
+    height: 100%;
     padding: 0 .5rem;
     justify-content: center;
   `,
@@ -47,16 +64,22 @@ const S = {
     width: number
   }>`
     width: ${props => `${props.width}%`};
+    height: 100%;
   `,
-  Center: styled.div`
-    position: absolute;
-    width: 100%;
+  SpaceInfo: styled.div<{
+    hide?: boolean
+  }>`
+    visibility: ${props => props.hide ? 'hidden' : 'visible'};
     display: flex;
+    height: 100%;
+    align-items: center;
     justify-content: center;
     pointer-events: none;
+    padding-left: .5rem;
   `,
   Title: styled.div`
     font-size: var(--Font_Size);
     font-weight: 600;
+    padding-left: .25rem;
   `
 }

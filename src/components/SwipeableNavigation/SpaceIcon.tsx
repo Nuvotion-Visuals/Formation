@@ -3,19 +3,22 @@ import styled from 'styled-components'
 
 interface Props {
   src?: string,
-  onClick: () => void,
-  date?: Date
+  onClick?: () => void,
+  date?: Date,
+  small?: boolean
 }
 
 export const SpaceIcon = ({ 
   src, 
   onClick,
-  date
+  date,
+  small
 }: Props) => {
   return (
     <S.SpaceIcon 
       src={src}
       onClick={onClick}
+      small={small}
     >
       {
         date
@@ -33,7 +36,8 @@ export const SpaceIcon = ({
 const S = {
   SpaceIcon: styled.div<{
     active?: boolean,
-    src?: string
+    src?: string,
+    small?: boolean,
   }>`
     display: flex;
     flex-wrap: wrap;
@@ -43,6 +47,8 @@ const S = {
     height: 52px;
     background-size: cover;
     background-position: center;
+    /* transform-origin: 0 0; */
+    transform: ${props => props.small ? 'scale(0.75)' : 'none'};
     /* box-shadow: ${props => props.active ? 'none' : 'var(--F_Outline)'}; */
     overflow: hidden;
     align-items: start;
