@@ -46,8 +46,15 @@ export const Toolbar = ({
                           iconPrefix: 'fas',
                           dropDownOptions: [
                             {
+                              icon: 'plus',
+                              iconPrefix: 'fas',
+                              text: 'Add more',
+                              onClick: () => onRemove(index)
+                            },
+                            {
                               icon: 'edit',
-                              text: 'Edit',
+                              iconPrefix: 'fas',
+                              text: 'Rename',
                               onClick: () => {}
                             },
                             {

@@ -204,7 +204,8 @@ const S = {
     display: flex;
     align-items: center;
     padding: 0 1rem;
-    width: 100%;
+    width: calc(100% - 2rem);
+    line-height: 0;
 
     &:hover {
       box-shadow: ${props => 
@@ -233,7 +234,7 @@ const S = {
           ? 'var(--F_Outline_Error)'
           : 'var(--F_Outline)'
     };
-    border-radius: 16px;
+    border-radius: .75rem;
 
   `,
   Input: styled.input<{
@@ -264,6 +265,7 @@ const S = {
     color: var(--F_Font_Color);
     background: none;
     pointer-events: ${props => props.preventFocus ? 'none' : 'auto'};
+    box-sizing: border-box;
   `,
   Label: styled.label<{
     locked: boolean,

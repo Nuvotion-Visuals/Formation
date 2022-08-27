@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 
@@ -179,7 +179,7 @@ const S = {
     top: 0;
     width: calc(100vw * var(--F_Zoom_Scale));
     height: calc(100vh * var(--F_Zoom_Scale));
-    background: rgb(0, 0, 0, .4);
+    background: var(--F_Backdrop);
     z-index: 3;
     @media screen and (min-width: 1024px) {
       display: none;

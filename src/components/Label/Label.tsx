@@ -94,7 +94,7 @@ const S = {
   }>`
     padding: .125rem .5rem;
     border-radius: 16px;
-    font-size: 14px;
+    font-size: var(--F_Font_Size_Label);
     margin-left: .5rem;
     background: ${props => props.background};
     box-shadow: ${props => `inset 0 0 0 1px ${props.outline}`};

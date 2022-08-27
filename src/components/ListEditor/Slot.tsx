@@ -74,24 +74,40 @@ export const Slot = ({ avatar,
               {
                 icon: 'ellipsis-v',
                 iconPrefix: 'fas',
-                dropDownOptions: [
-                  {
-                    icon: 'envelope',
-                    text: 'Message',
-                  },
-                  {
-                    icon: 'paper-plane',
-                    text: 'Invite'
-                  },
-                  {
-                    icon: 'check-square',
-                    text: 'Assign',
-                  },
-                  {
-                    icon: 'trash-alt',
-                    text: 'Remove',
-                  },
-                ]
+                dropDownOptions: 
+                  title
+                    ? [
+                        {
+                          icon: 'user',
+                          iconPrefix: 'fas',
+                          text: 'View profile'
+                        },
+                        {
+                          icon: 'paper-plane',
+                          text: 'Message',
+                        },
+                        {
+                          icon: 'handshake-angle',
+                          iconPrefix: 'fas',
+                          text: 'Set status'
+                        },
+                        {
+                          icon: 'trash-alt',
+                          text: 'Remove',
+                        },
+                      ] 
+                    : [
+                        {
+                          icon: 'user-plus',
+                          iconPrefix: 'fas',
+                          text: 'Assign'
+                        },
+                        {
+                          icon: 'trash-alt',
+                          text: 'Remove',
+                        },
+                      ] 
+                
               }
             ]}
           />
@@ -115,12 +131,13 @@ const S = {
   ListItem: styled.div<ListItemProps>`
     width: 100%;
     padding: .5rem;
-    background: ${props => props.avatar ? 'var(--EC_White_100)' : 'var(--EC_Action_Orange)'};
     display: flex;
     align-items: center;
-    border-bottom: 2px solid var(--F_Surface_1);
+    border-bottom: 2px solid var(--F_Surface_0);
     position: relative;
     cursor: pointer;
+    background: var(--F_Background_Alternating);
+
     &:hover {
       background: var(--F_Surface_0);
     }
@@ -156,7 +173,7 @@ const S = {
   Title: styled.div`
     font-size: var(--F_Font_Size);
     font-weight: 400;
-    color: var(--F_Font_Color);
+    color: var(--F_Font_Color_Label);
     padding-left: .5rem;
     display: flex;
     align-items: center;
