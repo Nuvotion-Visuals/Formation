@@ -74,7 +74,7 @@ export type PositionInviteStatus =
   'applicationDenied'   
 
 interface Props {
-  calculateInitialValue: () => Lists,
+  value: Lists,
   onChange: (lists: Lists) => void,
   onRemoveFunction?: (index: number) => void,
   calculateRecommendationLists?: () => Lists,
@@ -83,7 +83,7 @@ interface Props {
 }
 
 export const ListEditor = ({
-  calculateInitialValue,
+  value,
   onChange,
   onRemoveFunction,
   calculateRecommendationLists,
@@ -92,7 +92,7 @@ export const ListEditor = ({
 }: Props) => {
 
   // List Management State
-  const [lists, setLists] = useState<Lists>([])
+  const [lists, setLists] = useState<Lists>(value)
   const [recommendedLists, setRecommendedLists] = useState([])
   const [recentLists, setRecentLists] = useState([])
   

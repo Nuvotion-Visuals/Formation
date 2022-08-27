@@ -101,11 +101,12 @@ const S = {
     margin: 0;
     margin-bottom: .75rem;
     line-height: 1.25em;
+    margin-top: -0.125rem;
   `,
   DetailsContainer: styled.div`
     display: flex;
     flex-wrap: wrap;
-    gap: .75rem;
+    gap: .65rem;
   `,
   Details: styled.div`
     width: 100%;

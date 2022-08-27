@@ -117,7 +117,7 @@ const S = {
     padding: .5rem;
     display: flex;
     align-items: center;
-    border-bottom: 2px solid var(--F_Surface);
+    border-bottom: 2px solid var(--F_Surface_0);
     position: relative;
     cursor: pointer;
     background: var(--F_Background_Alternating);
@@ -157,7 +157,7 @@ const S = {
   Title: styled.div`
     font-size: var(--F_Font_Size);
     font-weight: 400;
-    color: var(--F_Font_Color);
+    color: var(--F_Font_Color_Label);
     padding-left: .5rem;
     display: flex;
     align-items: center;

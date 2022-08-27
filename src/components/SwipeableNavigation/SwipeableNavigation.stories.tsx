@@ -16,15 +16,166 @@ const Template: ComponentStory<typeof SwipeableNavigation> = args => {
 
   const [activeSwipeIndex, set_activeSwipeIndex] = useState(0)
 
-  const [value, set_value] = useState([{
+  const [dates, set_dates] = useState([{
     startTime: '',
     endTime: '',
     date: new Date().toDateString()
   }])
 
-  useEffect(() => {
-    console.log(value)
-  }, [value])
+  const [positions, set_positions] = useState([
+    {
+        'title': '🎧 DJs',
+        'guid': '',
+        'listItems': [
+            {
+                'title': 'DJ SKoli',
+                'avatar': false
+            },
+            {
+                'title': 'King Spookey',
+                'avatar': false
+            },
+            {
+                'title': 'Subsus',
+                'avatar': false
+            }
+        ]
+    },
+    {
+        'title': '🔥 Fire Dancers',
+        'guid': '',
+        'listItems': [
+            {
+                'title': 'Isabella',
+                'avatar': false
+            },
+            {
+                'title': 'Lexi',
+                'avatar': false
+            },
+            {
+                'title': 'Gloria',
+                'avatar': false
+            },
+            {
+                'title': 'Michael',
+                'avatar': false
+            },
+            {
+                'title': 'PJ',
+                'avatar': false
+            },
+            {
+                'title': '',
+                'avatar': false
+            },
+            {
+                'title': '',
+                'avatar': false
+            }
+        ]
+    },
+    {
+        'title': '📺 Vusicians',
+        'guid': '',
+        'listItems': [
+            {
+                'title': 'AVsync.LIVE',
+                'avatar': false
+            },
+            {
+                'title': 'Neocord',
+                'avatar': false
+            }
+        ]
+    },
+    {
+        'title': '💡 Lighting Designer',
+        'guid': '',
+        'listItems': [
+            {
+                'title': 'Atomosity',
+                'avatar': false
+            },
+            {
+                'title': '',
+                'avatar': false
+            }
+        ]
+    },
+    {
+        'title': '🍺 Bartenders',
+        'guid': '',
+        'listItems': [
+            {
+                'title': '',
+                'avatar': false
+            },
+            {
+                'title': '',
+                'avatar': false
+            }
+        ]
+    },
+    {
+        'title': '🛡️ Security',
+        'guid': '',
+        'listItems': [
+            {
+                'title': '',
+                'avatar': false
+            },
+            {
+                'title': '',
+                'avatar': false
+            }
+        ]
+    },
+    {
+        'title': '🔊 Audio engineer',
+        'guid': '',
+        'listItems': [
+            {
+                'title': 'Ricky Havansek',
+                'avatar': false
+            }
+        ]
+    },
+    {
+        'title': '🍽️ Waitstaff',
+        'guid': '',
+        'listItems': [
+            {
+                'title': '',
+                'avatar': false
+            },
+            {
+                'title': '',
+                'avatar': false
+            },
+            {
+                'title': '',
+                'avatar': false
+            },
+            {
+                'title': '',
+                'avatar': false
+            },
+            {
+                'title': '',
+                'avatar': false
+            },
+            {
+                'title': '',
+                'avatar': false
+            },
+            {
+                'title': '',
+                'avatar': false
+            }
+        ]
+    }
+])
 
   return (
     <SwipeableNavigation {...args} 
@@ -32,27 +183,27 @@ const Template: ComponentStory<typeof SwipeableNavigation> = args => {
       onSwipe={index => set_activeSwipeIndex(index)}
       secondPage={<>
         <NavTabs
-            navs={[
-              {
-                title: 'People',
-                href: '#'
-              },
-              {
-                title: 'Positions',
-                href: '#',
-                active: true
-              },
-              {
-                title: 'Teams',
-                href: '#'
-              },
-            ]}
+          navs={[
+            {
+              title: 'People',
+              href: '#'
+            },
+            {
+              title: 'Positions',
+              href: '#',
+              active: true
+            },
+            {
+              title: 'Teams',
+              href: '#'
+            },
+          ]}
           borderBottom={true}
         />
         <ListEditor 
         
             {...{
-              calculateInitialValue: () =>[],
+              value: positions,
               onChange: (lists) => { console.log(lists)},
               onRemoveFunction: () => alert('remove'),
               calculateRecommendationLists: () => [],
@@ -67,9 +218,9 @@ const Template: ComponentStory<typeof SwipeableNavigation> = args => {
         <DateAndTimePicker 
    
           onChange={result => {
-            set_value(result)
+            set_dates(result)
           }}
-          value={value}
+          value={dates}
         />
       }
     />

@@ -34,7 +34,7 @@ export const ListItem = ({ avatar,
   blinkAnimation
 }: Props): JSX.Element => {
   
-  const [expandPosition, setExpandPosition] = useState(true)
+  const [expandPosition, setExpandPosition] = useState(false)
 
   return (
     <>
@@ -100,7 +100,7 @@ const S = {
     width: 100%;
     display: flex;
     align-items: center;
-    border-bottom: 2px solid var(--F_Surface);
+    border-bottom: 2px solid var(--F_Surface_0);
     animation: ${props => props.blinkAnimation ? css`${blink} 1s linear forwards` : 'none'};
     
   `,
@@ -124,7 +124,7 @@ const S = {
     width: fit-content;
   `,
   Title: styled.div`
-    color: var(--F_Font_Color);
+    color: var(--F_Font_Color_Label);
     margin-right: 0.5rem;
     display: flex;
     align-items: center;
