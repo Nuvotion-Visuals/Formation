@@ -77,7 +77,8 @@ const S = {
     padding-left: .5rem;
   `,
   Title: styled.div`
-    font-size: var(--Font_Size);
+    font-size: var(--F_Font_Size);
+    color: var(--F_Font_Color);
     font-weight: 600;
     padding-left: .25rem;
   `

@@ -26,6 +26,9 @@ const S = {
     justify-content: center;
     border: none;
     cursor: pointer;
+    * {
+      color: var(--F_Font_Color);
+    }
     &:hover {
       background: var(--F_Surface_1);
     }

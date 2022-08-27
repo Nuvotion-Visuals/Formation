@@ -4,15 +4,15 @@ import { ComponentStory, ComponentMeta } from '@storybook/react'
 
 import { DateAndTimePicker, Box } from '../../internal'
 import { ListEditor } from '../ListEditor'
-import { SwipeableNavigation } from './SwipeableNavigation'
+import { NavSpaces } from './NavSpaces'
 import { NavTabs } from './NavTabs'
 
 export default {
-  title: 'Navigation/SwipeableNavigation',
-  component: SwipeableNavigation,
-} as ComponentMeta<typeof SwipeableNavigation>
+  title: 'Navigation/NavSpaces',
+  component: NavSpaces,
+} as ComponentMeta<typeof NavSpaces>
 
-const Template: ComponentStory<typeof SwipeableNavigation> = args => {
+const Template: ComponentStory<typeof NavSpaces> = args => {
   const [activeSwipeIndex, set_activeSwipeIndex] = useState(0)
 
   const [spaces, set_spaces] = useState([
@@ -250,7 +250,7 @@ const Template: ComponentStory<typeof SwipeableNavigation> = args => {
 // />
 
   return (
-    <SwipeableNavigation {...args} 
+    <NavSpaces {...args} 
       activeSwipeIndex={activeSwipeIndex}
       onSwipe={index => set_activeSwipeIndex(index)}
       spaces={spaces}

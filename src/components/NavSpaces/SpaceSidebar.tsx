@@ -106,7 +106,7 @@ const S = {
     margin: 0;
     margin-bottom: .75rem;
     line-height: 1.25em;
-    margin-top: -0.125rem;
+    margin-top: -0.25rem;
   `,
   DetailsContainer: styled.div`
     display: flex;

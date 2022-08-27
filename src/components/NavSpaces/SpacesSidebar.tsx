@@ -101,11 +101,13 @@ const S = {
     margin-top: .5rem;
     margin-left: .325rem;
     border-radius: 100%;
-    /* box-shadow: var(--F_Outline); */
     background: var(--F_Surface);
     background-size: cover;
     background-position: center;
     cursor: pointer;
+    * {
+      color: var(--F_Font_Color);
+    }
     &:hover {
       background: var(--F_Surface_1);
     }

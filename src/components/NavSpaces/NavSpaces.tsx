@@ -23,7 +23,7 @@ interface Props {
   channels: any
 }
 
-export const SwipeableNavigation = ({ 
+export const NavSpaces = ({ 
   activeSwipeIndex, 
   onSwipe,
   secondPage,
