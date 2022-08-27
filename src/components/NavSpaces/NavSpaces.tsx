@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import Div100vh from 'react-div-100vh'
 
 import { SwipeableViews } from './SwipeableViews'
-import { useBreakpoint } from '../../internal'
+import { useBreakpoint, StyleHTML, Box } from '../../internal'
 import { SpaceSidebar } from './SpaceSidebar'
 import { NavBottom } from './NavBottom'
 import { NavTop } from './NavTop'
@@ -207,7 +207,8 @@ export const NavSpaces = ({
             onBack={() => onSwipe(activeSwipeIndex - 1)}  
             hideReturnContext={true}          
           />
-          <S.Scroll doubleHeader={false}>
+        
+          <S.Scroll doubleHeader={true}>
             {
               renderThirdPage()
             }
