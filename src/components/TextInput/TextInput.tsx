@@ -265,6 +265,7 @@ const S = {
     color: var(--F_Font_Color);
     background: none;
     pointer-events: ${props => props.preventFocus ? 'none' : 'auto'};
+    box-sizing: border-box;
   `,
   Label: styled.label<{
     locked: boolean,
