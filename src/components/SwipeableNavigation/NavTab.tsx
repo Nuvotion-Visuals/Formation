@@ -11,14 +11,14 @@ interface Props {
   href: string
 }
 
-export const NavIcon = ({
+export const NavTab = ({
   icon,
   iconPrefix,
   title,
   href
 } : Props) => {
   return (
-    <S.NavIcon href={href}>
+    <S.NavTab href={href}>
       <Icon 
         icon={icon} 
         iconPrefix={iconPrefix} 
@@ -27,12 +27,12 @@ export const NavIcon = ({
       />
       <Break />
       <S.Title>{ title }</S.Title>
-    </S.NavIcon>
+    </S.NavTab>
   )
 }
 
 const S = {
-  NavIcon: styled.a`
+  NavTab: styled.a`
     display: flex;
     justify-content: center;
     align-items: center;

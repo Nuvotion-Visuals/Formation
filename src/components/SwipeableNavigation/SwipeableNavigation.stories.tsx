@@ -3,6 +3,8 @@ import React, { useState } from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
 import { SwipeableNavigation } from './SwipeableNavigation'
+import { NavTabs } from './NavTabs'
+import { NavHeaderSpacer } from './NavHeaderSpacer'
 
 export default {
   title: 'Navigation/SwipeableNavigation',
@@ -17,7 +19,31 @@ const Template: ComponentStory<typeof SwipeableNavigation> = args => {
     <SwipeableNavigation {...args} 
       activeSwipeIndex={activeSwipeIndex}
       onSwipe={index => set_activeSwipeIndex(index)}
-      secondPage={'Second page'}
+      secondPage={
+          <NavTabs
+            navs={[
+              {
+                icon: 'users',
+                iconPrefix: 'fas',
+                title: 'People',
+                href: '#'
+              },
+              {
+                icon: 'users',
+                iconPrefix: 'fas',
+                title: 'Positions',
+                href: '#'
+              },
+              {
+                icon: 'users',
+                iconPrefix: 'fas',
+                title: 'Teams',
+                href: '#'
+              },
+            ]}
+          borderBottom={true}
+        />
+        }
       thirdPage={'Third page'}
     />
   )

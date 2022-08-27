@@ -5,8 +5,6 @@ import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 
 import { Button, Spacer } from '../../internal'
 
-import { NavIcon } from './NavIcon'
-
 interface Props {
   title: string,
   onBack: () => void
@@ -56,6 +54,7 @@ const S = {
     width: 100%;
     display: flex;
     justify-content: center;
+    pointer-events: none;
   `,
   Title: styled.div`
     font-size: var(--Font_Size);

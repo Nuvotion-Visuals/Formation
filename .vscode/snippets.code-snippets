@@ -98,35 +98,30 @@
 		],
 		"description": "API URL"
 	},
-	"React FC with singe file component": {
-		"prefix": "fc",
-		"body": [
-			"import styled from 'styled-components'",
-			"",
-			"$1interface Props {",
-      "  $2",
+	"Functional Component": {
+    "prefix": "fc",
+    "body": [
+      "import React from 'react'",
+      "import styled from 'styled-components'",
+      "",
+      "interface Props {",
+      "  $1",
       "}",
       "",
-			"const ${TM_FILENAME_BASE} = ({ $3 }: Props) => {",
-			"  return (",
-			"    <S_${TM_FILENAME_BASE}>",
-			"      $4",
-			"    </S_${TM_FILENAME_BASE}>",
-			"  )",
-			"}",
-			"",
-			"export default ${TM_FILENAME_BASE}",
-			"",
-			"const S_${TM_FILENAME_BASE} = styled.div`",
-			"  width: 100%;",
-			"  display: flex;",
-			"  flex-wrap: wrap;",
-			"  justify-content: center;",
-			"  align-items: center;",
-			"`"
-		],
-		"description": "React FC with singe file component"
-	},
+      "export const ${TM_FILENAME_BASE} = ({ $2}: Props) => {",
+      "  return (<S.${TM_FILENAME_BASE}$5>",
+      "    $6",
+      "  </S.${TM_FILENAME_BASE}>)",
+      "}",
+      "",
+      "const S = {",
+      "  ${TM_FILENAME_BASE}: styled.div$3`",
+      "    $4",
+      "  `",
+      "}"
+    ],
+    "description": "Functional Component"
+  },
 	"initialize styled component": {
 		"prefix": "sc",
 		"body": [

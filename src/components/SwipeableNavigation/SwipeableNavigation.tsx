@@ -92,6 +92,7 @@ export const SwipeableNavigation = ({
               title={'Unnamed event'}
               onBack={() => onSwipe(activeSwipeIndex - 1)}
             />
+
             <S.Scroll doubleHeader={true}>
               {
                 renderSecondPage()
@@ -165,10 +166,6 @@ export const SwipeableNavigation = ({
         >
           <S.PagePlaceholder >
             <S.Expand>
-              <NavTop
-                title={'Unnamed event'}
-                onBack={() => onSwipe(activeSwipeIndex - 1)}
-              />
               <S.Scroll noHeaders={false}>
                 {
                   renderSecondPage()

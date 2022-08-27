@@ -10,8 +10,10 @@ interface Props {
 }
 
 export const SpacesSidebar = ({  }: Props) => {
-  return (
+  return (<>
     <S.Sidebar>
+      <S.LeftBar />
+
       <S.SpaceIcon>
         <Icon icon='plus' iconPrefix='fas'/>
       </S.SpaceIcon>
@@ -29,37 +31,51 @@ export const SpacesSidebar = ({  }: Props) => {
           )
         }
     </S.Sidebar>
-  )
+  </>)
 }
 
 const S = {
   Sidebar: styled.div`
     width: 72px;
-    height: calc(calc(100vh - var(--F_Header_Height)) - 1.5rem);
+    height: calc(100vh - var(--F_Header_Height));
     overflow-y: auto;
+    overflow-x: visible;
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
     align-content: start;
-    padding: .75rem 0;
     gap: .75rem;
     border-right: 2px solid var(--F_Surface);
     position: absolute;
     top: 0;
+    left: 0px;
+    ::-webkit-scrollbar {
+      width: .25rem;
+      height: .25rem;
+    }
   `,
   SidebarContainer: styled.div`
     width: 100%;
     display: flex;
     justify-content: center;
     position: relative;
+    padding-left: 6px;
   `,
   Active: styled.div`
     position: absolute;
-    left: 0;
+    left: 0px;
     background: var(--F_Primary);
     width: 6px;
     height: 60px;
-    border-radius: 0 4px 4px 0;
+    z-index: 99;
+  `,
+  LeftBar: styled.div`
+    position: absolute;
+    left: 0px;
+    background: var(--F_Surface);
+    width: 6px;
+    height: calc(100vh - var(--F_Header_Height));
+    z-index: 99;
   `,
   SpaceIcon: styled.div`
     display: flex;
@@ -67,6 +83,8 @@ const S = {
     align-items: center;
     width: 48px;
     height: 48px;
+    margin-top: 8px;
+    margin-left: 6px;
     border-radius: 100%;
     box-shadow: var(--F_Outline);
     background-size: cover;

@@ -40,11 +40,7 @@ export const SwipeableViews = ({
             {
               child
             }
-            {
-              index !== activeSwipeIndex
-                ? <S.Backdrop />
-                : null
-            }
+            <S.Backdrop active={index === activeSwipeIndex} />
           </S.View>
         )
       }
@@ -53,6 +49,15 @@ export const SwipeableViews = ({
 }
 
 const appear = keyframes`
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+`
+
+const disappear = keyframes`
   0% {
     opacity: 0;
   }
@@ -66,7 +71,9 @@ const S = {
     position: relative;
     width: 100%;
   `,
-  Backdrop: styled.div`
+  Backdrop: styled.div<{
+    active: boolean
+  }>`
     position: absolute;
     right: 0;
     top: 0;
@@ -75,7 +82,7 @@ const S = {
     background: var(--F_Backdrop);
     z-index: 1;
     pointer-events: none;
-    animation: ${appear} .4s ease-in-out forwards;
+    animation: ${props => props.active ? css`${appear} .25s ease-in-out forwards;` : css`${disappear} .25s ease-in-out forwards;`};
 
   `
 }
