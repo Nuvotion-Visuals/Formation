@@ -64,7 +64,7 @@ const S = {
   Active: styled.div`
     position: absolute;
     left: 0px;
-    background: var(--F_Primary);
+    background: var(--F_Font_Color);
     width: 6px;
     height: 60px;
     z-index: 99;

@@ -7,10 +7,11 @@ import { NavTab } from './NavTab'
 
 interface Props {
   navs: {
-    icon: IconName,
-    iconPrefix: IconPrefix,
+    icon?: IconName,
+    iconPrefix?: IconPrefix,
     title: string,
-    href: string
+    href: string,
+    active?: boolean
   }[],
   borderBottom?: boolean
 }
@@ -19,13 +20,10 @@ export const NavTabs = ({ navs, borderBottom } : Props) => {
   return (
     <S.NavTabs borderBottom={borderBottom}>
       {
-        navs.map(({ icon, iconPrefix, href, title }) =>
+        navs.map((nav) =>
           <S.NavContainer width={100 / navs.length}>
             <NavTab
-              icon={icon}
-              iconPrefix={iconPrefix}
-              title={title}
-              href={href}
+              {...nav}
             />
           </S.NavContainer>
         )
@@ -41,6 +39,7 @@ const S = {
     height: var(--F_Header_Height);
     display: flex;
     align-items: center;
+    width: calc(100% - 1rem);
     padding: 0 .5rem;
     justify-content: center;
     border-bottom: ${props => props.borderBottom ? '2px solid var(--F_Surface)' : 'none'};
@@ -48,6 +47,7 @@ const S = {
   NavContainer: styled.div<{
     width: number
   }>`
+    height: 100%;
     width: ${props => `${props.width}%`};
   `
 }

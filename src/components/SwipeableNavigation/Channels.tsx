@@ -71,7 +71,7 @@ export const Channels = ({  }: Props) => {
         iconPrefix='fas'
         route={`/events/${activeEventGuid}/people`}
         hideOptions={true}
-        active={false}
+        active={true}
       />
       <Channel
         name='Tasks'
@@ -118,8 +118,9 @@ const S = {
     padding: 0;
     margin: 0;
     padding: .5rem .5rem;
+
     * {
-      color: var(--Font_Color_Label);
+      color: var(--F_Font_Color_Disabled);
     }
   `,
   HLine: styled.div`
@@ -139,20 +140,24 @@ const S = {
     display: flex;
   `,
   Option: styled.div`
-    color: var(--F_Font_Color_Label);
     padding-right: .375rem;
   `,
   ChannelContainer: styled.div<{
     active: boolean
   }>`
     width: 100%;
-    font-weight: ${props => props.active ? '600' : '400'};
-    background: ${props => props.active ? 'var(--F_Surface_2)' : 'none'};
+    background: ${props => props.active ? 'var(--F_Surface)' : 'none'};
     padding: 0 .5rem;
     border-radius: .25rem;
     cursor: pointer;
+    * {
+      color: ${props => props.active ? 'var(--F_Font_Color)' : 'var(--F_Font_Color_Disabled)'};
+    }
     &:hover {
-      background: ${props => props.active ? 'var(--F_Surface_1)' : 'var(--F_Surface)'};
+      background: ${props => props.active ? 'var(--F_Surface)' : 'var(--F_Surface_0)'};
+      * {
+        color: var(--F_Font_Color);
+      }
     };
   `
 }

@@ -204,7 +204,8 @@ const S = {
     display: flex;
     align-items: center;
     padding: 0 1rem;
-    width: 100%;
+    width: calc(100% - 2rem);
+    line-height: 0;
 
     &:hover {
       box-shadow: ${props => 

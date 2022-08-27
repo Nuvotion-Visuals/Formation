@@ -52,7 +52,7 @@ library.add(
   fas.faCheck, fas.faExclamationTriangle, fas.faUser, fas.faLock,
   fas.faPhone, fas.faUsers, fas.faTasks, fas.faCheckSquare,
   fas.faCompass, fas.faHashtag, fas.faBell, fas.faChevronLeft,
-  fas.faChevronRight
+  fas.faChevronRight, fas.faChevronDown, fas.faChevronUp
 )
 
 export const parameters = {

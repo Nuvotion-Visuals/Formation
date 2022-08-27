@@ -37,7 +37,8 @@ export const SwipeableNavigation = ({
             icon: 'calendar-alt',
             iconPrefix: 'fas',
             title: 'All events',
-            href: '#'
+            href: '#',
+            active: true
           },
           {
             icon: 'check-square',
@@ -111,13 +112,14 @@ export const SwipeableNavigation = ({
                 {
                   icon: 'users',
                   iconPrefix: 'fas',
-                  title: 'Tasks',
-                  href: '#'
+                  title: 'People',
+                  href: '#',
+                  active: true
                 },
                 {
                   icon: 'check-square',
                   iconPrefix: 'fas',
-                  title: 'Notifications',
+                  title: 'Tasks',
                   href: '#'
                 },
                 {
@@ -214,6 +216,10 @@ export const SwipeableNavigation = ({
         </S.MainContent>
 
         <S.SecondaryContent>
+          <NavTop
+            title={'Unnamed event'}
+            onBack={() => onSwipe(activeSwipeIndex - 1)}
+          />
           <S.Scroll doubleHeader={false}>
             {
               renderThirdPage()

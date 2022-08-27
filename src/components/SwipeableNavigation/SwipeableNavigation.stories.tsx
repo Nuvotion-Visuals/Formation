@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
+import { ListEditor } from '../ListEditor'
 import { SwipeableNavigation } from './SwipeableNavigation'
 import { NavTabs } from './NavTabs'
-import { NavHeaderSpacer } from './NavHeaderSpacer'
 
 export default {
   title: 'Navigation/SwipeableNavigation',
@@ -19,32 +19,40 @@ const Template: ComponentStory<typeof SwipeableNavigation> = args => {
     <SwipeableNavigation {...args} 
       activeSwipeIndex={activeSwipeIndex}
       onSwipe={index => set_activeSwipeIndex(index)}
-      secondPage={
-          <NavTabs
+      secondPage={<>
+        <NavTabs
             navs={[
               {
-                icon: 'users',
-                iconPrefix: 'fas',
                 title: 'People',
                 href: '#'
               },
               {
-                icon: 'users',
-                iconPrefix: 'fas',
                 title: 'Positions',
-                href: '#'
+                href: '#',
+                active: true
               },
               {
-                icon: 'users',
-                iconPrefix: 'fas',
                 title: 'Teams',
                 href: '#'
               },
             ]}
           borderBottom={true}
         />
+        <ListEditor 
+        
+            {...{
+              calculateInitialValue: () =>[],
+              onChange: (lists) => { console.log(lists)},
+              onRemoveFunction: () => alert('remove'),
+              calculateRecommendationLists: () => [],
+              calculateRecentLists: () => [],
+              isCreating: false
+            }}
+        />
+      </>
+          
         }
-      thirdPage={'Third page'}
+      thirdPage={<></>}
     />
   )
 }

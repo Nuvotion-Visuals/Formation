@@ -115,12 +115,13 @@ const S = {
   ListItem: styled.div<ListItemProps>`
     width: 100%;
     padding: .5rem;
-    background: ${props => props.avatar ? 'var(--EC_White_100)' : 'var(--EC_Action_Orange)'};
     display: flex;
     align-items: center;
     border-bottom: 2px solid var(--F_Surface_1);
     position: relative;
     cursor: pointer;
+    background: var(--F_Background_Alternating);
+
     &:hover {
       background: var(--F_Surface_0);
     }

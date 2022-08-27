@@ -64,16 +64,17 @@ export const ListItemEditor = ({  onCreate, onClose, hide }: Props) => {
 
 const S = {
   NewPositionContainer: styled.div`
-    width: 100%;
+    width: calc(100% - 1rem);
     position: relative;
     display: flex;
     align-items: center;
-    padding-bottom: .5rem;
-    border-bottom: 2px solid var(--F_Surface_1);
+    padding: .5rem;
+    border-bottom: 2px solid var(--F_Surface);
   `,
   TopContainer: styled.div`
     width: 100%;
     display: flex;
+    align-items: center;
     gap: 0.5rem;
   `,
   CountWrap: styled.div`
