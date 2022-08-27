@@ -101,12 +101,13 @@ const S = {
     margin-top: .5rem;
     margin-left: .325rem;
     border-radius: 100%;
-    box-shadow: var(--F_Outline);
+    /* box-shadow: var(--F_Outline); */
+    background: var(--F_Surface);
     background-size: cover;
     background-position: center;
     cursor: pointer;
     &:hover {
-      background: var(--F_Surface);
+      background: var(--F_Surface_1);
     }
   `
 }

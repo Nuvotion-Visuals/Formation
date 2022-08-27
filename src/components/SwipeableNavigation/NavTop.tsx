@@ -5,6 +5,8 @@ import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 
 import { Button, Spacer } from '../../internal'
 
+import { NavBack } from './NavBack'
+
 interface Props {
   title: string,
   onBack: () => void
@@ -13,10 +15,7 @@ interface Props {
 export const NavTop = ({ title, onBack } : Props) => {
   return (<S.Header>
     <S.Inner>
-      <Button
-        icon='chevron-left'
-        iconPrefix='fas'
-        secondary={true}
+      <NavBack
         onClick={onBack}
       />
       <Spacer />
