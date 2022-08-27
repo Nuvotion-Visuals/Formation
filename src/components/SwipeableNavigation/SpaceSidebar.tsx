@@ -8,12 +8,14 @@ import { Channels } from './Channels'
 
 interface Props {
   title: string,
-  src?: string
+  src?: string,
+  dateString?: string
 }
 
 export const SpaceSidebar = ({  
   title,
-  src
+  src,
+  dateString
 }: Props) => {
   return (
     <S.SpaceSidebar>
@@ -33,9 +35,16 @@ export const SpaceSidebar = ({
               }
             </S.Title>
           </header>
-          <S.Details>
-            Details
-          </S.Details>
+
+          {
+            dateString
+              ? <S.Details>
+                  {
+                    dateString
+                  }
+                </S.Details>
+              : null
+          }
         </S.HeaderArea>
       
         <Channels />

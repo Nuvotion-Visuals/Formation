@@ -29,17 +29,17 @@ export const SwipeableNavigation = ({
     {
       title: 'Jive DJs Cork',
       src: 'https://api.avsync.live/uploads/medium_jive_djs_d7e9e4490a.jpg',
-      date: new Date('2022-04-03')
+      date: new Date(Date.parse('Sep 1, 2022'))
     },
     {
       title: 'Kino Battle of the Bands',
       src: 'https://api.avsync.live/uploads/medium_Hero_ab87aace42.jpg',
-      date: new Date('2022-04-22')
+      date: new Date(Date.parse('Sep 8, 2022'))
     },
     {
       title: 'The III Studios Session',
       src: 'https://api.avsync.live/uploads/medium_Poster_6ad4c91377.jpg',
-      date: new Date('2022-05-05')
+      date: new Date(Date.parse('Oct 29, 2022'))
     }
   ])
   const [activeSpaceIndex, set_activeSpaceIndex] = useState(0)
@@ -55,6 +55,7 @@ export const SwipeableNavigation = ({
         <SpaceSidebar 
           title={spaces[activeSpaceIndex].title}
           src={spaces[activeSpaceIndex].src}
+          dateString={spaces[activeSpaceIndex].date?.toLocaleString('en-us', { month: 'long', day: 'numeric', year: 'numeric' })}
         />
       </S.MainScroll>
       <NavBottom

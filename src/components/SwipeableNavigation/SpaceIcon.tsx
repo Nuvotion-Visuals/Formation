@@ -21,7 +21,7 @@ export const SpaceIcon = ({
         date
           ? <S.Date>
               <S.Month>{ date.toLocaleString('en-us', { month: 'short' }).toUpperCase() }</S.Month>
-              <S.Day>{ date.getDay() }</S.Day>
+              <S.Day>{ date.toLocaleString('en-us', { day: 'numeric' }) }</S.Day>
             </S.Date>
           : null
       }
