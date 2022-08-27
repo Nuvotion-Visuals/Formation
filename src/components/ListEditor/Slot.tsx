@@ -74,24 +74,40 @@ export const Slot = ({ avatar,
               {
                 icon: 'ellipsis-v',
                 iconPrefix: 'fas',
-                dropDownOptions: [
-                  {
-                    icon: 'envelope',
-                    text: 'Message',
-                  },
-                  {
-                    icon: 'paper-plane',
-                    text: 'Invite'
-                  },
-                  {
-                    icon: 'check-square',
-                    text: 'Assign',
-                  },
-                  {
-                    icon: 'trash-alt',
-                    text: 'Remove',
-                  },
-                ]
+                dropDownOptions: 
+                  title
+                    ? [
+                        {
+                          icon: 'user',
+                          iconPrefix: 'fas',
+                          text: 'View profile'
+                        },
+                        {
+                          icon: 'paper-plane',
+                          text: 'Message',
+                        },
+                        {
+                          icon: 'handshake-angle',
+                          iconPrefix: 'fas',
+                          text: 'Set status'
+                        },
+                        {
+                          icon: 'trash-alt',
+                          text: 'Remove',
+                        },
+                      ] 
+                    : [
+                        {
+                          icon: 'user-plus',
+                          iconPrefix: 'fas',
+                          text: 'Assign'
+                        },
+                        {
+                          icon: 'trash-alt',
+                          text: 'Remove',
+                        },
+                      ] 
+                
               }
             ]}
           />

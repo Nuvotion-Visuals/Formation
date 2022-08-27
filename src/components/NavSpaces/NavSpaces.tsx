@@ -200,6 +200,13 @@ export const NavSpaces = ({
         </S.MainContent>
 
         <S.SecondaryContent>
+          <NavTop
+            title={spaces[activeSpaceIndex].title}
+            src={spaces[activeSpaceIndex].src}
+            date={spaces[activeSpaceIndex].date}
+            onBack={() => onSwipe(activeSwipeIndex - 1)}  
+            hideReturnContext={true}          
+          />
           <S.Scroll doubleHeader={false}>
             {
               renderThirdPage()
@@ -250,6 +257,7 @@ const S = {
   SecondaryContent: styled.div`
     max-width: 320px;
     display: flex;
+    flex-wrap: wrap;
     position: relative;
     border-left: 2px solid var(--F_Surface);
     min-width: 320px;

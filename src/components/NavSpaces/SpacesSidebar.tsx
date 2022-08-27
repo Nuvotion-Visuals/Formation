@@ -46,6 +46,7 @@ export const SpacesSidebar = ({
             </S.SidebarContainer>
           )
         }
+        <S.VSpacer />
     </S.Sidebar>
   </>)
 }
@@ -111,5 +112,9 @@ const S = {
     &:hover {
       background: var(--F_Surface_1);
     }
+  `,
+  VSpacer: styled.div`
+    width: 100%;
+    margin-bottom: 6.25rem;
   `
 }

@@ -79,7 +79,8 @@ interface Props {
   onRemoveFunction?: (index: number) => void,
   calculateRecommendationLists?: () => Lists,
   calculateRecentLists?: () => Lists,
-  isCreating: boolean
+  isCreating: boolean,
+  label?: string
 }
 
 export const ListEditor = ({
@@ -88,7 +89,8 @@ export const ListEditor = ({
   onRemoveFunction,
   calculateRecommendationLists,
   calculateRecentLists,
-  isCreating
+  isCreating,
+  label
 }: Props) => {
 
   // List Management State
@@ -156,6 +158,7 @@ export const ListEditor = ({
           hide={!isCreating} 
           onCreate={onCreate} 
           onClose={() => {}}
+          label={label}
         />
       </S.FixedWrapper>
       

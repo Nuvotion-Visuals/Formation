@@ -94,7 +94,7 @@ export const Channels = ({ channels }: Props) => {
 const S = {
   Container: styled.div`
     width: 100%;
-    margin-bottom: 5.5rem;
+    margin-bottom: 6.325rem;
   `,
   Channels: styled.ul`
     width: calc(100% - 1rem);
@@ -144,9 +144,5 @@ const S = {
         color: var(--F_Font_Color);
       }
     };
-  `,
-  BottomSpacer: styled.div`
-    width: 100%;
-    height: var(--F_Header_Height);
   `
 }

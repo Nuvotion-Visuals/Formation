@@ -13,10 +13,11 @@ interface Props {
   lists?: Lists,
   onCreate?: Function,
   onClose?: Function,
-  hide?: boolean
+  hide?: boolean,
+  label?: string
 }
 
-export const ListItemEditor = ({  onCreate, onClose, hide }: Props) => {
+export const ListItemEditor = ({  onCreate, onClose, hide, label }: Props) => {
   const [text, set_text] = useState('')
   const [count, set_count] = useState(1)
 
@@ -31,7 +32,7 @@ export const ListItemEditor = ({  onCreate, onClose, hide }: Props) => {
       <Gap >
         <S.TopContainer >
           <TextInput
-            label="Position Title"
+            label={label}
             onChange={value=> { 
               set_text(value)
             }}
@@ -47,7 +48,9 @@ export const ListItemEditor = ({  onCreate, onClose, hide }: Props) => {
             />
           </S.CountWrap>
           <Button
-            text={'Create'}
+            icon='plus'
+            iconPrefix='fas'
+            text={'Add'}
             disabled={text === ''}
             onClick={() => {
               if (onCreate) {

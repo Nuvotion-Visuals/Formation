@@ -2,7 +2,7 @@ import React from 'react'
 
 import styled from 'styled-components'
 
-import { AspectRatio, Icon } from '../../internal'
+import { AspectRatio, Icon, Dropdown } from '../../internal'
 
 import { Channels } from './Channels'
 
@@ -40,33 +40,69 @@ export const SpaceSidebar = ({
             </S.Title>
           </header>
 
-          <S.DetailsContainer>
-            {
-              dateString
-                ? <S.Details>
-                    <Icon icon='calendar-alt' iconPrefix='fas' fixedWidth size='sm'/>
-                    <S.Detail>
-                      {
-                        dateString
-                      }
-                    </S.Detail>
-                  </S.Details>
-                : null
-            }
+          <S.Absolute>
+          <Dropdown
+            options={[
+              {
+                icon: 'ellipsis-v',
+                iconPrefix: 'fas',
+                dropDownOptions: [
+                  {
+                    icon: 'user-plus',
+                    iconPrefix: 'fas',
+                    text: 'Invite'
+                  },
+                  {
+                    icon: 'share',
+                    iconPrefix: 'fas',
+                    text: 'Share'
+                  },
+                  {
+                    icon: 'archive',
+                    iconPrefix: 'fas',
+                    text: 'Archive',
+                  },
+                  {
+                    icon: 'trash-alt',
+                    text: 'Remove',
+                  },
+                ] 
+              }
+            ]}
+          />
+        </S.Absolute>
 
-            {
-              location
-                ? <S.Details>
-                    <Icon icon='map-marker-alt' iconPrefix='fas' fixedWidth size='sm' />
-                    <S.Detail>
-                      {
-                        location
-                      }
-                    </S.Detail>
-                  </S.Details>
-                : null
-            }
-          </S.DetailsContainer>
+          {
+            dateString || location
+              ? <S.DetailsContainer>
+                  {
+                    dateString
+                      ? <S.Details>
+                          <Icon icon='calendar-alt' iconPrefix='fas' fixedWidth size='sm'/>
+                          <S.Detail>
+                            {
+                              dateString
+                            }
+                          </S.Detail>
+                        </S.Details>
+                      : null
+                  }
+      
+                  {
+                    location
+                      ? <S.Details>
+                          <Icon icon='map-marker-alt' iconPrefix='fas' fixedWidth size='sm' />
+                          <S.Detail>
+                            {
+                              location
+                            }
+                          </S.Detail>
+                        </S.Details>
+                      : null
+                  }
+                </S.DetailsContainer>
+              : null
+          }
         </S.HeaderArea>
       
         <Channels 
@@ -82,7 +118,7 @@ const S = {
   Absolute: styled.div`
     position: absolute;
     right: .5rem;
-    bottom: .75rem;
+    bottom: .5rem;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -94,6 +130,10 @@ const S = {
     flex-wrap: wrap;
     overflow-x: hidden;
     border-right: 2px solid var(--F_Surface);
+    ::-webkit-scrollbar {
+      width: .25rem;
+      height: .25rem;
+    }
   `,
   HeaderArea: styled.div`
     position: relative;
@@ -104,14 +144,14 @@ const S = {
     font-size: 20px;
     padding: 0;
     margin: 0;
-    margin-bottom: .75rem;
     line-height: 1.25em;
-    margin-top: -0.25rem;
+    /* margin-top: -0.25rem; */
   `,
   DetailsContainer: styled.div`
     display: flex;
     flex-wrap: wrap;
     gap: .65rem;
+    margin-top: .75rem;
   `,
   Details: styled.div`
     width: 100%;

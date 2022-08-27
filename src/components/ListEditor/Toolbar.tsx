@@ -46,16 +46,16 @@ export const Toolbar = ({
                           iconPrefix: 'fas',
                           dropDownOptions: [
                             {
-                              icon: 'edit',
-                              iconPrefix: 'fas',
-                              text: 'Edit',
-                              onClick: () => {}
-                            },
-                            {
                               icon: 'plus',
                               iconPrefix: 'fas',
-                              text: 'Copy to...',
+                              text: 'Add more',
                               onClick: () => onRemove(index)
+                            },
+                            {
+                              icon: 'edit',
+                              iconPrefix: 'fas',
+                              text: 'Rename',
+                              onClick: () => {}
                             },
                             {
                               icon: 'trash-alt',
