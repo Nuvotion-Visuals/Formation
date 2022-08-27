@@ -39,10 +39,9 @@ const S = {
     height: var(--F_Header_Height);
     display: flex;
     align-items: center;
-    width: calc(100% - 1rem);
-    padding: 0 .5rem;
+    width: 100%;
     justify-content: center;
-    border-bottom: ${props => props.borderBottom ? '2px solid var(--F_Surface)' : 'none'};
+    border-bottom: .325rem solid var(--F_Surface_0);
   `,
   NavContainer: styled.div<{
     width: number

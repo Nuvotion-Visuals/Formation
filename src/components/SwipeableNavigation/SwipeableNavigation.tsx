@@ -28,15 +28,18 @@ export const SwipeableNavigation = ({
   const [spaces, set_spaces] = useState([
     {
       title: 'Jive DJs Cork',
-      src: 'https://api.avsync.live/uploads/medium_jive_djs_d7e9e4490a.jpg'
+      src: 'https://api.avsync.live/uploads/medium_jive_djs_d7e9e4490a.jpg',
+      date: new Date('2022-04-03')
     },
     {
       title: 'Kino Battle of the Bands',
-      src: 'https://api.avsync.live/uploads/medium_Hero_ab87aace42.jpg'
+      src: 'https://api.avsync.live/uploads/medium_Hero_ab87aace42.jpg',
+      date: new Date('2022-04-22')
     },
     {
       title: 'The III Studios Session',
-      src: 'https://api.avsync.live/uploads/medium_Poster_6ad4c91377.jpg'
+      src: 'https://api.avsync.live/uploads/medium_Poster_6ad4c91377.jpg',
+      date: new Date('2022-05-05')
     }
   ])
   const [activeSpaceIndex, set_activeSpaceIndex] = useState(0)

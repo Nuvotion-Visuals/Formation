@@ -27,8 +27,7 @@ const S = {
   Header: styled.div`
     position: absolute;
     bottom: 0;
-    width: calc(100% - 1rem);
-    padding: 0 .5rem;
+    width: 100%;
     z-index: 1;
     border-top: 2px solid var(--F_Surface);
     background: var(--F_Background);

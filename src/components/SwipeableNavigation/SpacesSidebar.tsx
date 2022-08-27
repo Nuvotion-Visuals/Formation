@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import Div100vh from 'react-div-100vh'
+
 import { SpaceIcon } from './SpaceIcon'
 
 import { Icon } from '../../internal'
@@ -8,7 +10,8 @@ import { Icon } from '../../internal'
 interface Props {
   spaces: {
     src?: string,
-    title: string
+    title: string,
+    date?: Date
   }[],
   onClickIndex: (index: number) => void,
   activeSpaceIndex: number
@@ -38,6 +41,7 @@ export const SpacesSidebar = ({
               <SpaceIcon
                 src={space.src}
                 onClick={() => onClickIndex(index)}
+                date={space.date}
               />
             </S.SidebarContainer>
           )
@@ -71,32 +75,31 @@ const S = {
     display: flex;
     justify-content: center;
     position: relative;
-    padding-left: 6px;
+    padding-left: .325rem;
   `,
   Active: styled.div`
     position: absolute;
     left: 0px;
     background: var(--F_Font_Color);
-    width: 6px;
-    height: 52px;
+    width: .325rem;
+    height: 3.25rem;
     z-index: 99;
   `,
   LeftBar: styled.div`
     position: absolute;
     left: 0px;
     background: var(--F_Surface_0);
-    width: 6px;
+    width: .325rem;
     height: calc(100vh - var(--F_Header_Height));
-    z-index: 99;
   `,
   SpaceIcon: styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 52px;
-    height: 52px;
-    margin-top: 8px;
-    margin-left: 6px;
+    width: 3.25rem;
+    height: 3.25rem;
+    margin-top: .5rem;
+    margin-left: .325rem;
     border-radius: 100%;
     box-shadow: var(--F_Outline);
     background-size: cover;

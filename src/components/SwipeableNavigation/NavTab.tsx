@@ -40,6 +40,13 @@ export const NavTab = ({
       >
         { title }
         </S.Title>
+
+        {
+          active
+            ? <S.Active />
+            : null
+        }
+        
     </S.NavTab>
   )
 }
@@ -48,13 +55,14 @@ const S = {
   NavTab: styled.a<{
     active?: boolean
   }>`
+    position: relative;
     display: flex;
-    height: calc(100% - .225rem);
+    height: calc(100% - .325rem);
+    padding-top: .125rem;
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
     text-decoration: none;
-    border-bottom: ${props => props.active ? '.225rem solid var(--F_Font_Color)' : 'none'};
     * {
       color: ${props => props.active ? 'var(--F_Font_Color)' : 'var(--F_Font_Color_Disabled)'};
     }
@@ -66,7 +74,14 @@ const S = {
     font-size: ${props => props.fullSize ? 'var(--F_Font_Size)' : '12px'};
     width: 100%;
     text-align: center;
-    margin-top: ${props => !props.fullSize ? '-6px' : '.225rem'};
+    margin-top: ${props => !props.fullSize ? '-2px' : '.325rem'};
     font-weight: ${props => props.fullSize && props.active ? '600' : '400'};
+  `,
+  Active: styled.div`
+    position: absolute;
+    bottom: -8px;
+    width: 100%;
+    height: .325rem;
+    background: var(--F_Font_Color);
   `
 }
