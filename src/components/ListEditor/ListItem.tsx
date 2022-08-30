@@ -128,7 +128,7 @@ const S = {
     margin-right: 0.5rem;
     display: flex;
     align-items: center;
-    font-size: var(--F_Font_Size_Title);
+    font-size: var(--F_Font_Size);
     padding-left: .25rem;
   `,
   PositionSlots: styled.div<PositionSlotsProps>`
