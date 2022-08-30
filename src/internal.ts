@@ -45,53 +45,57 @@ export {
 }
 
 // Atoms (0)
-import { Auth } from './components/Auth/Auth'
-import { Ripple } from './components/Ripple/Ripple'
-import { LoadingSpinner } from './components/LoadingSpinner/LoadingSpinner'
-import { Empty } from './components/Empty/Empty'
 import { AspectRatio } from './components/AspectRatio/AspectRatio'
-import { StyleHTML } from './components/StyleHTML/StyleHTML'
-import { LineBreak } from './components/LineBreak/LineBreak'
-import { Label } from './components/Label/Label'
+import { Auth } from './components/Auth/Auth'
+import { Badge } from './components/Badge/Badge'
 import { Box } from './components/Box/Box'
-import { Gap } from './components/Gap/Gap'
-import { Spacer } from './components/Spacer/Spacer'
-import { Icon } from './components/Icon/Icon'
-import { ColorPicker } from './components/ColorPicker/ColorPicker'
 import { Break } from './components/Break/Break'
+import { ColorPicker } from './components/ColorPicker/ColorPicker'
+import { Empty } from './components/Empty/Empty'
+import { Gap } from './components/Gap/Gap'
 import { Grid } from './components/Grid/Grid'
+import { Icon } from './components/Icon/Icon'
+import { Label } from './components/Label/Label'
+import { LineBreak } from './components/LineBreak/LineBreak'
+import { LoadingSpinner } from './components/LoadingSpinner/LoadingSpinner'
 import { NavHeader } from './components/NavHeader/NavHeader'
-import { NavMenuBars } from './components/NavMenuBars/NavMenuBars'
 import { NavLogo } from './components/NavLogo/NavLogo'
-import { NumberSlider } from './components/NumberSlider/NumberSlider'
+import { NavMenuBars } from './components/NavMenuBars/NavMenuBars'
 import { NumberRange } from './components/NumberRange/NumberRange'
+import { NumberSlider } from './components/NumberSlider/NumberSlider'
 import { Page } from './components/Page/Page'
 import { ParseHTML } from './components/ParseHTML/ParseHTML'
 import { Reorder } from './components/Reorder/Reorder'
+import { Ripple } from './components/Ripple/Ripple'
+import { Spacer } from './components/Spacer/Spacer'
+import { StyleHTML } from './components/StyleHTML/StyleHTML'
+
+
 export {
-  Auth,
-  Ripple,
-  LoadingSpinner,
-  Empty,
   AspectRatio,
-  StyleHTML,
-  LineBreak,
-  Label,
+  Auth,
+  Badge,
   Box,
-  Gap,
-  Spacer,
-  Icon,
-  ColorPicker,
   Break,
+  ColorPicker,
+  Empty,
+  Gap,
   Grid,
+  Icon,
+  Label,
+  LineBreak,
+  LoadingSpinner,
   NavHeader,
-  NavMenuBars,
   NavLogo,
-  NumberSlider,
+  NavMenuBars,
   NumberRange,
+  NumberSlider,
   Page,
   ParseHTML,
-  Reorder
+  Reorder,
+  Ripple,
+  Spacer,
+  StyleHTML,
 }
 
 // Molecules (1)
