@@ -114,7 +114,7 @@ export const TextInput = ({
         focused={focused}
         onChange={event => {
           const newValue = (event.target as HTMLInputElement).value
-          if (newValue && onChange) {
+          if (newValue !== undefined && onChange) {
             onChange(newValue)
           }
           setLocked(newValue == '')

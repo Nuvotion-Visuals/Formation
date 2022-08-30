@@ -23,10 +23,11 @@ const Template: ComponentStory<typeof ListEditor> = args =>
 
 export const Positions = Template.bind({})
 Positions.args = {
-  calculateInitialValue: () =>[],
+  value: () =>[],
   onChange: (lists) => { console.log(lists)},
   onRemoveFunction: () => alert('remove'),
   calculateRecommendationLists: () => [],
   calculateRecentLists: () => [],
-  isCreating: false
+  isCreating: false,
+  label: 'Position'
 }
