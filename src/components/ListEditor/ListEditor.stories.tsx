@@ -31,3 +31,6 @@ Positions.args = {
   isCreating: false,
   label: 'Position title'
 }
+Positions.parameters = {
+  layout: 'fullscreen'
+}

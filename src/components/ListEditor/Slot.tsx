@@ -28,24 +28,6 @@ export const Slot = ({ avatar,
   status,
   statusColor,
 }: Props): JSX.Element => {
-  
-  // const renderStatusChip = (PositionInviteStatus) => {
-  //   switch (PositionInviteStatus.type) {
-  //     case PositionInviteStatus.confirmed:
-  //       return <S.StatusChip status={status} statusColor={statusColor}>{ status }</S.StatusChip>
-  //     case PositionInviteStatus.awaitintResponse:
-  //       return <S.StatusChip status={status} statusColor={statusColor}>{ status }</S.StatusChip>
-  //     case PositionInviteStatus.inviteDenied:
-  //       return <S.StatusChip status={status} statusColor={statusColor}>{ status }</S.StatusChip>
-  //     case PositionInviteStatus.inviteNotSent:
-  //       return <S.StatusChip status={status} statusColor={statusColor}>{ status }</S.StatusChip>
-  //     case PositionInviteStatus.applicationReceived:
-  //       return <S.StatusChip status={status} statusColor={statusColor}>{ status }</S.StatusChip>
-  //     case PositionInviteStatus.applicationDenied:
-  //       return <S.StatusChip status={status} statusColor={statusColor}>{ status }</S.StatusChip>
-  //   }
-  // }
-
   return (
     <>
       <S.ListItem avatar={avatar}>
@@ -61,10 +43,6 @@ export const Slot = ({ avatar,
         <S.ResponsiveWrap>
           <S.ResponsiveTitleContainer>
             <S.Title>{title ? title : `Unassigned`}</S.Title>
-            
-            {/* {
-              renderStatusChip(PositionInviteStatus)
-            } */}
           </S.ResponsiveTitleContainer>
         </S.ResponsiveWrap>
         
@@ -159,6 +137,7 @@ const S = {
     align-items: center;
     justify-content: center;
     box-shadow: var(--F_Outline_Label);
+    font-size: var(--F_Font_Size_Label);
   `,
   ResponsiveWrap: styled.div`
     width: 100%;
