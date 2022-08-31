@@ -1,119 +1,155 @@
 import styled from 'styled-components'
-
-import React from 'react'
-
-import { Icon } from '../../internal'
-
+import React, { useEffect, useRef, useState } from 'react'
+import { isTouchCapable } from '../../internal'
+import { useOnClickOutside } from '../../internal'
+import { useScrollTo } from '../../internal'
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 
-interface Props {
-  icon?: IconName, 
-  iconPrefix?: IconPrefix,
-  value: string, 
-  onChange: (value: string) => void, 
-  onChangeIndexFunction?: Function,
-  title?: string, 
-  id?: string, 
-  options: string[], 
-  placeholder?: string,
-  disabled?: boolean,
-  activeOptionIndex?: number
-}
 
-export const Select = ({ 
-  icon, 
-  iconPrefix,
-  value, 
-  onChange, 
-  onChangeIndexFunction,
-  title, 
-  id, 
-  options, 
-  placeholder,
-  disabled,
-  activeOptionIndex
-}: Props) => {
+import { TextInput } from '../../internal'
 
-  const handleOnChange = (e : React.ChangeEvent<HTMLSelectElement>) => {
-    const newValue = (e.target as HTMLSelectElement).value
-    onChange(newValue)
-  }
-  
-  return (
-    <S.SelectContainer>
-      {
-        icon
-          ? <S.IconContainer>
-              <Icon icon={icon} iconPrefix={iconPrefix} fixedWidth/>
-            </S.IconContainer>
-          : null
-      }
+const Dropdown = ({ 
+  value,
+  onChange,
+  onClose,
+  options
+} : {
+  value: string,
+  onChange: (arg0: string) => void,
+  onClose: () => void,
+  options: string[]
+}) => {
+
+  const scrollContainerRef = useRef<HTMLDivElement | null>(null)
+  const scrollToRef = useRef<HTMLDivElement | null>(null)
+
+  useOnClickOutside(scrollContainerRef, () => {
+    onClose()
+  })
+
+
+  const { set_scrollTo } = useScrollTo(scrollContainerRef, scrollToRef);
+
+  useEffect(() => {
+    set_scrollTo(true)
+  }, [])
+
+  return <S.DropdownDropdown ref={scrollContainerRef}>
+    {
+      options.map(item =>
         
-      <S.Select 
-        value={value}
-        onChange={e => handleOnChange(e)} 
-        title={title}
-        id={id}
-        disabled={disabled}
-        hasIcon={icon !== undefined}
-      >
-        {
-          placeholder 
-            ? <S.Option disabled>{ placeholder }</S.Option> 
-            : null
-        }
-        {
-          options.map((option, index) => <S.Option key={index + option} value={option}>{option}</S.Option>)
-        } 
-      </S.Select>
-    </S.SelectContainer>
-  )
+        <S.Item 
+          onClick={() => {
+            onChange(item)
+            onClose()
+          }}
+          active={value === item}
+          ref={value === item ? scrollToRef : null}
+        >
+          { item }
+        </S.Item>  
+      )
+    }
+  </S.DropdownDropdown>
 }
 
-interface SelectProps {
-  hasIcon: boolean
+interface Props {
+  value: string,
+  label?: string,
+  onChange: (arg0: string) => void,
+  error?: string,
+  options: string[],
+  icon?: IconName,
+  iconPrefix?: IconPrefix
 }
+
+export const Select = ({
+  value,
+  onChange,
+  label,
+  error,
+  options,
+  icon,
+  iconPrefix
+}: Props) => {
+  const [isOpen, set_isOpen] = useState(false)
+  const [displayValue, set_displayValue] = useState(value)
+
+  useEffect(() => {
+    set_displayValue(value)
+  }, [value])
+
+  const [preventFocus, set_preventFocus] = useState(isTouchCapable())
+
+  useEffect(() => {
+    if (isOpen) {
+      set_preventFocus(false)
+    }
+  }, [isOpen])
+
+  return (
+    <S.Select 
+      onClick={() => {
+        set_preventFocus(isTouchCapable())
+        set_isOpen(!isOpen)
+      }}
+    >
+      <TextInput
+        label={label}
+        icon={icon}
+        iconPrefix={iconPrefix}
+        value={displayValue}
+        onChange={value => onChange(value)}
+        error={error}
+        preventFocus={preventFocus}
+        onBlur={() => set_preventFocus(isTouchCapable())}
+      />
+
+      {
+        isOpen
+          ? <Dropdown
+              onChange={newValue => onChange(newValue)}
+              value={value}
+              onClose={() => set_isOpen(false)}
+              options={options}
+            />
+        : null
+      }
+    </S.Select>
+  )
+} 
 
 const S = {
-  IconContainer: styled.div`
-    display: flex;
-    align-items: center;
-    height: var(--F_Input_Height);
-    padding-left: .75rem;
-    user-select: none;
-  `,
-  SelectContainer: styled.div`
-    display: flex;
-    align-items: center;
+  Select: styled.div`
+    position: relative;
     width: 100%;
-    height: var(--F_Input_Height);
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: var(--F_Outline);
-    min-width: 66px;
-
-    transition: 0s;
-    &:hover {
-      box-shadow: var(--F_Outline_Hover);
-    }
-
   `,
-  Select: styled.select<SelectProps>`
-    display: flex;
+  Item: styled.div<{
+    active: boolean
+  }>`
     width: 100%;
+    color: var(--F_Font_Color);
+    padding: .5rem 1rem;
     font-size: var(--F_Font_Size);
-    letter-spacing: 0.4px;
-    padding-left: .125rem;
+    background: ${props => props.active ? 'var(--F_Surface_1)' : 'none'};
     cursor: pointer;
-    background: none;
-    border: none;
-    color: var(--F_Font_Color);
-    height: 100%;
-    user-select: none;
-    padding-left: ${props => props.hasIcon ? '.125rem' : '.75rem'};
+    &:hover {
+      background: ${props => props.active ? 'var(--F_Surface_2)' : 'var(--F_Surface)'};
+    }
   `,
-  Option: styled.option`
+  DropdownDropdown: styled.div`
+    position: absolute;
+    z-index: 1;
     background: var(--F_Background);
-    color: var(--F_Font_Color);
+    border-radius: .5rem;
+    box-shadow: var(--F_Outline_Hover);
+    top: calc(var(--F_Input_Height) - .325rem);
+    width: calc(100% - 1.5rem);
+    min-width: 8rem;
+    max-height: 300px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    left: 1.5rem;
+    user-select: none;
   `
 }

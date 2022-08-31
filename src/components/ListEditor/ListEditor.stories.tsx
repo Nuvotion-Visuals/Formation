@@ -29,5 +29,5 @@ Positions.args = {
   calculateRecommendationLists: () => [],
   calculateRecentLists: () => [],
   isCreating: false,
-  label: 'Position'
+  label: 'Position title'
 }

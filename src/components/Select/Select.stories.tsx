@@ -10,7 +10,7 @@ export default {
 
 
 const Template: ComponentStory<typeof Select> = args => {
-  const [value, set_value] = useState<string>(args.options[0])
+  const [value, set_value] = useState<string>('')
   return <Select 
     {...args} 
     value={value} 
@@ -21,7 +21,8 @@ const Template: ComponentStory<typeof Select> = args => {
 export const Default = Template.bind({})
 Default.args = {
   icon: 'heart',
-  options: ['JavaScript', 'HTML', 'CSS']
+  options: ['JavaScript', 'HTML', 'CSS', 'C#', 'TypeScript', 'Python', 'Java'],
+  label: 'Prefered language'
 }
 
 export const Icon = Template.bind({})

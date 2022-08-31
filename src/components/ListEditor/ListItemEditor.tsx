@@ -29,7 +29,7 @@ export const ListItemEditor = ({  onCreate, onClose, hide, label }: Props) => {
   
   return (
     <S.NewPositionContainer>
-      <Gap >
+    <Gap >
         <S.TopContainer >
           <TextInput
             label={label}
@@ -45,6 +45,7 @@ export const ListItemEditor = ({  onCreate, onClose, hide, label }: Props) => {
               })}
               onChange={value => set_count(Number(value))}
               value={count.toString()}
+              label={'Count'}
             />
           </S.CountWrap>
           <Button
