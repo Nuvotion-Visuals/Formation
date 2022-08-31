@@ -1,7 +1,9 @@
-import styled from 'styled-components'
+import styled, { css, keyframes } from 'styled-components'
 import React, { useState, useEffect } from 'react'
 
 import { Icon } from '../../internal'
+
+export type Color = 'red' | 'pink' | 'purple' | 'darkpurple' | 'indigo' | 'blue' | 'lightblue' | 'cyan' | 'teal' | 'orange'
 
 
 const getBadgeColor = (color: string | undefined): string => {
@@ -32,30 +34,72 @@ const getBadgeColor = (color: string | undefined): string => {
 }
 
 interface Props {
-  colorString?: string,
-  content?: string
+  colorString: Color,
+  content: number,
+  children: JSX.Element
 }
 
-export const Badge = ({ colorString, content }: Props) => {
+interface BadgeProps {
+  invisible: boolean,
+}
+
+export const Badge = ({ colorString, content, children }: Props) => {
   
   const [badgeColor, setBadgeColor] = useState<string>('')
+  const [isInvisible, setIsInvisible] = useState<boolean>(true)
 
   useEffect(() => {
     setBadgeColor(getBadgeColor(colorString))
   }, [colorString])
 
+  useEffect(() => {
+    content === 0 ? setIsInvisible(true) : setIsInvisible(false)
+  }, [content])
+    
   return (
-    <S.Parent>
+    <S.Parent >
+      { children }
       <Icon
-        icon='envelope' 
+        icon='envelope'  
         iconPrefix='fas'
       />
-      <S.Badge color={badgeColor}>
-        <S.Span>{content}</S.Span>
+      <S.Badge color={badgeColor} invisible={isInvisible}>
+        <S.Span>
+          {
+            content < 100
+              ? content 
+              : '+99'
+          }
+        </S.Span>
       </S.Badge>
     </S.Parent>
   )
 }
+
+const shrinkBadge = keyframes`
+  0% {
+    opacity: 100%;
+    transform: scale(1);
+    
+  }
+
+  100% {
+    opacity: 0%;
+    transform: scale(0);
+  }
+`
+
+const expandBadge = keyframes`
+  0% {
+    opacity: 0%;
+    transform: scale(0)
+  }
+
+  100% {
+    opacity: 100%;
+    transform: scale(1)
+  }
+`
 
 const S = {
   Parent: styled.div`
@@ -63,17 +107,20 @@ const S = {
     width: 1.5rem;
     padding-top: 0.45rem;
   `,
-  Badge: styled.div`
+  Badge: styled.div<BadgeProps>`
     position: absolute;
     top: 0;
     right: 0;
-    width: 0.75rem;
-    height: 0.75rem;
+    width: 0.85rem;
+    height: 0.85rem;
     background: ${props => props.color};
     border-radius: 1rem;
     display: flex;
     align-items: center;
     justify-content: center;
+    animation: ${props => props.invisible
+                            ? css`${shrinkBadge} .25s forwards`
+                            : css`${expandBadge} .25s forwards`};
   `,
   Span: styled.div`
     padding-top: 1px;
