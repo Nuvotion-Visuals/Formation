@@ -11,7 +11,8 @@ interface Props {
     iconPrefix?: IconPrefix,
     title: string,
     href: string,
-    active?: boolean
+    active?: boolean,
+    count?: number
   }[],
   borderBottom?: boolean
 }

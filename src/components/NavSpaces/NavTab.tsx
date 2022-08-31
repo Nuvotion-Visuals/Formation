@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Icon, Break } from '../../internal'
+import { Icon, Break, Badge } from '../../internal'
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 
 interface Props {
@@ -9,7 +9,8 @@ interface Props {
   iconPrefix?: IconPrefix,
   title: string,
   href: string,
-  active?: boolean
+  active?: boolean,
+  count?: number
 }
 
 export const NavTab = ({
@@ -17,29 +18,42 @@ export const NavTab = ({
   iconPrefix,
   title,
   href,
-  active
+  active,
+  count
 } : Props) => {
+
+  const renderIcon = () => <>
+    {
+      icon && iconPrefix
+        ? <>
+            <Icon 
+              icon={icon} 
+              iconPrefix={iconPrefix} 
+              fixedWidth
+              size='lg'
+            />
+          </>
+        : null
+    }
+  </>
+  
   return (
     <S.NavTab href={href} active={active}>
       {
-        icon && iconPrefix
-          ? <>
-              <Icon 
-                icon={icon} 
-                iconPrefix={iconPrefix} 
-                fixedWidth
-                size='lg'
-              />
-            </>
-          : null
+        count
+          ? <Badge colorString='red' count={count}>
+              {
+                renderIcon()
+              }
+            </Badge>
+          : renderIcon()
       }
       
-      <S.Title 
-        fullSize={icon === undefined}
-        active={active}
-      >
-        { title }
-        </S.Title>
+      <S.Title fullSize={icon === undefined} active={active}>
+        { 
+          title 
+        }
+      </S.Title>
 
         {
           active
