@@ -16,13 +16,15 @@ import { LabelType } from '../../types'
 interface Props {
   value: LabelType,
   onChange: (label : LabelType) => void,
-  onClose: () => void
+  onClose: () => void,
+  onDelete?: () => void
 }
 
 export const LabelEditor = ({ 
   value, 
   onChange,
-  onClose
+  onClose,
+  onDelete
 }: Props) => {
 
   const [internalValue, set_internalValue] = useState(value)
@@ -59,7 +61,7 @@ export const LabelEditor = ({
           'pink',  'red', 'orange', 'purple', 'darkpurple', 'indigo', 'blue', 'lightblue', 'cyan', 'teal',
         ]}
       />
-      <Box mt={.125}>
+      <Box mt={.125} width='100%'>
         <Gap>
           <Button
             text='Save'
@@ -75,6 +77,17 @@ export const LabelEditor = ({
             onClick={onClose}
           />
           <Spacer />
+          {
+            onDelete
+              ? <Button
+                  text='Delete'
+                  icon='trash-alt'
+                  iconPrefix='fas'
+                  secondary={true}
+                  onClick={onClose}
+                />
+              : null
+          }
         </Gap>
       </Box>
     </Gap>

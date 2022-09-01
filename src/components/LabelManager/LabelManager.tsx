@@ -74,6 +74,7 @@ export const LabelManager = ({ value, onChange }: Props) => {
                         : item
                     ))}
                   onClose={() => set_editingIndex(null)}
+                  onDelete={() => onChange(value.filter((i, itemIndex) => itemIndex !== index))}
                 />
               : <Label
                   label={name}
@@ -94,23 +95,13 @@ export const LabelManager = ({ value, onChange }: Props) => {
             <Dropdown
               options={[
                 {
-                  icon: 'ellipsis-vertical',
+                  icon: 'edit',
                   iconPrefix: 'fas',
-                  dropDownOptions: [
-                    {
-                      icon: 'edit',
-                      iconPrefix: 'fas',
-                      text: 'Edit',
-                      onClick: () => {
-                        set_editingIndex(index)
-                      }
-                    },
-                    {
-                      icon: 'trash-alt',
-                      text: 'Remove',
-                      onClick: () => onChange(value.filter((i, itemIndex) => itemIndex !== index))
-                    }
-                  ]
+                  onClick: () => {
+                    editingIndex === null
+                      ? set_editingIndex(index)
+                      : set_editingIndex(null)
+                  }
                 }
               ]}
             />
