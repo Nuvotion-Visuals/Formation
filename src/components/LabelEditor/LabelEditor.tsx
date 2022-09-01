@@ -59,22 +59,24 @@ export const LabelEditor = ({
           'pink',  'red', 'orange', 'purple', 'darkpurple', 'indigo', 'blue', 'lightblue', 'cyan', 'teal',
         ]}
       />
-      <Gap>
-        <Button
-          text='Save'
-          onClick={() => {
-            onClose()
-            onChange(internalValue)
-          }}
-          disabled={internalValue.name === ''}
-        />
-        <Button
-          text='Cancel'
-          secondary={true}
-          onClick={onClose}
-        />
-        <Spacer />
-      </Gap>
+      <Box mt={.125}>
+        <Gap>
+          <Button
+            text='Save'
+            onClick={() => {
+              onClose()
+              onChange(internalValue)
+            }}
+            disabled={internalValue.name === ''}
+          />
+          <Button
+            text='Cancel'
+            secondary={true}
+            onClick={onClose}
+          />
+          <Spacer />
+        </Gap>
+      </Box>
     </Gap>
     
     

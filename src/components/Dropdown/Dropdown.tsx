@@ -148,7 +148,8 @@ const S = {
   }>`
     display: flex;
     align-items: center;
-    padding: .75rem;
+    height: var(--F_Input_Height);
+    padding: 0 .5rem;
     cursor: pointer;
 
     &:hover {
@@ -168,7 +169,7 @@ const S = {
     align-items: center;
   `,
   DropDownText: styled.div`
-    padding-left: .25rem;
+    padding-left: .125rem;
     font-size: var(--F_Font_Size_Label);
     display: flex;
   `
