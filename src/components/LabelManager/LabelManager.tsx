@@ -22,7 +22,7 @@ export const LabelManager = ({ value, onChange }: Props) => {
   const [editingIndex, set_editingIndex] = useState<number | null>(null)
 
   return (<S.LabelManager>
-    <Box p={.5}>
+    <Box p={.75}>
       <S.Description>{ value.length } Labels</S.Description>
       <Spacer />
       <Button
@@ -57,7 +57,7 @@ export const LabelManager = ({ value, onChange }: Props) => {
     {
       value.map(({ name, description, color }, index) =>
       <>
-        <Box p={.5}>
+        <Box p={.75}>
           <Gap autoWidth={true}>
           {
             editingIndex === index
@@ -121,7 +121,7 @@ const S = {
   Absolute: styled.div`
     position: absolute;
     right: .5rem;
-    top: .325rem;
+    top: .5rem;
   `,
   Description: styled.div`
     display: flex;
