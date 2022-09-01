@@ -23,13 +23,17 @@ import {
   getSuperscriptOrdinal,
   getOrdinal,
   isTouchCapable,
-  reorderItems
+  reorderItems,
+  getBackground,
+  getOutline
 } from './utils'
 export {
   getSuperscriptOrdinal,
   getOrdinal,
   isTouchCapable,
-  reorderItems
+  reorderItems,
+  getBackground,
+  getOutline
 }
 
 // hooks
@@ -109,6 +113,7 @@ import { TextInput } from './components/TextInput/TextInput'
 import { Dropdown, OptionsType } from './components/Dropdown/Dropdown'
 import { Sidebar, Navs } from './components/Sidebar/Sidebar'
 import { Select } from './components/Select/Select'
+import { LabelColorPicker } from './components/LabelColorPicker/LabelColorPicker'
 import { 
   ListEditor, 
   List, 
@@ -119,7 +124,7 @@ import {
   Toolbar,
   ListItemMode,
   ListItemType,
-  Lists
+  Lists,
 } from './components/ListEditor'
 export {
   ArticlePreview,
@@ -141,7 +146,8 @@ export {
   Toolbar,
   ListItemMode,
   ListItemType,
-  Lists
+  Lists,
+  LabelColorPicker
 }
 
 // Tissue (2)
@@ -152,6 +158,7 @@ import { DatePicker } from './components/DatePicker/DatePicker'
 import { Tags } from './components/Tags/Tags'
 import { Tabs } from './components/Tabs/Tabs'
 import { TimeZone } from './components/TimeZone/TimeZone'
+import { LabelEditor } from './components/LabelEditor/LabelEditor'
 export {
   Navigation,
   Location,
@@ -159,13 +166,16 @@ export {
   DatePicker,
   Tags,
   Tabs,
-  TimeZone
+  TimeZone,
+  LabelEditor
 }
 
 // Organs (3)
 import { DateAndTimePicker } from './components/DateAndTimePicker/DateAndTimePicker'
+import { LabelManager } from './components/LabelManager/LabelManager'
 export {
-  DateAndTimePicker
+  DateAndTimePicker,
+  LabelManager
 }
 
 // Organisms (4)

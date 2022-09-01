@@ -3,7 +3,9 @@ import styled, { css, keyframes } from 'styled-components'
 
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 
-import { Icon } from '../../internal'
+import { Icon, Box } from '../../internal'
+import { ColorType } from '../../types'
+import { LabelColor } from '../LabelColorPicker/LabelColor'
 
 type Props = {
   name?: string,
@@ -23,7 +25,8 @@ type Props = {
   onClick?: () => void,
   preventFocus?: boolean,
   onBlur?: () => void,
-  ref?: any
+  ref?: any,
+  labelColor?: ColorType
 }
 
 export const TextInput = ({ 
@@ -43,7 +46,8 @@ export const TextInput = ({
   onClick,
   preventFocus,
   onBlur,
-  ref
+  ref,
+  labelColor
 }: Props) => {
 
   const [locked, setLocked] = useState(value !== '')
@@ -81,6 +85,21 @@ export const TextInput = ({
             : null
         }
         {
+          labelColor
+            ? <S.IconContainer 
+                error={false}
+              >
+                <Box ml={-.125}>
+                  <LabelColor
+                    color={labelColor}
+                    ref={null}
+                    onClick={() => {}}
+                  />
+                </Box>
+                </S.IconContainer> 
+            : null
+        }
+        {
           error 
             ? <S.IconContainer 
                 error={true}
@@ -108,7 +127,7 @@ export const TextInput = ({
         // ref={autoFocusRef}
         ref={ref}
         id={id}
-        hasIcon={icon !== undefined} 
+        hasIcon={icon !== undefined || labelColor !== undefined} 
         type={type ? type : 'text'}
         locked={locked}
         focused={focused}
@@ -140,7 +159,7 @@ export const TextInput = ({
       <S.Label 
         locked={locked} 
         focused={focused} 
-        hasIcon={icon !== undefined} 
+        hasIcon={icon !== undefined || labelColor !== undefined} 
         shrink={value !== '' || focused}
         disableAnimation={value !== '' && !focused}
       >
@@ -234,7 +253,7 @@ const S = {
           ? 'var(--F_Outline_Error)'
           : 'var(--F_Outline)'
     };
-    border-radius: .75rem;
+    border-radius: 1rem;
 
   `,
   Input: styled.input<{
