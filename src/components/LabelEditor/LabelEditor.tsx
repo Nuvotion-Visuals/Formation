@@ -1,17 +1,21 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
-import { TextInput, Button, Label, Break, Gap, Spacer, Box, LabelColorPicker } from '../../internal'
+import { 
+  TextInput, 
+  Button, 
+  Label, 
+  Break, 
+  Gap, 
+  Spacer, 
+  Box, 
+  LabelColorPicker } from '../../internal'
 
-type Label = {
-  name: string,
-  description: string,
-  color: string
-}
+import { LabelType } from '../../types'
 
 interface Props {
-  value: Label,
-  onChange: (label : Label) => void,
+  value: LabelType,
+  onChange: (label : LabelType) => void,
   onClose: () => void
 }
 
@@ -21,12 +25,14 @@ export const LabelEditor = ({
   onClose
 }: Props) => {
 
+  const [internalValue, set_internalValue] = useState(value)
+
   return (<S.CreateLabel>
-    <Box mb={.5}>
+    <Box pb={.5}>
       <Label
-        label={value.name ? value.name : 'Label preview'}
-        color={value.color as any}
-        title={value.description}
+        label={internalValue.name ? internalValue.name : 'Label preview'}
+        color={internalValue.color as any}
+        title={internalValue.description}
       />
     
       <Spacer />
@@ -34,36 +40,43 @@ export const LabelEditor = ({
   
     <Gap>
       <TextInput 
-        value={value.name} 
-        onChange={newValue => onChange({...value, name: newValue})}
+        value={internalValue.name} 
+        onChange={newValue => set_internalValue({...internalValue, name: newValue})}
         label={'Label Name'}
       />
       <Break />
       <TextInput 
-        value={value.description} 
-        onChange={newValue => onChange({...value, description: newValue})}
+        value={internalValue.description} 
+        onChange={newValue => set_internalValue({...internalValue, description: newValue})}
         label={'Description'}
       />
       <Break />
       <LabelColorPicker
         label='Color'
-        value={value.color}
-        onChange={newValue => onChange({...value, color: newValue})}
+        value={internalValue.color}
+        onChange={newValue => set_internalValue({...internalValue, color: newValue})}
         options={[
           'pink',  'red', 'orange', 'purple', 'darkpurple', 'indigo', 'blue', 'lightblue', 'cyan', 'teal',
         ]}
-
       />
-      
+      <Gap>
+        <Button
+          text='Save'
+          onClick={() => {
+            onClose()
+            onChange(internalValue)
+          }}
+          disabled={internalValue.name === ''}
+        />
+        <Button
+          text='Cancel'
+          secondary={true}
+          onClick={onClose}
+        />
+        <Spacer />
       </Gap>
-    <Break />
-    <Button
-      text='Save'
-    />
-    <Button
-      text='Cancel'
-      secondary={true}
-    />
+    </Gap>
+    
     
   </S.CreateLabel>)
 }
@@ -73,6 +86,6 @@ const S = {
     display: flex;
     flex-wrap: wrap;
     gap: .5rem;
-    padding: .5rem;
+    
   `
 }

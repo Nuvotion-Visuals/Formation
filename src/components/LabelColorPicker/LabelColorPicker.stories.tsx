@@ -10,7 +10,7 @@ export default {
 
 
 const Template: ComponentStory<typeof LabelColorPicker> = args => {
-  const [value, set_value] = useState<string>('red')
+  const [value, set_value] = useState<string>('gray')
   return <LabelColorPicker 
     {...args} 
     value={value} 

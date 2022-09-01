@@ -154,7 +154,7 @@ const S = {
     text-decoration: none;
   `,
   Text: styled.div<TextProps>`
-    font-size: ${props => props.hero ? 'var(--F_Font_Size_Title)' : 'var(--F_Font_Size)'};
+    font-size: ${props => props.hero ? 'var(--F_Font_Size_Title)' : 'var(--F_Font_Size_Label)'};
     margin-left: ${props => props.hero
       ? props.icon ? '.5rem' : '0'
       : props.icon ? '.375rem' : '0'

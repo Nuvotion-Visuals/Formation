@@ -2,10 +2,10 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { getOutline, getBackground } from '../../internal'
-export type Color = 'red' | 'pink' | 'purple' | 'darkpurple' | 'indigo' | 'blue' | 'lightblue' | 'cyan' | 'teal' | 'orange'
+import { ColorType } from '../../types'
 
 interface Props {
-  color: Color,
+  color: ColorType,
   ref: any,
   onClick: () => void
 }

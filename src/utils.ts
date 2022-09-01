@@ -59,8 +59,12 @@ export const getBackground = (color: string) => {
       return 'var(--F_Label_Background_Teal)'
     case 'orange':
       return 'var(--F_Label_Background_Orange)'
-    default:
+    case 'gray':
+    case 'grey':
       return 'var(--F_Label_Background_Gray)'
+    default:
+      return color
+      
   }
 }
 

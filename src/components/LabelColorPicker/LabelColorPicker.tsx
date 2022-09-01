@@ -6,6 +6,7 @@ import { useScrollTo } from '../../internal'
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 
 import { TextInput, getOutline, getBackground } from '../../internal'
+import { ColorType } from '../../types'
 
 import { LabelColor } from './LabelColor'
 
@@ -18,7 +19,7 @@ const Dropdown = ({
   value: string,
   onChange: (arg0: string) => void,
   onClose: () => void,
-  options: string[]
+  options: ColorType[]
 }) => {
 
   const scrollContainerRef = useRef<HTMLDivElement | null>(null)
@@ -27,7 +28,6 @@ const Dropdown = ({
   useOnClickOutside(scrollContainerRef, () => {
     onClose()
   })
-
 
   const { set_scrollTo } = useScrollTo(scrollContainerRef, scrollToRef);
 
@@ -56,7 +56,7 @@ interface Props {
   label?: string,
   onChange: (arg0: string) => void,
   error?: string,
-  options: string[],
+  options: ColorType[],
   icon?: IconName,
   iconPrefix?: IconPrefix
 }
@@ -139,7 +139,7 @@ const S = {
     border-radius: .5rem;
     box-shadow: var(--F_Outline_Hover);
     top: calc(var(--F_Input_Height) - .325rem);
-    width: calc(100% - 1.5rem);
+    width: calc(100% - 2.5rem);
     min-width: 8rem;
     max-height: 300px;
     overflow-y: auto;

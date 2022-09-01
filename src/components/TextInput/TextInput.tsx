@@ -4,7 +4,8 @@ import styled, { css, keyframes } from 'styled-components'
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 
 import { Icon, Box } from '../../internal'
-import { LabelColor, Color } from '../LabelColorPicker/LabelColor'
+import { ColorType } from '../../types'
+import { LabelColor } from '../LabelColorPicker/LabelColor'
 
 type Props = {
   name?: string,
@@ -25,7 +26,7 @@ type Props = {
   preventFocus?: boolean,
   onBlur?: () => void,
   ref?: any,
-  labelColor?: Color
+  labelColor?: ColorType
 }
 
 export const TextInput = ({ 
@@ -88,7 +89,7 @@ export const TextInput = ({
             ? <S.IconContainer 
                 error={false}
               >
-                <Box mr={.5}>
+                <Box ml={-.125}>
                   <LabelColor
                     color={labelColor}
                     ref={null}
@@ -126,7 +127,7 @@ export const TextInput = ({
         // ref={autoFocusRef}
         ref={ref}
         id={id}
-        hasIcon={icon !== undefined} 
+        hasIcon={icon !== undefined || labelColor !== undefined} 
         type={type ? type : 'text'}
         locked={locked}
         focused={focused}
@@ -158,7 +159,7 @@ export const TextInput = ({
       <S.Label 
         locked={locked} 
         focused={focused} 
-        hasIcon={icon !== undefined} 
+        hasIcon={icon !== undefined || labelColor !== undefined} 
         shrink={value !== '' || focused}
         disableAnimation={value !== '' && !focused}
       >

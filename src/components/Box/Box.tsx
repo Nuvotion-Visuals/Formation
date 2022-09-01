@@ -67,5 +67,6 @@ const S = {
     padding: ${props => calculatePadding(props)};
     width: ${props => typeof props.width === 'string' ? props.width : `${props.width}rem`};
     flex-wrap: ${props => props.wrap ? 'wrap' : 'auto'};
+    position: relative;
   `
 }

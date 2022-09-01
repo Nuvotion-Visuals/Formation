@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
-export type Color = 'red' | 'pink' | 'purple' | 'darkpurple' | 'indigo' | 'blue' | 'lightblue' | 'cyan' | 'teal' | 'orange'
-
 import { getOutline, getBackground } from '../../internal'
+import { ColorType } from '../../types' 
 
 interface Props {
   label: string,
-  color: Color,
+  color: ColorType,
   title?: string
 }
 

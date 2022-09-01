@@ -158,6 +158,7 @@ import { DatePicker } from './components/DatePicker/DatePicker'
 import { Tags } from './components/Tags/Tags'
 import { Tabs } from './components/Tabs/Tabs'
 import { TimeZone } from './components/TimeZone/TimeZone'
+import { LabelEditor } from './components/LabelEditor/LabelEditor'
 export {
   Navigation,
   Location,
@@ -165,13 +166,16 @@ export {
   DatePicker,
   Tags,
   Tabs,
-  TimeZone
+  TimeZone,
+  LabelEditor
 }
 
 // Organs (3)
 import { DateAndTimePicker } from './components/DateAndTimePicker/DateAndTimePicker'
+import { LabelManager } from './components/LabelManager/LabelManager'
 export {
-  DateAndTimePicker
+  DateAndTimePicker,
+  LabelManager
 }
 
 // Organisms (4)

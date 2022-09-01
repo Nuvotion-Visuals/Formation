@@ -13,7 +13,7 @@ const Template: ComponentStory<typeof LabelEditor> = (args) => {
   const [value, set_value] = useState({
     name: '',
     description: '',
-    color: ''
+    color: 'orange'
   })
 
   return (
@@ -23,7 +23,7 @@ const Template: ComponentStory<typeof LabelEditor> = (args) => {
 
 export const Default = Template.bind({})
 Default.args = {
- 
+
 }
 Default.parameters = {
   layout: 'fullscreen'
