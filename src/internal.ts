@@ -23,13 +23,17 @@ import {
   getSuperscriptOrdinal,
   getOrdinal,
   isTouchCapable,
-  reorderItems
+  reorderItems,
+  getBackground,
+  getOutline
 } from './utils'
 export {
   getSuperscriptOrdinal,
   getOrdinal,
   isTouchCapable,
-  reorderItems
+  reorderItems,
+  getBackground,
+  getOutline
 }
 
 // hooks
@@ -109,6 +113,7 @@ import { TextInput } from './components/TextInput/TextInput'
 import { Dropdown, OptionsType } from './components/Dropdown/Dropdown'
 import { Sidebar, Navs } from './components/Sidebar/Sidebar'
 import { Select } from './components/Select/Select'
+import { LabelColorPicker } from './components/LabelColorPicker/LabelColorPicker'
 import { 
   ListEditor, 
   List, 
@@ -119,7 +124,7 @@ import {
   Toolbar,
   ListItemMode,
   ListItemType,
-  Lists
+  Lists,
 } from './components/ListEditor'
 export {
   ArticlePreview,
@@ -141,7 +146,8 @@ export {
   Toolbar,
   ListItemMode,
   ListItemType,
-  Lists
+  Lists,
+  LabelColorPicker
 }
 
 // Tissue (2)

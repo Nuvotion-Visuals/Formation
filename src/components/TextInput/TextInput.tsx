@@ -3,7 +3,8 @@ import styled, { css, keyframes } from 'styled-components'
 
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 
-import { Icon } from '../../internal'
+import { Icon, Box } from '../../internal'
+import { LabelColor, Color } from '../LabelColorPicker/LabelColor'
 
 type Props = {
   name?: string,
@@ -23,7 +24,8 @@ type Props = {
   onClick?: () => void,
   preventFocus?: boolean,
   onBlur?: () => void,
-  ref?: any
+  ref?: any,
+  labelColor?: Color
 }
 
 export const TextInput = ({ 
@@ -43,7 +45,8 @@ export const TextInput = ({
   onClick,
   preventFocus,
   onBlur,
-  ref
+  ref,
+  labelColor
 }: Props) => {
 
   const [locked, setLocked] = useState(value !== '')
@@ -78,6 +81,21 @@ export const TextInput = ({
                   fixedWidth
                 />
               </S.IconContainer> 
+            : null
+        }
+        {
+          labelColor
+            ? <S.IconContainer 
+                error={false}
+              >
+                <Box mr={.5}>
+                  <LabelColor
+                    color={labelColor}
+                    ref={null}
+                    onClick={() => {}}
+                  />
+                </Box>
+                </S.IconContainer> 
             : null
         }
         {
@@ -234,7 +252,7 @@ const S = {
           ? 'var(--F_Outline_Error)'
           : 'var(--F_Outline)'
     };
-    border-radius: .75rem;
+    border-radius: 1rem;
 
   `,
   Input: styled.input<{

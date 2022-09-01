@@ -36,3 +36,57 @@ export const reorderItems = (items: any[], previousIndex: number, nextIndex: num
   }
   return newItems
 }
+
+export const getBackground = (color: string) => {
+  switch(color) {
+    case 'red':
+      return 'var(--F_Label_Background_Red)'
+    case 'pink':
+      return 'var(--F_Label_Background_Pink)'
+    case 'purple':
+      return 'var(--F_Label_Background_Purple)'
+    case 'darkpurple':
+      return 'var(--F_Label_Background_Dark_Purple)'
+    case 'indigo':
+      return 'var(--F_Label_Background_Indigo)'
+    case 'blue':
+      return 'var(--F_Label_Background_Blue)'
+    case 'lightblue':
+      return 'var(--F_Label_Background_Light_Blue)'
+    case 'cyan':
+      return 'var(--F_Label_Background_Cyan)'
+    case 'teal':
+      return 'var(--F_Label_Background_Teal)'
+    case 'orange':
+      return 'var(--F_Label_Background_Orange)'
+    default:
+      return 'var(--F_Label_Background_Gray)'
+  }
+}
+
+export const getOutline = (color: string) => {
+  switch(color) {
+    case 'red':
+      return 'var(--F_Label_Outline_Red)'
+    case 'pink':
+      return 'var(--F_Label_Outline_Pink)'
+    case 'purple':
+      return 'var(--F_Label_Outline_Purple)'
+    case 'darkpurple':
+      return 'var(--F_Label_Outline_Dark_Purple)'
+    case 'indigo':
+      return 'var(--F_Label_Outline_Indigo)'
+    case 'blue':
+      return 'var(--F_Label_Outline_Blue)'
+    case 'lightblue':
+      return 'var(--F_Label_Outline_Light_Blue)'
+    case 'cyan':
+      return 'var(--F_Label_Outline_Cyan)'
+    case 'teal':
+      return 'var(--F_Label_Outline_Teal)'
+    case 'orange':
+      return 'var(--F_Label_Outline_Orange)'
+    default:
+      return 'var(--F_Label_Outline_Gray)'
+  }
+}
