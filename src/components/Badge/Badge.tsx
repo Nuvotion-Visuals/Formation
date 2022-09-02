@@ -53,7 +53,9 @@ export const Badge = ({ colorString, content, children }: Props) => {
   }, [colorString])
 
   useEffect(() => {
-    content === 0 ? setIsInvisible(true) : setIsInvisible(false)
+    if (content !== undefined) {
+      content === 0 ? setIsInvisible(true) : setIsInvisible(false)
+    }
   }, [content])
     
   return (
