@@ -70,17 +70,17 @@ const S = {
     size: string
   }>`
     position: absolute;
-    top: ${props => props.size === 'small' ? '.4rem' : '0.375rem'};
+    top: ${props => props.size === 'small' ? '.325rem' : '0.375rem'};
     transform: ${props => props.value
                             ? props.size === 'medium'
                               ? `translateX(1.55rem)`
-                              : `translateX(1.2rem)`
-      : props.size === 'medium'
-        ? `translateX(0.4rem)`
-        : `translateX(0.3rem)`
+                              : `translateX(1.05rem)`
+                            : props.size === 'medium'
+                              ? `translateX(0.4rem)`
+                              : `translateX(0.35rem)`
                               };
-    width: ${props => props.size === 'small' ? '1rem' : '1.5rem'};
-    height: ${props => props.size === 'small' ? '1rem' : '1.5rem'};
+    width: ${props => props.size === 'small' ? '1.1rem' : '1.5rem'};
+    height: ${props => props.size === 'small' ? '1.1rem' : '1.5rem'};
     border-radius: 50%;
     transition: 0.2s;
     background: #fff;
