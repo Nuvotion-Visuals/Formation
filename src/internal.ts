@@ -65,6 +65,7 @@ import { NumberRange } from './components/NumberRange/NumberRange'
 import { NumberSlider } from './components/NumberSlider/NumberSlider'
 import { Page } from './components/Page/Page'
 import { ParseHTML } from './components/ParseHTML/ParseHTML'
+import { Progress } from './components/Progress/Progress'
 import { Reorder } from './components/Reorder/Reorder'
 import { Ripple } from './components/Ripple/Ripple'
 import { Spacer } from './components/Spacer/Spacer'
@@ -92,6 +93,7 @@ export {
   NumberSlider,
   Page,
   ParseHTML,
+  Progress,
   Reorder,
   Ripple,
   Spacer,
