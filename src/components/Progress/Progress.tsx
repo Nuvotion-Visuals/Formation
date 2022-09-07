@@ -49,7 +49,16 @@ export const Progress = ({  maximum, value, small, gradient, showLabel, centerLa
         gradient={gradient !== undefined ? gradient : false}
         gradientColor={gradientColor}
       />
-      <S.Label>{`${constrainedValue} / ${maximum}`}</S.Label>
+      { 
+        showLabel 
+          ? <S.LabelContainer centerLabel={centerLabel ? centerLabel : false}>
+              <S.Label>
+                {`${constrainedValue} / ${maximum}`}
+              </S.Label>
+            </S.LabelContainer>
+          : null
+      }
+      
     </S.Container>
   );
 };
@@ -74,7 +83,15 @@ const S = {
     background: ${props => props.gradient ? `${props.gradientColor}` : 'var(--F_Primary)' };
     border-radius: 0.5rem;
   `,
-  Label: styled.div<{}>`
+  LabelContainer: styled.div<{
+    centerLabel: boolean
+  }>`
+    width: 100%;
+    display: flex;
+    justify-content: ${props => props.centerLabel ? 'center' : ''};
     font-size: var(--F_Font_Size_Label);
+  `,
+  Label: styled.div<{}>`
+    margin-top: 0.5rem;
   `
 }
