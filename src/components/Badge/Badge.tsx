@@ -1,66 +1,33 @@
 import styled, { css, keyframes } from 'styled-components'
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 
-export type Color = 'red' | 'pink' | 'purple' | 'darkpurple' | 'indigo' | 'blue' | 'lightblue' | 'cyan' | 'teal' | 'orange'
+import { getBackground } from '../../internal'
+import { ColorType } from '../../types'
 
-
-const getBadgeColor = (color: string | undefined): string => {
-  switch(color) {
-    case 'red':
-      return 'var(--F_Label_Background_Red)'
-    case 'pink':
-      return 'var(--F_Label_Background_Pink)'
-    case 'purple':
-      return 'var(--F_Label_Background_Purple)'
-    case 'darkpurple':
-      return 'var(--F_Label_Background_Dark_Purple)'
-    case 'indigo':
-      return 'var(--F_Label_Background_Indigo)'
-    case 'blue':
-      return 'var(--F_Label_Background_Blue)'
-    case 'lightblue':
-      return 'var(--F_Label_Background_Light_Blue)'
-    case 'cyan':
-      return 'var(--F_Label_Background_Cyan)'
-    case 'teal':
-      return 'var(--F_Label_Background_Teal)'
-    case 'orange':
-      return 'var(--F_Label_Background_Orange)'
-    default:
-      return 'var(--F_Label_Background_Gray)'
-  }
-}
 
 interface Props {
-  colorString: Color,
+  colorString: ColorType,
   count: number,
   children: React.ReactNode
 }
 
 export const Badge = ({ colorString, count, children }: Props) => {
-  
-  const [badgeColor, setBadgeColor] = useState<string>('')
-  const [isInvisible, setIsInvisible] = useState<boolean>(true)
-
-  useEffect(() => {
-    setBadgeColor(getBadgeColor(colorString))
-  }, [colorString])
-
-  useEffect(() => {
-    count === 0 ? setIsInvisible(true) : setIsInvisible(false)
-  }, [count])
-    
   return (
     <S.Container>
       { 
         children 
       }
-      <S.Badge color={badgeColor} invisible={isInvisible}>
+      <S.Badge 
+        color={getBackground(colorString)} 
+        invisible={count === 0}
+      >
         <S.Text>
           {
-            count !== undefined && count < 100
-              ? count 
-              : '99+'
+            count !== 0
+              ? count < 100
+                ? count 
+                : '99+'
+              : null
           }
         </S.Text>
       </S.Badge>
@@ -105,6 +72,8 @@ const S = {
     right: -.65rem;
     width: 1.125rem;
     height: 1.125rem;
+    min-width: 1.125rem;
+    min-height: 1.125rem;
     background: ${props => props.color};
     font-size: 10px;
     border-radius: 50%;
@@ -121,5 +90,6 @@ const S = {
     align-items: center;
     justify-content: center;
     color: white !important;
+    line-height: 0;
   `
 }
