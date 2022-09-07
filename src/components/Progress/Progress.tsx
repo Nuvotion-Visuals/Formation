@@ -80,7 +80,7 @@ const S = {
     height: 100%;
     width: ${props => `${props.status}%`};
     transition: width 0.3s ease-in-out; 
-    background: ${props => props.gradient ? `${props.gradientColor}` : 'var(--F_Primary)' };
+    background: ${props => props.gradient ? props.gradientColor : 'var(--F_Primary)' };
     border-radius: 0.5rem;
   `,
   LabelContainer: styled.div<{
