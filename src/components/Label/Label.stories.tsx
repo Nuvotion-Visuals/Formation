@@ -4,7 +4,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react'
 import { Label } from '../../internal'
 
 export default {
-  title: 'General/Label',
+  title: 'Display/Label',
   component: Label,
 } as ComponentMeta<typeof Label>
 

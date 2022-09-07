@@ -37,7 +37,6 @@ const S = {
     display: flex;
     align-items: center;
     flex-wrap: ${props => props.disableWrap ? 'none' : 'wrap'};
-    justify-content: center;
     gap: 8px;
     gap: ${props => 
       props.gap 

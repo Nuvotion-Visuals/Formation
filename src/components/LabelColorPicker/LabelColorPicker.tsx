@@ -5,8 +5,10 @@ import { useOnClickOutside } from '../../internal'
 import { useScrollTo } from '../../internal'
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 
+import { TextInput, getOutline, getBackground } from '../../internal'
+import { ColorType } from '../../types'
 
-import { TextInput } from '../../internal'
+import { LabelColor } from './LabelColor'
 
 const Dropdown = ({ 
   value,
@@ -17,7 +19,7 @@ const Dropdown = ({
   value: string,
   onChange: (arg0: string) => void,
   onClose: () => void,
-  options: string[]
+  options: ColorType[]
 }) => {
 
   const scrollContainerRef = useRef<HTMLDivElement | null>(null)
@@ -27,7 +29,6 @@ const Dropdown = ({
     onClose()
   })
 
-
   const { set_scrollTo } = useScrollTo(scrollContainerRef, scrollToRef);
 
   useEffect(() => {
@@ -36,18 +37,15 @@ const Dropdown = ({
 
   return <S.DropdownDropdown ref={scrollContainerRef}>
     {
-      options.map(item =>
-        
-        <S.Item 
+      options.map(item => 
+        <LabelColor
+          color={item as any}
+          ref={value === item ? scrollToRef : null}
           onClick={() => {
             onChange(item)
             onClose()
           }}
-          active={value === item}
-          ref={value === item ? scrollToRef : null}
-        >
-          { item }
-        </S.Item>  
+        />
       )
     }
   </S.DropdownDropdown>
@@ -58,12 +56,12 @@ interface Props {
   label?: string,
   onChange: (arg0: string) => void,
   error?: string,
-  options: string[],
+  options: ColorType[],
   icon?: IconName,
   iconPrefix?: IconPrefix
 }
 
-export const Select = ({
+export const LabelColorPicker = ({
   value,
   onChange,
   label,
@@ -73,11 +71,6 @@ export const Select = ({
   iconPrefix
 }: Props) => {
   const [isOpen, set_isOpen] = useState(false)
-  const [displayValue, set_displayValue] = useState(value)
-
-  useEffect(() => {
-    set_displayValue(value)
-  }, [value])
 
   const [preventFocus, set_preventFocus] = useState(isTouchCapable())
 
@@ -88,7 +81,7 @@ export const Select = ({
   }, [isOpen])
 
   return (
-    <S.Select 
+    <S.LabelColorPicker 
       onClick={() => {
         set_preventFocus(isTouchCapable())
         set_isOpen(!isOpen)
@@ -98,11 +91,12 @@ export const Select = ({
         label={label}
         icon={icon}
         iconPrefix={iconPrefix}
-        value={displayValue}
+        value={value}
         onChange={value => onChange(value)}
         error={error}
         preventFocus={preventFocus}
         onBlur={() => set_preventFocus(isTouchCapable())}
+        labelColor={value as any}
       />
 
       {
@@ -115,27 +109,28 @@ export const Select = ({
             />
         : null
       }
-    </S.Select>
+    </S.LabelColorPicker>
   )
 } 
 
 const S = {
-  Select: styled.div`
+  LabelColorPicker: styled.div`
     position: relative;
     width: 100%;
   `,
   Item: styled.div<{
     active: boolean
+    outline: string
   }>`
-    width: 100%;
+    width: 1.5rem;
+    height: 1.5rem;
+    /* width: 100%; */
     color: var(--F_Font_Color);
-    padding: .5rem 1rem;
     font-size: var(--F_Font_Size);
-    background: ${props => props.active ? 'var(--F_Surface_1)' : 'none'};
+    background: ${props => props.color};
     cursor: pointer;
-    &:hover {
-      background: ${props => props.active ? 'var(--F_Surface_2)' : 'var(--F_Surface)'};
-    }
+    border-radius: .25rem;
+    border : ${props => ` 2px solid ${props.outline}`};
   `,
   DropdownDropdown: styled.div`
     position: absolute;
@@ -144,12 +139,15 @@ const S = {
     border-radius: .5rem;
     box-shadow: var(--F_Outline_Hover);
     top: calc(var(--F_Input_Height) - .325rem);
-    width: calc(100% - 1.5rem);
+    width: calc(100% - 2.5rem);
     min-width: 8rem;
     max-height: 300px;
     overflow-y: auto;
     overflow-x: hidden;
     left: 1.5rem;
-    user-select: none;
+    display: flex;
+    flex-wrap: wrap;
+    padding: .5rem;
+    gap: .5rem;
   `
 }
