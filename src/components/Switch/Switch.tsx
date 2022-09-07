@@ -4,20 +4,17 @@ import React from 'react'
 interface Props {
   value?: boolean,
   handleSwitch?: Function,
-  size?: string,
-  required?: boolean,
-  label?: string,
+  small?: boolean,
   disabled?: boolean,
 }
 
-export const Switch = ({ value, handleSwitch, size, required, disabled }: Props) => {
+export const Switch = ({ value, handleSwitch, small, disabled }: Props) => {
     
   return (
         <S.Container>
           <S.Input
             checked={value}
             type="checkbox"
-            required={required ? required : false}
           />
           <S.Label
             onClick={
@@ -27,15 +24,11 @@ export const Switch = ({ value, handleSwitch, size, required, disabled }: Props)
                   ? () => handleSwitch()
                   : () => {}}
             value={value ? value : false}
-            size={size !== undefined ? size : 'medium'}
+            small={small !== undefined ? small : false}
           >
             <S.Span
               value={value ? value : false}
-          size={size !== undefined
-                  ? size === '' 
-                    ? 'medium'
-                    : size
-                  : 'medium'}
+              small={small !== undefined ? small : false}
             />
           </S.Label>
         </S.Container>
@@ -45,9 +38,7 @@ export const Switch = ({ value, handleSwitch, size, required, disabled }: Props)
 const S = {
   Container: styled.div<{}>`
   `,
-  Input: styled.input<{
-    required: boolean,
-  }>`
+  Input: styled.input<{}>`
     height: 0;
     width: 0;
     visibility: hidden;
@@ -55,11 +46,11 @@ const S = {
   Label: styled.label<{
     value: boolean,
     onClick: Function,
-    size: string
+    small: boolean
   }>`
     display: flex;
-    width: ${props => props.size === 'small' ? '2.5rem' : '3.5rem'};
-    height: ${props => props.size === 'small' ? '1.75rem' : '2.25rem'};
+    width: ${props => props.small ? '2.75rem' : '3.75rem'};
+    height: ${props => props.small ? '1.75rem' : '2.25rem'};
     background: ${props => props.value ? `var(--F_Font_Color_Success)` : `var(--F_Font_Color_Disabled)`};
     border-radius: 1.25rem;
     position: relative;
@@ -67,20 +58,20 @@ const S = {
   `,
   Span: styled.span<{
     value: boolean,
-    size: string
+    small: boolean
   }>`
     position: absolute;
-    top: ${props => props.size === 'small' ? '.325rem' : '0.375rem'};
+    top: ${props => props.small ? '.325rem' : '0.375rem'};
     transform: ${props => props.value
-                            ? props.size === 'medium'
-                              ? `translateX(1.55rem)`
-                              : `translateX(1.05rem)`
-                            : props.size === 'medium'
+                            ? props.small
+                              ? `translateX(1.25rem)`
+                              : `translateX(1.8rem)`
+                            : props.small
                               ? `translateX(0.4rem)`
-                              : `translateX(0.35rem)`
+                              : `translateX(0.45rem)`
                               };
-    width: ${props => props.size === 'small' ? '1.1rem' : '1.5rem'};
-    height: ${props => props.size === 'small' ? '1.1rem' : '1.5rem'};
+    width: ${props => props.small ? '1.1rem' : '1.5rem'};
+    height: ${props => props.small ? '1.1rem' : '1.5rem'};
     border-radius: 50%;
     transition: 0.2s;
     background: #fff;
