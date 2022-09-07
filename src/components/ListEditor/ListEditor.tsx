@@ -74,25 +74,27 @@ export type PositionInviteStatus =
   'applicationDenied'   
 
 interface Props {
-  calculateInitialValue: () => Lists,
+  value: Lists,
   onChange: (lists: Lists) => void,
   onRemoveFunction?: (index: number) => void,
   calculateRecommendationLists?: () => Lists,
   calculateRecentLists?: () => Lists,
-  isCreating: boolean
+  isCreating: boolean,
+  label?: string
 }
 
 export const ListEditor = ({
-  calculateInitialValue,
+  value,
   onChange,
   onRemoveFunction,
   calculateRecommendationLists,
   calculateRecentLists,
-  isCreating
+  isCreating,
+  label
 }: Props) => {
 
   // List Management State
-  const [lists, setLists] = useState<Lists>([])
+  const [lists, setLists] = useState<Lists>(value)
   const [recommendedLists, setRecommendedLists] = useState([])
   const [recentLists, setRecentLists] = useState([])
   
@@ -156,6 +158,7 @@ export const ListEditor = ({
           hide={!isCreating} 
           onCreate={onCreate} 
           onClose={() => {}}
+          label={label}
         />
       </S.FixedWrapper>
       

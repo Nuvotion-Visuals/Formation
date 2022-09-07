@@ -13,10 +13,11 @@ interface Props {
   lists?: Lists,
   onCreate?: Function,
   onClose?: Function,
-  hide?: boolean
+  hide?: boolean,
+  label?: string
 }
 
-export const ListItemEditor = ({  onCreate, onClose, hide }: Props) => {
+export const ListItemEditor = ({  onCreate, onClose, hide, label }: Props) => {
   const [text, set_text] = useState('')
   const [count, set_count] = useState(1)
 
@@ -28,10 +29,10 @@ export const ListItemEditor = ({  onCreate, onClose, hide }: Props) => {
   
   return (
     <S.NewPositionContainer>
-      <Gap >
+    <Gap >
         <S.TopContainer >
           <TextInput
-            label="Position Title"
+            label={label}
             onChange={value=> { 
               set_text(value)
             }}
@@ -44,10 +45,13 @@ export const ListItemEditor = ({  onCreate, onClose, hide }: Props) => {
               })}
               onChange={value => set_count(Number(value))}
               value={count.toString()}
+              label={'Count'}
             />
           </S.CountWrap>
           <Button
-            text={'Create'}
+            icon='plus'
+            iconPrefix='fas'
+            text={'Add'}
             disabled={text === ''}
             onClick={() => {
               if (onCreate) {
@@ -64,16 +68,17 @@ export const ListItemEditor = ({  onCreate, onClose, hide }: Props) => {
 
 const S = {
   NewPositionContainer: styled.div`
-    width: 100%;
+    width: calc(100% - 1rem);
     position: relative;
     display: flex;
     align-items: center;
-    padding-bottom: .5rem;
-    border-bottom: 2px solid var(--F_Surface_1);
+    padding: .75rem .5rem;
+    border-bottom: 2px solid var(--F_Surface);
   `,
   TopContainer: styled.div`
     width: 100%;
     display: flex;
+    align-items: center;
     gap: 0.5rem;
   `,
   CountWrap: styled.div`

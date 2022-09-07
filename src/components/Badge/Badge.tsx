@@ -1,80 +1,51 @@
 import styled, { css, keyframes } from 'styled-components'
 import React, { useState, useEffect } from 'react'
 
-import { Icon } from '../../internal'
+import { getBackground } from '../../internal'
+import { ColorType } from '../../types'
+import { Color } from 'components/Label/Label'
 
-export type Color = 'red' | 'pink' | 'purple' | 'darkpurple' | 'indigo' | 'blue' | 'lightblue' | 'cyan' | 'teal' | 'orange'
-
-
-const getBadgeColor = (color: string | undefined): string => {
-  switch(color) {
-    case 'red':
-      return 'var(--F_Label_Background_Red)'
-    case 'pink':
-      return 'var(--F_Label_Background_Pink)'
-    case 'purple':
-      return 'var(--F_Label_Background_Purple)'
-    case 'darkpurple':
-      return 'var(--F_Label_Background_Dark_Purple)'
-    case 'indigo':
-      return 'var(--F_Label_Background_Indigo)'
-    case 'blue':
-      return 'var(--F_Label_Background_Blue)'
-    case 'lightblue':
-      return 'var(--F_Label_Background_Light_Blue)'
-    case 'cyan':
-      return 'var(--F_Label_Background_Cyan)'
-    case 'teal':
-      return 'var(--F_Label_Background_Teal)'
-    case 'orange':
-      return 'var(--F_Label_Background_Orange)'
-    default:
-      return 'var(--F_Label_Background_Gray)'
-  }
-}
 
 interface Props {
-  colorString: Color,
-  content: number,
-  children: JSX.Element
+  colorString: ColorType,
+  count: number,
+  children: React.ReactNode
 }
 
 interface BadgeProps {
   invisible: boolean,
 }
 
-export const Badge = ({ colorString, content, children }: Props) => {
+export const Badge = ({ colorString, count, children }: Props) => {
   
   const [badgeColor, setBadgeColor] = useState<string>('')
   const [isInvisible, setIsInvisible] = useState<boolean>(true)
 
   useEffect(() => {
-    setBadgeColor(getBadgeColor(colorString))
+    setBadgeColor(getBackground(colorString))
   }, [colorString])
 
   useEffect(() => {
-    if (content !== undefined) {
-      content === 0 ? setIsInvisible(true) : setIsInvisible(false)
+    if (count !== undefined) {
+      count === 0 ? setIsInvisible(true) : setIsInvisible(false)
     }
-  }, [content])
+  }, [count])
     
   return (
-    <S.Parent >
+    <S.Container >
       { children }
-      <Icon
-        icon='envelope'  
-        iconPrefix='fas'
-      />
       <S.Badge color={badgeColor} invisible={isInvisible}>
-        <S.Span>
+        <S.Text>
           {
-            content < 100
-              ? content 
-              : '+99'
+            count !== 0
+              ? count < 100
+                ? count 
+                : '99+'
+              : null
           }
-        </S.Span>
+        </S.Text>
       </S.Badge>
-    </S.Parent>
+    </S.Container>
   )
 }
 
@@ -82,7 +53,6 @@ const shrinkBadge = keyframes`
   0% {
     opacity: 100%;
     transform: scale(1);
-    
   }
 
   100% {
@@ -104,29 +74,36 @@ const expandBadge = keyframes`
 `
 
 const S = {
-  Parent: styled.div`
+  Container: styled.div`
     position: relative;
-    width: 1.5rem;
-    padding-top: 0.45rem;
+    max-width: fit-content;
   `,
-  Badge: styled.div<BadgeProps>`
+  Badge: styled.div<{
+    invisible: boolean,
+  }>`
     position: absolute;
-    top: 0;
-    right: 0;
-    width: 0.85rem;
-    height: 0.85rem;
+    top: -.5rem;
+    right: -.65rem;
+    width: 1.125rem;
+    height: 1.125rem;
+    min-width: 1.125rem;
+    min-height: 1.125rem;
     background: ${props => props.color};
-    border-radius: 1rem;
+    font-size: 10px;
+    border-radius: 50%;
+    pointer-events: none;
+    animation: ${props => props.invisible
+      ? css`${shrinkBadge} .25s forwards`
+      : css`${expandBadge} .25s forwards`
+    };
+  `,
+  Text: styled.div`
+    width: 100%;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    animation: ${props => props.invisible
-                            ? css`${shrinkBadge} .25s forwards`
-                            : css`${expandBadge} .25s forwards`};
-  `,
-  Span: styled.div`
-    padding-top: 1px;
-    font-size: 0.4rem;
-    font-weight: 800;
+    color: white !important;
+    line-height: 0;
   `
 }

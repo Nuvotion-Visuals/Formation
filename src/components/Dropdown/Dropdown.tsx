@@ -57,7 +57,7 @@ export const Dropdown = React.memo(({ options }: Props) => {
         options.map((option, index) => (
           <S.IconContainer 
             key={index}
-            onClickHandler={
+            onClick={
               option.onClick 
                 ? option.dropDownOptions
                     ? () => {
@@ -66,10 +66,10 @@ export const Dropdown = React.memo(({ options }: Props) => {
                         }
                         setOpen(!open)
                       }
-                    : option.onClick 
+                    : () => option.onClick  && option.onClick()
                 : option.dropDownOptions
                     ? () => setOpen(!open)
-                    : null
+                    : () => {}
             }
           >
             <S.IconCircle open={open}>
@@ -83,11 +83,7 @@ export const Dropdown = React.memo(({ options }: Props) => {
                       option.dropDownOptions.map((dropDownOption, index) => (
                         <S.DropdownOption
                           key={index}
-                          onClickHandler={
-                            dropDownOption.onClick 
-                              ? dropDownOption.onClick 
-                              : null
-                          }
+                          onClick={() => dropDownOption.onClick && dropDownOption.onClick()}
                         > 
                           <S.IconSpacer>
                             <Icon fixedWidth={true} icon={dropDownOption.icon} iconPrefix={dropDownOption.iconPrefix} />
@@ -107,18 +103,6 @@ export const Dropdown = React.memo(({ options }: Props) => {
   </>)
 })
 
-interface IconContainerProps {
-  onClickHandler: Function | null
-}
-
-interface IconCircleProps {
-  open: boolean,
-}
-
-interface DropdownOptionType {
-  onClickHandler: Function | null
-}
-
 const S = {
   Options: styled.div`
     display: flex;
@@ -126,13 +110,15 @@ const S = {
     align-items: center;
     position: relative;
   `,
-  IconCircle: styled.div<IconCircleProps>`
+  IconCircle: styled.div<{
+    open: boolean,
+  }>`
     display: flex;
     align-items: center;
     justify-content: center;
     background: ${props => props.open ? 'var(--F_Surface)' : 'none'};
-    width: 2rem;
-    height: 2rem;
+    width: 1.75rem;
+    height: 1.75rem;
     border-radius: 100%;
     cursor: pointer;
 
@@ -140,7 +126,9 @@ const S = {
       background: var(--F_Surface);
     }
   `,
-  IconContainer: styled.div<IconContainerProps>`
+  IconContainer: styled.div<{
+    onClick: Function | null
+  }>`
     position: relative;
     color: var(--F_Font_Color_Label);
   `,
@@ -155,10 +143,13 @@ const S = {
     border-radius: .5rem;
     user-select: none;
   `,
-  DropdownOption: styled.div<DropdownOptionType>`
+  DropdownOption: styled.div<{
+    onClick: Function | null
+  }>`
     display: flex;
     align-items: center;
-    padding: .75rem;
+    height: var(--F_Input_Height);
+    padding: 0 .5rem;
     cursor: pointer;
 
     &:hover {
@@ -178,8 +169,8 @@ const S = {
     align-items: center;
   `,
   DropDownText: styled.div`
-    padding-left: .5rem;
-    font-size: var(--F_Font_Size);
+    padding-left: .125rem;
+    font-size: var(--F_Font_Size_Label);
     display: flex;
   `
 }

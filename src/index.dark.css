@@ -46,11 +46,7 @@ It’s easy to picture how a less saturated version of a color would look like, 
   --F_Label_Background_Gray: #424242;
   --F_Label_Outline_Gray: #6d6d6d;
 
-  --F_Progress_Red: #af2222;
-  --F_Progress_Orange: #b59b1c;
-  --F_Progress_Yellow: #b6b617;
-  --F_Progress_Green: #51c91e;
-  --F_Progress_Complete: #00ff13;
+  --F_Backdrop: rgb(0, 0, 0, .4);
 }
 
 /* Zoom */
@@ -75,7 +71,7 @@ It’s easy to picture how a less saturated version of a color would look like, 
 /* Element proportions */
 :root {
   --F_Header_Height: 50px;
-  --F_Input_Height: 36px;
+  --F_Input_Height: 34px;
   --F_Sidebar_Width: 246px;
   --F_Sidebar_Width_Expanded: 246px;
   --F_Sidebar_Icon_Width: 72px;
@@ -85,6 +81,7 @@ It’s easy to picture how a less saturated version of a color would look like, 
 :root {
   --F_Font_Family: sans-serif;
   --F_Font_Size: 15px;
+  --F_Font_Size_Label: 14px;
   --F_Font_Size_Title: 17px;
   
   --F_Letter_Spacing: .04em;

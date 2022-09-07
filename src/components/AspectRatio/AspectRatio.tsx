@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 export interface Props {
-  children: React.ReactNode,
+  children?: React.ReactNode,
   ratio: number,
   backgroundSrc?: string,
   backgroundColor?: string,

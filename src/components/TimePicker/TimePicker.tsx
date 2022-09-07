@@ -210,7 +210,7 @@ const S = {
     background: var(--F_Background);
     border-radius: .5rem;
     box-shadow: var(--F_Outline_Hover);
-    top: var(--F_Input_Height);
+    top: calc(var(--F_Input_Height) - .325rem);
     width: calc(136px + 1rem);
     max-height: 300px;
     overflow-y: auto;

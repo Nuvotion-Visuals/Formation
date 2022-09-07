@@ -28,24 +28,6 @@ export const Slot = ({ avatar,
   status,
   statusColor,
 }: Props): JSX.Element => {
-  
-  // const renderStatusChip = (PositionInviteStatus) => {
-  //   switch (PositionInviteStatus.type) {
-  //     case PositionInviteStatus.confirmed:
-  //       return <S.StatusChip status={status} statusColor={statusColor}>{ status }</S.StatusChip>
-  //     case PositionInviteStatus.awaitintResponse:
-  //       return <S.StatusChip status={status} statusColor={statusColor}>{ status }</S.StatusChip>
-  //     case PositionInviteStatus.inviteDenied:
-  //       return <S.StatusChip status={status} statusColor={statusColor}>{ status }</S.StatusChip>
-  //     case PositionInviteStatus.inviteNotSent:
-  //       return <S.StatusChip status={status} statusColor={statusColor}>{ status }</S.StatusChip>
-  //     case PositionInviteStatus.applicationReceived:
-  //       return <S.StatusChip status={status} statusColor={statusColor}>{ status }</S.StatusChip>
-  //     case PositionInviteStatus.applicationDenied:
-  //       return <S.StatusChip status={status} statusColor={statusColor}>{ status }</S.StatusChip>
-  //   }
-  // }
-
   return (
     <>
       <S.ListItem avatar={avatar}>
@@ -61,10 +43,6 @@ export const Slot = ({ avatar,
         <S.ResponsiveWrap>
           <S.ResponsiveTitleContainer>
             <S.Title>{title ? title : `Unassigned`}</S.Title>
-            
-            {/* {
-              renderStatusChip(PositionInviteStatus)
-            } */}
           </S.ResponsiveTitleContainer>
         </S.ResponsiveWrap>
         
@@ -74,24 +52,40 @@ export const Slot = ({ avatar,
               {
                 icon: 'ellipsis-v',
                 iconPrefix: 'fas',
-                dropDownOptions: [
-                  {
-                    icon: 'envelope',
-                    text: 'Message',
-                  },
-                  {
-                    icon: 'paper-plane',
-                    text: 'Invite'
-                  },
-                  {
-                    icon: 'check-square',
-                    text: 'Assign',
-                  },
-                  {
-                    icon: 'trash-alt',
-                    text: 'Remove',
-                  },
-                ]
+                dropDownOptions: 
+                  title
+                    ? [
+                        {
+                          icon: 'user',
+                          iconPrefix: 'fas',
+                          text: 'View profile'
+                        },
+                        {
+                          icon: 'paper-plane',
+                          text: 'Message',
+                        },
+                        {
+                          icon: 'handshake-angle',
+                          iconPrefix: 'fas',
+                          text: 'Set status'
+                        },
+                        {
+                          icon: 'trash-alt',
+                          text: 'Remove',
+                        },
+                      ] 
+                    : [
+                        {
+                          icon: 'user-plus',
+                          iconPrefix: 'fas',
+                          text: 'Assign'
+                        },
+                        {
+                          icon: 'trash-alt',
+                          text: 'Remove',
+                        },
+                      ] 
+                
               }
             ]}
           />
@@ -115,12 +109,13 @@ const S = {
   ListItem: styled.div<ListItemProps>`
     width: 100%;
     padding: .5rem;
-    background: ${props => props.avatar ? 'var(--EC_White_100)' : 'var(--EC_Action_Orange)'};
     display: flex;
     align-items: center;
-    border-bottom: 2px solid var(--F_Surface_1);
+    border-bottom: 2px solid var(--F_Surface_0);
     position: relative;
     cursor: pointer;
+    background: var(--F_Background_Alternating);
+
     &:hover {
       background: var(--F_Surface_0);
     }
@@ -142,6 +137,7 @@ const S = {
     align-items: center;
     justify-content: center;
     box-shadow: var(--F_Outline_Label);
+    font-size: var(--F_Font_Size_Label);
   `,
   ResponsiveWrap: styled.div`
     width: 100%;
@@ -156,7 +152,7 @@ const S = {
   Title: styled.div`
     font-size: var(--F_Font_Size);
     font-weight: 400;
-    color: var(--F_Font_Color);
+    color: var(--F_Font_Color_Label);
     padding-left: .5rem;
     display: flex;
     align-items: center;

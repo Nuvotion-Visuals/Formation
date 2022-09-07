@@ -159,26 +159,28 @@ export const DateAndTimePicker = ({
             {
               index == value.length - 1
                 ? <Spacer/>
-                : <Box mb={1} mt={1}>
+                : <Box mt={1}>
                     <LineBreak />
                   </Box>
             }
           </>
         ))
       }
-      <Box pt={.5}>
-      </Box>
+    
+      <Box py={.15} />
 
-      <Button
-        onClick={(e : MouseEvent) => {
-          e?.preventDefault()
-          addDate()
-        }}
-        text={`Add a ${getOrdinal(value.length + 1)} day`}
-        icon={'plus'}
-        iconPrefix={'fas'}
-        expand={true}
-      />
+      <Box p={.5}>
+        <Button
+          onClick={(e : MouseEvent) => {
+            e?.preventDefault()
+            addDate()
+          }}
+          text={`Add a ${getOrdinal(value.length + 1)} day`}
+          icon={'plus'}
+          iconPrefix={'fas'}
+          expand={true}
+        />
+      </Box>
     </>
   )
 }
@@ -187,20 +189,8 @@ const S = {
   DateAndTime: styled.div`
     display: flex;
     flex-wrap: wrap;
-    margin-bottom: .5rem;
-
-    // temporary - replace with real components
-    input[type="time"] {
-      width: 100%;
-      height: var(--F_Input_Height);
-      padding: 0 .75rem;
-      border: none;
-      box-shadow: var(--F_Outline);
-      border-radius: 8px;
-      background: var(--F_Background_Alternating);
-      color: var(--F_Font_Color);
-    }
-  
+    padding: 1rem .5rem;
+    padding-bottom: 0rem;
   `,
   Duration: styled.div`
     font-size: var(--F_Font_Size);

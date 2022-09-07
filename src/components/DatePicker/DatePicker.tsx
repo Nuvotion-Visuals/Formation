@@ -337,7 +337,7 @@ const S = {
     border-radius: .5rem;
     padding: .75rem;
     box-shadow: var(--F_Outline_Hover);
-    top: var(--F_Input_Height);
+    top: calc(var(--F_Input_Height) - .325rem);
     /* width: 196px; */
     width: 14rem;
     left: 1.5rem;
@@ -436,9 +436,8 @@ const S = {
   Arrow: styled.div`
     color: var(--F_Font_Color);
     width: 2rem;
-    height: 100%;
+    height: 2rem;
     border-radius: .25rem;
-    height: var(--F_Input_Height);
     width: var(--F_Input_Height);
     display: flex;
     align-items: center;
