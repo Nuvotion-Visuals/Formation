@@ -45,6 +45,13 @@ It’s easy to picture how a less saturated version of a color would look like, 
   --F_Label_Outline_Orange: #870000;
   --F_Label_Background_Gray: #424242;
   --F_Label_Outline_Gray: #1b1b1b;
+
+  --F_Progress_Red: #af2222;
+  --F_Progress_Orange: #b59b1c;
+  --F_Progress_Yellow: #b6b617;
+  --F_Progress_Green: #51c91e;
+  --F_Progress_Complete: #00ff13;
+
 }
 
 .F_Empty {

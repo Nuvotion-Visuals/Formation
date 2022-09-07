@@ -17,5 +17,17 @@ Small.args = {
 
 export const Regular = Template.bind({})
 Regular.args = {
-    small: false
+    small: undefined
+}
+
+export const SmallGradient = Template.bind({})
+Regular.args = {
+  small: true,
+  gradient: true
+}
+
+export const RegularGradient = Template.bind({})
+Regular.args = {
+  small: undefined,
+  gradient: true
 }
