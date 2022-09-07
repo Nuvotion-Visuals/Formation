@@ -1,8 +1,9 @@
 import styled, { css, keyframes } from 'styled-components'
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 
 import { getBackground } from '../../internal'
 import { ColorType } from '../../types'
+import { Color } from 'components/Label/Label'
 
 
 interface Props {
@@ -11,16 +12,29 @@ interface Props {
   children: React.ReactNode
 }
 
+interface BadgeProps {
+  invisible: boolean,
+}
+
 export const Badge = ({ colorString, count, children }: Props) => {
+  
+  const [badgeColor, setBadgeColor] = useState<string>('')
+  const [isInvisible, setIsInvisible] = useState<boolean>(true)
+
+  useEffect(() => {
+    setBadgeColor(getBackground(colorString))
+  }, [colorString])
+
+  useEffect(() => {
+    if (count !== undefined) {
+      count === 0 ? setIsInvisible(true) : setIsInvisible(false)
+    }
+  }, [count])
+    
   return (
-    <S.Container>
-      { 
-        children 
-      }
-      <S.Badge 
-        color={getBackground(colorString)} 
-        invisible={count === 0}
-      >
+    <S.Container >
+      { children }
+      <S.Badge color={badgeColor} invisible={isInvisible}>
         <S.Text>
           {
             count !== 0

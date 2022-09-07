@@ -113,6 +113,7 @@ import { TextInput } from './components/TextInput/TextInput'
 import { Dropdown, OptionsType } from './components/Dropdown/Dropdown'
 import { Sidebar, Navs } from './components/Sidebar/Sidebar'
 import { Select } from './components/Select/Select'
+import { Switch } from './components/Switch/Switch'
 import { LabelColorPicker } from './components/LabelColorPicker/LabelColorPicker'
 import { 
   ListEditor, 
@@ -143,6 +144,7 @@ export {
   ListItem,
   ListItems,
   Slot,
+  Switch,
   Toolbar,
   ListItemMode,
   ListItemType,
