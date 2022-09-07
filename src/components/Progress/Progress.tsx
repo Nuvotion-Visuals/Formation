@@ -5,20 +5,22 @@ interface Props {
   minimum?: number,
   maximum: number,
   value: number,
+  small?: boolean,
 }
 
-export const Progress = ({ minimum, maximum, value }: Props) => {
+export const Progress = ({ minimum, maximum, value, small }: Props) => {
   
   const [status, setStatus] = useState<number>(0)
 
   useEffect(() => {
     if(maximum !== undefined)
       setStatus(value / maximum * 100)
-      console.log(status, ":status")
   }, [value])
 
   return (
-    <S.Container>
+    <S.Container
+      small={small !== undefined ? small : true}
+    >
       <S.Slider
          status={status}   
       />
@@ -27,8 +29,10 @@ export const Progress = ({ minimum, maximum, value }: Props) => {
 };
   
 const S = {
-  Container: styled.div<{}>`
-    height: 0.5rem;
+  Container: styled.div<{
+    small: boolean
+  }>`
+    height: ${props => props.small ? `0.25rem` : '0.5rem'};
     width: 100%;
     border-radius: 0.25rem;
     background: var(--F_Surface);

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
 import { Progress } from '../../internal'
@@ -12,7 +12,10 @@ const Template: ComponentStory<typeof Progress> = (args) => <Progress {...args} 
 
 export const Small = Template.bind({})
 Small.args = {
-  progress: {
-    
-  }
+    small: true
+}
+
+export const Regular = Template.bind({})
+Regular.args = {
+    small: false
 }
