@@ -2,16 +2,16 @@ import styled from 'styled-components'
 import React, { useEffect, useState } from 'react'
 
 interface Props {
-  minimum?: number,
   maximum: number,
   value: number,
   small?: boolean,
   gradient?: boolean,
+  showLabel?: boolean,
+  centerLabel?: boolean,
 }
 
-export const Progress = ({ minimum, maximum, value, small, gradient }: Props) => {
+export const Progress = ({  maximum, value, small, gradient, showLabel, centerLabel }: Props) => {
   
-  const [status, setStatus] = useState<number>(0)
   const [gradientColor, setGradientColor] = useState<string>('')
 
   const calculateGradient = (status: number) => {
@@ -35,23 +35,21 @@ export const Progress = ({ minimum, maximum, value, small, gradient }: Props) =>
   }
 
   useEffect(() => {
-    if(maximum !== undefined && value !== undefined)
-      setStatus(value / maximum * 100)
+    calculateGradient(value / maximum * 100)
   }, [value])
 
-  useEffect(() => {
-    calculateGradient(status)
-  }, [status])
+  const constrainedValue = value > maximum ? maximum : value
 
   return (
     <S.Container
       small={small !== undefined ? small : false}
     >
       <S.Slider
-        status={status}  
+        status={constrainedValue / maximum * 100}  
         gradient={gradient !== undefined ? gradient : false}
         gradientColor={gradientColor}
       />
+      <S.Label>{`${constrainedValue} / ${maximum}`}</S.Label>
     </S.Container>
   );
 };
@@ -72,7 +70,11 @@ const S = {
   }>`
     height: 100%;
     width: ${props => `${props.status}%`};
+    transition: width 0.3s ease-in-out; 
     background: ${props => props.gradient ? `${props.gradientColor}` : 'var(--F_Primary)' };
     border-radius: 0.5rem;
+  `,
+  Label: styled.div<{}>`
+    font-size: var(--F_Font_Size_Label);
   `
 }
