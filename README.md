@@ -1,6 +1,6 @@
 # Formation
 
-[Storybook](https://avsync-live.github.io/formation) |
+[Storybook](https://formation-ui.netlify.app) |
 [GitHub Repository](https://github.com/AVsync-LIVE/formation) |
 [NPM Package](https://www.npmjs.com/package/@avsync.live/formation)
 
@@ -9,7 +9,7 @@ Formation is a comprehensive component library built on [React](https://reactjs.
 
  - Dynamically bind all page structure and styles to your data
  - Easily customize colors, sizing, and typography using CSS variables
- - Powerful dev environment and living documentation using [Storybook](https://avsync-live.github.io/formation) 
+ - Powerful dev environment and living documentation using [Storybook](https://formation-ui.netlify.app) 
  - Useful hooks and utilities included
 
 ## Installation

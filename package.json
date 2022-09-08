@@ -1,10 +1,10 @@
 {
   "name": "@avsync.live/formation",
-  "homepage": "https://avsync-live.github.io/formation",
+  "homepage": "https://formation-ui.netlify.app",
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
   },
-  "version": "0.9.23",
+  "version": "0.9.24",
   "description": "A comprehensive component library built on React, Styled Components and CSS variables.",
   "keywords": [
     "react",
