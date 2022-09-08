@@ -74,7 +74,7 @@ import { Reorder } from './components/Reorder/Reorder'
 import { Ripple } from './components/Ripple/Ripple'
 import { Spacer } from './components/Spacer/Spacer'
 import { StyleHTML } from './components/StyleHTML/StyleHTML'
-
+import { Docking } from './components/Docking/Docking'
 
 export {
   AspectRatio,
@@ -102,6 +102,7 @@ export {
   Ripple,
   Spacer,
   StyleHTML,
+  Docking
 }
 
 // Molecules (1)
