@@ -4,7 +4,7 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
   },
-  "version": "0.9.22",
+  "version": "0.9.23",
   "description": "A comprehensive component library built on React, Styled Components and CSS variables.",
   "keywords": [
     "react",
@@ -117,6 +117,7 @@
   ],
   "types": "dist/index.d.ts",
   "dependencies": {
+    "@annotationhub/react-golden-layout": "^2.3.2",
     "@fortawesome/fontawesome-common-types": "^6.1.2",
     "@fortawesome/fontawesome-free": "^6.1.2",
     "@fortawesome/fontawesome-svg-core": "^6.1.2",
