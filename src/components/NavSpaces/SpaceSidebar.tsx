@@ -25,11 +25,13 @@ export const SpaceSidebar = ({
     <S.SpaceSidebar>
       <>
         {
-          <AspectRatio 
-            ratio={2}
-            coverBackground={true}
-            backgroundSrc={src} 
-          />
+          src
+            ? <AspectRatio 
+                ratio={2}
+                coverBackground={true}
+                backgroundSrc={src} 
+              />
+          : null
         }
         <S.HeaderArea>
           <header>

@@ -5,32 +5,34 @@ interface Props {
   src?: string,
   onClick?: () => void,
   date?: Date,
-  small?: boolean
+  small?: boolean,
+  href?: string
 }
 
 export const SpaceIcon = ({ 
   src, 
   onClick,
   date,
-  small
+  small,
+  href
 }: Props) => {
-  return (
+  return (<S.Link href={href}>
     <S.SpaceIcon 
       src={src}
       onClick={onClick}
       small={small}
     >
-      {
-        date
-          ? <S.Date>
-              <S.Month>{ date.toLocaleString('en-us', { month: 'short' }).toUpperCase() }</S.Month>
-              <S.Day>{ date.toLocaleString('en-us', { day: 'numeric' }) }</S.Day>
-            </S.Date>
-          : null
-      }
+        {
+          date
+            ? <S.Date>
+                <S.Month>{ date.toLocaleString('en-us', { month: 'short' }).toUpperCase() }</S.Month>
+                <S.Day>{ date.toLocaleString('en-us', { day: 'numeric' }) }</S.Day>
+              </S.Date>
+            : null
+        }
       
     </S.SpaceIcon>
-  )
+  </S.Link>)
 }
 
 const S = {
@@ -58,6 +60,10 @@ const S = {
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
+    background-color: ${props => props.src ? 'none' : 'var(--F_Surface_1)'};
+    &:hover {
+      background-color: ${props => props.src ? 'none' : 'var(--F_Surface_2)'};
+    }
   `,
   Date: styled.div`
     width: 100%;
@@ -81,5 +87,8 @@ const S = {
     width: 100%;
     text-align: center;
     margin-top: -0.875rem;
+  `,
+  Link: styled.a`
+    text-decoration: none;
   `
 }

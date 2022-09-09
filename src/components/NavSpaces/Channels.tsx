@@ -56,7 +56,7 @@ export const Channels = ({ channels }: Props) => {
   return (<S.Container>
     <S.Channels>
       {
-        channels.map(channel =>
+        channels?.map(channel =>
           <Channel
             {...channel}
           />
@@ -64,30 +64,7 @@ export const Channels = ({ channels }: Props) => {
       }
     </S.Channels>
 
-    <S.HLine />
-
-    <S.Channels>
-      {
-        [
-          'Everyone',
-          'Organizers',
-          'Production',
-          'Performers',
-          'Doors',
-          'Bar'
-        ].map((channel, index) => 
-          <Channel 
-            key={index}
-            name={channel} 
-            icon={'hashtag'}
-            iconPrefix='fas'
-            route={`/events/${activeEventGuid}/chat/${channel}`}
-            active={false}
-          />
-        )
-      }
-
-    </S.Channels>
+  
   </S.Container>)
 }
 

@@ -11,22 +11,26 @@ interface Props {
   spaces: {
     src?: string,
     title: string,
-    date?: Date
+    date?: Date,
+    href?: string
   }[],
   onClickIndex: (index: number) => void,
-  activeSpaceIndex: number
+  activeSpaceIndex: number,
+  onCreateSpace: () => void
 }
 
 export const SpacesSidebar = ({ 
   spaces,
   onClickIndex,
-  activeSpaceIndex
+  activeSpaceIndex,
+  onCreateSpace
 }: Props) => {
+
   return (<>
     <S.Sidebar>
       <S.LeftBar />
 
-      <S.SpaceIcon>
+      <S.SpaceIcon onClick={onCreateSpace}>
         <Icon icon='plus' iconPrefix='fas'/>
       </S.SpaceIcon>
         {
@@ -42,6 +46,7 @@ export const SpacesSidebar = ({
                 src={space.src}
                 onClick={() => onClickIndex(index)}
                 date={space.date}
+                href={space.href}
               />
             </S.SidebarContainer>
           )

@@ -104,10 +104,11 @@ const Template: ComponentStory<typeof NavSpaces> = args => {
   const [spaces, set_spaces] = useState([
     {
       title: 'Jive DJs Cork',
-      src: 'https://api.avsync.live/uploads/medium_jive_djs_d7e9e4490a.jpg',
+      // src: 'https://api.avsync.live/uploads/medium_jive_djs_d7e9e4490a.jpg',
       date: new Date(Date.parse('Sep 1, 2022')),
       location: 'Cypress Avenue, Cork',
-      channels: eventChannels
+      channels: eventChannels,
+      href: '#test'
     },
     {
       title: 'Kino Battle of the Bands',
@@ -179,6 +180,7 @@ const Template: ComponentStory<typeof NavSpaces> = args => {
       activeSpaceIndex={activeSpaceIndex}
       onSetActiveSpacesIndex={index => set_activeSpaceIndex(index)}
       channels={spaces?.[activeSpaceIndex].channels}
+      onCreateSpace={() => alert('Create space handler')}
       secondPage={<>
         <NavTabs
           navs={(args as any).secondaryTopNav}

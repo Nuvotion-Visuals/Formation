@@ -20,7 +20,8 @@ interface Props {
   onSetActiveSpacesIndex: (index: number) => void,
   navsPrimary: any,
   navsSecondary: any,
-  channels: any
+  channels: any,
+  onCreateSpace: () => void
 }
 
 export const NavSpaces = ({ 
@@ -33,7 +34,8 @@ export const NavSpaces = ({
   onSetActiveSpacesIndex,
   navsPrimary,
   navsSecondary,
-  channels
+  channels,
+  onCreateSpace
 }: Props) => {
   const { isDesktop, isTablet, isMobile } = useBreakpoint()
 
@@ -44,19 +46,19 @@ export const NavSpaces = ({
           spaces={spaces}
           activeSpaceIndex={activeSpaceIndex}
           onClickIndex={index => onSetActiveSpacesIndex(index)}
+          onCreateSpace={onCreateSpace}
         />
         <SpaceSidebar 
-          title={spaces[activeSpaceIndex].title}
-          src={spaces[activeSpaceIndex].src}
+          title={spaces[activeSpaceIndex]?.title}
+          src={spaces[activeSpaceIndex]?.src}
           dateString={
-            spaces[activeSpaceIndex]
-              .date?.toLocaleString('en-us', { 
+            spaces[activeSpaceIndex]?.date?.toLocaleString('en-us', { 
                 weekday: 'long', 
                 month: 'short', 
                 day: 'numeric', 
                 year: 'numeric' 
               })}
-          location={spaces[activeSpaceIndex].location}
+          location={spaces[activeSpaceIndex]?.location}
           channels={channels}
         />
       </S.MainScroll>
@@ -94,9 +96,9 @@ export const NavSpaces = ({
         <S.PagePlaceholder>
           <S.Expand>
             <NavTop
-              title={spaces[activeSpaceIndex].title}
-              src={spaces[activeSpaceIndex].src}
-              date={spaces[activeSpaceIndex].date}
+              title={spaces[activeSpaceIndex]?.title}
+              src={spaces[activeSpaceIndex]?.src}
+              date={spaces[activeSpaceIndex]?.date}
               onBack={() => onSwipe(activeSwipeIndex - 1)}            
             />
 
@@ -116,9 +118,9 @@ export const NavSpaces = ({
         <S.PagePlaceholder>
           <S.Expand>
             <NavTop
-              title={spaces[activeSpaceIndex].title}
-              src={spaces[activeSpaceIndex].src}
-              date={spaces[activeSpaceIndex].date}
+              title={spaces[activeSpaceIndex]?.title}
+              src={spaces[activeSpaceIndex]?.src}
+              date={spaces[activeSpaceIndex]?.date}
               onBack={() => onSwipe(activeSwipeIndex - 1)}
             />
             <S.Scroll doubleHeader={false}>
@@ -164,8 +166,8 @@ export const NavSpaces = ({
             <S.Expand>
               <NavTop
                 onBack={() => onSwipe(activeSwipeIndex - 1)}
-                title={spaces[activeSpaceIndex].title}
-                src={spaces[activeSpaceIndex].src}
+                title={spaces[activeSpaceIndex]?.title}
+                src={spaces[activeSpaceIndex]?.src}
                 hideContext={true}
               />
               <S.Scroll noHeaders={true}>
@@ -201,9 +203,9 @@ export const NavSpaces = ({
 
         <S.SecondaryContent>
           <NavTop
-            title={spaces[activeSpaceIndex].title}
-            src={spaces[activeSpaceIndex].src}
-            date={spaces[activeSpaceIndex].date}
+            title={spaces[activeSpaceIndex]?.title}
+            src={spaces[activeSpaceIndex]?.src}
+            date={spaces[activeSpaceIndex]?.date}
             onBack={() => onSwipe(activeSwipeIndex - 1)}  
             hideReturnContext={true}          
           />

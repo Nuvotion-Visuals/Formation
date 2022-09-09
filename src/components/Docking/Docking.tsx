@@ -1,7 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
-
-import { GoldenLayoutComponent } from '@annotationhub/react-golden-layout'
+import { LoadingSpinner } from '../../internal'
 
 interface Props {
   config: any
@@ -10,17 +9,30 @@ interface Props {
 export const Docking = ({
   config
 }: Props) => {
-  const [layoutManager, setLayoutManager] = useState({});
+  const [layoutManager, setLayoutManager] = useState({})
+
+  const [content, set_content] = useState(<S.LoadingContainer><LoadingSpinner /></S.LoadingContainer>)
+
+  useEffect(() => {
+    (async () => {
+      const { GoldenLayoutComponent } = await import('@annotationhub/react-golden-layout')
+      set_content(
+        <GoldenLayoutComponent
+          // (Required) Golden Layout Config. (See http://golden-layout.com/docs/Config.html)
+          config={config}
+          autoresize={true}
+          debounceResize={100}
+          onLayoutReady={setLayoutManager}
+        />
+      )
+    })()
+  }, [])
 
   return (
     <S.DockingContainer>
-      <GoldenLayoutComponent
-        // (Required) Golden Layout Config. (See http://golden-layout.com/docs/Config.html)
-        config={config}
-        autoresize={true}
-        debounceResize={100}
-        onLayoutReady={setLayoutManager}
-      />
+      {
+        content
+      }
     </S.DockingContainer>
   );
 }
@@ -30,5 +42,16 @@ const S = {
     width: 100%;
     height: 100%;
     overflow: hidden;
+    position: relative;
+  `,
+  LoadingContainer: styled.div`
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   `
 }
