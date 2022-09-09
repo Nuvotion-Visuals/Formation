@@ -20,6 +20,8 @@ export { LoadingSpinner } from './LoadingSpinner/LoadingSpinner'
 export { Location } from './Location/Location'
 export { Notification } from './Notification/Notification'
 export { NavHeader } from './NavHeader/NavHeader'
+export { NavSpaces } from './NavSpaces/NavSpaces'
+export { NavTabs } from './NavSpaces/NavTabs' // fix
 export { Navigation } from './Navigation/Navigation'
 export { NumberRange } from './NumberRange/NumberRange'
 export { NumberSlider } from './NumberSlider/NumberSlider'
