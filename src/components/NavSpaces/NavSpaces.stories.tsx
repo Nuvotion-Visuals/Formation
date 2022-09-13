@@ -17,7 +17,7 @@ const eventChannels = [
     name: 'Details',
     icon: 'info-circle',
     iconPrefix: 'fas',
-    route: '',
+    href: '',
     hideOptions: true,
     active: false
   },
@@ -25,7 +25,7 @@ const eventChannels = [
     name: 'People',
     icon: 'users',
     iconPrefix: 'fas',
-    route: '',
+    href: '',
     hideOptions: true,
     active: true
   },
@@ -33,7 +33,7 @@ const eventChannels = [
     name: 'Tasks',
     icon: 'check-square',
     iconPrefix: 'fas',
-    route: '',
+    href: '',
     hideOptions: true,
     active: false
   },
@@ -41,7 +41,7 @@ const eventChannels = [
     name: 'Areas',
     icon: 'compass',
     iconPrefix: 'fas',
-    route: '',
+    href: '',
     hideOptions: true,
     active: false
   },
@@ -49,7 +49,7 @@ const eventChannels = [
     name: 'Finances',
     icon: 'money-check-dollar',
     iconPrefix: 'fas',
-    route: '',
+    href: '',
     hideOptions: true,
     active: false
   }
@@ -60,7 +60,7 @@ const organizationChannels = [
     name: 'Events',
     icon: 'calendar-alt',
     iconPrefix: 'fas',
-    route: '',
+    href: '',
     hideOptions: true,
     active: false
   },
@@ -68,7 +68,7 @@ const organizationChannels = [
     name: 'Details',
     icon: 'info-circle',
     iconPrefix: 'fas',
-    route: '',
+    href: '',
     hideOptions: true,
     active: false
   },
@@ -76,7 +76,7 @@ const organizationChannels = [
     name: 'People',
     icon: 'users',
     iconPrefix: 'fas',
-    route: '',
+    href: '',
     hideOptions: true,
     active: true
   },
@@ -84,7 +84,7 @@ const organizationChannels = [
     name: 'Tasks',
     icon: 'check-square',
     iconPrefix: 'fas',
-    route: '',
+    href: '',
     hideOptions: true,
     active: false
   },
@@ -92,7 +92,7 @@ const organizationChannels = [
     name: 'Finances',
     icon: 'money-check-dollar',
     iconPrefix: 'fas',
-    route: '',
+    href: '',
     hideOptions: true,
     active: false
   }
