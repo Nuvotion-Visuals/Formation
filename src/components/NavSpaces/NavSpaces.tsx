@@ -152,7 +152,7 @@ export const NavSpaces = ({
         >
           <S.PagePlaceholder >
             <S.Expand>
-              <S.Scroll noHeaders={false}>
+              <S.Scroll noHeaders={true}>
                 {
                   renderSecondPage()
                 }
@@ -194,7 +194,7 @@ export const NavSpaces = ({
         </S.SidebarContainer>
 
         <S.MainContent>
-          <S.Scroll>
+          <S.Scroll noHeaders={true}>
             {
               renderSecondPage()
             }
@@ -210,7 +210,7 @@ export const NavSpaces = ({
             hideReturnContext={true}          
           />
         
-          <S.Scroll doubleHeader={true}>
+          <S.Scroll doubleHeader={false} subtractBorder={true}>
             {
               renderThirdPage()
             }
@@ -284,12 +284,15 @@ const S = {
   `,
   Scroll: styled.div<{
     noHeaders?: boolean,
-    doubleHeader?: boolean
+    doubleHeader?: boolean,
+    subtractBorder?: boolean
   }>`
-    height: calc(100vh - calc(var(--F_Header_Height) * 2));
     height: ${props => props.noHeaders
       ? '100vh'
-      : `calc(100vh - calc(var(--F_Header_Height) * ${ props.doubleHeader ? 2 : 1 }));`};
+      : props.subtractBorder
+        ? `calc(calc(100vh - calc(var(--F_Header_Height) * ${ props.doubleHeader ? 2 : 1 })) - 2px);`
+        : `calc(100vh - calc(var(--F_Header_Height) * ${ props.doubleHeader ? 2 : 1 }));`
+    };
     width: 100%;
     overflow-y: auto;
   `,
