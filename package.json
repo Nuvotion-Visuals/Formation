@@ -4,7 +4,7 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
   },
-  "version": "0.9.24",
+  "version": "0.9.25",
   "description": "A comprehensive component library built on React, Styled Components and CSS variables.",
   "keywords": [
     "react",
@@ -42,6 +42,7 @@
     "package": "yarn rollup && npm pack",
     "test": "jest",
     "storybook": "start-storybook -p 6006",
+    "kill-linux": "kill $(lsof -t -i:6006)",
     "storybook-build": "build-storybook",
     "storybook-publish": "build-storybook && gh-pages -d storybook-static",
     "storybook-legacy": "start-storybook -p 6006",

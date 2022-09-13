@@ -9,7 +9,7 @@ type Channel = {
   name: string,
   icon: IconName,
   iconPrefix: IconPrefix,
-  route: string,
+  href: string,
   hideOptions?: boolean,
   active: boolean
 }
@@ -24,7 +24,7 @@ export const Channels = ({ channels }: Props) => {
   const Channel = ({ 
     name, 
     icon, 
-    route, 
+    href, 
     iconPrefix, 
     hideOptions, 
     active 
@@ -33,22 +33,24 @@ export const Channels = ({ channels }: Props) => {
       <S.ChannelContainer 
         active={active}
       >
-        <Box width='100%'>
-          <S.Channel >
-            <S.IconContainer>
-              <Icon icon={icon} iconPrefix={iconPrefix} fixedWidth/>
-            </S.IconContainer>
-            <S.ChannelName>{ name }</S.ChannelName>
-          </S.Channel>
-          <Spacer />
-          {
-            hideOptions
-              ? null
-              : <S.Option>
-                  <Icon icon='ellipsis-v' iconPrefix='fas'/>
-                </S.Option>
-          }
-        </Box>
+        <a href={href}>
+          <Box width='100%'>
+            <S.Channel >
+              <S.IconContainer>
+                <Icon icon={icon} iconPrefix={iconPrefix} fixedWidth/>
+              </S.IconContainer>
+              <S.ChannelName>{ name }</S.ChannelName>
+            </S.Channel>
+            <Spacer />
+            {
+              hideOptions
+                ? null
+                : <S.Option>
+                    <Icon icon='ellipsis-v' iconPrefix='fas'/>
+                  </S.Option>
+            }
+          </Box>
+        </a>
       </S.ChannelContainer>
     )
   }
@@ -56,7 +58,7 @@ export const Channels = ({ channels }: Props) => {
   return (<S.Container>
     <S.Channels>
       {
-        channels.map(channel =>
+        channels?.map(channel =>
           <Channel
             {...channel}
           />
@@ -64,30 +66,7 @@ export const Channels = ({ channels }: Props) => {
       }
     </S.Channels>
 
-    <S.HLine />
-
-    <S.Channels>
-      {
-        [
-          'Everyone',
-          'Organizers',
-          'Production',
-          'Performers',
-          'Doors',
-          'Bar'
-        ].map((channel, index) => 
-          <Channel 
-            key={index}
-            name={channel} 
-            icon={'hashtag'}
-            iconPrefix='fas'
-            route={`/events/${activeEventGuid}/chat/${channel}`}
-            active={false}
-          />
-        )
-      }
-
-    </S.Channels>
+  
   </S.Container>)
 }
 
@@ -106,6 +85,7 @@ const S = {
 
     * {
       color: var(--F_Font_Color_Disabled);
+      text-decoration: none;
     }
   `,
   HLine: styled.div`
