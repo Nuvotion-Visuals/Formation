@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 
-import { Icon, Spacer, Box } from '../../internal'
+import { Icon, Spacer, Box, getLinkComponent } from '../../internal'
 
 type Channel = {
   name: string,
@@ -19,7 +19,7 @@ interface Props {
 }
 
 export const Channels = ({ channels }: Props) => {
-  const activeEventGuid = 'test'
+  const Link = getLinkComponent()
 
   const Channel = ({ 
     name, 
@@ -33,7 +33,7 @@ export const Channels = ({ channels }: Props) => {
       <S.ChannelContainer 
         active={active}
       >
-        <a href={href}>
+        <Link href={href}>
           <Box width='100%'>
             <S.Channel >
               <S.IconContainer>
@@ -50,7 +50,7 @@ export const Channels = ({ channels }: Props) => {
                   </S.Option>
             }
           </Box>
-        </a>
+        </Link>
       </S.ChannelContainer>
     )
   }

@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Icon, Break, Badge } from '../../internal'
+import { Icon, Badge, getLinkComponent } from '../../internal'
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 
 interface Props {
@@ -22,6 +22,8 @@ export const NavTab = ({
   count
 } : Props) => {
 
+  const Link = getLinkComponent()
+
   const renderIcon = () => <>
     {
       icon && iconPrefix
@@ -38,35 +40,36 @@ export const NavTab = ({
   </>
   
   return (
-    <S.NavTab href={href} active={active}>
-      {
-        count
-          ? <Badge colorString='red' count={count}>
-              {
-                renderIcon()
-              }
-            </Badge>
-          : renderIcon()
-      }
-      
-      <S.Title fullSize={icon === undefined} active={active}>
-        { 
-          title 
+    <Link href={href}>
+      <S.NavTab active={active}>
+        {
+          count
+            ? <Badge colorString='red' count={count}>
+                {
+                  renderIcon()
+                }
+              </Badge>
+            : renderIcon()
         }
-      </S.Title>
+        
+        <S.Title fullSize={icon === undefined} active={active}>
+          { 
+            title 
+          }
+        </S.Title>
 
         {
           active
             ? <S.Active />
             : null
         }
-        
-    </S.NavTab>
+      </S.NavTab>
+    </Link>
   )
 }
 
 const S = {
-  NavTab: styled.a<{
+  NavTab: styled.div<{
     active?: boolean
   }>`
     position: relative;

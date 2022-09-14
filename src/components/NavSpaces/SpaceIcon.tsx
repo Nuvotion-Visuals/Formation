@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 
+import { getLinkComponent } from '../../internal'
+
 interface Props {
   src?: string,
   onClick?: () => void,
@@ -16,7 +18,10 @@ export const SpaceIcon = ({
   small,
   href
 }: Props) => {
-  return (<S.Link href={href}>
+
+  const Link = getLinkComponent()
+
+  return (<Link href={href}>
     <S.SpaceIcon 
       src={src}
       onClick={onClick}
@@ -32,7 +37,7 @@ export const SpaceIcon = ({
         }
       
     </S.SpaceIcon>
-  </S.Link>)
+  </Link>)
 }
 
 const S = {
@@ -87,8 +92,5 @@ const S = {
     width: 100%;
     text-align: center;
     margin-top: -0.875rem;
-  `,
-  Link: styled.a`
-    text-decoration: none;
   `
 }

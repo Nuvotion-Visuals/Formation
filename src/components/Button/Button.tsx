@@ -4,7 +4,7 @@ import styled, { keyframes, css } from 'styled-components'
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 import { SizeProp } from '@fortawesome/fontawesome-svg-core' // type coersion needed until FA SizeProp defintion is fixed to include "xl"
 
-import { Icon } from '../../internal'
+import { Icon, getLinkComponent } from '../../internal'
 
 type Props = {
   href?: string,
@@ -49,6 +49,9 @@ export const Button: FC<Props> = React.memo(({
   tab,
   newTab
 }: Props) => {
+
+  const Link = getLinkComponent()
+
   const renderButton = () => {
     return (
       <S.Button
@@ -106,9 +109,9 @@ export const Button: FC<Props> = React.memo(({
       {
         href 
         ? 
-          <S.Link href={href} target={newTab ? '_blank' : '_self'}>
+          <Link href={href} newTab={newTab}>
             { renderButton() }
-          </S.Link>
+          </Link>
         : renderButton()
       }
     </S.Container>
@@ -149,9 +152,6 @@ const S = {
     user-select: none;
     display: flex;
     flex-grow: ${props => props.expand ? '1' : 'auto'};
-  `,
-  Link: styled.a`
-    text-decoration: none;
   `,
   Text: styled.div<TextProps>`
     font-size: ${props => props.hero ? 'var(--F_Font_Size_Title)' : 'var(--F_Font_Size_Label)'};
