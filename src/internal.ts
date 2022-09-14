@@ -187,5 +187,10 @@ export {
 
 // Organisms (4)
 
+import React from 'react'
 
-
+let linkComponent = Link as any
+export const getLinkComponent = () => linkComponent
+export const setLinkComponent = (newLinkComponent : React.ReactNode) => {
+  linkComponent = newLinkComponent
+}
