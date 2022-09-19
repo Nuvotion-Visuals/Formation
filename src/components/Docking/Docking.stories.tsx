@@ -18,7 +18,7 @@ const PlaceholderContent = () => {
   return <Box px={.5}>
     <Grid maxWidth={10}>
       {
-        new Array(20).fill(0).map(i =>
+        new Array(60).fill(0).map(i =>
           <AspectRatio ratio={16/9}>
             <Empty />
           </AspectRatio>  
@@ -52,23 +52,38 @@ Default.args = {
   config: {
     content: [
       {
-        type: 'row',
+        type: 'column',
         content: [
           {
-            component: () => <PlaceholderContent />,
-            title: 'Scenes'
-          }, 
+            type: 'row',
+            content: [
+              
+              {
+                type: 'column',
+                content: [
+                  {
+                    component: () => <PlaceholderContent />,
+                    title: 'Playlist'
+                  }, 
+                ]
+              }
+            ]
+          },
           {
-            type: 'column',
+            type: 'row',
             content: [
               {
                 component: () => <PlaceholderContent />,
-                title: 'Sources'
+                title: 'Visuals'
               },
               {
                 component: () => <PlaceholderContent />,
                 title: 'Effects'
-              }
+              },
+              {
+                component: () => <PlaceholderContent />,
+                title: 'Sources'
+              },
             ]
           }
         ]
