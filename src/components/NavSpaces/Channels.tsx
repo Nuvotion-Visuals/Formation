@@ -42,7 +42,7 @@ export const Channels = ({ channels }: Props) => {
               <S.IconContainer>
                 <Icon icon={icon} iconPrefix={iconPrefix} fixedWidth/>
               </S.IconContainer>
-              <S.ChannelName>{ name }</S.ChannelName>
+              <S.ChannelName active={active}>{ name }</S.ChannelName>
             </S.Channel>
             <Spacer />
             {
@@ -97,6 +97,7 @@ const S = {
   `,
   Channel: styled.li`
     width: 100%;
+    height: 100%;
     display: flex;
     gap: .5rem;
     padding: .5rem 0;
@@ -104,8 +105,14 @@ const S = {
   IconContainer: styled.div`
     width: 1.25rem;
   `,
-  ChannelName: styled.div`
+  ChannelName: styled.div<{
+    active: boolean
+  }>`
     display: flex;
+    font-weight: ${props => props.active ? '600' : '400'};
+    font-size: var(--F_Font_Size);
+    height: 100%;
+    align-items: center;
   `,
   Option: styled.div`
     padding-right: .375rem;

@@ -84,6 +84,8 @@ const S = {
     text-decoration: none;
     flex-wrap: ${props => props.vertical ? 'wrap' : 'nowrap'};
     gap: ${props => props.vertical ? '0' : '.25rem'};
+    margin-bottom: ${props => props.vertical ? '0' : '-.125rem'};
+
     * {
       color: ${props => props.active ? 'var(--F_Font_Color)' : 'var(--F_Font_Color_Disabled)'};
     }
