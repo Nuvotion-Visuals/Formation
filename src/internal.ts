@@ -178,10 +178,10 @@ export {
 }
 
 // Organs (3)
-import { DateAndTimePicker } from './components/DateAndTimePicker/DateAndTimePicker'
+import { Activities } from './components/Activities/Activities'
 import { LabelManager } from './components/LabelManager/LabelManager'
 export {
-  DateAndTimePicker,
+  Activities,
   LabelManager
 }
 
