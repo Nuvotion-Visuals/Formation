@@ -21,6 +21,7 @@ export const NavBottom = ({ navs, trimRight } : Props) => {
   return (<S.Header trimRight={trimRight}>
     <NavTabs
       navs={navs}
+      vertical={true}
     />
   </S.Header>)
 }

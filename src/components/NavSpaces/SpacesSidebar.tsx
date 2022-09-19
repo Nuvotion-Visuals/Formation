@@ -47,6 +47,7 @@ export const SpacesSidebar = ({
                 onClick={() => onClickIndex(index)}
                 date={space.date}
                 href={space.href}
+                title={space.title}
               />
             </S.SidebarContainer>
           )

@@ -8,7 +8,8 @@ interface Props {
   onClick?: () => void,
   date?: Date,
   small?: boolean,
-  href?: string
+  href?: string,
+  title?: string
 }
 
 export const SpaceIcon = ({ 
@@ -16,7 +17,8 @@ export const SpaceIcon = ({
   onClick,
   date,
   small,
-  href
+  href,
+  title
 }: Props) => {
 
   const Link = getLinkComponent()
@@ -26,6 +28,7 @@ export const SpaceIcon = ({
       src={src}
       onClick={onClick}
       small={small}
+      title={title}
     >
         {
           date

@@ -119,8 +119,8 @@ export const SpaceSidebar = ({
 const S = {
   Absolute: styled.div`
     position: absolute;
-    right: .5rem;
-    bottom: .5rem;
+    right: .75rem;
+    top: .75rem;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -147,6 +147,7 @@ const S = {
     padding: 0;
     margin: 0;
     line-height: 1.25em;
+    padding-right: 1.25rem;
     /* margin-top: -0.25rem; */
   `,
   DetailsContainer: styled.div`

@@ -10,7 +10,8 @@ interface Props {
   title: string,
   href: string,
   active?: boolean,
-  count?: number
+  count?: number,
+  vertical?: boolean
 }
 
 export const NavTab = ({
@@ -19,7 +20,8 @@ export const NavTab = ({
   title,
   href,
   active,
-  count
+  count,
+  vertical
 } : Props) => {
 
   const Link = getLinkComponent()
@@ -41,7 +43,7 @@ export const NavTab = ({
   
   return (
     <Link href={href}>
-      <S.NavTab active={active}>
+      <S.NavTab vertical={vertical} active={active}>
         {
           count
             ? <Badge colorString='red' count={count}>
@@ -52,7 +54,7 @@ export const NavTab = ({
             : renderIcon()
         }
         
-        <S.Title fullSize={icon === undefined} active={active}>
+        <S.Title vertical={vertical} active={active}>
           { 
             title 
           }
@@ -70,7 +72,8 @@ export const NavTab = ({
 
 const S = {
   NavTab: styled.div<{
-    active?: boolean
+    active?: boolean,
+    vertical?: boolean
   }>`
     position: relative;
     display: flex;
@@ -78,21 +81,21 @@ const S = {
     padding-top: .125rem;
     justify-content: center;
     align-items: center;
-    flex-wrap: wrap;
     text-decoration: none;
+    flex-wrap: ${props => props.vertical ? 'wrap' : 'nowrap'};
+    gap: ${props => props.vertical ? '0' : '.25rem'};
     * {
       color: ${props => props.active ? 'var(--F_Font_Color)' : 'var(--F_Font_Color_Disabled)'};
     }
   `,
   Title: styled.div<{
-    fullSize: boolean,
+    vertical?: boolean,
     active?: boolean
   }>`
-    font-size: ${props => props.fullSize ? 'var(--F_Font_Size)' : '12px'};
-    width: 100%;
+    font-size: ${props => !props.vertical ? 'var(--F_Font_Size)' : '12px'};
+    width: ${props => props.vertical ? '100%' : 'auto'};
     text-align: center;
-    margin-top: ${props => !props.fullSize ? '-2px' : '.125rem'};
-    font-weight: ${props => props.fullSize && props.active ? '600' : '400'};
+    font-weight: ${props => props.active ? '600' : '400'};
   `,
   Active: styled.div`
     position: absolute;

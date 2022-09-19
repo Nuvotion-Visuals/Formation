@@ -14,10 +14,11 @@ interface Props {
     active?: boolean,
     count?: number
   }[],
-  borderBottom?: boolean
+  borderBottom?: boolean,
+  vertical?: boolean
 }
 
-export const NavTabs = ({ navs, borderBottom } : Props) => {
+export const NavTabs = ({ navs, borderBottom, vertical } : Props) => {
   return (
     <S.NavTabs borderBottom={borderBottom}>
       {
@@ -25,6 +26,7 @@ export const NavTabs = ({ navs, borderBottom } : Props) => {
           <S.NavContainer width={100 / navs.length}>
             <NavTab
               {...nav}
+              vertical={vertical}
             />
           </S.NavContainer>
         )

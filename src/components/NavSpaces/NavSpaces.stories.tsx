@@ -447,6 +447,7 @@ Teams.args = {
   secondaryTopNav: [
     {
       title: 'People',
+      iconPrefix: 'fas',
       href: '#'
     },
     {
