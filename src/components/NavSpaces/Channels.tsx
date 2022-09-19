@@ -11,7 +11,8 @@ type Channel = {
   iconPrefix: IconPrefix,
   href: string,
   hideOptions?: boolean,
-  active: boolean
+  active: boolean,
+  onClick?: () => void
 }
 
 interface Props {
@@ -27,11 +28,13 @@ export const Channels = ({ channels }: Props) => {
     href, 
     iconPrefix, 
     hideOptions, 
-    active 
+    active,
+    onClick
   } : Channel ) => {
     return (
       <S.ChannelContainer 
         active={active}
+        onClick={onClick}
       >
         <Link href={href}>
           <Box width='100%'>
