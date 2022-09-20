@@ -22,5 +22,5 @@ export type ActivityType = {
 
 export type PersonType = {
   name: string,
-  position: string
+  position: string,
 }

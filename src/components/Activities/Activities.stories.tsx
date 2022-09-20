@@ -17,8 +17,8 @@ const Template: ComponentStory<typeof Activities> = args => {
       activities: [
         {
           title: 'Set1: DJ Alpha',
-          startTime: '',
-          endTime: '',
+          startTime: '1',
+          endTime: '2',
           icon: 'orange',
           people: [
             {
@@ -33,8 +33,8 @@ const Template: ComponentStory<typeof Activities> = args => {
         },
         {
           title: 'Set2: DJ Beta',
-          startTime: '',
-          endTime: '',
+          startTime: '2',
+          endTime: '3',
           icon: 'orange',
           people: [
             {
@@ -49,8 +49,8 @@ const Template: ComponentStory<typeof Activities> = args => {
         },
         {
           title: 'Set3: DJ Theta',
-          startTime: '',
-          endTime: '',
+          startTime: '3',
+          endTime: '4',
           icon: 'orange',
           people: [
             {
@@ -70,8 +70,8 @@ const Template: ComponentStory<typeof Activities> = args => {
       activities: [
         {
           title: 'Pre-Open',
-          startTime: '',
-          endTime: '',
+          startTime: '0',
+          endTime: '1',
           icon: 'orange',
           people: [
             {
@@ -95,8 +95,8 @@ const Template: ComponentStory<typeof Activities> = args => {
         },
         {
           title: 'Open',
-          startTime: '',
-          endTime: '',
+          startTime: '1',
+          endTime: '4',
           icon: 'orange',
           people: [
             {
@@ -120,8 +120,8 @@ const Template: ComponentStory<typeof Activities> = args => {
         },
         {
           title: 'Close',
-          startTime: '',
-          endTime: '',
+          startTime: '3',
+          endTime: '4',
           icon: 'orange',
           people: [
             {
