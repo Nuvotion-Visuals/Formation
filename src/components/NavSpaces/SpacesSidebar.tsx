@@ -1,19 +1,24 @@
 import React from 'react'
 import styled from 'styled-components'
+import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 
 import Div100vh from 'react-div-100vh'
 
 import { SpaceIcon } from './SpaceIcon'
 
-import { Icon } from '../../internal'
+import { Icon, Box } from '../../internal'
 
 interface Props {
   spaces: {
     src?: string,
     title: string,
     date?: Date,
-    href?: string
-  }[],
+    href?: string,
+    icon?: IconName,
+    iconPrefix?: IconPrefix,
+    onClick?: () => void
+  }[]
+  ,
   onClickIndex: (index: number) => void,
   activeSpaceIndex: number,
   onCreateSpace: () => void
@@ -28,31 +33,37 @@ export const SpacesSidebar = ({
 
   return (<>
     <S.Sidebar>
+
       <S.LeftBar />
+        <Box py={0} width='100%'/>
 
-      <S.SpaceIcon onClick={onCreateSpace}>
-        <Icon icon='plus' iconPrefix='fas'/>
-      </S.SpaceIcon>
         {
-          spaces.map((space, index) =>
-            <S.SidebarContainer key={index}>
-              {
-                activeSpaceIndex === index
-                  ? <S.Active />
-                  : null
-              }
+          spaces.map((space, index) => <>
+            {
+              space.title === ''
+                ? <S.SpaceIcon onClick={space.onClick}>
+                  {
+                    space.icon && <Icon icon={space.icon} iconPrefix={space.iconPrefix}/>
+                  }
+                    
+                  </S.SpaceIcon>
+                : <S.SidebarContainer key={index}>
+                    <S.Active hide={activeSpaceIndex !== index}/>
 
-              <SpaceIcon
-                src={space.src}
-                onClick={() => onClickIndex(index)}
-                date={space.date}
-                href={space.href}
-                title={space.title}
-              />
-            </S.SidebarContainer>
+                    <SpaceIcon
+                      src={space.src}
+                      onClick={() => onClickIndex(index)}
+                      date={space.date}
+                      href={space.href}
+                      title={space.title}
+                      active={activeSpaceIndex === index}
+                    />
+                  </S.SidebarContainer>
+              }
+          </>
           )
         }
-        <S.VSpacer />
+      <S.VSpacer />
     </S.Sidebar>
   </>)
 }
@@ -72,6 +83,7 @@ const S = {
     position: absolute;
     top: 0;
     left: 0px;
+
     ::-webkit-scrollbar {
       width: .25rem;
       height: .25rem;
@@ -84,18 +96,24 @@ const S = {
     position: relative;
     padding-left: .325rem;
   `,
-  Active: styled.div`
+  Active: styled.div<{
+    hide: boolean
+  }>`
     position: absolute;
     left: 0px;
     background: var(--F_Font_Color);
     width: .325rem;
+    transform: ${props => props.hide ? 'scale(0.0)' : 'scale(1.0)'};
     height: 3.25rem;
+    transition: transform .3s;
     z-index: 99;
+    border-radius: 0 .25rem .25rem 0;
+
   `,
   LeftBar: styled.div`
     position: absolute;
     left: 0px;
-    background: var(--F_Surface_0);
+    /* background: var(--F_Surface_0); */
     width: .325rem;
     height: calc(100vh - var(--F_Header_Height));
   `,
@@ -105,7 +123,6 @@ const S = {
     align-items: center;
     width: 3.25rem;
     height: 3.25rem;
-    margin-top: .5rem;
     margin-left: .325rem;
     border-radius: 100%;
     background: var(--F_Surface);

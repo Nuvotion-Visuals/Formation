@@ -9,7 +9,8 @@ interface Props {
   date?: Date,
   small?: boolean,
   href?: string,
-  title?: string
+  title?: string,
+  active: boolean
 }
 
 export const SpaceIcon = ({ 
@@ -18,7 +19,8 @@ export const SpaceIcon = ({
   date,
   small,
   href,
-  title
+  title,
+  active
 }: Props) => {
 
   const Link = getLinkComponent()
@@ -29,6 +31,7 @@ export const SpaceIcon = ({
       onClick={onClick}
       small={small}
       title={title}
+      active={active}
     >
         {
           date
@@ -60,15 +63,17 @@ const S = {
     /* transform-origin: 0 0; */
     transform: ${props => props.small ? 'scale(0.75)' : 'none'};
     /* box-shadow: ${props => props.active ? 'none' : 'var(--F_Outline)'}; */
+    transition: border-radius .3s;
     overflow: hidden;
     align-items: start;
-    border-radius: 8px;
+    border-radius: ${props => props.active ? '.5rem' : '50%'};
     cursor: pointer;
     background-image: url(${props => props.src});
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
     background-color: ${props => props.src ? 'none' : 'var(--F_Surface_1)'};
+    
     &:hover {
       background-color: ${props => props.src ? 'none' : 'var(--F_Surface_2)'};
     }
