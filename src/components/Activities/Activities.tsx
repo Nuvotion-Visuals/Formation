@@ -28,12 +28,10 @@ export const Activities = ({ value }: Props) => {
     } else {
       let activities: ActivityType[] = value[0].activities
       let activeArea: string = value[0].area.toString()
+
       setState(value)
       setActiveArea(activeArea)
       setCurrentActivities(activities)
-      // console.log("state", value)
-      // console.log("current Activities", value[0].area.toString())
-      // console.log( "ActiveArea", value[0].activities)
       return
     }
   }, [])
@@ -54,6 +52,10 @@ export const Activities = ({ value }: Props) => {
     setActiveArea((e.target as HTMLInputElement).innerText)
   }
 
+  const isPrimary = (area: string) => {
+    return area === activeArea
+  }
+
   return (
     <S.Activities>
       <S.Header>
@@ -61,7 +63,7 @@ export const Activities = ({ value }: Props) => {
           state?.map(state =>
             <Box mr={0.5}>
               <Button
-                primary={true}
+                primary={isPrimary(state.area)}
                 id={state.area}
                 text={state.area}
                 onClick={handleTabClick}
