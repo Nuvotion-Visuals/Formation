@@ -24,3 +24,7 @@ export type PersonType = {
   name: string,
   position: string,
 }
+
+export type ActivitiesByAreaType = {
+  
+}

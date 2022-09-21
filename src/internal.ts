@@ -158,6 +158,7 @@ export {
 }
 
 // Tissue (2)
+import { AreaSurface } from './components/Activities/AreaSurface'
 import { Navigation } from './components/Navigation/Navigation'
 import { Location } from './components/Location/Location'
 import { TimePicker } from './components/TimePicker/TimePicker'
@@ -167,6 +168,7 @@ import { Tabs } from './components/Tabs/Tabs'
 import { TimeZone } from './components/TimeZone/TimeZone'
 import { LabelEditor } from './components/LabelEditor/LabelEditor'
 export {
+  AreaSurface,
   Navigation,
   Location,
   TimePicker,

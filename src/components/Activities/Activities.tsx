@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 
-import { StyleHTML } from '../../internal'
+import { AreaSurface } from '../../internal'
 import { ActivityType, AreaType } from '../../types'
 
 interface Props {
@@ -13,8 +13,9 @@ export const Activities = ({ value }: Props) => {
   const [state, setState] = useState<AreaType[]>([])
   const [activeArea, setActiveArea] = useState('')
   const [activeIndex, setActiveIndex] = useState(0)
+  const [currentActivities, setCurrentActivities] = useState<any[]>([])
 
-  const findIndex = (activeArea: string) => {
+  const findAreaIndex = (activeArea: string) => {
     const newIndex = state?.findIndex(object => {
       return object.area === activeArea
     })
@@ -25,18 +26,32 @@ export const Activities = ({ value }: Props) => {
     if (!value) {
       return 
     } else {
+      let activities: ActivityType[] = value[0].activities
+      let activeArea: string = value[0].area.toString()
       setState(value)
-      setActiveArea(value[0].area.toString())
+      setActiveArea(activeArea)
+      setCurrentActivities(activities)
+      // console.log("state", value)
+      // console.log("current Activities", value[0].area.toString())
+      // console.log( "ActiveArea", value[0].activities)
+      return
     }
   }, [])
 
   useEffect(() => {
-    let newIndex = findIndex(activeArea)
+    let newIndex = findAreaIndex(activeArea)
     setActiveIndex(newIndex)
   }, [activeArea])
 
+  useEffect(() => {
+    let activitiesPresent: ActivityType[] = state ? state[activeIndex] : []
+    setCurrentActivities(activitiesPresent)
+  }, [activeIndex])
+
+
   const handleTabClick = (e: React.MouseEvent<HTMLElement>) => {
-    setActiveArea(e.target.id)
+    setActiveArea((e.target as HTMLInputElement).id)
+    console.log(currentActivities?.activities, "<<currentActivities>>")
   }
 
   return (
@@ -46,12 +61,7 @@ export const Activities = ({ value }: Props) => {
           state?.map(state => <S.Tab id={state.area} onClick={handleTabClick}>{state.area}</S.Tab>)
         }
       </S.Header>
-      {/* <ActivitiesSurface /> */}
-      <S.EventContainer>
-        {
-          state[activeIndex]?.activities.map(activity => <S.Column>{activity.title}</S.Column>)
-        }
-      </S.EventContainer>
+      <AreaSurface currentActivities={currentActivities?.activities} />
     </S.Activities>
   )
 }
@@ -59,10 +69,6 @@ export const Activities = ({ value }: Props) => {
 const S = {
   Activities: styled.div`
     width: 100%;
-    * {
-    color: var(--F_Font_Color);
-
-    }
   `,
   Header: styled.div<{}>`
     width: 100%;
@@ -81,10 +87,4 @@ const S = {
     display: flex;
 
   `,
-  Column: styled.div<{}>`
-    min-width: 25%;
-    background: #8ba0d2;
-    margin: 0.25rem;
-    padding: 1rem;
-  `
 }

@@ -17,8 +17,8 @@ const Template: ComponentStory<typeof Activities> = args => {
       activities: [
         {
           title: 'Set1: DJ Alpha',
-          startTime: '1',
-          endTime: '2',
+          startTime: '1am',
+          endTime: '2am',
           icon: 'orange',
           people: [
             {
@@ -33,8 +33,8 @@ const Template: ComponentStory<typeof Activities> = args => {
         },
         {
           title: 'Set2: DJ Beta',
-          startTime: '2',
-          endTime: '3',
+          startTime: '2am',
+          endTime: '3am',
           icon: 'orange',
           people: [
             {
@@ -49,8 +49,8 @@ const Template: ComponentStory<typeof Activities> = args => {
         },
         {
           title: 'Set3: DJ Theta',
-          startTime: '3',
-          endTime: '4',
+          startTime: '3am',
+          endTime: '4am',
           icon: 'orange',
           people: [
             {
@@ -70,8 +70,8 @@ const Template: ComponentStory<typeof Activities> = args => {
       activities: [
         {
           title: 'Pre-Open',
-          startTime: '0',
-          endTime: '1',
+          startTime: '6am',
+          endTime: '8am',
           icon: 'orange',
           people: [
             {
@@ -95,8 +95,8 @@ const Template: ComponentStory<typeof Activities> = args => {
         },
         {
           title: 'Open',
-          startTime: '1',
-          endTime: '4',
+          startTime: '8am',
+          endTime: '12pm',
           icon: 'orange',
           people: [
             {
@@ -120,8 +120,8 @@ const Template: ComponentStory<typeof Activities> = args => {
         },
         {
           title: 'Close',
-          startTime: '3',
-          endTime: '4',
+          startTime: '12pm',
+          endTime: '2pm',
           icon: 'orange',
           people: [
             {
@@ -145,6 +145,59 @@ const Template: ComponentStory<typeof Activities> = args => {
         },
       ]
     },
+    {
+      area: 'Green Room',
+      activities: [
+        {
+          title: 'Set1: DJ Alpha',
+          startTime: '2pm',
+          endTime: '6pm',
+          icon: 'orange',
+          people: [
+            {
+              name: "DJ Alpha",
+              position: "DJ",
+            },
+            {
+              name: "tech",
+              position: "AV Tech",
+            }
+          ],
+        },
+        {
+          title: 'Set2: DJ Beta',
+          startTime: '6pm',
+          endTime: '10pm',
+          icon: 'orange',
+          people: [
+            {
+              name: "DJ Beta",
+              position: "DJ",
+            },
+            {
+              name: "tech",
+              position: "AV Tech",
+            }
+          ],
+        },
+        {
+          title: 'Set3: DJ Theta',
+          startTime: '10pm',
+          endTime: '12am',
+          icon: 'orange',
+          people: [
+            {
+              name: "DJ Theta",
+              position: "DJ",
+            },
+            {
+              name: "tech",
+              position: "AV Tech",
+            }
+          ],
+        },
+      ]
+    }
     
   ])
   return <Activities 
