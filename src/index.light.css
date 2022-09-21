@@ -4,6 +4,7 @@ it’s often more intuitive than defining a color in terms of the Red, Green and
 It’s easy to picture how a less saturated version of a color would look like, for example. */
 :root {
   --F_Primary: hsl(165, 87%, 39%);
+  --F_Primary_100: hsl(165, 71%, 62%);
   --F_Primary_Hover: hsl(165, 87%, 35%);
   --F_Primary_Variant: hsl(165, 87%, 43%); /* More saturated, vibrant variant */
 

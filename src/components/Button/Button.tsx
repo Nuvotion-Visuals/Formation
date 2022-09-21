@@ -105,7 +105,7 @@ export const Button: FC<Props> = React.memo(({
   }
 
   return (
-    <S.Container disabled={disabled} expand={expand}>
+    <S.Container disabled={disabled} expand={expand} id={id}>
       {
         href 
         ? 

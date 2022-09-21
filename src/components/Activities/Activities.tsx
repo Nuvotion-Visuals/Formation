@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 
-import { AreaSurface } from '../../internal'
+import { AreaSurface, Button, Box } from '../../internal'
 import { ActivityType, AreaType } from '../../types'
 
 interface Props {
@@ -41,6 +41,7 @@ export const Activities = ({ value }: Props) => {
   useEffect(() => {
     let newIndex = findAreaIndex(activeArea)
     setActiveIndex(newIndex)
+    console.log(activeArea)
   }, [activeArea])
 
   useEffect(() => {
@@ -50,15 +51,22 @@ export const Activities = ({ value }: Props) => {
 
 
   const handleTabClick = (e: React.MouseEvent<HTMLElement>) => {
-    setActiveArea((e.target as HTMLInputElement).id)
-    console.log(currentActivities?.activities, "<<currentActivities>>")
+    setActiveArea((e.target as HTMLInputElement).innerText)
   }
 
   return (
     <S.Activities>
       <S.Header>
         {
-          state?.map(state => <S.Tab id={state.area} onClick={handleTabClick}>{state.area}</S.Tab>)
+          state?.map(state =>
+            <Box mr={0.5}>
+              <Button
+                primary={true}
+                id={state.area}
+                text={state.area}
+                onClick={handleTabClick}
+              />
+            </Box>)
         }
       </S.Header>
       <AreaSurface currentActivities={currentActivities?.activities} />
@@ -72,16 +80,18 @@ const S = {
   `,
   Header: styled.div<{}>`
     width: 100%;
-    height: 2rem;
-    background: #56d877;
+    height: 3rem;
+    background: var(--F_Background);
     display: flex;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
+    padding-left: 3rem;
   `,
   Tab: styled.div<{}>`
-    border-bottom: 2px solid black;
     padding: 0.25rem 0.5rem;
     margin: 0 0.5rem;
+    background: var(--F_Primary);
+    border-radius: 0.25rem;
   `,
   EventContainer: styled.div<{}>`
     display: flex;
