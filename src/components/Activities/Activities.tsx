@@ -59,17 +59,19 @@ export const Activities = ({ value }: Props) => {
   return (
     <S.Activities>
       <S.Header>
-        {
-          state?.map(state =>
-            <Box mr={0.5}>
-              <Button
-                primary={isPrimary(state.area)}
-                id={state.area}
-                text={state.area}
-                onClick={handleTabClick}
-              />
-            </Box>)
-        }
+        <Box pl={3}>
+          {
+            state?.map(state =>
+              <Box mr={0.5} >
+                <Button
+                  primary={isPrimary(state.area)}
+                  id={state.area}
+                  text={state.area}
+                  onClick={handleTabClick}
+                />
+              </Box>)
+          }
+        </Box>
       </S.Header>
       <AreaSurface currentActivities={currentActivities?.activities} />
     </S.Activities>
@@ -78,16 +80,19 @@ export const Activities = ({ value }: Props) => {
 
 const S = {
   Activities: styled.div`
-    width: 100%;
+  width: 100%;
   `,
   Header: styled.div<{}>`
+    position: sticky;
+    top: 0;
     width: 100%;
-    height: 3rem;
+    height: var(--F_Header_Height);
     background: var(--F_Background);
     display: flex;
     justify-content: start;
     align-items: center;
-    padding-left: 3rem;
+    z-index: 1000;
+    filter: drop-shadow(2px 0px 0.5rem #00000011);
   `,
   Tab: styled.div<{}>`
     padding: 0.25rem 0.5rem;

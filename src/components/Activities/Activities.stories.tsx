@@ -16,9 +16,25 @@ const Template: ComponentStory<typeof Activities> = args => {
       area: 'Stage',
       activities: [
         {
+          title: 'Set0: DJ PRE',
+          startTime: 16.00,
+          endTime: 18.30,
+          icon: 'orange',
+          people: [
+            {
+              name: "DJ PRE",
+              position: "DJ",
+            },
+            {
+              name: "tech",
+              position: "AV Tech",
+            }
+          ],
+        },
+        {
           title: 'Set1: DJ Alpha',
-          startTime: '1am',
-          endTime: '2am',
+          startTime: 19.00,
+          endTime: 20.30,
           icon: 'orange',
           people: [
             {
@@ -33,8 +49,8 @@ const Template: ComponentStory<typeof Activities> = args => {
         },
         {
           title: 'Set2: DJ Beta',
-          startTime: '2am',
-          endTime: '3am',
+          startTime: 20.30,
+          endTime: 22.00,
           icon: 'orange',
           people: [
             {
@@ -49,8 +65,8 @@ const Template: ComponentStory<typeof Activities> = args => {
         },
         {
           title: 'Set3: DJ Theta',
-          startTime: '3am',
-          endTime: '4am',
+          startTime: 22.00,
+          endTime: 23.45,
           icon: 'orange',
           people: [
             {
@@ -70,8 +86,8 @@ const Template: ComponentStory<typeof Activities> = args => {
       activities: [
         {
           title: 'Pre-Open',
-          startTime: '6am',
-          endTime: '8am',
+          startTime: 18.00,
+          endTime: 19.00,
           icon: 'orange',
           people: [
             {
@@ -95,8 +111,8 @@ const Template: ComponentStory<typeof Activities> = args => {
         },
         {
           title: 'Open',
-          startTime: '8am',
-          endTime: '12pm',
+          startTime: 19.00,
+          endTime: 24.00,
           icon: 'orange',
           people: [
             {
@@ -120,8 +136,8 @@ const Template: ComponentStory<typeof Activities> = args => {
         },
         {
           title: 'Close',
-          startTime: '12pm',
-          endTime: '2pm',
+          startTime: 24.00,
+          endTime: 25.00,
           icon: 'orange',
           people: [
             {
@@ -141,7 +157,7 @@ const Template: ComponentStory<typeof Activities> = args => {
               position: "Ticket Scanner",
             }
           ],
-    
+          
         },
       ]
     },
@@ -149,9 +165,9 @@ const Template: ComponentStory<typeof Activities> = args => {
       area: 'Green Room',
       activities: [
         {
-          title: 'Set1: DJ Alpha',
-          startTime: '2pm',
-          endTime: '6pm',
+          title: 'Mimosa and Tequila Block',
+          startTime: 17.00,
+          endTime: 18.00,
           icon: 'orange',
           people: [
             {
@@ -165,25 +181,25 @@ const Template: ComponentStory<typeof Activities> = args => {
           ],
         },
         {
-          title: 'Set2: DJ Beta',
-          startTime: '6pm',
-          endTime: '10pm',
+          title: 'Catering Service',
+          startTime: 18.00,
+          endTime: 20.00,
           icon: 'orange',
           people: [
             {
-              name: "DJ Beta",
-              position: "DJ",
+              name: "Dave",
+              position: "catering",
             },
             {
-              name: "tech",
-              position: "AV Tech",
+              name: "Lindsay",
+              position: "catering",
             }
           ],
         },
         {
-          title: 'Set3: DJ Theta',
-          startTime: '10pm',
-          endTime: '12am',
+          title: 'After-Party',
+          startTime:20.00,
+          endTime: 26.00,
           icon: 'orange',
           people: [
             {

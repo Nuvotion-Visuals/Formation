@@ -1,185 +1,500 @@
 import React, { useEffect, useState } from 'react'
-import { act } from 'react-dom/test-utils'
 import styled from 'styled-components'
+
 import { ActivityType } from 'types'
+import { renderRow } from '../../utils'
 
 interface Props {
   currentActivities: ActivityType[]
 }
 
 export const AreaSurface = ({ currentActivities }: Props) => {
-
+  const [activities, setActivities] = useState<ActivityType[]>()
   const intervals = [
-    '', '', '1am', '', '2am', '', '3am', '', '4am', '', '5am', '', '6am', '', '7am', '', '8am', '', '9am', '', '10am', '', '11am', '', '12pm', '', '1pm',
-    '', '2pm', '', '3pm', '', '4pm', '', '5pm', '', '6pm', '', '7pm', '',
-    '8pm', '', '9pm', '','10pm', '', '11pm', ''
-  ]
+    {
+      display: '',
+      value: 0.15
+    },
+    {
+      display: '',
+      value: 0.30 
+    },
+    {
+      display: '',
+      value: 0.45
+    },
+    {
+      display: '1am',
+      value: 1.00
+    },
+    {
+      display: '',
+      value: 1.15
+    },
+    {
+      display: '',
+      value: 1.30
+    },
+    {
+      display: '',
+      value: 1.45
+    },
+    {
+      display: '2am',
+      value: 2.00
+    },
+    {
+      display: '',
+      value: 2.15
+    },
+    {
+      display: '',
+      value: 2.30
+    },
+    {
+      display: '',
+      value: 2.45
+    },
+    {
+      display: '3am',
+      value: 3.00
+    },
+    {
+      display: '',
+      value: 3.15
+    },
+    {
+      display: '',
+      value: 3.30
+    },
+    {
+      display: '',
+      value: 3.45
+    },
+    {
+      display: '4am',
+      value: 4.00
+    },
+    {
+      display: '',
+      value: 4.15
+    },
+    {
+      display: '',
+      value: 4.30
+    },
+    {
+      display: '',
+      value: 4.45
+    },
+    {
+      display: '5am',
+      value: 5.00
+    },
+    {
+      display: '',
+      value: 5.15
+    },
+    {
+      display: '',
+      value: 5.30
+    },
+    {
+      display: '',
+      value: 5.45
+    },
+    {
+      display: '6am',
+      value: 6.00
+    },
+    {
+      display: '',
+      value: 6.15
+    },
+    {
+      display: '',
+      value: 6.30
+    },
+    {
+      display: '',
+      value: 6.45
+    },
+    {
+      display: '7am',
+      value: 7.00
+    },
+    {
+      display: '',
+      value: 7.15
+    },
+    {
+      display: '',
+      value: 7.30
+    },
+    {
+      display: '',
+      value: 7.45
+    },
+    {
+      display: '8am',
+      value: 8.00
+    },
+    {
+      display: '',
+      value: 8.15
+    },
+    {
+      display: '',
+      value: 8.30
+    },
+    {
+      display: '',
+      value: 8.45
+    },
+    {
+      display: '9am',
+      value: 9.00
+    },
+    {
+      display: '',
+      value: 9.15
+    },
+    {
+      display: '',
+      value: 9.30
+    },
+    {
+      display: '',
+      value: 9.45
+    },
+    {
+      display: '10am',
+      value: 10.00
+    },
+    {
+      display: '',
+      value: 10.15
+    },
+    {
+      display: '',
+      value: 10.30
+    },
+    {
+      display: '',
+      value: 10.45
+    },
+    {
+      display: '11am',
+      value: 11.00
+    },
+    {
+      display: '',
+      value: 11.15
+    },
+    {
+      display: '',
+      value: 11.30
+    },
+    {
+      display: '',
+      value: 11.45
+    },
+    {
+      display: '12pm',
+      value: 12.00
+    },
+    {
+      display: '',
+      value: 12.15
+    },  
+    {
+      display: '',
+      value: 12.30
+    },
+    {
+      display: '',
+      value: 12.45
+    },
+    {
+      display: '1pm',
+      value: 13.00
+    },
+    {
+      display: '',
+      value: 13.15
+    },
+    {
+      display: '',
+      value: 13.30
+    },
+    {
+      display: '',
+      value: 13.45
+    },
+    {
+      display: '2pm',
+      value: 14.00
+    },
+    {
+      display: '',
+      value: 14.15
+    },
+    {
+      display: '',
+      value: 14.30
+    },
+    {
+      display: '',
+      value: 14.45
+    },
+    {
+      display: '3pm',
+      value: 15.00
+    },
+    {
+      display: '',
+      value: 15.15
+    },
+    {
+      display: '',
+      value: 15.30
+    },
+    {
+      display: '',
+      value: 15.45
+    },
+    {
+      display: '4pm',
+      value: 16.00
+    },
+    {
+      display: '',
+      value: 16.15
+    },
+    {
+      display: '',
+      value: 16.30
+    },
+    {
+      display: '',
+      value: 16.45
+    },
+    {
+      display: '5pm',
+      value: 17.00
+    },
+    {
+      display: '',
+      value: 17.15
+    },
+    {
+      display: '',
+      value: 17.30
+    },
+    {
+      display: '',
+      value: 17.45
+    },
+    {
+      display: '6pm',
+      value: 18.00
+    },
+    {
+      display: '',
+      value: 18.15
+    },
+    {
+      display: '',
+      value: 18.30
+    },
+    {
+      display: '',
+      value: 18.45
+    },
+    {
+      display: '7pm',
+      value: 19.00
+    },
+    {
+      display: '',
+      value: 19.15
+    },
+    {
+      display: '',
+      value: 19.30
+    },
+    {
+      display: '',
+      value: 19.45
+    },
+    {
+      display: '8pm',
+      value: 20.00
+    },
+    {
+      display: '',
+      value: 20.15
+    },
+    {
+      display: '',
+      value: 20.30
+    },
+    {
+      display: '',
+      value: 20.45
+    },
+    {
+      display: '9pm',
+      value: 21.00
+    },
+    {
+      display: '',
+      value: 21.15
+    },
+    {
+      display: '',
+      value: 21.30
+    },
+    {
+      display: '',
+      value: 21.45
+    },
+    {
+      display: '10pm',
+      value: 22.00
+    },
+    {
+      display: '',
+      value: 22.15
+    },
+    {
+      display: '',
+      value: 22.30
+    },
+    {
+      display: '',
+      value: 22.45
+    },
+    {
+      display: '11pm',
+      value: 23.00
+    },
+    {
+      display: '',
+      value: 23.15
+    },
+    {
+      display: '',
+      value: 23.30
+    },
+    {
+      display: '',
+      value: 23.45
+    },
+    {
+      display: '12am',
+      value: 24.00
+    },
+    {
+      display: '',
+      value: 24.15
+    },
+    {
+      display: '',
+      value: 24.30
+    },
+    {
+      display: '',
+      value: 24.45
+    },
+    {
+      display: '1am',
+      value: 25.00
+    },
+    {
+      display: '',
+      value: 25.15
+    },
+    {
+      display: '',
+      value: 25.30
+    },
+    {
+      display: '',
+      value: 25.45
+    },
+    {
+      display: '2am',
+      value: 26.00
+    },
+    {
+      display: '',
+      value: 26.15
+    },
+    {
+      display: '',
+      value: 26.30
+    },
+    {
+      display: '',
+      value: 26.45
+    },
+    {
+      display: '3am',
+      value: 27.00
+    },
+    {
+      display: '',
+      value: 27.15
+    },
+    {
+      display: '',
+      value: 27.30
+    },
+    {
+      display: '',
+      value: 27.45
+    },
+    {
+      display: '4am',
+      value: 28.00
+    }
 
-  const [activities, setActivities] = useState<ActivityType>()
+  ]
+  const getFirstActivity = (activities: ActivityType[]) => {
+    if (activities !== undefined) {
+      let activityList = activities.reduce((prev, curr) => prev.startTime < curr.startTime ? prev : curr)
+      let firstActivity = activityList.startTime
+      let firstActivityTime: number = renderRow(firstActivity)
+      let gridCorrection: number = firstActivityTime - 5
+      return gridCorrection
+    }  
+  }
 
   useEffect(() => {
     setActivities(currentActivities)
   }, [currentActivities])
 
-  const renderActivitiesByArea = (activities: ActivityType[]) => {
-    activities === undefined
-      ? null
-      : console.log(currentActivities, "<<AREASTATE @ RENDERMETHOD - AREA SURFACE")
-    
-    const renderRow = (time: string) => {
-      switch (time) {
-        case "0.30am":
-          return 2;
-          break;
-        case "1am":
-          return 3;
-          break;
-        case "1.30am":
-          return 4;
-          break;
-        case "2am":
-          return 5;
-          break;
-        case "2.30am":
-            return 6;
-            break;
-        case "3am":
-          return 7;
-          break;
-        case "3.30am":
-            return 8;
-            break;
-        case "4am":
-          return 9;
-          break;
-        case "4.30am":
-          return 10;
-        break;
-        case "5am":
-          return 11;
-        break;
-        case "5.30am":
-          return 12;
-        break;
-        case "6am":
-          return 13;
-        break;
-        case "6.30am":
-          return 14;
-        break;
-        case "7am":
-          return 15;
-        break;
-        case "7.30am":
-          return 16;
-        break;
-        case "8am":
-          return 17;
-        break;
-        case "8.30am":
-          return 18;
-        break;
-        case "9am":
-          return 219;
-        break;
-        case "9.30am":
-          return 20;
-        break;
-        case "10am":
-          return 21;
-        break;
-        case "10.30am":
-          return 22;
-        break;
-        case "11am":
-          return 23;
-        break;
-        case "11.30am":
-          return 24;
-        break;
-        case "12pm":
-          return 25;
-          break;
-          case "0.30pm":
-          return 26;
-            break;
-          case "1pm":
-            return 27;
-            break;
-          case "1.30pm":
-            return 28;
-            break;
-          case "2pm":
-            return 29;
-            break;
-          case "2.30pm":
-              return 30;
-              break;
-          case "3pm":
-            return 31;
-            break;
-          case "3.30pm":
-              return 32;
-              break;
-          case "4pm":
-            return 33;
-            break;
-          case "4.30pm":
-            return 34;
-          break;
-          case "5pm":
-            return 35;
-          break;
-          case "5.30pm":
-            return 36;
-          break;
-          case "6pm":
-            return 37;
-          break;
-          case "6.30pm":
-            return 38;
-          break;
-          case "7pm":
-            return 39;
-          break;
-          case "7.30pm":
-            return 40;
-          break;
-          case "8pm":
-            return 41;
-          break;
-          case "8.30pm":
-            return 42;
-          break;
-          case "9pm":
-            return 43;
-          break;
-          case "9.30pm":
-            return 44;
-          break;
-          case "10pm":
-            return 45;
-          break;
-          case "10.30pm":
-            return 46;
-          break;
-          case "11pm":
-            return 47;
-          break;
-          case "11.30pm":
-            return 48;
-          break;
-          case "12am":
-            return 50;
-            break;
-      }
+  useEffect(() => {
+    if (activities !== undefined) {
+      let initScrollElement: string = getFirstActivity(activities)
+      document.getElementById(initScrollElement)?.scrollIntoView({
+        behavior: 'smooth'
+      })
+      console.log(initScrollElement, "<<INITSCROLLELEMENT>>")
     }
+    
+
+  }, [activities])
+
+  const renderActivitiesByArea = (activities: ActivityType[]) => {
     
     return (
       <>
         {
-          activities.map((activity) => 
+          activities.map((activity, index) => 
             <S.Activity
+              key={index}
               style={{
                 gridColumnStart: 2,
                 gridColumnEnd: 3,
@@ -202,28 +517,35 @@ export const AreaSurface = ({ currentActivities }: Props) => {
           {
             intervals.map((interval, index) => {
               return (
-                <S.Time style={{ gridColumnStart: 1, gridRowStart: index == 0 ? 1 : index + 1 }}>
+                <S.Time key={index} style={{ gridColumnStart: 1, gridRowStart: index == 0 ? 1 : index + 1 }}>
                   <S.TimeSpan>
-                  {interval}
+                    {interval.display}
                   </S.TimeSpan>
                 </S.Time>
               )
             })
           }
+        </>
+        <>
           {
-            intervals.map((index) => {
+            intervals.map((interval, index) => {
               return (
-                <S.Block style={{ gridColumnStart: 2, gridColumnEnd: 6, gridRowStart: index}}></S.Block>
+                <S.Block
+                  key={index}
+                  id={index.toString()}
+                  onClick={() => console.log(interval.value)}
+                  style={{ gridColumnStart: 2, gridColumnEnd: 6, gridRowStart: index === 0 ? 1 : index + 1 }}
+                />
               )
             })
           }
-          <>
-            {
-              activities === undefined  
-                ? () => null
-                : renderActivitiesByArea(activities)
-            }
-          </>
+        </>
+        <>
+          {
+            activities === undefined  
+              ? () => null
+              : renderActivitiesByArea(activities)
+          }
         </>
       </S.Grid>
     </S.Container>
@@ -233,7 +555,7 @@ export const AreaSurface = ({ currentActivities }: Props) => {
 const S = {
   Container: styled.div<{}>`
     width: 100%;
-    background: #e4e4e4;
+    background: var(--F_Activity_Backdrop);
   `,
   Grid: styled.div<{}>`
     position: relative;
@@ -241,7 +563,7 @@ const S = {
     height: 100%;
     display: grid;
     grid-template-columns: 3rem repeat(4,1fr);
-    grid-template-rows: repeat(48, 1fr);
+    grid-template-rows: repeat(113, 1fr);
     row-gap: 1px;
     column-gap: 1px;
   `,
@@ -255,17 +577,18 @@ const S = {
   `,
   TimeSpan: styled.div<{}>`
     padding-right: 0.5rem;
+    padding-top: 1rem;
   `,  
   Block: styled.div<{}>`
     width: 100%;
     height: 1rem;
     z-index: 1;
 
-    :nth-Child(odd) {
-      border-bottom: 1px solid #d6d6d6;
+    :nth-Child(4n+2) {
+      border-bottom: 1px solid #cbcbcb;
     }
 
-    :nth-child(even) {
+    :nth-child(4n+4) {
       border-bottom: 1px solid #bcbcbc;
     }
   `,
@@ -277,7 +600,7 @@ const S = {
     background: var(--F_Label_Light_Background_Blue);
     color: var(--F_Label_Background_Blue);
     font-size: 12px;
-    padding: 0.5rem;
+    padding: 0.15rem;
     z-index: 100;
     border-radius: 0.25rem;
   `
