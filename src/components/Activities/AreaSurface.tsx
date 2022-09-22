@@ -5,12 +5,17 @@ import { ActivityType } from 'types'
 import { renderRow, getFirstActivity } from '../../utils'
 
 interface Props {
-  currentActivities: ActivityType[]
+  currentActivities: ActivityType[],
+  onClick: Function
 }
 
-export const AreaSurface = ({ currentActivities }: Props) => {
+export const AreaSurface = ({ currentActivities, onClick }: Props) => {
   const [activities, setActivities] = useState<ActivityType[]>()
   const intervals = [
+    {
+      display: '',
+      value: 0
+    },
     {
       display: '',
       value: 0.15
@@ -524,7 +529,7 @@ export const AreaSurface = ({ currentActivities }: Props) => {
                 <S.Block
                   key={index}
                   id={index.toString()}
-                  onClick={() => console.log(interval.value)}
+                  onClick={() => onClick(interval)}
                   style={{ gridColumnStart: 2, gridColumnEnd: 6, gridRowStart: index === 0 ? 1 : index + 1 }}
                 />
               )
@@ -562,7 +567,7 @@ const S = {
     width: 3rem;
     font-size: var(--F_Font_Size_Label);
     height: 1rem;
-    line-height: 12%;
+    margin-top: -1.65rem;
     display: flex;
     justify-content: flex-end;
   `,
@@ -575,12 +580,12 @@ const S = {
     height: 1rem;
     z-index: 1;
 
-    :nth-Child(4n+2) {
+    :nth-Child(2n+3) {
       border-bottom: 1px solid #cbcbcb;
     }
 
-    :nth-child(4n+4) {
-      border-bottom: 1px solid #bcbcbc;
+    :nth-child(2n+6) {
+      border-bottom: 1px solid #d6d6d6;
     }
   `,
   Activity: styled.div<{}>`

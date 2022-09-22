@@ -54,6 +54,19 @@ export const Activities = ({ value }: Props) => {
     setActiveArea((e.target as HTMLInputElement).innerText)
   }
 
+  const handleActivityAreaClick = (time: any) => {
+    let newActivity = {
+      title: '',
+      startTime: time.value,
+      endTime: time.value + 1,
+      icon: '',
+      people: [
+      ],
+    }
+
+    console.log(newActivity, '<<NEWACTIVITY>>')
+  }
+
   const isPrimary = (area: string) => {
     return area === activeArea
   }
@@ -75,7 +88,10 @@ export const Activities = ({ value }: Props) => {
           }
         </Box>
       </S.Header>
-      <AreaSurface currentActivities={currentActivities?.activities} />
+      <AreaSurface
+        currentActivities={currentActivities?.activities}
+        onClick={handleActivityAreaClick}
+      />
     </S.Activities>
   )
 }
