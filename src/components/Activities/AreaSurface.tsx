@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
 import { ActivityType } from 'types'
-import { renderRow } from '../../utils'
+import { renderRow, getFirstActivity } from '../../utils'
 
 interface Props {
   currentActivities: ActivityType[]
@@ -461,15 +461,6 @@ export const AreaSurface = ({ currentActivities }: Props) => {
     }
 
   ]
-  const getFirstActivity = (activities: ActivityType[]) => {
-    if (activities !== undefined) {
-      let activityList = activities.reduce((prev, curr) => prev.startTime < curr.startTime ? prev : curr)
-      let firstActivity = activityList.startTime
-      let firstActivityTime: number = renderRow(firstActivity)
-      let gridCorrection: number = firstActivityTime - 5
-      return gridCorrection
-    }  
-  }
 
   useEffect(() => {
     setActivities(currentActivities)

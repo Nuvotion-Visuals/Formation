@@ -1,4 +1,6 @@
-export const getSuperscriptOrdinal = (number : number) => {
+import { ActivityType } from 'types'
+
+export const getSuperscriptOrdinal = (number: number) => {
   if (number === 1) {
     return 'st'
   }
@@ -436,4 +438,18 @@ export const renderRow = (time: number) => {
     case 28.00:
       return 113;
   }
+}
+
+export const getFirstActivity = (activities: ActivityType[]): string => {
+  if (activities !== undefined) {
+    let firstActivityStartTime = activities.reduce((prev, curr) => prev.startTime < curr.startTime ? prev : curr).startTime
+
+    let firstActivityGridPosition = renderRow(firstActivityStartTime)
+    
+    if (firstActivityGridPosition) {
+      return (firstActivityGridPosition - 5).toString()
+    }
+    return '6'
+  }  
+  return '6'
 }

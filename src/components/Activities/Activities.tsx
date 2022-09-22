@@ -13,7 +13,7 @@ export const Activities = ({ value }: Props) => {
   const [state, setState] = useState<AreaType[]>([])
   const [activeArea, setActiveArea] = useState('')
   const [activeIndex, setActiveIndex] = useState(0)
-  const [currentActivities, setCurrentActivities] = useState<any[]>([])
+  const [currentActivities, setCurrentActivities] = useState<AreaType[]>([])
 
   const findAreaIndex = (activeArea: string) => {
     const newIndex = state?.findIndex(object => {
@@ -26,7 +26,7 @@ export const Activities = ({ value }: Props) => {
     if (!value) {
       return 
     } else {
-      let activities: ActivityType[] = value[0].activities
+      let activities: AreaType[] = value[0].activities
       let activeArea: string = value[0].area.toString()
 
       setState(value)
@@ -43,8 +43,10 @@ export const Activities = ({ value }: Props) => {
   }, [activeArea])
 
   useEffect(() => {
-    let activitiesPresent: ActivityType[] = state ? state[activeIndex] : []
-    setCurrentActivities(activitiesPresent)
+    if (state !== undefined) {
+      let activityAtIndex = state[activeIndex]
+      setCurrentActivities(activityAtIndex)
+    }
   }, [activeIndex])
 
 
