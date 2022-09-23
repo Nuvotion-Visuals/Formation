@@ -1,18 +1,30 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
 import Div100vh from 'react-div-100vh'
 
 import { SwipeableViews } from './SwipeableViews'
-import { useBreakpoint, StyleHTML, Box } from '../../internal'
-import { SpaceSidebar } from './SpaceSidebar'
+import { useBreakpoint } from '../../internal'
 import { NavBottom } from './NavBottom'
 import { NavTop } from './NavTop'
-import { SpacesSidebar } from './SpacesSidebar'
+import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
+
+export interface Space {
+  name: string,
+  date?: Date,
+  location?: string,
+  channels?: any,
+  href?: string,
+  icon?: IconName,
+  iconPrefix?: IconPrefix,
+  src?: string,
+  onClick?: () => void
+}
 
 interface Props {
   activeSwipeIndex: number,
   onSwipe: (index: number) => void,
+  firstPage: React.ReactNode,
   secondPage: React.ReactNode,
   thirdPage: React.ReactNode,
   spaces: any,
@@ -28,60 +40,25 @@ interface Props {
 export const NavSpaces = ({ 
   activeSwipeIndex, 
   onSwipe,
+  firstPage,
   secondPage,
   thirdPage,
   spaces,
   activeSpaceIndex,
-  onSetActiveSpacesIndex,
-  navsPrimary,
-  navsSecondary,
-  channels,
-  dropdownOptions,
-  onCreateSpace
+  navsSecondary
 }: Props) => {
   const { isDesktop, isTablet, isMobile } = useBreakpoint()
 
-  const renderFirstPage = () => {
-    return <>
-      <S.MainScroll>
-        <SpacesSidebar 
-          activeSpaceIndex={activeSpaceIndex}
-          onClickIndex={index => onSetActiveSpacesIndex(index)}
-          onCreateSpace={onCreateSpace}
-          spaces={spaces}
-        />
-
-        {/* Add render prop */}
-        <SpaceSidebar 
-          title={spaces[activeSpaceIndex]?.title}
-          src={spaces[activeSpaceIndex]?.src}
-          dateString={
-            spaces[activeSpaceIndex]?.date?.toLocaleString('en-us', { 
-              weekday: 'long', 
-              month: 'short', 
-              day: 'numeric', 
-              year: 'numeric' 
-            })}
-          location={spaces[activeSpaceIndex]?.location}
-          channels={channels}
-          dropdownOptions={dropdownOptions}
-        />
-
-      </S.MainScroll>
-      <NavBottom
-        trimRight={true}
-        navs={navsPrimary}
-      />
-    </>
+  interface ViewProps {
+    children: React.ReactNode
   }
-  
-  const renderSecondPage = () => {
-    return secondPage
-  }
-
-  const renderThirdPage = () => {
-    return thirdPage
-  }
+  const View = ({ children } : ViewProps) =>  <S.PagePlaceholder>
+    <S.Expand>
+      {
+        children
+      }
+    </S.Expand>
+  </S.PagePlaceholder>
 
   const renderContentMobile = () => {
     return (<>
@@ -90,52 +67,55 @@ export const NavSpaces = ({
         onSwipe={index => onSwipe(index)}
         onIncrement={() => onSwipe(activeSwipeIndex + 1)}
       >
+        <View>
+        
+          {
+            firstPage
+          }
 
-        <S.PagePlaceholder>
-          <S.Expand>
+          <NavBottom
+            navs={navsSecondary}
+          />
+        </View>
+
+        <View>
+          <NavTop
+            name={spaces[activeSpaceIndex]?.name}
+            src={spaces[activeSpaceIndex]?.src}
+            date={spaces[activeSpaceIndex]?.date}
+            onBack={() => onSwipe(activeSwipeIndex - 1)}            
+          />
+
+          <S.Scroll 
+            numberOfNavBars={2}
+          >
             {
-              renderFirstPage()
+              secondPage
             }
-          </S.Expand>
-        </S.PagePlaceholder>
+            <S.HeaderSpacerY />
+            <S.HeaderSpacerY />
+          </S.Scroll>
 
-        <S.PagePlaceholder>
-          <S.Expand>
-            <NavTop
-              title={spaces[activeSpaceIndex]?.title}
-              src={spaces[activeSpaceIndex]?.src}
-              date={spaces[activeSpaceIndex]?.date}
-              onBack={() => onSwipe(activeSwipeIndex - 1)}            
-            />
+          <NavBottom
+            navs={navsSecondary}
+          />
+        </View>
 
-            <S.Scroll doubleHeader={true}>
-              {
-                renderSecondPage()
-              }
-              <S.HeaderSpacerY />
-              <S.HeaderSpacerY />
-            </S.Scroll>
-            <NavBottom
-              navs={navsSecondary}
-            />
-          </S.Expand>
-        </S.PagePlaceholder>
-
-        <S.PagePlaceholder>
-          <S.Expand>
-            <NavTop
-              title={spaces[activeSpaceIndex]?.title}
-              src={spaces[activeSpaceIndex]?.src}
-              date={spaces[activeSpaceIndex]?.date}
-              onBack={() => onSwipe(activeSwipeIndex - 1)}
-            />
-            <S.Scroll doubleHeader={false}>
-              {
-                renderThirdPage()
-              }
-            </S.Scroll>
-          </S.Expand>
-        </S.PagePlaceholder>
+        <View>
+          <NavTop
+            name={spaces[activeSpaceIndex]?.name}
+            src={spaces[activeSpaceIndex]?.src}
+            date={spaces[activeSpaceIndex]?.date}
+            onBack={() => onSwipe(activeSwipeIndex - 1)}
+          />
+          <S.Scroll 
+            numberOfNavBars={1}
+          >
+            {
+              thirdPage
+            }
+          </S.Scroll>
+        </View>
         
       </SwipeableViews>
     </>)
@@ -147,7 +127,7 @@ export const NavSpaces = ({
 
         <S.SidebarContainer>
           {
-            renderFirstPage()
+            firstPage
           }
         </S.SidebarContainer>
 
@@ -156,33 +136,33 @@ export const NavSpaces = ({
           onSwipe={index => onSwipe(index)}
           onIncrement={() => onSwipe(activeSwipeIndex + 1)}
         >
-          <S.PagePlaceholder >
-            <S.Expand>
-              <S.Scroll noHeaders={true}>
-                {
-                  renderSecondPage()
-                }
-                <S.HeaderSpacerY />
-              </S.Scroll>
-              
-            </S.Expand>
-          </S.PagePlaceholder>
+          <View>
+            <S.Scroll 
+              numberOfNavBars={0}
+            >
+              {
+                secondPage
+              }
+              <S.HeaderSpacerY />
+            </S.Scroll>
+            
+          </View>
 
-          <S.PagePlaceholder>
-            <S.Expand>
-              <NavTop
-                onBack={() => onSwipe(activeSwipeIndex - 1)}
-                title={spaces[activeSpaceIndex]?.title}
-                src={spaces[activeSpaceIndex]?.src}
-                hideContext={true}
-              />
-              <S.Scroll noHeaders={true}>
-                {
-                  renderThirdPage()
-                }
-              </S.Scroll>
-            </S.Expand>
-          </S.PagePlaceholder>
+          <View>
+            <NavTop
+              onBack={() => onSwipe(activeSwipeIndex - 1)}
+              name={spaces[activeSpaceIndex]?.name}
+              src={spaces[activeSpaceIndex]?.src}
+              hideContext={true}
+            />
+            <S.Scroll 
+              numberOfNavBars={0}
+            >
+              {
+                thirdPage
+              }
+            </S.Scroll>
+          </View>
         </SwipeableViews>
 
       </S.Container>
@@ -195,30 +175,35 @@ export const NavSpaces = ({
       <S.Container>
         <S.SidebarContainer>
           {
-            renderFirstPage()
+            firstPage
           }
         </S.SidebarContainer>
 
         <S.MainContent>
-          <S.Scroll noHeaders={true}>
+          <S.Scroll 
+            numberOfNavBars={0}
+          >
             {
-              renderSecondPage()
+              secondPage
             }
           </S.Scroll>
         </S.MainContent>
 
         <S.SecondaryContent>
           <NavTop
-            title={spaces[activeSpaceIndex]?.title}
+            name={spaces[activeSpaceIndex]?.name}
             src={spaces[activeSpaceIndex]?.src}
             date={spaces[activeSpaceIndex]?.date}
             onBack={() => onSwipe(activeSwipeIndex - 1)}  
             hideReturnContext={true}          
           />
         
-          <S.Scroll doubleHeader={false} subtractBorder={true}>
+          <S.Scroll 
+            numberOfNavBars={1} 
+            subtractBorder={true}
+          >
             {
-              renderThirdPage()
+              thirdPage
             }
           </S.Scroll>
         </S.SecondaryContent>
@@ -238,11 +223,7 @@ export const NavSpaces = ({
     }  
   }
 
-  return (<>
-    {
-      renderContent()
-    }
-  </>)
+  return renderContent()
 }
 
 const S = {
@@ -289,15 +270,12 @@ const S = {
     width: 100%;
   `,
   Scroll: styled.div<{
-    noHeaders?: boolean,
-    doubleHeader?: boolean,
+    numberOfNavBars: number,
     subtractBorder?: boolean
   }>`
-    height: ${props => props.noHeaders
-      ? '100vh'
-      : props.subtractBorder
-        ? `calc(calc(100vh - calc(var(--F_Header_Height) * ${ props.doubleHeader ? 2 : 1 })) - 2px);`
-        : `calc(100vh - calc(var(--F_Header_Height) * ${ props.doubleHeader ? 2 : 1 }));`
+    height: ${props => props.subtractBorder
+      ? `calc(calc(100vh - calc(${props.numberOfNavBars} * var(--F_Header_Height))) - 2px)`
+      : `calc(100vh - calc(${props.numberOfNavBars} * var(--F_Header_Height)))`
     };
     width: 100%;
     overflow-y: auto;

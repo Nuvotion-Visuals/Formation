@@ -6,19 +6,13 @@ import Div100vh from 'react-div-100vh'
 
 import { SpaceIcon } from './SpaceIcon'
 
+
 import { Icon, Box } from '../../internal'
 
+import { Space } from './NavSpaces'
+
 interface Props {
-  spaces: {
-    src?: string,
-    title: string,
-    date?: Date,
-    href?: string,
-    icon?: IconName,
-    iconPrefix?: IconPrefix,
-    onClick?: () => void
-  }[]
-  ,
+  spaces: Space[],
   onClickIndex: (index: number) => void,
   activeSpaceIndex: number,
   onCreateSpace: () => void
@@ -40,7 +34,7 @@ export const SpacesSidebar = ({
         {
           spaces.map((space, index) => <>
             {
-              space.title === ''
+              space.name === ''
                 ? <S.SpaceIcon onClick={space.onClick}>
                   {
                     space.icon && <Icon icon={space.icon} iconPrefix={space.iconPrefix}/>
@@ -55,7 +49,7 @@ export const SpacesSidebar = ({
                       onClick={() => onClickIndex(index)}
                       date={space.date}
                       href={space.href}
-                      title={space.title}
+                      name={space.name}
                       active={activeSpaceIndex === index}
                     />
                   </S.SidebarContainer>
@@ -63,7 +57,6 @@ export const SpacesSidebar = ({
           </>
           )
         }
-      <S.VSpacer />
     </S.Sidebar>
   </>)
 }

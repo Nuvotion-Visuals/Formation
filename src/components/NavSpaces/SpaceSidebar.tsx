@@ -7,7 +7,7 @@ import { AspectRatio, Icon, Dropdown } from '../../internal'
 import { Channels } from './Channels'
 
 interface Props {
-  title: string,
+  name: string,
   src?: string,
   dateString?: string,
   location?: string,
@@ -16,7 +16,7 @@ interface Props {
 }
 
 export const SpaceSidebar = ({  
-  title,
+  name,
   src,
   dateString,
   location,
@@ -37,11 +37,11 @@ export const SpaceSidebar = ({
         }
         <S.HeaderArea>
           <header>
-            <S.Title>
+            <S.Name>
               { 
-                title
+                name
               }
-            </S.Title>
+            </S.Name>
           </header>
 
           {
@@ -122,7 +122,7 @@ const S = {
     padding: 1rem;
     padding-bottom: .5rem;
   `,
-  Title: styled.h1`
+  Name: styled.h1`
     font-size: 20px;
     padding: 0;
     margin: 0;

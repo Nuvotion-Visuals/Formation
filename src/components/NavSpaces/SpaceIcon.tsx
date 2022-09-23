@@ -9,7 +9,7 @@ interface Props {
   date?: Date,
   small?: boolean,
   href?: string,
-  title?: string,
+  name?: string,
   active: boolean
 }
 
@@ -19,7 +19,7 @@ export const SpaceIcon = ({
   date,
   small,
   href,
-  title,
+  name,
   active
 }: Props) => {
 
@@ -30,7 +30,7 @@ export const SpaceIcon = ({
       src={src}
       onClick={onClick}
       small={small}
-      title={title}
+      title={name}
       active={active}
     >
         {
