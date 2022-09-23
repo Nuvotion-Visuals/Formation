@@ -57,6 +57,7 @@ export const SpacesSidebar = ({
           </>
           )
         }
+      <S.VSpacer />
     </S.Sidebar>
   </>)
 }
@@ -106,7 +107,6 @@ const S = {
   LeftBar: styled.div`
     position: absolute;
     left: 0px;
-    /* background: var(--F_Surface_0); */
     width: .325rem;
     height: calc(100vh - var(--F_Header_Height));
   `,
@@ -131,6 +131,6 @@ const S = {
   `,
   VSpacer: styled.div`
     width: 100%;
-    margin-bottom: 6.25rem;
+    margin-bottom: .5rem;
   `
 }

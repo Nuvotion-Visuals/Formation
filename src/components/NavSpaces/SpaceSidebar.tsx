@@ -107,7 +107,6 @@ const S = {
   `,
   SpaceSidebar: styled.div`
     width: 100%;
-    height: calc(100vh - var(--F_Header_Height));
     margin-left: 74px;
     flex-wrap: wrap;
     overflow-x: hidden;

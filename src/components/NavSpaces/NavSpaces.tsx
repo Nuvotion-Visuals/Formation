@@ -50,9 +50,10 @@ export const NavSpaces = ({
   const { isDesktop, isTablet, isMobile } = useBreakpoint()
 
   interface ViewProps {
-    children: React.ReactNode
+    children: React.ReactNode,
+    width?: string
   }
-  const View = ({ children } : ViewProps) =>  <S.PagePlaceholder>
+  const View = ({ children, width } : ViewProps) =>  <S.PagePlaceholder width={width}>
     <S.Expand>
       {
         children
@@ -68,15 +69,17 @@ export const NavSpaces = ({
         onIncrement={() => onSwipe(activeSwipeIndex + 1)}
       >
         <View>
-        
-          {
-            firstPage
-          }
-
+          <S.MainScroll>
+            {
+              firstPage
+            }
+          </S.MainScroll>
           <NavBottom
             navs={navsSecondary}
+            trimRight={true}
           />
         </View>
+
 
         <View>
           <NavTop
@@ -125,11 +128,18 @@ export const NavSpaces = ({
     return (<>
       <S.Container>
 
-        <S.SidebarContainer>
-          {
-            firstPage
-          }
-        </S.SidebarContainer>
+        <View width={'320px'}>
+          <S.MainScroll>
+            {
+              firstPage
+            }
+          </S.MainScroll>
+          <NavBottom
+            navs={navsSecondary}
+            trimRight={true}
+          />
+        </View>
+
 
         <SwipeableViews
           activeSwipeIndex={activeSwipeIndex}
@@ -173,11 +183,17 @@ export const NavSpaces = ({
   const renderContentDesktop = () => {
     return (<>
       <S.Container>
-        <S.SidebarContainer>
-          {
-            firstPage
-          }
-        </S.SidebarContainer>
+        <View width={'320px'}>
+          <S.MainScroll>
+            {
+              firstPage
+            }
+          </S.MainScroll>
+          <NavBottom
+            navs={navsSecondary}
+            trimRight={true}
+          />
+        </View>
 
         <S.MainContent>
           <S.Scroll 
@@ -229,7 +245,9 @@ export const NavSpaces = ({
 const S = {
   Container: styled.div`
     width: 100vw;
-    height: 100vh;
+    display: flex;
+  `,
+  View: styled.div`
     display: flex;
   `,
   SidebarContainer: styled.div`
@@ -257,9 +275,13 @@ const S = {
       max-width: 600px;
     }
   `,
-  PagePlaceholder: styled.div`
+  PagePlaceholder: styled.div<{
+    width?: string
+  }>`
     height: 100%;
     width: 100%;
+    min-width: ${props => props.width ? props.width : 'auto'};
+    max-width: ${props => props.width ? props.width : 'auto'};
     height: 100%;
     display: flex;
     position: relative;
