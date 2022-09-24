@@ -5,57 +5,18 @@ import { AreaSurface, Button, Box } from '../../internal'
 import { ActivityType, AreaType } from '../../types'
 
 interface Props {
-  value?: AreaType[],
-  onChange: Function
+  value: AreaType[],
+  onChange: (newValue: AreaType[]) => void
 }
 
-export const Activities = ({ value }: Props) => {
-  const [state, setState] = useState<AreaType[]>([])
-  const [activeArea, setActiveArea] = useState('')
-  const [activeIndex, setActiveIndex] = useState(0)
-  const [currentActivities, setCurrentActivities] = useState<AreaType[]>([])
-
-  const findAreaIndex = (activeArea: string) => {
-    const newIndex = state?.findIndex(object => {
-      return object.area === activeArea
-    })
-    return newIndex
-  }
-
-  useEffect(() => {
-    if (!value) {
-      return 
-    } else {
-      let activities: AreaType[] = value[0].activities
-      let activeArea: string = value[0].area.toString()
-
-      setState(value)
-      setActiveArea(activeArea)
-      setCurrentActivities(activities)
-      return
-    }
-  }, [])
-
-  useEffect(() => {
-    let newIndex = findAreaIndex(activeArea)
-    setActiveIndex(newIndex)
-    console.log(activeArea)
-  }, [activeArea])
-
-  useEffect(() => {
-    if (state !== undefined) {
-      let activityAtIndex = state[activeIndex]
-      setCurrentActivities(activityAtIndex)
-    }
-  }, [activeIndex])
-
-
-  const handleTabClick = (e: React.MouseEvent<HTMLElement>) => {
-    setActiveArea((e.target as HTMLInputElement).innerText)
-  }
+export const Activities = ({ value, onChange }: Props) => {
+  const [activeAreaIndex, setActiveAreaIndex] = useState(0)
+  const activeArea = value[activeAreaIndex]
 
   const handleActivityAreaClick = (time: any) => {
-    let newActivity = {
+    let currentData: AreaType[] = value
+
+    let newActivity: ActivityType = {
       title: '',
       startTime: time.value,
       endTime: time.value + 1,
@@ -64,11 +25,10 @@ export const Activities = ({ value }: Props) => {
       ],
     }
 
-    console.log(newActivity, '<<NEWACTIVITY>>')
-  }
+    currentData[activeAreaIndex]?.activities.push(newActivity)
 
-  const isPrimary = (area: string) => {
-    return area === activeArea
+    console.log(currentData, '<<NEWACTIVITY>>')
+    onChange(currentData)
   }
 
   return (
@@ -76,21 +36,21 @@ export const Activities = ({ value }: Props) => {
       <S.Header>
         <Box pl={3}>
           {
-            state?.map(state =>
-              <Box mr={0.5} >
+            value?.map((value, index) =>
+              <Box mr={0.5} key={index}>
                 <Button
-                  primary={isPrimary(state.area)}
-                  id={state.area}
-                  text={state.area}
-                  onClick={handleTabClick}
+                  primary={index === activeAreaIndex}
+                  id={value.area}
+                  text={value.area}
+                  onClick={() => setActiveAreaIndex(index)}
                 />
               </Box>)
           }
         </Box>
       </S.Header>
       <AreaSurface
-        currentActivities={currentActivities?.activities}
-        onClick={handleActivityAreaClick}
+        activities={activeArea.activities}
+        onChange={handleActivityAreaClick}
       />
     </S.Activities>
   )
@@ -103,7 +63,8 @@ const S = {
   Header: styled.div<{}>`
     position: sticky;
     top: 0;
-    width: 100%;
+    min-width: 100%;
+    width: fit-content;
     height: var(--F_Header_Height);
     background: var(--F_Background);
     display: flex;

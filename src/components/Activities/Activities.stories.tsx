@@ -217,9 +217,9 @@ const Template: ComponentStory<typeof Activities> = args => {
     
   ])
   return <Activities 
-    {...args} 
-    value={value} 
-    onChange={() => null} 
+    {...args}
+    value={value}
+    onChange={(time) => set_value(time)} 
   />
 }
 
