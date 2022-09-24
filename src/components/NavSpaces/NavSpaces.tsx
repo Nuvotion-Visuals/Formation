@@ -44,6 +44,7 @@ export const NavSpaces = ({
   thirdPage,
   spaces,
   activeSpaceIndex,
+  navsPrimary,
   navsSecondary
 }: Props) => {
   const { isDesktop, isTablet, isMobile } = useBreakpoint()
@@ -68,15 +69,14 @@ export const NavSpaces = ({
         onIncrement={() => onSwipe(activeSwipeIndex + 1)}
       >
         <View>
-            {
-              firstPage
-            }
+          {
+            firstPage
+          }
           <NavBottom
-            navs={navsSecondary}
+            navs={navsPrimary}
             trimRight={true}
           />
         </View>
-
 
         <View>
           <NavTop
@@ -132,11 +132,10 @@ export const NavSpaces = ({
             }
           </S.MainScroll>
           <NavBottom
-            navs={navsSecondary}
+            navs={navsPrimary}
             trimRight={true}
           />
         </View>
-
 
         <SwipeableViews
           activeSwipeIndex={activeSwipeIndex}
@@ -187,7 +186,7 @@ export const NavSpaces = ({
             }
           </S.MainScroll>
           <NavBottom
-            navs={navsSecondary}
+            navs={navsPrimary}
             trimRight={true}
           />
         </View>

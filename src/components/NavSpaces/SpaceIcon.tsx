@@ -1,5 +1,5 @@
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
-import React from 'react'
+import React, { memo } from 'react'
 import styled from 'styled-components'
 
 import { getLinkComponent, Icon } from '../../internal'
@@ -16,7 +16,7 @@ interface Props {
   iconPrefix?: IconPrefix
 }
 
-export const SpaceIcon = ({ 
+export const SpaceIcon = memo(({ 
   src, 
   onClick,
   date,
@@ -27,10 +27,9 @@ export const SpaceIcon = ({
   icon,
   iconPrefix
 }: Props) => {
-
   const Link = getLinkComponent()
 
-  return (<Link href={href}>
+  const renderSpaceIcon = () =>
     <S.SpaceIcon 
       src={src}
       onClick={onClick}
@@ -51,8 +50,19 @@ export const SpaceIcon = ({
         }
       </S.Date>
     </S.SpaceIcon>
-  </Link>)
-}
+
+  return (<>
+    {
+      href
+        ? <Link href={href}>
+            {
+              renderSpaceIcon()
+            }
+          </Link>
+        : renderSpaceIcon()
+    }
+  </>)
+})
 
 const S = {
   SpaceIcon: styled.div<{

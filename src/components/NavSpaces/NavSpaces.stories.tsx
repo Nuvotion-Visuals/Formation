@@ -219,37 +219,37 @@ const Template: ComponentStory<typeof NavSpaces> = args => {
       : ''
   }])
 
-  return (
+  const FirstPage = React.memo(({}) => <>
+    <SpacesSidebar 
+      activeSpaceIndex={activeSpaceIndex}
+      onClickIndex={index => set_activeSpaceIndex(index)}
+      spaces={spaces}
+    />
+
+    <SpaceSidebar 
+      name={spaces[activeSpaceIndex]?.name}
+      src={spaces[activeSpaceIndex]?.src}
+      dateString={
+        spaces[activeSpaceIndex]?.date?.toLocaleString('en-us', { 
+          weekday: 'long', 
+          month: 'short', 
+          day: 'numeric', 
+          year: 'numeric' 
+        })}
+      location={spaces[activeSpaceIndex]?.location}
+      channels={spaces[activeSpaceIndex]?.channels}
+      dropdownOptions={[]}
+    />
+  </>)
+
+  return (<>
     <NavSpaces {...args} 
       activeSwipeIndex={activeSwipeIndex}
       onSwipe={index => set_activeSwipeIndex(index)}
-      spaces={spaces}
       activeSpaceIndex={activeSpaceIndex}
-      onSetActiveSpacesIndex={index => set_activeSpaceIndex(index)}
+      spaces={spaces}
       channels={spaces?.[activeSpaceIndex].channels}
-      firstPage={<div style={{display: 'flex'}}>
-        <SpacesSidebar 
-          activeSpaceIndex={activeSpaceIndex}
-          onClickIndex={index => set_activeSpaceIndex(index)}
-          spaces={spaces}
-        />
-
-        {/* Add render prop */}
-        <SpaceSidebar 
-          name={spaces[activeSpaceIndex]?.name}
-          src={spaces[activeSpaceIndex]?.src}
-          dateString={
-            spaces[activeSpaceIndex]?.date?.toLocaleString('en-us', { 
-              weekday: 'long', 
-              month: 'short', 
-              day: 'numeric', 
-              year: 'numeric' 
-            })}
-          location={spaces[activeSpaceIndex]?.location}
-          channels={spaces[activeSpaceIndex]?.channels}
-          dropdownOptions={[]}
-        />
-      </div>}
+      firstPage={<FirstPage />}
       secondPage={<>
         <NavTabs
           navs={(args as any).secondaryTopNav}
@@ -303,7 +303,7 @@ const Template: ComponentStory<typeof NavSpaces> = args => {
         }
       ]}
     />
-  )
+  </>)
 }
 
 export const Positions = Template.bind({})

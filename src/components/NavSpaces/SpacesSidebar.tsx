@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { memo } from 'react'
 import styled from 'styled-components'
 
 import { SpaceIcon } from './SpaceIcon'
@@ -13,7 +13,7 @@ interface Props {
   activeSpaceIndex: number
 }
 
-export const SpacesSidebar = ({ 
+export const SpacesSidebar = memo(({ 
   spaces,
   onClickIndex,
   activeSpaceIndex
@@ -31,7 +31,11 @@ export const SpacesSidebar = ({
 
               <SpaceIcon
                 src={space.src}
-                onClick={() => onClickIndex(index)}
+                onClick={() => 
+                  space?.onClick
+                    ? space.onClick()
+                    : onClickIndex(index)
+                }
                 date={space.date}
                 href={space.href}
                 name={space.name}
@@ -45,7 +49,7 @@ export const SpacesSidebar = ({
       <S.VSpacer />
     </S.Sidebar>
   </>)
-}
+})
 
 const S = {
   Sidebar: styled.div`
