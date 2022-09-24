@@ -106,8 +106,7 @@ const S = {
     align-items: center;
   `,
   SpaceSidebar: styled.div`
-    width: 100%;
-    margin-left: 74px;
+    width: calc(100% - 2px);
     flex-wrap: wrap;
     overflow-x: hidden;
     border-right: 2px solid var(--F_Surface);

@@ -33,8 +33,7 @@ interface Props {
   navsPrimary: any,
   navsSecondary: any,
   channels: any,
-  dropdownOptions: any,
-  onCreateSpace: () => void
+  dropdownOptions: any
 }
 
 export const NavSpaces = ({ 
@@ -69,11 +68,9 @@ export const NavSpaces = ({
         onIncrement={() => onSwipe(activeSwipeIndex + 1)}
       >
         <View>
-          <S.MainScroll>
             {
               firstPage
             }
-          </S.MainScroll>
           <NavBottom
             navs={navsSecondary}
             trimRight={true}

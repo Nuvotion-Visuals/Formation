@@ -11,7 +11,7 @@ import { SpaceSidebar } from './SpaceSidebar'
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 
 export default {
-  title: 'Navigation/NavSpaces',
+  title: 'Spaces/NavSpaces',
   component: NavSpaces,
 } as ComponentMeta<typeof NavSpaces>
 
@@ -227,12 +227,10 @@ const Template: ComponentStory<typeof NavSpaces> = args => {
       activeSpaceIndex={activeSpaceIndex}
       onSetActiveSpacesIndex={index => set_activeSpaceIndex(index)}
       channels={spaces?.[activeSpaceIndex].channels}
-      onCreateSpace={() => alert('Create space handler')}
-      firstPage={<>
+      firstPage={<div style={{display: 'flex'}}>
         <SpacesSidebar 
           activeSpaceIndex={activeSpaceIndex}
-          onClickIndex={index => {}}
-          onCreateSpace={() => {}}
+          onClickIndex={index => set_activeSpaceIndex(index)}
           spaces={spaces}
         />
 
@@ -251,7 +249,7 @@ const Template: ComponentStory<typeof NavSpaces> = args => {
           channels={spaces[activeSpaceIndex]?.channels}
           dropdownOptions={[]}
         />
-      </>}
+      </div>}
       secondPage={<>
         <NavTabs
           navs={(args as any).secondaryTopNav}

@@ -21,7 +21,6 @@ export { Location } from './Location/Location'
 export { Notification } from './Notification/Notification'
 export { NavHeader } from './NavHeader/NavHeader'
 export { NavSpaces } from './NavSpaces/NavSpaces'
-export { NavTabs } from './NavSpaces/NavTabs' // fix
 export { Navigation } from './Navigation/Navigation'
 export { NumberRange } from './NumberRange/NumberRange'
 export { NumberSlider } from './NumberSlider/NumberSlider'
@@ -38,3 +37,7 @@ export { Tags } from './Tags/Tags'
 export { TextInput } from './TextInput/TextInput'
 export { TimePicker } from './TimePicker/TimePicker'
 export { TimeZone } from './TimeZone/TimeZone'
+
+export { NavTabs } from './NavSpaces/NavTabs' // fix
+export { SpacesSidebar } from './NavSpaces/SpacesSidebar'
+export { SpaceSidebar } from './NavSpaces/SpaceSidebar'

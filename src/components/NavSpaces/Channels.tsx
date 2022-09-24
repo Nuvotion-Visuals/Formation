@@ -79,7 +79,6 @@ export const Channels = ({ channels }: Props) => {
 const S = {
   Container: styled.div`
     width: 100%;
-    margin-bottom: 6.325rem;
   `,
   Channels: styled.ul`
     width: calc(100% - 1rem);
@@ -88,8 +87,8 @@ const S = {
     padding: 0;
     margin: 0;
     padding: .5rem .5rem;
+    padding-bottom: 1rem;
     gap: .25rem;
-
     * {
       color: var(--F_Font_Color_Disabled);
       text-decoration: none;
