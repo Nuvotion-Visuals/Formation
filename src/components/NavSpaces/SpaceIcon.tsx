@@ -106,6 +106,9 @@ const S = {
     flex-wrap: wrap;
     justify-content: center;
     color: white;
+    * {
+      color: var(--F_Font_Color);
+    }
     background: ${props => props.darken ? 'var(--F_Backdrop)' : 'none'};
   `,
   Month: styled.div`
