@@ -2,20 +2,19 @@ import React from 'react'
 
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { ListItem } from '../../internal'
+import { List } from './List'
 
 export default {
-  title: 'Lists/ListItem',
-  component: ListItem,
-} as ComponentMeta<typeof ListItem>
+  title: 'Lists/List',
+  component: List,
+} as ComponentMeta<typeof List>
 
-const Template: ComponentStory<typeof ListItem> = args => 
-  <ListItem {...args} />
+const Template: ComponentStory<typeof List> = args => 
+  <List {...args} />
 
 export const Regular = Template.bind({})
 Regular.args = {
-  title: 'Artists',
-  listItems: [
+  'list': [
     {
       'title': 'DJ SKoli',
       'avatar': false

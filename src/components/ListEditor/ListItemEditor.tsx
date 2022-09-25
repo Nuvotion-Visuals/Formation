@@ -5,12 +5,12 @@ import { useState } from 'react'
 import { TextInput } from '../../internal'
 import { Button } from '../../internal'
 
-import { Lists } from '../../internal'
 import { Gap } from '../../internal'
 import { Select } from '../../internal'
+import { ListsType } from './MultiExpandableList'
 
 interface Props {
-  lists?: Lists,
+  lists?: ListsType,
   onCreate?: Function,
   onClose?: Function,
   hide?: boolean,

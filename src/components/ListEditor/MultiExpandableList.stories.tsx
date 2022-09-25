@@ -1,18 +1,19 @@
 import React, { useState } from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { MultiListEditor } from '../../internal'
+import { MultiExpandableList } from './MultiExpandableList'
+
 
 export default {
-  title: 'Lists/MultiListEditor',
-  component: MultiListEditor,
-} as ComponentMeta<typeof MultiListEditor>
+  title: 'Lists/MultiExpandableList',
+  component: MultiExpandableList,
+} as ComponentMeta<typeof MultiExpandableList>
 
-const Template: ComponentStory<typeof MultiListEditor> = args => {
+const Template: ComponentStory<typeof MultiExpandableList> = args => {
   const [value, set_value] = useState(args.value)
 
   return (
-    <MultiListEditor 
+    <MultiExpandableList 
       {...args} 
       onChange={lists => set_value(lists)}
       value={value}

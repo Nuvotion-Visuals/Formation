@@ -1,17 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Dropdown } from '../../internal'
-
-const genPastelFromGuid = (guid : string) => {
-  if (guid) {
-    const range = guid?.split('').map(i => i.charCodeAt(0)).reduce((a, b) => a + b, 0) % 100
-    var hue = Math.floor((range / 100) * 360);
-    var pastel = 'hsl(' + hue + ', 100%, 80%)'   
-    return pastel 
-  }
-  return 'white'
-}
+import { Dropdown, Avatar } from '../../internal'
 
 const initials = (name : string) => name?.split(" ").map((n,i,a)=> i === 0 || i+1 === a.length ? n[0] : null).join("")
 
@@ -23,21 +13,20 @@ interface Props {
   statusColor?: string,
 }
 
-export const Slot = ({ avatar,
-  title,
-  status,
-  statusColor,
+export const Item = ({ 
+  avatar,
+  title
 }: Props): JSX.Element => {
   return (
     <>
       <S.ListItem avatar={avatar}>
         
         <S.AvatarContainer>
-          <S.Avatar color={title ? genPastelFromGuid(title) : genPastelFromGuid(String(Math.random()))}>
-            {
-              title ? initials(title) : '?'
-            }
-          </S.Avatar>
+          <Avatar
+            name={title ? initials(title) : '?'}
+            color={title ? undefined : 'var(--F_Surface_2)'}
+          />
+        
         </S.AvatarContainer>
         
         <S.ResponsiveWrap>
@@ -71,7 +60,7 @@ export const Slot = ({ avatar,
                         },
                         {
                           icon: 'trash-alt',
-                          text: 'Remove',
+                          text: 'Trash',
                         },
                       ] 
                     : [
@@ -82,7 +71,7 @@ export const Slot = ({ avatar,
                         },
                         {
                           icon: 'trash-alt',
-                          text: 'Remove',
+                          text: 'Trash',
                         },
                       ] 
                 
@@ -99,15 +88,9 @@ interface ListItemProps {
   avatar?: boolean
 }
 
-
-interface StatusChipProps {
-  status?: string,
-  statusColor?: string
-}
-
 const S = {
   ListItem: styled.div<ListItemProps>`
-    width: 100%;
+    width: calc(100% - 1rem);
     padding: .5rem;
     display: flex;
     align-items: center;
@@ -150,27 +133,12 @@ const S = {
     width: fit-content;
   `,
   Title: styled.div`
-    font-size: var(--F_Font_Size);
+    font-size: var(--F_Font_Size_Label);
     font-weight: 400;
     color: var(--F_Font_Color_Label);
     padding-left: .5rem;
     display: flex;
     align-items: center;
-  `,
-  StatusChip: styled.div<StatusChipProps>`
-    width: fit-content;
-    height: 1rem;
-    padding: 0 .5rem;
-    display: ${props => props.status ? 'flex' : 'none'};
-    align-items: center;
-    font-size: var(--F_Font_Size_Tiny);
-    color: var(--EC_Black_700);
-    line-height: 8px;
-    text-transform: lowercase;
-    border-radius: 12px;
-    margin-left: 0.75rem;
-    background: ${props => props.statusColor};
-    margin-top: .25rem;
   `,
   Absolute: styled.div`
     position: absolute;

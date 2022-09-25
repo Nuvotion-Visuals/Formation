@@ -7,7 +7,7 @@ interface Props {
   name?: string,
   src?: string,
   icon?: IconName,
-  iconPrefix: IconPrefix,
+  iconPrefix?: IconPrefix,
   color?: string
 }
 
@@ -46,8 +46,9 @@ const S = {
     color?: string,
     src?: string,
   }>`
-    height: 2.125rem;
-    max-width: 2.125rem;
+    height: 1.75rem;
+    max-width: 1.75rem;
+    min-width: 1.75rem;
     border-radius: 50%;
     background-color: ${props => props.color};
     background-image: ${props => props.src 
@@ -63,7 +64,7 @@ const S = {
     font-size: var(--F_Font_Size_Label);
     color: white;
     * {
-      color: white;
+      color: ${props => props.color === 'none' ? 'auto' : 'white'};
     }
     font-weight: 600;
   `

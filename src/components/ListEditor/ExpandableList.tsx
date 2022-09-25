@@ -1,19 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled, { keyframes, css } from 'styled-components'
-import { useState } from 'react'
 
-import { Slot } from '../../internal'
-import { Toolbar } from '../../internal'
-import { ListItemType } from '../../internal'
+import { Avatar, Spacer, Toolbar } from '../../internal'
+import { ListItemType, Dropdown } from '../../internal'
+import { List } from './List'
 
 interface Props {
   key?: any,
   title?: string,
-  background?: boolean,
-  avatar?: boolean,
-  unassigned?: boolean,
-  status?: string,
-  statusColor?: string,
   listItems?: ListItemType[],
   index: number,
   onRemove: (index: number) => void,
@@ -21,12 +15,8 @@ interface Props {
   blinkAnimation?: boolean
 }
 
-export const ListItem = ({ avatar,
-  unassigned,
-  background,
+export const ExpandableList = ({ 
   title,
-  status,
-  statusColor, 
   listItems,
   index,
   onRemove,
@@ -43,46 +33,44 @@ export const ListItem = ({ avatar,
         blinkAnimation={blinkAnimation}
       >     
         <S.ResponsiveWrap>
+          <Avatar
+            icon={expandPosition ? 'chevron-up' : 'chevron-down'}
+            iconPrefix='fas'
+            color='none'
+          />
 
-          {/* NOTE: WE NEED TO SHOW PLACEHOLDER FEEDBACK WHEN WHEN THE LIST IS EMPTY  */}
+          <S.Title>{ title }</S.Title>
 
-          <S.ResponsiveContainer>
-            <S.Title>{title ? title : `${title} is unassigned`}</S.Title>
-          </S.ResponsiveContainer>
+          <Spacer />
 
-          {
-            listItems
-              ? <Toolbar
-                  listItems={listItems}
-                  index={index}
-                  title={title}
-                  onRemove={(index) => onRemove(index)}
-                  onAdd={(title, index) => {
-                    if (onAdd) {
-                      onAdd(title, index)
-                    }
-                  }}
-                  expand={expandPosition}
-                />
-            : ''
-          }
+          <Dropdown
+            options={[
+              {
+                icon: 'ellipsis-vertical',
+                iconPrefix: 'fas',
+                dropDownOptions: [
+                  {
+                    icon: 'edit',
+                    iconPrefix: 'fas',
+                    text: 'Edit'
+                  },
+                  {
+                    icon: 'trash-alt',
+                    iconPrefix: 'fas',
+                    text: 'Trash'
+                  }
+                ]
+              }
+            ]}
+          />
 
         </S.ResponsiveWrap>
       </S.ListItemContainer>
       
-      <S.PositionSlots hide={!expandPosition}>
-        {
-          listItems?.map((listItem, index) => 
-            <Slot
-              key={index}
-              title={listItem.title}
-              avatar={listItem.avatar}
-              status={listItem.status}
-              statusColor={listItem.statusColor}
-            /> 
-          )
-        } 
-      </S.PositionSlots>
+      <List 
+        list={listItems}
+        hide={!expandPosition}
+      />
     </>
   )
 }

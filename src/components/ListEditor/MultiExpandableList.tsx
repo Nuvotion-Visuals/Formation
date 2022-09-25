@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { useEffect, useState } from 'react'
 
 import { ListItemEditor } from '../../internal'
-import { ListItems } from '../../internal'
+import { Lists } from './Lists'
 
 export interface Assignee {
   name: string,
@@ -26,14 +26,14 @@ export interface ListItemType {
   showProfilePic?: boolean
 }
 
-export interface List {
+export interface ListType {
   title?: string,
   guid?: string,
   avatar?: boolean,
   listItems?: ListItemType[]
 }
 
-export type Lists = List[]
+export type ListsType = ListType[]
 
 export enum ListItemMode {
   counter = 'counter',
@@ -74,16 +74,16 @@ export type PositionInviteStatus =
   'applicationDenied'   
 
 interface Props {
-  value: Lists,
-  onChange: (value: Lists) => void,
+  value: ListsType,
+  onChange: (value: ListsType) => void,
   onRemoveFunction?: (index: number) => void,
-  calculateRecommendationLists?: () => Lists,
-  calculateRecentLists?: () => Lists,
+  calculateRecommendationLists?: () => ListsType,
+  calculateRecentLists?: () => ListsType,
   isCreating: boolean,
   label?: string
 }
 
-export const MultiListEditor = ({
+export const MultiExpandableList = ({
   value,
   onChange,
   onRemoveFunction,
@@ -125,16 +125,7 @@ export const MultiListEditor = ({
   
   return (
     <S.ListEditor>
-      <S.FixedWrapper>
-        <ListItemEditor
-          lists={value} 
-          onCreate={onCreate} 
-          onClose={() => {}}
-          label={label}
-        />
-      </S.FixedWrapper>
-      
-      <ListItems
+      <Lists
         lists={value}
         onRemove={(index) => onRemove(index)}
         onAdd={(title, index) => {}}
