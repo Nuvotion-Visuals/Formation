@@ -1,5 +1,5 @@
-import "./index.dark.css"
-import "./index.light.css"
+import './index.dark.css'
+import './index.light.css'
 
 export * from './components'
 export * from './hooks'

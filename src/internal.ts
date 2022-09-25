@@ -25,7 +25,9 @@ import {
   isTouchCapable,
   reorderItems,
   getBackground,
-  getOutline
+  getOutline,
+  getInitials,
+  getColorFromGuid
 } from './utils'
 export {
   getSuperscriptOrdinal,
@@ -33,7 +35,9 @@ export {
   isTouchCapable,
   reorderItems,
   getBackground,
-  getOutline
+  getOutline,
+  getInitials,
+  getColorFromGuid
 }
 
 // hooks
@@ -76,6 +80,7 @@ import { Spacer } from './components/Spacer/Spacer'
 import { StyleHTML } from './components/StyleHTML/StyleHTML'
 import { Docking } from './components/Docking/Docking'
 import { Link } from './components/Link/Link'
+import { Avatar } from './components/Avatar/Avatar'
 
 export {
   AspectRatio,
@@ -104,7 +109,8 @@ export {
   Spacer,
   StyleHTML,
   Docking,
-  Link
+  Link,
+  Avatar
 }
 
 // Molecules (1)

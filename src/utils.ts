@@ -94,3 +94,16 @@ export const getOutline = (color: string) => {
       return 'var(--F_Label_Outline_Gray)'
   }
 }
+
+export const getColorFromGuid = (guid : string) => {
+  if (guid) {
+    const range = guid?.split('').map(i => i.charCodeAt(0)).reduce((a, b) => a + b, 0) % 100
+    var hue = Math.floor((range / 100) * 360);
+    var pastel = 'hsl(' + hue + ', 100%, 30%)'   
+    return pastel 
+  }
+  return 'white'
+}
+
+export const getInitials = (name : string) => 
+  name?.split(' ').map((n,i,a)=> i === 0 || i+1 === a.length ? n[0] : null).join('')
