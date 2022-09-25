@@ -127,7 +127,7 @@ import { Select } from './components/Select/Select'
 import { Switch } from './components/Switch/Switch'
 import { LabelColorPicker } from './components/LabelColorPicker/LabelColorPicker'
 import { 
-  ListEditor, 
+  MultiListEditor, 
   List, 
   ListItem, 
   ListItemEditor, 
@@ -149,7 +149,7 @@ export {
   Dropdown, OptionsType,
   Sidebar, Navs,
   Select,
-  ListEditor,
+  MultiListEditor,
   List,
   ListItemEditor,
   ListItem,

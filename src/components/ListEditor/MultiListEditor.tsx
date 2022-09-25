@@ -75,7 +75,7 @@ export type PositionInviteStatus =
 
 interface Props {
   value: Lists,
-  onChange: (lists: Lists) => void,
+  onChange: (value: Lists) => void,
   onRemoveFunction?: (index: number) => void,
   calculateRecommendationLists?: () => Lists,
   calculateRecentLists?: () => Lists,
@@ -83,35 +83,25 @@ interface Props {
   label?: string
 }
 
-export const ListEditor = ({
+export const MultiListEditor = ({
   value,
   onChange,
   onRemoveFunction,
-  calculateRecommendationLists,
-  calculateRecentLists,
-  isCreating,
   label
 }: Props) => {
 
-  // List Management State
-  const [lists, setLists] = useState<Lists>(value)
-  const [recommendedLists, setRecommendedLists] = useState([])
-  const [recentLists, setRecentLists] = useState([])
-  
-  const [isEditing, setIsEditing] = useState(false)
+
   const [lastAddedIndex, set_lastAddedIndex] = useState<number>(0)
 
-  useEffect(() => {
-    onChange(lists)
-  }, [lists])
+
   
   const onCreate = (textValue: string, countValue: number, index: number) => {
 
     if (textValue.length === 0) {
       return false;
     } else { 
-      setLists([
-        ...lists,
+      onChange([
+        ...value,
         {
           title: textValue,
           guid: '',
@@ -122,40 +112,22 @@ export const ListEditor = ({
         }
       ])
       // setIsCreating(false)
-      set_lastAddedIndex(lists.length)
+      set_lastAddedIndex(value.length)
     }
-  }
-
-  const onAddFromRecommended = (title: string, index: number) => {
-    setLists([
-      ...lists,
-      {
-        title: title,
-        guid: '',
-        listItems: new Array(1).fill(0).map(() => ({
-          title: '',
-          avatar: false
-        })
-        )
-      }
-    ])
-    setRecommendedLists(recommendedLists.filter((list, listIndex) => index != listIndex))
-    set_lastAddedIndex(lists.length)
   }
 
   const onRemove = (index : number) => {
     if (onRemoveFunction) {
       onRemoveFunction(index)
     }
-    setLists(lists.filter((list, listIndex) => index != listIndex ))
+    onChange(value.filter((list, listIndex) => index != listIndex ))
   }
   
   return (
     <S.ListEditor>
       <S.FixedWrapper>
         <ListItemEditor
-          lists={lists} 
-          hide={!isCreating} 
+          lists={value} 
           onCreate={onCreate} 
           onClose={() => {}}
           label={label}
@@ -163,18 +135,11 @@ export const ListEditor = ({
       </S.FixedWrapper>
       
       <ListItems
-        lists={lists}
+        lists={value}
         onRemove={(index) => onRemove(index)}
-        onAdd={(title, index) => onAddFromRecommended(title, index)}
-        hide={isCreating}
+        onAdd={(title, index) => {}}
         lastAddedIndex={lastAddedIndex}
       />
-      {/* <ListItems
-        lists={recommendedLists}
-        onRemove={(index) => onRemove(index)}
-        onAdd={(title, index) => onAddFromRecommended(title, index)}
-        hide={!isCreating}
-      /> */}
     </S.ListEditor>
   )
 }
