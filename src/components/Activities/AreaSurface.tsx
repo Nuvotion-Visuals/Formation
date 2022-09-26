@@ -6,7 +6,8 @@ import { ActivityType, AreaType } from 'types'
 interface Props {
   value: AreaType[],
   areaIndex: number,
-  onChange: (time: any) => void
+  onChange: (time: any) => void,
+  onClick: () => void
 }
 
 interface IntervalType {
@@ -15,7 +16,7 @@ interface IntervalType {
   gridNumber: number
 }
 
-export const AreaSurface = ({ value, areaIndex, onChange }: Props) => {
+export const AreaSurface = ({ value, areaIndex, onChange, onClick }: Props) => {
 
   const intervals: IntervalType[] = new Array(112).fill(0).map((item, index) => (
     {
@@ -90,7 +91,8 @@ export const AreaSurface = ({ value, areaIndex, onChange }: Props) => {
             activities.map((activity, index) => 
               <S.Activity
                 key={index}
-                onClick={() => console.log(activity, '<<ACTIVITY ONCLICK>>')}
+                onClick={(e) => onClick(e)}
+                id={activity.id}
                 style={{
                   gridColumnStart: 2,
                   gridColumnEnd: 3,

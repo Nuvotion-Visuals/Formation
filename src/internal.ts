@@ -120,6 +120,7 @@ import { Sidebar, Navs } from './components/Sidebar/Sidebar'
 import { Select } from './components/Select/Select'
 import { Switch } from './components/Switch/Switch'
 import { LabelColorPicker } from './components/LabelColorPicker/LabelColorPicker'
+import { ActivityEditor } from './components/Activities/ActivityEditor'
 import { 
   ListEditor, 
   List, 
@@ -133,6 +134,7 @@ import {
   Lists,
 } from './components/ListEditor'
 export {
+  ActivityEditor,
   ArticlePreview,
   Article,
   Search,

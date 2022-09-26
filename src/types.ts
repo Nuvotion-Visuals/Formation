@@ -16,7 +16,7 @@ export type ActivityType = {
   title: string,
   startTime: number,
   endTime: number,
-  icon: string,
+  id: string,
   people: PersonType[]
 }
 
