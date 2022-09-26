@@ -28,15 +28,13 @@ export const Activities = ({ value, onChange }: Props) => {
     return tab
   })
 
-  useEffect(() => console.log(tabs, '<<TABS>>'))
-
   const handleActivityAreaClick = (time: any) => {
     let currentData: AreaType[] = value
 
     let newActivity: ActivityType = {
       title: '',
       startTime: time.value,
-      endTime: time.value + 1,
+      endTime: time.value + 60,
       icon: '',
       people: [
       ],
@@ -73,12 +71,12 @@ const S = {
     top: 0;
     min-width: 100%;
     width: fit-content;
-    height: 2.25rem;
     background: var(--F_Background);
     display: flex;
     justify-content: start;
     align-items: end;
     z-index: 1000;
+    padding-top: 0.5rem;
   `,
   Tab: styled.div<{}>`
     padding: 0.25rem 0.5rem;

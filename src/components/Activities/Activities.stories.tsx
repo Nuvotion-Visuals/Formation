@@ -3,8 +3,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react'
 
 
 
-import { Activities, ParseHTML, Page } from '../../internal'
-import { useEffect } from '@storybook/addons'
+import { Activities } from '../../internal'
 
 export default {
   title: 'Advanced Input/Activities',
@@ -18,8 +17,8 @@ const Template: ComponentStory<typeof Activities> = args => {
       activities: [
         {
           title: 'Set0: DJ PRE',
-          startTime: 16.00,
-          endTime: 18.30,
+          startTime: 960,
+          endTime: 1110,
           icon: 'orange',
           people: [
             {
@@ -34,8 +33,8 @@ const Template: ComponentStory<typeof Activities> = args => {
         },
         {
           title: 'Set1: DJ Alpha',
-          startTime: 19.00,
-          endTime: 20.30,
+          startTime: 1140,
+          endTime: 1230,
           icon: 'orange',
           people: [
             {
@@ -50,8 +49,8 @@ const Template: ComponentStory<typeof Activities> = args => {
         },
         {
           title: 'Set2: DJ Beta',
-          startTime: 20.30,
-          endTime: 22.00,
+          startTime: 1230,
+          endTime: 1320,
           icon: 'orange',
           people: [
             {
@@ -66,8 +65,8 @@ const Template: ComponentStory<typeof Activities> = args => {
         },
         {
           title: 'Set3: DJ Theta',
-          startTime: 22.00,
-          endTime: 23.45,
+          startTime: 1320,
+          endTime: 1485,
           icon: 'orange',
           people: [
             {
@@ -87,8 +86,8 @@ const Template: ComponentStory<typeof Activities> = args => {
       activities: [
         {
           title: 'Pre-Open',
-          startTime: 18.00,
-          endTime: 19.00,
+          startTime: 1080,
+          endTime: 1140,
           icon: 'orange',
           people: [
             {
@@ -112,8 +111,8 @@ const Template: ComponentStory<typeof Activities> = args => {
         },
         {
           title: 'Open',
-          startTime: 19.00,
-          endTime: 24.00,
+          startTime: 1140,
+          endTime: 1440,
           icon: 'orange',
           people: [
             {
@@ -137,8 +136,8 @@ const Template: ComponentStory<typeof Activities> = args => {
         },
         {
           title: 'Close',
-          startTime: 24.00,
-          endTime: 25.00,
+          startTime: 1440,
+          endTime: 1560,
           icon: 'orange',
           people: [
             {
@@ -167,8 +166,8 @@ const Template: ComponentStory<typeof Activities> = args => {
       activities: [
         {
           title: 'Mimosa and Tequila Block',
-          startTime: 17.00,
-          endTime: 18.00,
+          startTime: 1020,
+          endTime: 1080,
           icon: 'orange',
           people: [
             {
@@ -183,8 +182,8 @@ const Template: ComponentStory<typeof Activities> = args => {
         },
         {
           title: 'Catering Service',
-          startTime: 18.00,
-          endTime: 20.00,
+          startTime: 1080,
+          endTime: 1200,
           icon: 'orange',
           people: [
             {
@@ -199,8 +198,8 @@ const Template: ComponentStory<typeof Activities> = args => {
         },
         {
           title: 'After-Party',
-          startTime:20.00,
-          endTime: 26.00,
+          startTime: 1200,
+          endTime: 1560,
           icon: 'orange',
           people: [
             {
