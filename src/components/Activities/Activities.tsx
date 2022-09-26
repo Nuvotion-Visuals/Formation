@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 
-import { AreaSurface, Button, Box } from '../../internal'
+import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
+import { AreaSurface, Button, Box, Tabs } from '../../internal'
 import { ActivityType, AreaType } from '../../types'
 
 interface Props {
@@ -9,9 +10,25 @@ interface Props {
   onChange: (newValue: AreaType[]) => void
 }
 
+type Tab = {
+  name: string,
+  icon?: IconName,
+  iconPrefix?: IconPrefix,
+  onClick?: () => void,
+  prefix?: IconPrefix,
+  suffix?: string
+}
+
 export const Activities = ({ value, onChange }: Props) => {
   const [activeAreaIndex, setActiveAreaIndex] = useState(0)
   const activeArea = value[activeAreaIndex]
+
+  let tabs: Tab[] = value?.map(({ area }, index) => {
+    const tab = { name: area, onClick: () => setActiveAreaIndex(index)}
+    return tab
+  })
+
+  useEffect(() => console.log(tabs, '<<TABS>>'))
 
   const handleActivityAreaClick = (time: any) => {
     let currentData: AreaType[] = value
@@ -24,30 +41,20 @@ export const Activities = ({ value, onChange }: Props) => {
       people: [
       ],
     }
-
     currentData[activeAreaIndex]?.activities.push(newActivity)
-
-    console.log(currentData, '<<NEWACTIVITY>>')
     onChange(currentData)
   }
 
   return (
     <S.Activities>
       <S.Header>
-        <Box pl={3}>
-          {
-            value?.map((value, index) =>
-              <Box mr={0.5} key={index}>
-                <Button
-                  primary={index === activeAreaIndex}
-                  id={value.area}
-                  text={value.area}
-                  onClick={() => setActiveAreaIndex(index)}
-                />
-              </Box>)
-          }
-        </Box>
+        <Tabs
+          tabs={tabs}
+          initialActiveTab={tabs[0].name}
+          onSetActiveTab={() => null}
+        />
       </S.Header>
+      
       <AreaSurface
         value={value}
         areaIndex={activeAreaIndex}
@@ -66,7 +73,7 @@ const S = {
     top: 0;
     min-width: 100%;
     width: fit-content;
-    height: var(--F_Header_Height);
+    height: fit-content;
     background: var(--F_Background);
     display: flex;
     justify-content: start;

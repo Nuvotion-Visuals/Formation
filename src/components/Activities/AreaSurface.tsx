@@ -825,14 +825,10 @@ export const AreaSurface = ({ value, areaIndex, onChange }: Props) => {
 
   let activities = internalValue[areaIndex].activities
 
-  const handleClick = (interval: ActivityType[]) => {
+  const handleClick = (interval: []) => {
     setInternalValue({...internalValue, interval})
     onChange(interval)
   }
-
-  useEffect(() => {
-    console.log(internalValue)
-  })
 
   useEffect(() => {
     if (activities !== undefined) {
@@ -869,6 +865,7 @@ export const AreaSurface = ({ value, areaIndex, onChange }: Props) => {
             activities.map((activity, index) => 
               <S.Activity
                 key={index}
+                onClick={() => console.log(activity, '<<ACTIVITY ONCLICK>>')}
                 style={{
                   gridColumnStart: 2,
                   gridColumnEnd: 3,
