@@ -900,7 +900,7 @@ const S = {
     width: 3rem;
     font-size: var(--F_Font_Size_Label);
     height: 1rem;
-    margin-top: -1.65rem;
+    margin-top: -1.5rem;
     display: flex;
     justify-content: flex-end;
   `,
