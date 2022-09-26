@@ -4,11 +4,12 @@ import styled from 'styled-components'
 import { ActivityType, AreaType } from 'types'
 
 interface Props {
-  activities: ActivityType[],
+  value: AreaType[],
+  areaIndex: number,
   onChange: (time: any) => void
 }
 
-export const AreaSurface = ({ activities, onChange }: Props) => {
+export const AreaSurface = ({ value, areaIndex, onChange }: Props) => {
   const intervals = [
     {
       display: '',
@@ -820,6 +821,19 @@ export const AreaSurface = ({ activities, onChange }: Props) => {
     }
   }
 
+  const [internalValue, setInternalValue] = useState<AreaType[]>(value)
+
+  let activities = internalValue[areaIndex].activities
+
+  const handleClick = (interval: ActivityType[]) => {
+    setInternalValue({...internalValue, interval})
+    onChange(interval)
+  }
+
+  useEffect(() => {
+    console.log(internalValue)
+  })
+
   useEffect(() => {
     if (activities !== undefined) {
       let initScrollElement: string = getFirstActivity(activities)
@@ -846,7 +860,7 @@ export const AreaSurface = ({ activities, onChange }: Props) => {
                 <S.IntervalBlock
                   key={index}
                   id={index.toString()}
-                  onClick={() => onChange(interval)}
+                  onClick={() => handleClick(interval)}
                   style={{ gridColumnStart: 2, gridColumnEnd: 6, gridRowStart: index === 0 ? 1 : index + 1 }}
                 />
               )

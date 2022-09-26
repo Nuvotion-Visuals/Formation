@@ -49,7 +49,8 @@ export const Activities = ({ value, onChange }: Props) => {
         </Box>
       </S.Header>
       <AreaSurface
-        activities={activeArea.activities}
+        value={value}
+        areaIndex={activeAreaIndex}
         onChange={handleActivityAreaClick}
       />
     </S.Activities>

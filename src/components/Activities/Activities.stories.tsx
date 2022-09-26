@@ -4,6 +4,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react'
 
 
 import { Activities, ParseHTML, Page } from '../../internal'
+import { useEffect } from '@storybook/addons'
 
 export default {
   title: 'Advanced Input/Activities',
@@ -216,10 +217,11 @@ const Template: ComponentStory<typeof Activities> = args => {
     }
     
   ])
+
   return <Activities 
     {...args}
     value={value}
-    onChange={(time) => set_value(time)} 
+    onChange={(newValue) => set_value(newValue)} 
   />
 }
 
