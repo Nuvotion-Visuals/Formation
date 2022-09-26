@@ -73,13 +73,12 @@ const S = {
     top: 0;
     min-width: 100%;
     width: fit-content;
-    height: fit-content;
+    height: 2.25rem;
     background: var(--F_Background);
     display: flex;
     justify-content: start;
-    align-items: center;
+    align-items: end;
     z-index: 1000;
-    filter: drop-shadow(2px 0px 0.5rem #00000011);
   `,
   Tab: styled.div<{}>`
     padding: 0.25rem 0.5rem;

@@ -875,7 +875,7 @@ export const AreaSurface = ({ value, areaIndex, onChange }: Props) => {
                 {activity.title}
               </S.Activity>
             )
-          }
+        }
       </S.Grid>
     </S.Container>
   )
