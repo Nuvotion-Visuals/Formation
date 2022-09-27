@@ -12,17 +12,41 @@ interface Props {
 }
 
 export const ActivityEditor = ({ value, onChange, activity }: Props) => {
-  const [parsedStartTime, set_parsedStartTime] = useState<number>()
-  const [parsedEndTime, set_parsedEndTime] = useState()
+  const [parsedStartTime, set_parsedStartTime] = useState<string>()
+  const [parsedEndTime, set_parsedEndTime] = useState<string>()
 
   useEffect(() => {
     const startTime = activity?.startTime
-    const time = startTime / 60
-    const afternoonTime = time - 12
+
+    const startHour: number = startTime % 60 > 0
+      ? Number((startTime / 60 - 1).toFixed())
+      : startTime / 60
+    const startAfternoonHour: number = startHour - 12
+
+    const startMinute = startTime % 60 > 0
+      ? startTime % 60
+      : '00'
     
-    startTime > 12
-      ? set_parsedStartTime(`${afternoonTime}PM`)
-      : set_parsedStartTime(time)
+    startTime > 720
+      ? set_parsedStartTime(`${startAfternoonHour}:${startMinute}PM`)
+      : set_parsedStartTime(`${startHour}:${startMinute}AM`)
+    
+      const endTime = activity?.endTime
+
+      const endHour: number = endTime % 60 > 0
+        ? Number((endTime / 60 - 1).toFixed())
+        : endTime / 60
+      const endAfternoonHour: number = endHour - 12
+  
+      const endMinute = endTime % 60 > 0
+        ? endTime % 60
+        : '00'
+      
+      endTime > 720
+        ? set_parsedEndTime(`${endAfternoonHour}:${endMinute}PM`)
+        : set_parsedEndTime(`${endHour}:${endMinute}AM`)
+    
+    
   }, [activity])
 
   return (
@@ -42,7 +66,7 @@ export const ActivityEditor = ({ value, onChange, activity }: Props) => {
       </Box>
       <Box p={1}>
         <TimePicker
-          value={activity ? (activity.endTime / 60).toString() : ''}
+          value={parsedEndTime ? (parsedEndTime).toString() : ''}
           label={'End Time'}
           onChange={() => null}
         />
