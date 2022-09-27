@@ -218,19 +218,18 @@ const Template: ComponentStory<typeof Activities> = args => {
   ])
   const [activityId, setActivityId] = useState<string | null>(null)
   const [currentActivity, set_currentActivity] = useState<ActivityType>()
-
-  useEffect(() => {
-    let activity = value[0].activities.find(elem => elem.id === activityId)
-    set_currentActivity(activity)
-  }, [activityId, value])
-
-  useEffect(() => console.log(currentActivity, "<<ACK>>"), [currentActivity])
+  const [activeAreaIndex, set_activeAreaIndex] = useState<number>(0)
 
   const onAreaGridClick = (e: React.MouseEvent) => {
     const element = e.target as HTMLDivElement
     const target = element.id
     setActivityId(target)
   }
+
+  useEffect(() => {
+    let activity = value[activeAreaIndex].activities.find(elem => elem.id === activityId)
+    set_currentActivity(activity)
+  }, [activityId, value])
 
   return(
   <S.Box>
@@ -239,10 +238,13 @@ const Template: ComponentStory<typeof Activities> = args => {
       value={value}
       onChange={(newValue) => set_value(newValue)} 
       onClick={(e: MouseEvent) => onAreaGridClick(e)}
+      onTabClick={(index) => set_activeAreaIndex(index)}
+      activeArea={activeAreaIndex}
     />
     <ActivityEditor
       value={value}
       onChange={(newValue) => set_value(newValue)}
+      activity={currentActivity}
     />
   </S.Box>)
 }

@@ -118,7 +118,7 @@ const S = {
     width: 100%;
     height: 100%;
     display: grid;
-    grid-template-columns: 3rem repeat(1,1fr);
+    grid-template-columns: 3rem repeat(1,1fr) 2rem;
     grid-template-rows: repeat(113, 1fr);
     row-gap: 1px;
     column-gap: 1px;

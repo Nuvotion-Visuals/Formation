@@ -8,7 +8,9 @@ import { ActivityType, AreaType } from '../../types'
 interface Props {
   value: AreaType[],
   onChange: (newValue: AreaType[]) => void,
-  onClick: (e: React.MouseEvent) => void
+  onClick: (e: React.MouseEvent) => void,
+  onTabClick: (index: number) => void,
+  activeArea: number
 }
 
 type Tab = {
@@ -20,11 +22,9 @@ type Tab = {
   suffix?: string
 }
 
-export const Activities = ({ value, onChange, onClick }: Props) => {
-  const [activeAreaIndex, setActiveAreaIndex] = useState(0)
-
+export const Activities = ({ value, onChange, onClick, onTabClick, activeArea }: Props) => {
   let tabs: Tab[] = value?.map(({ area }, index) => {
-    const tab = { name: area, onClick: () => setActiveAreaIndex(index)}
+    const tab = { name: area, onClick: () => onTabClick(index)}
     return tab
   })
 
@@ -39,7 +39,7 @@ export const Activities = ({ value, onChange, onClick }: Props) => {
       people: [
       ],
     }
-    currentData[activeAreaIndex]?.activities.push(newActivity)
+    currentData[activeArea]?.activities.push(newActivity)
     onChange(currentData)
   }
 
@@ -55,7 +55,7 @@ export const Activities = ({ value, onChange, onClick }: Props) => {
       
       <AreaSurface
         value={value}
-        areaIndex={activeAreaIndex}
+        areaIndex={activeArea}
         onChange={handleActivityAreaClick}
         onClick={onClick}
       />
