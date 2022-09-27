@@ -216,9 +216,10 @@ const Template: ComponentStory<typeof Activities> = args => {
     }
     
   ])
+
+  const [activeAreaIndex, set_activeAreaIndex] = useState<number>(0)
   const [activityId, setActivityId] = useState<string | null>(null)
   const [currentActivity, set_currentActivity] = useState<ActivityType>()
-  const [activeAreaIndex, set_activeAreaIndex] = useState<number>(0)
 
   const onAreaGridClick = (e: React.MouseEvent) => {
     const element = e.target as HTMLDivElement

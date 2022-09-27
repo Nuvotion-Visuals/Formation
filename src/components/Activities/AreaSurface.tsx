@@ -7,7 +7,7 @@ interface Props {
   value: AreaType[],
   areaIndex: number,
   onChange: (time: any) => void,
-  onClick: () => void
+  onClick: (e: React.MouseEvent) => void
 }
 
 interface IntervalType {
@@ -17,7 +17,6 @@ interface IntervalType {
 }
 
 export const AreaSurface = ({ value, areaIndex, onChange, onClick }: Props) => {
-
   const intervals: IntervalType[] = new Array(112).fill(0).map((item, index) => (
     {
       display:
@@ -52,7 +51,7 @@ export const AreaSurface = ({ value, areaIndex, onChange, onClick }: Props) => {
     return gridObject[0].gridNumber + 1
   }
 
-  const handleClick = (interval: []) => {
+  const handleClick = (interval: IntervalType) => {
     onChange(interval)
   }
 
