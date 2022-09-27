@@ -3,6 +3,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { Break, Spacer } from '../../internal'
+import { SpaceIcon } from '../NavSpaces/SpaceIcon'
 
 import { 
   Dropdown, 
@@ -11,7 +12,7 @@ import {
   OptionsType 
 } from '../../internal'
 
-interface Props {
+export interface Props {
   name?: string,
   options?: OptionsType,
   onClick?: () => void,
@@ -23,7 +24,12 @@ interface Props {
   tagline?: string,
   subtitle?: string,
   dateString?: string,
-  title?: string
+  title?: string,
+  date?: Date,
+  small?: boolean,
+  href?: string,
+  active?: boolean,
+  spaceIcon?: boolean
 }
 
 export const Item = ({ 
@@ -37,13 +43,30 @@ export const Item = ({
   src,
   text,
   color,
-  title
+  title,
+  date,
+  small,
+  href,
+  active,
+  spaceIcon
 }: Props): JSX.Element => {
   return (
-    <S.ListItem onClick={onClick}>
+    <S.ListItem onClick={onClick} active={active}>
+      {
+        spaceIcon && <SpaceIcon
+          src={src}
+          onClick={onClick}
+          date={date}
+          href={href}
+          name={title}
+          icon={icon}
+          iconPrefix={iconPrefix}
+          active={active}
+        />
+      }
       
       {
-        name || icon || src
+        (name || icon || src) && !spaceIcon
           ? <S.AvatarContainer>
               <Avatar
                 name={name ? getInitials(name) : '?'}
@@ -100,7 +123,9 @@ export const Item = ({
 }
 
 const S = {
-  ListItem: styled.div`
+  ListItem: styled.div<{
+    active?: boolean
+  }>`
     width: calc(100% - 1rem);
     padding: .5rem;
     display: flex;
@@ -109,6 +134,7 @@ const S = {
     position: relative;
     cursor: pointer;
     background: var(--F_Background_Alternating);
+    background: ${props => props.active ? 'var(--F_Surface_0)' : 'var(--F_Background_Alternating)'};
     &:hover {
       background: var(--F_Surface_0);
     }

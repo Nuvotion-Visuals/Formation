@@ -31,7 +31,11 @@ export const Avatar = ({
     >
       {
         icon
-          ? <Icon icon={icon} iconPrefix={iconPrefix} />
+          ? <Icon 
+              icon={icon} 
+              iconPrefix={iconPrefix} 
+              size={color === 'none' ? 'lg' : '1x'}
+            />
           : name && !src 
             ? getInitials(name) 
             : null

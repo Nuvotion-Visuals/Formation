@@ -5,7 +5,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react'
 import { Item } from './Item'
 
 export default {
-  title: 'Lists/Item',
+  title: 'Items/Item',
   component: Item,
 } as ComponentMeta<typeof Item>
 
@@ -135,5 +135,26 @@ Event.args = {
   ]
 }
 Event.parameters = {
+  layout: 'fullscreen'
+}
+
+
+export const Space = Template.bind({})
+Space.args = {
+  tagline: 'Liquid Dance Chicago Presents',
+  src: 'https://api.avsync.live/uploads/1_bc67779458.jpg',
+  title: 'Hydrodynamics',
+  color: 'none',
+  iconPrefix: 'fas',
+  options: [
+    {
+      icon: 'arrow-right',
+      iconPrefix: 'fas'
+    }
+  ],
+  spaceIcon: true,
+  date: new Date()
+}
+Space.parameters = {
   layout: 'fullscreen'
 }

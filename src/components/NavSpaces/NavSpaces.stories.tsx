@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
 import { DateAndTimePicker, Box } from '../../internal'
-import { ListEditor } from '../ListEditor'
 import { NavSpaces } from './NavSpaces'
 import { NavTabs } from './NavTabs'
 import { SpacesSidebar } from './SpacesSidebar'
@@ -254,17 +253,6 @@ const Template: ComponentStory<typeof NavSpaces> = args => {
         <NavTabs
           navs={(args as any).secondaryTopNav}
           borderBottom={true}
-        />
-        <ListEditor 
-          {...{
-            value: (args as any).lists,
-            onChange: (lists) => { console.log(lists)},
-            onRemoveFunction: () => alert('remove'),
-            calculateRecommendationLists: () => [],
-            calculateRecentLists: () => [],
-            isCreating: false,
-            label: (args as any).label
-          }}
         />
       </>}
       thirdPage={

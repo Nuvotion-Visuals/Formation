@@ -127,16 +127,8 @@ import { Select } from './components/Select/Select'
 import { Switch } from './components/Switch/Switch'
 import { LabelColorPicker } from './components/LabelColorPicker/LabelColorPicker'
 import { 
-  MultiListEditor, 
-  List, 
-  ListItem, 
-  ListItemEditor, 
-  ListItems,
-  Slot,
-  Toolbar,
-  ListItemMode,
-  ListItemType,
-  Lists,
+  Item,
+  MultiExpandableList
 } from './components/ListEditor'
 export {
   ArticlePreview,
@@ -149,17 +141,9 @@ export {
   Dropdown, OptionsType,
   Sidebar, Navs,
   Select,
-  MultiListEditor,
-  List,
-  ListItemEditor,
-  ListItem,
-  ListItems,
-  Slot,
+  Item,
+  MultiExpandableList,
   Switch,
-  Toolbar,
-  ListItemMode,
-  ListItemType,
-  Lists,
   LabelColorPicker
 }
 
