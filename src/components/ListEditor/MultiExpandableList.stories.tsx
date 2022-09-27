@@ -5,7 +5,7 @@ import { MultiExpandableList } from './MultiExpandableList'
 
 
 export default {
-  title: 'Lists/MultiExpandableList',
+  name: 'Lists/MultiExpandableList',
   component: MultiExpandableList,
 } as ComponentMeta<typeof MultiExpandableList>
 
@@ -25,153 +25,153 @@ export const Positions = Template.bind({})
 Positions.args = {
   value: [
     {
-      'title': '🎧 DJs',
+      'name': 'DJs',
       'guid': '',
       'listItems': [
         {
-          'title': 'DJ SKoli',
+          'name': 'DJ SKoli',
           'avatar': false
         },
         {
-          'title': 'King Spookey',
+          'name': 'King Spookey',
           'avatar': false
         },
         {
-          'title': 'Subsus',
+          'name': 'Subsus',
           'avatar': false
         }
       ]
   },
     {
-      'title': '🔥 Fire Dancers',
+      'name': 'Fire Dancers',
       'guid': '',
       'listItems': [
         {
-          'title': 'Isabella',
+          'name': 'Isabella',
           'avatar': false
         },
         {
-          'title': 'Lexi',
+          'name': 'Lexi',
           'avatar': false
         },
         {
-          'title': 'Gloria',
+          'name': 'Gloria',
           'avatar': false
         },
         {
-          'title': 'Michael',
+          'name': 'Michael',
           'avatar': false
         },
         {
-          'title': 'PJ',
+          'name': 'PJ',
           'avatar': false
         },
         {
-          'title': '',
+          'name': '',
           'avatar': false
         },
         {
-          'title': '',
+          'name': '',
           'avatar': false
         }
       ]
     },
     {
-      'title': '📺 Vusicians',
+      'name': 'Vusicians',
       'guid': '',
       'listItems': [
         {
-          'title': 'AVsync.LIVE',
+          'name': 'AVsync.LIVE',
           'avatar': false
         },
         {
-          'title': 'Neocord',
+          'name': 'Neocord',
           'avatar': false
         }
       ]
     },
     {
-      'title': '💡 Lighting Designer',
+      'name': 'Lighting Designer',
       'guid': '',
       'listItems': [
         {
-          'title': 'Atomosity',
+          'name': 'Atomosity',
           'avatar': false
         },
         {
-          'title': '',
+          'name': '',
           'avatar': false
         }
       ]
     },
     {
-      'title': '🍺 Bartenders',
+      'name': 'Bartenders',
       'guid': '',
       'listItems': [
         {
-          'title': '',
+          'name': '',
           'avatar': false
         },
         {
-          'title': '',
+          'name': '',
           'avatar': false
         }
       ]
     },
     {
-      'title': '🛡️ Security',
+      'name': 'Security',
       'guid': '',
       'listItems': [
         {
-          'title': '',
+          'name': '',
           'avatar': false
         },
         {
-          'title': '',
+          'name': '',
           'avatar': false
         }
       ]
     },
     {
-      'title': '🔊 Audio engineer',
+      'name': 'Audio engineer',
       'guid': '',
       'listItems': [
         {
-          'title': 'Ricky Havansek',
+          'name': 'Ricky Havansek',
           'avatar': false
         }
       ]
     },
     {
-      'title': '🍽️ Waitstaff',
+      'name': 'Waitstaff',
       'guid': '',
       'listItems': [
         {
-          'title': '',
+          'name': '',
           'avatar': false
         },
         {
-          'title': '',
+          'name': '',
           'avatar': false
         },
         {
-          'title': '',
+          'name': '',
           'avatar': false
         },
         {
-          'title': '',
+          'name': '',
           'avatar': false
         },
         {
-          'title': '',
+          'name': '',
           'avatar': false
         },
         {
-          'title': '',
+          'name': '',
           'avatar': false
         },
         {
-          'title': '',
+          'name': '',
           'avatar': false
         }
       ]
@@ -179,7 +179,7 @@ Positions.args = {
   ],
   
   onRemoveFunction: () => alert('remove'),
-  label: 'Position title'
+  label: 'Position name'
 }
 Positions.parameters = {
   layout: 'fullscreen'

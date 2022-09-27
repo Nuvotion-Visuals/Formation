@@ -16,15 +16,15 @@ export const Regular = Template.bind({})
 Regular.args = {
   'list': [
     {
-      'title': 'DJ SKoli',
+      name: 'DJ SKoli',
       'avatar': false
     },
     {
-      'title': 'King Spookey',
+      name: 'King Spookey',
       'avatar': false
     },
     {
-      'title': 'Subsus',
+      name: 'Subsus',
       'avatar': false
     }
   ]

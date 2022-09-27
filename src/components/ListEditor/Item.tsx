@@ -1,21 +1,23 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Dropdown, Avatar } from '../../internal'
+import { Dropdown, Avatar, getInitials, OptionsType } from '../../internal'
 
-const initials = (name : string) => name?.split(" ").map((n,i,a)=> i === 0 || i+1 === a.length ? n[0] : null).join("")
+
 
 interface Props {
   key?: any,
-  title?: string,
+  name?: string,
   avatar?: boolean,
   status?: string,
   statusColor?: string,
+  options?: OptionsType
 }
 
 export const Item = ({ 
   avatar,
-  title
+  name,
+  options
 }: Props): JSX.Element => {
   return (
     <>
@@ -23,62 +25,27 @@ export const Item = ({
         
         <S.AvatarContainer>
           <Avatar
-            name={title ? initials(title) : '?'}
-            color={title ? undefined : 'var(--F_Surface_2)'}
+            name={name ? getInitials(name) : '?'}
+            color={name ? undefined : 'var(--F_Surface_2)'}
           />
-        
         </S.AvatarContainer>
         
         <S.ResponsiveWrap>
           <S.ResponsiveTitleContainer>
-            <S.Title>{title ? title : `Unassigned`}</S.Title>
+            <S.Title>{name ? name : `Unassigned`}</S.Title>
           </S.ResponsiveTitleContainer>
         </S.ResponsiveWrap>
         
-        <S.Absolute>
-          <Dropdown
-            options={[
-              {
-                icon: 'ellipsis-v',
-                iconPrefix: 'fas',
-                dropDownOptions: 
-                  title
-                    ? [
-                        {
-                          icon: 'user',
-                          iconPrefix: 'fas',
-                          text: 'View profile'
-                        },
-                        {
-                          icon: 'paper-plane',
-                          text: 'Message',
-                        },
-                        {
-                          icon: 'handshake-angle',
-                          iconPrefix: 'fas',
-                          text: 'Set status'
-                        },
-                        {
-                          icon: 'trash-alt',
-                          text: 'Trash',
-                        },
-                      ] 
-                    : [
-                        {
-                          icon: 'user-plus',
-                          iconPrefix: 'fas',
-                          text: 'Assign'
-                        },
-                        {
-                          icon: 'trash-alt',
-                          text: 'Trash',
-                        },
-                      ] 
-                
-              }
-            ]}
-          />
-        </S.Absolute>
+        {
+          options
+            ? <S.Absolute>
+                <Dropdown
+                  options={options}
+                />
+              </S.Absolute>
+            : null
+        }
+        
       </S.ListItem>
     </>
   )
@@ -98,7 +65,6 @@ const S = {
     position: relative;
     cursor: pointer;
     background: var(--F_Background_Alternating);
-
     &:hover {
       background: var(--F_Surface_0);
     }

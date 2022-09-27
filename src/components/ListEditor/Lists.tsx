@@ -11,7 +11,7 @@ import { ListType } from './MultiExpandableList'
 interface Props {
   lists: ListType[],
   onRemove: (index: number) => void,
-  onAdd: (title: string, index: number) => void,
+  onAdd: (name: string, index: number) => void,
   hide?: boolean,
   lastAddedIndex?: number
 }
@@ -24,7 +24,7 @@ export const Lists = ({ lists, onRemove, onAdd, hide, lastAddedIndex }: Props) =
           <ExpandableList
             index={index}
             key={index}
-            title={list.title}
+            name={list.name}
             listItems={list.listItems}
             onRemove={() => {}}
           />

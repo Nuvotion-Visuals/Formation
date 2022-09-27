@@ -14,8 +14,34 @@ const Template: ComponentStory<typeof Item> = args =>
 
 export const Regular = Template.bind({})
 Regular.args = {
-  'title': 'DJ SKoli',
-  'avatar': false
+  name: 'DJ SKoli',
+  options: [
+    {
+      icon: 'ellipsis-v',
+      iconPrefix: 'fas',
+      dropDownOptions: 
+        [
+          {
+            icon: 'user',
+            iconPrefix: 'fas',
+            text: 'View profile'
+          },
+          {
+            icon: 'paper-plane',
+            text: 'Message',
+          },
+          {
+            icon: 'handshake-angle',
+            iconPrefix: 'fas',
+            text: 'Set status'
+          },
+          {
+            icon: 'trash-alt',
+            text: 'Trash',
+          },
+        ] 
+    }
+  ]
 }
 Regular.parameters = {
   layout: 'fullscreen'

@@ -15,7 +15,7 @@ export const List = ({ list, hide }: Props) => {
       list?.map((listItem, index) => 
         <Item
           key={index}
-          title={listItem.title}
+          name={listItem.name}
           avatar={listItem.avatar}
           status={listItem.status}
           statusColor={listItem.statusColor}

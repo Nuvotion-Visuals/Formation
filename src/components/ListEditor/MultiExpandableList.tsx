@@ -1,8 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
-import { ListItemEditor } from '../../internal'
 import { Lists } from './Lists'
 
 export interface Assignee {
@@ -14,7 +13,6 @@ export interface Assignee {
 export interface ListItemType {
   name?: string,
   type?: string,
-  title?: string,
   avatar?: boolean,
   unassigned?: boolean,
   background?: boolean,
@@ -27,7 +25,7 @@ export interface ListItemType {
 }
 
 export interface ListType {
-  title?: string,
+  name?: string,
   guid?: string,
   avatar?: boolean,
   listItems?: ListItemType[]
@@ -103,10 +101,10 @@ export const MultiExpandableList = ({
       onChange([
         ...value,
         {
-          title: textValue,
+          name: textValue,
           guid: '',
           listItems: new Array(countValue).fill(0).map(() => ({
-            title: '',
+            name: '',
             avatar: false
           }))
         }
@@ -128,7 +126,7 @@ export const MultiExpandableList = ({
       <Lists
         lists={value}
         onRemove={(index) => onRemove(index)}
-        onAdd={(title, index) => {}}
+        onAdd={(name, index) => {}}
         lastAddedIndex={lastAddedIndex}
       />
     </S.ListEditor>

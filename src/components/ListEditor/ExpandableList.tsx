@@ -7,16 +7,16 @@ import { List } from './List'
 
 interface Props {
   key?: any,
-  title?: string,
+  name?: string,
   listItems?: ListItemType[],
   index: number,
   onRemove: (index: number) => void,
-  onAdd?: (title: string, index: number) => void,
+  onAdd?: (name: string, index: number) => void,
   blinkAnimation?: boolean
 }
 
 export const ExpandableList = ({ 
-  title,
+  name,
   listItems,
   index,
   onRemove,
@@ -39,7 +39,7 @@ export const ExpandableList = ({
             color='none'
           />
 
-          <S.Title>{ title }</S.Title>
+          <S.Title>{ name }</S.Title>
 
           <Spacer />
 

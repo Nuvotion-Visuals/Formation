@@ -14,19 +14,19 @@ const Template: ComponentStory<typeof ExpandableList> = args =>
 
 export const Regular = Template.bind({})
 Regular.args = {
-  'title': '🎧 DJs',
+  name: 'DJs',
   'guid': '',
   'listItems': [
     {
-      'title': 'DJ SKoli',
+      name: 'DJ SKoli',
       'avatar': false
     },
     {
-      'title': 'King Spookey',
+      name: 'King Spookey',
       'avatar': false
     },
     {
-      'title': 'Subsus',
+      name: 'Subsus',
       'avatar': false
     }
   ]
