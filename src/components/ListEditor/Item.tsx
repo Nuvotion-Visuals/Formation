@@ -1,62 +1,106 @@
+import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 import React from 'react'
 import styled from 'styled-components'
 
-import { Dropdown, Avatar, getInitials, OptionsType } from '../../internal'
+import { Break, Spacer } from '../../internal'
 
-
+import { 
+  Dropdown, 
+  Avatar, 
+  getInitials, 
+  OptionsType 
+} from '../../internal'
 
 interface Props {
-  key?: any,
   name?: string,
-  avatar?: boolean,
-  status?: string,
-  statusColor?: string,
-  options?: OptionsType
+  options?: OptionsType,
+  onClick?: () => void,
+  icon?: IconName,
+  iconPrefix?: IconPrefix,
+  src?: string,
+  text?: string,
+  color?: string,
+  tagline?: string,
+  subtitle?: string,
+  dateString?: string,
+  title?: string
 }
 
 export const Item = ({ 
-  avatar,
   name,
-  options
+  tagline,
+  subtitle,
+  options,
+  onClick,
+  icon,
+  iconPrefix,
+  src,
+  text,
+  color,
+  title
 }: Props): JSX.Element => {
   return (
-    <>
-      <S.ListItem avatar={avatar}>
-        
-        <S.AvatarContainer>
-          <Avatar
-            name={name ? getInitials(name) : '?'}
-            color={name ? undefined : 'var(--F_Surface_2)'}
-          />
-        </S.AvatarContainer>
-        
-        <S.ResponsiveWrap>
-          <S.ResponsiveTitleContainer>
-            <S.Title>{name ? name : `Unassigned`}</S.Title>
-          </S.ResponsiveTitleContainer>
-        </S.ResponsiveWrap>
-        
-        {
-          options
-            ? <S.Absolute>
+    <S.ListItem onClick={onClick}>
+      
+      {
+        name || icon || src
+          ? <S.AvatarContainer>
+              <Avatar
+                name={name ? getInitials(name) : '?'}
+                color={
+                  color 
+                    ? color
+                    : name ? undefined : 'var(--F_Surface_2)'}
+                icon={icon}
+                iconPrefix={iconPrefix}
+                src={src}
+              />
+            </S.AvatarContainer>
+          : null
+      }
+
+      <S.Flex>
+
+      {
+        name && <><S.Text>{ name }</S.Text></>
+      }
+
+      {
+        tagline && <><S.Text>{ tagline }</S.Text><Break /></>
+      }
+
+      {
+        title && <><S.Title>{ title }</S.Title> { (text || subtitle) && <Break /> }</>
+      }
+      
+      {
+        text && <><S.Text>{ text }</S.Text></>
+      }
+
+      {
+        subtitle && <><S.Text>{ subtitle }</S.Text></>
+      }
+
+    </S.Flex>
+
+    <Spacer />
+
+    {
+        options
+          ? <>
                 <Dropdown
                   options={options}
                 />
-              </S.Absolute>
-            : null
-        }
-        
-      </S.ListItem>
-    </>
+            </>
+          : null
+      }
+      
+    </S.ListItem>
   )
 }
 
-interface ListItemProps {
-  avatar?: boolean
-}
-
 const S = {
-  ListItem: styled.div<ListItemProps>`
+  ListItem: styled.div`
     width: calc(100% - 1rem);
     padding: .5rem;
     display: flex;
@@ -71,6 +115,10 @@ const S = {
     &:active {
       background: var(--F_Surface);
     }
+  `,
+  Flex: styled.div`
+    display: flex;
+    flex-wrap: wrap;
   `,
   AvatarContainer: styled.div`
     height: 100%;
@@ -88,23 +136,14 @@ const S = {
     box-shadow: var(--F_Outline_Label);
     font-size: var(--F_Font_Size_Label);
   `,
-  ResponsiveWrap: styled.div`
-    width: 100%;
-    display: flex;
-    align-items: center;
-  `,
-  ResponsiveTitleContainer: styled.div`
-    display: flex;
-    flex-direction: column;
-    width: fit-content;
-  `,
-  Title: styled.div`
-    font-size: var(--F_Font_Size_Label);
+  Text: styled.div`
     font-weight: 400;
     color: var(--F_Font_Color_Label);
-    padding-left: .5rem;
     display: flex;
     align-items: center;
+    font-size: var(--F_Font_Size_Label);
+    line-height: 1.33;
+    padding: 0 .5rem;
   `,
   Absolute: styled.div`
     position: absolute;
@@ -113,5 +152,16 @@ const S = {
     cursor: pointer;
     display: flex;
     align-items: center;
+  `,
+  Title: styled.div`
+    font-size: var(--F_Font_Size);
+    color: var(--F_Font_Color);
+    padding: .325rem .5rem;
+  `,
+  DropdownSpacer: styled.div<{
+    spaces: number
+  }>`
+    height: 100%;
+    padding: ${props => `calc(${props.spaces} * 0.75rem)`};
   `
 }
