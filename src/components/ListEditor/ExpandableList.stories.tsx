@@ -1,17 +1,40 @@
 import React, { useState } from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { MultiExpandableList } from './MultiExpandableList'
+import { ExpandableList } from './ExpandableList'
 
 import { TextInput, Box, LineBreak, Button, Gap } from '../../internal'
 
 export default {
-  title: 'Items/MultiExpandableList',
-  component: MultiExpandableList,
-} as ComponentMeta<typeof MultiExpandableList>
+  title: 'Items/ExpandableList',
+  component: ExpandableList,
+} as ComponentMeta<typeof ExpandableList>
 
-const Template: ComponentStory<typeof MultiExpandableList> = args => {
-  const [value, set_value] = useState<any>([])
+const Template: ComponentStory<typeof ExpandableList> = args => {
+  const [expanded, set_expanded] = useState(false)
+  
+  const [value, set_value] = useState<any>({
+    item: {
+      icon: 'chevron-up',
+      iconPrefix: 'fas',
+      color: 'none',
+      title: 'Dancers',
+    },
+    list: [
+      {
+        name: 'Scotty Distortion'
+      },
+      {
+        name: 'Sleepy'
+      },
+      {
+        name: 'Isabelle'
+      }
+    ]
+  })
+
+
+  
 
   const [newItemName, set_newItemName] = useState('')
 
@@ -45,33 +68,14 @@ const Template: ComponentStory<typeof MultiExpandableList> = args => {
 
 
   return (<>
-    <Box p={.75}>
-      <Gap disableWrap={true}>
-      <TextInput 
-        value={newItemName}
-        label='Name'
-        onChange={newValue => set_newItemName(newValue)}
-      />
-      <Button
-        text='Add'
-        icon='plus'
-        iconPrefix='fas'
-        onClick={add}
-        disabled={newItemName === ''}
-      />
-      </Gap>
-    </Box>
-
-    <LineBreak />
-
-    <MultiExpandableList 
+    <ExpandableList 
       {...args} 
-      onChange={lists => set_value(lists)}
+      // onChange={lists => set_value(lists)}
       value={value}
+      expanded={expanded}
+      onExpand={() => set_expanded(!expanded)}
     />
   </>
-  
-    
   )
 }
 

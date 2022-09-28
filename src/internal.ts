@@ -128,7 +128,7 @@ import { Switch } from './components/Switch/Switch'
 import { LabelColorPicker } from './components/LabelColorPicker/LabelColorPicker'
 import { 
   Item,
-  MultiExpandableList
+  List
 } from './components/ListEditor'
 export {
   ArticlePreview,
@@ -142,7 +142,7 @@ export {
   Sidebar, Navs,
   Select,
   Item,
-  MultiExpandableList,
+  List,
   Switch,
   LabelColorPicker
 }

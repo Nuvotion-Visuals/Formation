@@ -1,2 +1,2 @@
 export * from './Item'
-export * from './MultiExpandableList'
+export * from './List'

@@ -9,7 +9,7 @@ interface Props {
   onChange: (newValue: ItemProps[]) => void
 }
 
-export const MultiExpandableList = ({
+export const List = ({
   value,
   onChange
 }: Props) => {
