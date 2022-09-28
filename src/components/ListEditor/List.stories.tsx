@@ -24,7 +24,7 @@ const Template: ComponentStory<typeof List> = args => {
     set_value([
       ...value,
       {
-        title: newItemName,
+        name: newItemName,
         options: [
           {
             icon: 'ellipsis-v',
@@ -66,6 +66,7 @@ const Template: ComponentStory<typeof List> = args => {
     <List 
       {...args} 
       value={value}
+      onReorder={newValue => set_value(newValue)}
     />
   </>
   )

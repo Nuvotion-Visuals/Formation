@@ -2,7 +2,7 @@ import { ListEditor } from 'components'
 import React from 'react'
 import styled from 'styled-components'
 
-import { Item } from '../../internal'
+import { Item, List } from '../../internal'
 import { Props as ItemProps } from './Item'
 
 interface Props {
@@ -11,13 +11,15 @@ interface Props {
     list: ItemProps[],
   },
   expanded?: boolean,
-  onExpand?: (newExpanded : boolean) => void
+  onExpand?: (newExpanded : boolean) => void,
+  onReorder: (newList: ItemProps[]) => void
 }
 
 export const ExpandableList = ({ 
   value,
   expanded,
-  onExpand
+  onExpand,
+  onReorder
 }: Props) => {
 
   return (<>
@@ -32,16 +34,14 @@ export const ExpandableList = ({
         }
       }}
     />
-    <S.List hide={!expanded}>
-      {
-        value.list.map(listItem => <Item {...listItem} />)
-      }
-    </S.List>
+    <S.ListContainer hide={!expanded}>
+      <List value={value.list} onReorder={onReorder} />
+    </S.ListContainer>
   </>)
 }
 
 const S = {
-  List: styled.div<{
+  ListContainer: styled.div<{
     hide: boolean
   }>`
     display: ${props => props.hide ? 'none' : 'flex'};

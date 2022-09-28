@@ -21,7 +21,7 @@ export interface Props {
   src?: string,
   text?: string,
   color?: string,
-  tagline?: string,
+  label?: string,
   subtitle?: string,
   dateString?: string,
   title?: string,
@@ -36,7 +36,7 @@ export interface Props {
 
 export const Item = ({ 
   name,
-  tagline,
+  label,
   subtitle,
   options,
   onClick,
@@ -98,7 +98,7 @@ export const Item = ({
       }
 
       {
-        tagline && <><S.Text>{ tagline }</S.Text><Break /></>
+        label && <><S.Text>{ label }</S.Text><Break /></>
       }
 
       {
@@ -119,7 +119,7 @@ export const Item = ({
 
     {
       children
-        ? <Box px={.25} >
+        ? <Box px={.5} >
             {
               children
             }

@@ -66,6 +66,10 @@ const Template: ComponentStory<typeof ExpandableList> = args => {
       value={value}
       expanded={expanded}
       onExpand={() => set_expanded(!expanded)}
+      onReorder={newValue => set_value({
+        ...value,
+        list: newValue
+      })}
     />
   </>
   )
@@ -155,7 +159,7 @@ Details.args = {
     {
       icon: 'info-circle',
       iconPrefix: 'fas',
-      tagline: 'Name',
+      label: 'Name',
       title: 'Hydrodynamics',
       color: 'none',
       onClick: () => {},
@@ -169,7 +173,7 @@ Details.args = {
     {
       icon: 'calendar-alt',
       iconPrefix: 'fas',
-      tagline: 'Date',
+      label: 'Date',
       title: 'Monday, October 31, 2022',
       color: 'none',
       onClick: () => {},
@@ -183,7 +187,7 @@ Details.args = {
     {
       icon: 'money-check-dollar',
       iconPrefix: 'fas',
-      tagline: 'Cost',
+      label: 'Tickets',
       onClick: () => {},
       color: 'none',
       emphasize: true,
@@ -200,7 +204,7 @@ Details.args = {
     {
       icon: 'map-marker-alt',
       iconPrefix: 'fas',
-      tagline: 'Location',
+      label: 'Location',
       onClick: () => {},
       title: 'South Loop',
       color: 'none',

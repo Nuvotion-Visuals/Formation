@@ -103,7 +103,7 @@ Detail.parameters = {
 
 export const Title = Template.bind({})
 Title.args = {
-  tagline: 'Name',
+  label: 'Name',
   title: 'Hydrodynamics',
   color: 'none',
   iconPrefix: 'fas',
@@ -121,7 +121,7 @@ Title.parameters = {
 
 export const Event = Template.bind({})
 Event.args = {
-  tagline: 'Liquid Dance Chicago Presents',
+  label: 'Liquid Dance Chicago Presents',
   subtitle: 'Jan 24, 2022',
   src: 'https://api.avsync.live/uploads/avsync_logo_border_45b816cca1.png',
   title: 'Hydrodynamics',
@@ -141,7 +141,7 @@ Event.parameters = {
 
 export const Space = Template.bind({})
 Space.args = {
-  tagline: 'Liquid Dance Chicago Presents',
+  label: 'Liquid Dance Chicago Presents',
   src: 'https://api.avsync.live/uploads/1_bc67779458.jpg',
   title: 'Hydrodynamics',
   color: 'none',

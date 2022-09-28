@@ -274,13 +274,11 @@ const S = {
     height: var(--F_Input_Height);
     position: relative;
     font-size: var(--F_Font_Size);
-    border-radius: 0.5rem;
     vertical-align: center;
     border: none;
     padding-left: ${props => props.hasIcon ? '.5rem' : '0'};
     outline: none;
     -webkit-appearance: none;
-    border-radius: 16px;
     color: var(--F_Font_Color);
     background: none;
     pointer-events: ${props => props.preventFocus ? 'none' : 'auto'};
