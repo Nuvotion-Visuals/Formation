@@ -41,16 +41,14 @@ const S = {
     background: string,
     outline: string
   }>`
-    padding: .125rem .5rem;
+    padding: .25rem .5rem;
     border-radius: 16px;
     font-size: var(--F_Font_Size_Label);
     background: ${props => props.background};
-    box-shadow: ${props => `inset 0 0 0 1px ${props.outline}`};
     color: white;
     width: fit-content;
     display: flex;
     align-items: center;
     flex-shrink: 0;
-    height: 1.125rem;
   `
 }

@@ -2,7 +2,7 @@ import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 import React from 'react'
 import styled from 'styled-components'
 
-import { Break, Spacer } from '../../internal'
+import { Box, Break, Spacer } from '../../internal'
 import { SpaceIcon } from '../NavSpaces/SpaceIcon'
 
 import { 
@@ -29,7 +29,9 @@ export interface Props {
   small?: boolean,
   href?: string,
   active?: boolean,
-  spaceIcon?: boolean
+  spaceIcon?: boolean,
+  children?: React.ReactNode,
+  emphasize?: boolean
 }
 
 export const Item = ({ 
@@ -48,10 +50,17 @@ export const Item = ({
   small,
   href,
   active,
-  spaceIcon
+  spaceIcon,
+  children,
+  emphasize
 }: Props): JSX.Element => {
   return (
-    <S.ListItem onClick={onClick} active={active}>
+    <S.ListItem 
+      onClick={onClick} 
+      active={active} 
+      emphasize={emphasize}
+      showHover={onClick !== undefined}
+    >
       {
         spaceIcon && <SpaceIcon
           src={src}
@@ -109,6 +118,16 @@ export const Item = ({
     <Spacer />
 
     {
+      children
+        ? <Box px={.25} >
+            {
+              children
+            }
+          </Box>
+        : null
+    }
+
+    {
         options
           ? <>
                 <Dropdown
@@ -124,7 +143,9 @@ export const Item = ({
 
 const S = {
   ListItem: styled.div<{
-    active?: boolean
+    active?: boolean,
+    emphasize?: boolean,
+    showHover?: boolean
   }>`
     width: calc(100% - 1rem);
     padding: .5rem;
@@ -132,14 +153,37 @@ const S = {
     align-items: center;
     border-bottom: 2px solid var(--F_Surface_0);
     position: relative;
-    cursor: pointer;
-    background: var(--F_Background_Alternating);
-    background: ${props => props.active ? 'var(--F_Surface_0)' : 'var(--F_Background_Alternating)'};
+    cursor: ${props => props.showHover ? 'pointer' : 'auto'};
+    background: ${props => 
+      props.active 
+        ? 'var(--F_Surface_0)' 
+        : props.emphasize
+          ? 'var(--F_Emphasize)'
+          : 'var(--F_Background)'
+    };
     &:hover {
-      background: var(--F_Surface_0);
+      background: ${props => 
+        props.showHover
+          ? props.active 
+              ? 'var(--F_Surface_0)' 
+              : props.emphasize
+                ? 'var(--F_Emphasize_Hover)'
+                : 'var(--F_Surface_0)'
+          : props.emphasize
+            ? 'var(--F_Emphasize)'
+            : 'var(--F_Background)'
+      };
     }
     &:active {
-      background: var(--F_Surface);
+      background: ${props => 
+        props.showHover
+          ? props.active 
+              ? 'var(--F_Surface_0)' 
+              : props.emphasize
+                ? 'var(--F_Emphasize_Hover)'
+                : 'var(--F_Surface)'
+          : 'var(--F_Background)'
+      };
     }
   `,
   Flex: styled.div`

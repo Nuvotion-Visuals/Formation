@@ -5,13 +5,11 @@ import { Props as ItemProps } from './Item'
 import { Item } from './Item'
 
 interface Props {
-  value: ItemProps[],
-  onChange: (newValue: ItemProps[]) => void
+  value: ItemProps[]
 }
 
 export const List = ({
   value,
-  onChange
 }: Props) => {
 
   return (
@@ -30,9 +28,5 @@ const S = {
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-  `,
-  FixedWrapper: styled.div`
-    width: 100%;
-    z-index: 1;
   `
 }

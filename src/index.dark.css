@@ -10,6 +10,11 @@ It’s easy to picture how a less saturated version of a color would look like, 
   --F_Background: hsl(0, 0%, 7%);
   --F_Background_Alternating: hsl(0, 0%, 5%);
   
+  --F_Emphasize: hsl(40, 100%, 13%);
+  --F_Emphasize_Hover: hsl(40, 100%, 18%);
+
+  
+  
   --F_Surface_0: hsl(0, 0%, 12%);
   --F_Surface: hsl(0, 0%, 16%);
   --F_Surface_1: hsl(0, 0%, 25%); /* hover */

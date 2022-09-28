@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
 import { List } from './List'
@@ -16,7 +16,7 @@ const Template: ComponentStory<typeof List> = args => {
   const [newItemName, set_newItemName] = useState('')
 
   const remove = (index: number) => {
-    set_value(value.slice(index, 1))
+    set_value(value.filter((item, i) => index !== i))
   }
 
   const add = () => {
@@ -34,7 +34,7 @@ const Template: ComponentStory<typeof List> = args => {
                 {
                   icon: 'trash-alt',
                   text: 'Trash',
-                  onClick: remove
+                  onClick: () => remove(value.length)
                 },
               ] 
           }
@@ -42,7 +42,6 @@ const Template: ComponentStory<typeof List> = args => {
       }
     ])
   }
-
 
   return (<>
     <Box p={.75}>
@@ -66,20 +65,15 @@ const Template: ComponentStory<typeof List> = args => {
 
     <List 
       {...args} 
-      onChange={lists => set_value(lists)}
       value={value}
     />
   </>
-  
-    
   )
 }
 
 export const Positions = Template.bind({})
 Positions.args = {
-  value: [
-    
-  ],
+
 }
 Positions.parameters = {
   layout: 'fullscreen'
