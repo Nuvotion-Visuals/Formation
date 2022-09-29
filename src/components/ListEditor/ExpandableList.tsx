@@ -3,14 +3,14 @@ import styled from 'styled-components'
 
 import { Item, List, ItemProps } from '../../internal'
 
-interface Props {
+export interface Props {
   value: {
     item: ItemProps,
     list: ItemProps[],
   },
   expanded?: boolean,
   onExpand?: (newExpanded : boolean) => void,
-  onReorder: (newList: ItemProps[]) => void
+  onReorder?: (newList: ItemProps[]) => void
 }
 
 export const ExpandableList = ({ 
