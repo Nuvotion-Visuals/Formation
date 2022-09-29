@@ -44,5 +44,6 @@ const S = {
   }>`
     display: ${props => props.hide ? 'none' : 'flex'};
     flex-wrap: wrap;
+    width: 100%;
   `
 }

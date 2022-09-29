@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
 import { ExpandableLists } from './ExpandableLists'
 
-import { TextInput, Box, LineBreak, Button, Gap, Label } from '../../internal'
+import { TextInput, Box, LineBreak, Button, Gap, Label, Select } from '../../internal'
 
 export default {
   title: 'Items/ExpandableLists',
@@ -11,7 +11,7 @@ export default {
 } as ComponentMeta<typeof ExpandableLists>
 
 const Template: ComponentStory<typeof ExpandableLists> = args => {
-  const [value, set_value] = useState<any>([])
+  const [value, set_value] = useState<any>(args.value)
 
   const [newItemName, set_newItemName] = useState('')
 
@@ -24,27 +24,63 @@ const Template: ComponentStory<typeof ExpandableLists> = args => {
     set_value([
       ...value,
       {
-        name: newItemName,
-        options: [
-          {
-            icon: 'ellipsis-v',
+        value: {
+          item: {
+            icon: 'chevron-up',
             iconPrefix: 'fas',
-            dropDownOptions: 
-              [
-                {
-                  icon: 'trash-alt',
-                  text: 'Trash',
-                  onClick: () => {
-                    remove(value.length)
-                    
+            color: 'none',
+            title: newItemName,
+            children: <>
+              <Label label={`0 / ${count}`} color={'darkorange'}/>
+            </>,
+            options: [
+              {
+                icon: 'ellipsis-v',
+                iconPrefix: 'fas',
+                dropDownOptions: [
+                  {
+                    icon: 'edit',
+                    iconPrefix: 'fas',
+                    text: 'Edit'
+                  },
+                  {
+                    icon: 'trash-alt',
+                    iconPrefix: 'far',
+                    text: 'Trash'
                   }
-                },
-              ] 
-          }
-        ]
+                ]
+              }
+            ]
+          },
+          list: new Array(count).fill({
+            icon: 'user',
+            iconPrefix: 'fas',
+            name: 'Unassigned',
+            color: 'none',
+            emphasize: true,
+            onClick: () => {},
+            children: <>
+              <Label label={'todo'} color={'darkorange'}/>
+            </>,
+            options: [
+              {
+                icon: 'arrow-right',
+                iconPrefix: 'fas'
+              }
+            ]
+          })
+        }
       }
     ])
   }
+
+  const [count, set_count] = useState(1)
+
+  const [expanded, set_expanded] = useState<boolean[]>([])
+
+  useEffect(() => {
+    set_expanded(new Array(value.length).fill(true))
+  }, [value])
 
   return (<>
     <Box p={.75}>
@@ -53,9 +89,15 @@ const Template: ComponentStory<typeof ExpandableLists> = args => {
         value={newItemName}
         icon='user'
         iconPrefix='fas'
-        label='Name'
+        label='Position Name'
         onChange={newValue => set_newItemName(newValue)}
         onEnter={newItemName !== '' ? add : undefined}
+      />
+      <Select
+        label='Count'
+        options={new Array(50).fill(0).map((item, i) => String(i + 1))}
+        value={String(count)}
+        onChange={newValue => set_count(Number(newValue))}
       />
       <Button
         text='Add'
@@ -72,6 +114,18 @@ const Template: ComponentStory<typeof ExpandableLists> = args => {
 
     <ExpandableLists 
       {...args} 
+      value={value.map((expandableList, i) => ({
+        ...expandableList,
+        expanded: expanded[i],
+        value: {
+          ...expandableList.value,
+          item: {
+            ...expandableList.value.item,
+            icon: expanded[i] ? 'chevron-up' : 'chevron-down'
+          }
+        }
+      }))}
+      onExpand={index => set_expanded(expanded.map((exp, i) => i === index ? !expanded[i] : exp))}
       // onReorder={newValue => set_value(newValue)}
     />
   </>
@@ -80,68 +134,8 @@ const Template: ComponentStory<typeof ExpandableLists> = args => {
 
 export const Positions = Template.bind({})
 Positions.args = {
-  expandableLists: [
-    {
-      expanded: false,
-      value: {
-        item: {
-          icon: 'chevron-up',
-          iconPrefix: 'fas',
-          color: 'none',
-          title: 'Dancers',
-          children: <>
-            <Label label={'2 / 3'} color={'darkorange'}/>
-          </>,
-          options: [
-            {
-              icon: 'ellipsis-v',
-              iconPrefix: 'fas'
-            }
-          ]
-        },
-        list: [
-          {
-            name: 'Scotty Distortion',
-            onClick: () => {},
-            children: <>
-              <Label label={'confirmed'} color={'green'}/>
-            </>,
-            options: [
-              {
-                icon: 'ellipsis-v',
-                iconPrefix: 'fas'
-              }
-            ]
-          },
-          {
-            name: 'Sleepy',
-            onClick: () => {},
-            children: <>
-              <Label label={'confirmed'} color={'green'}/>
-            </>,
-            options: [
-              {
-                icon: 'ellipsis-v',
-                iconPrefix: 'fas'
-              }
-            ]
-          },
-          {
-            name: 'Isabelle',
-            onClick: () => {},
-            children: <>
-              <Label label={'tentative'} color={'darkorange'}/>
-            </>,
-            options: [
-              {
-                icon: 'ellipsis-v',
-                iconPrefix: 'fas'
-              }
-            ]
-          }
-        ]
-      }
-    }
+  value: [
+    
   ]
 }
 Positions.parameters = {

@@ -6,24 +6,19 @@ import { Reorder, reorderItems, Item, ItemProps, ExpandableList, Label } from '.
 import { Props as ExpandableListProps } from './ExpandableList'
 
 interface Props {
-
-  onReorder?: (newList : ItemProps[]) => void,
-  allowReorder?: boolean,
-  expandableLists: ExpandableListProps[]
+  onExpand: (index: number) => void
+  value: ExpandableListProps[]
 }
 
 export const ExpandableLists = ({
-
-  onReorder,
-  expandableLists
+  value,
+  onExpand
 }: Props) => {
-
-
   return (
     <S.ListEditor>
       {
-        expandableLists?.map(expandableList => 
-          <ExpandableList {...expandableList} />  
+        value?.map((expandableList, index) => 
+          <ExpandableList {...expandableList} onExpand={() => onExpand(index)}/>  
         )
       }
     </S.ListEditor>
