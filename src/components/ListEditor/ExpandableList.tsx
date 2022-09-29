@@ -22,7 +22,7 @@ export const ExpandableList = ({
   reorderId
 }: Props) => {
 
-  return (<S.ListContainer hide={false}>
+  return (<S.Container hide={false}>
     <Item 
       {...value.item} 
       onClick={() => {
@@ -37,15 +37,24 @@ export const ExpandableList = ({
     <S.ListContainer hide={!expanded}>
       <List value={value.list} onReorder={onReorder} reorderId={reorderId}/>
     </S.ListContainer>
-  </S.ListContainer>)
+  </S.Container>)
 }
 
 const S = {
-  ListContainer: styled.div<{
+  Container: styled.div<{
     hide: boolean
   }>`
     display: ${props => props.hide ? 'none' : 'flex'};
     flex-wrap: wrap;
     width: 100%;
+  `,
+  ListContainer: styled.div<{
+    hide: boolean
+  }>`
+    display: ${props => props.hide ? 'none' : 'flex'};
+    flex-wrap: wrap;
+    padding-left: .5rem;
+    width: calc(100% - .5rem);
+    background: var(--F_Surface_0);
   `
 }
