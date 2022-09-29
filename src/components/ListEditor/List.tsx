@@ -6,12 +6,14 @@ import { Reorder, reorderItems, Item, ItemProps } from '../../internal'
 interface Props {
   value: ItemProps[],
   onReorder?: (newList : ItemProps[]) => void,
-  allowReorder?: boolean
+  allowReorder?: boolean,
+  reorderId: string
 }
 
 export const List = ({
   value,
   onReorder,
+  reorderId
 }: Props) => {
 
 
@@ -23,7 +25,7 @@ export const List = ({
               onChange={(event: any, previousIndex: any, nextIndex: any, fromId: any, toId: any) => {
                 onReorder([...reorderItems(value, previousIndex, nextIndex)])
               }} 
-              reorderId='1' 
+              reorderId={reorderId} 
               holdTime={200}
               placeholder={<Item emphasize={true} name={' '} color='none' />}
             >

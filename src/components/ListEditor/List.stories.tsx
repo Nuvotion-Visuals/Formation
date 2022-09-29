@@ -74,6 +74,7 @@ const Template: ComponentStory<typeof List> = args => {
       {...args} 
       value={value}
       onReorder={newValue => set_value(newValue)}
+      reorderId='1'
     />
   </>
   )

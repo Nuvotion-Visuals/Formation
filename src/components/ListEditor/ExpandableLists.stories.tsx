@@ -126,7 +126,6 @@ const Template: ComponentStory<typeof ExpandableLists> = args => {
         }
       }))}
       onExpand={index => set_expanded(expanded.map((exp, i) => i === index ? !expanded[i] : exp))}
-      // onReorder={newValue => set_value(newValue)}
     />
   </>
   )

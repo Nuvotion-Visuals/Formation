@@ -35,6 +35,7 @@ const Template: ComponentStory<typeof ExpandableList> = args => {
         ...value,
         list: newValue
       })}
+      reorderId='1'
     />
   </>
   )

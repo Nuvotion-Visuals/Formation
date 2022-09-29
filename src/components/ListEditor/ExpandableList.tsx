@@ -10,17 +10,19 @@ export interface Props {
   },
   expanded?: boolean,
   onExpand?: (newExpanded : boolean) => void,
-  onReorder?: (newList: ItemProps[]) => void
+  onReorder?: (newList: ItemProps[]) => void,
+  reorderId: string
 }
 
 export const ExpandableList = ({ 
   value,
   expanded,
   onExpand,
-  onReorder
+  onReorder,
+  reorderId
 }: Props) => {
 
-  return (<>
+  return (<S.ListContainer hide={false}>
     <Item 
       {...value.item} 
       onClick={() => {
@@ -33,9 +35,9 @@ export const ExpandableList = ({
       }}
     />
     <S.ListContainer hide={!expanded}>
-      <List value={value.list} onReorder={onReorder} />
+      <List value={value.list} onReorder={onReorder} reorderId={reorderId}/>
     </S.ListContainer>
-  </>)
+  </S.ListContainer>)
 }
 
 const S = {
