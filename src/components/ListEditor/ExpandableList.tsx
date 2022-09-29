@@ -1,9 +1,7 @@
-import { ListEditor } from 'components'
 import React from 'react'
 import styled from 'styled-components'
 
-import { Item, List } from '../../internal'
-import { Props as ItemProps } from './Item'
+import { Item, List, ItemProps } from '../../internal'
 
 interface Props {
   value: {

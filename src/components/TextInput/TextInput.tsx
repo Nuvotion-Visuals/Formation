@@ -26,7 +26,8 @@ type Props = {
   preventFocus?: boolean,
   onBlur?: () => void,
   ref?: any,
-  labelColor?: ColorType
+  labelColor?: ColorType,
+  onEnter?: () => void
 }
 
 export const TextInput = ({ 
@@ -47,7 +48,8 @@ export const TextInput = ({
   preventFocus,
   onBlur,
   ref,
-  labelColor
+  labelColor,
+  onEnter
 }: Props) => {
 
   const [locked, setLocked] = useState(value !== '')
@@ -124,6 +126,14 @@ export const TextInput = ({
       <S.Input
         value={value}
         preventFocus={preventFocus}
+        onKeyDown={onEnter 
+          ? e => {
+              if (e.key === 'Enter') {
+                onEnter()
+              }
+            }
+          : undefined
+        }
         // ref={autoFocusRef}
         ref={ref}
         id={id}

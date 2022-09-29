@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { ExpandableList } from './ExpandableList'
-
-import { Label, Spacer } from '../../internal'
+import { Label, ExpandableList } from '../../internal'
 
 export default {
   title: 'Items/ExpandableList',
@@ -14,7 +12,6 @@ const Template: ComponentStory<typeof ExpandableList> = args => {
   const [expanded, set_expanded] = useState(true)
   
   const [value, set_value] = useState<any>(args)
-
 
   useEffect(() => {
     set_value({
@@ -28,41 +25,9 @@ const Template: ComponentStory<typeof ExpandableList> = args => {
     })
   }, [expanded])
 
-  const [newItemName, set_newItemName] = useState('')
-
-  const remove = (index: number) => {
-    set_value(value.slice(index, 1))
-  }
-
-  const add = () => {
-    set_newItemName('')
-    set_value([
-      ...value,
-      {
-        title: newItemName,
-        options: [
-          {
-            icon: 'ellipsis-v',
-            iconPrefix: 'fas',
-            dropDownOptions: 
-              [
-                {
-                  icon: 'trash-alt',
-                  text: 'Trash',
-                  onClick: remove
-                },
-              ] 
-          }
-        ]
-      }
-    ])
-  }
-
-
   return (<>
     <ExpandableList 
       {...args} 
-      // onChange={lists => set_value(lists)}
       value={value}
       expanded={expanded}
       onExpand={() => set_expanded(!expanded)}

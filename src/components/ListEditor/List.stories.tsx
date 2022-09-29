@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
 import { List } from './List'
@@ -34,7 +34,10 @@ const Template: ComponentStory<typeof List> = args => {
                 {
                   icon: 'trash-alt',
                   text: 'Trash',
-                  onClick: () => remove(value.length)
+                  onClick: () => {
+                    remove(value.length)
+                    
+                  }
                 },
               ] 
           }
@@ -48,8 +51,11 @@ const Template: ComponentStory<typeof List> = args => {
       <Gap disableWrap={true}>
       <TextInput 
         value={newItemName}
+        icon='user'
+        iconPrefix='fas'
         label='Name'
         onChange={newValue => set_newItemName(newValue)}
+        onEnter={newItemName !== '' ? add : undefined}
       />
       <Button
         text='Add'
@@ -58,6 +64,7 @@ const Template: ComponentStory<typeof List> = args => {
         onClick={add}
         disabled={newItemName === ''}
       />
+      
       </Gap>
     </Box>
 

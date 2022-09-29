@@ -1,9 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Props as ItemProps } from './Item'
-
-import { Reorder, reorderItems, Item } from '../../internal'
+import { Reorder, reorderItems, Item, ItemProps } from '../../internal'
 
 interface Props {
   value: ItemProps[],

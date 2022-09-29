@@ -13,7 +13,7 @@ interface Props {
   gap?: number,
   disabled?: boolean,
   placeholder?: React.ReactNode,
-  holdTime: number
+  holdTime?: number
 }
 
 export const Reorder = ({ 
@@ -31,7 +31,7 @@ export const Reorder = ({
   return (
     <S.DraggableContainer
       reorderId={reorderId}
-      holdTime={holdTime}
+      holdTime={holdTime ? holdTime : 150}
       onReorder={onChange} 
       autoScroll={false} 
       disabled={disabled}
@@ -64,6 +64,11 @@ const S = {
         : `repeat(auto-fill, minmax(${props.maxItemWidth}rem, 1fr))`
     };
     grid-gap: ${props => props.gap ? `${props.gap}rem` : '0'};
+    
+    .dragged {
+      z-index: 99;
+      cursor: move;
+    }
   `,
   DraggableItem: styled.div`
     display: flex;
