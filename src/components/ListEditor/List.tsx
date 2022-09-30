@@ -7,13 +7,15 @@ interface Props {
   value: ItemProps[],
   onReorder?: (newList : ItemProps[]) => void,
   allowReorder?: boolean,
-  reorderId: string
+  reorderId: string,
+  indent?: boolean
 }
 
 export const List = ({
   value,
   onReorder,
-  reorderId
+  reorderId,
+  indent
 }: Props) => {
 
 
@@ -30,12 +32,12 @@ export const List = ({
               placeholder={<Item emphasize={true} name={' '} color='none' />}
             >
               {
-                value.map(props => <Item {...props} />)
+                value.map(props => <Item {...props} indent={indent}/>)
               }
             </Reorder>
           : <>
               {
-                value.map(props => <Item {...props} />)
+                value.map(props => <Item {...props} indent={indent} />)
               }
             </>
       }

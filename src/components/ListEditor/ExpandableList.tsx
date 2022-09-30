@@ -35,7 +35,7 @@ export const ExpandableList = ({
       }}
     />
     <S.ListContainer hide={!expanded}>
-      <List value={value.list} onReorder={onReorder} reorderId={reorderId}/>
+      <List value={value.list} onReorder={onReorder} reorderId={reorderId} indent={true}/>
     </S.ListContainer>
   </S.Container>)
 }
@@ -53,8 +53,6 @@ const S = {
   }>`
     display: ${props => props.hide ? 'none' : 'flex'};
     flex-wrap: wrap;
-    padding-left: .5rem;
-    width: calc(100% - .5rem);
-    background: var(--F_Surface_0);
+    width: 100%;
   `
 }

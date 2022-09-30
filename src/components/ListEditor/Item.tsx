@@ -31,7 +31,8 @@ export interface Props {
   active?: boolean,
   spaceIcon?: boolean,
   children?: React.ReactNode,
-  emphasize?: boolean
+  emphasize?: boolean,
+  indent?: boolean
 }
 
 export const Item = ({ 
@@ -52,15 +53,22 @@ export const Item = ({
   active,
   spaceIcon,
   children,
-  emphasize
+  emphasize,
+  indent
 }: Props): JSX.Element => {
-  return (
+  return (<S.Container>
+    {
+      indent
+        ? <S.Indent active={active} />
+        : null
+    }
     <S.ListItem 
       onClick={onClick} 
       active={active} 
       emphasize={emphasize}
       showHover={onClick !== undefined}
     >
+     
       {
         spaceIcon && <SpaceIcon
           src={src}
@@ -138,7 +146,7 @@ export const Item = ({
       }
       
     </S.ListItem>
-  )
+  </S.Container>)
 }
 
 const S = {
@@ -151,7 +159,7 @@ const S = {
     padding: .5rem;
     display: flex;
     align-items: center;
-    border-bottom: 2px solid var(--F_Surface_0);
+    border-bottom: 2px solid var(--F_Surface);
     position: relative;
     cursor: ${props => props.showHover ? 'pointer' : 'auto'};
     background: ${props => 
@@ -233,5 +241,15 @@ const S = {
   }>`
     height: 100%;
     padding: ${props => `calc(${props.spaces} * 0.75rem)`};
+  `,
+  Indent: styled.div<{
+    active?: boolean
+  }>`
+    width: .325rem;
+    background: ${props => props.active ? 'var(--F_Font_Color)' : 'var(--F_Surface_0)'};
+  `,
+  Container: styled.div`
+    display: flex;
+    width: 100%;
   `
 }

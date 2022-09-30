@@ -75,6 +75,7 @@ Positions.args = {
     {
       name: 'Sleepy',
       onClick: () => {},
+      active: true,
       children: <>
         <Label label={'confirmed'} color={'green'}/>
       </>,
