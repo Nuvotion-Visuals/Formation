@@ -31,6 +31,7 @@ export interface Props {
   active?: boolean,
   spaceIcon?: boolean,
   children?: React.ReactNode,
+  content?: React.ReactNode,
   emphasize?: boolean,
   indent?: boolean
 }
@@ -53,22 +54,23 @@ export const Item = ({
   active,
   spaceIcon,
   children,
+  content,
   emphasize,
   indent
 }: Props): JSX.Element => {
   return (<S.Container>
-    {
-      indent
-        ? <S.Indent active={active} />
-        : null
-    }
+    
     <S.ListItem 
       onClick={onClick} 
       active={active} 
       emphasize={emphasize}
       showHover={onClick !== undefined}
     >
-     
+      {
+        indent
+          ? <S.Indent active={active} />
+          : null
+      }
       {
         spaceIcon && <SpaceIcon
           src={src}
@@ -84,7 +86,7 @@ export const Item = ({
       
       {
         (name || icon || src) && !spaceIcon
-          ? <S.AvatarContainer>
+          ? <S.AvatarContainer active={active}>
               <Avatar
                 name={name ? getInitials(name) : '?'}
                 color={
@@ -102,11 +104,11 @@ export const Item = ({
       <S.Flex>
 
       {
-        name && <><S.Text>{ name }</S.Text></>
+        name && <><S.Text active={active}>{ name }</S.Text></>
       }
 
       {
-        label && <><S.Text>{ label }</S.Text><Break /></>
+        label && <><S.Text active={active}>{ label }</S.Text><Break /></>
       }
 
       {
@@ -114,11 +116,15 @@ export const Item = ({
       }
       
       {
-        text && <><S.Text>{ text }</S.Text></>
+        text && <><S.Text active={active}>{ text }</S.Text></>
       }
 
       {
-        subtitle && <><S.Text>{ subtitle }</S.Text></>
+        subtitle && <><S.Text active={active}>{ subtitle }</S.Text></>
+      }
+
+      {
+        content && <><S.Title>{ content }</S.Title></>
       }
 
     </S.Flex>
@@ -156,15 +162,14 @@ const S = {
     showHover?: boolean
   }>`
     width: calc(100% - 1rem);
-    padding: .5rem;
+    padding: .325rem .5rem;
     display: flex;
     align-items: center;
-    border-bottom: 2px solid var(--F_Surface);
     position: relative;
     cursor: ${props => props.showHover ? 'pointer' : 'auto'};
     background: ${props => 
       props.active 
-        ? 'var(--F_Surface_0)' 
+        ? 'var(--F_Surface)' 
         : props.emphasize
           ? 'var(--F_Emphasize)'
           : 'var(--F_Background)'
@@ -173,7 +178,7 @@ const S = {
       background: ${props => 
         props.showHover
           ? props.active 
-              ? 'var(--F_Surface_0)' 
+              ? 'var(--F_Surface)' 
               : props.emphasize
                 ? 'var(--F_Emphasize_Hover)'
                 : 'var(--F_Surface_0)'
@@ -186,7 +191,7 @@ const S = {
       background: ${props => 
         props.showHover
           ? props.active 
-              ? 'var(--F_Surface_0)' 
+              ? 'var(--F_Surface_1)' 
               : props.emphasize
                 ? 'var(--F_Emphasize_Hover)'
                 : 'var(--F_Surface)'
@@ -198,10 +203,15 @@ const S = {
     display: flex;
     flex-wrap: wrap;
   `,
-  AvatarContainer: styled.div`
+  AvatarContainer: styled.div<{
+    active?: boolean
+  }>`
     height: 100%;
     display: flex;
     align-items: center;
+    * {
+      color: ${props => props.active ? 'var(--F_Font_Color)' : 'auto'};
+    }
   `,
   Avatar: styled.div`
     height: 1.75rem;
@@ -214,14 +224,18 @@ const S = {
     box-shadow: var(--F_Outline_Label);
     font-size: var(--F_Font_Size_Label);
   `,
-  Text: styled.div`
-    font-weight: 400;
-    color: var(--F_Font_Color_Label);
+  Text: styled.div<{
+    active?: boolean
+  }>`
+    
     display: flex;
     align-items: center;
     font-size: var(--F_Font_Size_Label);
     line-height: 1.33;
     padding: 0 .5rem;
+    color: ${props => props.active ? 'var(--F_Font_Color)' : 'var(--F_Font_Color_Label)'};
+    font-weight: ${props => props.active ? '600' : '400'};
+
   `,
   Absolute: styled.div`
     position: absolute;
@@ -245,8 +259,9 @@ const S = {
   Indent: styled.div<{
     active?: boolean
   }>`
-    width: .325rem;
-    background: ${props => props.active ? 'var(--F_Font_Color)' : 'var(--F_Surface_0)'};
+    width: 1.875rem;
+    min-width: 1.875rem;
+    background: ${props => props.active ? 'var(--F_Surface)' : 'var(--F_Background)'};
   `,
   Container: styled.div`
     display: flex;

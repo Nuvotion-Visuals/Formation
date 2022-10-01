@@ -143,6 +143,7 @@ Details.args = {
       label: 'Date',
       title: 'Monday, October 31, 2022',
       color: 'none',
+      active: true,
       onClick: () => {},
       options: [
         {

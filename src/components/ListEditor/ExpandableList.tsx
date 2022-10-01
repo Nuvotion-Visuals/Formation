@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Item, List, ItemProps } from '../../internal'
+import { Item, List, ItemProps, LineBreak } from '../../internal'
 
 export interface Props {
   value: {
@@ -34,8 +34,11 @@ export const ExpandableList = ({
         }
       }}
     />
+    <LineBreak />
     <S.ListContainer hide={!expanded}>
       <List value={value.list} onReorder={onReorder} reorderId={reorderId} indent={true}/>
+    <LineBreak />
+
     </S.ListContainer>
   </S.Container>)
 }
