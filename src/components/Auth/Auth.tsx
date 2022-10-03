@@ -25,9 +25,8 @@ export const Auth = ({
     </S_Flex>
 
     <S_Center>
-      <S_LogoContainer>
-          <S_Logo src={logoSrc} />
-        </S_LogoContainer>
+      <S_LogoContainer src={logoSrc}>
+      </S_LogoContainer>
         <S_Auth>
           <S_TitleContainer>
             {
@@ -108,28 +107,26 @@ const S_Auth = styled.div`
   box-shadow: var(--F_Outline_Light);
 `
 
-const S_Logo = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  overflow: hidden;
-`
-
-const S_LogoContainer = styled.div`
+const S_LogoContainer = styled.div<{
+  src?: string
+}>`
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
   z-index: 1;
   margin-bottom: -2.5rem;
-  outline: 2px solid var(--F_Surface);
-  background: var(--F_Background);
+  box-shadow: var(--F_Outline);
+  background-color: var(--F_Background);
   border-radius: 100%;
   width: 72px;
   height: 72px;
-
+  min-width: 72px;
   overflow: hidden;
-
+  background-image: ${props => props.src ? `url(${props.src})` : 'var(--F_Background)'};
+  background-repeat: none;
+  background-size: cover;
+  background-position: center;
 `
 
 const S_Side = styled.div`

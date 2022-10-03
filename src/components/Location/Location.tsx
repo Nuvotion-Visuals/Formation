@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import React, { useEffect, useState } from 'react'
 
 import { TextInput } from '../../internal'
+import { IconPrefix } from '@fortawesome/fontawesome-common-types';
 
 export interface Place {
   address_components?: (AddressComponentsEntity)[] | null;
@@ -85,17 +86,20 @@ export type LocationData = {
 }
 
 interface Props {
-  onChange: (props : LocationData) => void
+  value: LocationData,
+  onChange: (props : LocationData) => void,
+  iconPrefix?: IconPrefix
 }
 
 export const Location = ({ 
-  onChange
+  value,
+  onChange,
+  iconPrefix
 } : Props) => {
 
   const [googleMapsPlace, set_googleMapsPlace] = useState({} as Place)
 
   useEffect(() => {
- 
     if (googleMapsPlace?.geometry?.location?.lat && googleMapsPlace?.geometry?.location?.lng) {
 
       const displayName = googleMapsPlace?.name
@@ -141,8 +145,6 @@ export const Location = ({
         zoom: 13
       })
       const input = document.getElementById('pac-input') as HTMLInputElement
-  
-      
     
       const types = document.getElementById('type-selector')
       map.controls[google.maps.ControlPosition.TOP_LEFT].push(types)
@@ -223,13 +225,13 @@ export const Location = ({
     }
   }, [])
 
-  const [local, set_local] = useState('')
 
   return (<>
     <TextInput 
-      value={local}
+      value={value?.displayName}
       id='pac-input'
-      icon='map-pin'
+      icon='map-marker-alt'
+      iconPrefix={iconPrefix}
       tooltip='The name of location may be shared with Google'
     />
 

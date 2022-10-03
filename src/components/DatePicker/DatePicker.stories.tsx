@@ -16,7 +16,7 @@ const Template: ComponentStory<typeof DatePicker> = args => {
   }, [value])
 
   return <DatePicker 
-    // {...args} 
+    {...args} 
     onChange={result => {
       set_value(result)
     }}
@@ -27,5 +27,5 @@ const Template: ComponentStory<typeof DatePicker> = args => {
     
 export const Default = Template.bind({})
 Default.args = {
-
+  iconPrefix: 'fas'
 }

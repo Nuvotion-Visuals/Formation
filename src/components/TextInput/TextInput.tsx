@@ -27,7 +27,8 @@ type Props = {
   onBlur?: () => void,
   ref?: any,
   labelColor?: ColorType,
-  onEnter?: () => void
+  onEnter?: () => void,
+  onChangeEvent?: (e: any) => void
 }
 
 export const TextInput = ({ 
@@ -49,7 +50,9 @@ export const TextInput = ({
   onBlur,
   ref,
   labelColor,
-  onEnter
+  onEnter,
+  name,
+  onChangeEvent
 }: Props) => {
 
   const [locked, setLocked] = useState(value !== '')
@@ -80,7 +83,7 @@ export const TextInput = ({
             >
                 <Icon 
                   icon='check' 
-                  iconPrefix='fas' 
+                  iconPrefix={iconPrefix}
                   fixedWidth
                 />
               </S.IconContainer> 
@@ -108,7 +111,7 @@ export const TextInput = ({
               >
                 <Icon 
                   icon='exclamation-triangle' 
-                  iconPrefix='fas'
+                  iconPrefix={iconPrefix}
                 />
               </S.IconContainer> 
             : null
@@ -117,13 +120,14 @@ export const TextInput = ({
           !error && !success && icon
             ? <Icon 
                 icon={icon} 
-                iconPrefix='fas' 
+                iconPrefix={iconPrefix}
               />
             : null
         }
       </S.ErrorIconContainer>
 
       <S.Input
+        name={name}
         value={value}
         preventFocus={preventFocus}
         onKeyDown={onEnter 
@@ -142,6 +146,9 @@ export const TextInput = ({
         locked={locked}
         focused={focused}
         onChange={event => {
+          if (onChangeEvent) {
+            onChangeEvent(event)
+          }
           const newValue = (event.target as HTMLInputElement).value
           if (newValue !== undefined && onChange) {
             onChange(newValue)
@@ -185,7 +192,7 @@ export const TextInput = ({
               >
                 <Icon 
                   icon={'info-circle'} 
-                  iconPrefix='fas' 
+                  iconPrefix={iconPrefix}
                 />
               </S.ErrorIconContainer>
             : null
