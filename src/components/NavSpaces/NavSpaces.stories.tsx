@@ -52,6 +52,38 @@ const eventChannels = [
     href: '',
     hideOptions: true,
     active: false
+  },
+  {
+    name: '',
+    icon: 'money-check-dollar',
+    iconPrefix: 'fas',
+    href: '',
+    hideOptions: true,
+    active: false
+  },
+  {
+    name: 'Everyone',
+    icon: 'hashtag',
+    iconPrefix: 'fas',
+    href: '',
+    hideOptions: true,
+    active: false
+  },
+  {
+    name: 'Organizers',
+    icon: 'hashtag',
+    iconPrefix: 'fas',
+    href: '',
+    hideOptions: true,
+    active: false
+  },
+  {
+    name: 'Volunteers',
+    icon: 'hashtag',
+    iconPrefix: 'fas',
+    href: '',
+    hideOptions: true,
+    active: false
   }
 ]
 
@@ -102,6 +134,11 @@ const Template: ComponentStory<typeof NavSpaces> = args => {
   const [activeSwipeIndex, set_activeSwipeIndex] = useState(0)
 
   const [spaces, set_spaces] = useState([
+    {
+      title: '',
+      icon: 'message',
+      iconPrefix: 'fas'
+    },
     {
       title: 'Jive DJs Cork',
       // src: 'https://api.avsync.live/uploads/medium_jive_djs_d7e9e4490a.jpg',
@@ -159,9 +196,14 @@ const Template: ComponentStory<typeof NavSpaces> = args => {
       title: 'Glitch Artists Chicago',
       src: 'https://api.avsync.live/uploads/Mosh_Banner_626d750b85.png',
       channels: organizationChannels
-    }
+    },
+    {
+      title: '',
+      icon: 'plus',
+      iconPrefix: 'fas'
+    },
   ])
-  const [activeSpaceIndex, set_activeSpaceIndex] = useState(0)
+  const [activeSpaceIndex, set_activeSpaceIndex] = useState(1)
 
   const [dates, set_dates] = useState([{
     startTime: '',
@@ -206,6 +248,33 @@ const Template: ComponentStory<typeof NavSpaces> = args => {
           value={dates}
         />
       }
+      dropdownOptions={[
+        {
+          icon: 'ellipsis-v',
+          iconPrefix: 'fas',
+          dropDownOptions: [
+            {
+              icon: 'user-plus',
+              iconPrefix: 'fas',
+              text: 'Invite'
+            },
+            {
+              icon: 'share',
+              iconPrefix: 'fas',
+              text: 'Share'
+            },
+            {
+              icon: 'archive',
+              iconPrefix: 'fas',
+              text: 'Archive',
+            },
+            {
+              icon: 'trash-alt',
+              text: 'Remove',
+            },
+          ] 
+        }
+      ]}
     />
   )
 }

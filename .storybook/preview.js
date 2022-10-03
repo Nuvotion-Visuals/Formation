@@ -55,7 +55,8 @@ library.add(
   fas.faChevronRight, fas.faChevronDown, fas.faChevronUp,
   fas.faTrashAlt, fas.faMapMarkerAlt, fas.faEdit, fas.faMoneyCheckDollar,
   fas.faUserPlus, fas.faAddressCard, fas.faHandshakeAngle,
-  fas.faArchive, fas.faShare, fas.faTimes
+  fas.faArchive, fas.faShare, fas.faTimes, fas.faMessage,
+  fas.faHashtag
 )
 
 export const parameters = {

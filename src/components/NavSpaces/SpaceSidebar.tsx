@@ -11,7 +11,8 @@ interface Props {
   src?: string,
   dateString?: string,
   location?: string,
-  channels: any
+  channels: any,
+  dropdownOptions?: any
 }
 
 export const SpaceSidebar = ({  
@@ -19,7 +20,8 @@ export const SpaceSidebar = ({
   src,
   dateString,
   location,
-  channels
+  channels,
+  dropdownOptions
 }: Props) => {
   return (
     <S.SpaceSidebar>
@@ -42,37 +44,15 @@ export const SpaceSidebar = ({
             </S.Title>
           </header>
 
-          <S.Absolute>
-          <Dropdown
-            options={[
-              {
-                icon: 'ellipsis-v',
-                iconPrefix: 'fas',
-                dropDownOptions: [
-                  {
-                    icon: 'user-plus',
-                    iconPrefix: 'fas',
-                    text: 'Invite'
-                  },
-                  {
-                    icon: 'share',
-                    iconPrefix: 'fas',
-                    text: 'Share'
-                  },
-                  {
-                    icon: 'archive',
-                    iconPrefix: 'fas',
-                    text: 'Archive',
-                  },
-                  {
-                    icon: 'trash-alt',
-                    text: 'Remove',
-                  },
-                ] 
-              }
-            ]}
-          />
-        </S.Absolute>
+          {
+            dropdownOptions
+              ? <S.Absolute>
+                  <Dropdown
+                    options={dropdownOptions}
+                  />
+                </S.Absolute>
+              : null
+          }
 
           {
             dateString || location
@@ -140,7 +120,7 @@ const S = {
   HeaderArea: styled.div`
     position: relative;
     padding: 1rem;
-    border-bottom: 2px solid var(--F_Surface);
+    padding-bottom: .5rem;
   `,
   Title: styled.h1`
     font-size: 20px;

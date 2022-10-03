@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 
-import { Icon, Spacer, Box, getLinkComponent } from '../../internal'
+import { Icon, Spacer, Box, getLinkComponent, LineBreak } from '../../internal'
 
 type Channel = {
   name: string,
@@ -60,11 +60,14 @@ export const Channels = ({ channels }: Props) => {
 
   return (<S.Container>
     <S.Channels>
+      <LineBreak />
       {
         channels?.map(channel =>
-          <Channel
-            {...channel}
-          />
+          channel.name
+            ? <Channel
+                {...channel}
+              />
+            : <LineBreak />
         )
       }
     </S.Channels>
@@ -85,6 +88,7 @@ const S = {
     padding: 0;
     margin: 0;
     padding: .5rem .5rem;
+    gap: .25rem;
 
     * {
       color: var(--F_Font_Color_Disabled);

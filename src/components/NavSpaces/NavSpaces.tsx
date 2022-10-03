@@ -21,6 +21,7 @@ interface Props {
   navsPrimary: any,
   navsSecondary: any,
   channels: any,
+  dropdownOptions: any,
   onCreateSpace: () => void
 }
 
@@ -35,6 +36,7 @@ export const NavSpaces = ({
   navsPrimary,
   navsSecondary,
   channels,
+  dropdownOptions,
   onCreateSpace
 }: Props) => {
   const { isDesktop, isTablet, isMobile } = useBreakpoint()
@@ -43,24 +45,28 @@ export const NavSpaces = ({
     return <>
       <S.MainScroll>
         <SpacesSidebar 
-          spaces={spaces}
           activeSpaceIndex={activeSpaceIndex}
           onClickIndex={index => onSetActiveSpacesIndex(index)}
           onCreateSpace={onCreateSpace}
+          spaces={spaces}
         />
+
+        {/* Add render prop */}
         <SpaceSidebar 
           title={spaces[activeSpaceIndex]?.title}
           src={spaces[activeSpaceIndex]?.src}
           dateString={
             spaces[activeSpaceIndex]?.date?.toLocaleString('en-us', { 
-                weekday: 'long', 
-                month: 'short', 
-                day: 'numeric', 
-                year: 'numeric' 
-              })}
+              weekday: 'long', 
+              month: 'short', 
+              day: 'numeric', 
+              year: 'numeric' 
+            })}
           location={spaces[activeSpaceIndex]?.location}
           channels={channels}
+          dropdownOptions={dropdownOptions}
         />
+
       </S.MainScroll>
       <NavBottom
         trimRight={true}
