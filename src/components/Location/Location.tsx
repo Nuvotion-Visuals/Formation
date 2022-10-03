@@ -88,13 +88,15 @@ export type LocationData = {
 interface Props {
   value: LocationData,
   onChange: (props : LocationData) => void,
-  iconPrefix?: IconPrefix
+  iconPrefix?: IconPrefix,
+  label?: string
 }
 
 export const Location = ({ 
   value,
   onChange,
-  iconPrefix
+  iconPrefix,
+  label
 } : Props) => {
 
   const [googleMapsPlace, set_googleMapsPlace] = useState({} as Place)
@@ -233,6 +235,7 @@ export const Location = ({
       icon='map-marker-alt'
       iconPrefix={iconPrefix}
       tooltip='The name of location may be shared with Google'
+      label={label}
     />
 
     <S.Map id='map'></S.Map>

@@ -26,5 +26,6 @@ const Template: ComponentStory<typeof Location> = (args) => {
 export const Regular = Template.bind({})
 Regular.args = {
   iconPrefix: 'fas',
-  value: ''
+  value: '',
+  label: 'Location'
 }
