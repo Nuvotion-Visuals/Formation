@@ -33,7 +33,8 @@ export interface Props {
   children?: React.ReactNode,
   content?: React.ReactNode,
   emphasize?: boolean,
-  indent?: boolean
+  indent?: boolean,
+  pageTitle?: string
 }
 
 export const Item = ({ 
@@ -56,7 +57,8 @@ export const Item = ({
   children,
   content,
   emphasize,
-  indent
+  indent,
+  pageTitle
 }: Props): JSX.Element => {
   return (<S.Container>
     
@@ -65,6 +67,7 @@ export const Item = ({
       active={active} 
       emphasize={emphasize}
       showHover={onClick !== undefined}
+      pageTitle={pageTitle}
     >
       {
         indent
@@ -109,6 +112,10 @@ export const Item = ({
 
       {
         label && <><S.Text active={active}>{ label }</S.Text><Break /></>
+      }
+
+      {
+        pageTitle && <><S.PageTitle active={active}>{ pageTitle }</S.PageTitle></>
       }
 
       {
@@ -159,10 +166,12 @@ const S = {
   ListItem: styled.div<{
     active?: boolean,
     emphasize?: boolean,
-    showHover?: boolean
+    showHover?: boolean,
+    pageTitle?: string
   }>`
     width: calc(100% - 1rem);
-    padding: .325rem .5rem;
+    height: ${props => props.pageTitle ? 'var(--F_Header_Height)' : 'auto'};
+    padding: ${props => props.pageTitle ? '0 .5rem' : '.325rem .5rem'};
     display: flex;
     align-items: center;
     position: relative;
@@ -248,6 +257,14 @@ const S = {
   Title: styled.div`
     font-size: var(--F_Font_Size);
     color: var(--F_Font_Color);
+    padding: .325rem .5rem;
+  `,
+  PageTitle: styled.div<{
+    active?: boolean
+  }>`
+    font-size: var(--F_Font_Size_Title);
+    color: var(--F_Font_Color);
+    font-weight: 600;
     padding: .325rem .5rem;
   `,
   DropdownSpacer: styled.div<{

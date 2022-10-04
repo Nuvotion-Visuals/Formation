@@ -158,3 +158,11 @@ Space.args = {
 Space.parameters = {
   layout: 'fullscreen'
 }
+
+export const PageName = Template.bind({})
+PageName.args = {
+  pageTitle: 'Test'
+}
+PageName.parameters = {
+  layout: 'fullscreen'
+}
