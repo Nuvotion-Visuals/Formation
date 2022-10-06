@@ -17,7 +17,7 @@ interface IntervalType {
   gridNumber: number
 }
 
-export const AreaSurface = ({ value, areaIndex, onChange, onClick }: Props) => {
+export const IntervalSurface = ({ value, areaIndex, onChange, onClick }: Props) => {
   const intervals: IntervalType[] = new Array(112).fill(0).map((item, index) => (
     {
       display:
@@ -43,7 +43,7 @@ export const AreaSurface = ({ value, areaIndex, onChange, onClick }: Props) => {
               : index * 15 % 60 === 45
                 ? `${Math.floor(index * 15 / 60)}:45`
                 : ''
-         ,
+      ,
       gridNumber: index
     }
   ))

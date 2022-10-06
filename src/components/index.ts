@@ -1,5 +1,5 @@
-export { Activities } from './Activities/Activities'
-export { ActivityEditor } from './Activities/ActivityEditor'
+export { Timeline } from './Timeline/Timeline'
+export { ActivityEditor } from './Timeline/ActivityEditor'
 export { Article } from './Article/Article'
 export { ArticlePreview } from './ArticlePreview/ArticlePreview'
 export { AspectRatio } from './AspectRatio/AspectRatio'

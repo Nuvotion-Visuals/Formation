@@ -120,7 +120,7 @@ import { Sidebar, Navs } from './components/Sidebar/Sidebar'
 import { Select } from './components/Select/Select'
 import { Switch } from './components/Switch/Switch'
 import { LabelColorPicker } from './components/LabelColorPicker/LabelColorPicker'
-import { ActivityEditor } from './components/Activities/ActivityEditor'
+import { ActivityEditor } from './components/Timeline/ActivityEditor'
 import { 
   ListEditor, 
   List, 
@@ -160,7 +160,7 @@ export {
 }
 
 // Tissue (2)
-import { AreaSurface } from './components/Activities/AreaSurface'
+import { IntervalSurface } from './components/Timeline/IntervalSurface'
 import { Navigation } from './components/Navigation/Navigation'
 import { Location } from './components/Location/Location'
 import { TimePicker } from './components/TimePicker/TimePicker'
@@ -170,7 +170,7 @@ import { Tabs } from './components/Tabs/Tabs'
 import { TimeZone } from './components/TimeZone/TimeZone'
 import { LabelEditor } from './components/LabelEditor/LabelEditor'
 export {
-  AreaSurface,
+  IntervalSurface,
   Navigation,
   Location,
   TimePicker,
@@ -182,10 +182,10 @@ export {
 }
 
 // Organs (3)
-import { Activities } from './components/Activities/Activities'
+import { Timeline } from './components/Timeline/Timeline'
 import { LabelManager } from './components/LabelManager/LabelManager'
 export {
-  Activities,
+  Timeline,
   LabelManager
 }
 

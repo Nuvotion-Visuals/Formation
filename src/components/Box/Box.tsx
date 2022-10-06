@@ -19,7 +19,9 @@ interface Props {
   children?: React.ReactNode,
   width?: number | string,
   hide?: boolean,
-  wrap?: boolean
+  wrap?: boolean,
+  sticky?: boolean,
+  background?: string,
 }
 
 export const Box = React.memo((props : Props) => {
@@ -67,6 +69,10 @@ const S = {
     padding: ${props => calculatePadding(props)};
     width: ${props => typeof props.width === 'string' ? props.width : `${props.width}rem`};
     flex-wrap: ${props => props.wrap ? 'wrap' : 'auto'};
-    position: relative;
+    position: ${props => props.sticky ? 'sticky' : 'relative'};
+    top: ${props => props.sticky ? '0' : ''};
+    z-index: ${props => props.sticky ? '500' : '0'};
+    background: ${props => typeof props.background === 'string' ? props.background : 'none'};
+
   `
 }
