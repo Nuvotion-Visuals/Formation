@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
-
+import { DateTimeFormatter, ZonedDateTime } from '@js-joda/core'
+import '@js-joda/timezone'
 import { ActivityType, AreaType } from 'types'
 
 interface Props {
@@ -12,7 +13,7 @@ interface Props {
 
 interface IntervalType {
   display: string,
-  value: number,
+  value: string,
   gridNumber: number
 }
 
@@ -20,17 +21,35 @@ export const AreaSurface = ({ value, areaIndex, onChange, onClick }: Props) => {
   const intervals: IntervalType[] = new Array(112).fill(0).map((item, index) => (
     {
       display:
-        (index * 15) % 60 === 0
-          ? ((index * 15) / 60) > 12
-            ? `${((index * 15) / 60) - 12}pm`
-            : `${(index * 15) / 60}am`
+        index * 15 % 60 === 0
+          ? index * 15 / 60 > 12 && index * 15 / 60 < 24
+            ? `${(index * 15 / 60) - 12}pm`
+            : index * 15 / 60 == 12
+              ? `${index * 15 / 60}pm`
+              : index * 15 / 60 == 24
+                ? '12am'
+                : index * 15 / 60 > 24
+                ? `${(index * 15) / 60 - 24}am`
+                : `${(index * 15) / 60}am`
           : ''
       ,
-      value: index * 15,
+      value:
+        index * 15 % 60 === 0
+          ? `${index * 15 / 60}:00`
+          : index * 15 % 60 === 15
+            ? `${Math.round(index * 15 / 60)}:15`
+            : index * 15 % 60 === 30
+              ? `${Math.floor(index * 15 / 60)}:30`
+              : index * 15 % 60 === 45
+                ? `${Math.floor(index * 15 / 60)}:45`
+                : ''
+         ,
       gridNumber: index
     }
   ))
   let activities = value[areaIndex].activities
+
+  useEffect(() => console.log(intervals))
 
   const getFirstActivity = (activities: ActivityType[]): string => {
     if (activities !== undefined) {
@@ -46,9 +65,11 @@ export const AreaSurface = ({ value, areaIndex, onChange, onClick }: Props) => {
     return '6'
   }
 
-  const renderRow = (time: number) => {
-    const gridObject = intervals.filter(interval => interval.value === time)
-    return gridObject[0].gridNumber + 1
+  const renderRow = (time: string) => {
+    const parsedHour: string = ZonedDateTime.parse(time).format(DateTimeFormatter.ofPattern('HH:mm'))
+    const gridObject = intervals.filter(interval => interval.value === parsedHour)
+
+    return gridObject[0]?.gridNumber + 1
   }
 
   const handleClick = (interval: IntervalType) => {

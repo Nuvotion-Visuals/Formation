@@ -14,8 +14,8 @@ export type AreaType = {
 
 export type ActivityType = {
   title: string,
-  startTime: number,
-  endTime: number,
+  startTime: string,
+  endTime: string,
   id: string,
   people: PersonType[]
 }

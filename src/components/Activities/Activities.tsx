@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
+import { ZonedDateTime } from '@js-joda/core'
+import "@js-joda/timezone"
 
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 import { AreaSurface, Button, Box, Tabs } from '../../internal'
@@ -23,6 +25,7 @@ type Tab = {
 }
 
 export const Activities = ({ value, onChange, onClick, onTabClick, activeArea }: Props) => {
+
   let tabs: Tab[] = value?.map(({ area }, index) => {
     const tab = { name: area, onClick: () => onTabClick(index)}
     return tab
