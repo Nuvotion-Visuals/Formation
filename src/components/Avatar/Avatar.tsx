@@ -7,8 +7,9 @@ interface Props {
   name?: string,
   src?: string,
   icon?: IconName,
-  iconPrefix: IconPrefix,
-  color?: string
+  iconPrefix?: IconPrefix,
+  color?: string,
+  active?: boolean
 }
 
 export const Avatar = ({ 
@@ -16,7 +17,8 @@ export const Avatar = ({
   src,
   icon,
   iconPrefix,
-  color
+  color,
+  active
 }: Props) => {
   return (
     <S.Avatar 
@@ -28,10 +30,16 @@ export const Avatar = ({
             ? getColorFromGuid(name) 
             : getColorFromGuid(String(Math.random()))
       }
+      active={active}
     >
       {
         icon
-          ? <Icon icon={icon} iconPrefix={iconPrefix} />
+          ? <Icon 
+              icon={icon} 
+              iconPrefix={iconPrefix} 
+              size={color === 'none' ? 'lg' : '1x'}
+              fixedWidth={true}
+            />
           : name && !src 
             ? getInitials(name) 
             : null
@@ -45,9 +53,11 @@ const S = {
   Avatar: styled.div<{
     color?: string,
     src?: string,
+    active?: boolean
   }>`
-    height: 2.125rem;
-    max-width: 2.125rem;
+    height: 1.675rem;
+    max-width: 1.675rem;
+    min-width: 1.675rem;
     border-radius: 50%;
     background-color: ${props => props.color};
     background-image: ${props => props.src 
@@ -63,7 +73,8 @@ const S = {
     font-size: var(--F_Font_Size_Label);
     color: white;
     * {
-      color: white;
+      /* color: ${props => props.color === 'none' ? 'auto' : 'white'}; */
+      color: ${props => props.active ? 'var(--F_Font_Color)' : 'auto'};
     }
     font-weight: 600;
   `

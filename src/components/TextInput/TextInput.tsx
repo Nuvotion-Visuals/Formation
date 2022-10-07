@@ -26,7 +26,9 @@ type Props = {
   preventFocus?: boolean,
   onBlur?: () => void,
   ref?: any,
-  labelColor?: ColorType
+  labelColor?: ColorType,
+  onEnter?: () => void,
+  onChangeEvent?: (e: any) => void
 }
 
 export const TextInput = ({ 
@@ -47,7 +49,10 @@ export const TextInput = ({
   preventFocus,
   onBlur,
   ref,
-  labelColor
+  labelColor,
+  onEnter,
+  name,
+  onChangeEvent
 }: Props) => {
 
   const [locked, setLocked] = useState(value !== '')
@@ -78,7 +83,7 @@ export const TextInput = ({
             >
                 <Icon 
                   icon='check' 
-                  iconPrefix='fas' 
+                  iconPrefix={iconPrefix}
                   fixedWidth
                 />
               </S.IconContainer> 
@@ -106,7 +111,7 @@ export const TextInput = ({
               >
                 <Icon 
                   icon='exclamation-triangle' 
-                  iconPrefix='fas'
+                  iconPrefix={iconPrefix}
                 />
               </S.IconContainer> 
             : null
@@ -115,15 +120,24 @@ export const TextInput = ({
           !error && !success && icon
             ? <Icon 
                 icon={icon} 
-                iconPrefix='fas' 
+                iconPrefix={iconPrefix}
               />
             : null
         }
       </S.ErrorIconContainer>
 
       <S.Input
+        name={name}
         value={value}
         preventFocus={preventFocus}
+        onKeyDown={onEnter 
+          ? e => {
+              if (e.key === 'Enter') {
+                onEnter()
+              }
+            }
+          : undefined
+        }
         // ref={autoFocusRef}
         ref={ref}
         id={id}
@@ -132,6 +146,9 @@ export const TextInput = ({
         locked={locked}
         focused={focused}
         onChange={event => {
+          if (onChangeEvent) {
+            onChangeEvent(event)
+          }
           const newValue = (event.target as HTMLInputElement).value
           if (newValue !== undefined && onChange) {
             onChange(newValue)
@@ -175,7 +192,7 @@ export const TextInput = ({
               >
                 <Icon 
                   icon={'info-circle'} 
-                  iconPrefix='fas' 
+                  iconPrefix={iconPrefix}
                 />
               </S.ErrorIconContainer>
             : null
@@ -274,13 +291,11 @@ const S = {
     height: var(--F_Input_Height);
     position: relative;
     font-size: var(--F_Font_Size);
-    border-radius: 0.5rem;
     vertical-align: center;
     border: none;
     padding-left: ${props => props.hasIcon ? '.5rem' : '0'};
     outline: none;
     -webkit-appearance: none;
-    border-radius: 16px;
     color: var(--F_Font_Color);
     background: none;
     pointer-events: ${props => props.preventFocus ? 'none' : 'auto'};

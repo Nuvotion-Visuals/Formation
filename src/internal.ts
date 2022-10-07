@@ -52,6 +52,12 @@ export {
   useScrollTo
 }
 
+// types
+import { Props as ItemProps } from './components/ListEditor/Item'
+export {
+  ItemProps
+}
+
 // Atoms (0)
 import { AspectRatio } from './components/AspectRatio/AspectRatio'
 import { Auth } from './components/Auth/Auth'
@@ -126,18 +132,7 @@ import { Sidebar, Navs } from './components/Sidebar/Sidebar'
 import { Select } from './components/Select/Select'
 import { Switch } from './components/Switch/Switch'
 import { LabelColorPicker } from './components/LabelColorPicker/LabelColorPicker'
-import { 
-  ListEditor, 
-  List, 
-  ListItem, 
-  ListItemEditor, 
-  ListItems,
-  Slot,
-  Toolbar,
-  ListItemMode,
-  ListItemType,
-  Lists,
-} from './components/ListEditor'
+import { Item } from './components/ListEditor/Item'
 export {
   ArticlePreview,
   Article,
@@ -149,17 +144,8 @@ export {
   Dropdown, OptionsType,
   Sidebar, Navs,
   Select,
-  ListEditor,
-  List,
-  ListItemEditor,
-  ListItem,
-  ListItems,
-  Slot,
+  Item,
   Switch,
-  Toolbar,
-  ListItemMode,
-  ListItemType,
-  Lists,
   LabelColorPicker
 }
 
@@ -172,6 +158,7 @@ import { Tags } from './components/Tags/Tags'
 import { Tabs } from './components/Tabs/Tabs'
 import { TimeZone } from './components/TimeZone/TimeZone'
 import { LabelEditor } from './components/LabelEditor/LabelEditor'
+import { List } from './components/ListEditor/List'
 export {
   Navigation,
   Location,
@@ -180,15 +167,19 @@ export {
   Tags,
   Tabs,
   TimeZone,
-  LabelEditor
+  LabelEditor,
+  List
 }
 
 // Organs (3)
 import { DateAndTimePicker } from './components/DateAndTimePicker/DateAndTimePicker'
 import { LabelManager } from './components/LabelManager/LabelManager'
+import { ExpandableList } from './components/ListEditor/ExpandableList'
+
 export {
   DateAndTimePicker,
-  LabelManager
+  LabelManager,
+  ExpandableList
 }
 
 // Organisms (4)

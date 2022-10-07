@@ -11,9 +11,9 @@ interface Props {
   small?: boolean,
   href?: string,
   name?: string,
-  active: boolean,
+  active?: boolean,
   icon?: IconName,
-  iconPrefix?: IconPrefix
+  iconPrefix?: IconPrefix,
 }
 
 export const SpaceIcon = memo(({ 
@@ -75,6 +75,7 @@ const S = {
     justify-content: center;
     align-items: center;
     width: 52px;
+    min-width: 52px;
     height: 52px;
     background-size: cover;
     background-position: center;
@@ -107,7 +108,7 @@ const S = {
     justify-content: center;
     color: white;
     * {
-      color: var(--F_Font_Color);
+      color: ${props => props.darken ? 'white' : 'var(--F_Font_Color)'};
     }
     background: ${props => props.darken ? 'var(--F_Backdrop)' : 'none'};
   `,

@@ -31,5 +31,5 @@ const Template: ComponentStory<typeof DateAndTimePicker> = args => {
     
 export const Default = Template.bind({})
 Default.args = {
-
+  iconPrefix: 'fas'
 }

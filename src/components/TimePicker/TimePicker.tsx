@@ -5,6 +5,7 @@ import { useOnClickOutside } from '../../internal'
 import { useScrollTo } from '../../internal'
 
 import { TextInput } from '../../internal'
+import { IconPrefix } from '@fortawesome/fontawesome-common-types'
 
 // rewrite as isValidTime
 
@@ -33,7 +34,7 @@ import { TextInput } from '../../internal'
 const Times = ({ 
   value,
   onChange,
-  onClose
+  onClose,
 } : {
   value: string,
   onMonthChange: (arg0: string) => void,
@@ -126,14 +127,16 @@ interface Props {
   value: string,
   label?: string,
   onChange: (arg0: string) => void,
-  error?: string
+  error?: string,
+  iconPrefix?: IconPrefix
 }
 
 export const TimePicker = ({
   value,
   onChange,
   label,
-  error
+  error,
+  iconPrefix
 }: Props) => {
   const [isOpen, set_isOpen] = useState(false)
   const [displayValue, set_displayValue] = useState(value)
@@ -164,7 +167,7 @@ export const TimePicker = ({
       <TextInput
         label={label ? label : 'Time'}
         icon={'clock'}
-        iconPrefix='far'
+        iconPrefix={iconPrefix}
         value={displayValue}
         onChange={value => updateTime(value)}
         error={error}

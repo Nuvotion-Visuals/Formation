@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
 import { DateAndTimePicker, Box } from '../../internal'
-import { ListEditor } from '../ListEditor'
 import { NavSpaces } from './NavSpaces'
 import { NavTabs } from './NavTabs'
 import { SpacesSidebar } from './SpacesSidebar'
@@ -20,7 +19,7 @@ const eventChannels = [
     name: 'Details',
     icon: 'info-circle',
     iconPrefix: 'fas',
-    href: '',
+    href: '#',
     hideOptions: true,
     active: false
   },
@@ -28,7 +27,7 @@ const eventChannels = [
     name: 'People',
     icon: 'users',
     iconPrefix: 'fas',
-    href: '',
+    href: '#',
     hideOptions: true,
     active: true
   },
@@ -36,7 +35,7 @@ const eventChannels = [
     name: 'Tasks',
     icon: 'check-square',
     iconPrefix: 'fas',
-    href: '',
+    href: '#',
     hideOptions: true,
     active: false
   },
@@ -44,7 +43,7 @@ const eventChannels = [
     name: 'Areas',
     icon: 'compass',
     iconPrefix: 'fas',
-    href: '',
+    href: '#',
     hideOptions: true,
     active: false
   },
@@ -52,7 +51,7 @@ const eventChannels = [
     name: 'Finances',
     icon: 'money-check-dollar',
     iconPrefix: 'fas',
-    href: '',
+    href: '#',
     hideOptions: true,
     active: false
   },
@@ -60,7 +59,7 @@ const eventChannels = [
     name: '',
     icon: 'money-check-dollar',
     iconPrefix: 'fas',
-    href: '',
+    href: '#',
     hideOptions: true,
     active: false
   },
@@ -68,7 +67,7 @@ const eventChannels = [
     name: 'Everyone',
     icon: 'hashtag',
     iconPrefix: 'fas',
-    href: '',
+    href: '#',
     hideOptions: true,
     active: false
   },
@@ -76,7 +75,7 @@ const eventChannels = [
     name: 'Organizers',
     icon: 'hashtag',
     iconPrefix: 'fas',
-    href: '',
+    href: '#',
     hideOptions: true,
     active: false
   },
@@ -84,7 +83,7 @@ const eventChannels = [
     name: 'Volunteers',
     icon: 'hashtag',
     iconPrefix: 'fas',
-    href: '',
+    href: '#',
     hideOptions: true,
     active: false
   }
@@ -255,17 +254,6 @@ const Template: ComponentStory<typeof NavSpaces> = args => {
           navs={(args as any).secondaryTopNav}
           borderBottom={true}
         />
-        <ListEditor 
-          {...{
-            value: (args as any).lists,
-            onChange: (lists) => { console.log(lists)},
-            onRemoveFunction: () => alert('remove'),
-            calculateRecommendationLists: () => [],
-            calculateRecentLists: () => [],
-            isCreating: false,
-            label: (args as any).label
-          }}
-        />
       </>}
       thirdPage={
         <DateAndTimePicker 
@@ -273,6 +261,7 @@ const Template: ComponentStory<typeof NavSpaces> = args => {
             set_dates(result)
           }}
           value={dates}
+          iconPrefix='fas'
         />
       }
       dropdownOptions={[

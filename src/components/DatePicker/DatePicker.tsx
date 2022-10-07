@@ -10,6 +10,7 @@ import { Button } from '../../internal'
 import { Box } from '../../internal'
 import { Spacer } from '../../internal'
 import { LineBreak } from '../../internal'
+import { IconPrefix } from '@fortawesome/fontawesome-common-types'
 
 const cloneDate = (date : Date) => new Date(date.valueOf())
 
@@ -252,14 +253,16 @@ interface Props {
   value: Date,
   label?: string,
   onChange: (arg0: Date) => void,
-  error?: string
+  error?: string,
+  iconPrefix?: IconPrefix
 }
 
 export const DatePicker = ({
   value,
   onChange,
   label,
-  error
+  error,
+  iconPrefix
 }: Props) => {
   const [isOpen, set_isOpen] = useState(false)
   const [displayValue, set_displayValue] = useState(value.toLocaleDateString())
@@ -300,7 +303,7 @@ export const DatePicker = ({
       <TextInput
         label={label ? label : 'Date'}
         icon={'calendar-alt'}
-        iconPrefix='far'
+        iconPrefix={iconPrefix}
         value={displayValue}
         onChange={value => updateDate(value)}
         error={error}

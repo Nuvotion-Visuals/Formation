@@ -117,8 +117,7 @@ const S = {
   `,
   HeaderArea: styled.div`
     position: relative;
-    padding: 1rem;
-    padding-bottom: .5rem;
+    padding: .75rem;
   `,
   Name: styled.h1`
     font-size: 20px;
