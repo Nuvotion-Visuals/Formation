@@ -10,6 +10,7 @@ import { getSuperscriptOrdinal, getOrdinal } from '../../utils'
 
 import { DatePicker } from '../../internal'
 import { TimePicker } from '../../internal'
+import { IconPrefix } from '@fortawesome/fontawesome-common-types'
 
 
 const addMinutes = (time: string, minutes: number) : string => {
@@ -29,12 +30,14 @@ export type DatesAndTimes = DateAndTime[]
 
 interface Props {
   onChange: (arg0: DatesAndTimes) => void,
-  value: DatesAndTimes
+  value: DatesAndTimes,
+  iconPrefix?: IconPrefix
 }
 
 export const DateAndTimePicker = ({ 
   value,
-  onChange 
+  onChange,
+  iconPrefix
 }: Props) => {
   const addDate = () => {
     const lastState = value
@@ -45,7 +48,6 @@ export const DateAndTimePicker = ({
 
     // Add a day
     ndate.setDate(ndate.getDate() + 1)
-
 
     // Add a day
 
@@ -109,6 +111,7 @@ export const DateAndTimePicker = ({
                     label={value.length > 1 ? `${index + 1}${getSuperscriptOrdinal(index + 1)} Day` : 'Date'}
                     value={new Date(item?.date ? item.date : new Date())}
                     onChange={newDate => setValue(index, 'date', newDate.toString())}
+                    iconPrefix={iconPrefix}
                   />
                 
                   {
@@ -131,11 +134,13 @@ export const DateAndTimePicker = ({
                     value={item.startTime}
                     label='Start time'
                     onChange={newStartTime => setValue(index, 'startTime', newStartTime)}
+                    iconPrefix={iconPrefix}
                   />
                   <TimePicker
                     value={item.endTime}
                     label='End time'
                     onChange={newEndTime => setValue(index, 'endTime', newEndTime)}
+                    iconPrefix={iconPrefix}
                   />
                   {
                     value.length > 1 || (item.startTime && item.endTime)

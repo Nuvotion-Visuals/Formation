@@ -2,8 +2,9 @@ import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 import React from 'react'
 import styled from 'styled-components'
 
-import { Box, Break, Spacer } from '../../internal'
+import { Box, Break, getLinkComponent, Spacer } from '../../internal'
 import { SpaceIcon } from '../NavSpaces/SpaceIcon'
+
 
 import { 
   Dropdown, 
@@ -34,7 +35,8 @@ export interface Props {
   content?: React.ReactNode,
   emphasize?: boolean,
   indent?: boolean,
-  pageTitle?: string
+  pageTitle?: string,
+  newTab?: boolean
 }
 
 export const Item = ({ 
@@ -58,17 +60,13 @@ export const Item = ({
   content,
   emphasize,
   indent,
-  pageTitle
+  pageTitle,
+  newTab
 }: Props): JSX.Element => {
-  return (<S.Container>
-    
-    <S.ListItem 
-      onClick={onClick} 
-      active={active} 
-      emphasize={emphasize}
-      showHover={onClick !== undefined}
-      pageTitle={pageTitle}
-    >
+  const Link = getLinkComponent()
+
+  const renderItem = () => (
+    <Box width='100%'>
       {
         indent
           ? <S.Indent active={active} />
@@ -157,7 +155,26 @@ export const Item = ({
             </>
           : null
       }
-      
+    </Box>
+  )
+
+  return (<S.Container>
+    <S.ListItem 
+      onClick={onClick} 
+      active={active} 
+      emphasize={emphasize}
+      showHover={onClick !== undefined || href !== undefined}
+      pageTitle={pageTitle}
+    >
+      {
+        href !== undefined
+          ? <Link href={href} newTab={newTab}>
+              {
+                renderItem()
+              }
+            </Link>
+          : renderItem()
+      }
     </S.ListItem>
   </S.Container>)
 }

@@ -19,7 +19,7 @@ const eventChannels = [
     name: 'Details',
     icon: 'info-circle',
     iconPrefix: 'fas',
-    href: '',
+    href: '#',
     hideOptions: true,
     active: false
   },
@@ -27,7 +27,7 @@ const eventChannels = [
     name: 'People',
     icon: 'users',
     iconPrefix: 'fas',
-    href: '',
+    href: '#',
     hideOptions: true,
     active: true
   },
@@ -35,7 +35,7 @@ const eventChannels = [
     name: 'Tasks',
     icon: 'check-square',
     iconPrefix: 'fas',
-    href: '',
+    href: '#',
     hideOptions: true,
     active: false
   },
@@ -43,7 +43,7 @@ const eventChannels = [
     name: 'Areas',
     icon: 'compass',
     iconPrefix: 'fas',
-    href: '',
+    href: '#',
     hideOptions: true,
     active: false
   },
@@ -51,7 +51,7 @@ const eventChannels = [
     name: 'Finances',
     icon: 'money-check-dollar',
     iconPrefix: 'fas',
-    href: '',
+    href: '#',
     hideOptions: true,
     active: false
   },
@@ -59,7 +59,7 @@ const eventChannels = [
     name: '',
     icon: 'money-check-dollar',
     iconPrefix: 'fas',
-    href: '',
+    href: '#',
     hideOptions: true,
     active: false
   },
@@ -67,7 +67,7 @@ const eventChannels = [
     name: 'Everyone',
     icon: 'hashtag',
     iconPrefix: 'fas',
-    href: '',
+    href: '#',
     hideOptions: true,
     active: false
   },
@@ -75,7 +75,7 @@ const eventChannels = [
     name: 'Organizers',
     icon: 'hashtag',
     iconPrefix: 'fas',
-    href: '',
+    href: '#',
     hideOptions: true,
     active: false
   },
@@ -83,7 +83,7 @@ const eventChannels = [
     name: 'Volunteers',
     icon: 'hashtag',
     iconPrefix: 'fas',
-    href: '',
+    href: '#',
     hideOptions: true,
     active: false
   }
@@ -261,6 +261,7 @@ const Template: ComponentStory<typeof NavSpaces> = args => {
             set_dates(result)
           }}
           value={dates}
+          iconPrefix='fas'
         />
       }
       dropdownOptions={[

@@ -34,7 +34,7 @@ import { IconPrefix } from '@fortawesome/fontawesome-common-types'
 const Times = ({ 
   value,
   onChange,
-  onClose
+  onClose,
 } : {
   value: string,
   onMonthChange: (arg0: string) => void,
