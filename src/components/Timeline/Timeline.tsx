@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
-import { ZonedDateTime } from '@js-joda/core'
+import { LocalDateTime } from '@js-joda/core'
 import "@js-joda/timezone"
 
 import { IntervalSurface, } from '../../internal'
@@ -13,18 +13,23 @@ interface Props {
   activeArea: number
 }
 
+interface IntervalType {
+  display: string,
+  value: string,
+  gridNumber: number
+}
+
 
 export const Timeline = ({ value, onChange, onClick, activeArea }: Props) => {
+  let activities = value[activeArea].activities
 
-  const handleIntervalSurfaceClick = (interval: any) => {
-
-    console.log(interval.value, "<<INTERVAL @CLICK>>")
+  const handleIntervalSurfaceClick = (parsedTime: string) => {
     let currentData: AreaType[] = value
 
     let newActivity: ActivityType = {
       title: '',
-      startTime: interval.value,
-      endTime: interval.value,
+      startTime: parsedTime,
+      endTime: parsedTime,
       id: '10',
       people: [
       ],
@@ -36,7 +41,7 @@ export const Timeline = ({ value, onChange, onClick, activeArea }: Props) => {
   return (
     <S.Timeline>
       <IntervalSurface
-        value={value} // refactor to only send active indexed activities
+        value={activities} 
         areaIndex={activeArea}
         onChange={handleIntervalSurfaceClick}
         onClick={onClick}

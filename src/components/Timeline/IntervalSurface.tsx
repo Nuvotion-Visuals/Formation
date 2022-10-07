@@ -2,10 +2,11 @@ import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import { DateTimeFormatter, ZonedDateTime } from '@js-joda/core'
 import '@js-joda/timezone'
-import { ActivityType, AreaType } from 'types'
+import { ActivityType } from 'types'
+import { parse } from '@fortawesome/fontawesome-svg-core'
 
 interface Props {
-  value: AreaType[],
+  value: ActivityType[],
   areaIndex: number,
   onChange: (time: any) => void,
   onClick: (e: React.MouseEvent) => void
@@ -17,7 +18,8 @@ interface IntervalType {
   gridNumber: number
 }
 
-export const IntervalSurface = ({ value, areaIndex, onChange, onClick }: Props) => {
+export const IntervalSurface = ({ value, onChange, onClick }: Props) => {
+
   const intervals: IntervalType[] = new Array(112).fill(0).map((item, index) => (
     {
       display:
@@ -47,13 +49,10 @@ export const IntervalSurface = ({ value, areaIndex, onChange, onClick }: Props) 
       gridNumber: index
     }
   ))
-  let activities = value[areaIndex].activities
 
-  useEffect(() => console.log(intervals))
-
-  const getFirstActivity = (activities: ActivityType[]): string => {
-    if (activities !== undefined) {
-      let firstActivityStartTime = activities.reduce((prev, curr) => prev.startTime < curr.startTime ? prev : curr).startTime
+  const getFirstActivity = (value: ActivityType[]): string => {
+    if (value !== undefined) {
+      let firstActivityStartTime = value.reduce((prev, curr) => prev.startTime < curr.startTime ? prev : curr).startTime
   
       let firstActivityGridPosition = renderRow(firstActivityStartTime)
       
@@ -72,25 +71,38 @@ export const IntervalSurface = ({ value, areaIndex, onChange, onClick }: Props) 
     return gridObject[0]?.gridNumber + 1
   }
 
-  const handleClick = (interval: IntervalType) => {
-    onChange(interval)
+  const handleClick = (interval: IntervalType, value: any) => {
+    if (value !== undefined) {
+      const a = value[0]?.startTime
+      const b = ZonedDateTime.parse(a)
+      const datePrefix = b.format(DateTimeFormatter.ofPattern('yyyy-MM-dd'))
+      const offSet = b.format(DateTimeFormatter.ofPattern('x:00'))
+      const timeZone = b.format(DateTimeFormatter.ofPattern('VV'))
+
+      const parsedTime: string = ZonedDateTime.parse(`${datePrefix}T${interval.value}:00.000${offSet}[${timeZone}]`, DateTimeFormatter.ISO_ZONED_DATE_TIME).toString()
+      
+      onChange(parsedTime)
+    }
+    return
   }
 
   useEffect(() => {
-    if (activities !== undefined) {
-      let initScrollElement: string = getFirstActivity(activities)
+    if (value !== undefined) {
+      let initScrollElement: string = getFirstActivity(value)
       document.getElementById(initScrollElement)?.scrollIntoView({
         behavior: 'smooth'
       })
     }
-  }, [activities])
+  }, [value])
 
   return (
     <S.Container>
       <S.Grid>
           {
             intervals.map((interval, index) => 
-                <S.TimeDisplay key={index} style={{ gridColumnStart: 1, gridRowStart: index == 0 ? 1 : index + 1 }}>
+              <S.TimeDisplay
+                key={index}
+                style={{ gridColumnStart: 1, gridRowStart: index + 1}}>
                   <S.TimeSpan>
                     {interval.display}
                   </S.TimeSpan>
@@ -102,13 +114,13 @@ export const IntervalSurface = ({ value, areaIndex, onChange, onClick }: Props) 
                 <S.IntervalBlock
                   key={index}
                   id={index.toString()}
-                  onClick={() => handleClick(interval)}
+                  onClick={() => handleClick(interval, value)}
                   style={{ gridColumnStart: 2, gridColumnEnd: 6, gridRowStart: index === 0 ? 1 : index + 1 }}
                 />
               )
           }    
           {
-            activities.map((activity, index) => 
+            value.map((activity, index) => 
               <S.Activity
                 key={index}
                 onClick={(e) => onClick(e)}

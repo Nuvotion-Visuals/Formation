@@ -244,8 +244,6 @@ const Template: ComponentStory<typeof Timeline> = args => {
     set_currentActivity(activity)
   }, [activityId, value])
 
-  useEffect(() => console.log(value, '<value>'), [value])
-
   return(
     <Box>
       <Box wrap>

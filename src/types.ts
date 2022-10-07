@@ -17,7 +17,7 @@ export type ActivityType = {
   startTime: string,
   endTime: string,
   id: string,
-  people: PersonType[]
+  people: PersonType[],
 }
 
 export type PersonType = {
