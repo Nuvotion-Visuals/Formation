@@ -64,7 +64,14 @@ export const IntervalSurface = ({ value, onChange, onClick }: Props) => {
   }
 
   const renderRow = (time: string) => {
-    const parsedHour: string = ZonedDateTime.parse(time).format(DateTimeFormatter.ofPattern('HH:mm'))
+    let parsedHour: string = ZonedDateTime.parse(time).format(DateTimeFormatter.ofPattern('HH:mm'))
+
+    if (parsedHour.charAt(0) === '0') {
+      let zerolessParsedHour = parsedHour.substring(1)
+      let gridObject = intervals.filter(interval => interval.value === zerolessParsedHour)
+
+      return gridObject[0]?.gridNumber + 1
+    }
     const gridObject = intervals.filter(interval => interval.value === parsedHour)
 
     return gridObject[0]?.gridNumber + 1

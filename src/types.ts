@@ -9,7 +9,7 @@ export type LabelType = {
 
 export type AreaType = {
   area: string,
-  activities: ActivityType[]
+  activities: ActivityType[],
 }
 
 export type ActivityType = {

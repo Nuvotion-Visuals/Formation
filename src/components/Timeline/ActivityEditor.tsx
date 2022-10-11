@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { DateTimeFormatter, ZonedDateTime, LocalTime, Duration, convert } from '@js-joda/core'
+import { DateTimeFormatter, ZonedDateTime, LocalTime, Duration } from '@js-joda/core'
 import '@js-joda/timezone'
 import { Locale } from '@js-joda/locale_en-us'
 import { ActivityType, AreaType } from 'types'
@@ -18,8 +18,9 @@ export const ActivityEditor = ({ value, onChange, activity, activeAreaIndex }: P
   const [parsedStartTime, set_parsedStartTime] = useState<string>()
   const [parsedEndTime, set_parsedEndTime] = useState<string>()
   const [title, set_title] = useState<string>()
+  const [id, set_id] = useState<string>('')
 
-  useEffect(() => console.log(parsedStartTime, "<P START TIME>"), [parsedStartTime])
+  useEffect(() => console.log(id, 'ID'), [id])
 
   useEffect(() => {
     const startTime = activity?.startTime
@@ -28,7 +29,7 @@ export const ActivityEditor = ({ value, onChange, activity, activeAreaIndex }: P
       set_parsedStartTime(isoToSimpleTime(startTime))
       set_parsedEndTime(isoToSimpleTime(endTime))
     }
-    
+    set_id(activity?.id)
     set_title(activity?.title)
   }, [activity])
 
@@ -52,18 +53,23 @@ export const ActivityEditor = ({ value, onChange, activity, activeAreaIndex }: P
     } else {
       let newEveningTime = time.slice(0, -2).trim()
 
-      if (newEveningTime.charAt(0) === '0' || newEveningTime.charAt(0) === '1') {
+      if (newEveningTime.charAt(0) === '0') {
         let parsedEveningTime = LocalTime.parse(`${newEveningTime}`)
         let newTime = parsedEveningTime.plus(Duration.ofHours(12)).toString()
 
         return newTime
-      } else {
+
+      } else if (newEveningTime.charAt(1) === ':') {
+
         let parsedEveningTime = LocalTime.parse(`0${newEveningTime}`)
         let newTime = parsedEveningTime.plus(Duration.ofHours(12)).toString()
-        console.log(newTime, "<<NEW TIME>>")
 
         return newTime
       }
+        let parsedEveningTime = LocalTime.parse(newEveningTime)
+        let newTime = parsedEveningTime.plus(Duration.ofHours(12)).toString()
+      
+      return newTime
     }
     
   }
@@ -89,33 +95,44 @@ export const ActivityEditor = ({ value, onChange, activity, activeAreaIndex }: P
     }
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent, value: AreaType[]) => {
     e.preventDefault()
 
     if (parsedStartTime !== undefined && parsedEndTime !== undefined) {
-      let currentData: AreaType[] = value
-
       let updatedActivity: ActivityType = {
         title: title ? title : '',
         startTime: simpleToIsoTime(parsedStartTime, value),
         endTime: simpleToIsoTime(parsedEndTime, value),
-        id: '10',
+        id: id,
         people: [
         ],
       }
 
-      currentData[activeAreaIndex]?.activities.push(updatedActivity)
+      let newData = value.map((area, index) => {
+        if (index === activeAreaIndex) {
+          let newArea: AreaType = area
+          let newAreaData = area?.activities.map((activity) => {
+            if (activity.id === id) {
+              return updatedActivity
+            }
+            return activity
+          })
+          // need to return old AND new data
+          newArea.activities = newAreaData
+          return newArea
+        } 
+        return area
+      })
 
-      console.log(currentData, "<<CURR DATA>>")
-    
-      onChange(currentData)
+      console.log(newData, 'new data')
+ 
+      // onChange(newData)
     }
-
   }
 
  
   return (
-    <S.Form onSubmit={(e) => handleSubmit(e)}>
+    <S.Form onSubmit={(e) => handleSubmit(e, value)}>
       <Box p={1}>
         <TextInput
           value={title ? title : ''}
