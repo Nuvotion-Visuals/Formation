@@ -123,10 +123,7 @@ export const ActivityEditor = ({ value, onChange, activity, activeAreaIndex }: P
         } 
         return area
       })
-
-      console.log(newData, 'new data')
- 
-      // onChange(newData)
+      onChange(newData)
     }
   }
 
