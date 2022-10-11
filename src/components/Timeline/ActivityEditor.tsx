@@ -1,7 +1,8 @@
-import { parse } from '@babel/core'
-import { values } from 'lodash'
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
+import { DateTimeFormatter, ZonedDateTime, LocalTime, Duration, convert } from '@js-joda/core'
+import '@js-joda/timezone'
+import { Locale } from '@js-joda/locale_en-us'
 import { ActivityType, AreaType } from 'types'
 
 import { TextInput, TimePicker, Box, Button } from '../../internal'
@@ -9,67 +10,107 @@ import { TextInput, TimePicker, Box, Button } from '../../internal'
 interface Props {
   value: any,
   onChange: Function,
-  activity: ActivityType
+  activity: ActivityType,
+  activeAreaIndex: number
 }
 
-export const ActivityEditor = ({ value, onChange, activity }: Props) => {
+export const ActivityEditor = ({ value, onChange, activity, activeAreaIndex }: Props) => {
   const [parsedStartTime, set_parsedStartTime] = useState<string>()
   const [parsedEndTime, set_parsedEndTime] = useState<string>()
   const [title, set_title] = useState<string>()
 
-  // parse startTime and endTime <string> for use with the TimePicker component
+  useEffect(() => console.log(parsedStartTime, "<P START TIME>"), [parsedStartTime])
+
   useEffect(() => {
     const startTime = activity?.startTime
     const endTime = activity?.endTime
-
-    const startHour: number = startTime % 60 > 0
-      ? Number((startTime / 60 - 1).toFixed())
-      : startTime / 60
-    const startAfternoonHour: number = startHour - 12
-
-    const startMinute = startTime % 60 > 0
-      ? startTime % 60
-      : '00'
-    
-    startTime > 720
-      ? set_parsedStartTime(`${startAfternoonHour}:${startMinute}PM`)
-      : set_parsedStartTime(`${startHour}:${startMinute}AM`)
-    
-    const endHour: number = endTime % 60 > 0
-      ? Number((endTime / 60 - 1).toFixed())
-      : endTime / 60
-    const endAfternoonHour: number = endHour - 12
-
-    const endMinute = endTime % 60 > 0
-      ? endTime % 60
-      : '00'
-    
-    endTime > 720
-      ? set_parsedEndTime(`${endAfternoonHour}:${endMinute}PM`)
-      : set_parsedEndTime(`${endHour}:${endMinute}AM`)
+    if (startTime !== undefined && endTime !== undefined){
+      set_parsedStartTime(isoToSimpleTime(startTime))
+      set_parsedEndTime(isoToSimpleTime(endTime))
+    }
     
     set_title(activity?.title)
   }, [activity])
 
-  // parse startTime and endTime for use with Acitivity data structure
-  useEffect(() => {
+  const isoToSimpleTime = (time: string): string => {
+    // takes a full ISO 8601 string and returns HH:MM am/pm strin
+    let a = ZonedDateTime.parse(time)
+    let parsedStartTime = a.format(DateTimeFormatter.ofPattern('KK:mma').withLocale(Locale.ENGLISH))
+    return parsedStartTime
+  }
 
-  }, [title, parsedStartTime, parsedEndTime])
+  const parseLocalTime = (time: string) => {
+    if (time.includes('A')) {
+      let newMorningTime = time.slice(0, -2)
+
+      if (parseInt(time) < 10) {
+        return `0${newMorningTime}`
+      } else {
+        return newMorningTime
+      }
+
+    } else {
+      let newEveningTime = time.slice(0, -2).trim()
+
+      if (newEveningTime.charAt(0) === '0' || newEveningTime.charAt(0) === '1') {
+        let parsedEveningTime = LocalTime.parse(`${newEveningTime}`)
+        let newTime = parsedEveningTime.plus(Duration.ofHours(12)).toString()
+
+        return newTime
+      } else {
+        let parsedEveningTime = LocalTime.parse(`0${newEveningTime}`)
+        let newTime = parsedEveningTime.plus(Duration.ofHours(12)).toString()
+        console.log(newTime, "<<NEW TIME>>")
+
+        return newTime
+      }
+    }
+    
+  }
+
+  const simpleToIsoTime = (time: string, value: any): string => {
+    // repopulate prefix and postfix data for string parsing
+    const { startTime } = value[activeAreaIndex]?.activities[0]
+    const b = ZonedDateTime.parse(startTime)
+    const datePrefix = b.format(DateTimeFormatter.ofPattern('yyyy-MM-dd'))
+    const offSet = b.format(DateTimeFormatter.ofPattern('x:00'))
+    const timeZone = b.format(DateTimeFormatter.ofPattern('VV'))
+
+    // takes HH:MM am/pm and returns Zoned Date Time string
+    if (time === undefined && value === undefined) {
+      return ''
+    } else {
+      let newTime: string = parseLocalTime(time)
+
+      // recover full ISO data, then destructure datePrefix, offSet and timeZone
+      const parsedTime: string = ZonedDateTime.parse(`${datePrefix}T${newTime.trim()}:00.000${offSet}[${timeZone}]`, DateTimeFormatter.ISO_ZONED_DATE_TIME).toString()
+
+      return parsedTime
+    }
+  }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    let currentData: AreaType[] = value
-    let updatedActivity: ActivityType = {
-      title: title ? title : '',
-      startTime: parsedStartTime ? parsedStartTime : 0,
-      endTime: parsedEndTime ? parsedEndTime : 0,
-      id: '10',
-      people: [
-      ],
-    }
+
+    if (parsedStartTime !== undefined && parsedEndTime !== undefined) {
+      let currentData: AreaType[] = value
+
+      let updatedActivity: ActivityType = {
+        title: title ? title : '',
+        startTime: simpleToIsoTime(parsedStartTime, value),
+        endTime: simpleToIsoTime(parsedEndTime, value),
+        id: '10',
+        people: [
+        ],
+      }
+
+      currentData[activeAreaIndex]?.activities.push(updatedActivity)
+
+      console.log(currentData, "<<CURR DATA>>")
     
-    onChange()
-    console.log(title, parsedStartTime, parsedEndTime)
+      onChange(currentData)
+    }
+
   }
 
  

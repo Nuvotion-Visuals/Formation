@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
-import { LocalDateTime } from '@js-joda/core'
-import "@js-joda/timezone"
+
 
 import { IntervalSurface, } from '../../internal'
 import { ActivityType, AreaType } from '../../types'
@@ -54,6 +53,7 @@ const S = {
   Timeline: styled.div`
   width: 100%;
   max-width: 400px;
+  height: calc(100% - 50px);
   `,
   Header: styled.div<{}>`
     position: sticky;

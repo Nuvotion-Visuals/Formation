@@ -244,10 +244,12 @@ const Template: ComponentStory<typeof Timeline> = args => {
     set_currentActivity(activity)
   }, [activityId, value])
 
+  useEffect(() => console.log(value, "<<VALUE>>"), [value])
+
   return(
     <Box>
       <Box wrap>
-        <Box sticky width={"100%"} background="white">
+        <Box width={"100%"}>
           <Tabs
           tabs={tabs}
           initialActiveTab={tabs[0].name}
@@ -266,6 +268,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
         value={value}
         onChange={(newValue) => set_value(newValue)}
         activity={currentActivity}
+        activeAreaIndex={activeAreaIndex}
       />
   </Box>)
 }

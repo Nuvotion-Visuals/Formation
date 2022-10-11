@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import { DateTimeFormatter, ZonedDateTime } from '@js-joda/core'
 import '@js-joda/timezone'
 import { ActivityType } from 'types'
-import { parse } from '@fortawesome/fontawesome-svg-core'
 
 interface Props {
   value: ActivityType[],
@@ -72,6 +71,7 @@ export const IntervalSurface = ({ value, onChange, onClick }: Props) => {
   }
 
   const handleClick = (interval: IntervalType, value: any) => {
+    
     if (value !== undefined) {
       const a = value[0]?.startTime
       const b = ZonedDateTime.parse(a)
@@ -93,7 +93,7 @@ export const IntervalSurface = ({ value, onChange, onClick }: Props) => {
         behavior: 'smooth'
       })
     }
-  }, [value])
+  }, [JSON.stringify(value)])
 
   return (
     <S.Container>
