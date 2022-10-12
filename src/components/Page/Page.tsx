@@ -2,19 +2,28 @@ import React from 'react'
 import styled from 'styled-components'
 
 interface Props {
-  children: React.ReactNode
+  children: React.ReactNode,
+  noPadding?: boolean
 }
 
-export const Page = ({ children }: Props) => {
+export const Page = ({ children, noPadding }: Props) => {
   return (
     <S.Page>
-      <S.Content>
-        <S.Inner>
-          {
-            children
-          }
-        </S.Inner>
-      </S.Content>
+      {
+        noPadding
+          ? <>
+              {
+                children
+              }
+            </>
+          : <S.Content>
+              <S.Inner>
+                {
+                  children
+                }
+              </S.Inner>
+            </S.Content>
+      }
     </S.Page>
   )
 }

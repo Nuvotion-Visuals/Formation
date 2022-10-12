@@ -127,6 +127,7 @@ export const Location = ({
         },
         placeID: placeID ? placeID : ''
       })
+      set_displayName(displayName)
     }
   }, [googleMapsPlace])
 
@@ -201,36 +202,39 @@ export const Location = ({
         infowindow.open(map, marker)
       })
   
-      // if (false) {
-      //   input.value = question.calculateInitialValue().displayName
+      // center map on location if it already is set
+      if (value?.placeID && value?.displayName) {
+        input.value = value?.displayName
   
-      //   const placeId = question.calculateInitialValue()?.placeID
+        const placeId = value.placeID
         
-      //   if (placeId) {
-      //     const service = new google.maps.places.PlacesService(map)
-      //     service.getDetails({
-      //       placeId: placeId
-      //     }, (result, status) => {
-      //       const marker = new google.maps.Marker({
-      //         map: map,
-      //         place: {
-      //           placeId: placeId,
-      //           location: result.geometry.location
-      //         }
-      //       })
-      //       map.fitBounds(result.geometry.viewport)
-      //       marker.setPosition(result.geometry.location)
-      //       marker.setVisible(true)
-      //     })
-      //   }
-      // }
+        if (placeId) {
+          const service = new google.maps.places.PlacesService(map)
+          service.getDetails({
+            placeId: placeId
+          }, (result : any, status: any) => {
+            const marker = new google.maps.Marker({
+              map: map,
+              place: {
+                placeId: placeId,
+                location: result.geometry.location
+              }
+            })
+            map.fitBounds(result.geometry.viewport)
+            marker.setPosition(result.geometry.location)
+            marker.setVisible(true)
+          })
+        }
+      }
     }
   }, [])
 
+  const [displayName, set_displayName] = useState(value?.displayName)
 
   return (<>
     <TextInput 
-      value={value?.displayName}
+      value={displayName}
+      onChange={newValue => set_displayName(newValue)}
       id='pac-input'
       icon='map-marker-alt'
       iconPrefix={iconPrefix}
