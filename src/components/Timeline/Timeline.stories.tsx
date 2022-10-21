@@ -24,25 +24,25 @@ const Template: ComponentStory<typeof Timeline> = args => {
     {
       area: 'Stage',
       activities: [
-        {
-          title: 'Set0: DJ PRE',
-          startTime: `2023-01-01T16:30:00.000-06:00[America/Chicago]`,
-          endTime: `2023-01-01T18:00:00.000-06:00[America/Chicago]`,
-          id: '0',
-          people: [
-            {
-              name: "DJ PRE",
-              position: "DJ",
-            },
-            {
-              name: "tech",
-              position: "AV Tech",
-            }
-          ],
-        },
+        // {
+        //   title: 'Set0: DJ PRE',
+        //   startTime: `2023-01-01T16:00:00.000-06:00[America/Chicago]`,
+        //   endTime: `2023-01-01T18:00:00.000-06:00[America/Chicago]`,
+        //   id: '0',
+        //   people: [
+        //     {
+        //       name: "DJ PRE",
+        //       position: "DJ",
+        //     },
+        //     {
+        //       name: "tech",
+        //       position: "AV Tech",
+        //     }
+        //   ],
+        // },
         {
           title: 'Set1: DJ Alpha',
-          startTime: `2023-01-01T19:00:00.000-06:00[America/Chicago]`,
+          startTime: `2023-01-01T17:00:00.000-06:00[America/Chicago]`,
           endTime: `2023-01-01T20:00:00.000-06:00[America/Chicago]`,
           id: '1',
           people: [
@@ -58,8 +58,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
         },
         {
           title: 'Set2: DJ Beta',
-          startTime: `2023-01-01T21:00:00.000-06:00[America/Chicago]`,
-          endTime: `2023-01-01T22:00:00.000-06:00[America/Chicago]`,
+          startTime: `2023-01-01T18:00:00.000-06:00[America/Chicago]`,
+          endTime: `2023-01-01T20:00:00.000-06:00[America/Chicago]`,
           id: '2',
           people: [
             {
@@ -74,8 +74,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
         },
         {
           title: 'Set3: DJ Theta',
-          startTime: `2023-01-01T22:00:00.000-06:00[America/Chicago]`,
-          endTime: `2023-01-01T23:00:00.000-06:00[America/Chicago]`,
+          startTime: `2023-01-01T19:00:00.000-06:00[America/Chicago]`,
+          endTime: `2023-01-01T21:00:00.000-06:00[America/Chicago]`,
           id: '3',
           people: [
             {
@@ -88,6 +88,38 @@ const Template: ComponentStory<typeof Timeline> = args => {
             }
           ],
         },
+        {
+          title: 'Set4: DJ Omega',
+          startTime: `2023-01-01T22:00:00.000-06:00[America/Chicago]`,
+          endTime: `2023-01-01T23:00:00.000-06:00[America/Chicago]`,
+          id: '4',
+          people: [
+            {
+              name: "DJ Theta",
+              position: "DJ",
+            },
+            {
+              name: "tech",
+              position: "AV Tech",
+            }
+          ],
+        },
+        // {
+        //   title: 'Set5: DJ AGAIN',
+        //   startTime: `2023-01-01T22:30:00.000-06:00[America/Chicago]`,
+        //   endTime: `2023-01-01T23:45:00.000-06:00[America/Chicago]`,
+        //   id: '5',
+        //   people: [
+        //     {
+        //       name: "DJ Theta",
+        //       position: "DJ",
+        //     },
+        //     {
+        //       name: "tech",
+        //       position: "AV Tech",
+        //     }
+        //   ],
+        // },
       ]
     },
     {
@@ -244,7 +276,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
     set_currentActivity(activity)
   }, [activityId, value])
 
-  useEffect(() => console.log(value, "<<VALUE>>"), [value])
+  // useEffect(() => console.log(value, "<<VALUE>>"), [value])
 
   return(
     <Box>

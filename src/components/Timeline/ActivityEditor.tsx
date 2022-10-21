@@ -20,7 +20,6 @@ export const ActivityEditor = ({ value, onChange, activity, activeAreaIndex }: P
   const [title, set_title] = useState<string>()
   const [id, set_id] = useState<string>('')
 
-  useEffect(() => console.log(id, 'ID'), [id])
 
   useEffect(() => {
     const startTime = activity?.startTime

@@ -1,8 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { DateTimeFormatter, ZonedDateTime } from '@js-joda/core'
 import '@js-joda/timezone'
 import { ActivityType } from 'types'
+import { times } from 'lodash'
+import { act } from 'react-dom/test-utils'
 
 interface Props {
   value: ActivityType[],
@@ -17,7 +19,17 @@ interface IntervalType {
   gridNumber: number
 }
 
+interface ActivityTimeStampType {
+  startTime: number,
+  endTime: number,
+  id: string,
+  columnStart: number,
+  columnEnd: number,
+}
+
 export const IntervalSurface = ({ value, onChange, onClick }: Props) => {
+  const [columnCount, set_columnCount] = useState<number>(1)
+  const [columnString, set_columnString] = useState('')
 
   const intervals: IntervalType[] = new Array(112).fill(0).map((item, index) => (
     {
@@ -49,6 +61,49 @@ export const IntervalSurface = ({ value, onChange, onClick }: Props) => {
     }
   ))
 
+  const currentActivityTimeStamps: ActivityTimeStampType[] = value.map((activity) => {
+    let startTime = ZonedDateTime.parse(activity?.startTime)
+    let endTime = ZonedDateTime.parse(activity?.endTime)
+
+    let formattedStartTime = startTime.format(DateTimeFormatter.ofPattern('HHmm'))
+    let formattedEndTime = endTime.format(DateTimeFormatter.ofPattern('HHmm'))
+
+    return {
+      "startTime": parseInt(formattedStartTime),
+      "endTime": parseInt(formattedEndTime),
+      "id": activity.id,
+      "columnStart": 0,
+      "columnEnd": 0
+    }
+  })
+
+  let sortedTimeStamps = currentActivityTimeStamps.sort((a, b) => a.startTime - b.startTime)
+
+  let conflictedItems = sortedTimeStamps.map((activity) => {
+
+    for (let i = 0; i <= sortedTimeStamps.length - 1; i++){
+      let activityComparison = currentActivityTimeStamps[i]
+
+      const isStartTimeConflict = activityComparison.startTime < activity.startTime && activity.startTime < activityComparison.endTime
+      const isEndTimeConflict = activityComparison.startTime < activity.endTime && activity.endTime < activityComparison.endTime
+
+      if (isStartTimeConflict || isEndTimeConflict) {
+        let collision = [activityComparison, activity]
+        console.log(collision, '<<-- COLLISION - NO1 -->>')
+        return collision
+      } 
+      
+    }
+  }).filter((item) => item !== undefined)
+
+  console.log(conflictedItems, "<<ACTIVITY CONFLICTS>>")
+  
+  useEffect(() => {
+    set_columnString(`3rem repeat(${columnCount}, 1fr)`)
+    console.log(columnCount, "!!!!! ----- columnCount ----- !!!!!")
+    
+  }, [columnCount])
+
   const getFirstActivity = (value: ActivityType[]): string => {
     if (value !== undefined) {
       let firstActivityStartTime = value.reduce((prev, curr) => prev.startTime < curr.startTime ? prev : curr).startTime
@@ -62,6 +117,8 @@ export const IntervalSurface = ({ value, onChange, onClick }: Props) => {
     }  
     return '6'
   }
+
+  
 
   const renderRow = (time: string) => {
     let parsedHour: string = ZonedDateTime.parse(time).format(DateTimeFormatter.ofPattern('HH:mm'))
@@ -77,6 +134,12 @@ export const IntervalSurface = ({ value, onChange, onClick }: Props) => {
     return gridObject[0]?.gridNumber + 1
   }
 
+  
+
+  // click on surface creates a new Activity
+  // TODO: 
+  //  - onClick should trigger ActivityEditor
+  //  - click and hold should allow user to drag empty activity to a different start time
   const handleClick = (interval: IntervalType, value: any) => {
     
     if (value !== undefined) {
@@ -104,7 +167,7 @@ export const IntervalSurface = ({ value, onChange, onClick }: Props) => {
 
   return (
     <S.Container>
-      <S.Grid>
+      <S.Grid columnString={columnString}>
           {
             intervals.map((interval, index) => 
               <S.TimeDisplay
@@ -126,7 +189,7 @@ export const IntervalSurface = ({ value, onChange, onClick }: Props) => {
                 />
               )
           }    
-          {
+        {
             value.map((activity, index) => 
               <S.Activity
                 key={index}
@@ -152,12 +215,14 @@ const S = {
     width: 100%;
     background: var(--F_Activity_Backdrop);
   `,
-  Grid: styled.div<{}>`
+  Grid: styled.div<{
+    columnString: string
+  }>`
     position: relative;
     width: 100%;
     height: 100%;
     display: grid;
-    grid-template-columns: 3rem repeat(1,1fr) 2rem;
+    grid-template-columns: ${props => props.columnString};
     grid-template-rows: repeat(113, 1fr);
     row-gap: 1px;
     column-gap: 1px;
@@ -199,3 +264,124 @@ const S = {
     border-radius: 0.25rem;
   `
 }
+
+
+  // const calculateColumnCount = (timeStamps: TimeStampType[]) => {
+
+  //   // create array of all activities which conflict
+    // let activityConflicts = timeStamps.map((activity) => {
+
+    //   for (let i = 0; i <= timeStamps.length - 1; i++){
+    //     let item = timeStamps[i]
+    //     if (item.startTime < activity.startTime && activity.startTime < item.endTime) {
+
+    //       return activity
+    //     } else if (item.startTime > activity.startTime && activity.endTime > item.startTime) {
+          
+    //       return activity
+    //     }
+    //   }
+    // })
+
+  //   // create array which holds all conflicted activities which conflict with each other
+  //   // for use in generating required grid columns
+  //   let filteredConflicts = activityConflicts.filter((activity) => {
+
+  //     for (let i = 0; i < activityConflicts.length; i++){
+  //       let item = activityConflicts[i]
+  //       if (item !== undefined && activity !== undefined) {
+  //         if (item.startTime === activity.startTime && item.endTime === activity.endTime) {
+  //           return
+  //         } else if (item.startTime <= activity.startTime && activity.startTime < item.endTime) {
+            
+  //           return activity
+  //         }
+  //       }
+          
+
+  //     }
+  //   })
+
+  //   console.log(filteredConflicts.length.toString(), "!")
+  //   set_columnCount(filteredConflicts.length.toString())
+  //   return
+  // }
+
+  // const renderColumn = (activity: ActivityType, timeStamps: TimeStampType[]) => {
+  //   if (activity !== undefined && timeStamps !== undefined) {
+  //     let activityStart: number = parseInt(ZonedDateTime.parse(activity.startTime).format(DateTimeFormatter.ofPattern('HHmm')))
+  //     let activityEnd: number = parseInt(ZonedDateTime.parse(activity.endTime).format(DateTimeFormatter.ofPattern('HHmm')))
+
+  //     let comparableItems = timeStamps.map((item) => {
+        
+  //       if (activityStart !== item.startTime && activityEnd !== item.endTime) {
+  //         if (activityStart < item.startTime && activityEnd < item.startTime) {
+  //           item.columnGrid = 2
+
+  //           return 2
+  //         }
+  //         if (activityStart < item.startTime && activityEnd > item.startTime) {
+  //           item.columnGrid = 2
+  //           return 2
+  //         } else if (activityStart > item.startTime && activityStart < item.endTime && item.columnGrid === 0) {
+  //           return 3
+  //         } else if (activityStart > item.startTime && activityStart < item.endTime && item.columnGrid === 2) {
+  //           return 3
+  //         }
+  //       }
+  //     })
+
+  //     let z = comparableItems.filter((item) => item !== undefined)[0]
+
+  //     console.log(comparableItems, "COMP ITEMS -----")
+  //     console.log(z, "<<Z>>")
+
+      
+        
+  //     return z
+        
+  //   }
+  //   return 2
+  //
+  // }
+  
+   // let d = ZonedDateTime.parse(activity?.startTime)
+          // let formattedTime = d.format(DateTimeFormatter.ofPattern('HHmm'))
+
+          // let x = filteredConflicts[filteredConflicts.length - 1].length
+          // let y = filteredConflicts[filteredConflicts.length - 1][x - 1]
+          // let z = filteredConflicts[0][0]
+
+          // console.log(x, "x",y, "y", z, "z")
+
+          // if (y?.startTime > z?.endTime && y.id === activity.id) {
+              
+          //   let newCount = i + 1
+
+          //   if (parseInt(columnCount) < newCount) {
+          //     set_columnCount((newCount).toString())
+          //   }
+
+          //   return i + 1
+
+          // }
+          // for (let i = 0; i < filteredConflicts.length; i++){
+          //   let comparisonObject = filteredConflicts[i]
+      
+          //   for (let i = 0; i < comparisonObject.length; i++){
+          //     let nestedLevel = comparisonObject[i]
+      
+      
+          //     if (nestedLevel.id === activity.id) {
+               
+          //       let newCount = i + 1
+      
+          //       if (parseInt(columnCount) < newCount) {  
+          //         set_columnCount((newCount).toString())
+          //       }
+      
+          //       return 2
+          //     }
+          //   }
+          // }
+          // return 2
