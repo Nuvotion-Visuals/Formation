@@ -59,7 +59,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
         {
           title: 'Set2: DJ Beta',
           startTime: `2023-01-01T18:00:00.000-06:00[America/Chicago]`,
-          endTime: `2023-01-01T20:00:00.000-06:00[America/Chicago]`,
+          endTime: `2023-01-01T20:15:00.000-06:00[America/Chicago]`,
           id: '2',
           people: [
             {

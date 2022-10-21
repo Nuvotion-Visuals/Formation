@@ -27,6 +27,8 @@ interface ActivityTimeStampType {
   columnEnd: number,
 }
 
+type ActivityTimeStampsType = ActivityTimeStampType[]
+
 export const IntervalSurface = ({ value, onChange, onClick }: Props) => {
   const [columnCount, set_columnCount] = useState<number>(1)
   const [columnString, set_columnString] = useState('')
@@ -61,7 +63,7 @@ export const IntervalSurface = ({ value, onChange, onClick }: Props) => {
     }
   ))
 
-  const currentActivityTimeStamps: ActivityTimeStampType[] = value.map((activity) => {
+  const currentActivityTimeStamps: ActivityTimeStampsType = value.map((activity) => {
     let startTime = ZonedDateTime.parse(activity?.startTime)
     let endTime = ZonedDateTime.parse(activity?.endTime)
 
@@ -77,30 +79,53 @@ export const IntervalSurface = ({ value, onChange, onClick }: Props) => {
     }
   })
 
-  let sortedTimeStamps = currentActivityTimeStamps.sort((a, b) => a.startTime - b.startTime)
+  let activitiesByTimeStamp = currentActivityTimeStamps.sort((a, b) => a.startTime - b.startTime)
 
-  let conflictedItems = sortedTimeStamps.map((activity) => {
 
-    for (let i = 0; i <= sortedTimeStamps.length - 1; i++){
-      let activityComparison = currentActivityTimeStamps[i]
+  const getComparisonActivitiesById = (activitiesByTimeStamp: ActivityTimeStampsType) => {
+    let comparedIds: string[][] = []
 
-      const isStartTimeConflict = activityComparison.startTime < activity.startTime && activity.startTime < activityComparison.endTime
-      const isEndTimeConflict = activityComparison.startTime < activity.endTime && activity.endTime < activityComparison.endTime
+    activitiesByTimeStamp.forEach((activity) => { 
+      activitiesByTimeStamp.forEach((comparisonActivity, i) => {
+        let alreadyCompared = false
 
-      if (isStartTimeConflict || isEndTimeConflict) {
-        let collision = [activityComparison, activity]
-        console.log(collision, '<<-- COLLISION - NO1 -->>')
-        return collision
-      } 
-      
-    }
-  }).filter((item) => item !== undefined)
+        comparedIds.forEach((ids, index) => {
+          if (ids.includes(activity.id) && ids.includes(comparisonActivity.id)) {
+            alreadyCompared = true
+          }
+        })
 
-  console.log(conflictedItems, "<<ACTIVITY CONFLICTS>>")
+        if (!alreadyCompared) {
+          if (activity.id !== comparisonActivity.id) {
+            comparedIds.push([activity.id, comparisonActivity.id])
+          }
+        }
+      })
+    })
+
+    return comparedIds
+  }
+
+  useEffect(() => {
+    getComparisonActivitiesById(activitiesByTimeStamp)
+    console.log(getComparisonActivitiesById(activitiesByTimeStamp), "getComparisonActivitiesById output")
+
+    // const isStartTimeConflict = comparisonActivity.startTime < activity.startTime && activity.startTime < comparisonActivity.endTime
+        // const isEndTimeConflict = comparisonActivity.startTime < activity.endTime && activity.endTime < comparisonActivity.endTime
+    
+        //   if (isStartTimeConflict || isEndTimeConflict) {
+    
+    
+        //     let collision = [activity, comparisonActivity]
+        //     console.log(collision, '<<-- COLLISION - NO1 -->>')
+        //     return collision
+        //   } 
+    
+  }, [activitiesByTimeStamp])
+  
   
   useEffect(() => {
     set_columnString(`3rem repeat(${columnCount}, 1fr)`)
-    console.log(columnCount, "!!!!! ----- columnCount ----- !!!!!")
     
   }, [columnCount])
 
