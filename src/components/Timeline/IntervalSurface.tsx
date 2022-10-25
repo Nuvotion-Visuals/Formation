@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { DateTimeFormatter, ZonedDateTime } from '@js-joda/core'
+import { DateTimeFormatter, use, ZonedDateTime } from '@js-joda/core'
 import '@js-joda/timezone'
 import { ActivityType } from 'types'
 import { times } from 'lodash'
@@ -20,16 +20,19 @@ interface IntervalType {
 }
 
 interface ActivityTimeStampType {
-  startTime: number,
-  endTime: number,
+  title: string,
+  startTime: string,
+  endTime: string,
+  startInteger: number, 
+  endInteger: number,
   id: string,
-  columnStart: number,
-  columnEnd: number,
+  overflowLane: number
 }
 
 type ActivityTimeStampsType = ActivityTimeStampType[]
 
 export const IntervalSurface = ({ value, onChange, onClick }: Props) => {
+  const [collisions, set_collisions] = useState<ActivityTimeStampType[][]>()
   const [columnCount, set_columnCount] = useState<number>(1)
   const [columnString, set_columnString] = useState('')
 
@@ -71,16 +74,29 @@ export const IntervalSurface = ({ value, onChange, onClick }: Props) => {
     let formattedEndTime = endTime.format(DateTimeFormatter.ofPattern('HHmm'))
 
     return {
-      "startTime": parseInt(formattedStartTime),
-      "endTime": parseInt(formattedEndTime),
+      "title": activity.title,
+      "startTime": activity.startTime,
+      "endTime": activity.endTime,
+      "startInteger": parseInt(formattedStartTime),
+      "endInteger": parseInt(formattedEndTime),
       "id": activity.id,
-      "columnStart": 0,
-      "columnEnd": 0
+      "overflowLane": 1
     }
   })
 
-  let activitiesByTimeStamp = currentActivityTimeStamps.sort((a, b) => a.startTime - b.startTime)
+  let activitiesByTimeStamp = currentActivityTimeStamps.sort((a, b) => a.startInteger - b.startInteger)
 
+  const getActivityById = (id: string): ActivityTimeStampType | null => {
+    let activity = null
+
+    currentActivityTimeStamps.forEach((item) => {
+      if (id === item.id) {
+        activity = item
+      }
+    })
+
+    return activity
+  }
 
   const getComparisonActivitiesById = (activitiesByTimeStamp: ActivityTimeStampsType) => {
     let comparedIds: string[][] = []
@@ -107,22 +123,63 @@ export const IntervalSurface = ({ value, onChange, onClick }: Props) => {
   }
 
   useEffect(() => {
-    getComparisonActivitiesById(activitiesByTimeStamp)
-    console.log(getComparisonActivitiesById(activitiesByTimeStamp), "getComparisonActivitiesById output")
+    const comparisonActivitiesById = getComparisonActivitiesById(activitiesByTimeStamp)
+    let collisions: ActivityTimeStampType[][] = []
 
-    // const isStartTimeConflict = comparisonActivity.startTime < activity.startTime && activity.startTime < comparisonActivity.endTime
-        // const isEndTimeConflict = comparisonActivity.startTime < activity.endTime && activity.endTime < comparisonActivity.endTime
-    
-        //   if (isStartTimeConflict || isEndTimeConflict) {
-    
-    
-        //     let collision = [activity, comparisonActivity]
-        //     console.log(collision, '<<-- COLLISION - NO1 -->>')
-        //     return collision
-        //   } 
-    
+    comparisonActivitiesById.forEach((comparisonIds) => {
+      const id1 = comparisonIds[0]
+      const id2 = comparisonIds[1]
+
+      const activity = getActivityById(id1)
+      const comparisonActivity = getActivityById(id2)
+      
+      if (activity !== null && comparisonActivity !== null) {
+        const isStartTimeConflict = comparisonActivity.startTime < activity.startTime && activity.startTime < comparisonActivity.endTime
+        const isEndTimeConflict = comparisonActivity.startTime < activity.endTime && activity.endTime < comparisonActivity.endTime
+      
+        if (isStartTimeConflict || isEndTimeConflict) {
+          let collision = [activity, comparisonActivity]
+          collisions.push(collision)
+        } 
+      }
+    })
+
+    calculateOverflowLane(activitiesByTimeStamp, collisions)
+
+  }, [activitiesByTimeStamp]) 
+
+  const calculateOverflowLane = (activitiesByTimeStamp: ActivityTimeStampsType, collisions: ActivityTimeStampType[][]) => {
+
+    activitiesByTimeStamp.forEach((activity, index) => {
+      if (index === 0) {
+        activitiesByTimeStamp[0] = {
+          ...activitiesByTimeStamp[0],
+          "overflowLane": 1
+        }
+      } else {
+        // find number of collisions for each activity
+
+        collisions.forEach((collision) => {
+          if (collision[0].id === activity.id) {
+            return
+          } else if (collision[1].id === activity.id) {
+
+            if (activity.overflowLane <= collision[0].overflowLane) {
+              activity.overflowLane = collision[0].overflowLane + 1
+            }
+          }
+        })
+      }
+    })
+
+    return activitiesByTimeStamp
+  }
+
+  useEffect(() => {
+    let x = Math.max(...activitiesByTimeStamp.map(activity => activity.overflowLane))
+    set_columnCount(x)
+    console.log(activitiesByTimeStamp, "ACTIVITIES BY TIMESTAMP")
   }, [activitiesByTimeStamp])
-  
   
   useEffect(() => {
     set_columnString(`3rem repeat(${columnCount}, 1fr)`)
@@ -143,7 +200,16 @@ export const IntervalSurface = ({ value, onChange, onClick }: Props) => {
     return '6'
   }
 
-  
+  const renderStartGridColumn = (overflowLane: number) => {
+    console.log(overflowLane, "HEY!!")
+    let x = overflowLane
+    return x + 1
+  }
+
+  const renderEndGridColumn = (overflowLane: number) => {
+    let x = overflowLane
+    return x + 2
+  }
 
   const renderRow = (time: string) => {
     let parsedHour: string = ZonedDateTime.parse(time).format(DateTimeFormatter.ofPattern('HH:mm'))
@@ -215,14 +281,14 @@ export const IntervalSurface = ({ value, onChange, onClick }: Props) => {
               )
           }    
         {
-            value.map((activity, index) => 
+            activitiesByTimeStamp.map((activity, index) => 
               <S.Activity
                 key={index}
                 onClick={(e) => onClick(e)}
                 id={activity.id}
                 style={{
-                  gridColumnStart: 2,
-                  gridColumnEnd: 3,
+                  gridColumnStart: activity.overflowLane + 1,
+                  gridColumnEnd: activity.overflowLane + 2,
                   gridRowStart: renderRow(activity?.startTime),
                   gridRowEnd: renderRow(activity?.endTime)
                 }}>

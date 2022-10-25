@@ -40,10 +40,13 @@ const Template: ComponentStory<typeof Timeline> = args => {
         //     }
         //   ],
         // },
+        //
+        //
+        // UPDATE TO UTC TIMECODE
         {
           title: 'Set1: DJ Alpha',
           startTime: `2023-01-01T17:00:00.000-06:00[America/Chicago]`,
-          endTime: `2023-01-01T20:00:00.000-06:00[America/Chicago]`,
+          endTime: `2023-01-01T18:45:00.000-06:00[America/Chicago]`,
           id: '1',
           people: [
             {
@@ -59,7 +62,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
         {
           title: 'Set2: DJ Beta',
           startTime: `2023-01-01T18:00:00.000-06:00[America/Chicago]`,
-          endTime: `2023-01-01T20:15:00.000-06:00[America/Chicago]`,
+          endTime: `2023-01-01T20:00:00.000-06:00[America/Chicago]`,
           id: '2',
           people: [
             {
@@ -74,7 +77,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
         },
         {
           title: 'Set3: DJ Theta',
-          startTime: `2023-01-01T19:00:00.000-06:00[America/Chicago]`,
+          startTime: `2023-01-01T19:15:00.000-06:00[America/Chicago]`,
           endTime: `2023-01-01T21:00:00.000-06:00[America/Chicago]`,
           id: '3',
           people: [
