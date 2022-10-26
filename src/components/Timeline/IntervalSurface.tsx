@@ -35,6 +35,7 @@ export const IntervalSurface = ({ value, onChange, onClick }: Props) => {
   const [collisions, set_collisions] = useState<ActivityTimeStampType[][]>()
   const [columnCount, set_columnCount] = useState<number>(1)
   const [columnString, set_columnString] = useState('')
+  const [items, set_items] =  useState<ActivityTimeStampType[]>()
 
   const intervals: IntervalType[] = new Array(112).fill(0).map((item, index) => (
     {
@@ -144,11 +145,15 @@ export const IntervalSurface = ({ value, onChange, onClick }: Props) => {
       }
     })
 
-    calculateOverflowLane(activitiesByTimeStamp, collisions)
+    calculateOverflowLanes(activitiesByTimeStamp, collisions)
+
+    let x = Math.max(...activitiesByTimeStamp.map(activity => activity.overflowLane))
+    set_columnCount(x)
+    console.log(activitiesByTimeStamp, "ACTIVITIES BY TIMESTAMP")
 
   }, [activitiesByTimeStamp]) 
 
-  const calculateOverflowLane = (activitiesByTimeStamp: ActivityTimeStampsType, collisions: ActivityTimeStampType[][]) => {
+  const calculateOverflowLanes = (activitiesByTimeStamp: ActivityTimeStampsType, collisions: ActivityTimeStampType[][])=> {
 
     activitiesByTimeStamp.forEach((activity, index) => {
       if (index === 0) {
@@ -157,12 +162,9 @@ export const IntervalSurface = ({ value, onChange, onClick }: Props) => {
           "overflowLane": 1
         }
       } else {
-        // find number of collisions for each activity
 
         collisions.forEach((collision) => {
-          if (collision[0].id === activity.id) {
-            return
-          } else if (collision[1].id === activity.id) {
+          if (collision[1].id === activity.id) {
 
             if (activity.overflowLane <= collision[0].overflowLane) {
               activity.overflowLane = collision[0].overflowLane + 1
@@ -171,19 +173,11 @@ export const IntervalSurface = ({ value, onChange, onClick }: Props) => {
         })
       }
     })
-
-    return activitiesByTimeStamp
+    set_items(activitiesByTimeStamp)
   }
 
   useEffect(() => {
-    let x = Math.max(...activitiesByTimeStamp.map(activity => activity.overflowLane))
-    set_columnCount(x)
-    console.log(activitiesByTimeStamp, "ACTIVITIES BY TIMESTAMP")
-  }, [activitiesByTimeStamp])
-  
-  useEffect(() => {
     set_columnString(`3rem repeat(${columnCount}, 1fr)`)
-    
   }, [columnCount])
 
   const getFirstActivity = (value: ActivityType[]): string => {
@@ -200,17 +194,6 @@ export const IntervalSurface = ({ value, onChange, onClick }: Props) => {
     return '6'
   }
 
-  const renderStartGridColumn = (overflowLane: number) => {
-    console.log(overflowLane, "HEY!!")
-    let x = overflowLane
-    return x + 1
-  }
-
-  const renderEndGridColumn = (overflowLane: number) => {
-    let x = overflowLane
-    return x + 2
-  }
-
   const renderRow = (time: string) => {
     let parsedHour: string = ZonedDateTime.parse(time).format(DateTimeFormatter.ofPattern('HH:mm'))
 
@@ -225,12 +208,6 @@ export const IntervalSurface = ({ value, onChange, onClick }: Props) => {
     return gridObject[0]?.gridNumber + 1
   }
 
-  
-
-  // click on surface creates a new Activity
-  // TODO: 
-  //  - onClick should trigger ActivityEditor
-  //  - click and hold should allow user to drag empty activity to a different start time
   const handleClick = (interval: IntervalType, value: any) => {
     
     if (value !== undefined) {
@@ -281,20 +258,23 @@ export const IntervalSurface = ({ value, onChange, onClick }: Props) => {
               )
           }    
         {
-            activitiesByTimeStamp.map((activity, index) => 
-              <S.Activity
-                key={index}
-                onClick={(e) => onClick(e)}
-                id={activity.id}
-                style={{
-                  gridColumnStart: activity.overflowLane + 1,
-                  gridColumnEnd: activity.overflowLane + 2,
-                  gridRowStart: renderRow(activity?.startTime),
-                  gridRowEnd: renderRow(activity?.endTime)
-                }}>
+          items !== undefined
+            ? items.map((activity, index) => 
+                <S.Activity
+                  key={index}
+                  onClick={(e) => onClick(e)}
+                  id={activity.id}
+                  style={{
+                    gridColumnStart: activity.overflowLane + 1,
+                    gridColumnEnd: activity.overflowLane + 2,
+                    gridRowStart: renderRow(activity?.startTime),
+                    gridRowEnd: renderRow(activity?.endTime)
+                  }}>
                 {activity.title}
-              </S.Activity>
-            )
+                </S.Activity>
+              )
+            : <></>
+            
         }
       </S.Grid>
     </S.Container>
