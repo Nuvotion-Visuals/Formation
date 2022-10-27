@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { DateTimeFormatter, use, ZonedDateTime } from '@js-joda/core'
+import { DateTimeFormatter, ZonedDateTime } from '@js-joda/core'
 import '@js-joda/timezone'
 import { ActivityType } from 'types'
-import { times } from 'lodash'
-import { act } from 'react-dom/test-utils'
 
 interface Props {
   value: ActivityType[],
@@ -32,10 +30,9 @@ interface ActivityTimeStampType {
 type ActivityTimeStampsType = ActivityTimeStampType[]
 
 export const IntervalSurface = ({ value, onChange, onClick }: Props) => {
-  const [collisions, set_collisions] = useState<ActivityTimeStampType[][]>()
   const [columnCount, set_columnCount] = useState<number>(1)
   const [columnString, set_columnString] = useState('')
-  const [items, set_items] =  useState<ActivityTimeStampType[]>()
+  const [renderItems, set_renderItems] =  useState<ActivityTimeStampType[]>()
 
   const intervals: IntervalType[] = new Array(112).fill(0).map((item, index) => (
     {
@@ -124,60 +121,71 @@ export const IntervalSurface = ({ value, onChange, onClick }: Props) => {
   }
 
   useEffect(() => {
-    const comparisonActivitiesById = getComparisonActivitiesById(activitiesByTimeStamp)
-    let collisions: ActivityTimeStampType[][] = []
+    calculateOverflowLanes(activitiesByTimeStamp)
 
-    comparisonActivitiesById.forEach((comparisonIds) => {
-      const id1 = comparisonIds[0]
-      const id2 = comparisonIds[1]
+  }, [value]) 
 
-      const activity = getActivityById(id1)
-      const comparisonActivity = getActivityById(id2)
-      
-      if (activity !== null && comparisonActivity !== null) {
-        const isStartTimeConflict = comparisonActivity.startTime < activity.startTime && activity.startTime < comparisonActivity.endTime
-        const isEndTimeConflict = comparisonActivity.startTime < activity.endTime && activity.endTime < comparisonActivity.endTime
-      
-        if (isStartTimeConflict || isEndTimeConflict) {
-          let collision = [activity, comparisonActivity]
-          collisions.push(collision)
-        } 
-      }
-    })
-
-    calculateOverflowLanes(activitiesByTimeStamp, collisions)
-
-    let x = Math.max(...activitiesByTimeStamp.map(activity => activity.overflowLane))
-    set_columnCount(x)
-    console.log(activitiesByTimeStamp, "ACTIVITIES BY TIMESTAMP")
-
-  }, [activitiesByTimeStamp]) 
-
-  const calculateOverflowLanes = (activitiesByTimeStamp: ActivityTimeStampsType, collisions: ActivityTimeStampType[][])=> {
+  const calculateOverflowLanes = (activitiesByTimeStamp: ActivityTimeStampsType) => {
+    
+    let overflowLaneRecord: ActivityTimeStampsType = []
 
     activitiesByTimeStamp.forEach((activity, index) => {
       if (index === 0) {
-        activitiesByTimeStamp[0] = {
-          ...activitiesByTimeStamp[0],
-          "overflowLane": 1
-        }
-      } else {
-
-        collisions.forEach((collision) => {
-          if (collision[1].id === activity.id) {
-
-            if (activity.overflowLane <= collision[0].overflowLane) {
-              activity.overflowLane = collision[0].overflowLane + 1
-            }
-          }
-        })
+        // seed the array
+        activity.overflowLane = 1
+        overflowLaneRecord.push(activity)
+        return
       }
+      
+      else
+      
+      {
+
+        overflowLaneRecord.forEach((placedActivity) => {
+          const isStartTimeConflict = placedActivity.startInteger < activity.startInteger && activity.startInteger < placedActivity.endInteger
+          const isEndTimeConflict = placedActivity.startTime < activity.endTime && activity.endTime < placedActivity.endTime
+          const isNotConflicted = placedActivity.startInteger < activity.startInteger && activity.startInteger > placedActivity.endInteger
+
+          console.log("FOR EACH OVERFLOW", placedActivity.title, activity.title, "START CONLICT:" , isStartTimeConflict, "END CONFLICT:", isEndTimeConflict, overflowLaneRecord)
+
+
+          if (isStartTimeConflict || isEndTimeConflict) {
+            
+            if (overflowLaneRecord.some(item => item.id === activity.id)) {
+              console.log("SOME RETuRNS TRUE NO1", placedActivity, activity)
+
+              return 
+            }
+            
+            console.log("PUSHED", activity.title, "PUSHED - CONFLICT")
+            activity.overflowLane = placedActivity.overflowLane + 1
+            overflowLaneRecord.push(activity)
+            
+          }
+          
+          else if (isNotConflicted)
+          
+          {
+            console.log("PUSHED", activity.title, "PUSHED - NO CONFLICT")
+            activity.overflowLane = placedActivity.overflowLane
+            overflowLaneRecord.push(activity)
+   
+          } 
+
+        })
+
+      }
+      console.log("---", overflowLaneRecord, "---")
+    
+      set_renderItems(activitiesByTimeStamp)
+      let x = Math.max(...overflowLaneRecord.map(activity => activity.overflowLane))
+      set_columnCount(x)
     })
-    set_items(activitiesByTimeStamp)
   }
 
   useEffect(() => {
     set_columnString(`3rem repeat(${columnCount}, 1fr)`)
+    console.log(columnCount, "COUNT")
   }, [columnCount])
 
   const getFirstActivity = (value: ActivityType[]): string => {
@@ -258,8 +266,8 @@ export const IntervalSurface = ({ value, onChange, onClick }: Props) => {
               )
           }    
         {
-          items !== undefined
-            ? items.map((activity, index) => 
+          renderItems !== undefined
+            ? renderItems.map((activity, index) => 
                 <S.Activity
                   key={index}
                   onClick={(e) => onClick(e)}
@@ -335,124 +343,3 @@ const S = {
     border-radius: 0.25rem;
   `
 }
-
-
-  // const calculateColumnCount = (timeStamps: TimeStampType[]) => {
-
-  //   // create array of all activities which conflict
-    // let activityConflicts = timeStamps.map((activity) => {
-
-    //   for (let i = 0; i <= timeStamps.length - 1; i++){
-    //     let item = timeStamps[i]
-    //     if (item.startTime < activity.startTime && activity.startTime < item.endTime) {
-
-    //       return activity
-    //     } else if (item.startTime > activity.startTime && activity.endTime > item.startTime) {
-          
-    //       return activity
-    //     }
-    //   }
-    // })
-
-  //   // create array which holds all conflicted activities which conflict with each other
-  //   // for use in generating required grid columns
-  //   let filteredConflicts = activityConflicts.filter((activity) => {
-
-  //     for (let i = 0; i < activityConflicts.length; i++){
-  //       let item = activityConflicts[i]
-  //       if (item !== undefined && activity !== undefined) {
-  //         if (item.startTime === activity.startTime && item.endTime === activity.endTime) {
-  //           return
-  //         } else if (item.startTime <= activity.startTime && activity.startTime < item.endTime) {
-            
-  //           return activity
-  //         }
-  //       }
-          
-
-  //     }
-  //   })
-
-  //   console.log(filteredConflicts.length.toString(), "!")
-  //   set_columnCount(filteredConflicts.length.toString())
-  //   return
-  // }
-
-  // const renderColumn = (activity: ActivityType, timeStamps: TimeStampType[]) => {
-  //   if (activity !== undefined && timeStamps !== undefined) {
-  //     let activityStart: number = parseInt(ZonedDateTime.parse(activity.startTime).format(DateTimeFormatter.ofPattern('HHmm')))
-  //     let activityEnd: number = parseInt(ZonedDateTime.parse(activity.endTime).format(DateTimeFormatter.ofPattern('HHmm')))
-
-  //     let comparableItems = timeStamps.map((item) => {
-        
-  //       if (activityStart !== item.startTime && activityEnd !== item.endTime) {
-  //         if (activityStart < item.startTime && activityEnd < item.startTime) {
-  //           item.columnGrid = 2
-
-  //           return 2
-  //         }
-  //         if (activityStart < item.startTime && activityEnd > item.startTime) {
-  //           item.columnGrid = 2
-  //           return 2
-  //         } else if (activityStart > item.startTime && activityStart < item.endTime && item.columnGrid === 0) {
-  //           return 3
-  //         } else if (activityStart > item.startTime && activityStart < item.endTime && item.columnGrid === 2) {
-  //           return 3
-  //         }
-  //       }
-  //     })
-
-  //     let z = comparableItems.filter((item) => item !== undefined)[0]
-
-  //     console.log(comparableItems, "COMP ITEMS -----")
-  //     console.log(z, "<<Z>>")
-
-      
-        
-  //     return z
-        
-  //   }
-  //   return 2
-  //
-  // }
-  
-   // let d = ZonedDateTime.parse(activity?.startTime)
-          // let formattedTime = d.format(DateTimeFormatter.ofPattern('HHmm'))
-
-          // let x = filteredConflicts[filteredConflicts.length - 1].length
-          // let y = filteredConflicts[filteredConflicts.length - 1][x - 1]
-          // let z = filteredConflicts[0][0]
-
-          // console.log(x, "x",y, "y", z, "z")
-
-          // if (y?.startTime > z?.endTime && y.id === activity.id) {
-              
-          //   let newCount = i + 1
-
-          //   if (parseInt(columnCount) < newCount) {
-          //     set_columnCount((newCount).toString())
-          //   }
-
-          //   return i + 1
-
-          // }
-          // for (let i = 0; i < filteredConflicts.length; i++){
-          //   let comparisonObject = filteredConflicts[i]
-      
-          //   for (let i = 0; i < comparisonObject.length; i++){
-          //     let nestedLevel = comparisonObject[i]
-      
-      
-          //     if (nestedLevel.id === activity.id) {
-               
-          //       let newCount = i + 1
-      
-          //       if (parseInt(columnCount) < newCount) {  
-          //         set_columnCount((newCount).toString())
-          //       }
-      
-          //       return 2
-          //     }
-          //   }
-          // }
-          // return 2
