@@ -127,13 +127,17 @@ export const IntervalSurface = ({ value, onChange, onClick }: Props) => {
 
   const calculateOverflowLanes = (activitiesByTimeStamp: ActivityTimeStampsType) => {
     
-    let overflowLaneRecord: ActivityTimeStampsType = []
+    let overflowLaneRecord: ActivityTimeStampType[][] = [[]]
+
+    // []  [ [0],[1],[2], etc... ]
 
     activitiesByTimeStamp.forEach((activity, index) => {
       if (index === 0) {
-        // seed the array
-        activity.overflowLane = 1
-        overflowLaneRecord.push(activity)
+        // seed index 0 of array (overflow lane 1)
+
+        overflowLaneRecord[0].push(activity)
+        console.log("PUSHED INIT:", activity.title)
+        
         return
       }
       
@@ -141,52 +145,126 @@ export const IntervalSurface = ({ value, onChange, onClick }: Props) => {
       
       {
 
-        overflowLaneRecord.forEach((placedActivity) => {
-          const isStartTimeConflict = placedActivity.startInteger < activity.startInteger && activity.startInteger < placedActivity.endInteger
-          const isEndTimeConflict = placedActivity.startTime < activity.endTime && activity.endTime < placedActivity.endTime
-          const isNotConflicted = placedActivity.startInteger < activity.startInteger && activity.startInteger > placedActivity.endInteger
+        for (let i = 0; i < overflowLaneRecord.length; i++){
+          const singleLane = overflowLaneRecord[i]
 
-          console.log("FOR EACH OVERFLOW", placedActivity.title, activity.title, "START CONLICT:" , isStartTimeConflict, "END CONFLICT:", isEndTimeConflict, overflowLaneRecord)
+          
 
+          
+          for (let i = 0; i < singleLane.length; i++){
+            const isStartTimeConflict = singleLane[i].startInteger < activity.startInteger && activity.startInteger < singleLane[i].endInteger
+            const isEndTimeConflict = singleLane[i].startTime < activity.endTime && activity.endTime < singleLane[i].endTime
+            const isNotConflicted = singleLane[i].startInteger < activity.startInteger && activity.startInteger > singleLane[i].endInteger
 
-          if (isStartTimeConflict || isEndTimeConflict) {
             
-            if (overflowLaneRecord.some(item => item.id === activity.id)) {
-              console.log("SOME RETuRNS TRUE NO1", placedActivity, activity)
+            console.log("ACTIVITY:", activity.title)
+            console.log("singleLane:", singleLane[i])
+            console.log("START CONFLICT:", isStartTimeConflict)
+            console.log("END CONFLICT:", isEndTimeConflict)
+            console.log("NO CONFLICT", isNotConflicted)
+            
+            
+            if (isStartTimeConflict || isEndTimeConflict) {
+              let newLane: any = []
+              overflowLaneRecord.push(newLane)
+              overflowLaneRecord[i + 1].push(activity)
+              
+              console.log("PUSHED WITH CONFLICT:", overflowLaneRecord[i + 1])
+              console.log("----------------------------")
 
-              return 
+              return
             }
+
+            else if (isNotConflicted)
             
-            console.log("PUSHED", activity.title, "PUSHED - CONFLICT")
-            activity.overflowLane = placedActivity.overflowLane + 1
-            overflowLaneRecord.push(activity)
-            
+            {
+              singleLane.every((placedActivity) => {
+                
+                const isStartConflicted = placedActivity.startInteger < activity.startInteger && activity.startInteger < placedActivity.endInteger
+                const isEndConflicted = placedActivity.startTime < activity.endTime && activity.endTime < placedActivity.endTime
+                const isNotConflicted = placedActivity.startInteger < activity.startInteger && activity.startInteger > placedActivity.endInteger
+
+                if (isStartTimeConflict || isEndTimeConflict) {
+
+                  
+
+                  return false
+                }
+                console.log("EVERY", activity.title, placedActivity)
+                console.log("VARS", isStartConflicted, isEndConflicted, isNotConflicted)
+
+                overflowLaneRecord[i+1].push(activity)
+
+                return true
+              })
+
+              overflowLaneRecord[i].push(activity)
+
+              console.log("PUSHED NO CONFLICT:", overflowLaneRecord[i])
+              console.log("----------------------------")
+
+              return
+            }
           }
+        }
+
+        const checkConflict = (placedActivity: ActivityTimeStampType) => {
+          const isStartConflicted = placedActivity.startInteger < activity.startInteger && activity.startInteger < placedActivity.endInteger
+          const isEndConflicted = placedActivity.startTime < activity.endTime && activity.endTime < placedActivity.endTime
+          const isNotConflicted = placedActivity.startInteger < activity.startInteger && activity.startInteger > placedActivity.endInteger
+        }
+
+
+
+        // overflowLaneRecord.forEach((placedActivity) => {
+        //   const isStartTimeConflict = placedActivity.startInteger < activity.startInteger && activity.startInteger < placedActivity.endInteger
+        //   const isEndTimeConflict = placedActivity.startTime < activity.endTime && activity.endTime < placedActivity.endTime
+        //   const isNotConflicted = placedActivity.startInteger < activity.startInteger && activity.startInteger > placedActivity.endInteger
+
+        //   console.log("FOR EACH OVERFLOW", placedActivity.title, activity.title, "START CONLICT:" , isStartTimeConflict, "END CONFLICT:", isEndTimeConflict, overflowLaneRecord)
+
+
+        //   if (isStartTimeConflict || isEndTimeConflict) {
+            
+        //     if (overflowLaneRecord.some(item => item.id === activity.id)) {
+        //       console.log("SOME RETuRNS TRUE NO1", placedActivity, activity)
+
+        //       return 
+        //     }
+            
+        //     console.log("PUSHED", activity.title, "PUSHED - CONFLICT")
+        //       // activity.overflowLane = placedActivity.overflowLane + 1
+        //       // overflowLaneRecord.push(activity)
+            
+        //   }
           
-          else if (isNotConflicted)
+        //   else if (isNotConflicted)
           
-          {
-            console.log("PUSHED", activity.title, "PUSHED - NO CONFLICT")
-            activity.overflowLane = placedActivity.overflowLane
-            overflowLaneRecord.push(activity)
+        //   {
+        //     console.log("PUSHED", activity.title, "PUSHED - NO CONFLICT")
+        //       // activity.overflowLane = placedActivity.overflowLane
+        //       // overflowLaneRecord.push(activity)
    
-          } 
+        //   } 
 
-        })
-
+        // })
+        
       }
-      console.log("---", overflowLaneRecord, "---")
+      
     
-      set_renderItems(activitiesByTimeStamp)
-      let x = Math.max(...overflowLaneRecord.map(activity => activity.overflowLane))
-      set_columnCount(x)
+      
+      // let maxLaneCount = Math.max(...overflowLaneRecord.map(activity => activity.overflowLane))
+      // set_columnCount(maxLaneCount)
     })
+    console.log("----", overflowLaneRecord, "----")
+    set_renderItems(activitiesByTimeStamp)
   }
 
   useEffect(() => {
     set_columnString(`3rem repeat(${columnCount}, 1fr)`)
     console.log(columnCount, "COUNT")
   }, [columnCount])
+
 
   const getFirstActivity = (value: ActivityType[]): string => {
     if (value !== undefined) {
