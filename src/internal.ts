@@ -88,6 +88,7 @@ import { Docking } from './components/Docking/Docking'
 import { Link } from './components/Link/Link'
 import { Avatar } from './components/Avatar/Avatar'
 import { Placeholders } from './components/Placeholders/Placeholders'
+import { Modal } from './components/Modal/Modal'
 
 export {
   AspectRatio,
@@ -118,7 +119,8 @@ export {
   Docking,
   Link,
   Avatar,
-  Placeholders
+  Placeholders,
+  Modal
 }
 
 // Molecules (1)
