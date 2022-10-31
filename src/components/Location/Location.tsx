@@ -131,101 +131,119 @@ export const Location = ({
     }
   }, [googleMapsPlace])
 
-  useEffect(() => {
-    const script = document.createElement('script')
-    script.async = true
-    script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBB0Rv9ax6hmOoWJ2gaY5IXw6WWGUHX0ko&v=3.exp&sensor=false&libraries=places',
-    document.body.appendChild(script)
-
-    script.onload = () => {
-      const google = (window as any).google
-
-      const map = new google.maps.Map(document.getElementById('map'), {
-        center: {
-          lat: 41.8781,
-          lng: -87.6298
-        },
-        zoom: 13
-      })
-      const input = document.getElementById('pac-input') as HTMLInputElement
-    
-      const types = document.getElementById('type-selector')
-      map.controls[google.maps.ControlPosition.TOP_LEFT].push(types)
-    
-      const autocomplete = new google.maps.places.Autocomplete(input)
-      autocomplete.bindTo('bounds', map)
-    
-      const infowindow = new google.maps.InfoWindow()
-      const marker = new google.maps.Marker({
-        map: map,
-        anchorPoint: new google.maps.Point(0, -29)
-      })
-    
-      autocomplete.addListener('place_changed', function() {
-        infowindow.close()
-        marker.setVisible(false)
-        const place = (autocomplete.getPlace() as Place)
-        set_googleMapsPlace(place)
-        
-        if (!place.geometry) {
-          return
-        }
-    
-        // If the place has a geometry, then present it on a map.
-        if (place.geometry.viewport) {
-          map.fitBounds(place.geometry.viewport)
-        } 
-        else {
-          map.setCenter(place.geometry.location)
-          map.setZoom(17)
-        }
-        marker.setIcon({
-          url: place.icon,
-          size: new google.maps.Size(71, 71),
-          origin: new google.maps.Point(0, 0),
-          anchor: new google.maps.Point(17, 34),
-          scaledSize: new google.maps.Size(35, 35)
-        })
-        marker.setPosition(place.geometry.location)
-        marker.setVisible(true)
-    
-        let address = ''
-        if (place.address_components) {
-          address = [
-            (place.address_components[0] && place.address_components[0].short_name || ''),
-            (place.address_components[1] && place.address_components[1].short_name || ''),
-            (place.address_components[2] && place.address_components[2].short_name || '')
-          ].join(' ')
-        }
-    
-        infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address)
-        infowindow.open(map, marker)
-      })
-  
-      // center map on location if it already is set
-      if (value?.placeID && value?.displayName) {
-        input.value = value?.displayName
-  
-        const placeId = value.placeID
-        
-        if (placeId) {
-          const service = new google.maps.places.PlacesService(map)
-          service.getDetails({
-            placeId: placeId
-          }, (result : any, status: any) => {
-            const marker = new google.maps.Marker({
-              map: map,
-              place: {
-                placeId: placeId,
-                location: result.geometry.location
-              }
-            })
-            map.fitBounds(result.geometry.viewport)
-            marker.setPosition(result.geometry.location)
-            marker.setVisible(true)
-          })
-        }
+  const isScriptAlreadyIncluded = (src: string) => {
+    const scripts = document.getElementsByTagName('script')
+    for (let i = 0; i < scripts.length; i++) {
+      if (scripts[i].getAttribute('src') == src) {
+        return true
       }
+    }
+    return false
+  }
+
+  const initialize = () => {
+    const google = (window as any).google
+
+    const map = new google.maps.Map(document.getElementById('map'), {
+      center: {
+        lat: 41.8781,
+        lng: -87.6298
+      },
+      zoom: 13
+    })
+    const input = document.getElementById('pac-input') as HTMLInputElement
+  
+    const types = document.getElementById('type-selector')
+    map.controls[google.maps.ControlPosition.TOP_LEFT].push(types)
+  
+    const autocomplete = new google.maps.places.Autocomplete(input)
+    autocomplete.bindTo('bounds', map)
+  
+    const infowindow = new google.maps.InfoWindow()
+    const marker = new google.maps.Marker({
+      map: map,
+      anchorPoint: new google.maps.Point(0, -29)
+    })
+  
+    autocomplete.addListener('place_changed', function() {
+      infowindow.close()
+      marker.setVisible(false)
+      const place = (autocomplete.getPlace() as Place)
+      set_googleMapsPlace(place)
+      
+      if (!place.geometry) {
+        return
+      }
+  
+      // If the place has a geometry, then present it on a map.
+      if (place.geometry.viewport) {
+        map.fitBounds(place.geometry.viewport)
+      } 
+      else {
+        map.setCenter(place.geometry.location)
+        map.setZoom(17)
+      }
+      marker.setIcon({
+        url: place.icon,
+        size: new google.maps.Size(71, 71),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(17, 34),
+        scaledSize: new google.maps.Size(35, 35)
+      })
+      marker.setPosition(place.geometry.location)
+      marker.setVisible(true)
+  
+      let address = ''
+      if (place.address_components) {
+        address = [
+          (place.address_components[0] && place.address_components[0].short_name || ''),
+          (place.address_components[1] && place.address_components[1].short_name || ''),
+          (place.address_components[2] && place.address_components[2].short_name || '')
+        ].join(' ')
+      }
+  
+      infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address)
+      infowindow.open(map, marker)
+    })
+
+    // center map on location if it already is set
+    if (value?.placeID && value?.displayName) {
+      input.value = value?.displayName
+
+      const placeId = value.placeID
+      
+      if (placeId) {
+        const service = new google.maps.places.PlacesService(map)
+        service.getDetails({
+          placeId: placeId
+        }, (result : any, status: any) => {
+          const marker = new google.maps.Marker({
+            map: map,
+            place: {
+              placeId: placeId,
+              location: result.geometry.location
+            }
+          })
+          map.fitBounds(result.geometry.viewport)
+          marker.setPosition(result.geometry.location)
+          marker.setVisible(true)
+        })
+      }
+    }
+  }
+
+  useEffect(() => {
+    const src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBB0Rv9ax6hmOoWJ2gaY5IXw6WWGUHX0ko&v=3.exp&sensor=false&libraries=places'
+
+    if (isScriptAlreadyIncluded(src)) {
+      initialize()
+    }
+    else {
+      const script = document.createElement('script')
+      script.async = true
+      script.src = src,
+      document.body.appendChild(script)
+      script.onload = initialize
     }
   }, [])
 
@@ -247,8 +265,11 @@ export const Location = ({
 }
 
 const S = {
+  Location: styled.div`
+    width: 100%;
+  `,
   Map: styled.div`
-    margin-top: .5rem;
+    margin-top: .75rem;
     width: 100%;
     min-height: 300px;
     max-height: 500px;

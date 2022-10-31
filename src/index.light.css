@@ -56,6 +56,8 @@ It’s easy to picture how a less saturated version of a color would look like, 
   --F_Progress_Yellow: #b6b617;
   --F_Progress_Green: #51c91e;
   --F_Progress_Complete: #00ff13;
+
+  --F_Gradient_To_Background: linear-gradient(to bottom, rgba(255,255,255,.4), var(--F_Background)); 
 }
 
 .F_Empty {

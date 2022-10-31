@@ -87,6 +87,7 @@ import { StyleHTML } from './components/StyleHTML/StyleHTML'
 import { Docking } from './components/Docking/Docking'
 import { Link } from './components/Link/Link'
 import { Avatar } from './components/Avatar/Avatar'
+import { Placeholders } from './components/Placeholders/Placeholders'
 
 export {
   AspectRatio,
@@ -116,7 +117,8 @@ export {
   StyleHTML,
   Docking,
   Link,
-  Avatar
+  Avatar,
+  Placeholders
 }
 
 // Molecules (1)
