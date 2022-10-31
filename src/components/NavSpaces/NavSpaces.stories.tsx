@@ -218,7 +218,7 @@ const Template: ComponentStory<typeof NavSpaces> = args => {
       : ''
   }])
 
-  const FirstPage = React.memo(({}) => <>
+  const FirstPage = React.memo(({}) => <div style={{display: 'flex', height: '100%'}}>
     <SpacesSidebar 
       activeSpaceIndex={activeSpaceIndex}
       onClickIndex={index => set_activeSpaceIndex(index)}
@@ -239,7 +239,7 @@ const Template: ComponentStory<typeof NavSpaces> = args => {
       channels={spaces[activeSpaceIndex]?.channels}
       dropdownOptions={[]}
     />
-  </>)
+  </div>)
 
   return (<>
     <NavSpaces {...args} 

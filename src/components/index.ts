@@ -42,7 +42,8 @@ export { Tags } from './Tags/Tags'
 export { TextInput } from './TextInput/TextInput'
 export { TimePicker } from './TimePicker/TimePicker'
 export { TimeZone } from './TimeZone/TimeZone'
-
+export { Placeholders } from './Placeholders/Placeholders'
+export { Modal } from './Modal/Modal'
 export { NavTabs } from './NavSpaces/NavTabs' // fix
 export { SpacesSidebar } from './NavSpaces/SpacesSidebar'
 export { SpaceSidebar } from './NavSpaces/SpaceSidebar'

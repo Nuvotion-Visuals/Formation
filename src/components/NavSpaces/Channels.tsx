@@ -34,6 +34,7 @@ export const Channels = ({ channels }: Props) => {
                 title={channel.name}
                 color='none'
                 name={undefined}
+                onClick={channel.onClick}
               />
             : <LineBreak />
         )

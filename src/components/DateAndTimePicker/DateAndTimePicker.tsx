@@ -62,12 +62,12 @@ export const DateAndTimePicker = ({
   }
 
   const removeDate = (index: number) => {
-    onChange(value.filter((x, i) => i !== index))
+    onChange(value?.filter((x, i) => i !== index))
   }
 
   const setValue = (index: number, field: 'date' | 'startTime' | 'endTime', fieldValue: string) => {
     onChange(
-      value.map((day, i) =>
+      value?.map((day, i) =>
         index === i
           ? {
               ...day,
@@ -102,20 +102,20 @@ export const DateAndTimePicker = ({
   return (
     <>
       {
-        value.map((item, index) => (
+        value?.map((item, index) => (
           <>
             <S.DateAndTime key={index}>
               <Gap  gap={.75}>
                 <Gap disableWrap={true}>
                   <DatePicker
-                    label={value.length > 1 ? `${index + 1}${getSuperscriptOrdinal(index + 1)} Day` : 'Date'}
+                    label={value?.length > 1 ? `${index + 1}${getSuperscriptOrdinal(index + 1)} Day` : 'Date'}
                     value={new Date(item?.date ? item.date : new Date())}
                     onChange={newDate => setValue(index, 'date', newDate.toString())}
                     iconPrefix={iconPrefix}
                   />
                 
                   {
-                    value.length > 1
+                    value?.length > 1
                     ? <Button
                         onClick={(e : MouseEvent) => {
                           e?.preventDefault()
@@ -143,7 +143,7 @@ export const DateAndTimePicker = ({
                     iconPrefix={iconPrefix}
                   />
                   {
-                    value.length > 1 || (item.startTime && item.endTime)
+                    value?.length > 1 || (item.startTime && item.endTime)
                       ? <Box width={'8.125rem'} >
                         {
                           item.startTime && item.endTime
@@ -162,9 +162,9 @@ export const DateAndTimePicker = ({
             </S.DateAndTime>
             
             {
-              index == value.length - 1
+              index == value?.length - 1
                 ? <Spacer/>
-                : <Box mt={1}>
+                : <Box my={1}>
                     <LineBreak />
                   </Box>
             }
@@ -174,13 +174,13 @@ export const DateAndTimePicker = ({
     
       <Box py={.15} />
 
-      <Box p={.5}>
+      <Box py={.5}>
         <Button
           onClick={(e : MouseEvent) => {
             e?.preventDefault()
             addDate()
           }}
-          text={`Add a ${getOrdinal(value.length + 1)} day`}
+          text={`Add a ${getOrdinal(value?.length + 1)} day`}
           icon={'plus'}
           iconPrefix={'fas'}
           expand={true}
@@ -194,8 +194,6 @@ const S = {
   DateAndTime: styled.div`
     display: flex;
     flex-wrap: wrap;
-    padding: 1rem .5rem;
-    padding-bottom: 0rem;
   `,
   Duration: styled.div`
     font-size: var(--F_Font_Size);
