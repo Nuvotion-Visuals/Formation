@@ -87,7 +87,8 @@ export const IntervalSurface = ({ value, onChange, onClick }: Props) => {
   let activitiesByTimeStamp = currentActivityTimeStamps.sort((a, b) => a.startInteger - b.startInteger)
 
   const calculateOverflowLanes = (activitiesByTimeStamp: ActivityTimeStampsType) => {
-    let isConflicted: boolean | null = null;
+    let isConflicted: boolean | null = null
+    let isEmptyArray: boolean | null = null
     let laneRecord: ActivityTimeStampType[][] = [[]]
 
     activitiesByTimeStamp.forEach((activity, index) => {
@@ -98,10 +99,19 @@ export const IntervalSurface = ({ value, onChange, onClick }: Props) => {
         laneRecord.push([])
         console.log("Seeded the array - SET1 PUSHED")
         return
-      }
+      } 
 
       for (let i = 0; i < laneRecord.length; i++){
-         let lane = laneRecord[i]
+        let lane = laneRecord[i]
+        let laneIndex = i + 1
+        
+        if (lane.length === 0) {
+          isEmptyArray = true
+        } else if (activity.isPlaced === true) {
+          break
+        } else {
+          isEmptyArray = false
+        }
 
         for (let i = 0; i < lane.length; i++){
           let singleLane = lane[i]
@@ -109,44 +119,54 @@ export const IntervalSurface = ({ value, onChange, onClick }: Props) => {
           const isEndTimeConflict = singleLane.startTime < activity.endTime && activity.endTime < singleLane.endTime
 
           console.log("----------")
-          console.log("ACTIVITY", activity.title, i)
+          console.log("ACTIVITY", activity, i, isConflicted, isStartTimeConflict, isEndTimeConflict)
           console.log("COMPARISON ACTIVITY", singleLane.title, i)
           console.log("----------")
-
-          if (activity.isPlaced === true) {
-            break
-          }
           
           if (isStartTimeConflict || isEndTimeConflict) {
             isConflicted = true
-
+            console.log("<< activity is conflicted >>")
             break
           }
 
-          else
-
-          {
+          else if (activity.isPlaced === true) {
+            console.log("IS PLACED! BREAK")
+            break
+          }
+          else {
             isConflicted = false
           }
         }
 
         if (!isConflicted)
         {
-          activity.isPlaced = true
-          laneRecord[index]?.push(activity)
-          console.log("<----- PUSHED no conflict ----->", activity)
+          if (!isEmptyArray) {
+            activity.overflowLane = laneIndex
+            activity.isPlaced = true
+            laneRecord[i]?.push(activity)
+
+            console.log("<----- PUSHED no conflict ----->", activity)
+            console.log("<----- LANE RECORD ----->", laneRecord[i], laneRecord, i)
+          }
         }
         
-        else if (isConflicted)
+        else if (isEmptyArray)
         
         {
-          // let newLane: any = []
-          // laneRecord.push(newLane)
+          let newLane: any = []
+          laneRecord.push(newLane)
+
+          if (!activity.isPlaced) {
+            laneRecord[i]?.push(activity)
+            activity.overflowLane = laneIndex
+
+            console.log("<----- PUSHED to empty array ----->", laneIndex)
+            console.log("<----- LANE RECORD ----->", laneRecord[i])
+          }
           
-          // activity.overflowLane = conflictCount + 1
-          // activity.isPlaced = true
-          // laneRecord[index + 1].push(activity)
-          console.log("<----- conflict ----->", activity)
+          activity.isPlaced = true
+          isConflicted = false
+          isEmptyArray = false
         } 
       }
     })
@@ -162,8 +182,6 @@ export const IntervalSurface = ({ value, onChange, onClick }: Props) => {
       laneRecord = filteredRecord
     }
 
-    
-    
     console.log("----", laneRecord, "----")
 
     set_columnCount(laneRecord.length)
