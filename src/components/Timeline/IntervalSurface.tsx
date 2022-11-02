@@ -87,7 +87,7 @@ export const IntervalSurface = ({ value, onChange, onClick }: Props) => {
   let activitiesByTimeStamp = currentActivityTimeStamps.sort((a, b) => a.startInteger - b.startInteger)
 
   const calculateOverflowLanes = (activitiesByTimeStamp: ActivityTimeStampsType) => {
-    let conflictCount = 0;
+    let isConflicted: boolean | null = null;
     let laneRecord: ActivityTimeStampType[][] = [[]]
 
     activitiesByTimeStamp.forEach((activity, index) => {
@@ -96,11 +96,13 @@ export const IntervalSurface = ({ value, onChange, onClick }: Props) => {
         activity.overflowLane = 1
         laneRecord[0].push(activity)
         laneRecord.push([])
+        console.log("Seeded the array - SET1 PUSHED")
         return
       }
 
-      laneRecord.forEach((lane, index) => {
-      
+      for (let i = 0; i < laneRecord.length; i++){
+         let lane = laneRecord[i]
+
         for (let i = 0; i < lane.length; i++){
           let singleLane = lane[i]
           const isStartTimeConflict = singleLane.startInteger < activity.startInteger && activity.startInteger < singleLane.endInteger
@@ -109,17 +111,14 @@ export const IntervalSurface = ({ value, onChange, onClick }: Props) => {
           console.log("----------")
           console.log("ACTIVITY", activity.title, i)
           console.log("COMPARISON ACTIVITY", singleLane.title, i)
-          console.log(isStartTimeConflict, isEndTimeConflict)
           console.log("----------")
 
           if (activity.isPlaced === true) {
-            conflictCount = -1
-
             break
           }
           
           if (isStartTimeConflict || isEndTimeConflict) {
-            conflictCount++
+            isConflicted = true
 
             break
           }
@@ -127,32 +126,29 @@ export const IntervalSurface = ({ value, onChange, onClick }: Props) => {
           else
 
           {
-            conflictCount = 0
+            isConflicted = false
           }
         }
 
-        if (conflictCount === 0)
+        if (!isConflicted)
         {
           activity.isPlaced = true
-          activity.overflowLane = conflictCount + 1
-          laneRecord[index].push(activity)
+          laneRecord[index]?.push(activity)
           console.log("<----- PUSHED no conflict ----->", activity)
-         
         }
         
-        else if (conflictCount >= 1)
+        else if (isConflicted)
         
         {
-          let newLane: any = []
-          laneRecord.push(newLane)
+          // let newLane: any = []
+          // laneRecord.push(newLane)
           
           // activity.overflowLane = conflictCount + 1
           // activity.isPlaced = true
           // laneRecord[index + 1].push(activity)
-          console.log("<----- conflict ----->", activity, newLane)
-          
+          console.log("<----- conflict ----->", activity)
         } 
-      })
+      }
     })
 
     if (laneRecord !== undefined) {
