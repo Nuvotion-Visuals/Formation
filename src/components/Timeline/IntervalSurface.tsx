@@ -97,7 +97,6 @@ export const IntervalSurface = ({ value, onChange, onClick }: Props) => {
         activity.overflowLane = 1
         laneRecord[0].push(activity)
         laneRecord.push([])
-        console.log("Seeded the array - SET1 PUSHED")
         return
       } 
 
@@ -113,24 +112,18 @@ export const IntervalSurface = ({ value, onChange, onClick }: Props) => {
           isEmptyArray = false
         }
 
-        for (let i = 0; i < lane.length; i++){
+        for (let i = lane.length - 1; i > -1; i--){
           let singleLane = lane[i]
           const isStartTimeConflict = singleLane.startInteger < activity.startInteger && activity.startInteger < singleLane.endInteger
           const isEndTimeConflict = singleLane.startTime < activity.endTime && activity.endTime < singleLane.endTime
-
-          console.log("----------")
-          console.log("ACTIVITY", activity, i, isConflicted, isStartTimeConflict, isEndTimeConflict)
-          console.log("COMPARISON ACTIVITY", singleLane.title, i)
-          console.log("----------")
+          const isStartTimeIdentical = singleLane.startTime === activity.startTime
           
-          if (isStartTimeConflict || isEndTimeConflict) {
+          if (isStartTimeConflict || isEndTimeConflict || isStartTimeIdentical) {
             isConflicted = true
-            console.log("<< activity is conflicted >>")
             break
           }
 
           else if (activity.isPlaced === true) {
-            console.log("IS PLACED! BREAK")
             break
           }
           else {
@@ -144,9 +137,6 @@ export const IntervalSurface = ({ value, onChange, onClick }: Props) => {
             activity.overflowLane = laneIndex
             activity.isPlaced = true
             laneRecord[i]?.push(activity)
-
-            console.log("<----- PUSHED no conflict ----->", activity)
-            console.log("<----- LANE RECORD ----->", laneRecord[i], laneRecord, i)
           }
         }
         
@@ -159,9 +149,6 @@ export const IntervalSurface = ({ value, onChange, onClick }: Props) => {
           if (!activity.isPlaced) {
             laneRecord[i]?.push(activity)
             activity.overflowLane = laneIndex
-
-            console.log("<----- PUSHED to empty array ----->", laneIndex)
-            console.log("<----- LANE RECORD ----->", laneRecord[i])
           }
           
           activity.isPlaced = true
@@ -329,7 +316,7 @@ const S = {
     padding-top: 1rem;
   `,  
   IntervalBlock: styled.div<{}>`
-    width: 100%;
+    // width: 100%;
     height: 1rem;
     z-index: 1;
 

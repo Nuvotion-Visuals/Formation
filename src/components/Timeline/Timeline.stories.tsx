@@ -4,6 +4,7 @@ import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 
 import { Timeline, ActivityEditor, Box, Tabs } from '../../internal'
 import { ActivityType } from '../../types'
+import { styled } from '@storybook/theming'
 
 export default {
   title: 'Advanced Input/Timeline',
@@ -22,12 +23,12 @@ type Tab = {
 const Template: ComponentStory<typeof Timeline> = args => {
   const [value, set_value] = useState([
     {
-      area: 'Stage',
+      area: 'Stages',
       activities: [
         // {
         //   title: 'Set0: DJ PRE',
-        //   startTime: `2023-01-01T16:00:00.000-06:00[America/Chicago]`,
-        //   endTime: `2023-01-01T18:00:00.000-06:00[America/Chicago]`,
+        //   startTime: `2023-01-01T17:00:00.000-06:00[America/Chicago]`,
+        //   endTime: `2023-01-01T18:45:00.000-06:00[America/Chicago]`,
         //   id: '0',
         //   people: [
         //     {
@@ -162,8 +163,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
       activities: [
         {
           title: 'Pre-Open',
-          startTime: `2023-01-01T17:00:00.000-06:00[America/Chicago]`,
-          endTime: `2023-01-01T19:00:00.000-06:00[America/Chicago]`,
+          startTime: `2023-01-01T15:00:00.000-06:00[America/Chicago]`,
+          endTime: `2023-01-01T17:00:00.000-06:00[America/Chicago]`,
           id: '4',
           people: [
             {
@@ -187,8 +188,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
         },
         {
           title: 'Open',
-          startTime: `2023-01-01T19:00:00.000-06:00[America/Chicago]`,
-          endTime: `2023-01-01T23:00:00.000-06:00[America/Chicago]`,
+          startTime: `2023-01-01T17:00:00.000-06:00[America/Chicago]`,
+          endTime: `2023-01-01T23:30:00.000-06:00[America/Chicago]`,
           id: '5',
           people: [
             {
@@ -212,7 +213,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
         },
         {
           title: 'Close',
-          startTime: `2023-01-01T23:00:00.000-06:00[America/Chicago]`,
+          startTime: `2023-01-01T23:30:00.000-06:00[America/Chicago]`,
           endTime: `2023-01-01T23:45:00.000-06:00[America/Chicago]`,
           id: '6',
           people: [
@@ -243,7 +244,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
         {
           title: 'Mimosa Hour',
           startTime: `2023-01-01T17:00:00.000-06:00[America/Chicago]`,
-          endTime: `2023-01-01T18:00:00.000-06:00[America/Chicago]`,
+          endTime: `2023-01-01T19:00:00.000-06:00[America/Chicago]`,
           id: '7',
           people: [
             {
@@ -258,8 +259,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
         },
         {
           title: 'Catering Service',
-          startTime: `2023-01-01T18:00:00.000-06:00[America/Chicago]`,
-          endTime: `2023-01-01T20:00:00.000-06:00[America/Chicago]`,
+          startTime: `2023-01-01T17:00:00.000-06:00[America/Chicago]`,
+          endTime: `2023-01-01T19:00:00.000-06:00[America/Chicago]`,
           id: '8',
           people: [
             {
@@ -273,18 +274,98 @@ const Template: ComponentStory<typeof Timeline> = args => {
           ],
         },
         {
-          title: 'After-Party',
-          startTime: `2023-01-01T20:00:00.000-06:00[America/Chicago]`,
-          endTime: `2023-01-01T23:00:00.000-06:00[America/Chicago]`,
+          title: 'Massage Therapist',
+          startTime:`2023-01-01T17:00:00.000-06:00[America/Chicago]`,
+          endTime: `2023-01-01T20:00:00.000-06:00[America/Chicago]`,
           id: '9',
           people: [
             {
-              name: "DJ Theta",
-              position: "DJ",
+              name: "Dave",
+              position: "catering",
             },
             {
-              name: "tech",
-              position: "AV Tech",
+              name: "Lindsay",
+              position: "catering",
+            }
+          ],
+        },
+        {
+          title: 'Vocal Coach',
+          startTime: `2023-01-01T17:00:00.000-06:00[America/Chicago]`,
+          endTime: `2023-01-01T20:00:00.000-06:00[America/Chicago]`,
+          id: '10',
+          people: [
+            {
+              name: "Dave",
+              position: "catering",
+            },
+            {
+              name: "Lindsay",
+              position: "catering",
+            }
+          ],
+        },
+        {
+          title: 'Ski-ball',
+          startTime: `2023-01-01T17:00:00.000-06:00[America/Chicago]`,
+          endTime: `2023-01-01T20:00:00.000-06:00[America/Chicago]`,
+          id: '11',
+          people: [
+            {
+              name: "Dave",
+              position: "catering",
+            },
+            {
+              name: "Lindsay",
+              position: "catering",
+            }
+          ],
+        },
+        {
+          title: 'Ski-ball Lane 2',
+          startTime: `2023-01-01T17:00:00.000-06:00[America/Chicago]`,
+          endTime: `2023-01-01T20:00:00.000-06:00[America/Chicago]`,
+          id: '12',
+          people: [
+            {
+              name: "Dave",
+              position: "catering",
+            },
+            {
+              name: "Lindsay",
+              position: "catering",
+            }
+          ],
+        },
+        {
+          title: 'A fairly long title, 23',
+          startTime: `2023-01-01T17:00:00.000-06:00[America/Chicago]`,
+          endTime: `2023-01-01T20:00:00.000-06:00[America/Chicago]`,
+          id: '13',
+          people: [
+            {
+              name: "Dave",
+              position: "catering",
+            },
+            {
+              name: "Lindsay",
+              position: "catering",
+            }
+          ],
+        },
+        {
+          title: 'This title is 32 characters long',
+          startTime: `2023-01-01T17:00:00.000-06:00[America/Chicago]`,
+          endTime: `2023-01-01T20:00:00.000-06:00[America/Chicago]`,
+          id: '14',
+          people: [
+            {
+              name: "Dave",
+              position: "catering",
+            },
+            {
+              name: "Lindsay",
+              position: "catering",
             }
           ],
         },
@@ -316,13 +397,17 @@ const Template: ComponentStory<typeof Timeline> = args => {
   return(
     <Box>
       <Box wrap>
+      <S.Sticky>
         <Box width={"100%"}>
-          <Tabs
-          tabs={tabs}
-          initialActiveTab={tabs[0].name}
-          onSetActiveTab={() => null}
-          />
-        </Box>
+          
+            <Tabs
+            tabs={tabs}
+            initialActiveTab={tabs[0].name}
+            onSetActiveTab={() => null}
+            />
+          
+          </Box>
+          </S.Sticky>
         <Timeline 
           {...args}
           value={value}
@@ -349,4 +434,12 @@ Activities.parameters = {
 }
 
 
-// export const Calendar = Template.bind({}) create alterate usages
+const S = {
+  Sticky: styled.div`
+    width: 100%;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: white;
+  `
+}
