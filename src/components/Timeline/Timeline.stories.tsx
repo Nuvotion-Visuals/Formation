@@ -110,8 +110,24 @@ const Template: ComponentStory<typeof Timeline> = args => {
         {
           title: 'Set5: DJ AGAIN',
           startTime: `2023-01-01T22:30:00.000-06:00[America/Chicago]`,
-          endTime: `2023-01-01T23:45:00.000-06:00[America/Chicago]`,
+          endTime: `2023-01-01T23:30:00.000-06:00[America/Chicago]`,
           id: '5',
+          people: [
+            {
+              name: "DJ Theta",
+              position: "DJ",
+            },
+            {
+              name: "tech",
+              position: "AV Tech",
+            }
+          ],
+        },
+        {
+          title: 'Set6: DJ AGAIN-AGAIN',
+          startTime: `2023-01-01T22:45:00.000-06:00[America/Chicago]`,
+          endTime: `2023-01-01T23:45:00.000-06:00[America/Chicago]`,
+          id: '10',
           people: [
             {
               name: "DJ Theta",
