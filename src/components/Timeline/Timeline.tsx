@@ -51,8 +51,7 @@ export const Timeline = ({ value, onChange, onClick, activeArea }: Props) => {
 
 const S = {
   Timeline: styled.div`
-  width: 100%;
-  max-width: 400px;
+  min-width: 100%;
   height: calc(100% - 50px);
   `,
   Header: styled.div<{}>`

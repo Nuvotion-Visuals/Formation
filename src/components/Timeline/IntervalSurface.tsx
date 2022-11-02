@@ -169,8 +169,6 @@ export const IntervalSurface = ({ value, onChange, onClick }: Props) => {
       laneRecord = filteredRecord
     }
 
-    console.log("----", laneRecord, "----")
-
     set_columnCount(laneRecord.length)
     set_renderItems(activitiesByTimeStamp)
   }
@@ -181,7 +179,6 @@ export const IntervalSurface = ({ value, onChange, onClick }: Props) => {
 
   useEffect(() => {
     set_columnString(`3rem repeat(${columnCount}, 1fr)`)
-    console.log(columnCount, "COUNT")
   }, [columnCount])
 
 
@@ -274,8 +271,10 @@ export const IntervalSurface = ({ value, onChange, onClick }: Props) => {
                     gridColumnEnd: activity.overflowLane + 2,
                     gridRowStart: renderRow(activity?.startTime),
                     gridRowEnd: renderRow(activity?.endTime)
-                  }}>
-                {activity.title}
+                }}>
+                  <S.ActivityTitle>
+                    {activity.title}
+                  </S.ActivityTitle>
                 </S.Activity>
               )
             : <></>
@@ -316,15 +315,15 @@ const S = {
     padding-top: 1rem;
   `,  
   IntervalBlock: styled.div<{}>`
-    // width: 100%;
+    width: 100%;
     height: 1rem;
     z-index: 1;
 
     :nth-child(1n+1) {
-      border-bottom: 1px solid #d6d6d6;
+      border-bottom: 1px solid #e7e7e7;
     }
     :nth-Child(2n+2) {
-      border-bottom: 1px solid #b9b9b9;
+      border-bottom: 1px solid #d7d7d7;
     }
   `,
   Activity: styled.div<{}>`
@@ -338,5 +337,14 @@ const S = {
     padding: 0.15rem;
     z-index: 100;
     border-radius: 0.25rem;
+  `,
+  ActivityTitle: styled.div<{}>`
+    width: 100%;
+    overflow-x: hidden;
+    text-transform: uppercase;
+
+    /* writing-mode: vertical-lr;
+    text-orientation: upright;
+    letter-spacing: -1px; */
   `
 }

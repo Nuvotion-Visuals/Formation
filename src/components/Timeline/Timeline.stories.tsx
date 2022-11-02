@@ -142,7 +142,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
         },
         {
           title: 'Set7: DJ TOO LONG',
-          startTime: `2023-01-01T23:00:00.000-06:00[America/Chicago]`,
+          startTime: `2023-01-01T22:45:00.000-06:00[America/Chicago]`,
           endTime: `2023-01-01T23:45:00.000-06:00[America/Chicago]`,
           id: '11',
           people: [
@@ -156,6 +156,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
             }
           ],
         },
+        
       ]
     },
     {
@@ -322,22 +323,6 @@ const Template: ComponentStory<typeof Timeline> = args => {
           ],
         },
         {
-          title: 'Ski-ball Lane 2',
-          startTime: `2023-01-01T17:00:00.000-06:00[America/Chicago]`,
-          endTime: `2023-01-01T20:00:00.000-06:00[America/Chicago]`,
-          id: '12',
-          people: [
-            {
-              name: "Dave",
-              position: "catering",
-            },
-            {
-              name: "Lindsay",
-              position: "catering",
-            }
-          ],
-        },
-        {
           title: 'A fairly long title, 23',
           startTime: `2023-01-01T17:00:00.000-06:00[America/Chicago]`,
           endTime: `2023-01-01T20:00:00.000-06:00[America/Chicago]`,
@@ -355,6 +340,22 @@ const Template: ComponentStory<typeof Timeline> = args => {
         },
         {
           title: 'This title is 32 characters long',
+          startTime: `2023-01-01T17:00:00.000-06:00[America/Chicago]`,
+          endTime: `2023-01-01T20:00:00.000-06:00[America/Chicago]`,
+          id: '14',
+          people: [
+            {
+              name: "Dave",
+              position: "catering",
+            },
+            {
+              name: "Lindsay",
+              position: "catering",
+            }
+          ],
+        },
+        {
+          title: 'This title is actually 11 characters longer',
           startTime: `2023-01-01T17:00:00.000-06:00[America/Chicago]`,
           endTime: `2023-01-01T20:00:00.000-06:00[America/Chicago]`,
           id: '14',
