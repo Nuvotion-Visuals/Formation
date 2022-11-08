@@ -49,7 +49,7 @@ It’s easy to picture how a less saturated version of a color would look like, 
   --F_Label_Outline_Gray: #1b1b1b;
 
   --F_Backdrop: rgb(0, 0, 0, .4);
-  --F_Activity_Backdrop: rgba(0, 0, 0, 0.0314);
+  --F_Activity_Backdrop: #f9f9f9;
 
   --F_Progress_Red: #af2222;
   --F_Progress_Orange: #b59b1c;

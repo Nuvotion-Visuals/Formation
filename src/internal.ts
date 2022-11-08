@@ -160,7 +160,6 @@ export {
 }
 
 // Tissue (2)
-import { IntervalSurface } from './components/Timeline/IntervalSurface'
 import { Navigation } from './components/Navigation/Navigation'
 import { Location } from './components/Location/Location'
 import { TimePicker } from './components/TimePicker/TimePicker'
@@ -170,7 +169,6 @@ import { Tabs } from './components/Tabs/Tabs'
 import { TimeZone } from './components/TimeZone/TimeZone'
 import { LabelEditor } from './components/LabelEditor/LabelEditor'
 export {
-  IntervalSurface,
   Navigation,
   Location,
   TimePicker,

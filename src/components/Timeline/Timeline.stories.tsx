@@ -376,6 +376,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
   const [activeAreaIndex, set_activeAreaIndex] = useState<number>(0)
   const [activityId, setActivityId] = useState<string | null>(null)
   const [currentActivity, set_currentActivity] = useState<ActivityType>()
+  let activities = value[activeAreaIndex].activities
 
   let tabs: Tab[] = value?.map(({ area }, index) => {
     const tab = { name: area, onClick: () => set_activeAreaIndex(index)}
@@ -393,13 +394,11 @@ const Template: ComponentStory<typeof Timeline> = args => {
     set_currentActivity(activity)
   }, [activityId, value])
 
-  // useEffect(() => console.log(value, "<<VALUE>>"), [value])
-
   return(
-    <Box>
-      <Box wrap>
-      <S.Sticky>
-        <Box width={"100%"}>
+    <Box width={"100%"} wrap>
+      <Box wrap width={'calc(100% - 320px)'}>
+        <S.Sticky>
+          <Box width={"100%"}>
           
             <Tabs
             tabs={tabs}
@@ -408,22 +407,25 @@ const Template: ComponentStory<typeof Timeline> = args => {
             />
           
           </Box>
-          </S.Sticky>
+        </S.Sticky>
         <Timeline 
           {...args}
-          value={value}
+          value={activities}
           onChange={(newValue) => set_value(newValue)} 
           onClick={(e: MouseEvent) => onAreaGridClick(e)}
           activeArea={activeAreaIndex}
         />
       </Box>
-      <ActivityEditor
-        value={value}
-        onChange={(newValue) => set_value(newValue)}
-        activity={currentActivity}
-        activeAreaIndex={activeAreaIndex}
-      />
-  </Box>)
+      <Box width={'320px'}>
+        <ActivityEditor
+          value={value}
+          onChange={(newValue) => set_value(newValue)}
+          activity={currentActivity}
+          activeAreaIndex={activeAreaIndex}
+        />
+      </Box>
+    </Box>
+  )
 }
 
 export const Activities = Template.bind({})
@@ -442,5 +444,8 @@ const S = {
     top: 0;
     z-index: 1000;
     background: white;
+  `,
+  Overflow: styled.div`
+    max-height: 100%;
   `
 }

@@ -1,4 +1,4 @@
-export { Timeline } from './Timeline/Timeline'
+export { Timeline } from './Timeline/Timeline2'
 export { ActivityEditor } from './Timeline/ActivityEditor'
 export { Article } from './Article/Article'
 export { ArticlePreview } from './ArticlePreview/ArticlePreview'
