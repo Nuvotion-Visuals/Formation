@@ -383,7 +383,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
     return tab
   })
 
-  const onAreaGridClick = (e: React.MouseEvent) => {
+  const onItemClick = (e: React.MouseEvent) => {
     const element = e.target as HTMLDivElement
     const target = element.id
     setActivityId(target)
@@ -395,7 +395,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
   }, [activityId, value])
 
   return(
-    <Box width={"100%"} wrap>
+    <Box width={"100%"} wrap={false}>
       <Box wrap width={'calc(100% - 320px)'}>
         <S.Sticky>
           <Box width={"100%"}>
@@ -412,18 +412,19 @@ const Template: ComponentStory<typeof Timeline> = args => {
           {...args}
           value={activities}
           onChange={(newValue) => set_value(newValue)} 
-          onClick={(e: MouseEvent) => onAreaGridClick(e)}
+          // onClick={(e: MouseEvent) => onAreaGridClick(e)}
+          onItemClick={(e: MouseEvent) => onItemClick(e)}
           activeArea={activeAreaIndex}
         />
       </Box>
-      <Box width={'320px'}>
+      <S.Sticky>
         <ActivityEditor
           value={value}
           onChange={(newValue) => set_value(newValue)}
           activity={currentActivity}
           activeAreaIndex={activeAreaIndex}
         />
-      </Box>
+      </S.Sticky>
     </Box>
   )
 }

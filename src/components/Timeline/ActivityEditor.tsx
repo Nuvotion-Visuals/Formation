@@ -19,6 +19,7 @@ export const ActivityEditor = ({ value, onChange, activity, activeAreaIndex }: P
   const [parsedEndTime, set_parsedEndTime] = useState<string>()
   const [title, set_title] = useState<string>()
   const [id, set_id] = useState<string>('')
+  const [dataError, set_dataError] = useState<boolean>(false)
 
 
   useEffect(() => {
@@ -33,7 +34,7 @@ export const ActivityEditor = ({ value, onChange, activity, activeAreaIndex }: P
   }, [activity])
 
   const isoToSimpleTime = (time: string): string => {
-    // takes a full ISO 8601 string and returns HH:MM am/pm strin
+    // takes a full ISO 8601 string and returns HH:MM am/pm string
     let a = ZonedDateTime.parse(time)
     let parsedStartTime = a.format(DateTimeFormatter.ofPattern('KK:mma').withLocale(Locale.ENGLISH))
     return parsedStartTime
@@ -96,8 +97,20 @@ export const ActivityEditor = ({ value, onChange, activity, activeAreaIndex }: P
 
   const handleSubmit = (e: React.FormEvent, value: AreaType[]) => {
     e.preventDefault()
+    const isDataPresent = parsedStartTime !== undefined && parsedEndTime !== undefined
+    const isTimeFrameValid = isDataPresent
+      ? parsedStartTime > parsedEndTime
+      : false
 
-    if (parsedStartTime !== undefined && parsedEndTime !== undefined) {
+    if (!isDataPresent || !isTimeFrameValid) {
+      // this should trigger user feedback
+      set_dataError(true)
+      console.log(isDataPresent, isTimeFrameValid, "ONE FALSE")
+      return
+    }
+    else if (isDataPresent && isTimeFrameValid) {
+      set_dataError(false)
+      console.log(isDataPresent, isTimeFrameValid, "BOTH TRUE")
       let updatedActivity: ActivityType = {
         title: title ? title : '',
         startTime: simpleToIsoTime(parsedStartTime, value),
@@ -106,6 +119,8 @@ export const ActivityEditor = ({ value, onChange, activity, activeAreaIndex }: P
         people: [
         ],
       }
+
+  
 
       let newData = value.map((area, index) => {
         if (index === activeAreaIndex) {
@@ -124,6 +139,10 @@ export const ActivityEditor = ({ value, onChange, activity, activeAreaIndex }: P
       })
       onChange(newData)
     }
+  }
+
+  const handleRemove = (e: React.FormEvent, value: AreaType[]) => {
+
   }
 
  
@@ -152,12 +171,15 @@ export const ActivityEditor = ({ value, onChange, activity, activeAreaIndex }: P
       </Box>
       <Box p={1}>
         <Box p={1}>
-          <Button text={'Clear'} />
+          <Button text={'Delete'} onClick={handleRemove} />
         </Box>
         <Box p={1}>
           <Button text={'Save'} primary submit/>
         </Box>
       </Box>
+      <S.Error dataError={dataError}>
+        There was an error. Make sure all fields are filled and the timespan is valid. 
+      </S.Error>
     </S.Form>
   )
 }
@@ -166,8 +188,10 @@ const S = {
   Form: styled.form<{}>`
     width: 100%;
     max-width: 400px;
-    height: 100vh;
-    position: sticky;
-    top: 0;
+  `,
+  Error: styled.div<{
+    dataError: boolean
+  }>`
+    display: ${props => props.dataError ? 'block' : 'none'};
   `
 }

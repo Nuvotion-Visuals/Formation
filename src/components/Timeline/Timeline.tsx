@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { DateTimeFormatter, ZonedDateTime } from '@js-joda/core'
 import '@js-joda/timezone'
-import { ActivityType } from 'types'
+import { ActivityType, AreaType } from 'types'
 
 interface Props {
   value: ActivityType[],
   areaIndex: number,
   onChange: (time: any) => void,
   onClick: (e: React.MouseEvent) => void,
+  onItemClick: (e: React.MouseEvent) => void,
   activeArea: number
 }
 
@@ -31,7 +32,7 @@ interface ActivityTimeStampType {
 
 type ActivityTimeStampsType = ActivityTimeStampType[]
 
-export const Timeline = ({ value, onChange, onClick, activeArea }: Props) => {
+export const Timeline = ({ value, onChange, onClick, onItemClick, activeArea }: Props) => {
   let activities: ActivityType[] = value[activeArea]?.activities
 
   const [columnCount, set_columnCount] = useState<number>(1)
@@ -218,7 +219,7 @@ export const Timeline = ({ value, onChange, onClick, activeArea }: Props) => {
 
       const parsedTime: string = ZonedDateTime.parse(`${datePrefix}T${interval.value}:00.000${offSet}[${timeZone}]`, DateTimeFormatter.ISO_ZONED_DATE_TIME).toString()
       
-      onChange(parsedTime)
+      // onChange(parsedTime)
     }
     return
   }
@@ -235,23 +236,12 @@ export const Timeline = ({ value, onChange, onClick, activeArea }: Props) => {
   return (
     <S.Container>
       <S.Grid columnCount={columnCount}>
-          {/* {
-            intervals.map((interval, index) => 
-              <S.TimeDisplay
-                key={index}
-                style={{ gridColumnStart: 1, gridRowStart: index + 1}}>
-                  <S.TimeSpan>
-                    {interval.display}
-                  </S.TimeSpan>
-                </S.TimeDisplay>
-              )
-          }   */}
           {
             renderItems !== undefined
               ? renderItems.map((activity, index) => 
                   <S.Activity
                     key={index}
-                    onClick={(e) => onClick(e)}
+                    onClick={(e) => onItemClick(e)}
                     id={activity.id}
                     style={{
                       gridColumnStart: activity.overflowLane + 1,
@@ -304,7 +294,7 @@ export const Timeline = ({ value, onChange, onClick, activeArea }: Props) => {
 
 const S = {
   Container: styled.div<{}>`
-    max-width: 100%;
+    width: 100%;
     overflow-x: auto;
     background: var(--F_Activity_Backdrop);
     position: relative;
@@ -379,9 +369,6 @@ const S = {
   ActivityTitle: styled.div<{}>`
     width: 100%;
     text-transform: uppercase; 
-
-    /* writing-mode: vertical-lr;
-    text-orientation: upright;
-    letter-spacing: -1px; */
+    pointer-events: none;
   `
 }
