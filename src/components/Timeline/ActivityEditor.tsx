@@ -20,6 +20,7 @@ export const ActivityEditor = ({ value, onChange, activity, activeAreaIndex }: P
   const [title, set_title] = useState<string>()
   const [id, set_id] = useState<string>('')
   const [dataError, set_dataError] = useState<boolean>(false)
+  const [isUserNotified, set_isUserNotified] = useState<boolean>(false)
 
 
   useEffect(() => {
@@ -159,6 +160,9 @@ export const ActivityEditor = ({ value, onChange, activity, activeAreaIndex }: P
   }
 
   const handleRemove = (value: AreaType[]) => {
+    set_parsedStartTime('')
+    set_parsedEndTime('')
+    set_isUserNotified(false)
     
     let newData = value?.map((area, index) => {
       if (index === activeAreaIndex) {
@@ -173,13 +177,10 @@ export const ActivityEditor = ({ value, onChange, activity, activeAreaIndex }: P
       } 
       return area
     })
-    console.log(newData, 'ii')
 
     onChange(newData)
-
   }
 
- // onSubmit={(e) => handleSubmit(e, value)}
   return (
     <S.Form >
       <Box p={1}>
@@ -205,7 +206,11 @@ export const ActivityEditor = ({ value, onChange, activity, activeAreaIndex }: P
       </Box>
       <Box p={1}>
         <Box p={1}>
-          <Button text={'Delete'} onClick={() => handleRemove(value)} />
+          {
+            isUserNotified
+              ? <Button text={'Delete'} background={'var(--F_Warning_Red)'} onClick={() => handleRemove(value)} />
+              : <Button text={'Delete'} onClick={() => set_isUserNotified(true)} />
+          }
         </Box>
         <Box p={1}>
           <Button text={'Save'} primary onClick={(e: React.FormEvent) => handleSubmit(e, value)} />

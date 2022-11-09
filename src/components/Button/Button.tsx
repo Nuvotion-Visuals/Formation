@@ -23,6 +23,7 @@ type Props = {
   id?: string,
   iconPrefix?: IconPrefix,
   secondary?: boolean,
+  background?: string,
   singleBlink? : boolean,
   tab? : boolean,
   newTab?: boolean
@@ -45,6 +46,7 @@ export const Button: FC<Props> = React.memo(({
   id,
   iconPrefix,
   secondary,
+  background,
   singleBlink,
   tab,
   newTab
@@ -70,6 +72,7 @@ export const Button: FC<Props> = React.memo(({
         tab={tab}
         name={name}
         hasIcon={icon !== undefined}
+        background={background}
       >
         {
           icon
@@ -129,6 +132,7 @@ interface ButtonProps {
   title?: string,
   disabled?: boolean,
   secondary?: boolean,
+  background?: string,
   hero?: boolean,
   square?: boolean,
   primary?: boolean,
@@ -163,17 +167,17 @@ const S = {
     height: 100%;
     align-items: center;
   `,
-  Button: styled.button.attrs({ 
+  Button: styled.button.attrs({
     type: 'submit',
-    value: 'Submit'
-  })<ButtonProps>`
+    value: 'Submit',
+  }) <ButtonProps>`
     letter-spacing: var(--F_Letter_Spacing);
     background: none;
     border: none;
     position: relative;
     overflow: hidden;
-    color: ${props => props.disabled 
-      ? 'var(--F_Font_Color_Disabled)' 
+    color: ${props => props.disabled
+      ? 'var(--F_Font_Color_Disabled)'
       : 'var(--F_Font_Color)'
     };
     
@@ -182,38 +186,40 @@ const S = {
     flex: 0 0 100%;
     align-items: center;
     justify-content: center;
-    height: ${props => 
+    height: ${props =>
       props.hero
-        ? 'auto' 
+        ? 'auto'
         : 'var(--F_Input_Height)'
     };
     min-width: var(--F_Font_Size_Icon);
-    padding: ${props => 
-      props.hero && !props.square 
-        ? '1rem 1.5rem 1rem 1rem' 
+    padding: ${props =>
+      props.hero && !props.square
+        ? '1rem 1.5rem 1rem 1rem'
         : props.square
-            ? '1rem'
-            : props.hasIcon
-                ? '1rem 1rem 1rem .75rem' 
-                : '1rem' 
+          ? '1rem'
+          : props.hasIcon
+            ? '1rem 1rem 1rem .75rem'
+            : '1rem'
     };
-    width: ${props => props.square && !props.hero 
-      ? '52px' 
+    width: ${props => props.square && !props.hero
+      ? '52px'
       : props.expand ? '100%' : 'auto'}; 
-    border-radius: ${props => 
-      props.hero && props.square 
-        ? '100%' 
-        : props.tab 
-          ? '.5rem .5rem 0 0' 
+    border-radius: ${props =>
+      props.hero && props.square
+        ? '100%'
+        : props.tab
+          ? '.5rem .5rem 0 0'
           : '.5rem'
     };
-    background: ${props => props.primary 
-        ? `var(--F_Primary)`
-        : props.blink
-          ? 'var(--Hover_Single)'
-          : props.secondary 
-            ? 'none'
-            : 'var(--F_Surface)'
+    background: ${props => props.primary
+      ? `var(--F_Primary)`
+      : props.blink
+        ? 'var(--Hover_Single)'
+        : props.secondary
+          ? 'var(--F_Surface)'
+          : typeof(props.background) == 'string'
+            ? props.background
+            : ''
     }; 
   
     box-shadow: ${props => props.secondary ? 'var(--F_Outline)' : 'none'};
@@ -237,7 +243,10 @@ const S = {
     &:hover {
       background: ${props => props.primary 
         ? `var(--F_Primary_Hover)`
+      : props.background
+        ? props.background
         : 'var(--F_Surface_1)'
+    
       };
       * {
         color: var(--F_Font_Color);
