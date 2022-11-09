@@ -36,8 +36,35 @@ export const ActivityEditor = ({ value, onChange, activity, activeAreaIndex }: P
   const isoToSimpleTime = (time: string): string => {
     // takes a full ISO 8601 string and returns HH:MM am/pm string
     let a = ZonedDateTime.parse(time)
-    let parsedStartTime = a.format(DateTimeFormatter.ofPattern('KK:mma').withLocale(Locale.ENGLISH))
-    return parsedStartTime
+    let parsedTime = a.format(DateTimeFormatter.ofPattern('KK:mma').withLocale(Locale.ENGLISH))
+    return parsedTime
+  }
+
+  const isoToInteger = (time: string): number => {
+    let d = ZonedDateTime.parse(time)
+    let parsedTime = parseInt(d.format(DateTimeFormatter.ofPattern('KKmm')))
+    return parsedTime
+  }
+
+  const simpleToIsoTime = (time: string): string => {
+    // repopulate prefix and postfix data for string parsing
+    const { startTime } = value[activeAreaIndex]?.activities[0]
+    const b = ZonedDateTime.parse(startTime)
+    const datePrefix = b.format(DateTimeFormatter.ofPattern('yyyy-MM-dd'))
+    const offSet = b.format(DateTimeFormatter.ofPattern('x:00'))
+    const timeZone = b.format(DateTimeFormatter.ofPattern('VV'))
+
+    // takes HH:MM am/pm and returns Zoned Date Time string
+    if (time === undefined && value === undefined) {
+      return ''
+    } else {
+      let newTime: string = parseLocalTime(time)
+
+      // recover full ISO data, then destructure datePrefix, offSet and timeZone
+      const parsedTime: string = ZonedDateTime.parse(`${datePrefix}T${newTime.trim()}:00.000${offSet}[${timeZone}]`, DateTimeFormatter.ISO_ZONED_DATE_TIME).toString()
+
+      return parsedTime
+    }
   }
 
   const parseLocalTime = (time: string) => {
@@ -74,53 +101,44 @@ export const ActivityEditor = ({ value, onChange, activity, activeAreaIndex }: P
     
   }
 
-  const simpleToIsoTime = (time: string, value: any): string => {
-    // repopulate prefix and postfix data for string parsing
-    const { startTime } = value[activeAreaIndex]?.activities[0]
-    const b = ZonedDateTime.parse(startTime)
-    const datePrefix = b.format(DateTimeFormatter.ofPattern('yyyy-MM-dd'))
-    const offSet = b.format(DateTimeFormatter.ofPattern('x:00'))
-    const timeZone = b.format(DateTimeFormatter.ofPattern('VV'))
-
-    // takes HH:MM am/pm and returns Zoned Date Time string
-    if (time === undefined && value === undefined) {
-      return ''
-    } else {
-      let newTime: string = parseLocalTime(time)
-
-      // recover full ISO data, then destructure datePrefix, offSet and timeZone
-      const parsedTime: string = ZonedDateTime.parse(`${datePrefix}T${newTime.trim()}:00.000${offSet}[${timeZone}]`, DateTimeFormatter.ISO_ZONED_DATE_TIME).toString()
-
-      return parsedTime
-    }
-  }
-
   const handleSubmit = (e: React.FormEvent, value: AreaType[]) => {
-    e.preventDefault()
-    const isDataPresent = parsedStartTime !== undefined && parsedEndTime !== undefined
-    const isTimeFrameValid = isDataPresent
-      ? parsedStartTime > parsedEndTime
-      : false
+    let isoStartTime = parsedStartTime === undefined ? '' : simpleToIsoTime(parsedStartTime)
+    let isoEndTime = parsedEndTime === undefined ? '' : simpleToIsoTime(parsedEndTime)
+    let startTime = isoToInteger(isoStartTime)
+    let endTime = isoToInteger(isoEndTime)
 
-    if (!isDataPresent || !isTimeFrameValid) {
-      // this should trigger user feedback
+
+    const isDataPresent = parsedStartTime !== undefined && parsedEndTime !== undefined
+    const isTimespan =
+      isDataPresent 
+        ? parsedStartTime === parsedEndTime
+          ? false
+          : true
+        : false
+    const isEndTimeValid =
+      isDataPresent 
+        ? startTime < endTime
+          ? true
+          : false
+        : false
+
+
+    if (!isDataPresent || !isTimespan ) {
       set_dataError(true)
-      console.log(isDataPresent, isTimeFrameValid, "ONE FALSE")
       return
+    } else if (!isEndTimeValid) {
+      set_dataError(true)
     }
-    else if (isDataPresent && isTimeFrameValid) {
+    else if (isDataPresent && isTimespan && isEndTimeValid) {
       set_dataError(false)
-      console.log(isDataPresent, isTimeFrameValid, "BOTH TRUE")
       let updatedActivity: ActivityType = {
         title: title ? title : '',
-        startTime: simpleToIsoTime(parsedStartTime, value),
-        endTime: simpleToIsoTime(parsedEndTime, value),
+        startTime: simpleToIsoTime(parsedStartTime),
+        endTime: simpleToIsoTime(parsedEndTime),
         id: id,
         people: [
         ],
       }
-
-  
 
       let newData = value.map((area, index) => {
         if (index === activeAreaIndex) {
@@ -131,7 +149,6 @@ export const ActivityEditor = ({ value, onChange, activity, activeAreaIndex }: P
             }
             return activity
           })
-          // need to return old AND new data
           newArea.activities = newAreaData
           return newArea
         } 
@@ -141,13 +158,30 @@ export const ActivityEditor = ({ value, onChange, activity, activeAreaIndex }: P
     }
   }
 
-  const handleRemove = (e: React.FormEvent, value: AreaType[]) => {
+  const handleRemove = (value: AreaType[]) => {
+    
+    let newData = value?.map((area, index) => {
+      if (index === activeAreaIndex) {
+        let newArea: AreaType = area
+        let newAreaData = newArea?.activities.filter((activity) => {
+          if (activity.id !== id) {
+            return activity
+          }
+        })
+        newArea.activities = newAreaData
+        return newArea
+      } 
+      return area
+    })
+    console.log(newData, 'ii')
+
+    onChange(newData)
 
   }
 
- 
+ // onSubmit={(e) => handleSubmit(e, value)}
   return (
-    <S.Form onSubmit={(e) => handleSubmit(e, value)}>
+    <S.Form >
       <Box p={1}>
         <TextInput
           value={title ? title : ''}
@@ -171,21 +205,25 @@ export const ActivityEditor = ({ value, onChange, activity, activeAreaIndex }: P
       </Box>
       <Box p={1}>
         <Box p={1}>
-          <Button text={'Delete'} onClick={handleRemove} />
+          <Button text={'Delete'} onClick={() => handleRemove(value)} />
         </Box>
         <Box p={1}>
-          <Button text={'Save'} primary submit/>
+          <Button text={'Save'} primary onClick={(e: React.FormEvent) => handleSubmit(e, value)} />
         </Box>
       </Box>
       <S.Error dataError={dataError}>
-        There was an error. Make sure all fields are filled and the timespan is valid. 
+        <div>There was an error.</div>
+        <ul>
+          <li>- Check if all fields are filled</li>
+          <li>- Make sure the end time is after the start time</li>
+        </ul>
       </S.Error>
     </S.Form>
   )
 }
 
 const S = {
-  Form: styled.form<{}>`
+  Form: styled.div<{}>`
     width: 100%;
     max-width: 400px;
   `,
@@ -193,5 +231,16 @@ const S = {
     dataError: boolean
   }>`
     display: ${props => props.dataError ? 'block' : 'none'};
+    padding: 1rem;
+
+    div{
+      padding-bottom: 1.5rem;
+      font-weight: 600;
+    }
+
+    li{
+      margin-bottom: 1rem;
+      margin-left: 1rem;
+    }
   `
 }
