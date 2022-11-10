@@ -3,8 +3,9 @@ import { ComponentStory, ComponentMeta } from '@storybook/react'
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 
 import { Timeline, ActivityEditor, Box, Tabs } from '../../internal'
-import { ActivityType } from '../../types'
+import { ActivityType, AreaType } from '../../types'
 import { styled } from '@storybook/theming'
+import { DateTimeFormatter, Duration, ZonedDateTime } from '@js-joda/core'
 
 export default {
   title: 'Advanced Input/Timeline',
@@ -376,7 +377,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
   const [activeAreaIndex, set_activeAreaIndex] = useState<number>(0)
   const [activityId, setActivityId] = useState<string | null>(null)
   const [currentActivity, set_currentActivity] = useState<ActivityType>()
-  let activities = value[activeAreaIndex].activities
+  let activities: ActivityType[] = value[activeAreaIndex].activities
 
   let tabs: Tab[] = value?.map(({ area }, index) => {
     const tab = { name: area, onClick: () => set_activeAreaIndex(index)}
@@ -387,6 +388,42 @@ const Template: ComponentStory<typeof Timeline> = args => {
     const element = e.target as HTMLDivElement
     const target = element.id
     setActivityId(target)
+  }
+
+  const onIntervalClick = (interval) => {
+    let areaData = value[activeAreaIndex]
+    let dateTime = areaData.activities[0].startTime
+    let activeDate: string = dateTime?.slice(0, 11)
+
+    let dateTimeString = `${activeDate}${interval.value}:00.000-06:00[America/Chicago]`
+    let startTime = ZonedDateTime.parse(dateTimeString)
+    let endTime = startTime.plus(Duration.ofHours(1))
+
+    let guid = crypto.randomUUID()
+
+    let emptyActivity = {
+      "title": '',
+      "startTime": startTime.toString(),
+      "endTime": endTime.toString(),
+      "id": guid,
+      "people": []
+    }
+
+    set_currentActivity(emptyActivity)
+    setActivityId(guid)
+
+    let newData = value.map((area, index) => {
+      if (index === activeAreaIndex) {
+        let newArea: AreaType = area
+        newArea?.activities.push(emptyActivity)
+        return newArea  
+      } 
+      return area
+    })
+
+    console.log(newData, "NEW DATA")
+    
+    set_value(newData)
   }
 
   useEffect(() => {
@@ -412,7 +449,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
           {...args}
           value={activities}
           onChange={(newValue) => set_value(newValue)} 
-          // onClick={(e: MouseEvent) => onAreaGridClick(e)}
+          onIntervalClick={(interval) => onIntervalClick(interval)}
           onItemClick={(e: MouseEvent) => onItemClick(e)}
           activeArea={activeAreaIndex}
         />

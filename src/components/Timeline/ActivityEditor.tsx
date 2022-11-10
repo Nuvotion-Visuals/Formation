@@ -156,6 +156,10 @@ export const ActivityEditor = ({ value, onChange, activity, activeAreaIndex }: P
         return area
       })
       onChange(newData)
+      set_parsedStartTime('')
+      set_parsedEndTime('')
+      set_title('')
+
     }
   }
 

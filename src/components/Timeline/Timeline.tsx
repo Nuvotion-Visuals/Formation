@@ -8,7 +8,7 @@ interface Props {
   value: ActivityType[],
   areaIndex: number,
   onChange: (time: any) => void,
-  onClick: (e: React.MouseEvent) => void,
+  onIntervalClick: (interval: IntervalType) => void,
   onItemClick: (e: React.MouseEvent) => void,
   activeArea: number
 }
@@ -32,8 +32,7 @@ interface ActivityTimeStampType {
 
 type ActivityTimeStampsType = ActivityTimeStampType[]
 
-export const Timeline = ({ value, onChange, onClick, onItemClick, activeArea }: Props) => {
-  let activities: ActivityType[] = value[activeArea]?.activities
+export const Timeline = ({ value, onChange, onIntervalClick, onItemClick }: Props) => {
 
   const [columnCount, set_columnCount] = useState<number>(1)
   const [renderItems, set_renderItems] =  useState<ActivityTimeStampType[]>()
@@ -68,7 +67,7 @@ export const Timeline = ({ value, onChange, onClick, onItemClick, activeArea }: 
     }
   ))
 
-  const currentActivityTimeStamps: ActivityTimeStampsType = value.map((activity) => {
+  const currentActivityTimeStamps: ActivityTimeStampsType = value?.map((activity) => {
     let startTime = ZonedDateTime.parse(activity?.startTime)
     let endTime = ZonedDateTime.parse(activity?.endTime)
 
@@ -87,14 +86,14 @@ export const Timeline = ({ value, onChange, onClick, onItemClick, activeArea }: 
     }
   })
 
-  let activitiesByTimeStamp = currentActivityTimeStamps.sort((a, b) => a.startInteger - b.startInteger)
+  let activitiesByTimeStamp = currentActivityTimeStamps?.sort((a, b) => a.startInteger - b.startInteger)
 
   const calculateOverflowLanes = (activitiesByTimeStamp: ActivityTimeStampsType) => {
     let isConflicted: boolean | null = null
     let isEmptyArray: boolean | null = null
     let laneRecord: ActivityTimeStampType[][] = [[]]
 
-    activitiesByTimeStamp.forEach((activity, index) => {
+    activitiesByTimeStamp?.forEach((activity, index) => {
       
       if (index === 0) {
         activity.overflowLane = 1
@@ -208,22 +207,6 @@ export const Timeline = ({ value, onChange, onClick, onItemClick, activeArea }: 
     return gridObject[0]?.gridNumber + 1
   }
 
-  const handleClick = (interval: IntervalType, value: any) => {
-    
-    if (value !== undefined) {
-      const a = value[0]?.startTime
-      const b = ZonedDateTime.parse(a)
-      const datePrefix = b.format(DateTimeFormatter.ofPattern('yyyy-MM-dd'))
-      const offSet = b.format(DateTimeFormatter.ofPattern('x:00'))
-      const timeZone = b.format(DateTimeFormatter.ofPattern('VV'))
-
-      const parsedTime: string = ZonedDateTime.parse(`${datePrefix}T${interval.value}:00.000${offSet}[${timeZone}]`, DateTimeFormatter.ISO_ZONED_DATE_TIME).toString()
-      
-      // onChange(parsedTime)
-    }
-    return
-  }
-
   useEffect(() => {
     if (value !== undefined) {
       let initScrollElement: string = autoScrollFirstActivity(value)
@@ -281,7 +264,8 @@ export const Timeline = ({ value, onChange, onClick, onItemClick, activeArea }: 
           <S.IntervalBlock
             key={index}
             id={index.toString()}
-            onClick={() => handleClick(interval, value)}
+            value={interval.value}
+            onClick={() => onIntervalClick(interval)}
             style={{ gridColumnStart: 2, gridColumnEnd: columnCount + 2, gridRowStart: index === 0 ? 1 : index + 1 }}
               />
             )
@@ -339,7 +323,9 @@ const S = {
     padding-right: 0.5rem;
     margin-top: 0.4rem;
   `,  
-  IntervalBlock: styled.div<{}>`
+  IntervalBlock: styled.div<{
+    value: string
+  }>`
     box-sizing: border-box;
     width: 100%;
     height: 15px;
@@ -369,6 +355,9 @@ const S = {
   ActivityTitle: styled.div<{}>`
     width: 100%;
     text-transform: uppercase; 
-    pointer-events: none;
+
+    /* writing-mode: vertical-lr;
+    text-orientation: upright;
+    letter-spacing: -1px; */
   `
 }
