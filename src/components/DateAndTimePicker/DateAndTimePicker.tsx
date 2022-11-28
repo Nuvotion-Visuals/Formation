@@ -100,7 +100,7 @@ export const DateAndTimePicker = ({
   }
 
   return (
-    <>
+    <Box width='100%' wrap={true}>
       {
         value?.map((item, index) => (
           <>
@@ -108,7 +108,7 @@ export const DateAndTimePicker = ({
               <Gap  gap={.75}>
                 <Gap disableWrap={true}>
                   <DatePicker
-                    label={value?.length > 1 ? `${index + 1}${getSuperscriptOrdinal(index + 1)} Day` : 'Date'}
+                    label={value?.length > 1 ? `${getOrdinal(value?.length + 1)} Day` : 'Date'}
                     value={new Date(item?.date ? item.date : new Date())}
                     onChange={newDate => setValue(index, 'date', newDate.toString())}
                     iconPrefix={iconPrefix}
@@ -164,29 +164,21 @@ export const DateAndTimePicker = ({
             {
               index == value?.length - 1
                 ? <Spacer/>
-                : <Box my={1}>
+                : <Box my={1} width='100%'>
                     <LineBreak />
                   </Box>
             }
           </>
         ))
       }
-    
-      <Box py={.15} />
 
-      <Box py={.5}>
-        <Button
-          onClick={(e : MouseEvent) => {
-            e?.preventDefault()
-            addDate()
-          }}
-          text={`Add a ${getOrdinal(value?.length + 1)} day`}
-          icon={'plus'}
-          iconPrefix={'fas'}
-          expand={true}
-        />
+      <Box pt={.5} width='100%'>
+        <S.TextButton onClick={addDate}>
+          {`Add a ${getOrdinal(value?.length + 1)} day`}
+        </S.TextButton>
+        <Spacer />
       </Box>
-    </>
+    </Box>
   )
 }
 
@@ -194,6 +186,7 @@ const S = {
   DateAndTime: styled.div`
     display: flex;
     flex-wrap: wrap;
+    width: 100%;
   `,
   Duration: styled.div`
     font-size: var(--F_Font_Size);
@@ -201,5 +194,17 @@ const S = {
     text-align: center;
     display: flex;
     flex-shrink: 0;
+  `,
+  TextButton: styled.button<{
+    onClick: () => void
+  }>`
+    border: none;
+    background: none;
+    padding: 0;
+    margin: 0;
+    text-decoration: underline;
+    font-size: var(--F_Font_Size);
+    cursor: pointer;
+    color: var(--F_Font_Color_Label);
   `
 }

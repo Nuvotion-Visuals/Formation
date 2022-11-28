@@ -21,4 +21,5 @@ const Template: ComponentStory<typeof TimePicker> = args => {
 export const Regular = Template.bind({})
 Regular.args = {
   label: 'Time',
+  iconPrefix: 'fas'
 }

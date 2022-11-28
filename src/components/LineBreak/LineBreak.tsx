@@ -7,6 +7,6 @@ const S = {
   Break: styled.div`
     width: 100%;
     display: flex;
-    border-bottom: 2px solid var(--F_Surface);
+    border-bottom: 1px solid var(--F_Surface_0);
   `
 }

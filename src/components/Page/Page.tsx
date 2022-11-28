@@ -11,11 +11,11 @@ export const Page = ({ children, noPadding }: Props) => {
     <S.Page>
       {
         noPadding
-          ? <>
+          ? <S.Inner>
               {
                 children
               }
-            </>
+            </S.Inner>
           : <S.Content>
               <S.Inner>
                 {

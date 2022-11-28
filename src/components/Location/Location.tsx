@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import React, { useEffect, useState } from 'react'
 
-import { TextInput } from '../../internal'
+import { Box, TextInput } from '../../internal'
 import { IconPrefix } from '@fortawesome/fontawesome-common-types';
 
 export interface Place {
@@ -249,7 +249,7 @@ export const Location = ({
 
   const [displayName, set_displayName] = useState(value?.displayName)
 
-  return (<>
+  return (<Box width='100%' wrap={true}>
     <TextInput 
       value={displayName}
       onChange={newValue => set_displayName(newValue)}
@@ -261,7 +261,7 @@ export const Location = ({
     />
 
     <S.Map id='map'></S.Map>
-  </>)
+  </Box>)
 }
 
 const S = {

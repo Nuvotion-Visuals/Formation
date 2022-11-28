@@ -55,8 +55,8 @@ export const TextInput = ({
   onChangeEvent
 }: Props) => {
 
-  const [locked, setLocked] = useState(value !== '')
-  const [focused, setFocused] = useState(value !== '')
+  const [locked, setLocked] = useState(!!value)
+  const [focused, setFocused] = useState(!!value)
 
   useEffect(() => {
     if (value) {
@@ -127,6 +127,8 @@ export const TextInput = ({
       </S.ErrorIconContainer>
 
       <S.Input
+        shrink={value !== '' || focused}
+        disableAnimation={value !== '' && !focused}
         name={name}
         value={value}
         preventFocus={preventFocus}
@@ -214,13 +216,22 @@ export const TextInput = ({
 
 const moveUp = keyframes`
   0% { 
-    top: 0.6rem; 
+    top: 1.5rem; 
     font-size: var(--F_Font_Size);
 
   }
   100% { 
-    top: 0rem; 
+    top: 1rem; 
     font-size: calc(var(--F_Font_Size) * .9);
+  }
+`
+
+const moveDown = keyframes`
+  0% { 
+    bottom: 0.6rem; 
+  }
+  100% { 
+    bottom: -.6rem; 
   }
 `
 
@@ -230,6 +241,7 @@ const S = {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
+    
   `,
   Container: styled.div<{
     error?: string,
@@ -241,37 +253,45 @@ const S = {
     align-items: center;
     padding: 0 1rem;
     width: calc(100% - 2rem);
+    height: calc(var(--F_Input_Height) + 1rem);
     line-height: 0;
 
     &:hover {
-      box-shadow: ${props => 
+      /* box-shadow: ${props => 
         props.success 
           ? 'var(--F_Outline_Success)' 
           : props.error
             ? 'var(--F_Outline_Error)'
             : 'var(--F_Outline_Hover)'
-      };
+      }; */
     }
     
     &:focus-within {
-      box-shadow: ${props => 
+      /* box-shadow: ${props => 
         props.success 
           ? 'var(--F_Outline_Success)' 
           : props.error
             ? 'var(--F_Outline_Error)'
             : 'var(--F_Outline_Hover)'
-      };
+      }; */
+
+      border-bottom: 2px solid var(--F_Primary_Variant);
+      label {
+        color: var(--F_Primary_Variant);
+      }
+
     };
     background: var(--F_Background_Alternating);
-    box-shadow: ${props => 
+    border-radius: .25rem .25rem 0 0;
+
+    /* box-shadow: ${props => 
       props.success 
         ? 'var(--F_Outline_Success)' 
         : props.error
           ? 'var(--F_Outline_Error)'
           : 'var(--F_Outline)'
-    };
-    border-radius: 1rem;
-
+    }; */
+    border-bottom: 2px solid var(--F_Surface_1);
   `,
   Input: styled.input<{
     name?: string,
@@ -285,7 +305,9 @@ const S = {
     id?: string,
     pad?: boolean,
     onChange?: (e : any) => void,
-    preventFocus?: boolean
+    preventFocus?: boolean,
+    shrink: boolean,
+    disableAnimation: boolean
   }>`
     width: 100%;
     height: var(--F_Input_Height);
@@ -293,13 +315,14 @@ const S = {
     font-size: var(--F_Font_Size);
     vertical-align: center;
     border: none;
-    padding-left: ${props => props.hasIcon ? '.5rem' : '0'};
+    padding-left: ${props => props.hasIcon ? '.75rem' : '0'};
     outline: none;
     -webkit-appearance: none;
     color: var(--F_Font_Color);
     background: none;
     pointer-events: ${props => props.preventFocus ? 'none' : 'auto'};
     box-sizing: border-box;
+    animation: ${props => props.shrink ? css`${moveDown} ${props.disableAnimation ? '0s' : '.15s'} forwards` : 'none'};
   `,
   Label: styled.label<{
     locked: boolean,
@@ -312,7 +335,7 @@ const S = {
     top: 50%;
     line-height: 0;
     height: .5rem;
-    left: ${props => props.hasIcon ? '2.5rem' : '1rem'};
+    left: ${props => props.hasIcon ? '2.65rem' : '1rem'};
     color: var(--F_Font_Color_Label);
     font-size: var(--F_Font_Size);
     pointer-events: none;

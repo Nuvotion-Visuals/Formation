@@ -213,12 +213,12 @@ const S = {
     background: var(--F_Background);
     border-radius: .5rem;
     box-shadow: var(--F_Outline_Hover);
-    top: calc(var(--F_Input_Height) - .325rem);
+    top: calc(var(--F_Input_Height) + .75rem);
     width: calc(136px + 1rem);
     max-height: 300px;
     overflow-y: auto;
     overflow-x: hidden;
-    left: 1.5rem;
+    left: 2.75rem;
     user-select: none;
   `
 }

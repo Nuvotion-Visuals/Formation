@@ -340,10 +340,10 @@ const S = {
     border-radius: .5rem;
     padding: .75rem;
     box-shadow: var(--F_Outline_Hover);
-    top: calc(var(--F_Input_Height) - .325rem);
+    top: calc(var(--F_Input_Height) + .75rem);
     /* width: 196px; */
     width: 14rem;
-    left: 1.5rem;
+    left: 2.75rem;
     user-select: none;
   `,
   DateHeaderWrapper: styled.div`
