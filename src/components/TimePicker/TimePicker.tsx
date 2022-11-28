@@ -218,7 +218,7 @@ const S = {
     max-height: 300px;
     overflow-y: auto;
     overflow-x: hidden;
-    left: 2.75rem;
+    left: 1.75rem;
     user-select: none;
   `
 }

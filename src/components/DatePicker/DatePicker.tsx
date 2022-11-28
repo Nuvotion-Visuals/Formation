@@ -343,7 +343,7 @@ const S = {
     top: calc(var(--F_Input_Height) + .75rem);
     /* width: 196px; */
     width: 14rem;
-    left: 2.75rem;
+    left: 1.75rem;
     user-select: none;
   `,
   DateHeaderWrapper: styled.div`

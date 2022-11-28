@@ -230,6 +230,8 @@ export const Location = ({
         })
       }
     }
+
+    input.placeholder = ''
   }
 
   useEffect(() => {
@@ -247,7 +249,7 @@ export const Location = ({
     }
   }, [])
 
-  const [displayName, set_displayName] = useState(value?.displayName)
+  const [displayName, set_displayName] = useState(value?.displayName ? value?.displayName : '')
 
   return (<Box width='100%' wrap={true}>
     <TextInput 

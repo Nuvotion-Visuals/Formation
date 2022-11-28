@@ -6,7 +6,7 @@ import { Box } from '../../internal'
 import { Spacer } from '../../internal'
 import { Gap } from '../../internal'
 import { LineBreak } from '../../internal'
-import { getSuperscriptOrdinal, getOrdinal } from '../../utils'
+import { getSuperscriptOrdinal, getOrdinal, capitalizeFirstLetter } from '../../utils'
 
 import { DatePicker } from '../../internal'
 import { TimePicker } from '../../internal'
@@ -108,7 +108,7 @@ export const DateAndTimePicker = ({
               <Gap  gap={.75}>
                 <Gap disableWrap={true}>
                   <DatePicker
-                    label={value?.length > 1 ? `${getOrdinal(value?.length + 1)} Day` : 'Date'}
+                    label={value?.length > 1 ? `${capitalizeFirstLetter(getOrdinal(index + 1))} day` : 'Date'}
                     value={new Date(item?.date ? item.date : new Date())}
                     onChange={newDate => setValue(index, 'date', newDate.toString())}
                     iconPrefix={iconPrefix}

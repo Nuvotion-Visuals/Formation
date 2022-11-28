@@ -54,4 +54,8 @@ Tooltip.args = {
   tooltip: 'Your email address is never shared with third parties.'
 }
 
+export const NoLabel = Template.bind({})
+NoLabel.args = {
+
+}
 

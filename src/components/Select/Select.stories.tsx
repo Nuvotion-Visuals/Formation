@@ -18,15 +18,15 @@ const Template: ComponentStory<typeof Select> = args => {
   />
 }
 
-export const Default = Template.bind({})
-Default.args = {
+export const Icon = Template.bind({})
+Icon.args = {
   icon: 'heart',
   options: ['JavaScript', 'HTML', 'CSS', 'C#', 'TypeScript', 'Python', 'Java'],
   label: 'Prefered language'
 }
 
-export const Icon = Template.bind({})
-Icon.args = {
+export const NoIcon = Template.bind({})
+NoIcon.args = {
   options: ['JavaScript', 'HTML', 'CSS']
 }
 

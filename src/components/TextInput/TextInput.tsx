@@ -144,6 +144,7 @@ export const TextInput = ({
         ref={ref}
         id={id}
         hasIcon={icon !== undefined || labelColor !== undefined} 
+        hasLabel={label !== undefined}
         type={type ? type : 'text'}
         locked={locked}
         focused={focused}
@@ -257,45 +258,45 @@ const S = {
     line-height: 0;
 
     &:hover {
-      /* box-shadow: ${props => 
+      box-shadow: ${props => 
         props.success 
           ? 'var(--F_Outline_Success)' 
           : props.error
             ? 'var(--F_Outline_Error)'
             : 'var(--F_Outline_Hover)'
-      }; */
+      };
     }
     
     &:focus-within {
-      /* box-shadow: ${props => 
+      box-shadow: ${props => 
         props.success 
           ? 'var(--F_Outline_Success)' 
           : props.error
             ? 'var(--F_Outline_Error)'
             : 'var(--F_Outline_Hover)'
-      }; */
+      };
 
-      border-bottom: 2px solid var(--F_Primary_Variant);
+      /* border-bottom: 2px solid var(--F_Primary_Variant); */
       label {
         color: var(--F_Primary_Variant);
       }
 
     };
     background: var(--F_Background_Alternating);
-    border-radius: .25rem .25rem 0 0;
+    border-radius: .75rem;
 
-    /* box-shadow: ${props => 
+    box-shadow: ${props => 
       props.success 
         ? 'var(--F_Outline_Success)' 
         : props.error
           ? 'var(--F_Outline_Error)'
           : 'var(--F_Outline)'
-    }; */
-    border-bottom: 2px solid var(--F_Surface_1);
+    };
+    /* border-bottom: 2px solid var(--F_Surface_1); */
   `,
   Input: styled.input<{
     name?: string,
-    label?: string,
+    hasLabel?: boolean,
     error?: string,
     disabled?: boolean,
     focused: boolean,
@@ -322,7 +323,7 @@ const S = {
     background: none;
     pointer-events: ${props => props.preventFocus ? 'none' : 'auto'};
     box-sizing: border-box;
-    animation: ${props => props.shrink ? css`${moveDown} ${props.disableAnimation ? '0s' : '.15s'} forwards` : 'none'};
+    animation: ${props => (props.shrink && props.hasLabel) ? css`${moveDown} ${props.disableAnimation ? '0s' : '.15s'} forwards` : 'none'};
   `,
   Label: styled.label<{
     locked: boolean,
