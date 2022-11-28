@@ -19,7 +19,7 @@ interface IntervalType {
 }
 
 
-export const Timeline = ({ value, onChange, onClick, activeArea }: Props) => {
+export const Timeline2 = ({ value, onChange, onClick, activeArea }: Props) => {
 
   const handleIntervalSurfaceClick = (parsedTime: string) => {
     let currentData: AreaType[] = value

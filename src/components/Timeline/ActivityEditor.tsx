@@ -212,7 +212,7 @@ export const ActivityEditor = ({ value, onChange, activity, activeAreaIndex }: P
         <Box p={1}>
           {
             isUserNotified
-              ? <Button text={'Delete'} background={'var(--F_Warning_Red)'} onClick={() => handleRemove(value)} />
+              ? <Button text={'Delete'} background={'var(--F_Warning_Red)'} onClick={() => handleRemove(value)} onBlur={() => set_isUserNotified(false)}/>
               : <Button text={'Delete'} onClick={() => set_isUserNotified(true)} />
           }
         </Box>

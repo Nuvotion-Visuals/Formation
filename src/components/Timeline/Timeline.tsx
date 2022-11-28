@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { DateTimeFormatter, ZonedDateTime } from '@js-joda/core'
 import '@js-joda/timezone'
-import { ActivityType, AreaType } from 'types'
+import { ActivityType } from 'types'
 
 interface Props {
   value: ActivityType[],
@@ -35,7 +35,8 @@ type ActivityTimeStampsType = ActivityTimeStampType[]
 export const Timeline = ({ value, onChange, onIntervalClick, onItemClick }: Props) => {
 
   const [columnCount, set_columnCount] = useState<number>(1)
-  const [renderItems, set_renderItems] =  useState<ActivityTimeStampType[]>()
+  const [renderItems, set_renderItems] = useState<ActivityTimeStampType[]>()
+  
 
   const intervals: IntervalType[] = new Array(112).fill(0).map((item, index) => (
     {
@@ -67,7 +68,7 @@ export const Timeline = ({ value, onChange, onIntervalClick, onItemClick }: Prop
     }
   ))
 
-  const currentActivityTimeStamps: ActivityTimeStampsType = value?.map((activity) => {
+  let currentActivityTimeStamps: ActivityTimeStampsType = value?.map((activity) => {
     let startTime = ZonedDateTime.parse(activity?.startTime)
     let endTime = ZonedDateTime.parse(activity?.endTime)
 
@@ -86,6 +87,7 @@ export const Timeline = ({ value, onChange, onIntervalClick, onItemClick }: Prop
     }
   })
 
+  // sort activites by start time. critical for calculateOverflowLanes to function properly
   let activitiesByTimeStamp = currentActivityTimeStamps?.sort((a, b) => a.startInteger - b.startInteger)
 
   const calculateOverflowLanes = (activitiesByTimeStamp: ActivityTimeStampsType) => {
@@ -193,6 +195,7 @@ export const Timeline = ({ value, onChange, onIntervalClick, onItemClick }: Prop
     return '6'
   }
 
+  // match time string to interval value of type number, use this to calculate gridRow
   const renderRow = (time: string) => {
     let parsedHour: string = ZonedDateTime.parse(time).format(DateTimeFormatter.ofPattern('HH:mm'))
 
@@ -206,7 +209,8 @@ export const Timeline = ({ value, onChange, onIntervalClick, onItemClick }: Prop
 
     return gridObject[0]?.gridNumber + 1
   }
-
+  
+  // initial pagescroll animation
   useEffect(() => {
     if (value !== undefined) {
       let initScrollElement: string = autoScrollFirstActivity(value)
@@ -232,9 +236,7 @@ export const Timeline = ({ value, onChange, onIntervalClick, onItemClick }: Prop
                       gridRowStart: renderRow(activity?.startTime),
                       gridRowEnd: renderRow(activity?.endTime)
                   }}>
-                    <S.ActivityTitle>
                       {activity.title}
-                    </S.ActivityTitle>
                   </S.Activity>
                 )
               : <></>
@@ -278,10 +280,10 @@ export const Timeline = ({ value, onChange, onIntervalClick, onItemClick }: Prop
 
 const S = {
   Container: styled.div<{}>`
+    /* position: relative; */
     width: 100%;
     overflow-x: auto;
     background: var(--F_Activity_Backdrop);
-    position: relative;
   `,
   Grid: styled.div<{
     columnCount: number
@@ -298,7 +300,6 @@ const S = {
     position: absolute;
     top: 0;
     width: 100%;
-    height: 100%;
   `,
   TimeStampContainer: styled.div<{}>`
     position: absolute;
@@ -327,7 +328,7 @@ const S = {
     value: string
   }>`
     box-sizing: border-box;
-    width: 100%;
+    min-width: 100%;
     height: 15px;
     z-index: 1;
     line-height: 0;
@@ -351,13 +352,6 @@ const S = {
     padding: 0.15rem;
     z-index: 100;
     border-radius: 0.25rem;
-  `,
-  ActivityTitle: styled.div<{}>`
-    width: 100%;
-    text-transform: uppercase; 
-
-    /* writing-mode: vertical-lr;
-    text-orientation: upright;
-    letter-spacing: -1px; */
+    overflow-y: hidden;
   `
 }

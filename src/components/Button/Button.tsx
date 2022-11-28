@@ -12,6 +12,7 @@ type Props = {
   name?: string,
   icon?: IconName,
   onClick?: Function,
+  onBlur?: Function,
   primary?: boolean,
   text?: string,
   blink?: boolean,
@@ -34,6 +35,7 @@ export const Button: FC<Props> = React.memo(({
   name, 
   icon, 
   onClick, 
+  onBlur,
   primary, 
   text, 
   blink, 
@@ -57,7 +59,8 @@ export const Button: FC<Props> = React.memo(({
   const renderButton = () => {
     return (
       <S.Button
-        onClick={onClick ? (e) => onClick(e) : () => {}} 
+        onClick={onClick ? (e) => onClick(e) : () => { }} 
+        onBlur={onBlur ? (e) => onBlur(e) : () => {}}
         primary={primary} 
         blink={blink}
         square={!text}

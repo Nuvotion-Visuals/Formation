@@ -377,7 +377,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
   const [activeAreaIndex, set_activeAreaIndex] = useState<number>(0)
   const [activityId, setActivityId] = useState<string | null>(null)
   const [currentActivity, set_currentActivity] = useState<ActivityType>()
-  let activities: ActivityType[] = value[activeAreaIndex].activities
+  const [activities, set_activities] = useState(value[activeAreaIndex].activities)
 
   let tabs: Tab[] = value?.map(({ area }, index) => {
     const tab = { name: area, onClick: () => set_activeAreaIndex(index)}
@@ -420,9 +420,6 @@ const Template: ComponentStory<typeof Timeline> = args => {
       } 
       return area
     })
-
-    console.log(newData, "NEW DATA")
-    
     set_value(newData)
   }
 
@@ -431,9 +428,13 @@ const Template: ComponentStory<typeof Timeline> = args => {
     set_currentActivity(activity)
   }, [activityId, value])
 
+  useEffect(() => {
+    set_activities(value[activeAreaIndex].activities)
+  }, [value, activeAreaIndex])
+
   return(
-    <Box width={"100%"} wrap={false}>
-      <Box wrap width={'calc(100% - 320px)'}>
+    <Box mt={0}>
+      <Box wrap >
         <S.Sticky>
           <Box width={"100%"}>
           
