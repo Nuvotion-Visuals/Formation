@@ -99,7 +99,7 @@ const S = {
         : 'auto'
     };
     max-width: ${props => props.fullscreen ? '100%' : '90vw'};
-    max-height: ${props => props.fullscreen ? '100%' : '95vw'};
+    max-height: ${props => props.fullscreen ? '100%' : '95vh'};
   `,
   Content: styled.div`
     display: flex;

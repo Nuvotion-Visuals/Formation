@@ -98,6 +98,7 @@ export const Location = ({
   iconPrefix,
   label
 } : Props) => {
+  const [hideMap, set_hideMap] = useState(true)
 
   const [googleMapsPlace, set_googleMapsPlace] = useState({} as Place)
 
@@ -112,6 +113,8 @@ export const Location = ({
       const lat = googleMapsPlace.geometry.location.lat()
       const lng = googleMapsPlace.geometry.location.lng()
       const placeID = googleMapsPlace?.place_id
+
+
   
       onChange({
         displayName: displayName ? displayName : '',
@@ -128,6 +131,7 @@ export const Location = ({
         placeID: placeID ? placeID : ''
       })
       set_displayName(displayName)
+      set_hideMap(false)
     }
   }, [googleMapsPlace])
 
@@ -249,6 +253,7 @@ export const Location = ({
     }
   }, [])
 
+
   const [displayName, set_displayName] = useState(value?.displayName ? value?.displayName : '')
 
   return (<Box width='100%' wrap={true}>
@@ -261,8 +266,8 @@ export const Location = ({
       tooltip='The name of location may be shared with Google'
       label={label}
     />
-
-    <S.Map id='map'></S.Map>
+    
+    <S.Map id='map' hide={hideMap}></S.Map>
   </Box>)
 }
 
@@ -270,10 +275,14 @@ const S = {
   Location: styled.div`
     width: 100%;
   `,
-  Map: styled.div`
+  Map: styled.div<{
+    hide: boolean
+  }>`
+    visibility: ${props => props.hide ? 'hidden' : 'visible'};
     margin-top: .75rem;
     width: 100%;
     min-height: 300px;
     max-height: 500px;
+    border-radius: .5rem;
   `
 }

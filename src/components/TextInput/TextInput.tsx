@@ -223,13 +223,13 @@ const moveUp = keyframes`
   }
   100% { 
     top: 1rem; 
-    font-size: calc(var(--F_Font_Size) * .9);
+    /* font-size: calc(var(--F_Font_Size) * .9); */
   }
 `
 
 const moveDown = keyframes`
   0% { 
-    bottom: 0.6rem; 
+    bottom: -.2rem; 
   }
   100% { 
     bottom: -.6rem; 
@@ -273,16 +273,16 @@ const S = {
           ? 'var(--F_Outline_Success)' 
           : props.error
             ? 'var(--F_Outline_Error)'
-            : 'var(--F_Outline_Hover)'
+            : 'var(--F_Outline_Success)'
       };
 
-      /* border-bottom: 2px solid var(--F_Primary_Variant); */
+      /* border-bottom: 2px solid var(--F_Font_Color_Success); */
       label {
-        color: var(--F_Primary_Variant);
+        color: var(--F_Font_Color_Success);
       }
 
     };
-    background: var(--F_Background_Alternating);
+    /* background: var(--F_Background_Alternating); */
     border-radius: .75rem;
 
     box-shadow: ${props => 
@@ -313,7 +313,7 @@ const S = {
     width: 100%;
     height: var(--F_Input_Height);
     position: relative;
-    font-size: var(--F_Font_Size);
+    font-size: var(--F_Font_Size_Title);
     vertical-align: center;
     border: none;
     padding-left: ${props => props.hasIcon ? '.75rem' : '0'};
@@ -340,7 +340,6 @@ const S = {
     color: var(--F_Font_Color_Label);
     font-size: var(--F_Font_Size);
     pointer-events: none;
-    background: ${props => props.shrink ? 'var(--F_Background_Alternating)' : 'none'};
     animation: ${props => props.shrink ? css`${moveUp} ${props.disableAnimation ? '0s' : '.15s'} forwards` : 'none'};
   `,
   FloatingLabel: styled.div<{

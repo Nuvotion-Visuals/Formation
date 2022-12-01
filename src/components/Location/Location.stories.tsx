@@ -11,9 +11,6 @@ export default {
 
 const Template: ComponentStory<typeof Location> = (args) => {
   const [value, set_value] = useState({} as LocationData)
-  useEffect(() => {
-    alert(value)
-  }, [value])
   return (
     <Location 
       {...args} 

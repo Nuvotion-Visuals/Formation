@@ -124,6 +124,7 @@ export const DateAndTimePicker = ({
                         icon='trash-alt'
                         iconPrefix='far'
                         secondary={true}
+                        hero={true}
                       /> 
                     : null
                   }
@@ -164,8 +165,7 @@ export const DateAndTimePicker = ({
             {
               index == value?.length - 1
                 ? <Spacer/>
-                : <Box my={1} width='100%'>
-                    <LineBreak />
+                : <Box my={.375} width='100%'>
                   </Box>
             }
           </>
@@ -189,7 +189,7 @@ const S = {
     width: 100%;
   `,
   Duration: styled.div`
-    font-size: var(--F_Font_Size);
+    font-size: var(--F_Font_Size_Large);
     color: var(--F_Font_Color_Label);
     text-align: center;
     display: flex;
