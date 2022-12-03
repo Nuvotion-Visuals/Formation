@@ -310,6 +310,7 @@ export const DatePicker = ({
         preventFocus={preventFocus}
         onBlur={() => set_preventFocus(isTouchCapable())}
         onClick={() => set_isOpen(!isOpen)}
+        forceFocus={isOpen}
       />
 
       {
@@ -337,9 +338,9 @@ const S = {
     position: absolute;
     z-index: 1;
     background: var(--F_Background);
-    border-radius: .5rem;
+    border-radius: .375rem;
     padding: .75rem;
-    box-shadow: var(--F_Outline_Hover);
+    box-shadow: var(--F_Outline_Outset_Focus);
     top: calc(var(--F_Input_Height) + .75rem);
     /* width: 196px; */
     width: 14rem;
@@ -354,7 +355,7 @@ const S = {
     height: 100%;
     display: flex;
     align-items: center;
-    font-size: var(--F_Font_Size);
+    font-size: var(--F_Font_Size_Large);
     padding-bottom: .5rem;
     box-sizing: content-box;
     gap: .5rem;
@@ -370,7 +371,7 @@ const S = {
     justify-content: center;
     width: 2rem;
     height: 2rem;
-    font-size: 12px;
+    font-size: var(--F_Font_Size_Label);
     text-align: center;
     color: var(--F_Font_Color_Label);
     font-weight: 600;
@@ -389,7 +390,7 @@ const S = {
     align-items: center;
     width: 2rem;
     height: 2rem;
-    font-size: 12px;
+    font-size: var(--F_Font_Size_Label);
     border-radius: .25rem;
 
     cursor: ${props => 

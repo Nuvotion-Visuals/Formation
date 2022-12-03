@@ -173,6 +173,7 @@ export const TimePicker = ({
         error={error}
         preventFocus={preventFocus}
         onBlur={() => set_preventFocus(isTouchCapable())}
+        forceFocus={isOpen}
       />
 
       {
@@ -211,8 +212,8 @@ const S = {
     position: absolute;
     z-index: 1;
     background: var(--F_Background);
-    border-radius: .5rem;
-    box-shadow: var(--F_Outline_Hover);
+    border-radius: .375rem;
+    box-shadow: var(--F_Outline_Outset_Focus);
     top: calc(var(--F_Input_Height) + .75rem);
     width: calc(136px + 1rem);
     max-height: 300px;

@@ -29,7 +29,8 @@ type Props = {
   labelColor?: ColorType,
   onEnter?: () => void,
   onChangeEvent?: (e: any) => void,
-  placeholder?: string
+  placeholder?: string,
+  forceFocus?: boolean
 }
 
 export const TextInput = ({ 
@@ -54,7 +55,8 @@ export const TextInput = ({
   onEnter,
   name,
   onChangeEvent,
-  placeholder
+  placeholder,
+  forceFocus
 }: Props) => {
 
   const [locked, setLocked] = useState(!!value)
@@ -77,6 +79,7 @@ export const TextInput = ({
       disabled={disabled} 
       success={success}
       compact={compact}
+      forceFocus={forceFocus}
     >
       <S.ErrorIconContainer>
         {
@@ -253,7 +256,8 @@ const S = {
     error?: string,
     disabled?: boolean,
     success?: boolean,
-    compact?: boolean
+    compact?: boolean,
+    forceFocus?: boolean
   }>`
     position: relative;
     display: flex;
@@ -269,7 +273,9 @@ const S = {
           ? 'var(--F_Outline_Success)' 
           : props.error
             ? 'var(--F_Outline_Error)'
-            : 'var(--F_Outline_Hover)'
+            : props.forceFocus
+              ? 'var(--F_Outline_Focus)'
+              : 'var(--F_Outline_Hover)'
       };
     }
     
@@ -279,7 +285,7 @@ const S = {
           ? 'var(--F_Outline_Success)' 
           : props.error
             ? 'var(--F_Outline_Error)'
-            : 'var(--F_Outline_Hover)'
+            : 'var(--F_Outline_Focus)'
       };
 
       /* border-bottom: 2px solid var(--F_Font_Color_Success); */
@@ -296,7 +302,9 @@ const S = {
         ? 'var(--F_Outline_Success)' 
         : props.error
           ? 'var(--F_Outline_Error)'
-          : 'var(--F_Outline)'
+          : props.forceFocus
+              ? 'var(--F_Outline_Focus)'
+              : 'var(--F_Outline)'
     };
     /* border-bottom: 2px solid var(--F_Surface_1); */
   `,
