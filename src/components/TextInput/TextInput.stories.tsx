@@ -59,3 +59,11 @@ NoLabel.args = {
 
 }
 
+export const Compact = Template.bind({})
+Compact.args = {
+  label: 'Search',
+  icon: 'search',
+  compact: true,
+  iconPrefix: 'fas',
+  placeholder: 'Search'
+}

@@ -12,8 +12,8 @@ type Props = {
   label?: string,
   error?: string,
   disabled?: boolean,
+  compact?: boolean,
   success?: boolean,
-  textarea?: boolean,
   type?: string,
   id?: string,
   onChange?: (value: string) => void,
@@ -28,7 +28,8 @@ type Props = {
   ref?: any,
   labelColor?: ColorType,
   onEnter?: () => void,
-  onChangeEvent?: (e: any) => void
+  onChangeEvent?: (e: any) => void,
+  placeholder?: string
 }
 
 export const TextInput = ({ 
@@ -36,7 +37,7 @@ export const TextInput = ({
   error, 
   success, 
   disabled, 
-  textarea, 
+  compact,
   type, 
   onChange,
   id,
@@ -52,7 +53,8 @@ export const TextInput = ({
   labelColor,
   onEnter,
   name,
-  onChangeEvent
+  onChangeEvent,
+  placeholder
 }: Props) => {
 
   const [locked, setLocked] = useState(!!value)
@@ -74,6 +76,7 @@ export const TextInput = ({
       error={error} 
       disabled={disabled} 
       success={success}
+      compact={compact}
     >
       <S.ErrorIconContainer>
         {
@@ -132,6 +135,7 @@ export const TextInput = ({
         name={name}
         value={value}
         preventFocus={preventFocus}
+        placeholder={placeholder}
         onKeyDown={onEnter 
           ? e => {
               if (e.key === 'Enter') {
@@ -144,7 +148,7 @@ export const TextInput = ({
         ref={ref}
         id={id}
         hasIcon={icon !== undefined || labelColor !== undefined} 
-        hasLabel={label !== undefined}
+        hasLabel={label !== undefined && !compact}
         type={type ? type : 'text'}
         locked={locked}
         focused={focused}
@@ -182,6 +186,7 @@ export const TextInput = ({
         hasIcon={icon !== undefined || labelColor !== undefined} 
         shrink={value !== '' || focused}
         disableAnimation={value !== '' && !focused}
+        hide={label === undefined || compact}
       >
         {
           label
@@ -247,14 +252,15 @@ const S = {
   Container: styled.div<{
     error?: string,
     disabled?: boolean,
-    success?: boolean
+    success?: boolean,
+    compact?: boolean
   }>`
     position: relative;
     display: flex;
     align-items: center;
     padding: 0 1rem;
     width: calc(100% - 2rem);
-    height: calc(var(--F_Input_Height) + 1rem);
+    height: ${props => props.compact ? 'var(--F_Input_Height)' : 'calc(var(--F_Input_Height) + 1rem)'};
     line-height: 0;
 
     &:hover {
@@ -273,12 +279,12 @@ const S = {
           ? 'var(--F_Outline_Success)' 
           : props.error
             ? 'var(--F_Outline_Error)'
-            : 'var(--F_Outline_Success)'
+            : 'var(--F_Outline_Hover)'
       };
 
       /* border-bottom: 2px solid var(--F_Font_Color_Success); */
       label {
-        color: var(--F_Font_Color_Success);
+        color: var(--F_Font_Color);
       }
 
     };
@@ -330,8 +336,10 @@ const S = {
     hasIcon: boolean,
     focused: boolean,
     shrink: boolean,
-    disableAnimation: boolean
+    disableAnimation: boolean,
+    hide?: boolean
   }>`
+    display: ${props => props.hide ? 'none' : 'flex'};
     position: absolute;
     top: 50%;
     line-height: 0;
