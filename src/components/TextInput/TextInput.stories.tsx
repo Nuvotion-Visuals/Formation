@@ -23,12 +23,22 @@ Regular.args = {
   label: 'First name',
 }
 
-export const Icon = Template.bind({})
-Icon.args = {
+export const Email = Template.bind({})
+Email.args = {
   label: 'Email address',
   icon: 'envelope',
-  iconPrefix: 'fas'
+  iconPrefix: 'fas',
+  type: 'email',
 }
+
+export const Phone = Template.bind({})
+Phone.args = {
+  label: 'Phone number',
+  icon: 'phone',
+  iconPrefix: 'fas',
+  type: 'tel',
+}
+
 
 export const Error = Template.bind({})
 Error.args = {

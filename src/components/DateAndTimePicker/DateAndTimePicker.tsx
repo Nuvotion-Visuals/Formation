@@ -175,12 +175,6 @@ export const DateAndTimePicker = ({
         ))
       }
 
-      <Box pt={.5} width='100%' hide={!editTimeZone}>
-        <TimeZone
-          value={timeZone}
-          onChange={newValue => set_timeZone(newValue)}
-        />
-      </Box>
       
 
       <Box pt={.5} width='100%'>
@@ -196,6 +190,14 @@ export const DateAndTimePicker = ({
         </Box>
         
       </Box>
+
+      <Box pt={.75} width='100%' hide={!editTimeZone}>
+        <TimeZone
+          value={timeZone}
+          onChange={newValue => set_timeZone(newValue)}
+        />
+      </Box>
+      
     </Box>
   )
 }

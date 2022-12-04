@@ -12,7 +12,7 @@ const Template: ComponentStory<typeof DateAndTimePicker> = args => {
   const [value, set_value] = useState([{
     startTime: '',
     endTime: '',
-    date: new Date().toDateString()
+    date: ''
   }])
 
   useEffect(() => {

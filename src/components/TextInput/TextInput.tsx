@@ -84,19 +84,7 @@ export const TextInput = ({
       forceFocus={forceFocus}
     >
       <S.ErrorIconContainer>
-        {
-          success 
-            ? <S.IconContainer 
-              error={false}
-            >
-                <Icon 
-                  icon='check' 
-                  iconPrefix={iconPrefix}
-                  fixedWidth
-                />
-              </S.IconContainer> 
-            : null
-        }
+        
         {
           labelColor
             ? <S.IconContainer 
@@ -112,20 +100,9 @@ export const TextInput = ({
                 </S.IconContainer> 
             : null
         }
+    
         {
-          error 
-            ? <S.IconContainer 
-                error={true}
-              >
-                <Icon 
-                  icon='exclamation-triangle' 
-                  iconPrefix={iconPrefix}
-                />
-              </S.IconContainer> 
-            : null
-        }
-        {
-          !error && !success && icon
+          icon
             ? <Icon 
                 icon={icon} 
                 iconPrefix={iconPrefix}
@@ -139,6 +116,7 @@ export const TextInput = ({
         disableAnimation={value !== '' && !focused}
         name={name}
         value={value}
+        compact={compact}
         preventFocus={preventFocus}
         placeholder={placeholder}
         onKeyDown={onEnter 
@@ -150,7 +128,6 @@ export const TextInput = ({
           : undefined
         }
         ref={autoFocusRef}
-        // ref={ref}
         id={id}
         hasIcon={icon !== undefined || labelColor !== undefined} 
         hasLabel={label !== undefined && !compact}
@@ -172,7 +149,6 @@ export const TextInput = ({
             setLocked(false)
           }
         }}
-        autoComplete={'off'}
         onFocus={() => {
           setLocked(true)
           setFocused(true)
@@ -228,12 +204,12 @@ export const TextInput = ({
 const moveUp = keyframes`
   0% { 
     top: 1.5rem; 
-    font-size: var(--F_Font_Size);
+    font-size: var(--F_Font_Size_Large);
 
   }
   100% { 
     top: 1rem; 
-    /* font-size: calc(var(--F_Font_Size) * .9); */
+    font-size: var(--F_Font_Size);
   }
 `
 
@@ -294,14 +270,12 @@ const S = {
             : 'var(--F_Outline_Focus)'
       };
 
-      /* border-bottom: 2px solid var(--F_Font_Color_Success); */
       label {
         color: var(--F_Font_Color);
       }
 
     };
-    /* background: var(--F_Background_Alternating); */
-    border-radius: 1rem;
+    border-radius: .75rem;
 
     box-shadow: ${props => 
       props.success 
@@ -312,7 +286,6 @@ const S = {
               ? 'var(--F_Outline_Focus)'
               : 'var(--F_Outline)'
     };
-    /* border-bottom: 2px solid var(--F_Surface_1); */
   `,
   Input: styled.input<{
     name?: string,
@@ -328,13 +301,16 @@ const S = {
     onChange?: (e : any) => void,
     preventFocus?: boolean,
     shrink: boolean,
-    disableAnimation: boolean
+    disableAnimation: boolean,
+    compact?: boolean
   }>`
     width: 100%;
-    height: var(--F_Input_Height);
+    height: 100%;
     position: relative;
     font-size: var(--F_Font_Size_Title);
+    font-size: ${props => props.compact ? 'var(--F_Font_Size)' : 'var(--F_Font_Size_Large)'};
     vertical-align: center;
+    line-height: 1em;
     border: none;
     padding-left: ${props => props.hasIcon ? '.75rem' : '0'};
     outline: none;
@@ -351,7 +327,7 @@ const S = {
     focused: boolean,
     shrink: boolean,
     disableAnimation: boolean,
-    hide?: boolean
+    hide?: boolean,
   }>`
     display: ${props => props.hide ? 'none' : 'flex'};
     position: absolute;
@@ -360,33 +336,9 @@ const S = {
     height: .5rem;
     left: ${props => props.hasIcon ? '2.65rem' : '1rem'};
     color: var(--F_Font_Color_Label);
-    font-size: var(--F_Font_Size);
+    font-size: var(--F_Font_Size_Large);
     pointer-events: none;
     animation: ${props => props.shrink ? css`${moveUp} ${props.disableAnimation ? '0s' : '.15s'} forwards` : 'none'};
-  `,
-  FloatingLabel: styled.div<{
-    error?: string,
-    disabled?: boolean,
-    success?: boolean
-  }>`
-    display: flex;
-    font-size: var(--F_Font_Size);
-    line-height: 1;
-    pointer-events: none;
-    letter-spacing: var(--F_Letter_Spacing_Header);
-    left: 1rem;
-    transition: 0.2s ease all;
-    z-index: 1;
-    margin-left: .5rem;
-    padding-bottom: 8px;
-    color: ${props => props.error 
-      ? 'var(--F_Font_Color_Error)' 
-      : props.disabled
-        ? 'var(--F_Font_Color_Disabled)'
-        : props.success
-          ? 'var(--F_Font_Color_Success)'
-          : 'var(--F_Font_Color_Label)'
-    };
   `,
   ErrorContainer: styled.div`
     width: 100%;

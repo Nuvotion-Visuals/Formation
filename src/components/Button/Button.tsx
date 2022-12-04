@@ -87,7 +87,7 @@ export const Button: FC<Props> = React.memo(({
                   rotation={rotate ? 90 : undefined}
                   size={
                     hero 
-                      ? ('2x' as SizeProp) // type coersion needed until FA SizeProp defintion is fixed to include "xl"
+                      ? ('xl' as SizeProp) // type coersion needed until FA SizeProp defintion is fixed to include "xl"
                       : 'lg'
                     } 
                 />
