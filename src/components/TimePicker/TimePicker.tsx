@@ -128,7 +128,8 @@ interface Props {
   label?: string,
   onChange: (arg0: string) => void,
   error?: string,
-  iconPrefix?: IconPrefix
+  iconPrefix?: IconPrefix,
+  autoFocus?: boolean
 }
 
 export const TimePicker = ({
@@ -136,9 +137,10 @@ export const TimePicker = ({
   onChange,
   label,
   error,
-  iconPrefix
+  iconPrefix,
+  autoFocus
 }: Props) => {
-  const [isOpen, set_isOpen] = useState(false)
+  const [isOpen, set_isOpen] = useState(autoFocus)
   const [displayValue, set_displayValue] = useState(value)
 
   const updateTime = (value: string) => {
@@ -174,6 +176,7 @@ export const TimePicker = ({
         preventFocus={preventFocus}
         onBlur={() => set_preventFocus(isTouchCapable())}
         forceFocus={isOpen}
+        autoFocus={autoFocus}
       />
 
       {

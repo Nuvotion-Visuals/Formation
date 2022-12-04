@@ -1,12 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 
-import { Button } from '../../internal'
+import { Button, TimeZone } from '../../internal'
 import { Box } from '../../internal'
 import { Spacer } from '../../internal'
 import { Gap } from '../../internal'
 import { LineBreak } from '../../internal'
-import { getSuperscriptOrdinal, getOrdinal, capitalizeFirstLetter } from '../../utils'
+import { getSuperscriptOrdinal, getOrdinal, capitalizeFirstLetter, getTimezone } from '../../utils'
 
 import { DatePicker } from '../../internal'
 import { TimePicker } from '../../internal'
@@ -99,6 +99,9 @@ export const DateAndTimePicker = ({
     return difference
   }
 
+  const [editTimeZone, set_editTimeZone] = useState(false)
+  const [timeZone, set_timeZone] = useState<string | undefined>('')
+  
   return (
     <Box width='100%' wrap={true}>
       {
@@ -172,11 +175,26 @@ export const DateAndTimePicker = ({
         ))
       }
 
+      <Box pt={.5} width='100%' hide={!editTimeZone}>
+        <TimeZone
+          value={timeZone}
+          onChange={newValue => set_timeZone(newValue)}
+        />
+      </Box>
+      
+
       <Box pt={.5} width='100%'>
         <S.TextButton onClick={addDate}>
           {`Add a ${getOrdinal(value?.length + 1)} day`}
         </S.TextButton>
         <Spacer />
+        
+        <Box hide={editTimeZone}>
+          <S.TextButton onClick={() => set_editTimeZone(true)}>
+            {`${timeZone}`}
+          </S.TextButton>
+        </Box>
+        
       </Box>
     </Box>
   )

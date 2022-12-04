@@ -27,7 +27,8 @@ import {
   getBackground,
   getOutline,
   getInitials,
-  getColorFromGuid
+  getColorFromGuid,
+  getTimezone
 } from './utils'
 export {
   getSuperscriptOrdinal,
@@ -37,7 +38,8 @@ export {
   getBackground,
   getOutline,
   getInitials,
-  getColorFromGuid
+  getColorFromGuid,
+  getTimezone
 }
 
 // hooks

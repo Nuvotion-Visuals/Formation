@@ -22,6 +22,8 @@ export const getOrdinal = (number : number) => {
 
 export const isTouchCapable = () => 'ontouchstart' in document?.documentElement
 
+export const getTimezone = () => Intl.DateTimeFormat().resolvedOptions().timeZone
+
 export const reorderItems = (items: any[], previousIndex: number, nextIndex: number) => {
   const itemInPreviousPosition = items[previousIndex]
   const newItems = items

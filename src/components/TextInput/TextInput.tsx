@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import styled, { css, keyframes } from 'styled-components'
 
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
@@ -58,6 +58,8 @@ export const TextInput = ({
   placeholder,
   forceFocus
 }: Props) => {
+  // @ts-ignore
+  const autoFocusRef = useCallback(el => el && autoFocus ? el.focus() : null, [])
 
   const [locked, setLocked] = useState(!!value)
   const [focused, setFocused] = useState(!!value)
@@ -147,8 +149,8 @@ export const TextInput = ({
             }
           : undefined
         }
-        // ref={autoFocusRef}
-        ref={ref}
+        ref={autoFocusRef}
+        // ref={ref}
         id={id}
         hasIcon={icon !== undefined || labelColor !== undefined} 
         hasLabel={label !== undefined && !compact}

@@ -23,3 +23,10 @@ Regular.args = {
   label: 'Time',
   iconPrefix: 'fas'
 }
+
+export const AutoFocus = Template.bind({})
+AutoFocus.args = {
+  label: 'Time',
+  iconPrefix: 'fas',
+  autoFocus: true
+}

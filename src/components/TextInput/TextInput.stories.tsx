@@ -67,3 +67,9 @@ Compact.args = {
   iconPrefix: 'fas',
   placeholder: 'Search'
 }
+
+export const AutoFocus = Template.bind({})
+AutoFocus.args = {
+  label: 'First name',
+  autoFocus: true
+}
