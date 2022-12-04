@@ -80,32 +80,20 @@ export const Button: FC<Props> = React.memo(({
       >
         {
           icon !== undefined
-            ? <>
+            ? <S.IconContainer square={impliedSquare}>
               <Icon 
                   iconPrefix={iconPrefix ? iconPrefix : 'far'} 
                   icon={icon}  
                   rotation={rotate ? 90 : undefined}
                   size={
                     hero 
-                      ? ('xl' as SizeProp) // type coersion needed until FA SizeProp defintion is fixed to include "xl"
-                      : '1x'
+                      ? ('2x' as SizeProp) // type coersion needed until FA SizeProp defintion is fixed to include "xl"
+                      : 'lg'
                     } 
-                  fixedWidth
                 />
-                {
-                  !impliedSquare &&
-                  <Box 
-                  px={
-                    icon !== undefined 
-                      ? hero 
-                        ? .325 
-                        : .25 
-                      : 0
-                  } 
-                />
-                }
+              
                 
-              </>
+              </S.IconContainer>
             : null
         }
         {
@@ -117,10 +105,6 @@ export const Button: FC<Props> = React.memo(({
               >
                 {
                   text
-                }
-                {
-                  hero && icon !== undefined && !impliedSquare
-                    && <Box px={.125} />
                 }
               </S.Text> 
             : null
@@ -179,7 +163,10 @@ interface TextProps {
 }
 
 const calculateWidth = (props: ContainerProps) => {
-  if (props.hero) {
+  if (props.expand) {
+    return '100%'
+  }
+  else if (props.hero) {
     if (props.square) {
       return 'var(--F_Input_Height_Hero)'
     }
@@ -216,14 +203,13 @@ const calculateHeight = (props: ContainerProps) => {
   }
 }
 
-
 const calculatePadding = (props: ButtonProps) => {
   if (props.hero) {
     if (props.square) {
       return '0'
     }
     else {
-      return '0 1.25rem'
+      return '0 1.75rem'
     }
   }
   else {
@@ -231,7 +217,7 @@ const calculatePadding = (props: ButtonProps) => {
       return '0'
     }
     else {
-      return '0 .75rem'
+      return '0 1.125rem'
     }
   }
 }
@@ -245,13 +231,16 @@ const S = {
     height: ${props => calculateHeight(props)};
     max-width: ${props => calculateWidth(props)};
     width: ${props => calculateWidth(props)};
+    display: flex;
+    align-items: center;
+
+    a {
+      height: 100%;
+    }
   `,
   Text: styled.div<TextProps>`
     font-size: ${props => props.hero ? 'var(--F_Font_Size_Title)' : 'var(--F_Font_Size)'};
     display: flex;
-    line-height: 0;
-    height: 100%;
-    align-items: center;
   `,
   Button: styled.button.attrs({ 
     type: 'submit',
@@ -282,7 +271,7 @@ const S = {
     };
     pointer-events: ${props => props.disabled ? 'none' : 'default'}; 
     border-radius: ${props => 
-      props.hero && props.circle
+      props.circle
         ? '100%' 
         : props.tab 
           ? '.5rem .5rem 0 0' 
@@ -324,6 +313,11 @@ const S = {
       transform: translateY(1px);
     };
   `,
+  IconContainer: styled.div<{
+    square?: boolean
+  }>`
+    padding-right: ${props => props.square ? '0' : '.5rem'};
+  `
 }
 
 const blink = keyframes`
@@ -331,7 +325,7 @@ const blink = keyframes`
     background: var(--F_Surface);
   }
   50% {
-    background: rgba(192, 12, 0, .7);
+    background: var(--F_Primary);
   }
   100% {
     background: var(--F_Surface);

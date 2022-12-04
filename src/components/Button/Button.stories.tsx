@@ -105,3 +105,30 @@ LinkNewTab.args = {
   href: 'https://www.npmjs.com/package/@avsync.live/formation',
   newTab: true
 }
+
+export const Expand = Template.bind({})
+Expand.args = {
+  text: 'Download',
+  expand: true,
+  hero: true
+}
+
+export const Blink = Template.bind({})
+Blink.args = {
+  text: 'Download',
+  icon: 'download',
+  iconPrefix: 'fas',
+  expand: true,
+  hero: true,
+  blink: true
+}
+
+export const SingleBlink = Template.bind({})
+SingleBlink.args = {
+  text: 'Download',
+  icon: 'download',
+  iconPrefix: 'fas',
+  expand: true,
+  hero: true,
+  singleBlink: true
+}
