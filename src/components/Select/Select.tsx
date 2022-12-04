@@ -101,13 +101,14 @@ export const Select = ({
     >
       <TextInput
         label={label}
-        icon={icon}
+        icon={isOpen ? 'chevron-up' : 'chevron-down'}
         iconPrefix={iconPrefix}
         value={displayValue}
         onChange={value => onChange(value)}
         error={error}
         preventFocus={preventFocus}
         onBlur={() => set_preventFocus(isTouchCapable())}
+        forceFocus={isOpen}
       />
 
       {
@@ -117,7 +118,7 @@ export const Select = ({
               value={value}
               onClose={() => set_isOpen(false)}
               options={options}
-              hasIcon={icon !== undefined}
+              hasIcon={iconPrefix !== undefined}
             />
         : null
       }
@@ -150,7 +151,7 @@ const S = {
     z-index: 1;
     background: var(--F_Background);
     border-radius: .5rem;
-    box-shadow: var(--F_Outline_Hover);
+    box-shadow: var(--F_Outline_Outset_Focus);
     top: calc(var(--F_Input_Height) + .75rem);
     width: calc(100% - 1.5rem);
     min-width: 8rem;

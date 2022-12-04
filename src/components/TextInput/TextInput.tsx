@@ -264,7 +264,7 @@ const S = {
     align-items: center;
     padding: 0 1rem;
     width: calc(100% - 2rem);
-    height: ${props => props.compact ? 'var(--F_Input_Height)' : 'calc(var(--F_Input_Height) + 1rem)'};
+    height: ${props => props.compact ? 'var(--F_Input_Height)' : 'var(--F_Input_Height_Hero)'};
     line-height: 0;
 
     &:hover {
@@ -277,6 +277,10 @@ const S = {
               ? 'var(--F_Outline_Focus)'
               : 'var(--F_Outline_Hover)'
       };
+    }
+
+    label {
+      color: ${props => props.forceFocus ? 'var(--F_Font_Color)' : 'var(--F_Font_Color_Label)'};
     }
     
     &:focus-within {
@@ -295,7 +299,7 @@ const S = {
 
     };
     /* background: var(--F_Background_Alternating); */
-    border-radius: .75rem;
+    border-radius: 1rem;
 
     box-shadow: ${props => 
       props.success 

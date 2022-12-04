@@ -92,7 +92,10 @@ It’s easy to picture how a less saturated version of a color would look like, 
 /* Element proportions */
 :root {
   --F_Header_Height: 50px;
+  
   --F_Input_Height: 34px;
+  --F_Input_Height_Hero: calc(var(--F_Input_Height) + 1rem);
+
   --F_Sidebar_Width: 246px;
   --F_Sidebar_Width_Expanded: 246px;
   --F_Sidebar_Icon_Width: 72px;
