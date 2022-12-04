@@ -46,15 +46,18 @@ export const DateAndTimePicker = ({
 
     var ndate = new Date(date)
 
-    // Add a day
-    ndate.setDate(ndate.getDate() + 1)
+    if (date) {
 
-    // Add a day
-
+      // Add a day
+      ndate.setDate(ndate.getDate() + 1)
+  
+      // Add a day
+      
+    }
     onChange([
       ...value,
       {
-        date: ndate.toDateString(),
+        date: date ? ndate.toDateString() : '',
         startTime,
         endTime
       }
@@ -112,7 +115,7 @@ export const DateAndTimePicker = ({
                 <Gap disableWrap={true}>
                   <DatePicker
                     label={value?.length > 1 ? `${capitalizeFirstLetter(getOrdinal(index + 1))} day` : 'Date'}
-                    value={new Date(item?.date ? item.date : new Date())}
+                    value={item.date ? new Date(item.date) : null}
                     onChange={newDate => setValue(index, 'date', newDate.toString())}
                     iconPrefix={iconPrefix}
                   />
@@ -128,12 +131,17 @@ export const DateAndTimePicker = ({
                         iconPrefix='far'
                         secondary={true}
                         hero={true}
+                        circle={true}
                       /> 
                     : null
                   }
                 </Gap>
 
                 <Gap disableWrap={true}>
+                  {
+                    value?.length > 1 &&
+                      <Box px={.5} />
+                  }
                   <TimePicker
                     value={item.startTime}
                     label='Start time'
