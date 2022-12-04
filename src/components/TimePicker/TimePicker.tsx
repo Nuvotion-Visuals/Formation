@@ -114,7 +114,7 @@ const Times = ({
             onClose()
           }}
           active={value === item}
-          ref={value === item ? scrollToRef : null}
+          ref={value === item ? scrollToRef : item === '12:00 PM' ? scrollToRef : null }
         >
           { item }
         </S.Item>  
