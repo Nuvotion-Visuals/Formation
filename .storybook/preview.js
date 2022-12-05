@@ -57,7 +57,7 @@ library.add(
   fas.faUserPlus, fas.faAddressCard, fas.faHandshakeAngle,
   fas.faArchive, fas.faShare, fas.faTimes, fas.faMessage,
   fas.faHashtag, fas.faMapPin, fas.faBookmark, fas.faDownload,
-  fas.faExternalLink
+  fas.faExternalLink, fas.faCrop
 )
 
 export const parameters = {
