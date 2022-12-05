@@ -107,3 +107,17 @@ Fullscreen.args = {
 Fullscreen.parameters = {
   layout: 'fullscreen'
 }
+
+export const Back = Template.bind({})
+Back.args = {
+  title: 'Fullscreen Modal',
+  icon: 'heart',
+  iconPrefix: 'fas',
+  content,
+  size: 'sm',
+  fullscreen: true,
+  back: true
+}
+Fullscreen.parameters = {
+  layout: 'fullscreen'
+}

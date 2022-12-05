@@ -12,7 +12,8 @@ interface Props {
   size: 'sm' | 'md' | 'lg' | 'tall' | 'xl',
   fullscreen?: boolean,
   isOpen: boolean,
-  onClose: () => void
+  onClose: () => void,
+  back?: boolean
 }
 
 export const Modal = ({ 
@@ -23,7 +24,8 @@ export const Modal = ({
   size,
   fullscreen,
   isOpen,
-  onClose
+  onClose,
+  back
 }: Props) => {
 
   const sizes = {
@@ -47,8 +49,12 @@ export const Modal = ({
           icon={icon} 
           iconPrefix={iconPrefix}
           closeModal={onClose}
+          fullscreen={fullscreen}
+          back={back}
         />
-        <S.Content>
+        <S.Content 
+          fullscreen={fullscreen}
+        >
           <S.ModalContent>
             {
               content
@@ -82,7 +88,7 @@ const S = {
     size: string,
     fullscreen?: boolean
   }>`
-    box-shadow: ${props => props.fullscreen ? 'none' : 'var(--F_Outline)'};
+    box-shadow: ${props => props.fullscreen ? 'none' : 'var(--F_Outline_Outset)'};
     background: var(--F_Background);
     overflow: hidden;
     border-radius: ${props => props.fullscreen ? '0' : '.5rem'};
@@ -101,11 +107,13 @@ const S = {
     max-width: ${props => props.fullscreen ? '100%' : '90vw'};
     max-height: ${props => props.fullscreen ? '100%' : '95vh'};
   `,
-  Content: styled.div`
+  Content: styled.div<{
+    fullscreen?: boolean
+  }>`
     display: flex;
     height: 100%;
-    width: calc(100% - 1.5rem);
-    padding: .75rem;
+    width: ${props => props.fullscreen ? 'calc(100% - 1.5rem)' : 'calc(100% - 1rem)'};
+    padding: ${props => props.fullscreen ? '.75rem' : '.5rem'};
     padding-top: 0;
     overflow-y: auto;
   `,
