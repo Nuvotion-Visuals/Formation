@@ -3,9 +3,12 @@ import styled from 'styled-components'
 
 import ReactQuill from 'react-quill'
 import './quill.css'
-import { Box, LineBreak, Spacer } from '../../internal'
+import { Box, Icon, LineBreak, Spacer } from '../../internal'
+import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 
 interface Props {
+  icon?: IconName,
+  iconPrefix?: IconPrefix,
   label?: string,
   placeholder?: string,
   value: any,
@@ -13,6 +16,8 @@ interface Props {
 }
 
 export const RichTextEditor = ({ 
+  icon,
+  iconPrefix,
   label,
   placeholder,
   value,
@@ -56,6 +61,13 @@ export const RichTextEditor = ({
             }}
             shrink={show}
           >
+            {
+              icon &&
+                <Box pr={.5}>
+                  <Icon icon={icon} iconPrefix={iconPrefix} />
+                </Box>
+            }
+            
             {
               label
             }

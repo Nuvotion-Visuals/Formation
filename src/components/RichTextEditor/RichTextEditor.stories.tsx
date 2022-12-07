@@ -32,3 +32,11 @@ Label.args = {
   label: 'Description',
   placeholder: 'Write a description'
 }
+
+export const Icon = Template.bind({})
+Icon.args = {
+  label: 'Description',
+  placeholder: 'Write a description',
+  icon: 'info-circle',
+  iconPrefix: 'fas'
+}
