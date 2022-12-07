@@ -610,7 +610,7 @@
   text-decoration: underline;
 }
 .ql-snow .ql-editor blockquote {
-  border-left: 4px solid #ccc;
+  border-left: 4px solid var(--F_Font_Color_Label);
   margin-bottom: 5px;
   margin-top: 5px;
   padding-left: 16px;
@@ -676,14 +676,14 @@
   padding-top: 5px;
 }
 .ql-snow .ql-picker.ql-expanded .ql-picker-label {
-  color: #ccc;
+  color: var(--F_Font_Color_Label);
   z-index: 2;
 }
 .ql-snow .ql-picker.ql-expanded .ql-picker-label .ql-fill {
-  fill: #ccc;
+  fill: var(--F_Font_Color_Label);
 }
 .ql-snow .ql-picker.ql-expanded .ql-picker-label .ql-stroke {
-  stroke: #ccc;
+  stroke: var(--F_Font_Color_Label);
 }
 .ql-snow .ql-picker.ql-expanded .ql-picker-options {
   display: block;
@@ -857,10 +857,10 @@
   box-shadow: rgba(0,0,0,0.2) 0 2px 8px;
 }
 .ql-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-label {
-  border-color: #ccc;
+  border-color: var(--F_Font_Color_Label);
 }
 .ql-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-options {
-  border-color: #ccc;
+  border-color: var(--F_Font_Color_Label);
 }
 .ql-toolbar.ql-snow .ql-color-picker .ql-picker-item.ql-selected,
 .ql-toolbar.ql-snow .ql-color-picker .ql-picker-item:hover {
@@ -871,7 +871,7 @@
 }
 .ql-snow .ql-tooltip {
   background-color: var(--F_Background);
-  box-shadow: var(--F_Outline_Hover);
+  box-shadow: var(--F_Outline_Focus);
   color: var(--F_Font_Color_Label);
   border-radius: .5rem;
   padding: .5rem 1rem;
@@ -888,12 +888,10 @@
   height: var(--F_Input_Height);
   color: var(--F_Font_Color);
   margin: 0px;
-  padding: 0 1rem;
   width: 170px;
   background: none;
   border: none;
   outline: none;
-  box-shadow: var(--F_Outline);
   border-radius: .75rem;
 }
 .ql-snow .ql-tooltip a.ql-preview {
@@ -904,7 +902,7 @@
   vertical-align: top;
 }
 .ql-snow .ql-tooltip a.ql-action::after {
-  border-right: 1px solid #ccc;
+  border-right: 1px solid var(--F_Font_Color_Label);
   content: 'Edit';
   margin-left: 16px;
   padding-right: 8px;

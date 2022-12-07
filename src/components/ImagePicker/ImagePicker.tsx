@@ -6,6 +6,7 @@ import { Button, Spacer, Notification, AspectRatio, Box, Gap, NumberSlider } fro
 import styled from 'styled-components'
 import { useState, useCallback, useRef, useEffect } from 'react'
 import Cropper from 'react-easy-crop'
+import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 
 const createImage = (url : string) : HTMLImageElement =>
   // @ts-ignore
@@ -100,7 +101,10 @@ interface Props {
   onChange: (src: string) => void,
   value: string,
   ratio: number,
-  circle?: boolean
+  circle?: boolean,
+  hero?: boolean,
+  icon?: IconName,
+  iconPrefix?: IconPrefix
 }
 
 export const ImagePicker = ({
@@ -108,7 +112,10 @@ export const ImagePicker = ({
   value,
   label = 'image',
   ratio = 1,
-  circle
+  circle,
+  hero,
+  icon,
+  iconPrefix
 } : Props) => {
 
   const [loading, setLoading] = useState(false)
@@ -171,23 +178,26 @@ export const ImagePicker = ({
           <Gap gap={.75} disableWrap={true}>
             <Spacer>
               <Button
-                text={value ? `Change ${label}` : `Upload ${label}`}
+                text={value ? `Change ${label}` : `Select ${label}`}
                 onClick={onClickHandler}
                 expand={true}
-                icon='image'
-                iconPrefix='fas'
+                icon={icon}
+                iconPrefix={iconPrefix}
+                hero={hero}
+
               />
             </Spacer>
 
             {
               value &&
                 <Button
-                  icon='crop'
-                  iconPrefix='fas'
+                  icon={'crop'}
+                  iconPrefix={iconPrefix ? iconPrefix : 'fas'}
                   onClick={() => {
                     set_editing(true)
                   }}
                   secondary={true}
+                  hero={hero}
                 />
             }
 
@@ -196,8 +206,10 @@ export const ImagePicker = ({
                 <Button
                   onClick={onClear}
                   secondary={true}
-                  icon='trash-alt'
-                  iconPrefix='fas'
+                  icon='eraser'
+                  iconPrefix={iconPrefix}
+                  hero={hero}
+
                 />
             }
           </Gap>
@@ -224,8 +236,11 @@ export const ImagePicker = ({
                   disabled={loading}
                   primary={!loading}
                   onClick={onCrop}
-                  blink={!loading}
                   expand={true}
+                  hero={hero}
+                  icon={icon}
+                  iconPrefix={iconPrefix}
+                  blink={!loading}
                 />
               </Spacer>
           
@@ -236,6 +251,8 @@ export const ImagePicker = ({
                 onClick={() => {
                   set_editing(false)}
                 }
+                hero={hero}
+
               />
             </Gap>
           : null

@@ -95,6 +95,7 @@ const S = {
     box-shadow: var(--F_Outline);
     border-radius: .5rem;
     transition: .15s height; 
+    position: relative;
 
     &:hover {
       box-shadow: var(--F_Outline_Hover);
