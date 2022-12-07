@@ -268,10 +268,14 @@ export const ImagePicker = ({
         : null
     }
 
-    <Box hide={editing} width='100%'>
-      <AspectRatio backgroundSrc={value} ratio={ratio} coverBackground={true}>
-      </AspectRatio>
+    {
+      !editing && value && 
+      <Box hide={editing} width='100%'>
+        <AspectRatio backgroundSrc={value} ratio={ratio} coverBackground={true}>
+        </AspectRatio>
     </Box>
+    }
+    
     </Gap>
     
     {
@@ -297,6 +301,14 @@ export const ImagePicker = ({
         : null
     }
 
+{
+      (editing) && 
+      <S_Spacer>
+        <AspectRatio backgroundSrc={value} ratio={ratio} coverBackground={true}>
+        </AspectRatio>
+      </S_Spacer>
+    }
+
 
 
   </S_Container>)
@@ -317,4 +329,11 @@ const S_CropperContainer = styled.div`
 const S_Image = styled.img`
   width: 100%;
   margin-top: .7rem;
+
+
+`
+
+const S_Spacer = styled.div`
+  width: 100%;
+  pointer-events: none;
 `

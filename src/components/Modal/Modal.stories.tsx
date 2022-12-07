@@ -31,9 +31,16 @@ const Template: ComponentStory<typeof Modal> = (args) => {
   )
 }
 
-const content = <AspectRatio ratio={16/9} >
+const content = <>
+<AspectRatio ratio={16/9} >
+  <Empty />
+</AspectRatio><AspectRatio ratio={16/9} >
   <Empty />
 </AspectRatio>
+<AspectRatio ratio={16/9} >
+  <Empty />
+</AspectRatio>
+</>
 
 export const ExtraLarge = Template.bind({})
 ExtraLarge.args = {
@@ -41,7 +48,8 @@ ExtraLarge.args = {
   icon: 'heart',
   iconPrefix: 'fas',
   content,
-  size: 'xl'
+  size: 'xl',
+  onBack: undefined
 }
 ExtraLarge.parameters = {
   layout: 'fullscreen'
@@ -53,7 +61,8 @@ Large.args = {
   icon: 'heart',
   iconPrefix: 'fas',
   content,
-  size: 'lg'
+  size: 'lg',
+  onBack: undefined
 }
 Large.parameters = {
   layout: 'fullscreen'
@@ -65,7 +74,8 @@ Medium.args = {
   icon: 'heart',
   iconPrefix: 'fas',
   content,
-  size: 'md'
+  size: 'md',
+  onBack: undefined
 }
 Medium.parameters = {
   layout: 'fullscreen'
@@ -77,7 +87,8 @@ Tall.args = {
   icon: 'heart',
   iconPrefix: 'fas',
   content,
-  size: 'tall'
+  size: 'tall',
+  onBack: undefined
 }
 Tall.parameters = {
   layout: 'fullscreen'
@@ -89,7 +100,8 @@ Small.args = {
   icon: 'heart',
   iconPrefix: 'fas',
   content,
-  size: 'sm'
+  size: 'sm',
+  onBack: undefined
 }
 Small.parameters = {
   layout: 'fullscreen'
@@ -102,7 +114,8 @@ Fullscreen.args = {
   iconPrefix: 'fas',
   content,
   size: 'sm',
-  fullscreen: true
+  fullscreen: true,
+  onBack: undefined
 }
 Fullscreen.parameters = {
   layout: 'fullscreen'
@@ -115,9 +128,49 @@ Back.args = {
   iconPrefix: 'fas',
   content,
   size: 'sm',
-  fullscreen: true,
-  back: true
+  fullscreen: true
 }
 Fullscreen.parameters = {
+  layout: 'fullscreen'
+}
+
+export const Footer = Template.bind({})
+Footer.args = {
+  title: 'Footer',
+  icon: 'heart',
+  iconPrefix: 'fas',
+  content,
+  size: 'lg',
+  onBack: undefined,
+  footerContent: <>
+    <Button
+      text='Next'
+      primary={true}
+      expand={true}
+    />
+  </>
+}
+Footer.parameters = {
+  layout: 'fullscreen'
+}
+
+export const FooterFullscreen = Template.bind({})
+FooterFullscreen.args = {
+  title: 'Footer fullscreen',
+  icon: 'heart',
+  iconPrefix: 'fas',
+  content,
+  size: 'sm',
+  fullscreen: true,
+  onBack: undefined,
+  footerContent: <>
+    <Button
+      text='Next'
+      primary={true}
+      expand={true}
+    />
+  </>
+}
+FooterFullscreen.parameters = {
   layout: 'fullscreen'
 }

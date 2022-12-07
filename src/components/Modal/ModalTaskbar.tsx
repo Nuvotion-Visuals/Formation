@@ -9,26 +9,26 @@ interface Props {
   icon: IconName,
   iconPrefix: IconPrefix,
   title: string,
-  closeModal: () => void,
-  fullscreen?: boolean,
-  back?: boolean
+  onClose?: () => void,
+  onBack?: () => void,
+  fullscreen?: boolean
 }
 
 export const ModalTaskbar = ({
   icon, 
   iconPrefix,
   title, 
-  closeModal,
+  onClose,
+  onBack,
   fullscreen,
-  back
 } : Props) => {
   return (
     <S_ModalTaskbar fullscreen={fullscreen}>
       {
-        back &&
+        onBack &&
           <Button
-            onClick={closeModal} 
-            title='Close'
+            onClick={onBack} 
+            title='Back'
             icon='chevron-left' 
             iconPrefix={iconPrefix}
           />
@@ -39,9 +39,9 @@ export const ModalTaskbar = ({
       </S_Center>
       <Spacer />
       {
-        !back &&
+        onClose &&
           <Button
-            onClick={closeModal} 
+            onClick={onClose} 
             title='Close'
             icon='times' 
             iconPrefix={iconPrefix}

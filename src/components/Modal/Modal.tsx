@@ -12,8 +12,10 @@ interface Props {
   size: 'sm' | 'md' | 'lg' | 'tall' | 'xl',
   fullscreen?: boolean,
   isOpen: boolean,
-  onClose: () => void,
-  back?: boolean
+  onClose?: () => void,
+  onBack?: () => void,
+  back?: boolean,
+  footerContent?: React.ReactNode
 }
 
 export const Modal = ({ 
@@ -25,7 +27,8 @@ export const Modal = ({
   fullscreen,
   isOpen,
   onClose,
-  back
+  onBack,
+  footerContent
 }: Props) => {
 
   const sizes = {
@@ -48,19 +51,30 @@ export const Modal = ({
           title={title} 
           icon={icon} 
           iconPrefix={iconPrefix}
-          closeModal={onClose}
+          onClose={onClose}
+          onBack={onBack}
           fullscreen={fullscreen}
-          back={back}
         />
+
         <S.Content 
           fullscreen={fullscreen}
+          footer={footerContent !== undefined}
         >
-          <S.ModalContent>
+          <S.ModalContent >
             {
               content
             }
           </S.ModalContent>
         </S.Content>
+
+        {
+          footerContent && 
+            <S.Footer fullscreen={fullscreen}>
+              {
+                footerContent
+              }
+            </S.Footer>
+        }
       </S.Modal>
     </S.ModalContainer>
   )
@@ -102,20 +116,37 @@ const S = {
     height: ${props => 
       props.fullscreen 
         ? '100%'
-        : 'auto'
+        : '500px'
     };
+
     max-width: ${props => props.fullscreen ? '100%' : '90vw'};
     max-height: ${props => props.fullscreen ? '100%' : '95vh'};
   `,
   Content: styled.div<{
-    fullscreen?: boolean
+    fullscreen?: boolean,
+    footer?: boolean
   }>`
     display: flex;
+    flex-wrap: wrap;
     height: 100%;
-    width: ${props => props.fullscreen ? 'calc(100% - 1.5rem)' : 'calc(100% - 1rem)'};
+    height: ${props => 
+      props.footer 
+        ? props.fullscreen
+          ? `calc(100% - calc(calc(var(--F_Header_Height) * 2) + 2rem))` 
+          : 'calc(100% - calc(calc(var(--F_Header_Height) * 2) + .75rem))'
+        : '100%'};
     padding: ${props => props.fullscreen ? '.75rem' : '.5rem'};
     padding-top: 0;
     overflow-y: auto;
+  `,
+  Footer: styled.div<{
+    fullscreen?: boolean
+  }>`
+    display: flex;
+    max-height: var(--F_Header_Height);
+    width: ${props => props.fullscreen ? 'calc(100% - 1.5rem)' : 'calc(100% - 1rem)'};
+    padding: ${props => props.fullscreen ? '.75rem' : '.5rem'};
+
   `,
   ModalContent: styled.div`
     color: var(--F_Font_Color);
@@ -124,5 +155,6 @@ const S = {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+
   `
 }

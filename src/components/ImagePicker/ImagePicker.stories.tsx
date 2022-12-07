@@ -2,8 +2,6 @@ import React, { useState } from 'react'
 
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { AspectRatio } from '../../internal'
-import { Empty } from '../../internal'
 import { ImagePicker } from '../../internal'
 
 export default {
@@ -13,12 +11,12 @@ export default {
 
 const Template: ComponentStory<typeof ImagePicker> = args => {
   const [value, set_value] = useState(args.value)
-  return (
+  return (<>
     <ImagePicker {...args}
       value={value}
       onChange={newValue => set_value(newValue)}
     />
-  )
+  </>)
 }
   
 export const Profile = Template.bind({})

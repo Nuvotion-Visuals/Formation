@@ -1,12 +1,16 @@
 import React from 'react'
 import styled from 'styled-components'
 
-export const LineBreak = ({  }) => <S.Break />
+interface Props {
+  light?: boolean
+}
+
+export const LineBreak = ({ light } : Props) => <S.Break light={light}/>
 
 const S = {
-  Break: styled.div`
+  Break: styled.div<Props>`
     width: 100%;
     display: flex;
-    border-bottom: 2px solid var(--F_Surface);
+    border-bottom: ${props => props.light ? '1px solid var(--F_Surface_0)' : '2px solid var(--F_Surface)'};
   `
 }
