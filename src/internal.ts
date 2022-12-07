@@ -92,6 +92,7 @@ import { Avatar } from './components/Avatar/Avatar'
 import { Placeholders } from './components/Placeholders/Placeholders'
 import { Modal } from './components/Modal/Modal'
 import { ImagePicker } from './components/ImagePicker/ImagePicker'
+import { RichTextEditor } from './components/RichTextEditor/RichTextEditor'
 
 export {
   AspectRatio,
@@ -124,7 +125,8 @@ export {
   Avatar,
   Placeholders,
   Modal,
-  ImagePicker
+  ImagePicker,
+  RichTextEditor
 }
 
 // Molecules (1)

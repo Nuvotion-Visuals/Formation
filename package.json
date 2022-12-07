@@ -135,8 +135,10 @@
     "react-div-100vh": "^0.7.0",
     "react-easy-crop": "^4.6.3",
     "react-html-parser": "^2.0.2",
+    "react-quill": "^2.0.0",
     "react-reorder": "^3.0.0-alpha.7",
     "react-responsive": "^9.0.0-beta.10",
+    "react-rte": "^0.16.5",
     "react-swipeable-views": "^0.14.0",
     "reading-time": "^1.5.0",
     "showdown": "^2.1.0"

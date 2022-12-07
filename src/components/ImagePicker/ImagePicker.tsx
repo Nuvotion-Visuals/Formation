@@ -21,7 +21,7 @@ const getRadianAngle = (degreeValue : number) => {
   return (degreeValue * Math.PI) / 180
 }
 
-export function rotateSize(width, height, rotation) {
+export function rotateSize(width: number, height: number, rotation: number) {
   const rotRad = getRadianAngle(rotation);
 
   return {
@@ -35,49 +35,57 @@ export function rotateSize(width, height, rotation) {
 export const cropImage = async (
   imageSrc: string, 
   pixelCrop: { x: number, y: number, width: number, height: number }, 
-  rotation = 0
+  rotation = 0,
+  flip: { horizontal: boolean, vertical: boolean }
 ) => {
   
-  const image = await createImage(imageSrc)
-  const canvas = document.createElement('canvas')
-  const ctx = canvas.getContext('2d')
+  const image = await createImage(imageSrc);
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
 
-  if (ctx) {
-    const maxSize = Math.max(image.width, image.height)
-    const safeArea = 2 * ((maxSize / 2) * Math.sqrt(2))
-  
-    // set each dimensions to double largest dimension to allow for a safe area for the
-    // image to rotate in without being clipped by canvas context
-    canvas.width = safeArea
-    canvas.height = safeArea
-  
-    // translate canvas context to a central location on image to allow rotating around the center.
-    ctx.translate(safeArea / 2, safeArea / 2)
-    ctx.rotate(getRadianAngle(rotation))
-    ctx.translate(-safeArea / 2, -safeArea / 2)
-  
-    // draw rotated image and store data.
-    ctx.drawImage(
-      image,
-      safeArea / 2 - image.width * 0.5,
-      safeArea / 2 - image.height * 0.5
-    )
-    const data = ctx.getImageData(0, 0, safeArea, safeArea)
-  
-    // set canvas width to final desired crop size - this will clear existing context
-    canvas.width = pixelCrop.width
-    canvas.height = pixelCrop.height
-  
-    // paste generated rotate image with correct offsets for x,y crop values.
-    ctx.putImageData(
-      data,
-      Math.round(0 - safeArea / 2 + image.width * 0.5 - pixelCrop.x),
-      Math.round(0 - safeArea / 2 + image.height * 0.5 - pixelCrop.y)
-    )
-  
-    // As Base64 string
-    return canvas.toDataURL('image/png')
+  if (!ctx) {
+    return null;
   }
+
+  const rotRad = getRadianAngle(rotation);
+
+  const { width: bBoxWidth, height: bBoxHeight } = rotateSize(
+    image.width,
+    image.height,
+    rotation
+  );
+
+  // set canvas size to match the bounding box
+  canvas.width = bBoxWidth;
+  canvas.height = bBoxHeight;
+
+  ctx.translate(bBoxWidth / 2, bBoxHeight / 2);
+  ctx.rotate(rotRad);
+  ctx.scale(flip.horizontal ? -1 : 1, flip.vertical ? -1 : 1);
+  ctx.translate(-image.width / 2, -image.height / 2);
+
+  ctx.drawImage(image, 0, 0);
+
+  const data = ctx.getImageData(
+    pixelCrop.x,
+    pixelCrop.y,
+    pixelCrop.width,
+    pixelCrop.height
+  );
+
+
+  canvas.width = pixelCrop.width;
+  canvas.height = pixelCrop.height;
+
+  ctx.putImageData(data, 0, 0);
+
+  return new Promise((resolve, reject) => {
+    canvas.toBlob((file) => {
+      if (file) {
+        resolve(URL.createObjectURL(file))
+      }
+    }, 'image/png');
+  })
 }
 
 interface CroppedAreaPixels {
@@ -88,13 +96,19 @@ interface CroppedAreaPixels {
 }
 
 interface Props {
+  label?: string,
   onChange: (src: string) => void,
-  value: string
+  value: string,
+  ratio: number,
+  circle?: boolean
 }
 
 export const ImagePicker = ({
   onChange,
-  value
+  value,
+  label = 'image',
+  ratio = 1,
+  circle
 } : Props) => {
 
   const [loading, setLoading] = useState(false)
@@ -109,6 +123,8 @@ export const ImagePicker = ({
   })
 
   const [file, setFile] = useState<File | null>(null)
+
+  const [editSrc, set_editSrc] = useState(value)
 
   
 
@@ -125,45 +141,63 @@ export const ImagePicker = ({
   }, [])
 
   const onCrop = () => {
-    set_editing(false);
+    
 
     (async () => {
-      const newSrc = await cropImage(value, croppedAreaPixels, rotation)
+      const newSrc = await cropImage(editSrc, croppedAreaPixels, rotation, { horizontal: false, vertical: false } )
       if (newSrc) {
-        onChange(newSrc)
+        onChange(newSrc as string)
         setZoom(1)
         setRotation(0)
+        set_editing(false);
       }
     })()
+  }
+
+  const reset = () => {
+    onChange('')
+    // setZoom(1)
+    // setRotation(0)
+  }
+
+  const onClear = () => {
+    reset()
   }
 
   return (<S_Container>
     <Gap gap={.75}>
       {
         !editing &&
-          <Gap gap={.75} disableWrap={true} autoWidth>
-            <Button
-              text={value ? 'Change image' : 'Upload image'}
-              onClick={onClickHandler}
-            />
-
-            {
-              value &&
-                <Button
-                  text={'Clear'}
-                  onClick={() => {
-                    onChange('')
-                    set_editing(false)
-                  }}
-                />
-            }
+          <Gap gap={.75} disableWrap={true}>
+            <Spacer>
+              <Button
+                text={value ? `Change ${label}` : `Upload ${label}`}
+                onClick={onClickHandler}
+                expand={true}
+                icon='image'
+                iconPrefix='fas'
+              />
+            </Spacer>
 
             {
               value &&
                 <Button
                   icon='crop'
                   iconPrefix='fas'
-                  onClick={() => set_editing(true)}
+                  onClick={() => {
+                    set_editing(true)
+                  }}
+                  secondary={true}
+                />
+            }
+
+            {
+              value &&
+                <Button
+                  onClick={onClear}
+                  secondary={true}
+                  icon='trash-alt'
+                  iconPrefix='fas'
                 />
             }
           </Gap>
@@ -175,33 +209,38 @@ export const ImagePicker = ({
           const newFile = (e.target as HTMLInputElement).files?.[0]
           if (newFile) {
             setFile(newFile)
-            onChange(URL.createObjectURL(newFile))
+            set_editSrc(URL.createObjectURL(newFile))
             set_editing(true)
           }
         }}
       />
 
       {
-        value && editing
+        editing
           ? <Gap disableWrap={true}>
-            <Button
-              text={'Cancel'}
-              disabled={loading}
-              secondary={true}
-              onClick={onCrop}
-            />
-            <Button
-              text={loading ? 'Saving...' : 'Save'}
-              disabled={loading}
-              primary={!loading}
-              onClick={onCrop}
-              blink={!loading}
-            />
+              <Spacer>
+                <Button
+                  text={loading ? 'Saving...' : `${label ? 'Save ' + label : 'Save'}`}
+                  disabled={loading}
+                  primary={!loading}
+                  onClick={onCrop}
+                  blink={!loading}
+                  expand={true}
+                />
+              </Spacer>
+          
+              <Button
+                text={'Cancel'}
+                disabled={loading}
+                secondary={true}
+                onClick={() => {
+                  set_editing(false)}
+                }
+              />
             </Gap>
           : null
       }
 
-      <Spacer />
 
     {
       error
@@ -213,34 +252,29 @@ export const ImagePicker = ({
         : null
     }
 
-    {
-      value && !editing &&
-        <AspectRatio backgroundSrc={value} ratio={2} coverBackground={true}>
-        </AspectRatio>
-    }
-
-{
-  editing && <NumberSlider value={rotation} onChange={setRotation} min={0} max={100} />
-}
-
+    <Box hide={editing} width='100%'>
+      <AspectRatio backgroundSrc={value} ratio={ratio} coverBackground={true}>
+      </AspectRatio>
+    </Box>
     </Gap>
     
-
     {
-      value && editing
+      editSrc && editing
         ?  <S_CropperContainer>
-            <AspectRatio ratio={4/3}>
+            <AspectRatio ratio={ratio + .2}>
               <Cropper
-                image={value}
+                image={editSrc}
                 crop={crop}
                 zoom={zoom}
-                aspect={2 / 1}
+                aspect={ratio}
                 onCropChange={setCrop}
                 onCropComplete={onCropComplete}
                 rotation={rotation}
                 onRotationChange={setRotation}
                 onZoomChange={setZoom}
                 objectFit={'horizontal-cover'}
+                cropShape={circle ? 'round' : 'rect'}
+                
               />
             </AspectRatio>
           </S_CropperContainer>
@@ -261,6 +295,7 @@ const S_CropperContainer = styled.div`
   position: absolute;
   width: 100%;
   height: 100%;
+  padding-top: .75rem;
 `
 
 const S_Image = styled.img`

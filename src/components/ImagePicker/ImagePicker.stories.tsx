@@ -21,8 +21,18 @@ const Template: ComponentStory<typeof ImagePicker> = args => {
   )
 }
   
-export const Regular = Template.bind({})
-Regular.args = {
+export const Profile = Template.bind({})
+Profile.args = {
+  label: 'profile pic',
+  ratio: 1,
+  circle: true
+}
+
+  
+export const Label = Template.bind({})
+Label.args = {
+  label: 'poster',
+  ratio: 2
 }
 
 
