@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useState } from 'react'
 import styled from 'styled-components'
 
 import ReactQuill from 'react-quill'
-import './quill.css'
 import { Box, Icon, LineBreak, Spacer } from '../../internal'
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 
@@ -57,7 +56,7 @@ export const RichTextEditor = ({
           <S.Label 
             onClick={() => {
               set_show(true);
-              
+              (quillRef.current as any).focus()
             }}
             shrink={show}
           >
@@ -106,12 +105,14 @@ const S = {
         color: var(--F_Font_Color);
       }
     }
+    
   `,
   TextEditorContainer: styled.div<{
     shrink?: boolean
   }>`
     width: 100%;
     display: ${props => props.shrink ? 'none' : 'block'};
+    
   `,
   Label: styled.label<{
     shrink?: boolean
@@ -124,6 +125,7 @@ const S = {
     padding: 0 1rem;
     align-items: center;
     border-bottom: ${props => props.shrink ? '1px solid var(--F_Surface)' : 'none'};
+    user-select: none;
   `
 }
 

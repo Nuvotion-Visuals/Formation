@@ -104,7 +104,7 @@ interface Props {
   circle?: boolean,
   hero?: boolean,
   icon?: IconName,
-  iconPrefix?: IconPrefix
+  iconPrefix: IconPrefix
 }
 
 export const ImagePicker = ({
@@ -207,9 +207,8 @@ export const ImagePicker = ({
                   onClick={onClear}
                   secondary={true}
                   icon='eraser'
-                  iconPrefix={iconPrefix}
+                  iconPrefix={iconPrefix ? iconPrefix : 'fas'}
                   hero={hero}
-
                 />
             }
           </Gap>

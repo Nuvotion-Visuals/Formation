@@ -49,9 +49,3 @@ Hero.args = {
 }
 
 
-export const ImageSelected = Template.bind({})
-ImageSelected.args = {
-  value: 'https://imageio.forbes.com/specials-images/imageserve/630c01b0d393e40c9e68eccc/Cover-of-Pink-Floyd-s-Animals--2018-Remix--/960x0.jpg?format=jpg&width=960'
-
-}
-
