@@ -47,3 +47,6 @@ export { Modal } from './Modal/Modal'
 export { NavTabs } from './NavSpaces/NavTabs' // fix
 export { SpacesSidebar } from './NavSpaces/SpacesSidebar'
 export { SpaceSidebar } from './NavSpaces/SpaceSidebar'
+export { ImagePicker } from './ImagePicker/ImagePicker'
+export { RichTextEditor } from './RichTextEditor/RichTextEditor'
+export { Steps } from './Steps/Steps'

@@ -22,6 +22,8 @@ export const getOrdinal = (number : number) => {
 
 export const isTouchCapable = () => 'ontouchstart' in document?.documentElement
 
+export const getTimezone = () => Intl.DateTimeFormat().resolvedOptions().timeZone
+
 export const reorderItems = (items: any[], previousIndex: number, nextIndex: number) => {
   const itemInPreviousPosition = items[previousIndex]
   const newItems = items
@@ -107,3 +109,6 @@ export const getColorFromGuid = (guid : string) => {
 
 export const getInitials = (name : string) => 
   name?.split(' ').map((n,i,a)=> i === 0 || i+1 === a.length ? n[0] : null).join('')
+
+
+export const capitalizeFirstLetter = (string: string) => string[0].toUpperCase() + string.substring(1)

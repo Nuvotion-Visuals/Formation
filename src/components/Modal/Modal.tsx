@@ -12,7 +12,11 @@ interface Props {
   size: 'sm' | 'md' | 'lg' | 'tall' | 'xl',
   fullscreen?: boolean,
   isOpen: boolean,
-  onClose: () => void
+  onClose?: () => void,
+  onBack?: () => void,
+  back?: boolean,
+  footerContent?: React.ReactNode,
+  stepsContent?: React.ReactNode
 }
 
 export const Modal = ({ 
@@ -23,7 +27,10 @@ export const Modal = ({
   size,
   fullscreen,
   isOpen,
-  onClose
+  onClose,
+  onBack,
+  footerContent,
+  stepsContent
 }: Props) => {
 
   const sizes = {
@@ -33,6 +40,8 @@ export const Modal = ({
     'tall': 1100,
     'xl': 1100
   }
+
+  const hasSteps = stepsContent !== undefined
 
   return (
     <S.ModalContainer show={isOpen}>
@@ -46,15 +55,35 @@ export const Modal = ({
           title={title} 
           icon={icon} 
           iconPrefix={iconPrefix}
-          closeModal={onClose}
+          onClose={onClose}
+          onBack={onBack}
         />
-        <S.Content>
-          <S.ModalContent>
+
+        <S.Content 
+          fullscreen={fullscreen}
+          footer={footerContent !== undefined}
+          hasSteps={hasSteps}
+        >
+          <S.ModalContent >
             {
               content
             }
           </S.ModalContent>
         </S.Content>
+
+        {
+          footerContent && 
+            <S.Footer fullscreen={fullscreen} hasSteps={hasSteps}>
+              {
+                stepsContent
+              }
+              <S.FooterContent>
+                {
+                  footerContent
+                }
+              </S.FooterContent>
+            </S.Footer>
+        }
       </S.Modal>
     </S.ModalContainer>
   )
@@ -82,7 +111,7 @@ const S = {
     size: string,
     fullscreen?: boolean
   }>`
-    box-shadow: ${props => props.fullscreen ? 'none' : 'var(--F_Outline)'};
+    box-shadow: ${props => props.fullscreen ? 'none' : 'var(--F_Outline_Outset)'};
     background: var(--F_Background);
     overflow: hidden;
     border-radius: ${props => props.fullscreen ? '0' : '.5rem'};
@@ -96,18 +125,49 @@ const S = {
     height: ${props => 
       props.fullscreen 
         ? '100%'
-        : 'auto'
+        : '500px'
     };
+
     max-width: ${props => props.fullscreen ? '100%' : '90vw'};
-    max-height: ${props => props.fullscreen ? '100%' : '95vw'};
+    max-height: ${props => props.fullscreen ? '100%' : '95vh'};
   `,
-  Content: styled.div`
+  Content: styled.div<{
+    fullscreen?: boolean,
+    footer?: boolean,
+    hasSteps?: boolean
+  }>`
     display: flex;
+    flex-wrap: wrap;
     height: 100%;
-    width: calc(100% - 1.5rem);
+    height: ${props => 
+      props.footer 
+        ? props.fullscreen
+          ?` calc(100% - calc(calc(var(--F_Header_Height) * 2) + ${props.hasSteps ? '2.325' : '2'}rem))`
+          : `calc(100% - calc(calc(var(--F_Header_Height) * 2) + ${props.hasSteps ? '2.5' : '2'}rem))`
+        : '100%'};
     padding: .75rem;
     padding-top: 0;
     overflow-y: auto;
+  `,
+  FooterContent: styled.div<{
+    fullscreen?: boolean,
+    hasSteps?: boolean
+  }>`
+    display: flex;
+    width: 100%;
+    align-items: flex-start;
+  `,
+  Footer: styled.div<{
+    fullscreen?: boolean,
+    hasSteps?: boolean
+  }>`
+    display: flex;
+    flex-wrap: wrap;
+    width: calc(100% - 1.5rem);
+    padding: .75rem;
+    padding-top: ${props => props.hasSteps ? '0' : '.75rem'};
+    gap: .75rem;
+    align-items: flex-start;
   `,
   ModalContent: styled.div`
     color: var(--F_Font_Color);
@@ -116,5 +176,6 @@ const S = {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+
   `
 }

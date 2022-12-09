@@ -60,7 +60,7 @@ const S = {
     flex-wrap: wrap;
     align-content: start;
     gap: .75rem;
-    border-right: 2px solid var(--F_Surface);
+    border-right: 1px solid var(--F_Surface);
     width: 74px;
     min-width: 74px;
     ::-webkit-scrollbar {

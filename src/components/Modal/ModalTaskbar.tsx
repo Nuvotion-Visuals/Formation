@@ -2,69 +2,74 @@ import styled from 'styled-components'
 
 import React from 'react'
 
-import { Icon, Spacer } from '../../internal'
+import { Icon, Spacer, Button } from '../../internal'
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 
 interface Props {
   icon: IconName,
   iconPrefix: IconPrefix,
   title: string,
-  closeModal: () => void
+  onClose?: () => void,
+  onBack?: () => void,
 }
 
 export const ModalTaskbar = ({
   icon, 
   iconPrefix,
   title, 
-  closeModal
+  onClose,
+  onBack,
 } : Props) => {
   return (
     <S_ModalTaskbar>
+      {
+        onBack &&
+          <Button
+            onClick={onBack} 
+            title='Back'
+            icon='chevron-left' 
+            iconPrefix={iconPrefix}
+          />
+      }
       <S_Center>
         <Icon icon={icon} iconPrefix={iconPrefix}/>
         <S_Text>{title}</S_Text>
       </S_Center>
       <Spacer />
-      <S_CloseContainer onClick={closeModal} title='Close'>
-        <Icon icon='times' iconPrefix={iconPrefix}/>
-      </S_CloseContainer>
+      {
+        onClose &&
+          <Button
+            onClick={onClose} 
+            title='Close'
+            icon='times' 
+            iconPrefix={iconPrefix}
+          />
+      }
     </S_ModalTaskbar>
   )
 }
 
-const S_ModalTaskbar = styled.div`
+const S_ModalTaskbar = styled.div<{
+  fullscreen?: boolean
+}>`
+  position: relative;
   display: flex;
   align-items: center;
   color: var(--F_Font_Color);
-  width: calc(100% - 1.5rem);
   overflow: hidden;
+  width: calc(100% - 1.5rem);
   padding: .75rem;
-`
-
-
-const S_CloseContainer = styled.div`
-  height: var(--F_Input_Height);
-  width: var(--F_Input_Height);
-  min-width: var(--F_Input_Height);
-  border-radius: .5rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  background: var(--F_Surface);
-  
-  &:hover {
-    background: var(--F_Surface_1);
-  }
 `
 
 const S_Center = styled.div`
   display: flex;
+  position: absolute;
+  left: 0;
   width: 100%;
   justify-content: center;
   align-items: center;
   gap: .5rem;
-  margin-bottom: -.125rem;
+  pointer-events: none;
 `
 
 const S_Text = styled.span`
@@ -73,5 +78,6 @@ const S_Text = styled.span`
   align-items: center;
   font-size: var(--F_Font_Size_Title);
   font-weight: 600;
-
+  line-height: 1em;
+  
 `

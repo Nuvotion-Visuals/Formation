@@ -11,9 +11,6 @@ export default {
 
 const Template: ComponentStory<typeof Location> = (args) => {
   const [value, set_value] = useState({} as LocationData)
-  useEffect(() => {
-    alert(value)
-  }, [value])
   return (
     <Location 
       {...args} 
@@ -26,6 +23,6 @@ const Template: ComponentStory<typeof Location> = (args) => {
 export const Regular = Template.bind({})
 Regular.args = {
   iconPrefix: 'fas',
-  value: '',
+  value: {},
   label: 'Location'
 }

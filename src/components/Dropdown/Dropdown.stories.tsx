@@ -21,7 +21,7 @@ Options.args = {
       iconPrefix: 'fas',
       dropDownOptions: [
         {
-          icon: 'folder',
+          icon: 'heart',
           text: 'Save'
         },
         {

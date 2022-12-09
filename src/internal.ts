@@ -27,7 +27,8 @@ import {
   getBackground,
   getOutline,
   getInitials,
-  getColorFromGuid
+  getColorFromGuid,
+  getTimezone
 } from './utils'
 export {
   getSuperscriptOrdinal,
@@ -37,7 +38,8 @@ export {
   getBackground,
   getOutline,
   getInitials,
-  getColorFromGuid
+  getColorFromGuid,
+  getTimezone
 }
 
 // hooks
@@ -89,6 +91,9 @@ import { Link } from './components/Link/Link'
 import { Avatar } from './components/Avatar/Avatar'
 import { Placeholders } from './components/Placeholders/Placeholders'
 import { Modal } from './components/Modal/Modal'
+import { ImagePicker } from './components/ImagePicker/ImagePicker'
+import { RichTextEditor } from './components/RichTextEditor/RichTextEditor'
+import { Steps } from './components/Steps/Steps'
 
 export {
   AspectRatio,
@@ -120,7 +125,10 @@ export {
   Link,
   Avatar,
   Placeholders,
-  Modal
+  Modal,
+  ImagePicker,
+  RichTextEditor,
+  Steps
 }
 
 // Molecules (1)

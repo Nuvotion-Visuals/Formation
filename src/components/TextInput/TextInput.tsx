@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import styled, { css, keyframes } from 'styled-components'
 
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
@@ -12,8 +12,8 @@ type Props = {
   label?: string,
   error?: string,
   disabled?: boolean,
+  compact?: boolean,
   success?: boolean,
-  textarea?: boolean,
   type?: string,
   id?: string,
   onChange?: (value: string) => void,
@@ -28,7 +28,9 @@ type Props = {
   ref?: any,
   labelColor?: ColorType,
   onEnter?: () => void,
-  onChangeEvent?: (e: any) => void
+  onChangeEvent?: (e: any) => void,
+  placeholder?: string,
+  forceFocus?: boolean
 }
 
 export const TextInput = ({ 
@@ -36,7 +38,7 @@ export const TextInput = ({
   error, 
   success, 
   disabled, 
-  textarea, 
+  compact,
   type, 
   onChange,
   id,
@@ -52,11 +54,15 @@ export const TextInput = ({
   labelColor,
   onEnter,
   name,
-  onChangeEvent
+  onChangeEvent,
+  placeholder,
+  forceFocus
 }: Props) => {
+  // @ts-ignore
+  const autoFocusRef = useCallback(el => el && autoFocus ? el.focus() : null, [])
 
-  const [locked, setLocked] = useState(value !== '')
-  const [focused, setFocused] = useState(value !== '')
+  const [locked, setLocked] = useState(!!value)
+  const [focused, setFocused] = useState(!!value)
 
   useEffect(() => {
     if (value) {
@@ -74,21 +80,11 @@ export const TextInput = ({
       error={error} 
       disabled={disabled} 
       success={success}
+      compact={compact}
+      forceFocus={forceFocus}
     >
       <S.ErrorIconContainer>
-        {
-          success 
-            ? <S.IconContainer 
-              error={false}
-            >
-                <Icon 
-                  icon='check' 
-                  iconPrefix={iconPrefix}
-                  fixedWidth
-                />
-              </S.IconContainer> 
-            : null
-        }
+        
         {
           labelColor
             ? <S.IconContainer 
@@ -104,20 +100,9 @@ export const TextInput = ({
                 </S.IconContainer> 
             : null
         }
+    
         {
-          error 
-            ? <S.IconContainer 
-                error={true}
-              >
-                <Icon 
-                  icon='exclamation-triangle' 
-                  iconPrefix={iconPrefix}
-                />
-              </S.IconContainer> 
-            : null
-        }
-        {
-          !error && !success && icon
+          icon
             ? <Icon 
                 icon={icon} 
                 iconPrefix={iconPrefix}
@@ -127,9 +112,13 @@ export const TextInput = ({
       </S.ErrorIconContainer>
 
       <S.Input
+        shrink={value !== '' || focused}
+        disableAnimation={value !== '' && !focused}
         name={name}
         value={value}
+        compact={compact}
         preventFocus={preventFocus}
+        placeholder={placeholder}
         onKeyDown={onEnter 
           ? e => {
               if (e.key === 'Enter') {
@@ -138,10 +127,10 @@ export const TextInput = ({
             }
           : undefined
         }
-        // ref={autoFocusRef}
-        ref={ref}
+        ref={autoFocusRef}
         id={id}
         hasIcon={icon !== undefined || labelColor !== undefined} 
+        hasLabel={label !== undefined && !compact}
         type={type ? type : 'text'}
         locked={locked}
         focused={focused}
@@ -160,7 +149,6 @@ export const TextInput = ({
             setLocked(false)
           }
         }}
-        autoComplete={'off'}
         onFocus={() => {
           setLocked(true)
           setFocused(true)
@@ -179,6 +167,7 @@ export const TextInput = ({
         hasIcon={icon !== undefined || labelColor !== undefined} 
         shrink={value !== '' || focused}
         disableAnimation={value !== '' && !focused}
+        hide={label === undefined || compact}
       >
         {
           label
@@ -214,13 +203,22 @@ export const TextInput = ({
 
 const moveUp = keyframes`
   0% { 
-    top: 0.6rem; 
-    font-size: var(--F_Font_Size);
+    top: 1.5rem; 
+    font-size: var(--F_Font_Size_Large);
 
   }
   100% { 
-    top: 0rem; 
-    font-size: calc(var(--F_Font_Size) * .9);
+    top: 1rem; 
+    font-size: var(--F_Font_Size);
+  }
+`
+
+const moveDown = keyframes`
+  0% { 
+    bottom: -.2rem; 
+  }
+  100% { 
+    bottom: -.6rem; 
   }
 `
 
@@ -230,17 +228,21 @@ const S = {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
+    
   `,
   Container: styled.div<{
     error?: string,
     disabled?: boolean,
-    success?: boolean
+    success?: boolean,
+    compact?: boolean,
+    forceFocus?: boolean
   }>`
     position: relative;
     display: flex;
     align-items: center;
     padding: 0 1rem;
     width: calc(100% - 2rem);
+    height: ${props => props.compact ? 'var(--F_Input_Height)' : 'var(--F_Input_Height_Hero)'};
     line-height: 0;
 
     &:hover {
@@ -249,8 +251,14 @@ const S = {
           ? 'var(--F_Outline_Success)' 
           : props.error
             ? 'var(--F_Outline_Error)'
-            : 'var(--F_Outline_Hover)'
+            : props.forceFocus
+              ? 'var(--F_Outline_Focus)'
+              : 'var(--F_Outline_Hover)'
       };
+    }
+
+    label {
+      color: ${props => props.forceFocus ? 'var(--F_Font_Color)' : 'var(--F_Font_Color_Label)'};
     }
     
     &:focus-within {
@@ -259,23 +267,29 @@ const S = {
           ? 'var(--F_Outline_Success)' 
           : props.error
             ? 'var(--F_Outline_Error)'
-            : 'var(--F_Outline_Hover)'
+            : 'var(--F_Outline_Focus)'
       };
+
+      label {
+        color: var(--F_Font_Color);
+      }
+
     };
-    background: var(--F_Background_Alternating);
+    border-radius: .75rem;
+
     box-shadow: ${props => 
       props.success 
         ? 'var(--F_Outline_Success)' 
         : props.error
           ? 'var(--F_Outline_Error)'
-          : 'var(--F_Outline)'
+          : props.forceFocus
+              ? 'var(--F_Outline_Focus)'
+              : 'var(--F_Outline)'
     };
-    border-radius: 1rem;
-
   `,
   Input: styled.input<{
     name?: string,
-    label?: string,
+    hasLabel?: boolean,
     error?: string,
     disabled?: boolean,
     focused: boolean,
@@ -285,63 +299,46 @@ const S = {
     id?: string,
     pad?: boolean,
     onChange?: (e : any) => void,
-    preventFocus?: boolean
+    preventFocus?: boolean,
+    shrink: boolean,
+    disableAnimation: boolean,
+    compact?: boolean
   }>`
     width: 100%;
-    height: var(--F_Input_Height);
+    height: 100%;
     position: relative;
-    font-size: var(--F_Font_Size);
+    font-size: var(--F_Font_Size_Title);
+    font-size: ${props => props.compact ? 'var(--F_Font_Size)' : 'var(--F_Font_Size_Large)'};
     vertical-align: center;
+    line-height: 1em;
     border: none;
-    padding-left: ${props => props.hasIcon ? '.5rem' : '0'};
+    padding-left: ${props => props.hasIcon ? '.75rem' : '0'};
     outline: none;
     -webkit-appearance: none;
     color: var(--F_Font_Color);
     background: none;
     pointer-events: ${props => props.preventFocus ? 'none' : 'auto'};
     box-sizing: border-box;
+    animation: ${props => (props.shrink && props.hasLabel) ? css`${moveDown} ${props.disableAnimation ? '0s' : '.15s'} forwards` : 'none'};
   `,
   Label: styled.label<{
     locked: boolean,
     hasIcon: boolean,
     focused: boolean,
     shrink: boolean,
-    disableAnimation: boolean
+    disableAnimation: boolean,
+    hide?: boolean,
   }>`
+    display: ${props => props.hide ? 'none' : 'flex'};
     position: absolute;
     top: 50%;
     line-height: 0;
     height: .5rem;
-    left: ${props => props.hasIcon ? '2.5rem' : '1rem'};
+    left: ${props => props.hasIcon ? '2.65rem' : '1rem'};
     color: var(--F_Font_Color_Label);
-    font-size: var(--F_Font_Size);
+    font-size: var(--F_Font_Size_Large);
     pointer-events: none;
-    background: ${props => props.shrink ? 'var(--F_Background_Alternating)' : 'none'};
     animation: ${props => props.shrink ? css`${moveUp} ${props.disableAnimation ? '0s' : '.15s'} forwards` : 'none'};
-  `,
-  FloatingLabel: styled.div<{
-    error?: string,
-    disabled?: boolean,
-    success?: boolean
-  }>`
-    display: flex;
-    font-size: var(--F_Font_Size);
-    line-height: 1;
-    pointer-events: none;
-    letter-spacing: var(--F_Letter_Spacing_Header);
-    left: 1rem;
-    transition: 0.2s ease all;
-    z-index: 1;
-    margin-left: .5rem;
-    padding-bottom: 8px;
-    color: ${props => props.error 
-      ? 'var(--F_Font_Color_Error)' 
-      : props.disabled
-        ? 'var(--F_Font_Color_Disabled)'
-        : props.success
-          ? 'var(--F_Font_Color_Success)'
-          : 'var(--F_Font_Color_Label)'
-    };
   `,
   ErrorContainer: styled.div`
     width: 100%;
