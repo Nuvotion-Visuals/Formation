@@ -114,10 +114,9 @@ export const DateAndTimePicker = ({
                           e?.preventDefault()
                           removeDate(index)
                         }}
-                        icon='times'
-                        iconPrefix='fas'
+                        icon='trash-alt'
+                        iconPrefix={iconPrefix}
                         secondary={true}
-                        hero={true}
                         circle={true}
                       /> 
                     : null

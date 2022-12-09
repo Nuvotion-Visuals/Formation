@@ -64,7 +64,7 @@ export const NavTop = ({
 const S = {
   Header: styled.div`
     width: 100%;
-    border-bottom: 2px solid var(--F_Surface);
+    border-bottom: 1px solid var(--F_Surface);
     height: var(--F_Header_Height);
   `,
   Inner: styled.div`

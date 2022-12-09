@@ -61,7 +61,7 @@ const S = {
   `,
   HLine: styled.div`
     width: 100%;
-    border-bottom: 2px solid var(--F_Surface);
+    border-bottom: 1px solid var(--F_Surface);
   `,
   Channel: styled.li`
     width: 100%;

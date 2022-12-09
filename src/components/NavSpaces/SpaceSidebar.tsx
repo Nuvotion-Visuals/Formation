@@ -106,10 +106,10 @@ const S = {
     align-items: center;
   `,
   SpaceSidebar: styled.div`
-    width: calc(100% - 2px);
+    width: calc(100% - 1px);
     flex-wrap: wrap;
     overflow-x: hidden;
-    border-right: 2px solid var(--F_Surface);
+    border-right: 1px solid var(--F_Surface);
     ::-webkit-scrollbar {
       width: .25rem;
       height: .25rem;

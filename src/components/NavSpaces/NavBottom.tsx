@@ -33,10 +33,10 @@ const S = {
     position: absolute;
     bottom: 0;
     z-index: 1;
-    border-top: 2px solid var(--F_Surface);
+    border-top: 1px solid var(--F_Surface);
     background: var(--F_Background);
-    width: ${props => props.trimRight ? 'calc(100% - 2px)' : '100%'};
-    border-right: ${props => props.trimRight ? '2px solid var(--F_Surface)' : 'none'};
+    width: ${props => props.trimRight ? 'calc(100% - 1px)' : '100%'};
+    border-right: ${props => props.trimRight ? '1px solid var(--F_Surface)' : 'none'};
   `,
   NavContainer: styled.div<{
     width: number

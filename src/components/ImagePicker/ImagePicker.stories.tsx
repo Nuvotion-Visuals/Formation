@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { ImagePicker } from '../../internal'
+import { Button, ImagePicker } from '../../internal'
 
 export default {
   title: 'Input/ImagePicker',
@@ -34,7 +34,8 @@ Label.args = {
   ratio: 2,
   label: 'poster',
   icon: 'image',
-  iconPrefix: 'fas'
+  iconPrefix: 'fas',
+  placeholderRatio: 2.5/1
 }
 
 export const Hero = Template.bind({})

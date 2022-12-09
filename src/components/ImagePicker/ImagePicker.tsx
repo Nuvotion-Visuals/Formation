@@ -104,7 +104,9 @@ interface Props {
   circle?: boolean,
   hero?: boolean,
   icon?: IconName,
-  iconPrefix: IconPrefix
+  iconPrefix: IconPrefix,
+  showPlaceholder?: boolean,
+  placeholderRatio?: number
 }
 
 export const ImagePicker = ({
@@ -115,7 +117,9 @@ export const ImagePicker = ({
   circle,
   hero,
   icon,
-  iconPrefix
+  iconPrefix,
+  showPlaceholder,
+  placeholderRatio
 } : Props) => {
 
   const [loading, setLoading] = useState(false)
@@ -172,111 +176,99 @@ export const ImagePicker = ({
   }
 
   return (<S_Container>
+    <input type='file' id='fileInput' accept='image/*'
+      style={{display: 'none'}}
+      onChange={e => {
+        const newFile = (e.target as HTMLInputElement).files?.[0]
+        if (newFile) {
+          setFile(newFile)
+          set_editSrc(URL.createObjectURL(newFile))
+          set_editing(true)
+        }
+      }}
+    />
+    
     <Gap gap={.75}>
-      {
-        !editing &&
-          <Gap gap={.75} disableWrap={true}>
-            <Spacer>
-              <Button
-                text={value ? `Change ${label}` : `Select ${label}`}
-                onClick={onClickHandler}
-                expand={true}
-                icon={icon}
-                iconPrefix={iconPrefix}
-                hero={hero}
-                secondary={true}
-
-              />
-            </Spacer>
-
-            {
-              value &&
-                <Button
-                  icon={'crop'}
-                  iconPrefix={iconPrefix ? iconPrefix : 'fas'}
-                  onClick={() => {
-                    set_editing(true)
-                  }}
-                  secondary={true}
-                  hero={hero}
-                />
-            }
-
-            {
-              value &&
-                <Button
-                  onClick={onClear}
-                  secondary={true}
-                  icon='eraser'
-                  iconPrefix={iconPrefix ? iconPrefix : 'fas'}
-                  hero={hero}
-                />
-            }
-          </Gap>
-      }
-
-      <input type='file' id='fileInput' accept='image/*'
-        style={{display: 'none'}}
-        onChange={e => {
-          const newFile = (e.target as HTMLInputElement).files?.[0]
-          if (newFile) {
-            setFile(newFile)
-            set_editSrc(URL.createObjectURL(newFile))
-            set_editing(true)
-          }
-        }}
-      />
 
       {
-        editing
-          ? <Gap disableWrap={true}>
-              <Spacer>
-                <Button
-                  text={loading ? 'Saving...' : `${label ? 'Save ' + label : 'Save'}`}
-                  disabled={loading}
-                  primary={!loading}
-                  onClick={onCrop}
-                  expand={true}
-                  hero={hero}
-                  icon={icon}
-                  iconPrefix={iconPrefix}
-                  blink={!loading}
-                />
-              </Spacer>
-          
-              <Button
-                text={'Cancel'}
-                disabled={loading}
-                secondary={true}
-                onClick={() => {
-                  set_editing(false)}
-                }
-                hero={hero}
-
-              />
-            </Gap>
+        error
+          ? <Notification type='error' iconPrefix='fas'>
+              {
+                error
+              }
+            </Notification>
           : null
       }
 
-
-    {
-      error
-        ? <Notification type='error' iconPrefix='fas'>
-            {
-              error
-            }
-          </Notification>
-        : null
-    }
-
-    {
-      !editing && value && 
       <Box hide={editing} width='100%'>
-        <AspectRatio backgroundSrc={value} ratio={ratio} coverBackground={true}>
+        <AspectRatio 
+          backgroundSrc={value} 
+          ratio={
+            value
+              ? ratio
+              : placeholderRatio 
+                ? placeholderRatio
+                : ratio
+          } 
+          coverBackground={true}
+        >
+          {
+            !value &&
+              <Button
+                text={`Select ${label}`}
+                onClick={onClickHandler}
+                expand={true}
+                expandVertical={true}
+                icon={icon}
+                iconPrefix={iconPrefix}
+                hero={hero}
+
+              />
+          }
+          
         </AspectRatio>
-    </Box>
-    }
+      </Box>
     
+      {
+                !editing && value &&
+                <Box width='100%'>
+                  <Gap disableWrap={true}>
+                  <Spacer>
+                    <Button
+                      text={value ? `Change ${label}` : `Select ${label}`}
+                      onClick={onClickHandler}
+                      expand={true}
+                      icon={icon}
+                      iconPrefix={iconPrefix}
+                      hero={hero}
+                      secondary={true}
+
+                    />
+                  </Spacer>
+                
+                    <Button
+                      icon={'crop'}
+                      iconPrefix={iconPrefix ? iconPrefix : 'fas'}
+                      onClick={() => {
+                        set_editing(true)
+                      }}
+                      secondary={true}
+                      hero={hero}
+                      text='Crop'
+                    />
+                
+                    <Button
+                      onClick={onClear}
+                      secondary={true}
+                      icon='trash-alt'
+                      iconPrefix={iconPrefix ? iconPrefix : 'fas'}
+                      hero={hero}
+                      circle={true}
+                    />
+                  </Gap>
+                </Box>
+                  
+              }
     </Gap>
     
     {
@@ -298,17 +290,48 @@ export const ImagePicker = ({
                 
               />
             </AspectRatio>
+           
+            <Spacer>
+              <Button
+                text={loading ? 'Saving...' : `${label ? 'Save ' + label : 'Save'}`}
+                disabled={loading}
+                primary={!loading}
+                onClick={onCrop}
+                expand={true}
+                hero={hero}
+                icon={icon}
+                iconPrefix={iconPrefix}
+                blink={!loading}
+              />
+            </Spacer>
+        
+            <Button
+              text={'Cancel'}
+              disabled={loading}
+              secondary={true}
+              onClick={() => {
+                set_editing(false)}
+              }
+              hero={hero}
+
+            />
+          
           </S_CropperContainer>
         : null
     }
 
+    
+
+    
+
     {
       (editing) && 
         <S_Spacer>
-          <AspectRatio ratio={ratio}>
+          <AspectRatio ratio={editing ? ratio + .2 : ratio}>
           </AspectRatio>
         </S_Spacer>
     }
+
 
   </S_Container>)
 }
@@ -322,17 +345,14 @@ const S_CropperContainer = styled.div`
   position: absolute;
   width: 100%;
   height: 100%;
-  padding-top: .75rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: .75rem;
 `
 
-const S_Image = styled.img`
-  width: 100%;
-  margin-top: .7rem;
-
-
-`
 
 const S_Spacer = styled.div`
   width: 100%;
   pointer-events: none;
+  padding-bottom: calc(var(--F_Input_Height) + .75rem);
 `

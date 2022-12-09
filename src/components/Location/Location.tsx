@@ -89,14 +89,16 @@ interface Props {
   value: LocationData,
   onChange: (props : LocationData) => void,
   iconPrefix?: IconPrefix,
-  label?: string
+  label?: string,
+  alwaysHideMap?: boolean
 }
 
 export const Location = ({ 
   value,
   onChange,
   iconPrefix,
-  label
+  label,
+  alwaysHideMap
 } : Props) => {
   const [hideMap, set_hideMap] = useState(true)
 
@@ -267,7 +269,7 @@ export const Location = ({
       label={label}
     />
     
-    <S.Map id='map' hide={hideMap}></S.Map>
+    <S.Map id='map' hide={hideMap || !!alwaysHideMap}></S.Map>
   </Box>)
 }
 
@@ -278,11 +280,11 @@ const S = {
   Map: styled.div<{
     hide: boolean
   }>`
-    visibility: ${props => props.hide ? 'hidden' : 'visible'};
+    display: ${props => props.hide ? 'none' : 'block'};
     margin-top: .75rem;
     width: 100%;
-    min-height: 300px;
-    max-height: 500px;
+    min-height: 200px;
+    max-height: 30vh;
     border-radius: .5rem;
   `
 }

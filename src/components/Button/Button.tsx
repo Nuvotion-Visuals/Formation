@@ -27,7 +27,8 @@ type Props = {
   tab? : boolean,
   newTab?: boolean,
   square?: boolean,
-  circle?: boolean
+  circle?: boolean,
+  expandVertical?: boolean
 }
 
 export const Button: FC<Props> = React.memo(({ 
@@ -51,7 +52,8 @@ export const Button: FC<Props> = React.memo(({
   tab,
   newTab,
   square,
-  circle
+  circle,
+  expandVertical
 }: Props) => {
 
   const Link = getLinkComponent()
@@ -119,6 +121,7 @@ export const Button: FC<Props> = React.memo(({
       expand={expand} 
       square={impliedSquare} 
       hero={hero}
+      expandVertical={expandVertical}
     >
       {
         href 
@@ -136,7 +139,8 @@ interface ContainerProps {
   disabled?: boolean,
   expand?: boolean,
   square?: boolean,
-  hero?: boolean
+  hero?: boolean,
+  expandVertical?: boolean
 }
 
 interface ButtonProps {
@@ -185,7 +189,10 @@ const calculateWidth = (props: ContainerProps) => {
 }
 
 const calculateHeight = (props: ContainerProps) => {
-  if (props.hero) {
+  if (props.expandVertical) {
+    return '100%'
+  }
+  else if (props.hero) {
     if (props.square) {
       return 'var(--F_Input_Height_Hero)'
     }
