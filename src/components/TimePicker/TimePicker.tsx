@@ -7,6 +7,21 @@ import { useScrollTo } from '../../internal'
 import { TextInput } from '../../internal'
 import { IconPrefix } from '@fortawesome/fontawesome-common-types'
 
+const calculateTimeDifference = (startTime: string, endTime: string) => {
+  const diff = (Number(new Date("01/01/2007 " + endTime)) - Number(new Date("01/01/2007 " + startTime))) / 60000
+
+  const minutes = diff % 60
+  const hours = (diff - minutes) / 60
+
+  const difference = hours > 0 
+    ? `${hours}h` + (minutes > 0 ? ` ${minutes}m` : '')
+    : hours === 0
+      ? `${minutes}m`
+      : `${24 + hours}h` + (60 + minutes > 0 ? ` ${60 + minutes}m` : '')
+
+  return difference
+}
+
 // rewrite as isValidTime
 
 // const isValidDate = (value: string, format = 'mm/dd/yyyy') : boolean => {
@@ -35,11 +50,13 @@ const Times = ({
   value,
   onChange,
   onClose,
+  comparisonStartTime
 } : {
   value: string,
   onMonthChange: (arg0: string) => void,
   onChange: (arg0: string) => void,
-  onClose: () => void
+  onClose: () => void,
+  comparisonStartTime?: string
 }) => {
 
   const scrollContainerRef = useRef<HTMLDivElement | null>(null)
@@ -48,7 +65,6 @@ const Times = ({
   useOnClickOutside(scrollContainerRef, () => {
     onClose()
   })
-
 
   const { set_scrollTo } = useScrollTo(scrollContainerRef, scrollToRef);
 
@@ -116,7 +132,7 @@ const Times = ({
           active={value === item}
           ref={value === item ? scrollToRef : item === '12:00 PM' ? scrollToRef : null }
         >
-          { item }
+          {`${item}${comparisonStartTime ? ` (${calculateTimeDifference(comparisonStartTime, item)})` : ''}`}
         </S.Item>  
       )
     }
@@ -125,6 +141,7 @@ const Times = ({
 
 interface Props {
   value: string,
+  comparisonStartTime?: string,
   label?: string,
   onChange: (arg0: string) => void,
   error?: string,
@@ -134,6 +151,7 @@ interface Props {
 
 export const TimePicker = ({
   value,
+  comparisonStartTime,
   onChange,
   label,
   error,
@@ -186,6 +204,7 @@ export const TimePicker = ({
               value={value}
               onMonthChange={newDate => onChange(newDate)}
               onClose={() => set_isOpen(false)}
+              comparisonStartTime={comparisonStartTime}
             />
         : null
       }

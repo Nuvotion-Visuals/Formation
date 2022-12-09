@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 const ReactQuill = lazy(() => import('react-quill'))
 
-import { Box, Icon, LineBreak, Spacer } from '../../internal'
+import { Box, Icon, LineBreak, LoadingSpinner, Spacer } from '../../internal'
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 
 interface Props {
@@ -79,7 +79,7 @@ export const RichTextEditor = ({
       }
 
       <S.TextEditorContainer shrink={!show}>
-      <Suspense fallback={<div>Page is Loading...</div>}>
+      <Suspense fallback={<LoadingSpinner small={true} />}>
         <ReactQuill 
           theme="snow" 
           value={value} 

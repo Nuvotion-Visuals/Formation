@@ -11,7 +11,6 @@ interface Props {
   title: string,
   onClose?: () => void,
   onBack?: () => void,
-  fullscreen?: boolean
 }
 
 export const ModalTaskbar = ({
@@ -20,10 +19,9 @@ export const ModalTaskbar = ({
   title, 
   onClose,
   onBack,
-  fullscreen,
 } : Props) => {
   return (
-    <S_ModalTaskbar fullscreen={fullscreen}>
+    <S_ModalTaskbar>
       {
         onBack &&
           <Button
@@ -59,8 +57,8 @@ const S_ModalTaskbar = styled.div<{
   align-items: center;
   color: var(--F_Font_Color);
   overflow: hidden;
-  width: ${props => props.fullscreen ? 'calc(100% - 1.5rem)' : 'calc(100% - 1rem)'};
-  padding: ${props => props.fullscreen ? '.75rem' : '.5rem'};
+  width: calc(100% - 1.5rem);
+  padding: .75rem;
 `
 
 const S_Center = styled.div`

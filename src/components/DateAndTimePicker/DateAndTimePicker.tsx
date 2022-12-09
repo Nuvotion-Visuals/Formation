@@ -87,20 +87,7 @@ export const DateAndTimePicker = ({
     )
   }
 
-  const calculateTimeDifference = (timeStart: string, timeEnd: string) => {
-    const diff = (Number(new Date("01/01/2007 " + timeEnd)) - Number(new Date("01/01/2007 " + timeStart))) / 60000
-
-    const minutes = diff % 60
-    const hours = (diff - minutes) / 60
-
-    const difference = hours > 0 
-      ? `${hours}h` + (minutes > 0 ? ` ${minutes}m` : '')
-      : hours === 0
-        ? `${minutes}m`
-        : `${24 + hours}h` + (60 + minutes > 0 ? ` ${60 + minutes}m` : '')
-
-    return difference
-  }
+  
 
   const [editTimeZone, set_editTimeZone] = useState(false)
   const [timeZone, set_timeZone] = useState<string | undefined>('')
@@ -127,8 +114,8 @@ export const DateAndTimePicker = ({
                           e?.preventDefault()
                           removeDate(index)
                         }}
-                        icon='trash-alt'
-                        iconPrefix='far'
+                        icon='times'
+                        iconPrefix='fas'
                         secondary={true}
                         hero={true}
                         circle={true}
@@ -138,10 +125,7 @@ export const DateAndTimePicker = ({
                 </Gap>
 
                 <Gap disableWrap={true}>
-                  {
-                    value?.length > 1 &&
-                      <Box px={.5} />
-                  }
+        
                   <TimePicker
                     value={item.startTime}
                     label='Start time'
@@ -153,8 +137,9 @@ export const DateAndTimePicker = ({
                     label='End time'
                     onChange={newEndTime => setValue(index, 'endTime', newEndTime)}
                     iconPrefix={iconPrefix}
+                    comparisonStartTime={item.startTime}
                   />
-                  {
+                  {/* {
                     value?.length > 1 || (item.startTime && item.endTime)
                       ? <Box width={'8.125rem'} >
                         {
@@ -168,7 +153,7 @@ export const DateAndTimePicker = ({
                         }
                       </Box>
                       : null
-                  }
+                  } */}
                 </Gap>
               </Gap>
             </S.DateAndTime>

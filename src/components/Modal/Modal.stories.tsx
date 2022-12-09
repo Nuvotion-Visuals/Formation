@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { Button, Modal, AspectRatio, Empty, Box } from '../../internal'
+import { Button, Modal, AspectRatio, Empty, Box, Steps, Gap } from '../../internal'
 
 export default {
   title: 'Layout/Modal',
@@ -142,12 +142,13 @@ Footer.args = {
   content,
   size: 'lg',
   onBack: undefined,
+  hasSteps: true,
   footerContent: <>
     <Button
-      text='Next'
-      primary={true}
-      expand={true}
-    />
+        text='Next'
+        primary={true}
+        expand={true}
+      />
   </>
 }
 Footer.parameters = {
@@ -162,14 +163,40 @@ FooterFullscreen.args = {
   content,
   size: 'sm',
   fullscreen: true,
+  hasSteps: true,
   onBack: undefined,
+  stepsContent: <>
+  <Steps activeStepIndex={0} numberOfSteps={3} />
+  </>,
   footerContent: <>
     <Button
+        text='Next'
+        primary={true}
+        expand={true}
+      />
+  </>
+}
+FooterFullscreen.parameters = {
+  layout: 'fullscreen'
+}
+
+export const FooterFullscreenNoSteps = Template.bind({})
+FooterFullscreenNoSteps.args = {
+  title: 'Footer fullscreen',
+  icon: 'heart',
+  iconPrefix: 'fas',
+  content,
+  size: 'sm',
+  fullscreen: true,
+  onBack: undefined,
+  footerContent:  <>
+  
+  <Button
       text='Next'
       primary={true}
       expand={true}
     />
-  </>
+</>
 }
 FooterFullscreen.parameters = {
   layout: 'fullscreen'

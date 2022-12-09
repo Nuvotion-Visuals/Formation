@@ -15,7 +15,8 @@ interface Props {
   onClose?: () => void,
   onBack?: () => void,
   back?: boolean,
-  footerContent?: React.ReactNode
+  footerContent?: React.ReactNode,
+  stepsContent?: React.ReactNode
 }
 
 export const Modal = ({ 
@@ -28,7 +29,8 @@ export const Modal = ({
   isOpen,
   onClose,
   onBack,
-  footerContent
+  footerContent,
+  stepsContent
 }: Props) => {
 
   const sizes = {
@@ -38,6 +40,8 @@ export const Modal = ({
     'tall': 1100,
     'xl': 1100
   }
+
+  const hasSteps = stepsContent !== undefined
 
   return (
     <S.ModalContainer show={isOpen}>
@@ -53,12 +57,12 @@ export const Modal = ({
           iconPrefix={iconPrefix}
           onClose={onClose}
           onBack={onBack}
-          fullscreen={fullscreen}
         />
 
         <S.Content 
           fullscreen={fullscreen}
           footer={footerContent !== undefined}
+          hasSteps={hasSteps}
         >
           <S.ModalContent >
             {
@@ -69,10 +73,15 @@ export const Modal = ({
 
         {
           footerContent && 
-            <S.Footer fullscreen={fullscreen}>
+            <S.Footer fullscreen={fullscreen} hasSteps={hasSteps}>
               {
-                footerContent
+                stepsContent
               }
+              <S.FooterContent>
+                {
+                  footerContent
+                }
+              </S.FooterContent>
             </S.Footer>
         }
       </S.Modal>
@@ -124,7 +133,8 @@ const S = {
   `,
   Content: styled.div<{
     fullscreen?: boolean,
-    footer?: boolean
+    footer?: boolean,
+    hasSteps?: boolean
   }>`
     display: flex;
     flex-wrap: wrap;
@@ -132,21 +142,32 @@ const S = {
     height: ${props => 
       props.footer 
         ? props.fullscreen
-          ? `calc(100% - calc(calc(var(--F_Header_Height) * 2) + 2rem))` 
-          : 'calc(100% - calc(calc(var(--F_Header_Height) * 2) + .75rem))'
+          ?` calc(100% - calc(calc(var(--F_Header_Height) * 2) + ${props.hasSteps ? '2.325' : '2'}rem))`
+          : `calc(100% - calc(calc(var(--F_Header_Height) * 2) + ${props.hasSteps ? '2.5' : '2'}rem))`
         : '100%'};
-    padding: ${props => props.fullscreen ? '.75rem' : '.5rem'};
+    padding: .75rem;
     padding-top: 0;
     overflow-y: auto;
   `,
-  Footer: styled.div<{
-    fullscreen?: boolean
+  FooterContent: styled.div<{
+    fullscreen?: boolean,
+    hasSteps?: boolean
   }>`
     display: flex;
-    max-height: var(--F_Header_Height);
-    width: ${props => props.fullscreen ? 'calc(100% - 1.5rem)' : 'calc(100% - 1rem)'};
-    padding: ${props => props.fullscreen ? '.75rem' : '.5rem'};
-
+    width: 100%;
+    align-items: flex-start;
+  `,
+  Footer: styled.div<{
+    fullscreen?: boolean,
+    hasSteps?: boolean
+  }>`
+    display: flex;
+    flex-wrap: wrap;
+    width: calc(100% - 1.5rem);
+    padding: .75rem;
+    padding-top: ${props => props.hasSteps ? '0' : '.75rem'};
+    gap: .75rem;
+    align-items: flex-start;
   `,
   ModalContent: styled.div`
     color: var(--F_Font_Color);

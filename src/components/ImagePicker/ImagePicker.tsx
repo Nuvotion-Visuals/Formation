@@ -184,6 +184,7 @@ export const ImagePicker = ({
                 icon={icon}
                 iconPrefix={iconPrefix}
                 hero={hero}
+                secondary={true}
 
               />
             </Spacer>
@@ -301,15 +302,13 @@ export const ImagePicker = ({
         : null
     }
 
-{
+    {
       (editing) && 
-      <S_Spacer>
-        <AspectRatio backgroundSrc={value} ratio={ratio} coverBackground={true}>
-        </AspectRatio>
-      </S_Spacer>
+        <S_Spacer>
+          <AspectRatio ratio={ratio}>
+          </AspectRatio>
+        </S_Spacer>
     }
-
-
 
   </S_Container>)
 }
