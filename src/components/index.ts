@@ -1,4 +1,5 @@
-export { Article} from './Article/Article'
+export { Article } from './Article/Article'
+export { Avatar } from './Avatar/Avatar'
 export { ArticlePreview } from './ArticlePreview/ArticlePreview'
 export { AspectRatio } from './AspectRatio/AspectRatio'
 export { Auth } from './Auth/Auth'
