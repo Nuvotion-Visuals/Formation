@@ -32,7 +32,7 @@ interface ItemTimeStampType {
 
 type ItemTimeStampsType = ItemTimeStampType[]
 
-export const Timeline = ({ value, onChange, onIntervalClick, onItemClick }: Props) => {
+export const Timeline = ({ value, onChange,  onIntervalClick, onItemClick }: Props) => {
 
   const [columnCount, set_columnCount] = useState<number>(1)
   const [renderItems, set_renderItems] = useState<ItemTimeStampType[]>()
@@ -224,26 +224,26 @@ export const Timeline = ({ value, onChange, onIntervalClick, onItemClick }: Prop
       <S.Grid columnCount={columnCount}>
           {
             renderItems !== undefined
-              ? renderItems.map((activity, index) => 
-                  <S.Activity
+              ? renderItems.map((item, index) => 
+                  <S.Item
                     key={index}
                     onClick={(e) => onItemClick(e)}
-                    id={activity.id}
+                    id={item.id}
                     style={{
-                      gridColumnStart: activity.overflowLane + 1,
-                      gridColumnEnd: activity.overflowLane + 2,
-                      gridRowStart: renderRow(activity?.startTime),
-                      gridRowEnd: renderRow(activity?.endTime)
+                      gridColumnStart: item.overflowLane,
+                      gridColumnEnd: item.overflowLane,
+                      gridRowStart: renderRow(item?.startTime),
+                      gridRowEnd: renderRow(item?.endTime)
                   }}>
-                      {activity.title}
-                  </S.Activity>
+                      {item.title}
+                  </S.Item>
                 )
               : <></>
               
           }
       
 
-        <S.TimeStampContainer>
+        {/* <S.TimeStampContainer>
           {
             intervals.map((interval, index) => 
               <S.TimeDisplay
@@ -255,7 +255,7 @@ export const Timeline = ({ value, onChange, onIntervalClick, onItemClick }: Prop
               </S.TimeDisplay>
             )
           }
-        </S.TimeStampContainer>
+        </S.TimeStampContainer> */}
           
         <S.IntervalContainer>
           {
@@ -290,7 +290,7 @@ const S = {
     width: 100%;
     height: 127rem;
     display: grid;
-    grid-template-columns: ${props => `3rem repeat(${props.columnCount}, 4rem)`};
+    grid-template-columns: ${props => `repeat(${props.columnCount}, 4rem)`};
     grid-template-rows: repeat(113, 15px);
     column-gap: 1px;
   `,
@@ -339,7 +339,7 @@ const S = {
       border-bottom: 1px solid #d7d7d7;
     }
   `,
-  Activity: styled.div<{}>`
+  Item: styled.div<{}>`
     min-width: 4rem;
     box-sizing: border-box;
     position: absolute;

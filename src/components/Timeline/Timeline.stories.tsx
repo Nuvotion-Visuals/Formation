@@ -436,42 +436,31 @@ const Template: ComponentStory<typeof Timeline> = args => {
 
   return (
     <S.Container>
-      <Box mt={0}>
-        <Box wrap width={'100%'}>
-          <S.Sticky>
-            <Tags
-              allTags={tabs}
-              initialActiveTags={[tabs[0]]}
-              onChange={tabs => set_activeTabs(tabs)}
-            />
-          </S.Sticky>
-          <Box>
-            {/* <TimeReference></TimeReference> */}
-            {
-              currentActivities?.map((item) => {
-                return (
-                  <div>
-                    <Timeline 
-                      {...args}
-                      value={item.activities}
-                      onChange={(newValue) => set_value(newValue)} 
-                      onIntervalClick={(interval) => onIntervalClick(interval)}
-                      onItemClick={(e: MouseEvent) => onItemClick(e)}
-                    />
-                  </div>)
-              })
-            }
-          </Box>
-        </Box>
-      {/* <S.Sticky>
-        <ActivityEditor
-          value={value}
-          onChange={(newValue) => set_value(newValue)}
-          activity={currentActivity}
-          activeIndexes={activeIndexes}
-        />
-      </S.Sticky> */}
-      </Box>
+      <div>
+        <S.Sticky className={'sticky'}>
+          <Tags
+            allTags={tabs}
+            initialActiveTags={[tabs[2]]}
+            onChange={tabs => set_activeTabs(tabs)}
+          />
+        </S.Sticky>
+        <S.FlexTest>
+          {/* <TimeReference></TimeReference> */}
+          {
+            currentActivities?.map((item) => {
+              return (
+                  <Timeline 
+                    {...args}
+                    value={item.activities}
+                    onChange={(newValue) => set_value(newValue)} 
+                    onIntervalClick={(interval) => onIntervalClick(interval)}
+                    onItemClick={(e: MouseEvent) => onItemClick(e)}
+                />
+              )
+            })
+          }
+        </S.FlexTest>
+      </div>
     </S.Container>
   )
 }
@@ -487,11 +476,9 @@ Activities.parameters = {
 
 const S = {
   Sticky: styled.div`
-    width: 100%;
     padding: 0.5rem;
-    max-width: 100vw;
     overflow-x: auto;
-    position: sticky;
+    position: fixed;
     top: 0;
     z-index: 1000;
     background: white;
@@ -503,5 +490,23 @@ const S = {
     position: relative;
     width: 100%;
     height: 100vh;
+  `,
+  DataView: styled.div`
+  `,
+  FlexTest: styled.div`
+    display: flex;
+    flex-direction: row;
   `
 }
+
+
+ {/*  CODE FOR POSSIBLE REUSE WHEN IMPLEMENTING MODAL EDITOR
+ 
+      <S.Sticky>
+        <ActivityEditor
+          value={value}
+          onChange={(newValue) => set_value(newValue)}
+          activity={currentActivity}
+          activeIndexes={activeIndexes}
+        />
+      </S.Sticky> */}
