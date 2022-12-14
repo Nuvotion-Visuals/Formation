@@ -59,7 +59,7 @@ export const Button: FC<Props> = React.memo(({
   const renderButton = () => {
     return (
       <S.Button
-        onClick={onClick ? (e) => onClick(e) : () => { }} 
+        onClick={onClick ? (e) => onClick(e) : () => {}} 
         onBlur={onBlur ? (e) => onBlur(e) : () => {}}
         primary={primary} 
         blink={blink}

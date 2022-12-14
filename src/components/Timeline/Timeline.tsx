@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { DateTimeFormatter, ZonedDateTime } from '@js-joda/core'
 import '@js-joda/timezone'
-import { ActivityType } from 'types'
+import { ActivityType, AreaType } from 'types'
 
 interface Props {
   value: ActivityType[],
@@ -19,7 +19,7 @@ interface IntervalType {
   gridNumber: number
 }
 
-interface ActivityTimeStampType {
+interface ItemTimeStampType {
   title: string,
   startTime: string,
   endTime: string,
@@ -30,13 +30,12 @@ interface ActivityTimeStampType {
   isPlaced: boolean
 }
 
-type ActivityTimeStampsType = ActivityTimeStampType[]
+type ItemTimeStampsType = ItemTimeStampType[]
 
 export const Timeline = ({ value, onChange, onIntervalClick, onItemClick }: Props) => {
 
   const [columnCount, set_columnCount] = useState<number>(1)
-  const [renderItems, set_renderItems] = useState<ActivityTimeStampType[]>()
-  
+  const [renderItems, set_renderItems] = useState<ItemTimeStampType[]>()
 
   const intervals: IntervalType[] = new Array(112).fill(0).map((item, index) => (
     {
@@ -68,38 +67,38 @@ export const Timeline = ({ value, onChange, onIntervalClick, onItemClick }: Prop
     }
   ))
 
-  let currentActivityTimeStamps: ActivityTimeStampsType = value?.map((activity) => {
-    let startTime = ZonedDateTime.parse(activity?.startTime)
-    let endTime = ZonedDateTime.parse(activity?.endTime)
+  let currentItemTimeStamps: ItemTimeStampsType = value?.map((item) => {
+    let startTime = ZonedDateTime.parse(item?.startTime)
+    let endTime = ZonedDateTime.parse(item?.endTime)
 
     let formattedStartTime = startTime.format(DateTimeFormatter.ofPattern('HHmm'))
     let formattedEndTime = endTime.format(DateTimeFormatter.ofPattern('HHmm'))
 
     return {
-      "title": activity.title,
-      "startTime": activity.startTime,
-      "endTime": activity.endTime,
+      "title": item.title,
+      "startTime": item.startTime,
+      "endTime": item.endTime,
       "startInteger": parseInt(formattedStartTime),
       "endInteger": parseInt(formattedEndTime),
-      "id": activity.id,
+      "id": item.id,
       "overflowLane": 1,
       "isPlaced": false
     }
   })
 
   // sort activites by start time. critical for calculateOverflowLanes to function properly
-  let activitiesByTimeStamp = currentActivityTimeStamps?.sort((a, b) => a.startInteger - b.startInteger)
+  let itemsByTimeStamp = currentItemTimeStamps?.sort((a, b) => a.startInteger - b.startInteger)
 
-  const calculateOverflowLanes = (activitiesByTimeStamp: ActivityTimeStampsType) => {
+  const calculateOverflowLanes = (itemsByTimeStamp: ItemTimeStampsType) => {
     let isConflicted: boolean | null = null
     let isEmptyArray: boolean | null = null
-    let laneRecord: ActivityTimeStampType[][] = [[]]
+    let laneRecord: ItemTimeStampType[][] = [[]]
 
-    activitiesByTimeStamp?.forEach((activity, index) => {
+    itemsByTimeStamp?.forEach((item, index) => {
       
       if (index === 0) {
-        activity.overflowLane = 1
-        laneRecord[0].push(activity)
+        item.overflowLane = 1
+        laneRecord[0].push(item)
         laneRecord.push([])
         return
       } 
@@ -110,7 +109,7 @@ export const Timeline = ({ value, onChange, onIntervalClick, onItemClick }: Prop
         
         if (lane.length === 0) {
           isEmptyArray = true
-        } else if (activity.isPlaced === true) {
+        } else if (item.isPlaced === true) {
           break
         } else {
           isEmptyArray = false
@@ -118,16 +117,16 @@ export const Timeline = ({ value, onChange, onIntervalClick, onItemClick }: Prop
 
         for (let i = lane.length - 1; i > -1; i--){
           let singleLane = lane[i]
-          const isStartTimeConflict = singleLane.startInteger < activity.startInteger && activity.startInteger < singleLane.endInteger
-          const isEndTimeConflict = singleLane.startTime < activity.endTime && activity.endTime < singleLane.endTime
-          const isStartTimeIdentical = singleLane.startTime === activity.startTime
+          const isStartTimeConflict = singleLane.startInteger < item.startInteger && item.startInteger < singleLane.endInteger
+          const isEndTimeConflict = singleLane.startTime < item.endTime && item.endTime < singleLane.endTime
+          const isStartTimeIdentical = singleLane.startTime === item.startTime
           
           if (isStartTimeConflict || isEndTimeConflict || isStartTimeIdentical) {
             isConflicted = true
             break
           }
 
-          else if (activity.isPlaced === true) {
+          else if (item.isPlaced === true) {
             break
           }
           else {
@@ -138,9 +137,9 @@ export const Timeline = ({ value, onChange, onIntervalClick, onItemClick }: Prop
         if (!isConflicted)
         {
           if (!isEmptyArray) {
-            activity.overflowLane = laneIndex
-            activity.isPlaced = true
-            laneRecord[i]?.push(activity)
+            item.overflowLane = laneIndex
+            item.isPlaced = true
+            laneRecord[i]?.push(item)
           }
         }
         
@@ -150,12 +149,12 @@ export const Timeline = ({ value, onChange, onIntervalClick, onItemClick }: Prop
           let newLane: any = []
           laneRecord.push(newLane)
 
-          if (!activity.isPlaced) {
-            laneRecord[i]?.push(activity)
-            activity.overflowLane = laneIndex
+          if (!item.isPlaced) {
+            laneRecord[i]?.push(item)
+            item.overflowLane = laneIndex
           }
           
-          activity.isPlaced = true
+          item.isPlaced = true
           isConflicted = false
           isEmptyArray = false
         } 
@@ -174,11 +173,11 @@ export const Timeline = ({ value, onChange, onIntervalClick, onItemClick }: Prop
     }
 
     set_columnCount(laneRecord.length)
-    set_renderItems(activitiesByTimeStamp)
+    set_renderItems(itemsByTimeStamp)
   }
 
   useEffect(() => {
-    calculateOverflowLanes(activitiesByTimeStamp)
+    calculateOverflowLanes(itemsByTimeStamp)
   }, [value]) 
 
   const autoScrollFirstActivity = (value: ActivityType[]): string => {
@@ -242,38 +241,37 @@ export const Timeline = ({ value, onChange, onIntervalClick, onItemClick }: Prop
               : <></>
               
           }
-      </S.Grid>
+      
 
-      <S.TimeStampContainer>
-        {
-          intervals.map((interval, index) => 
-            <S.TimeDisplay
-              key={index}
-              style={{ gridColumnStart: 1, gridRowStart: index + 1}}>
-                <S.TimeSpan>
-                  {interval.display}
-                </S.TimeSpan>
-            </S.TimeDisplay>
-          )
-        }
-      </S.TimeStampContainer>
-         
-      <S.IntervalContainer>
-        {
-        
-        intervals.map((interval, index) =>
-          
-          <S.IntervalBlock
-            key={index}
-            id={index.toString()}
-            value={interval.value}
-            onClick={() => onIntervalClick(interval)}
-            style={{ gridColumnStart: 2, gridColumnEnd: columnCount + 2, gridRowStart: index === 0 ? 1 : index + 1 }}
-              />
+        <S.TimeStampContainer>
+          {
+            intervals.map((interval, index) => 
+              <S.TimeDisplay
+                key={index}
+                style={{ gridColumnStart: 1, gridRowStart: index + 1}}>
+                  <S.TimeSpan>
+                    {interval.display}
+                  </S.TimeSpan>
+              </S.TimeDisplay>
             )
-        }  
-     
-      </S.IntervalContainer>
+          }
+        </S.TimeStampContainer>
+          
+        <S.IntervalContainer>
+          {
+            intervals.map((interval, index) =>
+            
+              <S.IntervalBlock
+                key={index}
+                id={index.toString()}
+                value={interval.value}
+                onClick={() => onIntervalClick(interval)}
+                style={{ gridColumnStart: 2, gridColumnEnd: columnCount + 2, gridRowStart: index === 0 ? 1 : index + 1 }}
+                  />
+              )
+          }  
+        </S.IntervalContainer>
+      </S.Grid>
     </S.Container>
   )
 }
@@ -300,6 +298,7 @@ const S = {
     position: absolute;
     top: 0;
     width: 100%;
+    /* background: #d19494; */
   `,
   TimeStampContainer: styled.div<{}>`
     position: absolute;
@@ -328,7 +327,7 @@ const S = {
     value: string
   }>`
     box-sizing: border-box;
-    min-width: 100%;
+    width: 100%;
     height: 15px;
     z-index: 1;
     line-height: 0;

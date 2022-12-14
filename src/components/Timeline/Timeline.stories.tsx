@@ -2,7 +2,7 @@ import React, { useState, useEffect, MouseEvent } from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 
-import { Timeline, ActivityEditor, Box, Tabs } from '../../internal'
+import { Timeline, ActivityEditor, Box, Tags } from '../../internal'
 import { ActivityType, AreaType } from '../../types'
 import { styled } from '@storybook/theming'
 import { DateTimeFormatter, Duration, ZonedDateTime } from '@js-joda/core'
@@ -14,11 +14,11 @@ export default {
 
 type Tab = {
   name: string,
-  icon?: IconName,
-  iconPrefix?: IconPrefix,
-  onClick?: () => void,
-  prefix?: IconPrefix,
-  suffix?: string
+  // icon?: IconName,
+  // iconPrefix?: IconPrefix,
+  // onClick?: () => void,
+  // prefix?: IconPrefix,
+  // suffix?: string
 }
 
 const Template: ComponentStory<typeof Timeline> = args => {
@@ -374,15 +374,11 @@ const Template: ComponentStory<typeof Timeline> = args => {
       ]
     }
     ])
-  const [activeAreaIndex, set_activeAreaIndex] = useState<number>(0)
+  const [activeTabs, set_activeTabs] = useState<string[]>([value[0].area])
   const [activityId, setActivityId] = useState<string | null>(null)
-  const [currentActivity, set_currentActivity] = useState<ActivityType>()
-  const [activities, set_activities] = useState(value[activeAreaIndex].activities)
+  const [currentActivities, set_currentActivities] = useState<AreaType[]>([])
 
-  let tabs: Tab[] = value?.map(({ area }, index) => {
-    const tab = { name: area, onClick: () => set_activeAreaIndex(index)}
-    return tab
-  })
+  let tabs: string[] = value?.map(({ area }) => area)
 
   const onItemClick = (e: React.MouseEvent) => {
     const element = e.target as HTMLDivElement
@@ -391,7 +387,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
   }
 
   const onIntervalClick = (interval) => {
-    let areaData = value[activeAreaIndex]
+    let areaData = value[activeTabs]
     let dateTime = areaData.activities[0].startTime
     let activeDate: string = dateTime?.slice(0, 11)
 
@@ -413,7 +409,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
     setActivityId(guid)
 
     let newData = value.map((area, index) => {
-      if (index === activeAreaIndex) {
+      if (index === activeTabs) {
         let newArea: AreaType = area
         newArea?.activities.push(emptyActivity)
         return newArea  
@@ -424,46 +420,59 @@ const Template: ComponentStory<typeof Timeline> = args => {
   }
 
   useEffect(() => {
-    let activity = value[activeAreaIndex].activities.find(elem => elem.id === activityId)
-    set_currentActivity(activity)
-  }, [activityId, value])
+    let activeIndexedData = value.map((area) => {
+      if (activeTabs.includes(area.area)) {
+         return area
+      } else {
+        return null
+      }
+    })
 
-  useEffect(() => {
-    set_activities(value[activeAreaIndex].activities)
-  }, [value, activeAreaIndex])
+    let scrubbedData: AreaType[] = activeIndexedData.filter(item => item !== null)
+    console.log(activeTabs, "active Indexes")
+    console.log(scrubbedData)
+    set_currentActivities(scrubbedData)
+  }, [activeTabs, value])
 
-  return(
-    <Box mt={0}>
-      <Box wrap >
-        <S.Sticky>
-          <Box width={"100%"}>
-          
-            <Tabs
-            tabs={tabs}
-            initialActiveTab={tabs[0].name}
-            onSetActiveTab={() => null}
+  return (
+    <S.Container>
+      <Box mt={0}>
+        <Box wrap width={'100%'}>
+          <S.Sticky>
+            <Tags
+              allTags={tabs}
+              initialActiveTags={[tabs[0]]}
+              onChange={tabs => set_activeTabs(tabs)}
             />
-          
+          </S.Sticky>
+          <Box>
+            {/* <TimeReference></TimeReference> */}
+            {
+              currentActivities?.map((item) => {
+                return (
+                  <div>
+                    <Timeline 
+                      {...args}
+                      value={item.activities}
+                      onChange={(newValue) => set_value(newValue)} 
+                      onIntervalClick={(interval) => onIntervalClick(interval)}
+                      onItemClick={(e: MouseEvent) => onItemClick(e)}
+                    />
+                  </div>)
+              })
+            }
           </Box>
-        </S.Sticky>
-        <Timeline 
-          {...args}
-          value={activities}
-          onChange={(newValue) => set_value(newValue)} 
-          onIntervalClick={(interval) => onIntervalClick(interval)}
-          onItemClick={(e: MouseEvent) => onItemClick(e)}
-          activeArea={activeAreaIndex}
-        />
-      </Box>
-      <S.Sticky>
+        </Box>
+      {/* <S.Sticky>
         <ActivityEditor
           value={value}
           onChange={(newValue) => set_value(newValue)}
           activity={currentActivity}
-          activeAreaIndex={activeAreaIndex}
+          activeIndexes={activeIndexes}
         />
-      </S.Sticky>
-    </Box>
+      </S.Sticky> */}
+      </Box>
+    </S.Container>
   )
 }
 
@@ -479,6 +488,9 @@ Activities.parameters = {
 const S = {
   Sticky: styled.div`
     width: 100%;
+    padding: 0.5rem;
+    max-width: 100vw;
+    overflow-x: auto;
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -486,5 +498,10 @@ const S = {
   `,
   Overflow: styled.div`
     max-height: 100%;
+  `,
+  Container: styled.div`
+    position: relative;
+    width: 100%;
+    height: 100vh;
   `
 }
