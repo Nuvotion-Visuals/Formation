@@ -444,22 +444,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
             onChange={tabs => set_activeTabs(tabs)}
           />
         </S.Sticky>
-        <S.FlexTest>
-          {/* <TimeReference></TimeReference> */}
-          {
-            currentActivities?.map((item) => {
-              return (
-                  <Timeline 
-                    {...args}
-                    value={item.activities}
-                    onChange={(newValue) => set_value(newValue)} 
-                    onIntervalClick={(interval) => onIntervalClick(interval)}
-                    onItemClick={(e: MouseEvent) => onItemClick(e)}
-                />
-              )
-            })
-          }
-        </S.FlexTest>
+        <Timeline value={currentActivities} />
       </div>
     </S.Container>
   )
@@ -493,7 +478,7 @@ const S = {
   `,
   DataView: styled.div`
   `,
-  FlexTest: styled.div`
+  TimelineContainer: styled.div`
     display: flex;
     flex-direction: row;
   `
