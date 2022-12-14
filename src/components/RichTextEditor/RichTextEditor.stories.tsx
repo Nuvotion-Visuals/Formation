@@ -33,6 +33,12 @@ Label.args = {
   placeholder: 'Write a description'
 }
 
+export const FixedHeight = Template.bind({})
+FixedHeight.args = {
+  placeholder: 'Ask me a question',
+  height: '600px'
+}
+
 export const Icon = Template.bind({})
 Icon.args = {
   label: 'Description',

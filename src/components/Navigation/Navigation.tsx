@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react'
 import { NavHeader } from '../../internal'
 import { NavMenuBars } from '../../internal'
 import { Sidebar, Navs } from '../../internal'
-import { NavLogo } from '../../internal'
+import { NavLogo, Box } from '../../internal'
 
 interface Props {
   navs: Navs,
@@ -31,14 +31,16 @@ export const Navigation = ({
 
   return (<S.Navigation>
     <NavHeader>
-      <NavMenuBars onClick={() => set_open(!open)}/>
-      <NavLogo src={navLogoSrc}/>
+        <NavMenuBars onClick={() => set_open(!open)}/>
+        <NavLogo src={navLogoSrc}/>
     </NavHeader>
+
     <Sidebar 
       navs={navs}
       onClose={() => set_open(false)} 
       open={open} 
     />
+    
     <S.Content>
       {
         children

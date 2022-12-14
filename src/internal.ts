@@ -28,7 +28,21 @@ import {
   getOutline,
   getInitials,
   getColorFromGuid,
-  getTimezone
+  getTimezone,
+  copyToClipboard,
+  downloadFile,
+  shareText,
+  shareTextViaEmail,
+  resourceUrlToDataUrl,
+  resizeDataURL,
+  calculateFileHash,
+  getCookie,
+  getTimeAgo,
+  getZoomScale,
+  capitalizeFirstLetter,
+  stringInArray,
+  blobToBase64,
+  timestamp
 } from './utils'
 export {
   getSuperscriptOrdinal,
@@ -39,7 +53,11 @@ export {
   getOutline,
   getInitials,
   getColorFromGuid,
-  getTimezone
+  getTimezone,
+  copyToClipboard,
+  downloadFile,
+  shareText,
+  shareTextViaEmail
 }
 
 // hooks

@@ -23,21 +23,23 @@ export type Navs = NavProps[]
 interface Props {
   onClose: () => void,
   open: boolean,
-  navs: Navs
+  navs: Navs,
+  active?: boolean
 }
 
-export const Sidebar = ({ onClose, open, navs }: Props) => {
+export const Sidebar = ({ onClose, open, navs, active }: Props) => {
   const renderNavlink = ({ 
     href, 
     icon, 
     name, 
     toolTipTitle,
     newTab,
-    onClick
+    onClick,
+    active
   } : NavProps) => {
     const renderNavOption = () => (
       <S.NavOption 
-        active={false} 
+        active={active} 
         key={`navOption${name}`} 
         open={true}
         title={toolTipTitle}
@@ -188,7 +190,7 @@ const S = {
   SidebarContent: styled.div<SidebarContentProps>`
     height: 100%;
     background: var(--F_Background);
-    border-right: ${props => props.open ? '2px solid var(--F_Surface)' : 'none'};
+    border-right: ${props => props.open ? '1px solid var(--F_Surface)' : 'none'};
     top: 0;
     width: var(--F_Sidebar_Width);
     height: calc(100vh * var(--F_Zoom_Scale));
@@ -254,7 +256,7 @@ const S = {
   `,
   VSpacer: styled.div`
     width: 100%;
-    height: 2px;
+    height: 1px;
     margin: .5rem 0;
     background: var(--F_Surface);
   `,

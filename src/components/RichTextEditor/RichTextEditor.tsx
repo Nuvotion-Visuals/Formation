@@ -12,7 +12,8 @@ interface Props {
   label?: string,
   placeholder?: string,
   value: any,
-  onChange: (arg0: any) => void
+  onChange: (arg0: any) => void,
+  height?: string
 }
 
 export const RichTextEditor = ({ 
@@ -21,15 +22,41 @@ export const RichTextEditor = ({
   label,
   placeholder,
   value,
-  onChange
+  onChange,
+  height
 } : Props) => {
   const quillRef = React.useRef(null)
+
+  // const imageHandler = async () => {
+  //   const input = document.createElement('input');
+
+  //   input.setAttribute('type', 'file');
+  //   input.setAttribute('accept', 'image/*');
+  //   input.click();
+  //   input.onchange = async () => {
+  //       var file: any = input && input.files ? input.files[0] : null;
+  //       var formData = new FormData();
+  //       formData.append("file", file);
+        
+  //       let quillObj = quillRef.current.getEditor();
+        
+
+  //       const url = URL.createObjectURL(file)
+  //       const range = quillObj.getSelection();
+  //       quillObj.editor.insertEmbed(range.index, 'image', url);
+
+
+  //   };
+// }
 
   const modules = useMemo(() => ({
     toolbar: {
       container: [
-        [{ 'header': [1, 2, false] }, 'bold', 'italic', 'underline','strike', {'list': 'ordered'}, {'list': 'bullet'}, 'link'],
+        [{ 'header': [1, 2, false] }, 'bold', 'italic', 'underline', {'list': 'ordered'}, {'list': 'bullet'}, 'code', 'link'],
       ],
+      // 'handlers': {
+      //   image: imageHandler
+      // }
     },
   }), [])
 
@@ -45,14 +72,21 @@ export const RichTextEditor = ({
 
   return (
     <S.Container
-    onBlur={() => {
-      setTimeout(function(){
-        if (document.activeElement?.className.includes('sb-') && label) {
-          const empty = value === undefined || value === '<p><br></p>'
-          set_show(!empty)
+      onBlur={() => {
+        
+        setTimeout(function(){
+          if (document.activeElement?.className.includes('sb-') && label) {
+            const empty = value === undefined || value === '<p><br></p>'
+            set_show(!empty)
+          }
+        }, 0);
+      }}
+      height={height}
+      onClick={() => {
+        if (quillRef?.current) {
+          (quillRef.current as any).focus()
         }
-      }, 0);
-    }}
+      }}
     >
       {
         label &&
@@ -78,7 +112,11 @@ export const RichTextEditor = ({
           </S.Label>
       }
 
-      <S.TextEditorContainer shrink={!show}>
+      <S.TextEditorContainer shrink={!show} onClick={() => {
+        if (quillRef?.current) {
+          (quillRef.current as any).focus()
+        }
+      }}>
       <Suspense fallback={<LoadingSpinner small={true} />}>
         <ReactQuill 
           theme="snow" 
@@ -97,12 +135,22 @@ export const RichTextEditor = ({
 }
 
 const S = {
-  Container: styled.div`
+  Container: styled.div<{
+    height?: string
+  }>`
     box-shadow: var(--F_Outline);
     border-radius: .75rem;
     transition: .15s height; 
     position: relative;
     width: 100%;
+    height: ${props => props.height ? props.height : 'auto'};
+    max-height: ${props => props.height ? props.height : 'auto'};
+    overflow: hidden;
+
+    .quill {
+      height: ${props => props.height ? props.height : 'auto'};
+    }
+
     &:hover {
       box-shadow: var(--F_Outline_Hover);
     }
@@ -119,10 +167,10 @@ const S = {
   }>`
     width: 100%;
     display: ${props => props.shrink ? 'none' : 'block'};
-    
+    height: 100%;
+    /* quill */
 .ql-container {
   font-size: var(--F_Font_Size);
-  height: 100%;
   width: 100%;
   margin: 0px;
   position: relative;
@@ -958,8 +1006,11 @@ const S = {
   background-color: #000;
 }
 .ql-toolbar.ql-snow {
-  padding: 8px;
   box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  padding: 0 .5rem;
+  height: var(--F_Input_Height);
   border-bottom: 1px solid var(--F_Surface);
 }
 .ql-toolbar.ql-snow .ql-formats {
@@ -1056,10 +1107,11 @@ const S = {
 }
 .ql-container.ql-snow {
   margin: 0;
-  padding-top: .125rem;
   min-height: var(--F_Input_Height_Hero);
   color: var(--F_Font_Color);
+  height: calc(100% - var(--F_Input_Height));
 }
+
   `,
   Label: styled.label<{
     shrink?: boolean

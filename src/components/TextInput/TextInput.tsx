@@ -30,7 +30,7 @@ type Props = {
   onEnter?: () => void,
   onChangeEvent?: (e: any) => void,
   placeholder?: string,
-  forceFocus?: boolean
+  forceFocus?: boolean,
 }
 
 export const TextInput = ({ 
