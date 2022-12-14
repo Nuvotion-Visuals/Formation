@@ -13,7 +13,7 @@ export const LoadingSpinner = React.memo(({
   {
     chat
       ? <S.Chat>
-          <span className='loader'></span>
+
         </S.Chat>
       : <S.LoadingSpinner small={small}>
           <div></div>
@@ -61,35 +61,32 @@ const S = {
     }
   `,
   Chat: styled.span<Props>`
-      display: flex;
-      align-items: center;
-      max-width: var(--F_Input_Height_Hero);
-      height: var(--F_Input_Height_Hero);
-  .loader {
+    display: flex;
+    align-items: center;
+    max-width: var(--F_Input_Height_Hero);
+    height: var(--F_Input_Height_Hero);
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
     max-width: var(--F_Input_Height_Hero);
-    margin-top:var(--F_Input_Height_Hero);
-    margin-bottom: var(--F_Input_Height_Hero);
-  }
-  .loader:before,
-  .loader:after {
+
+  &:before,
+  &:after {
     content: '';
     position: absolute;
     border-radius: 50%;
     animation: pulsOut 3s ease-in-out infinite alternate-reverse;
     filter: drop-shadow(0 0 0rem var(--F_Font_Color));
   }
-  .loader:before {
+  &:before {
     width: 100%;
     padding-bottom: 100%;
     animation-name: pulsIn;
 
   }
-  .loader:after {
+  &:after {
     width: calc(100% - 1.8rem);
     padding-bottom: calc(100% - 1.8rem);
 
@@ -115,8 +112,6 @@ const S = {
       opacity: .9;
     }
   }
-  
-    
   `
 };
 
