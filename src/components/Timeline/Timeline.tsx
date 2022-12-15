@@ -6,6 +6,7 @@ import { ActivityType, AreaType } from 'types'
 
 interface Props {
   value: ActivityType[],
+  intervals: IntervalType[],
   onChange: (time: any) => void,
   onIntervalClick: (interval: IntervalType) => void,
   onItemClick: (e: React.MouseEvent) => void
@@ -30,40 +31,10 @@ interface ItemTimeStampType {
 
 type ItemTimeStampsType = ItemTimeStampType[]
 
-export const Timeline = ({ value, onChange,  onIntervalClick, onItemClick }: Props) => {
+export const Timeline = ({ value, intervals, onChange,  onIntervalClick, onItemClick }: Props) => {
 
   const [columnCount, set_columnCount] = useState<number>(1)
   const [renderItems, set_renderItems] = useState<ItemTimeStampType[]>()
-
-  const intervals: IntervalType[] = new Array(112).fill(0).map((item, index) => (
-    {
-      display:
-        index * 15 % 60 === 0
-          ? index * 15 / 60 > 12 && index * 15 / 60 < 24
-            ? `${(index * 15 / 60) - 12}pm`
-            : index * 15 / 60 == 12
-              ? `${index * 15 / 60}pm`
-              : index * 15 / 60 == 24
-                ? '12am'
-                : index * 15 / 60 > 24
-                ? `${(index * 15) / 60 - 24}am`
-                : `${(index * 15) / 60}am`
-          : ''
-      ,
-      value:
-        index * 15 % 60 === 0
-          ? `${index * 15 / 60}:00`
-          : index * 15 % 60 === 15
-            ? `${Math.round(index * 15 / 60)}:15`
-            : index * 15 % 60 === 30
-              ? `${Math.floor(index * 15 / 60)}:30`
-              : index * 15 % 60 === 45
-                ? `${Math.floor(index * 15 / 60)}:45`
-                : ''
-      ,
-      gridNumber: index
-    }
-  ))
 
   let currentItemTimeStamps: ItemTimeStampsType = value?.map((item) => {
     let startTime = ZonedDateTime.parse(item?.startTime)
@@ -270,7 +241,7 @@ const S = {
   }>`
     position: relative;
     width: fit-content;
-    height: 127rem;
+    height: 100%;
     display: grid;
     grid-template-columns: ${props => `repeat(${props.columnCount}, 4rem)`};
     grid-template-rows: repeat(113, 15px);

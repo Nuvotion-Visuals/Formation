@@ -1,9 +1,8 @@
 import React, { useState, useEffect, MouseEvent } from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
-import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 
-import { Timeline, ActivityEditor, Box, Tags } from '../../internal'
-import { ActivityType, AreaType } from '../../types'
+import { Timeline, ActivityEditor, Box, Tags, TimeReference } from '../../internal'
+import {  AreaType } from '../../types'
 import { styled } from '@storybook/theming'
 import { DateTimeFormatter, Duration, ZonedDateTime } from '@js-joda/core'
 
@@ -13,6 +12,12 @@ export default {
 } as ComponentMeta<typeof Timeline>
 
 type AreasType = AreaType[]
+
+interface IntervalType {
+  display: string,
+  value: string,
+  gridNumber: number
+}
 
 
 const Template: ComponentStory<typeof Timeline> = args => {
@@ -374,7 +379,35 @@ const Template: ComponentStory<typeof Timeline> = args => {
 
   let tabs: string[] = value?.map(({ area }) => area)
 
-  const intervals = Array.apply(null, Array(127)).map((interval, index) => index)
+  const intervals: IntervalType[] = new Array(112).fill(0).map((item, index) => (
+    {
+      display:
+        index * 15 % 60 === 0
+          ? index * 15 / 60 > 12 && index * 15 / 60 < 24
+            ? `${(index * 15 / 60) - 12}pm`
+            : index * 15 / 60 == 12
+              ? `${index * 15 / 60}pm`
+              : index * 15 / 60 == 24
+                ? '12am'
+                : index * 15 / 60 > 24
+                ? `${(index * 15) / 60 - 24}am`
+                : `${(index * 15) / 60}am`
+          : ''
+      ,
+      value:
+        index * 15 % 60 === 0
+          ? `${index * 15 / 60}:00`
+          : index * 15 % 60 === 15
+            ? `${Math.round(index * 15 / 60)}:15`
+            : index * 15 % 60 === 30
+              ? `${Math.floor(index * 15 / 60)}:30`
+              : index * 15 % 60 === 45
+                ? `${Math.floor(index * 15 / 60)}:45`
+                : ''
+      ,
+      gridNumber: index
+    }
+  ))
 
   const onItemClick = (e: React.MouseEvent) => {
     const element = e.target as HTMLDivElement
@@ -436,18 +469,16 @@ const Template: ComponentStory<typeof Timeline> = args => {
 
   return (
     <S.Container>
-        <S.Sticky className={'sticky'}>
-          <Tags
-            allTags={tabs}
-            initialActiveTags={[tabs[0], tabs[2]]}
-            onChange={tabs => set_activeTabs(tabs)}
-          />
-        </S.Sticky>
+      <S.Sticky className={'sticky'}>
+        <Tags
+          allTags={tabs}
+          initialActiveTags={[tabs[0], tabs[2]]}
+          onChange={tabs => set_activeTabs(tabs)}
+        />
+      </S.Sticky>
       <S.Content>
         <S.LeftColumn>
-          {
-            intervals.map((item, index) => <S.Example>{index}</S.Example>)
-          }
+          <TimeReference intervals={intervals} />
         </S.LeftColumn>
         <S.RightColumn className={'right column'}>
           {
@@ -455,6 +486,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
               return (
                 <Timeline
                   value={item.activities}
+                  intervals={intervals}
                   onChange={() => null}
                   onIntervalClick={() => null}
                   onItemClick={() => null}
@@ -506,12 +538,13 @@ const S = {
   LeftColumn: styled.div`
     width: 4rem;
     height: 100%;
+    /* overflow-y: auto; */
     
   `,
   RightColumn: styled.div`
     width: calc(100% - 4rem);
     max-width: 100%;
-    height: 100%;
+    height: fit-content;
     display: flex;
     flex-direction: row;
     overflow-x: auto;
@@ -529,15 +562,3 @@ const S = {
     background: red;
   `
 }
-
-
- {/*  CODE FOR POSSIBLE REUSE WHEN IMPLEMENTING MODAL EDITOR
- 
-      <S.Sticky>
-        <ActivityEditor
-          value={value}
-          onChange={(newValue) => set_value(newValue)}
-          activity={currentActivity}
-          activeIndexes={activeIndexes}
-        />
-      </S.Sticky> */}
