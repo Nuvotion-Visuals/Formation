@@ -2,7 +2,7 @@ import React, { useState, useEffect, MouseEvent } from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 
-import { Timeline, ActivityEditor, Box, Tags } from '../../internal'
+import { Timeline, ActivityEditor, Box, Tags, Lane } from '../../internal'
 import { ActivityType, AreaType } from '../../types'
 import { styled } from '@storybook/theming'
 import { DateTimeFormatter, Duration, ZonedDateTime } from '@js-joda/core'
@@ -12,14 +12,8 @@ export default {
   component: Timeline,
 } as ComponentMeta<typeof Timeline>
 
-type Tab = {
-  name: string,
-  // icon?: IconName,
-  // iconPrefix?: IconPrefix,
-  // onClick?: () => void,
-  // prefix?: IconPrefix,
-  // suffix?: string
-}
+type AreasType = AreaType[]
+
 
 const Template: ComponentStory<typeof Timeline> = args => {
   const [value, set_value] = useState([
@@ -428,24 +422,43 @@ const Template: ComponentStory<typeof Timeline> = args => {
       }
     })
 
-    let scrubbedData: AreaType[] = activeIndexedData.filter(item => item !== null)
+    let scrubbedData: AreasType = activeIndexedData.filter(item => item !== null)
     console.log(activeTabs, "active Indexes")
     console.log(scrubbedData)
     set_currentActivities(scrubbedData)
   }, [activeTabs, value])
 
+  useEffect(() => {
+    console.log(currentActivities, "Current Activities")
+  }, [currentActivities])
+
   return (
     <S.Container>
-      <div>
         <S.Sticky className={'sticky'}>
           <Tags
             allTags={tabs}
-            initialActiveTags={[tabs[2]]}
+            initialActiveTags={[tabs[0], tabs[2]]}
             onChange={tabs => set_activeTabs(tabs)}
           />
         </S.Sticky>
-        <Timeline value={currentActivities} />
-      </div>
+      <S.Content>
+        <S.LeftColumn />
+        <S.RightColumn className={'right column'}>
+          {
+            currentActivities?.map((item) => {
+              return (
+                <Lane value={item.activities} />
+              )
+            })
+          }
+        </S.RightColumn>
+          {
+
+          }
+        {/* {
+          
+        } */}
+      </S.Content>
     </S.Container>
   )
 }
@@ -461,6 +474,7 @@ Activities.parameters = {
 
 const S = {
   Sticky: styled.div`
+    width: calc(100% - 1rem);
     padding: 0.5rem;
     overflow-x: auto;
     position: fixed;
@@ -478,10 +492,33 @@ const S = {
   `,
   DataView: styled.div`
   `,
-  TimelineContainer: styled.div`
+  Content: styled.div`
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    display: flex;
+  `,
+  LeftColumn: styled.div`
+    width: 4rem;
+    height: 100%;
+    
+  `,
+  RightColumn: styled.div`
+    width: calc(100% - 4rem);
+    max-width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: row;
+    overflow-x: auto;
+  `,
+  Item: styled.div`
+    width: 12rem;
+    min-width: 12rem;
+    height: 8rem;
+    outline: 1px solid black;
+    background: red;
   `
+
 }
 
 

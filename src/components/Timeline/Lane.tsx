@@ -220,8 +220,8 @@ export const Lane = ({ value, onChange,  onIntervalClick, onItemClick }: Props) 
   }, [JSON.stringify(value)])
 
   return (
-    <S.Container>
-      <S.Grid columnCount={columnCount}>
+    <S.Container className={'GRID CONTAINER'}>
+      <S.Grid columnCount={columnCount} className={'GRID'}>
           {
             renderItems !== undefined
               ? renderItems.map((item, index) => 
@@ -263,15 +263,14 @@ export const Lane = ({ value, onChange,  onIntervalClick, onItemClick }: Props) 
 const S = {
   Container: styled.div<{}>`
     position: relative;
-    width: 100%;
-    overflow-x: auto;
+    width: fit-content;
     background: var(--F_Activity_Backdrop);
+    margin-right: 1px;
   `,
   Grid: styled.div<{
     columnCount: number
   }>`
     position: relative;
-    min-width: 100vw;
     width: fit-content;
     height: 127rem;
     display: grid;
@@ -283,7 +282,6 @@ const S = {
     position: absolute;
     top: 0;
     width: 100%;
-    /* background: #d19494; */
   `,
   TimeStampContainer: styled.div<{}>`
     position: absolute;
@@ -325,7 +323,7 @@ const S = {
     }
   `,
   Item: styled.div<{}>`
-    min-width: 4rem;
+    min-width: 3rem;
     box-sizing: border-box;
     position: absolute;
     width: 100%;

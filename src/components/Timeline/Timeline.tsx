@@ -9,22 +9,19 @@ interface Props {
   
 }
 
-
 export const Timeline = ({value}: Props) => {
 
-  
-
   return (
-    <S.TimelineContainer>
+    <S.TimelineContainer className={'Timeline Container'}>
           {/* <TimeReference /> COMING SOON!!!! */}
       {
         value?.map((item) => {
           return (
-              <Lane 
-                value={item.activities}
-                onChange={(newValue) => set_value(newValue)} 
-                onIntervalClick={(interval) => onIntervalClick(interval)}
-                onItemClick={(e: MouseEvent) => onItemClick(e)}
+            <Lane 
+              value={item.activities}
+              onChange={(newValue) => set_value(newValue)} 
+              onIntervalClick={(interval) => onIntervalClick(interval)}
+              onItemClick={(e: MouseEvent) => onItemClick(e)}
             />
           )
         })
@@ -37,5 +34,7 @@ const S = {
   TimelineContainer: styled.div<{}>`
     display: flex;
     flex-direction: row;
+    min-width: 12rem;
+    width: fit-content;
   `,
 }
