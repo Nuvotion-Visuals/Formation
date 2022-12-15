@@ -2,7 +2,7 @@ import React, { useState, useEffect, MouseEvent } from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 
-import { Timeline, ActivityEditor, Box, Tags, Lane } from '../../internal'
+import { Timeline, ActivityEditor, Box, Tags } from '../../internal'
 import { ActivityType, AreaType } from '../../types'
 import { styled } from '@storybook/theming'
 import { DateTimeFormatter, Duration, ZonedDateTime } from '@js-joda/core'
@@ -374,6 +374,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
 
   let tabs: string[] = value?.map(({ area }) => area)
 
+  const intervals = Array.apply(null, Array(127)).map((interval, index) => index)
+
   const onItemClick = (e: React.MouseEvent) => {
     const element = e.target as HTMLDivElement
     const target = element.id
@@ -442,22 +444,25 @@ const Template: ComponentStory<typeof Timeline> = args => {
           />
         </S.Sticky>
       <S.Content>
-        <S.LeftColumn />
+        <S.LeftColumn>
+          {
+            intervals.map((item, index) => <S.Example>{index}</S.Example>)
+          }
+        </S.LeftColumn>
         <S.RightColumn className={'right column'}>
           {
             currentActivities?.map((item) => {
               return (
-                <Lane value={item.activities} />
+                <Timeline
+                  value={item.activities}
+                  onChange={() => null}
+                  onIntervalClick={() => null}
+                  onItemClick={() => null}
+                />
               )
             })
           }
         </S.RightColumn>
-          {
-
-          }
-        {/* {
-          
-        } */}
       </S.Content>
     </S.Container>
   )
@@ -517,8 +522,12 @@ const S = {
     height: 8rem;
     outline: 1px solid black;
     background: red;
+  `,
+  Example: styled.div`
+    width: 4rem;
+    height: 15px;
+    background: red;
   `
-
 }
 
 

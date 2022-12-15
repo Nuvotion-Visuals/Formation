@@ -161,7 +161,6 @@ export {
 
 // Tissue (2)
 import { Navigation } from './components/Navigation/Navigation'
-import { Lane } from './components/Timeline/Lane'
 import { Location } from './components/Location/Location'
 import { TimePicker } from './components/TimePicker/TimePicker'
 import { DatePicker } from './components/DatePicker/DatePicker'
@@ -171,7 +170,6 @@ import { TimeZone } from './components/TimeZone/TimeZone'
 import { LabelEditor } from './components/LabelEditor/LabelEditor'
 export {
   Navigation,
-  Lane,
   Location,
   TimePicker,
   DatePicker,
