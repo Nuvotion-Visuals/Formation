@@ -9,7 +9,9 @@ interface Props {
   intervals: IntervalType[],
   onChange: (time: any) => void,
   onIntervalClick: (interval: IntervalType) => void,
-  onItemClick: (e: React.MouseEvent) => void
+  onLaneItemClick: (e: React.MouseEvent) => void,
+  color: string,
+  backgroundColor: string
 }
 
 interface IntervalType {
@@ -31,7 +33,7 @@ interface ItemTimeStampType {
 
 type ItemTimeStampsType = ItemTimeStampType[]
 
-export const Timeline = ({ value, intervals, onChange,  onIntervalClick, onItemClick }: Props) => {
+export const Timeline = ({ value, intervals, onChange,  onIntervalClick, onLaneItemClick, color, backgroundColor }: Props) => {
 
   const [columnCount, set_columnCount] = useState<number>(1)
   const [renderItems, set_renderItems] = useState<ItemTimeStampType[]>()
@@ -196,34 +198,22 @@ export const Timeline = ({ value, intervals, onChange,  onIntervalClick, onItemC
               ? renderItems.map((item, index) => 
                   <S.Item
                     key={index}
-                    onClick={(e) => onItemClick(e)}
+                    onClick={(e) => onLaneItemClick(e)}
                     id={item.id}
                     style={{
                       gridColumnStart: item.overflowLane,
                       gridColumnEnd: item.overflowLane,
                       gridRowStart: renderRow(item?.startTime),
                       gridRowEnd: renderRow(item?.endTime)
-                  }}>
+                    }}
+                  color={color}
+                  backgroundColor={backgroundColor}
+                  >
                       {item.title}
                   </S.Item>
                 )
-              : <></>
-              
+              : <></>   
           }
-        <S.IntervalContainer className={"dumkopf"}>
-          {
-            intervals.map((interval, index) =>
-            
-              <S.IntervalBlock
-                key={index}
-                id={index.toString()}
-                value={interval.value}
-                onClick={() => onIntervalClick(interval)}
-                style={{ gridColumnStart: 2, gridColumnEnd: columnCount + 2, gridRowStart: index === 0 ? 1 : index + 1 }}
-              />
-            )
-          }  
-        </S.IntervalContainer>
       </S.Grid>
     </S.Container>
   )
@@ -233,14 +223,14 @@ const S = {
   Container: styled.div<{}>`
     position: relative;
     width: fit-content;
-    background: var(--F_Activity_Backdrop);
-    margin-right: 1px;
+    padding-right: 1px;
   `,
   Grid: styled.div<{
     columnCount: number
   }>`
     position: relative;
-    width: fit-content;
+    width: 100%;
+    min-width: 100%;
     height: 100%;
     display: grid;
     grid-template-columns: ${props => `repeat(${props.columnCount}, 4rem)`};
@@ -249,32 +239,9 @@ const S = {
   `,
   IntervalContainer: styled.div<{}>`
     position: absolute;
-    top: 0;
+    top: 50;
     width: 100%;
-  `,
-  TimeStampContainer: styled.div<{}>`
-    position: absolute;
-    top: 0;
-    width: 3rem;
-    height: 100%;
-    background: var(--F_Activity_Backdrop);
-    z-index: 200;
-  `,
-  TimeDisplay: styled.div<{}>`
-    width: 100%;
-    font-size: var(--F_Font_Size_Label);
-    height: 15px;
-    display: flex;
-    justify-content: flex-end;
-
-    :nth-child(1){
-      display: none;
-    }
-  `,
-  TimeSpan: styled.div<{}>`
-    padding-right: 0.5rem;
-    margin-top: 0.4rem;
-  `,  
+  `, 
   IntervalBlock: styled.div<{
     value: string
   }>`
@@ -284,21 +251,23 @@ const S = {
     z-index: 1;
     line-height: 0;
     :nth-child(1n+1) {
-      
       border-bottom: 1px solid #e7e7e7;
     }
     :nth-Child(2n+2) {
       border-bottom: 1px solid #d7d7d7;
     }
   `,
-  Item: styled.div<{}>`
+  Item: styled.div<{
+    color: string,
+    backgroundColor: string
+  }>`
     min-width: 3rem;
     box-sizing: border-box;
     position: absolute;
     width: 100%;
     height: 100%;
-    background: var(--F_Label_Light_Background_Blue);
-    color: var(--F_Label_Background_Blue);
+    background: ${props => props.backgroundColor ? props.backgroundColor : 'blue'};
+    color: ${props => props.color ? props.color : 'lightblue'};
     font-size: 12px;
     padding: 0.15rem;
     z-index: 100;

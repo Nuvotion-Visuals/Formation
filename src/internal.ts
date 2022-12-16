@@ -167,6 +167,7 @@ import { DatePicker } from './components/DatePicker/DatePicker'
 import { Tags } from './components/Tags/Tags'
 import { Tabs } from './components/Tabs/Tabs'
 import { TimeReference } from './components/Timeline/TimeReference'
+import { TimelineSurface } from './components/Timeline/TimelineSurface'
 import { TimeZone } from './components/TimeZone/TimeZone'
 import { LabelEditor } from './components/LabelEditor/LabelEditor'
 export {
@@ -176,6 +177,7 @@ export {
   DatePicker,
   Tags,
   TimeReference,
+  TimelineSurface,
   Tabs,
   TimeZone,
   LabelEditor

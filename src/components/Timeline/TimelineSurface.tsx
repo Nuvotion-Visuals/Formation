@@ -11,12 +11,12 @@ interface IntervalType {
   gridNumber: number
 }
 
-export const TimeReference = ({intervals}: Props) => {
+export const TimelineSurface = ({intervals}: Props) => {
 
   return (
     <S.Container>
       {
-        intervals.map((item, index) => <S.Interval>{item.display}</S.Interval>)
+        intervals.map((item, index) => <S.Interval />)
       }
     </S.Container>
   )
@@ -24,15 +24,21 @@ export const TimeReference = ({intervals}: Props) => {
 
 const S = {
   Container: styled.div<{}>`
-    position: relative;
+    position: absolute;
+    top: 0;
     width: 100%;
-    min-height: 100%;
-    z-index: 1000;
-    background: var(--F_Activity_Backdrop);
   `,
   Interval: styled.div<{}>`
+    box-sizing: border-box;
     width: 100%;
     height: 15px;
-    text-align: center;
+    z-index: 1;
+    line-height: 0;
+    :nth-child(1n+1) {
+      border-bottom: 1px solid #e7e7e7;
+    }
+    :nth-Child(2n+2) {
+      border-bottom: 1px solid #d7d7d7;
+    }
   `
 }

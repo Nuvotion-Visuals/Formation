@@ -1,7 +1,7 @@
 import React, { useState, useEffect, MouseEvent } from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { Timeline, ActivityEditor, Box, Tags, TimeReference } from '../../internal'
+import { Timeline, ActivityEditor, Box, Tags, TimeReference, TimelineSurface } from '../../internal'
 import {  AreaType } from '../../types'
 import { styled } from '@storybook/theming'
 import { DateTimeFormatter, Duration, ZonedDateTime } from '@js-joda/core'
@@ -23,27 +23,8 @@ interface IntervalType {
 const Template: ComponentStory<typeof Timeline> = args => {
   const [value, set_value] = useState([
     {
-      area: 'Stages',
+      area: 'Stage 1',
       activities: [
-        // {
-        //   title: 'Set0: DJ PRE',
-        //   startTime: `2023-01-01T17:00:00.000-06:00[America/Chicago]`,
-        //   endTime: `2023-01-01T18:45:00.000-06:00[America/Chicago]`,
-        //   id: '0',
-        //   people: [
-        //     {
-        //       name: "DJ PRE",
-        //       position: "DJ",
-        //     },
-        //     {
-        //       name: "tech",
-        //       position: "AV Tech",
-        //     }
-        //   ],
-        // },
-        //
-        //
-        // UPDATE TO UTC TIMECODE
         {
           title: 'Set1: DJ Alpha',
           startTime: `2023-01-01T17:00:00.000-06:00[America/Chicago]`,
@@ -160,7 +141,87 @@ const Template: ComponentStory<typeof Timeline> = args => {
       ]
     },
     {
-      area: 'Doors',
+      area: 'Front Doors',
+      activities: [
+        {
+          title: 'Pre-Open',
+          startTime: `2023-01-01T15:00:00.000-06:00[America/Chicago]`,
+          endTime: `2023-01-01T17:00:00.000-06:00[America/Chicago]`,
+          id: '4',
+          people: [
+            {
+              name: "Larry",
+              position: "Security",
+            },
+            {
+              name: "Samantha",
+              position: "Security",
+            },
+            {
+              name: "Kevin",
+              position: "Ticket Scanner",
+            },
+            {
+              name: "Amanda",
+              position: "Ticket Scanner",
+            }
+          ],
+    
+        },
+        {
+          title: 'Open',
+          startTime: `2023-01-01T17:00:00.000-06:00[America/Chicago]`,
+          endTime: `2023-01-01T23:30:00.000-06:00[America/Chicago]`,
+          id: '5',
+          people: [
+            {
+              name: "Larry",
+              position: "Security",
+            },
+            {
+              name: "Samantha",
+              position: "Security",
+            },
+            {
+              name: "Kevin",
+              position: "Ticket Scanner",
+            },
+            {
+              name: "Amanda",
+              position: "Ticket Scanner",
+            }
+          ],
+    
+        },
+        {
+          title: 'Close',
+          startTime: `2023-01-01T23:30:00.000-06:00[America/Chicago]`,
+          endTime: `2023-01-01T23:45:00.000-06:00[America/Chicago]`,
+          id: '6',
+          people: [
+            {
+              name: "Larry",
+              position: "Security",
+            },
+            {
+              name: "Samantha",
+              position: "Security",
+            },
+            {
+              name: "Kevin",
+              position: "Ticket Scanner",
+            },
+            {
+              name: "Amanda",
+              position: "Ticket Scanner",
+            }
+          ],
+          
+        },
+      ]
+    },
+    {
+      area: 'Back Doors',
       activities: [
         {
           title: 'Pre-Open',
@@ -371,7 +432,144 @@ const Template: ComponentStory<typeof Timeline> = args => {
           ],
         },
       ]
-    }
+    },
+    {
+      area: 'Stage 2',
+      activities: [
+        // {
+        //   title: 'Set0: DJ PRE',
+        //   startTime: `2023-01-01T17:00:00.000-06:00[America/Chicago]`,
+        //   endTime: `2023-01-01T18:45:00.000-06:00[America/Chicago]`,
+        //   id: '0',
+        //   people: [
+        //     {
+        //       name: "DJ PRE",
+        //       position: "DJ",
+        //     },
+        //     {
+        //       name: "tech",
+        //       position: "AV Tech",
+        //     }
+        //   ],
+        // },
+        //
+        //
+        // UPDATE TO UTC TIMECODE
+        {
+          title: 'Set1: DJ Alpha',
+          startTime: `2023-01-01T17:00:00.000-06:00[America/Chicago]`,
+          endTime: `2023-01-01T18:45:00.000-06:00[America/Chicago]`,
+          id: '1',
+          people: [
+            {
+              name: "DJ Alpha",
+              position: "DJ",
+            },
+            {
+              name: "tech",
+              position: "AV Tech",
+            }
+          ],
+        },
+        {
+          title: 'Set2: DJ Beta',
+          startTime: `2023-01-01T18:00:00.000-06:00[America/Chicago]`,
+          endTime: `2023-01-01T20:00:00.000-06:00[America/Chicago]`,
+          id: '2',
+          people: [
+            {
+              name: "DJ Beta",
+              position: "DJ",
+            },
+            {
+              name: "tech",
+              position: "AV Tech",
+            }
+          ],
+        },
+        {
+          title: 'Set3: DJ Theta',
+          startTime: `2023-01-01T19:15:00.000-06:00[America/Chicago]`,
+          endTime: `2023-01-01T21:00:00.000-06:00[America/Chicago]`,
+          id: '3',
+          people: [
+            {
+              name: "DJ Theta",
+              position: "DJ",
+            },
+            {
+              name: "tech",
+              position: "AV Tech",
+            }
+          ],
+        },
+        {
+          title: 'Set4: DJ Omega',
+          startTime: `2023-01-01T22:00:00.000-06:00[America/Chicago]`,
+          endTime: `2023-01-01T23:00:00.000-06:00[America/Chicago]`,
+          id: '4',
+          people: [
+            {
+              name: "DJ Theta",
+              position: "DJ",
+            },
+            {
+              name: "tech",
+              position: "AV Tech",
+            }
+          ],
+        },
+        {
+          title: 'Set5: DJ AGAIN',
+          startTime: `2023-01-01T22:30:00.000-06:00[America/Chicago]`,
+          endTime: `2023-01-01T23:30:00.000-06:00[America/Chicago]`,
+          id: '5',
+          people: [
+            {
+              name: "DJ Theta",
+              position: "DJ",
+            },
+            {
+              name: "tech",
+              position: "AV Tech",
+            }
+          ],
+        },
+        {
+          title: 'Set6: DJ AGAIN-AGAIN',
+          startTime: `2023-01-01T22:45:00.000-06:00[America/Chicago]`,
+          endTime: `2023-01-01T23:45:00.000-06:00[America/Chicago]`,
+          id: '10',
+          people: [
+            {
+              name: "DJ Theta",
+              position: "DJ",
+            },
+            {
+              name: "tech",
+              position: "AV Tech",
+            }
+          ],
+        },
+        {
+          title: 'Set7: DJ TOO LONG',
+          startTime: `2023-01-01T22:45:00.000-06:00[America/Chicago]`,
+          endTime: `2023-01-01T23:45:00.000-06:00[America/Chicago]`,
+          id: '11',
+          people: [
+            {
+              name: "DJ Theta",
+              position: "DJ",
+            },
+            {
+              name: "tech",
+              position: "AV Tech",
+            }
+          ],
+        },
+        
+      ]
+    },
     ])
   const [activeTabs, set_activeTabs] = useState<string[]>([value[0].area])
   const [activityId, setActivityId] = useState<string | null>(null)
@@ -409,7 +607,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
     }
   ))
 
-  const onItemClick = (e: React.MouseEvent) => {
+  const onLaneItemClick = (e: React.MouseEvent) => {
     const element = e.target as HTMLDivElement
     const target = element.id
     setActivityId(target)
@@ -469,31 +667,35 @@ const Template: ComponentStory<typeof Timeline> = args => {
 
   return (
     <S.Container>
-      <S.Sticky className={'sticky'}>
+      <S.TagsContainer>
         <Tags
           allTags={tabs}
-          initialActiveTags={[tabs[0], tabs[2]]}
+          initialActiveTags={[tabs[0]]}
           onChange={tabs => set_activeTabs(tabs)}
         />
-      </S.Sticky>
+      </S.TagsContainer>  
       <S.Content>
         <S.LeftColumn>
           <TimeReference intervals={intervals} />
+          <TimelineSurface intervals={intervals} />
         </S.LeftColumn>
         <S.RightColumn className={'right column'}>
           {
-            currentActivities?.map((item) => {
+            currentActivities?.map((item, index) => {
               return (
                 <Timeline
                   value={item.activities}
                   intervals={intervals}
                   onChange={() => null}
                   onIntervalClick={() => null}
-                  onItemClick={() => null}
+                  onLaneItemClick={() => null}
+                  color={['red', 'blue', 'green', 'orange'][index]}
+                  backgroundColor={ ['darkred', 'lightblue', 'lightgreen', 'lightorange'][index]}
                 />
               )
             })
           }
+          
         </S.RightColumn>
       </S.Content>
     </S.Container>
@@ -510,40 +712,42 @@ Activities.parameters = {
 
 
 const S = {
-  Sticky: styled.div`
-    width: calc(100% - 1rem);
-    padding: 0.5rem;
-    overflow-x: auto;
-    position: fixed;
-    top: 0;
-    z-index: 1000;
-    background: white;
-  `,
-  Overflow: styled.div`
-    max-height: 100%;
-  `,
   Container: styled.div`
     position: relative;
     width: 100%;
     height: 100vh;
+    display: flex;
+    flex-wrap: wrap;
   `,
-  DataView: styled.div`
+  TagsContainer: styled.div`
+    position: relative;
+    width: 100%;
+    height: 2.25rem;
+    padding: 0.5rem;
+    overflow-x: auto; 
+    z-index: 1000;
+    background: white;
   `,
   Content: styled.div`
-    width: 100%;
-    max-width: 100%;
-    height: 100%;
-    display: flex;
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  height: calc(100% - 50px);
+  display: flex;
+  overflow-y: auto;
+`,
+  Overflow: styled.div`
+    max-height: 100%;
+`,
+  DataView: styled.div`
   `,
   LeftColumn: styled.div`
     width: 4rem;
     height: 100%;
-    /* overflow-y: auto; */
-    
   `,
   RightColumn: styled.div`
+    position: relative;
     width: calc(100% - 4rem);
-    max-width: 100%;
     height: fit-content;
     display: flex;
     flex-direction: row;
