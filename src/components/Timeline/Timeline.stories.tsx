@@ -577,7 +577,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
 
   let tabs: string[] = value?.map(({ area }) => area)
 
-  const intervals: IntervalType[] = new Array(112).fill(0).map((item, index) => (
+  const intervals: IntervalType[] = new Array(100).fill(0).map((item, index) => (
     {
       display:
         index * 15 % 60 === 0
@@ -661,10 +661,6 @@ const Template: ComponentStory<typeof Timeline> = args => {
     set_currentActivities(scrubbedData)
   }, [activeTabs, value])
 
-  useEffect(() => {
-    console.log(currentActivities, "Current Activities")
-  }, [currentActivities])
-
   return (
     <S.Container>
       <S.TagsContainer>
@@ -679,7 +675,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
           <TimeReference intervals={intervals} />
           <TimelineSurface intervals={intervals} />
         </S.LeftColumn>
-        <S.RightColumn className={'right column'}>
+        <S.RightColumn>
           {
             currentActivities?.map((item, index) => {
               return (
@@ -689,8 +685,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
                   onChange={() => null}
                   onIntervalClick={() => null}
                   onLaneItemClick={() => null}
-                  color={['#1A0000', '#01001a', '#001a04', '#000f1a'][index]}
-                  backgroundColor={ ['#d69494bb', '#9c94d6ba', '#94d69cb9', '#94c3d6b8'][index]}
+                  color={['#000f1a', '#1A0000', '#01001a', '#001a04'][index]}
+                  backgroundColor={ ['#94c3d6b8', '#d69494bb', '#9c94d6ba', '#94d69cb9'][index]}
                 />
               )
             })

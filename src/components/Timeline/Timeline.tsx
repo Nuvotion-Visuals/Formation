@@ -191,8 +191,8 @@ export const Timeline = ({ value, intervals, onChange,  onIntervalClick, onLaneI
   }, [JSON.stringify(value)])
 
   return (
-    <S.Container className={'GRID CONTAINER'}>
-      <S.Grid columnCount={columnCount} className={'GRID'}>
+    <S.Container >
+      <S.Grid columnCount={columnCount} rowCount={intervals.length}>
           {
             renderItems !== undefined
               ? renderItems.map((item, index) => 
@@ -226,7 +226,8 @@ const S = {
     padding-right: 1px;
   `,
   Grid: styled.div<{
-    columnCount: number
+    columnCount: number,
+    rowCount: number
   }>`
     position: relative;
     width: 100%;
@@ -234,7 +235,7 @@ const S = {
     height: 100%;
     display: grid;
     grid-template-columns: ${props => `repeat(${props.columnCount}, 4rem)`};
-    grid-template-rows: repeat(113, 15px);
+    grid-template-rows: ${props => `repeat(${props.rowCount}, 15px)`};
     column-gap: 1px;
   `,
   IntervalContainer: styled.div<{}>`
@@ -275,22 +276,3 @@ const S = {
     overflow-y: hidden;
   `
 }
-
-
-
-
-        {/*  CODE TO BE USED FOR LATER IMPLEMENTATION REFERENCE
-        
-        <S.TimeStampContainer>
-          {
-            intervals.map((interval, index) => 
-              <S.TimeDisplay
-                key={index}
-                style={{ gridColumnStart: 1, gridRowStart: index + 1}}>
-                  <S.TimeSpan>
-                    {interval.display}
-                  </S.TimeSpan>
-              </S.TimeDisplay>
-            )
-          }
-        </S.TimeStampContainer> */}
