@@ -689,8 +689,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
                   onChange={() => null}
                   onIntervalClick={() => null}
                   onLaneItemClick={() => null}
-                  color={['red', 'blue', 'green', 'orange'][index]}
-                  backgroundColor={ ['darkred', 'lightblue', 'lightgreen', 'lightorange'][index]}
+                  color={['#1A0000', '#01001a', '#001a04', '#000f1a'][index]}
+                  backgroundColor={ ['#d69494bb', '#9c94d6ba', '#94d69cb9', '#94c3d6b8'][index]}
                 />
               )
             })
