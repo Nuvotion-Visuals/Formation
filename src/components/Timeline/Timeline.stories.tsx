@@ -2,7 +2,7 @@ import React, { useState, useEffect, MouseEvent } from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
 import { Timeline, ActivityEditor, Box, Tags, TimeReference, TimelineSurface } from '../../internal'
-import {  AreaType } from '../../types'
+import {  ActivityType, AreaType } from '../../types'
 import { styled } from '@storybook/theming'
 import { DateTimeFormatter, Duration, ZonedDateTime } from '@js-joda/core'
 
@@ -12,6 +12,7 @@ export default {
 } as ComponentMeta<typeof Timeline>
 
 type AreasType = AreaType[]
+type ActivitiesType = ActivityType[]
 
 interface IntervalType {
   display: string,
@@ -27,8 +28,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
       activities: [
         {
           title: 'Set1: DJ Alpha',
-          startTime: `2023-01-01T17:00:00.000-06:00[America/Chicago]`,
-          endTime: `2023-01-01T18:45:00.000-06:00[America/Chicago]`,
+          startTime: `2023-01-01T17:00:00.000`,
+          endTime: `2023-01-01T18:45:00.000`,
           id: '1',
           people: [
             {
@@ -43,8 +44,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
         },
         {
           title: 'Set2: DJ Beta',
-          startTime: `2023-01-01T18:00:00.000-06:00[America/Chicago]`,
-          endTime: `2023-01-01T20:00:00.000-06:00[America/Chicago]`,
+          startTime: `2023-01-01T18:00:00.000`,
+          endTime: `2023-01-01T20:00:00.000`,
           id: '2',
           people: [
             {
@@ -59,8 +60,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
         },
         {
           title: 'Set3: DJ Theta',
-          startTime: `2023-01-01T19:15:00.000-06:00[America/Chicago]`,
-          endTime: `2023-01-01T21:00:00.000-06:00[America/Chicago]`,
+          startTime: `2023-01-01T19:15:00.000`,
+          endTime: `2023-01-01T21:00:00.000`,
           id: '3',
           people: [
             {
@@ -75,8 +76,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
         },
         {
           title: 'Set4: DJ Omega',
-          startTime: `2023-01-01T22:00:00.000-06:00[America/Chicago]`,
-          endTime: `2023-01-01T23:00:00.000-06:00[America/Chicago]`,
+          startTime: `2023-01-01T22:00:00.000`,
+          endTime: `2023-01-01T23:00:00.000`,
           id: '4',
           people: [
             {
@@ -91,8 +92,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
         },
         {
           title: 'Set5: DJ AGAIN',
-          startTime: `2023-01-01T22:30:00.000-06:00[America/Chicago]`,
-          endTime: `2023-01-01T23:30:00.000-06:00[America/Chicago]`,
+          startTime: `2023-01-01T22:30:00.000`,
+          endTime: `2023-01-01T23:30:00.000`,
           id: '5',
           people: [
             {
@@ -107,8 +108,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
         },
         {
           title: 'Set6: DJ AGAIN-AGAIN',
-          startTime: `2023-01-01T22:45:00.000-06:00[America/Chicago]`,
-          endTime: `2023-01-01T23:45:00.000-06:00[America/Chicago]`,
+          startTime: `2023-01-01T22:45:00.000`,
+          endTime: `2023-01-01T23:45:00.000`,
           id: '10',
           people: [
             {
@@ -123,8 +124,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
         },
         {
           title: 'Set7: DJ TOO LONG',
-          startTime: `2023-01-01T22:45:00.000-06:00[America/Chicago]`,
-          endTime: `2023-01-01T23:45:00.000-06:00[America/Chicago]`,
+          startTime: `2023-01-01T22:45:00.000`,
+          endTime: `2023-01-01T23:45:00.000`,
           id: '11',
           people: [
             {
@@ -145,8 +146,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
       activities: [
         {
           title: 'Pre-Open',
-          startTime: `2023-01-01T15:00:00.000-06:00[America/Chicago]`,
-          endTime: `2023-01-01T17:00:00.000-06:00[America/Chicago]`,
+          startTime: `2023-01-01T15:00:00.000`,
+          endTime: `2023-01-01T17:00:00.000`,
           id: '4',
           people: [
             {
@@ -170,8 +171,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
         },
         {
           title: 'Open',
-          startTime: `2023-01-01T17:00:00.000-06:00[America/Chicago]`,
-          endTime: `2023-01-01T23:30:00.000-06:00[America/Chicago]`,
+          startTime: `2023-01-01T17:00:00.000`,
+          endTime: `2023-01-01T23:30:00.000`,
           id: '5',
           people: [
             {
@@ -195,8 +196,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
         },
         {
           title: 'Close',
-          startTime: `2023-01-01T23:30:00.000-06:00[America/Chicago]`,
-          endTime: `2023-01-01T23:45:00.000-06:00[America/Chicago]`,
+          startTime: `2023-01-01T23:30:00.000`,
+          endTime: `2023-01-01T23:45:00.000`,
           id: '6',
           people: [
             {
@@ -225,8 +226,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
       activities: [
         {
           title: 'Pre-Open',
-          startTime: `2023-01-01T15:00:00.000-06:00[America/Chicago]`,
-          endTime: `2023-01-01T17:00:00.000-06:00[America/Chicago]`,
+          startTime: `2023-01-01T15:00:00.000`,
+          endTime: `2023-01-01T17:00:00.000`,
           id: '4',
           people: [
             {
@@ -250,8 +251,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
         },
         {
           title: 'Open',
-          startTime: `2023-01-01T17:00:00.000-06:00[America/Chicago]`,
-          endTime: `2023-01-01T23:30:00.000-06:00[America/Chicago]`,
+          startTime: `2023-01-01T17:00:00.000`,
+          endTime: `2023-01-01T23:30:00.000`,
           id: '5',
           people: [
             {
@@ -275,8 +276,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
         },
         {
           title: 'Close',
-          startTime: `2023-01-01T23:30:00.000-06:00[America/Chicago]`,
-          endTime: `2023-01-01T23:45:00.000-06:00[America/Chicago]`,
+          startTime: `2023-01-01T23:30:00.000`,
+          endTime: `2023-01-01T23:45:00.000`,
           id: '6',
           people: [
             {
@@ -305,8 +306,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
       activities: [
         {
           title: 'Mimosa Hour',
-          startTime: `2023-01-01T17:00:00.000-06:00[America/Chicago]`,
-          endTime: `2023-01-01T19:00:00.000-06:00[America/Chicago]`,
+          startTime: `2023-01-01T17:00:00.000`,
+          endTime: `2023-01-01T19:00:00.000`,
           id: '7',
           people: [
             {
@@ -321,8 +322,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
         },
         {
           title: 'Catering Service',
-          startTime: `2023-01-01T17:00:00.000-06:00[America/Chicago]`,
-          endTime: `2023-01-01T19:00:00.000-06:00[America/Chicago]`,
+          startTime: `2023-01-01T17:00:00.000`,
+          endTime: `2023-01-01T19:00:00.000`,
           id: '8',
           people: [
             {
@@ -337,8 +338,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
         },
         {
           title: 'Massage Therapist',
-          startTime:`2023-01-01T17:00:00.000-06:00[America/Chicago]`,
-          endTime: `2023-01-01T20:00:00.000-06:00[America/Chicago]`,
+          startTime:`2023-01-01T17:00:00.000`,
+          endTime: `2023-01-01T20:00:00.000`,
           id: '9',
           people: [
             {
@@ -353,8 +354,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
         },
         {
           title: 'Vocal Coach',
-          startTime: `2023-01-01T17:00:00.000-06:00[America/Chicago]`,
-          endTime: `2023-01-01T20:00:00.000-06:00[America/Chicago]`,
+          startTime: `2023-01-01T17:00:00.000`,
+          endTime: `2023-01-01T20:00:00.000`,
           id: '10',
           people: [
             {
@@ -369,8 +370,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
         },
         {
           title: 'Ski-ball',
-          startTime: `2023-01-01T17:00:00.000-06:00[America/Chicago]`,
-          endTime: `2023-01-01T20:00:00.000-06:00[America/Chicago]`,
+          startTime: `2023-01-01T17:00:00.000`,
+          endTime: `2023-01-01T20:00:00.000`,
           id: '11',
           people: [
             {
@@ -385,8 +386,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
         },
         {
           title: 'A fairly long title, 23',
-          startTime: `2023-01-01T17:00:00.000-06:00[America/Chicago]`,
-          endTime: `2023-01-01T20:00:00.000-06:00[America/Chicago]`,
+          startTime: `2023-01-01T17:00:00.000`,
+          endTime: `2023-01-01T20:00:00.000`,
           id: '13',
           people: [
             {
@@ -401,8 +402,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
         },
         {
           title: 'This title is 32 characters long',
-          startTime: `2023-01-01T17:00:00.000-06:00[America/Chicago]`,
-          endTime: `2023-01-01T20:00:00.000-06:00[America/Chicago]`,
+          startTime: `2023-01-01T17:00:00.000`,
+          endTime: `2023-01-01T20:00:00.000`,
           id: '14',
           people: [
             {
@@ -417,8 +418,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
         },
         {
           title: 'This title is actually 11 characters longer',
-          startTime: `2023-01-01T17:00:00.000-06:00[America/Chicago]`,
-          endTime: `2023-01-01T20:00:00.000-06:00[America/Chicago]`,
+          startTime: `2023-01-01T17:00:00.000`,
+          endTime: `2023-01-01T20:00:00.000`,
           id: '14',
           people: [
             {
@@ -438,8 +439,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
       activities: [
         // {
         //   title: 'Set0: DJ PRE',
-        //   startTime: `2023-01-01T17:00:00.000-06:00[America/Chicago]`,
-        //   endTime: `2023-01-01T18:45:00.000-06:00[America/Chicago]`,
+        //   startTime: `2023-01-01T17:00:00.000`,
+        //   endTime: `2023-01-01T18:45:00.000`,
         //   id: '0',
         //   people: [
         //     {
@@ -457,8 +458,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
         // UPDATE TO UTC TIMECODE
         {
           title: 'Set1: DJ Alpha',
-          startTime: `2023-01-01T17:00:00.000-06:00[America/Chicago]`,
-          endTime: `2023-01-01T18:45:00.000-06:00[America/Chicago]`,
+          startTime: `2023-01-01T17:00:00.000`,
+          endTime: `2023-01-01T18:45:00.000`,
           id: '1',
           people: [
             {
@@ -473,8 +474,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
         },
         {
           title: 'Set2: DJ Beta',
-          startTime: `2023-01-01T18:00:00.000-06:00[America/Chicago]`,
-          endTime: `2023-01-01T20:00:00.000-06:00[America/Chicago]`,
+          startTime: `2023-01-01T18:00:00.000`,
+          endTime: `2023-01-01T20:00:00.000`,
           id: '2',
           people: [
             {
@@ -489,8 +490,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
         },
         {
           title: 'Set3: DJ Theta',
-          startTime: `2023-01-01T19:15:00.000-06:00[America/Chicago]`,
-          endTime: `2023-01-01T21:00:00.000-06:00[America/Chicago]`,
+          startTime: `2023-01-01T19:15:00.000`,
+          endTime: `2023-01-01T21:00:00.000`,
           id: '3',
           people: [
             {
@@ -505,8 +506,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
         },
         {
           title: 'Set4: DJ Omega',
-          startTime: `2023-01-01T22:00:00.000-06:00[America/Chicago]`,
-          endTime: `2023-01-01T23:00:00.000-06:00[America/Chicago]`,
+          startTime: `2023-01-01T22:00:00.000`,
+          endTime: `2023-01-01T23:00:00.000`,
           id: '4',
           people: [
             {
@@ -521,8 +522,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
         },
         {
           title: 'Set5: DJ AGAIN',
-          startTime: `2023-01-01T22:30:00.000-06:00[America/Chicago]`,
-          endTime: `2023-01-01T23:30:00.000-06:00[America/Chicago]`,
+          startTime: `2023-01-01T22:30:00.000`,
+          endTime: `2023-01-01T23:30:00.000`,
           id: '5',
           people: [
             {
@@ -537,8 +538,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
         },
         {
           title: 'Set6: DJ AGAIN-AGAIN',
-          startTime: `2023-01-01T22:45:00.000-06:00[America/Chicago]`,
-          endTime: `2023-01-01T23:45:00.000-06:00[America/Chicago]`,
+          startTime: `2023-01-01T22:45:00.000`,
+          endTime: `2023-01-01T23:45:00.000`,
           id: '10',
           people: [
             {
@@ -553,8 +554,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
         },
         {
           title: 'Set7: DJ TOO LONG',
-          startTime: `2023-01-01T22:45:00.000-06:00[America/Chicago]`,
-          endTime: `2023-01-01T23:45:00.000-06:00[America/Chicago]`,
+          startTime: `2023-01-01T22:45:00.000`,
+          endTime: `2023-01-01T23:45:00.000`,
           id: '11',
           people: [
             {
@@ -618,7 +619,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
     let dateTime = areaData.activities[0].startTime
     let activeDate: string = dateTime?.slice(0, 11)
 
-    let dateTimeString = `${activeDate}${interval.value}:00.000-06:00[America/Chicago]`
+    let dateTimeString = `${activeDate}${interval.value}:00.000`
     let startTime = ZonedDateTime.parse(dateTimeString)
     let endTime = startTime.plus(Duration.ofHours(1))
 
@@ -656,10 +657,34 @@ const Template: ComponentStory<typeof Timeline> = args => {
     })
 
     let scrubbedData: AreasType = activeIndexedData.filter(item => item !== null)
-    console.log(activeTabs, "active Indexes")
-    console.log(scrubbedData)
     set_currentActivities(scrubbedData)
   }, [activeTabs, value])
+
+  useEffect(() => {
+    let x: ActivitiesType = value.map((area) => {
+      return area.activities
+    }).flat()
+
+    let sortedByStartTime: ActivitiesType = x?.sort((a, b) => {
+      let item1 = Date.parse(a.startTime)
+      let item2 = Date.parse(b.startTime)
+
+      return item1 - item2
+    })
+
+    let origin = sortedByStartTime[0].startTime
+
+    let sortedByEndTime: ActivitiesType = x?.sort((a, b) => {
+      let item1 = Date.parse(a.endTime)
+      let item2 = Date.parse(b.endTime)
+
+      return item2 - item1
+    })
+
+    let terminus = sortedByEndTime[0].endTime
+
+    console.log(origin, terminus, 'origin/terminus of timeline')
+  }, [])
 
   return (
     <S.Container>
