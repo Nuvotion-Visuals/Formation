@@ -4,7 +4,6 @@ import styled, { keyframes } from 'styled-components'
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 
 import { Icon, Box, getLinkComponent } from '../../internal'
-const Link = getLinkComponent()
 
 interface NavProps {
   type?: string,
@@ -38,6 +37,8 @@ export const Sidebar = ({ onClose, open, navs, active }: Props) => {
     onClick,
     active
   } : NavProps) => {
+    const Link = getLinkComponent()
+
     const renderNavOption = () => (
       <S.NavOption 
         active={active} 
