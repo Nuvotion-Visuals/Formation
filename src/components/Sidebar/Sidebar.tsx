@@ -16,7 +16,7 @@ interface NavProps {
   active?: boolean,
   newTab?: boolean,
   onClick?: () => void,
-  childen?: React.ReactNode
+  children?: React.ReactNode
 }
 
 export type Navs = NavProps[]
@@ -241,8 +241,8 @@ const S = {
     }
 
     &:hover {
-      background: ${props => props.active ? 'var(--F_Surface)' : 'var(--F_Surface)'};
-      * {
+      background: ${props => props.active ? 'var(--F_Surface)' : 'var(--F_Surface_0)'};
+      div {
         color: var(--F_Font_Color);
       }
     }
