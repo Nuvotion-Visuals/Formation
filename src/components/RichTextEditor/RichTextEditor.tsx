@@ -11,9 +11,11 @@ interface Props {
   iconPrefix?: IconPrefix,
   label?: string,
   placeholder?: string,
-  value: any,
-  onChange: (arg0: any) => void,
-  height?: string
+  value: string,
+  onChange: (arg0: string) => void,
+  height?: string,
+  outset?: boolean,
+  onEnter?: (arg0: string) => void
 }
 
 export const RichTextEditor = ({ 
@@ -23,7 +25,9 @@ export const RichTextEditor = ({
   placeholder,
   value,
   onChange,
-  height
+  height,
+  outset,
+  onEnter
 } : Props) => {
   const quillRef = React.useRef(null)
 
@@ -72,8 +76,8 @@ export const RichTextEditor = ({
 
   return (
     <S.Container
+      outset={outset}
       onBlur={() => {
-        
         setTimeout(function(){
           if (document.activeElement?.className.includes('sb-') && label) {
             const empty = value === undefined || value === '<p><br></p>'
@@ -105,7 +109,6 @@ export const RichTextEditor = ({
                   <Icon icon={icon} iconPrefix={iconPrefix} />
                 </Box>
             }
-            
             {
               label
             }
@@ -117,7 +120,7 @@ export const RichTextEditor = ({
           (quillRef.current as any).focus()
         }
       }}>
-      <Suspense fallback={<LoadingSpinner small={true} />}>
+      <Suspense fallback={<Box p={1}><LoadingSpinner small={true} /></Box>}>
         <ReactQuill 
           theme="snow" 
           value={value} 
@@ -125,6 +128,13 @@ export const RichTextEditor = ({
           modules={modules}
           ref={quillRef}
           placeholder={placeholder}
+          onKeyDown={e => {
+            if (e.code === 'Enter' && onEnter && !e.shiftKey) {
+              e.preventDefault()
+              onEnter(value)
+              return
+            }
+          }}
           
         />
       </Suspense>
@@ -136,9 +146,10 @@ export const RichTextEditor = ({
 
 const S = {
   Container: styled.div<{
-    height?: string
+    height?: string,
+    outset?: boolean
   }>`
-    box-shadow: var(--F_Outline);
+    box-shadow: ${props => props.outset ? 'var(--F_Outline_Outset)' : 'var(--F_Outline)'};
     border-radius: .75rem;
     transition: .15s height; 
     position: relative;
@@ -152,10 +163,11 @@ const S = {
     }
 
     &:hover {
-      box-shadow: var(--F_Outline_Hover);
+      box-shadow: ${props => props.outset ? 'var(--F_Outline_Outset_Hover)' : 'var(--F_Outline_Hover)'};
     }
     &:focus-within {
-      box-shadow: var(--F_Outline_Focus);
+      box-shadow: ${props => props.outset ? 'var(--F_Outline_Outset_Focus)' : 'var(--F_Outline_Focus)'};
+
       label {
         color: var(--F_Font_Color);
       }
@@ -199,6 +211,7 @@ const S = {
   outline: none;
   overflow-y: auto;
   padding: 12px 15px;
+  padding-top: 0;
   tab-size: 4;
   -moz-tab-size: 4;
   text-align: left;
@@ -1107,7 +1120,7 @@ const S = {
 }
 .ql-container.ql-snow {
   margin: 0;
-  min-height: var(--F_Input_Height_Hero);
+  min-height: var(--F_Input_Height);
   color: var(--F_Font_Color);
   height: calc(100% - var(--F_Input_Height));
 }
@@ -1122,9 +1135,11 @@ const S = {
     transition: .15s all; 
     display: flex;
     padding: 0 1rem;
+    padding-bottom: 0;
     align-items: center;
-    border-bottom: ${props => props.shrink ? '1px solid var(--F_Surface)' : 'none'};
     user-select: none;
+    margin-bottom: ${props => props.shrink ? '0' : '-.75rem)'};
+  
   `
 }
 

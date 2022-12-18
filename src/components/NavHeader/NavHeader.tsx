@@ -21,13 +21,12 @@ const S = {
     width: 100%;
     display: flex;
     align-items: center;
-    height: calc(var(--F_Header_Height) - 1px);
+    height: var(--F_Header_Height);
     background: var(--F_Background);
-    border-bottom: 1px solid var(--F_Surface);
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 20;
+    z-index: 3;
     user-select: none;
   `
 }

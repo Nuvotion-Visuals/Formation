@@ -781,6 +781,7 @@ button {
   outline: none;
   overflow-y: auto;
   padding: 12px 15px;
+  padding-top: 0;
   tab-size: 4;
   -moz-tab-size: 4;
   text-align: left;
@@ -1593,7 +1594,6 @@ button {
   align-items: center;
   padding: 0 .5rem;
   height: var(--F_Input_Height);
-  border-bottom: 1px solid var(--F_Surface);
 }
 .ql-toolbar.ql-snow .ql-formats {
   margin-right: 15px;

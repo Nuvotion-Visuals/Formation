@@ -42,7 +42,8 @@ import {
   capitalizeFirstLetter,
   stringInArray,
   blobToBase64,
-  timestamp
+  timestamp,
+  markdownToHTML
 } from './utils'
 export {
   getSuperscriptOrdinal,
@@ -57,7 +58,18 @@ export {
   copyToClipboard,
   downloadFile,
   shareText,
-  shareTextViaEmail
+  shareTextViaEmail,
+  resourceUrlToDataUrl,
+  resizeDataURL,
+  calculateFileHash,
+  getCookie,
+  getTimeAgo,
+  getZoomScale,
+  capitalizeFirstLetter,
+  stringInArray,
+  blobToBase64,
+  timestamp,
+  markdownToHTML
 }
 
 // hooks

@@ -3,7 +3,8 @@ import styled, { keyframes } from 'styled-components'
 
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 
-import { Icon, Box } from '../../internal'
+import { Icon, Box, getLinkComponent } from '../../internal'
+const Link = getLinkComponent()
 
 interface NavProps {
   type?: string,
@@ -66,11 +67,11 @@ export const Sidebar = ({ onClose, open, navs, active }: Props) => {
 
     return (
       href
-        ? <a href={href}>
+        ? <Link href={href}>
             { 
               renderNavOption() 
             }
-          </a>
+          </Link>
         : renderNavOption()
       
     )
@@ -190,7 +191,6 @@ const S = {
   SidebarContent: styled.div<SidebarContentProps>`
     height: 100%;
     background: var(--F_Background);
-    border-right: ${props => props.open ? '1px solid var(--F_Surface)' : 'none'};
     top: 0;
     width: var(--F_Sidebar_Width);
     height: calc(100vh * var(--F_Zoom_Scale));

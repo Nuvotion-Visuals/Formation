@@ -63,14 +63,14 @@ const S = {
   Chat: styled.span<Props>`
     display: flex;
     align-items: center;
+    width: var(--F_Input_Height_Hero);
     max-width: var(--F_Input_Height_Hero);
+    min-width: var(--F_Input_Height_Hero);
     height: var(--F_Input_Height_Hero);
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100%;
-    max-width: var(--F_Input_Height_Hero);
 
   &:before,
   &:after {

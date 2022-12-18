@@ -10,13 +10,15 @@ import { NavLogo, Box } from '../../internal'
 interface Props {
   navs: Navs,
   navLogoSrc: string,
-  children: React.ReactNode
+  children: React.ReactNode,
+  navChildren?: React.ReactNode
 }
 
 export const Navigation = ({ 
   navs, 
   navLogoSrc,
-  children
+  children,
+  navChildren
 }: Props) => {
   const [open, set_open] = useState(true)
 
@@ -33,6 +35,10 @@ export const Navigation = ({
     <NavHeader>
         <NavMenuBars onClick={() => set_open(!open)}/>
         <NavLogo src={navLogoSrc}/>
+
+        {
+          navChildren
+        }
     </NavHeader>
 
     <Sidebar 

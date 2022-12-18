@@ -140,7 +140,6 @@ export const downloadFile = (str: string, filename: string, mimeType: string) =>
   link.setAttribute('download', filename);
   link.setAttribute('href', `data:${mimeType};charset=utf-8,${encodeURIComponent(str)}`);
   link.click();
-  document.body.removeChild(link);
 }
 // downloadFile('<h1>Hello, world!</h1>', 'hello-world.html', 'text/html');
 // downloadFile('#include <iostream>\nint main() {\n  std::cout << "Hello, world!" << std::endl;\n  return 0;\n}', 'hello-world.cpp', 'text/plain');
@@ -324,3 +323,15 @@ export const calculateFileHash: HashFunction = (file) => {
     loadNext();
   });
 };
+
+import { marked } from 'marked'
+import DOMPurify from 'isomorphic-dompurify'
+import showdown from 'showdown'
+const converter = new showdown.Converter()
+export const markdownToHTML = (markdown: string ) => DOMPurify.sanitize(
+  marked(converter.makeHtml(markdown)), 
+  { 
+    ADD_TAGS: ['iframe'], 
+    ADD_ATTR: ['allow', 'allowfullscreen', 'frameborder', 'scrolling'] 
+  }
+)

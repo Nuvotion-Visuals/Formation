@@ -11,7 +11,7 @@ export default {
 } as ComponentMeta<typeof RichTextEditor>
 
 const Template: ComponentStory<typeof RichTextEditor> = args => {
-  const [value, set_value] = useState()
+  const [value, set_value] = useState('')
 
   return (<>
     <RichTextEditor {...args} value={value} onChange={newValue => set_value(newValue)} />
@@ -25,6 +25,12 @@ const Template: ComponentStory<typeof RichTextEditor> = args => {
 export const Regular = Template.bind({})
 Regular.args = {
 
+}
+
+export const Outset = Template.bind({})
+Outset.args = {
+  outset: true,
+  onEnter: () => alert('Enter')
 }
   
 export const Label = Template.bind({})
