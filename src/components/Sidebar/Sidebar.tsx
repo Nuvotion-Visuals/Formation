@@ -15,7 +15,8 @@ interface NavProps {
   toolTipTitle?: string,
   active?: boolean,
   newTab?: boolean,
-  onClick?: () => void
+  onClick?: () => void,
+  childen?: React.ReactNode
 }
 
 export type Navs = NavProps[]
@@ -28,6 +29,8 @@ interface Props {
 }
 
 export const Sidebar = ({ onClose, open, navs, active }: Props) => {
+  const Link = getLinkComponent()
+
   const renderNavlink = ({ 
     href, 
     icon, 
@@ -35,10 +38,9 @@ export const Sidebar = ({ onClose, open, navs, active }: Props) => {
     toolTipTitle,
     newTab,
     onClick,
-    active
+    active,
+    children
   } : NavProps) => {
-    const Link = getLinkComponent()
-
     const renderNavOption = () => (
       <S.NavOption 
         active={active} 
@@ -62,6 +64,9 @@ export const Sidebar = ({ onClose, open, navs, active }: Props) => {
           <S.Text>
             { name }
           </S.Text>
+          {
+            children
+          }
         </S.NavContent>
       </S.NavOption>
     )
@@ -83,7 +88,8 @@ export const Sidebar = ({ onClose, open, navs, active }: Props) => {
     name, 
     active, 
     onClick, 
-    toolTipTitle 
+    toolTipTitle,
+    children
   }: NavProps) => (
     <S.NavOption 
       active={active} 
@@ -107,6 +113,9 @@ export const Sidebar = ({ onClose, open, navs, active }: Props) => {
         <S.Text>
           { name }
         </S.Text>
+        {
+          children
+        }
       </S.NavContent>
     </S.NavOption>
   )
@@ -192,9 +201,10 @@ const S = {
   SidebarContent: styled.div<SidebarContentProps>`
     height: 100%;
     background: var(--F_Background);
+    border-right: ${props => props.open ? '1px solid var(--F_Surface)' : 'none'};
     top: 0;
     width: var(--F_Sidebar_Width);
-    height: calc(100vh * var(--F_Zoom_Scale));
+    height: calc(100% * var(--F_Zoom_Scale));
     overflow-y: auto;
     overflow-x: hidden;
     user-select: none;
@@ -211,7 +221,6 @@ const S = {
   `,
   NavOptions: styled.div`
     width: 100%;
-    padding-top: .5rem;
   `,
   NavOption: styled.div<NavContentProps>`
     cursor: pointer;

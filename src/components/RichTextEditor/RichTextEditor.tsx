@@ -1024,7 +1024,6 @@ const S = {
   align-items: center;
   padding: 0 .5rem;
   height: var(--F_Input_Height);
-  border-bottom: 1px solid var(--F_Surface);
 }
 .ql-toolbar.ql-snow .ql-formats {
   margin-right: 15px;
