@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
 import README from '!raw-loader!../../../README.md'
@@ -10,13 +10,18 @@ export default {
   component: Navigation,
 } as ComponentMeta<typeof Navigation>
 
-const Template: ComponentStory<typeof Navigation> = (args) => <Navigation {...args} >
-  <Page>
-    <StyleHTML>
-      <ParseHTML markdown={String(README)} />
-    </StyleHTML>
-  </Page>
-</Navigation>
+const Template: ComponentStory<typeof Navigation> = (args) => {
+  const [open, set_open] = useState(true)
+
+  return (<Navigation {...args} open={open} onSetOpen={isOpen => set_open(isOpen)}>
+    <Page>
+      <StyleHTML>
+        <ParseHTML markdown={String(README)} />
+      </StyleHTML>
+    </Page>
+  </Navigation>)
+
+}
 
 export const Regular = Template.bind({})
 Regular.args = {

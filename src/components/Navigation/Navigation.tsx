@@ -11,16 +11,19 @@ interface Props {
   navs: Navs,
   navLogoSrc: string,
   children: React.ReactNode,
-  navChildren?: React.ReactNode
+  navChildren?: React.ReactNode,
+  open: boolean,
+  onSetOpen: (isOpen: boolean) => void
 }
 
 export const Navigation = ({ 
   navs, 
   navLogoSrc,
   children,
-  navChildren
+  navChildren,
+  open,
+  onSetOpen
 }: Props) => {
-  const [open, set_open] = useState(true)
 
   useEffect(() => {
     document.documentElement.style.setProperty(
@@ -33,7 +36,7 @@ export const Navigation = ({
 
   return (<S.Navigation>
     <NavHeader>
-        <NavMenuBars onClick={() => set_open(!open)}/>
+        <NavMenuBars onClick={() => onSetOpen(!open)}/>
         <NavLogo src={navLogoSrc}/>
 
         {
@@ -43,7 +46,7 @@ export const Navigation = ({
 
     <Sidebar 
       navs={navs}
-      onClose={() => set_open(false)} 
+      onClose={() => onSetOpen(false)} 
       open={open} 
     />
     
