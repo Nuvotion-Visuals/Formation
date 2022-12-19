@@ -43,7 +43,8 @@ import {
   stringInArray,
   blobToBase64,
   timestamp,
-  markdownToHTML
+  markdownToHTML,
+  HTMLtoMarkdown
 } from './utils'
 export {
   getSuperscriptOrdinal,
@@ -69,7 +70,8 @@ export {
   stringInArray,
   blobToBase64,
   timestamp,
-  markdownToHTML
+  markdownToHTML,
+  HTMLtoMarkdown
 }
 
 // hooks

@@ -64,10 +64,10 @@ export const Sidebar = ({ onClose, open, navs, active }: Props) => {
           <S.Text>
             { name }
           </S.Text>
-          {
-            children
-          }
         </S.NavContent>
+        {
+          children
+        }
       </S.NavOption>
     )
 
@@ -113,10 +113,10 @@ export const Sidebar = ({ onClose, open, navs, active }: Props) => {
         <S.Text>
           { name }
         </S.Text>
-        {
-          children
-        }
       </S.NavContent>
+      {
+        children
+      }
     </S.NavOption>
   )
 

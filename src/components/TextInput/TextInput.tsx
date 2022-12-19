@@ -309,14 +309,16 @@ const S = {
     position: relative;
     font-size: var(--F_Font_Size_Title);
     font-size: ${props => props.compact ? 'var(--F_Font_Size)' : 'var(--F_Font_Size_Large)'};
+    height: ${props => props.compact ? '1.5rem' : '1.5rem'};
+    background: none;
     vertical-align: center;
     line-height: 1em;
     border: none;
-    padding-left: ${props => props.hasIcon ? '.75rem' : '0'};
+    margin-left: ${props => props.hasIcon ? '.75rem' : '0'};
+    padding: 0;
     outline: none;
     -webkit-appearance: none;
     color: var(--F_Font_Color);
-    background: none;
     pointer-events: ${props => props.preventFocus ? 'none' : 'auto'};
     box-sizing: border-box;
     animation: ${props => (props.shrink && props.hasLabel) ? css`${moveDown} ${props.disableAnimation ? '0s' : '.15s'} forwards` : 'none'};

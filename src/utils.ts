@@ -1,6 +1,5 @@
 import SparkMD5 from 'spark-md5';
 
-
 export const getSuperscriptOrdinal = (number : number) => {
   if (number === 1) {
     return 'st'
@@ -335,3 +334,10 @@ export const markdownToHTML = (markdown: string ) => DOMPurify.sanitize(
     ADD_ATTR: ['allow', 'allowfullscreen', 'frameborder', 'scrolling'] 
   }
 )
+
+import TurndownService from 'turndown'
+
+const turndownService = new TurndownService()
+
+export const HTMLtoMarkdown = (html: string) => 
+  turndownService.turndown(html)
