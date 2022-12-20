@@ -62,8 +62,6 @@ export const Timeline = ({ value, intervals, onChange,  onIntervalClick, onLaneI
 
   const calculateOverflowLanes = (itemsByTimeStamp: ItemTimeStampsType) => {
 
-    console.log(itemsByTimeStamp, 'itemsByTimeStamp')
-
     let isConflicted: boolean | null = null
     let isEmptyArray: boolean | null = null
     let laneRecord: ItemTimeStampType[][] = [[]]
@@ -154,8 +152,6 @@ export const Timeline = ({ value, intervals, onChange,  onIntervalClick, onLaneI
     calculateOverflowLanes(itemsByTimeStamp)
   }, [value]) 
 
-  useEffect(() => {console.log(intervals)}, [intervals])
-
   const autoScrollFirstActivity = (value: ActivityType[]): string => {
     if (value !== undefined) {
       let firstActivityStartTime = value.reduce((prev, curr) => prev.startTime < curr.startTime ? prev : curr).startTime
@@ -173,9 +169,6 @@ export const Timeline = ({ value, intervals, onChange,  onIntervalClick, onLaneI
   // match time string to interval value of type number, use this to calculate gridRow
   const renderRow = (time: string) => {
     const gridObject = intervals.filter(interval => interval.value === time)
-
-    console.log(gridObject, 'gridObject')
-    console.log(time, 'time')
 
     return gridObject[0]?.gridNumber + 1
   }

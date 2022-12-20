@@ -22,14 +22,14 @@ interface IntervalType {
 
 
 const Template: ComponentStory<typeof Timeline> = args => {
-  const [value, set_value] = useState([
+  const [value, set_value] = useState<AreasType>([
     {
-      area: 'Stage 1',
+      area: 'West Stage',
       activities: [
         {
-          title: 'Set1: DJ Alpha',
-          startTime: `2022-12-31T08:00-06:00`,
-          endTime: `2023-01-01T18:45-06:00`,
+          title: 'DJ Alpha',
+          startTime: `2022-12-31T18:00-06:00`,
+          endTime: `2022-12-31T20:45-06:00`,
           id: '1',
           people: [
             {
@@ -43,9 +43,9 @@ const Template: ComponentStory<typeof Timeline> = args => {
           ],
         },
         {
-          title: 'Set2: DJ Beta',
-          startTime: `2023-01-01T08:15-06:00`,
-          endTime: `2023-01-01T20:00-06:00`,
+          title: 'DJ Beta',
+          startTime: `2022-12-31T20:45-06:00`,
+          endTime: `2022-12-31T23:00-06:00`,
           id: '2',
           people: [
             {
@@ -59,9 +59,9 @@ const Template: ComponentStory<typeof Timeline> = args => {
           ],
         },
         {
-          title: 'Set3: DJ Theta',
-          startTime: `2023-01-01T19:15-06:00`,
-          endTime: `2023-01-01T21:00-06:00`,
+          title: 'DJ Theta',
+          startTime: `2022-12-31T23:00-06:00`,
+          endTime: `2023-01-01T01:00-06:00`,
           id: '3',
           people: [
             {
@@ -75,9 +75,9 @@ const Template: ComponentStory<typeof Timeline> = args => {
           ],
         },
         {
-          title: 'Set4: DJ Omega',
-          startTime: `2023-01-01T22:00-06:00`,
-          endTime: `2023-01-01T23:00-06:00`,
+          title: 'DJ Omega',
+          startTime: `2023-01-01T01:00-06:00`,
+          endTime: `2023-01-01T03:00-06:00`,
           id: '4',
           people: [
             {
@@ -91,9 +91,9 @@ const Template: ComponentStory<typeof Timeline> = args => {
           ],
         },
         {
-          title: 'Set5: DJ AGAIN',
-          startTime: `2023-01-01T21:00-06:00`,
-          endTime: `2023-01-01T22:00-06:00`,
+          title: 'DJ AGAIN',
+          startTime: `2023-01-01T03:00-06:00`,
+          endTime: `2023-01-01T05:00-06:00`,
           id: '5',
           people: [
             {
@@ -107,10 +107,95 @@ const Template: ComponentStory<typeof Timeline> = args => {
           ],
         },
         {
-          title: 'Set6: DJ AGAIN-AGAIN',
-          startTime: `2023-01-01T22:45-06:00`,
-          endTime: `2023-01-02T02:00-06:00`,
+          title: 'DJ AGAIN... AGAIN',
+          startTime: `2023-01-01T05:00-06:00`,
+          endTime: `2023-01-01T06:30-06:00`,
           id: '10',
+          people: [
+            {
+              name: "DJ Theta",
+              position: "DJ",
+            },
+            {
+              name: "tech",
+              position: "AV Tech",
+            }
+          ],
+        },
+      ]
+    },
+    {
+      area: 'East Stage',
+      activities: [
+        {
+          title: 'Attack Juggling',
+          startTime: `2022-12-31T19:00-06:00`,
+          endTime: `2022-12-31T21:00-06:00`,
+          id: '66b47071-70b9-4aa7-9394-60788627962e',
+          people: [
+            {
+              name: "DJ Alpha",
+              position: "DJ",
+            },
+            {
+              name: "tech",
+              position: "AV Tech",
+            }
+          ],
+        },
+        {
+          title: 'Acrobats & Aerialists',
+          startTime: `2022-12-31T21:00-06:00`,
+          endTime: `2022-12-31T22:00-06:00`,
+          id: '2627c6a3-6dfe-4c6b-a756-e672279dc4ea',
+          people: [
+            {
+              name: "DJ Beta",
+              position: "DJ",
+            },
+            {
+              name: "tech",
+              position: "AV Tech",
+            }
+          ],
+        },
+        {
+          title: 'Burlesque with Berty',
+          startTime: `2022-12-31T22:00-06:00`,
+          endTime: `2023-01-01T00:00-06:00`,
+          id: '2b6fd32b-ea24-4d17-a9f6-1fb8c79e5a76',
+          people: [
+            {
+              name: "DJ Theta",
+              position: "DJ",
+            },
+            {
+              name: "tech",
+              position: "AV Tech",
+            }
+          ],
+        },
+        {
+          title: 'Dance Off',
+          startTime: `2023-01-01T01:00-06:00`,
+          endTime: `2023-01-01T03:00-06:00`,
+          id: '4d4b237b-10c0-4757-a205-bcb13eab0fd8',
+          people: [
+            {
+              name: "DJ Theta",
+              position: "DJ",
+            },
+            {
+              name: "tech",
+              position: "AV Tech",
+            }
+          ],
+        },
+        {
+          title: 'Hypnosis',
+          startTime: `2023-01-01T03:00-06:00`,
+          endTime: `2023-01-01T04:00-06:00`,
+          id: '9057e3a6-4382-4c3d-b5de-2dea2625b316',
           people: [
             {
               name: "DJ Theta",
@@ -129,8 +214,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
       activities: [
         {
           title: 'Pre-Open',
-          startTime: `2023-01-01T15:00-06:00`,
-          endTime: `2023-01-01T17:00-06:00`,
+          startTime: `2022-12-31T16:00-06:00`,
+          endTime: `2022-12-31T18:00-06:00`,
           id: '4',
           people: [
             {
@@ -154,8 +239,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
         },
         {
           title: 'Open',
-          startTime: `2023-01-01T17:00-06:00`,
-          endTime: `2023-01-01T23:30-06:00`,
+          startTime: `2022-12-31T18:00-06:00`,
+          endTime: `2023-01-01T07:00-06:00`,
           id: '5',
           people: [
             {
@@ -178,9 +263,59 @@ const Template: ComponentStory<typeof Timeline> = args => {
     
         },
         {
-          title: 'Close',
-          startTime: `2023-01-01T23:30-06:00`,
-          endTime: `2023-01-01T23:45-06:00`,
+          title: '18+ entry',
+          startTime: `2022-12-31T18:00-06:00`,
+          endTime: `2022-12-31T22:00-06:00`,
+          id: '5',
+          people: [
+            {
+              name: "Larry",
+              position: "Security",
+            },
+            {
+              name: "Samantha",
+              position: "Security",
+            },
+            {
+              name: "Kevin",
+              position: "Ticket Scanner",
+            },
+            {
+              name: "Amanda",
+              position: "Ticket Scanner",
+            }
+          ],
+    
+        },
+        {
+          title: '21+ entry',
+          startTime: `2022-12-31T22:00-06:00`,
+          endTime: `2023-01-01T05:00-06:00`,
+          id: '5',
+          people: [
+            {
+              name: "Larry",
+              position: "Security",
+            },
+            {
+              name: "Samantha",
+              position: "Security",
+            },
+            {
+              name: "Kevin",
+              position: "Ticket Scanner",
+            },
+            {
+              name: "Amanda",
+              position: "Ticket Scanner",
+            }
+          ],
+    
+        },
+        {
+          title: 'Close + Clean',
+          startTime: `2023-01-01T07:00-06:00`,
+          endTime: `2023-01-01T07:30-06:00`,
           id: '6',
           people: [
             {
@@ -203,358 +338,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
           
         },
       ]
-    },
-    // {
-    //   area: 'Back Doors',
-    //   activities: [
-    //     {
-    //       title: 'Pre-Open',
-    //       startTime: `2023-01-01T15:00-06:00`,
-    //       endTime: `2023-01-01T17:00-06:00`,
-    //       id: '4',
-    //       people: [
-    //         {
-    //           name: "Larry",
-    //           position: "Security",
-    //         },
-    //         {
-    //           name: "Samantha",
-    //           position: "Security",
-    //         },
-    //         {
-    //           name: "Kevin",
-    //           position: "Ticket Scanner",
-    //         },
-    //         {
-    //           name: "Amanda",
-    //           position: "Ticket Scanner",
-    //         }
-    //       ],
-    
-    //     },
-    //     {
-    //       title: 'Open',
-    //       startTime: `2023-01-01T17:00-06:00`,
-    //       endTime: `2023-01-01T23:30-06:00`,
-    //       id: '5',
-    //       people: [
-    //         {
-    //           name: "Larry",
-    //           position: "Security",
-    //         },
-    //         {
-    //           name: "Samantha",
-    //           position: "Security",
-    //         },
-    //         {
-    //           name: "Kevin",
-    //           position: "Ticket Scanner",
-    //         },
-    //         {
-    //           name: "Amanda",
-    //           position: "Ticket Scanner",
-    //         }
-    //       ],
-    
-    //     },
-    //     {
-    //       title: 'Close',
-    //       startTime: `2023-01-01T23:30-06:00`,
-    //       endTime: `2023-01-01T23:45-06:00`,
-    //       id: '6',
-    //       people: [
-    //         {
-    //           name: "Larry",
-    //           position: "Security",
-    //         },
-    //         {
-    //           name: "Samantha",
-    //           position: "Security",
-    //         },
-    //         {
-    //           name: "Kevin",
-    //           position: "Ticket Scanner",
-    //         },
-    //         {
-    //           name: "Amanda",
-    //           position: "Ticket Scanner",
-    //         }
-    //       ],
-          
-    //     },
-    //   ]
-    // },
-    // {
-    //   area: 'Green Room',
-    //   activities: [
-    //     {
-    //       title: 'Mimosa Hour',
-    //       startTime: `2023-01-01T17:00-06:00`,
-    //       endTime: `2023-01-01T19:00-06:00`,
-    //       id: '7',
-    //       people: [
-    //         {
-    //           name: "DJ Alpha",
-    //           position: "DJ",
-    //         },
-    //         {
-    //           name: "tech",
-    //           position: "AV Tech",
-    //         }
-    //       ],
-    //     },
-    //     {
-    //       title: 'Catering Service',
-    //       startTime: `2023-01-01T17:00-06:00`,
-    //       endTime: `2023-01-01T19:00-06:00`,
-    //       id: '8',
-    //       people: [
-    //         {
-    //           name: "Dave",
-    //           position: "catering",
-    //         },
-    //         {
-    //           name: "Lindsay",
-    //           position: "catering",
-    //         }
-    //       ],
-    //     },
-    //     {
-    //       title: 'Massage Therapist',
-    //       startTime:`2023-01-01T17:00-06:00`,
-    //       endTime: `2023-01-01T20:00-06:00`,
-    //       id: '9',
-    //       people: [
-    //         {
-    //           name: "Dave",
-    //           position: "catering",
-    //         },
-    //         {
-    //           name: "Lindsay",
-    //           position: "catering",
-    //         }
-    //       ],
-    //     },
-    //     {
-    //       title: 'Vocal Coach',
-    //       startTime: `2023-01-01T17:00-06:00`,
-    //       endTime: `2023-01-01T20:00-06:00`,
-    //       id: '10',
-    //       people: [
-    //         {
-    //           name: "Dave",
-    //           position: "catering",
-    //         },
-    //         {
-    //           name: "Lindsay",
-    //           position: "catering",
-    //         }
-    //       ],
-    //     },
-    //     {
-    //       title: 'Ski-ball',
-    //       startTime: `2023-01-01T17:00-06:00`,
-    //       endTime: `2023-01-01T20:00-06:00`,
-    //       id: '11',
-    //       people: [
-    //         {
-    //           name: "Dave",
-    //           position: "catering",
-    //         },
-    //         {
-    //           name: "Lindsay",
-    //           position: "catering",
-    //         }
-    //       ],
-    //     },
-    //     {
-    //       title: 'A fairly long title, 23',
-    //       startTime: `2023-01-01T17:00-06:00`,
-    //       endTime: `2023-01-01T20:00-06:00`,
-    //       id: '13',
-    //       people: [
-    //         {
-    //           name: "Dave",
-    //           position: "catering",
-    //         },
-    //         {
-    //           name: "Lindsay",
-    //           position: "catering",
-    //         }
-    //       ],
-    //     },
-    //     {
-    //       title: 'This title is 32 characters long',
-    //       startTime: `2023-01-01T17:00-06:00`,
-    //       endTime: `2023-01-01T20:00-06:00`,
-    //       id: '14',
-    //       people: [
-    //         {
-    //           name: "Dave",
-    //           position: "catering",
-    //         },
-    //         {
-    //           name: "Lindsay",
-    //           position: "catering",
-    //         }
-    //       ],
-    //     },
-    //     {
-    //       title: 'This title is actually 11 characters longer',
-    //       startTime: `2023-01-01T17:00-06:00`,
-    //       endTime: `2023-01-01T20:00-06:00`,
-    //       id: '14',
-    //       people: [
-    //         {
-    //           name: "Dave",
-    //           position: "catering",
-    //         },
-    //         {
-    //           name: "Lindsay",
-    //           position: "catering",
-    //         }
-    //       ],
-    //     },
-    //   ]
-    // },
-    // {
-    //   area: 'Stage 2',
-    //   activities: [
-    //     // {
-    //     //   title: 'Set0: DJ PRE',
-    //     //   startTime: `2023-01-01T17:00`,
-    //     //   endTime: `2023-01-01T18:45`,
-    //     //   id: '0',
-    //     //   people: [
-    //     //     {
-    //     //       name: "DJ PRE",
-    //     //       position: "DJ",
-    //     //     },
-    //     //     {
-    //     //       name: "tech",
-    //     //       position: "AV Tech",
-    //     //     }
-    //     //   ],
-    //     // },
-    //     //
-    //     //
-    //     // UPDATE TO UTC TIMECODE
-    //     {
-    //       title: 'Set1: DJ Alpha',
-    //       startTime: `2023-01-01T17:00-06:00`,
-    //       endTime: `2023-01-01T18:45-06:00`,
-    //       id: '1',
-    //       people: [
-    //         {
-    //           name: "DJ Alpha",
-    //           position: "DJ",
-    //         },
-    //         {
-    //           name: "tech",
-    //           position: "AV Tech",
-    //         }
-    //       ],
-    //     },
-    //     {
-    //       title: 'Set2: DJ Beta',
-    //       startTime: `2023-01-01T18:00-06:00`,
-    //       endTime: `2023-01-01T20:00-06:00`,
-    //       id: '2',
-    //       people: [
-    //         {
-    //           name: "DJ Beta",
-    //           position: "DJ",
-    //         },
-    //         {
-    //           name: "tech",
-    //           position: "AV Tech",
-    //         }
-    //       ],
-    //     },
-    //     {
-    //       title: 'Set3: DJ Theta',
-    //       startTime: `2023-01-01T19:15-06:00`,
-    //       endTime: `2023-01-01T21:00-06:00`,
-    //       id: '3',
-    //       people: [
-    //         {
-    //           name: "DJ Theta",
-    //           position: "DJ",
-    //         },
-    //         {
-    //           name: "tech",
-    //           position: "AV Tech",
-    //         }
-    //       ],
-    //     },
-    //     {
-    //       title: 'Set4: DJ Omega',
-    //       startTime: `2023-01-01T22:00-06:00`,
-    //       endTime: `2023-01-01T23:00-06:00`,
-    //       id: '4',
-    //       people: [
-    //         {
-    //           name: "DJ Theta",
-    //           position: "DJ",
-    //         },
-    //         {
-    //           name: "tech",
-    //           position: "AV Tech",
-    //         }
-    //       ],
-    //     },
-    //     {
-    //       title: 'Set5: DJ AGAIN',
-    //       startTime: `2023-01-01T22:30-06:00`,
-    //       endTime: `2023-01-01T23:30-06:00`,
-    //       id: '5',
-    //       people: [
-    //         {
-    //           name: "DJ Theta",
-    //           position: "DJ",
-    //         },
-    //         {
-    //           name: "tech",
-    //           position: "AV Tech",
-    //         }
-    //       ],
-    //     },
-    //     {
-    //       title: 'Set6: DJ AGAIN-AGAIN',
-    //       startTime: `2023-01-01T22:45-06:00`,
-    //       endTime: `2023-01-01T23:45-06:00`,
-    //       id: '10',
-    //       people: [
-    //         {
-    //           name: "DJ Theta",
-    //           position: "DJ",
-    //         },
-    //         {
-    //           name: "tech",
-    //           position: "AV Tech",
-    //         }
-    //       ],
-    //     },
-    //     {
-    //       title: 'Set7: DJ TOO LONG',
-    //       startTime: `2023-01-01T22:45-06:00`,
-    //       endTime: `2023-01-01T23:45-06:00`,
-    //       id: '11',
-    //       people: [
-    //         {
-    //           name: "DJ Theta",
-    //           position: "DJ",
-    //         },
-    //         {
-    //           name: "tech",
-    //           position: "AV Tech",
-    //         }
-    //       ],
-    //     },
-        
-    //   ]
-    // },
-    ])
+    }
+  ])
   const [activeTabs, set_activeTabs] = useState<string[]>([value[0].area])
   const [activityId, setActivityId] = useState<string | null>(null)
   const [currentActivities, set_currentActivities] = useState<AreaType[]>([])
@@ -568,7 +353,6 @@ const Template: ComponentStory<typeof Timeline> = args => {
 
     return formattedHourMinute
   }
-
 
   // const onLaneItemClick = (e: React.MouseEvent) => {
   //   const element = e.target as HTMLDivElement
@@ -610,16 +394,17 @@ const Template: ComponentStory<typeof Timeline> = args => {
   // }
 
   useEffect(() => {
-    let activeIndexedData = value.map((area) => {
+    let activeIndexedData: AreasType = value.map((area) => {
       if (activeTabs.includes(area.area)) {
          return area
       } else {
         return null
       }
     })
-
+      
     let scrubbedData: AreasType = activeIndexedData.filter(item => item !== null)
     set_currentActivities(scrubbedData)
+
   }, [activeTabs, value])
 
   // create intervals array from value
@@ -673,8 +458,6 @@ const Template: ComponentStory<typeof Timeline> = args => {
           return origin.plus(Duration.ofDays(index)).format(DateTimeFormatter.ofPattern('yyyy-MM-dd'))
         }
       })
-
-      console.log(terminus.format(DateTimeFormatter.ofPattern('yyyy-MM-dd')), 'terminus')
 
       if (eventDates[eventDates.length - 1] !== terminus.format(DateTimeFormatter.ofPattern('yyyy-MM-dd'))){
         eventDates.push(terminus.format(DateTimeFormatter.ofPattern('yyyy-MM-dd')))
@@ -731,8 +514,6 @@ const Template: ComponentStory<typeof Timeline> = args => {
       }
     }
   }, [value])
-
-  // useEffect(() => console.log(eventDateIntervals), [eventDateIntervals])
 
   // let eventIntervals = eventDates.map((date, index) => {
 
