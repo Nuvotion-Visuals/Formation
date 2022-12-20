@@ -19,7 +19,7 @@ export const TimeReference = ({intervals}: Props) => {
         intervals.map((interval, index) => (
           <S.Interval key={index}>
             {
-              interval.display
+            interval.display
             }
           </S.Interval>))
       }

@@ -61,6 +61,9 @@ export const Timeline = ({ value, intervals, onChange,  onIntervalClick, onLaneI
   let itemsByTimeStamp = currentItemTimeStamps?.sort((a, b) => a.startInteger - b.startInteger)
 
   const calculateOverflowLanes = (itemsByTimeStamp: ItemTimeStampsType) => {
+
+    console.log(itemsByTimeStamp, 'itemsByTimeStamp')
+
     let isConflicted: boolean | null = null
     let isEmptyArray: boolean | null = null
     let laneRecord: ItemTimeStampType[][] = [[]]
@@ -151,6 +154,8 @@ export const Timeline = ({ value, intervals, onChange,  onIntervalClick, onLaneI
     calculateOverflowLanes(itemsByTimeStamp)
   }, [value]) 
 
+  useEffect(() => {console.log(intervals)}, [intervals])
+
   const autoScrollFirstActivity = (value: ActivityType[]): string => {
     if (value !== undefined) {
       let firstActivityStartTime = value.reduce((prev, curr) => prev.startTime < curr.startTime ? prev : curr).startTime
@@ -167,15 +172,10 @@ export const Timeline = ({ value, intervals, onChange,  onIntervalClick, onLaneI
 
   // match time string to interval value of type number, use this to calculate gridRow
   const renderRow = (time: string) => {
-    let parsedHour: string = ZonedDateTime.parse(time).format(DateTimeFormatter.ofPattern('HH:mm'))
+    const gridObject = intervals.filter(interval => interval.value === time)
 
-    if (parsedHour.charAt(0) === '0') {
-      let zerolessParsedHour = parsedHour.substring(1)
-      let gridObject = intervals.filter(interval => interval.value === zerolessParsedHour)
-
-      return gridObject[0]?.gridNumber + 1
-    }
-    const gridObject = intervals.filter(interval => interval.value === parsedHour)
+    console.log(gridObject, 'gridObject')
+    console.log(time, 'time')
 
     return gridObject[0]?.gridNumber + 1
   }
