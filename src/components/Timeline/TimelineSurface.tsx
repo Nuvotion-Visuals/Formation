@@ -16,7 +16,7 @@ export const TimelineSurface = ({intervals}: Props) => {
   return (
     <S.Container>
       {
-        intervals.map((item, index) => <S.Interval />)
+        intervals.map((item, index) => <S.Interval key={index} />)
       }
     </S.Container>
   )

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { DateTimeFormatter, LocalDateTime } from '@js-joda/core'
+import { DateTimeFormatter, ZonedDateTime } from '@js-joda/core'
 import '@js-joda/timezone'
-import { ActivityType, AreaType } from 'types'
+import { ActivityType } from 'types'
 
 interface Props {
   value: ActivityType[],
@@ -39,8 +39,8 @@ export const Timeline = ({ value, intervals, onChange,  onIntervalClick, onLaneI
   const [renderItems, set_renderItems] = useState<ItemTimeStampType[]>()
 
   let currentItemTimeStamps: ItemTimeStampsType = value?.map((item) => {
-    let startTime = LocalDateTime.parse(item?.startTime)
-    let endTime = LocalDateTime.parse(item?.endTime)
+    let startTime = ZonedDateTime.parse(item?.startTime)
+    let endTime = ZonedDateTime.parse(item?.endTime)
 
     let formattedStartTime = startTime.format(DateTimeFormatter.ofPattern('HHmm'))
     let formattedEndTime = endTime.format(DateTimeFormatter.ofPattern('HHmm'))
@@ -167,7 +167,7 @@ export const Timeline = ({ value, intervals, onChange,  onIntervalClick, onLaneI
 
   // match time string to interval value of type number, use this to calculate gridRow
   const renderRow = (time: string) => {
-    let parsedHour: string = LocalDateTime.parse(time).format(DateTimeFormatter.ofPattern('HH:mm'))
+    let parsedHour: string = ZonedDateTime.parse(time).format(DateTimeFormatter.ofPattern('HH:mm'))
 
     if (parsedHour.charAt(0) === '0') {
       let zerolessParsedHour = parsedHour.substring(1)

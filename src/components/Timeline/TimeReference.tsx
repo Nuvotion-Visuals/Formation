@@ -16,7 +16,12 @@ export const TimeReference = ({intervals}: Props) => {
   return (
     <S.Container>
       {
-        intervals.map((item, index) => <S.Interval>{item.display}</S.Interval>)
+        intervals.map((interval, index) => (
+          <S.Interval key={index}>
+            {
+              interval.display
+            }
+          </S.Interval>))
       }
     </S.Container>
   )
@@ -32,6 +37,7 @@ const S = {
   `,
   Interval: styled.div<{}>`
     width: 100%;
+    display: flex;
     height: 15px;
     text-align: center;
   `
