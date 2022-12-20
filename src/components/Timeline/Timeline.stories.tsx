@@ -550,6 +550,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
         />
       </S.TagsContainer>  
       <S.Content>
+        <S.RedLine></S.RedLine>
         <S.LeftColumn>
           {
             eventDateIntervals !== undefined  
@@ -622,6 +623,14 @@ const S = {
   display: flex;
   overflow-y: auto;
 `,
+RedLine: styled.div`
+  position: absolute;
+  top: 118px;
+  width: 100%;
+  height: 1px;
+  background: red;
+  z-index: 500;
+`,
   Overflow: styled.div`
     max-height: 100%;
 `,
@@ -638,17 +647,5 @@ const S = {
     display: flex;
     flex-direction: row;
     overflow-x: auto;
-  `,
-  Item: styled.div`
-    width: 12rem;
-    min-width: 12rem;
-    height: 8rem;
-    outline: 1px solid black;
-    background: red;
-  `,
-  Example: styled.div`
-    width: 4rem;
-    height: 15px;
-    background: red;
   `
 }

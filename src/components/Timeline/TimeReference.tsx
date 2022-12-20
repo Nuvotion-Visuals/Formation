@@ -60,29 +60,33 @@ const S = {
   `,
   DayOfWeek: styled.div<{}>`
     width: 100%;
-    height: 1rem;
+    height: 0.8rem;
     text-align: center;
     font-weight: 800;
+    font-size: 0.8rem;
     letter-spacing: 1.1px;
     background: var(--F_Backdrop);
     color: white;
-    padding: 0.25rem 0;
+    padding-top: 0.2rem;
   `,
   MonthDay: styled.div<{}>`
     width: 100%;
-    height: 1rem;
+    height: 0.8rem;
     text-align: center;
     letter-spacing: 0.3px;
+    font-size: 0.8rem;
     z-index: 200;
     background: var(--F_Backdrop);
     color: white;
+    padding-bottom: 0.2rem;
   `,
   Hour: styled.div<{}>`
     position: relative;
-    /* top: -0.6rem; */
+    top: -0.6rem;
     width: 100%;
     text-align: center;
     font-weight: 200;
+    font-size: 0.8rem;
     letter-spacing: 0.8px;
   `
 }
