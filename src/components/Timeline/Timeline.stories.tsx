@@ -22,14 +22,332 @@ interface IntervalType {
 
 
 const Template: ComponentStory<typeof Timeline> = args => {
+  // const [value, set_value] = useState<AreasType>([
+  //   {
+  //     area: 'West Stage',
+  //     activities: [
+  //       {
+  //         title: 'DJ Alpha',
+  //         startTime: `2022-12-31T18:00-06:00`,
+  //         endTime: `2022-12-31T20:45-06:00`,
+  //         id: '1',
+  //         people: [
+  //           {
+  //             name: "DJ Alpha",
+  //             position: "DJ",
+  //           },
+  //           {
+  //             name: "tech",
+  //             position: "AV Tech",
+  //           }
+  //         ],
+  //       },
+  //       {
+  //         title: 'DJ Beta',
+  //         startTime: `2022-12-31T20:45-06:00`,
+  //         endTime: `2022-12-31T23:00-06:00`,
+  //         id: '2',
+  //         people: [
+  //           {
+  //             name: "DJ Beta",
+  //             position: "DJ",
+  //           },
+  //           {
+  //             name: "tech",
+  //             position: "AV Tech",
+  //           }
+  //         ],
+  //       },
+  //       {
+  //         title: 'DJ Theta',
+  //         startTime: `2022-12-31T23:00-06:00`,
+  //         endTime: `2023-01-01T01:00-06:00`,
+  //         id: '3',
+  //         people: [
+  //           {
+  //             name: "DJ Theta",
+  //             position: "DJ",
+  //           },
+  //           {
+  //             name: "tech",
+  //             position: "AV Tech",
+  //           }
+  //         ],
+  //       },
+  //       {
+  //         title: 'DJ Omega',
+  //         startTime: `2023-01-01T01:00-06:00`,
+  //         endTime: `2023-01-01T03:00-06:00`,
+  //         id: '4',
+  //         people: [
+  //           {
+  //             name: "DJ Theta",
+  //             position: "DJ",
+  //           },
+  //           {
+  //             name: "tech",
+  //             position: "AV Tech",
+  //           }
+  //         ],
+  //       },
+  //       {
+  //         title: 'DJ AGAIN',
+  //         startTime: `2023-01-01T03:00-06:00`,
+  //         endTime: `2023-01-01T05:00-06:00`,
+  //         id: '5',
+  //         people: [
+  //           {
+  //             name: "DJ Theta",
+  //             position: "DJ",
+  //           },
+  //           {
+  //             name: "tech",
+  //             position: "AV Tech",
+  //           }
+  //         ],
+  //       },
+  //       {
+  //         title: 'DJ AGAIN... AGAIN',
+  //         startTime: `2023-01-01T05:00-06:00`,
+  //         endTime: `2023-01-01T06:30-06:00`,
+  //         id: '10',
+  //         people: [
+  //           {
+  //             name: "DJ Theta",
+  //             position: "DJ",
+  //           },
+  //           {
+  //             name: "tech",
+  //             position: "AV Tech",
+  //           }
+  //         ],
+  //       },
+  //     ]
+  //   },
+  //   {
+  //     area: 'East Stage',
+  //     activities: [
+  //       {
+  //         title: 'Attack Juggling',
+  //         startTime: `2022-12-31T19:00-06:00`,
+  //         endTime: `2022-12-31T21:00-06:00`,
+  //         id: '66b47071-70b9-4aa7-9394-60788627962e',
+  //         people: [
+  //           {
+  //             name: "DJ Alpha",
+  //             position: "DJ",
+  //           },
+  //           {
+  //             name: "tech",
+  //             position: "AV Tech",
+  //           }
+  //         ],
+  //       },
+  //       {
+  //         title: 'Acrobats & Aerialists',
+  //         startTime: `2022-12-31T21:00-06:00`,
+  //         endTime: `2022-12-31T22:00-06:00`,
+  //         id: '2627c6a3-6dfe-4c6b-a756-e672279dc4ea',
+  //         people: [
+  //           {
+  //             name: "DJ Beta",
+  //             position: "DJ",
+  //           },
+  //           {
+  //             name: "tech",
+  //             position: "AV Tech",
+  //           }
+  //         ],
+  //       },
+  //       {
+  //         title: 'Burlesque with Berty',
+  //         startTime: `2022-12-31T22:00-06:00`,
+  //         endTime: `2023-01-01T00:00-06:00`,
+  //         id: '2b6fd32b-ea24-4d17-a9f6-1fb8c79e5a76',
+  //         people: [
+  //           {
+  //             name: "DJ Theta",
+  //             position: "DJ",
+  //           },
+  //           {
+  //             name: "tech",
+  //             position: "AV Tech",
+  //           }
+  //         ],
+  //       },
+  //       {
+  //         title: 'Dance Off',
+  //         startTime: `2023-01-01T01:00-06:00`,
+  //         endTime: `2023-01-01T03:00-06:00`,
+  //         id: '4d4b237b-10c0-4757-a205-bcb13eab0fd8',
+  //         people: [
+  //           {
+  //             name: "DJ Theta",
+  //             position: "DJ",
+  //           },
+  //           {
+  //             name: "tech",
+  //             position: "AV Tech",
+  //           }
+  //         ],
+  //       },
+  //       {
+  //         title: 'Hypnosis',
+  //         startTime: `2023-01-01T03:00-06:00`,
+  //         endTime: `2023-01-01T04:00-06:00`,
+  //         id: '9057e3a6-4382-4c3d-b5de-2dea2625b316',
+  //         people: [
+  //           {
+  //             name: "DJ Theta",
+  //             position: "DJ",
+  //           },
+  //           {
+  //             name: "tech",
+  //             position: "AV Tech",
+  //           }
+  //         ],
+  //       },
+  //     ]
+  //   },
+  //   {
+  //     area: 'Front Doors',
+  //     activities: [
+  //       {
+  //         title: 'Pre-Open',
+  //         startTime: `2022-12-31T16:00-06:00`,
+  //         endTime: `2022-12-31T18:00-06:00`,
+  //         id: '4',
+  //         people: [
+  //           {
+  //             name: "Larry",
+  //             position: "Security",
+  //           },
+  //           {
+  //             name: "Samantha",
+  //             position: "Security",
+  //           },
+  //           {
+  //             name: "Kevin",
+  //             position: "Ticket Scanner",
+  //           },
+  //           {
+  //             name: "Amanda",
+  //             position: "Ticket Scanner",
+  //           }
+  //         ],
+    
+  //       },
+  //       {
+  //         title: 'Open',
+  //         startTime: `2022-12-31T18:00-06:00`,
+  //         endTime: `2023-01-01T07:00-06:00`,
+  //         id: '5',
+  //         people: [
+  //           {
+  //             name: "Larry",
+  //             position: "Security",
+  //           },
+  //           {
+  //             name: "Samantha",
+  //             position: "Security",
+  //           },
+  //           {
+  //             name: "Kevin",
+  //             position: "Ticket Scanner",
+  //           },
+  //           {
+  //             name: "Amanda",
+  //             position: "Ticket Scanner",
+  //           }
+  //         ],
+    
+  //       },
+  //       {
+  //         title: '18+ entry',
+  //         startTime: `2022-12-31T18:00-06:00`,
+  //         endTime: `2022-12-31T22:00-06:00`,
+  //         id: '5',
+  //         people: [
+  //           {
+  //             name: "Larry",
+  //             position: "Security",
+  //           },
+  //           {
+  //             name: "Samantha",
+  //             position: "Security",
+  //           },
+  //           {
+  //             name: "Kevin",
+  //             position: "Ticket Scanner",
+  //           },
+  //           {
+  //             name: "Amanda",
+  //             position: "Ticket Scanner",
+  //           }
+  //         ],
+    
+  //       },
+  //       {
+  //         title: '21+ entry',
+  //         startTime: `2022-12-31T22:00-06:00`,
+  //         endTime: `2023-01-01T05:00-06:00`,
+  //         id: '5',
+  //         people: [
+  //           {
+  //             name: "Larry",
+  //             position: "Security",
+  //           },
+  //           {
+  //             name: "Samantha",
+  //             position: "Security",
+  //           },
+  //           {
+  //             name: "Kevin",
+  //             position: "Ticket Scanner",
+  //           },
+  //           {
+  //             name: "Amanda",
+  //             position: "Ticket Scanner",
+  //           }
+  //         ],
+    
+  //       },
+  //       {
+  //         title: 'Close + Clean',
+  //         startTime: `2023-01-01T07:00-06:00`,
+  //         endTime: `2023-01-01T07:30-06:00`,
+  //         id: '6',
+  //         people: [
+  //           {
+  //             name: "Larry",
+  //             position: "Security",
+  //           },
+  //           {
+  //             name: "Samantha",
+  //             position: "Security",
+  //           },
+  //           {
+  //             name: "Kevin",
+  //             position: "Ticket Scanner",
+  //           },
+  //           {
+  //             name: "Amanda",
+  //             position: "Ticket Scanner",
+  //           }
+  //         ],
+          
+  //       },
+  //     ]
+  //   }
+  // ])
   const [value, set_value] = useState<AreasType>([
     {
       area: 'West Stage',
       activities: [
         {
           title: 'DJ Alpha',
-          startTime: `2022-12-31T18:00-06:00`,
-          endTime: `2022-12-31T20:45-06:00`,
+          startTime: `2024-02-28T18:00-06:00`,
+          endTime: `2024-02-29T01:00-06:00`,
           id: '1',
           people: [
             {
@@ -41,302 +359,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
               position: "AV Tech",
             }
           ],
-        },
-        {
-          title: 'DJ Beta',
-          startTime: `2022-12-31T20:45-06:00`,
-          endTime: `2022-12-31T23:00-06:00`,
-          id: '2',
-          people: [
-            {
-              name: "DJ Beta",
-              position: "DJ",
-            },
-            {
-              name: "tech",
-              position: "AV Tech",
-            }
-          ],
-        },
-        {
-          title: 'DJ Theta',
-          startTime: `2022-12-31T23:00-06:00`,
-          endTime: `2023-01-01T01:00-06:00`,
-          id: '3',
-          people: [
-            {
-              name: "DJ Theta",
-              position: "DJ",
-            },
-            {
-              name: "tech",
-              position: "AV Tech",
-            }
-          ],
-        },
-        {
-          title: 'DJ Omega',
-          startTime: `2023-01-01T01:00-06:00`,
-          endTime: `2023-01-01T03:00-06:00`,
-          id: '4',
-          people: [
-            {
-              name: "DJ Theta",
-              position: "DJ",
-            },
-            {
-              name: "tech",
-              position: "AV Tech",
-            }
-          ],
-        },
-        {
-          title: 'DJ AGAIN',
-          startTime: `2023-01-01T03:00-06:00`,
-          endTime: `2023-01-01T05:00-06:00`,
-          id: '5',
-          people: [
-            {
-              name: "DJ Theta",
-              position: "DJ",
-            },
-            {
-              name: "tech",
-              position: "AV Tech",
-            }
-          ],
-        },
-        {
-          title: 'DJ AGAIN... AGAIN',
-          startTime: `2023-01-01T05:00-06:00`,
-          endTime: `2023-01-01T06:30-06:00`,
-          id: '10',
-          people: [
-            {
-              name: "DJ Theta",
-              position: "DJ",
-            },
-            {
-              name: "tech",
-              position: "AV Tech",
-            }
-          ],
-        },
-      ]
-    },
-    {
-      area: 'East Stage',
-      activities: [
-        {
-          title: 'Attack Juggling',
-          startTime: `2022-12-31T19:00-06:00`,
-          endTime: `2022-12-31T21:00-06:00`,
-          id: '66b47071-70b9-4aa7-9394-60788627962e',
-          people: [
-            {
-              name: "DJ Alpha",
-              position: "DJ",
-            },
-            {
-              name: "tech",
-              position: "AV Tech",
-            }
-          ],
-        },
-        {
-          title: 'Acrobats & Aerialists',
-          startTime: `2022-12-31T21:00-06:00`,
-          endTime: `2022-12-31T22:00-06:00`,
-          id: '2627c6a3-6dfe-4c6b-a756-e672279dc4ea',
-          people: [
-            {
-              name: "DJ Beta",
-              position: "DJ",
-            },
-            {
-              name: "tech",
-              position: "AV Tech",
-            }
-          ],
-        },
-        {
-          title: 'Burlesque with Berty',
-          startTime: `2022-12-31T22:00-06:00`,
-          endTime: `2023-01-01T00:00-06:00`,
-          id: '2b6fd32b-ea24-4d17-a9f6-1fb8c79e5a76',
-          people: [
-            {
-              name: "DJ Theta",
-              position: "DJ",
-            },
-            {
-              name: "tech",
-              position: "AV Tech",
-            }
-          ],
-        },
-        {
-          title: 'Dance Off',
-          startTime: `2023-01-01T01:00-06:00`,
-          endTime: `2023-01-01T03:00-06:00`,
-          id: '4d4b237b-10c0-4757-a205-bcb13eab0fd8',
-          people: [
-            {
-              name: "DJ Theta",
-              position: "DJ",
-            },
-            {
-              name: "tech",
-              position: "AV Tech",
-            }
-          ],
-        },
-        {
-          title: 'Hypnosis',
-          startTime: `2023-01-01T03:00-06:00`,
-          endTime: `2023-01-01T04:00-06:00`,
-          id: '9057e3a6-4382-4c3d-b5de-2dea2625b316',
-          people: [
-            {
-              name: "DJ Theta",
-              position: "DJ",
-            },
-            {
-              name: "tech",
-              position: "AV Tech",
-            }
-          ],
-        },
-      ]
-    },
-    {
-      area: 'Front Doors',
-      activities: [
-        {
-          title: 'Pre-Open',
-          startTime: `2022-12-31T16:00-06:00`,
-          endTime: `2022-12-31T18:00-06:00`,
-          id: '4',
-          people: [
-            {
-              name: "Larry",
-              position: "Security",
-            },
-            {
-              name: "Samantha",
-              position: "Security",
-            },
-            {
-              name: "Kevin",
-              position: "Ticket Scanner",
-            },
-            {
-              name: "Amanda",
-              position: "Ticket Scanner",
-            }
-          ],
-    
-        },
-        {
-          title: 'Open',
-          startTime: `2022-12-31T18:00-06:00`,
-          endTime: `2023-01-01T07:00-06:00`,
-          id: '5',
-          people: [
-            {
-              name: "Larry",
-              position: "Security",
-            },
-            {
-              name: "Samantha",
-              position: "Security",
-            },
-            {
-              name: "Kevin",
-              position: "Ticket Scanner",
-            },
-            {
-              name: "Amanda",
-              position: "Ticket Scanner",
-            }
-          ],
-    
-        },
-        {
-          title: '18+ entry',
-          startTime: `2022-12-31T18:00-06:00`,
-          endTime: `2022-12-31T22:00-06:00`,
-          id: '5',
-          people: [
-            {
-              name: "Larry",
-              position: "Security",
-            },
-            {
-              name: "Samantha",
-              position: "Security",
-            },
-            {
-              name: "Kevin",
-              position: "Ticket Scanner",
-            },
-            {
-              name: "Amanda",
-              position: "Ticket Scanner",
-            }
-          ],
-    
-        },
-        {
-          title: '21+ entry',
-          startTime: `2022-12-31T22:00-06:00`,
-          endTime: `2023-01-01T05:00-06:00`,
-          id: '5',
-          people: [
-            {
-              name: "Larry",
-              position: "Security",
-            },
-            {
-              name: "Samantha",
-              position: "Security",
-            },
-            {
-              name: "Kevin",
-              position: "Ticket Scanner",
-            },
-            {
-              name: "Amanda",
-              position: "Ticket Scanner",
-            }
-          ],
-    
-        },
-        {
-          title: 'Close + Clean',
-          startTime: `2023-01-01T07:00-06:00`,
-          endTime: `2023-01-01T07:30-06:00`,
-          id: '6',
-          people: [
-            {
-              name: "Larry",
-              position: "Security",
-            },
-            {
-              name: "Samantha",
-              position: "Security",
-            },
-            {
-              name: "Kevin",
-              position: "Ticket Scanner",
-            },
-            {
-              name: "Amanda",
-              position: "Ticket Scanner",
-            }
-          ],
-          
-        },
+        }
       ]
     }
   ])
