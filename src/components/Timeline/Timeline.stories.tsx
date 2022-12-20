@@ -502,7 +502,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
           {
             display:
               index == 0 
-                ? `${namedDay.substring(0,3)} ${formattedDate}`
+                ?[ `${namedDay.substring(0,3)}`, `${formattedDate}`]
                 : index * 15 % 60 === 0
                   ? index * 15 / 60 > 12 && index * 15 / 60 < 24
                     ? `${(index * 15 / 60) - 12}pm`
