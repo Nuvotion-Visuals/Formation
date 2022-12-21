@@ -584,24 +584,27 @@ const Template: ComponentStory<typeof Timeline> = args => {
       let endTime: string = eventDateIntervals[eventDateIntervals.length - 1].value
       let parsedEndTime = ZonedDateTime.parse(endTime)
 
-      console.log(parsedEndTime.toString(), 'parsed end time')
-
       let parsedCurrentTime = ZonedDateTime.parse(currentTime)
       let isAfterStart = parsedCurrentTime.isAfter(parsedStartTime)
       let isBeforeEnd = parsedCurrentTime.isBefore(parsedEndTime)
 
       if (isAfterStart && isBeforeEnd) {
         setInterval(() => {
-          set_currentTime(ZonedDateTime.now().format(DateTimeFormatter.ofPattern(`yyyy-M-dd'T'HH:mmXXX`)))
+          set_currentTime(ZonedDateTime.now().format(DateTimeFormatter.ofPattern(`yyyy-M-dd'T'HH:mmXXX`)).toString())
         }, 1000)
 
         let currentTimeParsed = ZonedDateTime.parse(currentTime)
-        let timeComparison = Duration.between(currentTimeParsed, parsedEndTime)._seconds
 
-        let x = timeComparison + 15 * 60
+        let timeComparison = Duration.between(currentTimeParsed, parsedEndTime)
+
+        let w = timeComparison.plus(Duration.ofHours(0).plusMinutes(15))
+
+        let x = w._seconds
+        console.log(parsedEndTime, 'END')
+        console.log(w, 'w')
         console.log(x, 'x')
 
-        set_timeReferencePosition(`${x / 60}px`)
+        set_timeReferencePosition(`${x / 60}px `)
       }
     }      
   }, [eventDateIntervals])
