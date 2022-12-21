@@ -32,7 +32,7 @@ const S = {
     box-sizing: border-box;
     width: 100%;
     height: 15px;
-    z-index: 1;
+    z-index: 1000;
     line-height: 0;
     :nth-child(1n+1) {
       border-bottom: 1px solid #f3f3f3;

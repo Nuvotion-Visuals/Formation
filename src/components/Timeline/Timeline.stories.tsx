@@ -4,7 +4,8 @@ import { ComponentStory, ComponentMeta } from '@storybook/react'
 import { Timeline, ActivityEditor, Box, Tags, TimeReference, TimelineSurface } from '../../internal'
 import {  ActivityType, AreaType } from '../../types'
 import { styled } from '@storybook/theming'
-import { DateTimeFormatter, Duration, ZonedDateTime, LocalDate } from '@js-joda/core'
+
+import { DateTimeFormatter, Duration, ZonedDateTime, LocalDate, LocalDateTime } from '@js-joda/core'
 
 export default {
   title: 'Advanced Input/Timeline',
@@ -22,6 +23,8 @@ interface IntervalType {
 
 
 const Template: ComponentStory<typeof Timeline> = args => {
+  // Value Block One
+  //
   // const [value, set_value] = useState<AreasType>([
   //   {
   //     area: 'West Stage',
@@ -340,14 +343,43 @@ const Template: ComponentStory<typeof Timeline> = args => {
   //     ]
   //   }
   // ])
+
+  // Value Block Two
+  //
+  // const [value, set_value] = useState<AreasType>([
+  //   {
+  //     area: 'West Stage',
+  //     activities: [
+  //       {
+  //         title: 'DJ Alpha',
+  //         startTime: `2024-02-28T18:00-06:00`,
+  //         endTime: `2024-02-29T01:00-06:00`,
+  //         id: '1',
+  //         people: [
+  //           {
+  //             name: "DJ Alpha",
+  //             position: "DJ",
+  //           },
+  //           {
+  //             name: "tech",
+  //             position: "AV Tech",
+  //           }
+  //         ],
+  //       }
+  //     ]
+  //   }
+  // ])
+
+  // Value Block Two
+  //
   const [value, set_value] = useState<AreasType>([
     {
-      area: 'West Stage',
+      area: 'Central Stage',
       activities: [
         {
-          title: 'DJ Alpha',
-          startTime: `2024-02-28T18:00-06:00`,
-          endTime: `2024-02-29T01:00-06:00`,
+          title: 'Chicago Event',
+          startTime: `2022-12-21T08:00-06:00`,
+          endTime: `2022-12-21T23:00-06:00`,
           id: '1',
           people: [
             {
@@ -363,10 +395,14 @@ const Template: ComponentStory<typeof Timeline> = args => {
       ]
     }
   ])
+
+
   const [activeTabs, set_activeTabs] = useState<string[]>([value[0].area])
   const [activityId, setActivityId] = useState<string | null>(null)
   const [currentActivities, set_currentActivities] = useState<AreaType[]>([])
   const [eventDateIntervals, set_eventDateIntervals] = useState<IntervalType[]>()
+  const [currentTime, set_currentTime] = useState(ZonedDateTime.now().format(DateTimeFormatter.ofPattern(`yyyy-M-dd'T'HH:mmXXX`))) 
+  const [timeReferencePosition, set_timeReferencePosition] = useState('')
 
   let tabs: string[] = value?.map(({ area }) => area)
 
@@ -409,13 +445,14 @@ const Template: ComponentStory<typeof Timeline> = args => {
   //     if (index === activeTabs) {
   //       let newArea: AreaType = area
   //       newArea?.activities.push(emptyActivity)
-  //       return newArea  
-  //     } 
+  //       return newArea
+  //     }
   //     return area
   //   })
   //   set_value(newData)
   // }
 
+  /*  set currentActivities  */
   useEffect(() => {
     let activeIndexedData: AreasType = value.map((area) => {
       if (activeTabs.includes(area.area)) {
@@ -538,7 +575,46 @@ const Template: ComponentStory<typeof Timeline> = args => {
     }
   }, [value])
 
-  // let eventIntervals = eventDates.map((date, index) => {
+  // determine if timeStampReference component should be tracked/rendered
+  useEffect(() => {
+    if (eventDateIntervals !== undefined) {
+      let startTime: string = eventDateIntervals[0].value
+      let parsedStartTime = ZonedDateTime.parse(startTime)
+
+      let endTime: string = eventDateIntervals[eventDateIntervals.length - 1].value
+      let parsedEndTime = ZonedDateTime.parse(endTime)
+
+      console.log(parsedEndTime.toString(), 'parsed end time')
+
+      let parsedCurrentTime = ZonedDateTime.parse(currentTime)
+      let isAfterStart = parsedCurrentTime.isAfter(parsedStartTime)
+      let isBeforeEnd = parsedCurrentTime.isBefore(parsedEndTime)
+
+      if (isAfterStart && isBeforeEnd) {
+        setInterval(() => {
+          set_currentTime(ZonedDateTime.now().format(DateTimeFormatter.ofPattern(`yyyy-M-dd'T'HH:mmXXX`)))
+        }, 1000)
+
+        let currentTimeParsed = ZonedDateTime.parse(currentTime)
+        let timeComparison = Duration.between(currentTimeParsed, parsedEndTime)._seconds
+
+        let x = timeComparison + 15 * 60
+        console.log(x, 'x')
+
+        set_timeReferencePosition(`${x / 60}px`)
+      }
+    }      
+  }, [eventDateIntervals])
+
+  useEffect(() => console.log(timeReferencePosition, 'timeReferencePosition'))
+
+  // determine timeStampReference components position
+  useEffect(() => {
+    
+
+    console.log(currentTime, 'current TIME')
+  }, [currentTime])
+
 
   return (
     <S.Container>
@@ -549,41 +625,43 @@ const Template: ComponentStory<typeof Timeline> = args => {
           onChange={tabs => set_activeTabs(tabs)}
         />
       </S.TagsContainer>  
-      <S.Content>
-        <S.RedLine></S.RedLine>
-        <S.LeftColumn>
-          {
-            eventDateIntervals !== undefined  
-              ? <>
-                  <TimeReference intervals={eventDateIntervals} />
-                  <TimelineSurface intervals={eventDateIntervals} />
-                </>
-              : <></>
-          }
-          
-        </S.LeftColumn>
-        <S.RightColumn>
-          {
-            eventDateIntervals !== undefined
-              ? currentActivities?.map((item, index) => {
-                  return (
-                    <Timeline
-                      key={index}
-                      value={item.activities}
-                      intervals={eventDateIntervals}
-                      onChange={() => null}
-                      onIntervalClick={() => null}
-                      onLaneItemClick={() => null}
-                      color={['#000f1a', '#1A0000', '#01001a', '#001a04'][index]}
-                      backgroundColor={ ['#94c3d6b8', '#d69494bb', '#9c94d6ba', '#94d69cb9'][index]}
-                    />
-                  )
-                })
-              :<></>
+      <S.Content className={'CONTENT'}>
+        <S.Timeline>
+          <S.CurrentTimeReference timeReferencePosition={timeReferencePosition}></S.CurrentTimeReference>
+          <S.LeftColumn>
+            {
+              eventDateIntervals !== undefined  
+                ? <>
+                    <TimeReference intervals={eventDateIntervals} />
+                    <TimelineSurface intervals={eventDateIntervals} />
+                  </>
+                : <></>
+            }
             
-          }
-          
-        </S.RightColumn>
+          </S.LeftColumn>
+          <S.RightColumn>
+            {
+              eventDateIntervals !== undefined
+                ? currentActivities?.map((item, index) => {
+                    return (
+                      <Timeline
+                        key={index}
+                        value={item.activities}
+                        intervals={eventDateIntervals}
+                        onChange={() => null}
+                        onIntervalClick={() => null}
+                        onLaneItemClick={() => null}
+                        color={['#000f1a', '#1A0000', '#01001a', '#001a04'][index]}
+                        backgroundColor={ ['#94c3d6b8', '#d69494bb', '#9c94d6ba', '#94d69cb9'][index]}
+                      />
+                    )
+                  })
+                :<></>
+              
+            }
+            
+          </S.RightColumn>
+        </S.Timeline>
       </S.Content>
     </S.Container>
   )
@@ -602,7 +680,7 @@ const S = {
   Container: styled.div`
     position: relative;
     width: 100%;
-    height: 100vh;
+    height: 99.5vh;
     display: flex;
     flex-wrap: wrap;
   `,
@@ -616,20 +694,40 @@ const S = {
     background: white;
   `,
   Content: styled.div`
-  position: relative;
-  width: 100%;
-  max-width: 100%;
-  height: calc(100% - 50px);
-  display: flex;
-  overflow-y: auto;
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    height: calc(100% - 50px);
+    overflow-y: auto;
+
+    ::-webkit-scrollbar {
+      width: 0.5rem;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #ffffff28;
+      -webkit-box-shadow: inset 0 0 .125rem rgba(0,0,0,0.3);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--F_Primary_Variant);
+    }
 `,
-RedLine: styled.div`
-  position: absolute;
-  top: 118px;
-  width: 100%;
-  height: 1px;
-  background: red;
-  z-index: 500;
+  Timeline: styled.div`
+    position: relative;
+    width: 100%;
+    min-height: fit-content;
+    display: flex;
+  `,
+  CurrentTimeReference: styled.div<{
+    timeReferencePosition: string | undefined
+  }>`
+    position: absolute;
+    bottom: ${props => props.timeReferencePosition !== undefined ? props.timeReferencePosition : ''};
+    width: 100%;
+    height: 1px;
+    background: red;
+    z-index: 500;
 `,
   Overflow: styled.div`
     max-height: 100%;
