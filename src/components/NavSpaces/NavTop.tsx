@@ -9,7 +9,7 @@ import { NavBack } from './NavBack'
 import { SpaceIcon } from './SpaceIcon'
 
 interface Props {
-  title?: string,
+  name?: string,
   src?: string,
   date?: Date,
   onBack?: () => void,
@@ -19,7 +19,7 @@ interface Props {
 }
 
 export const NavTop = ({ 
-  title,
+  name,
   src,
   date, 
   onBack,
@@ -46,10 +46,11 @@ export const NavTop = ({
                   src={src}
                   date={date}
                   small={true}
+                  active={true}
                 />
                 <S.Title>
                   {
-                    title
+                    name
                   }
                 </S.Title>
               </S.SpaceInfo>
@@ -63,7 +64,7 @@ export const NavTop = ({
 const S = {
   Header: styled.div`
     width: 100%;
-    border-bottom: 2px solid var(--F_Surface);
+    border-bottom: 1px solid var(--F_Surface);
     height: var(--F_Header_Height);
   `,
   Inner: styled.div`

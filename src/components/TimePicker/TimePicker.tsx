@@ -5,6 +5,22 @@ import { useOnClickOutside } from '../../internal'
 import { useScrollTo } from '../../internal'
 
 import { TextInput } from '../../internal'
+import { IconPrefix } from '@fortawesome/fontawesome-common-types'
+
+const calculateTimeDifference = (startTime: string, endTime: string) => {
+  const diff = (Number(new Date("01/01/2007 " + endTime)) - Number(new Date("01/01/2007 " + startTime))) / 60000
+
+  const minutes = diff % 60
+  const hours = (diff - minutes) / 60
+
+  const difference = hours > 0 
+    ? `${hours}h` + (minutes > 0 ? ` ${minutes}m` : '')
+    : hours === 0
+      ? `${minutes}m`
+      : `${24 + hours}h` + (60 + minutes > 0 ? ` ${60 + minutes}m` : '')
+
+  return difference
+}
 
 // rewrite as isValidTime
 
@@ -33,12 +49,14 @@ import { TextInput } from '../../internal'
 const Times = ({ 
   value,
   onChange,
-  onClose
+  onClose,
+  comparisonStartTime
 } : {
   value: string,
   onMonthChange: (arg0: string) => void,
   onChange: (arg0: string) => void,
-  onClose: () => void
+  onClose: () => void,
+  comparisonStartTime?: string
 }) => {
 
   const scrollContainerRef = useRef<HTMLDivElement | null>(null)
@@ -47,7 +65,6 @@ const Times = ({
   useOnClickOutside(scrollContainerRef, () => {
     onClose()
   })
-
 
   const { set_scrollTo } = useScrollTo(scrollContainerRef, scrollToRef);
 
@@ -114,9 +131,9 @@ const Times = ({
             onClose()
           }}
           active={value === item}
-          ref={value === item ? scrollToRef : null}
+          ref={value === item ? scrollToRef : item === '12:00 PM' ? scrollToRef : null }
         >
-          { item }
+          {`${item}${comparisonStartTime ? ` (${calculateTimeDifference(comparisonStartTime, item)})` : ''}`}
         </S.Item>  
       )
     }
@@ -125,18 +142,24 @@ const Times = ({
 
 interface Props {
   value: string,
+  comparisonStartTime?: string,
   label?: string,
   onChange: (arg0: string) => void,
-  error?: string
+  error?: string,
+  iconPrefix?: IconPrefix,
+  autoFocus?: boolean
 }
 
 export const TimePicker = ({
   value,
+  comparisonStartTime,
   onChange,
   label,
-  error
+  error,
+  iconPrefix,
+  autoFocus
 }: Props) => {
-  const [isOpen, set_isOpen] = useState(false)
+  const [isOpen, set_isOpen] = useState(autoFocus)
   const [displayValue, set_displayValue] = useState(value)
 
   const updateTime = (value: string) => {
@@ -165,12 +188,14 @@ export const TimePicker = ({
       <TextInput
         label={label ? label : 'Time'}
         icon={'clock'}
-        iconPrefix='far'
+        iconPrefix={iconPrefix}
         value={displayValue}
         onChange={value => updateTime(value)}
         error={error}
         preventFocus={preventFocus}
         onBlur={() => set_preventFocus(isTouchCapable())}
+        forceFocus={isOpen}
+        autoFocus={autoFocus}
       />
 
       {
@@ -180,6 +205,7 @@ export const TimePicker = ({
               value={value}
               onMonthChange={newDate => onChange(newDate)}
               onClose={() => set_isOpen(false)}
+              comparisonStartTime={comparisonStartTime}
             />
         : null
       }
@@ -209,14 +235,14 @@ const S = {
     position: absolute;
     z-index: 1;
     background: var(--F_Background);
-    border-radius: .5rem;
-    box-shadow: var(--F_Outline_Hover);
-    top: calc(var(--F_Input_Height) - .325rem);
+    border-radius: .375rem;
+    box-shadow: var(--F_Outline_Outset_Focus);
+    top: calc(var(--F_Input_Height) + .75rem);
     width: calc(136px + 1rem);
     max-height: 300px;
     overflow-y: auto;
     overflow-x: hidden;
-    left: 1.5rem;
+    left: 1.75rem;
     user-select: none;
   `
 }

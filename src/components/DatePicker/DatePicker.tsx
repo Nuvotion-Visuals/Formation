@@ -10,8 +10,9 @@ import { Button } from '../../internal'
 import { Box } from '../../internal'
 import { Spacer } from '../../internal'
 import { LineBreak } from '../../internal'
+import { IconPrefix } from '@fortawesome/fontawesome-common-types'
 
-const cloneDate = (date : Date) => new Date(date.valueOf())
+const cloneDate = (date : Date) => new Date(date?.valueOf())
 
 const isValidDate = (value: string, format = 'mm/dd/yyyy') : boolean => {
   let month, day, year;
@@ -105,7 +106,7 @@ const Day = ({
   return (
     <S.Day
       onMouseUp={onChange.bind(null, day)}
-      selected={day.getTime() === selected.getTime()}
+      selected={(day || new Date).getTime() === (selected || new Date()).getTime()}
       disabled={day.getMonth() !== month}
     >
       {
@@ -128,12 +129,12 @@ const Week = ({
 }) => 
   <>
     {
-      getAllDaysInAWeek(weekStart).map((day, i) =>
+      getAllDaysInAWeek((weekStart || new Date())).map((day, i) =>
         <Day
           key={i}
           month={month}
           day={new Date(day)}
-          selected={selected}
+          selected={(selected || new Date)}
           onChange={onChange}
         />
       )
@@ -192,12 +193,12 @@ const Calendar = ({
   const previousMonth = () => {
     const clone = new Date(value)
 
-    clone.setMonth(value.getMonth() - 1)
+    clone.setMonth((value || new Date()).getMonth() - 1)
     setDate(clone)
   }
 
-  const year = value.getFullYear()
-  const month = value.toLocaleString('en-us', { month: 'long' })
+  const year = (value || new Date()).getFullYear()
+  const month = (value || new Date()).toLocaleString('en-us', { month: 'long' })
 
   return (<>
     <S.MonthHeaderWrapper>
@@ -233,10 +234,10 @@ const Calendar = ({
     <LineBreak />
 
     <Weeks
-      date={value}
+      date={(value || new Date)}
       onChange={onChange}
-      selected={value}
-      month={value.getMonth()}
+      selected={(value || new Date)}
+      month={(value || new Date).getMonth()}
     />
     <Box mt={.375} >
       <Button
@@ -249,31 +250,38 @@ const Calendar = ({
 }
 
 interface Props {
-  value: Date,
+  value: Date | null,
   label?: string,
   onChange: (arg0: Date) => void,
-  error?: string
+  error?: string,
+  iconPrefix?: IconPrefix
 }
 
 export const DatePicker = ({
   value,
   onChange,
   label,
-  error
+  error,
+  iconPrefix
 }: Props) => {
   const [isOpen, set_isOpen] = useState(false)
-  const [displayValue, set_displayValue] = useState(value.toLocaleDateString())
+  const [displayValue, set_displayValue] = useState('')
 
   const updateDate = (value: string) => {
-    set_displayValue(new Date(value).toLocaleDateString())
+    if (value) {
+      set_displayValue(new Date(value).toLocaleDateString())
 
-    if (isValidDate(value)) {
-      onChange(new Date(value))
+      if (isValidDate(value)) {
+        onChange(new Date(value))
+      }
     }
   }
 
   useEffect(() => {
-    set_displayValue(value.toLocaleDateString())
+    if (value) {
+      set_displayValue(value.toLocaleDateString())
+
+    }
   }, [value])
 
   const ref = useRef<HTMLDivElement | null>(null)
@@ -300,13 +308,14 @@ export const DatePicker = ({
       <TextInput
         label={label ? label : 'Date'}
         icon={'calendar-alt'}
-        iconPrefix='far'
+        iconPrefix={iconPrefix}
         value={displayValue}
         onChange={value => updateDate(value)}
         error={error}
         preventFocus={preventFocus}
         onBlur={() => set_preventFocus(isTouchCapable())}
         onClick={() => set_isOpen(!isOpen)}
+        forceFocus={isOpen}
       />
 
       {
@@ -314,7 +323,7 @@ export const DatePicker = ({
           ? <S.DatePickerCalendar ref={ref}>
               <Calendar
                 onChange={newValue => onChange(newValue)}
-                value={value}
+                value={(value || new Date())}
                 onMonthChange={newDate => onChange(newDate)}
                 onClose={() => set_isOpen(false)}
               />
@@ -334,13 +343,13 @@ const S = {
     position: absolute;
     z-index: 1;
     background: var(--F_Background);
-    border-radius: .5rem;
+    border-radius: .375rem;
     padding: .75rem;
-    box-shadow: var(--F_Outline_Hover);
-    top: calc(var(--F_Input_Height) - .325rem);
+    box-shadow: var(--F_Outline_Outset_Focus);
+    top: calc(var(--F_Input_Height) + .75rem);
     /* width: 196px; */
     width: 14rem;
-    left: 1.5rem;
+    left: 1.75rem;
     user-select: none;
   `,
   DateHeaderWrapper: styled.div`
@@ -351,7 +360,7 @@ const S = {
     height: 100%;
     display: flex;
     align-items: center;
-    font-size: var(--F_Font_Size);
+    font-size: var(--F_Font_Size_Large);
     padding-bottom: .5rem;
     box-sizing: content-box;
     gap: .5rem;
@@ -367,7 +376,7 @@ const S = {
     justify-content: center;
     width: 2rem;
     height: 2rem;
-    font-size: 12px;
+    font-size: var(--F_Font_Size_Label);
     text-align: center;
     color: var(--F_Font_Color_Label);
     font-weight: 600;
@@ -386,7 +395,7 @@ const S = {
     align-items: center;
     width: 2rem;
     height: 2rem;
-    font-size: 12px;
+    font-size: var(--F_Font_Size_Label);
     border-radius: .25rem;
 
     cursor: ${props => 

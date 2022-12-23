@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
-import { Select } from '../../internal'
+import { Select, getTimezone } from '../../internal'
 
 export const minimalTimeZoneSet = [
   { offset: '-11:00', label: '(GMT-11:00) Pago Pago', tzCode: 'Pacific/Pago_Pago' },
@@ -39,9 +39,11 @@ export const minimalTimeZoneSet = [
   { offset: '+14:00', label: '(GMT+14:00) Kiritimati', tzCode: 'Pacific/Kiritimati' }
 ]
 
+export const tzCodesByLabel = minimalTimeZoneSet.reduce((a, v) => ({ ...a, [v.label]: v.tzCode}), {}) 
+
 interface Props {
-  onChange: Function,
-  value: string
+  onChange: (arg0: string | undefined) => void,
+  value: string | undefined
 }
 
 export const TimeZone = ({
@@ -49,12 +51,19 @@ export const TimeZone = ({
   value
 } : Props) => {
 
+  useEffect(() => {
+    if (!value) {
+      onChange(minimalTimeZoneSet.find(tz => tz.tzCode === getTimezone())?.label)
+    }
+  }, [])
+
 
   return (
     <Select
-      value={value}
+      value={value || ''}
       icon='globe'
       iconPrefix='fas'
+      label={'Time zone'}
       options={
         minimalTimeZoneSet.map(timeZone => timeZone.label)
       }

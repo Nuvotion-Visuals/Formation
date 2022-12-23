@@ -21,4 +21,12 @@ const Template: ComponentStory<typeof TimePicker> = args => {
 export const Regular = Template.bind({})
 Regular.args = {
   label: 'Time',
+  iconPrefix: 'fas'
+}
+
+export const AutoFocus = Template.bind({})
+AutoFocus.args = {
+  label: 'Time',
+  iconPrefix: 'fas',
+  autoFocus: true
 }

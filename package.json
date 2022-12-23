@@ -4,8 +4,8 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
   },
-  "version": "0.9.34",
-  "description": "A comprehensive component library built on React, Styled Components and CSS variables.",
+  "version": "0.9.58",
+  "description": "Formation is a comprehensive component library powered by React, Styled Components, and CSS variables built for real-world applications that demand fully responsive design and unifed cross-platform experiences. ",
   "keywords": [
     "react",
     "styled-components",
@@ -84,6 +84,7 @@
     "@types/styled-components": "^5.1.25",
     "babel-jest": "^27.3.1",
     "babel-loader": "^8.2.3",
+    "babel-plugin-styled-components": "^2.0.7",
     "css-loader": "5.2.7",
     "gh-pages": "^4.0.0",
     "html-webpack-plugin": "^5.5.0",
@@ -129,18 +130,28 @@
     "@js-joda/locale_en-us": "^4.8.4",
     "@js-joda/timezone": "^2.14.0",
     "@types/react-swipeable-views": "^0.13.1",
+    "@types/spark-md5": "^3.0.2",
+    "@types/turndown": "^5.0.1",
     "isomorphic-dompurify": "^0.21.0",
+    "javascript-time-ago": "^2.5.9",
     "lodash.union": "^4.6.0",
     "lodash.xor": "^4.5.0",
     "marked": "^4.0.19",
     "rc-slider": "^10.0.1",
     "react-div-100vh": "^0.7.0",
+    "react-easy-crop": "^4.6.3",
     "react-html-parser": "^2.0.2",
+    "react-quill": "^2.0.0",
     "react-reorder": "^3.0.0-alpha.7",
     "react-responsive": "^9.0.0-beta.10",
+    "react-rte": "^0.16.5",
     "react-swipeable-views": "^0.14.0",
+    "react-syntax-highlighter": "^15.5.0",
     "reading-time": "^1.5.0",
-    "showdown": "^2.1.0"
+    "showdown": "^2.1.0",
+    "spark-md5": "^3.0.2",
+    "thumbo": "^1.0.8",
+    "turndown": "^7.1.1"
   },
   "peerDependencies": {
     "react": "^18.0.0",

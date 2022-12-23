@@ -3,7 +3,7 @@ import styled, { keyframes } from 'styled-components'
 
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 
-import { Icon, Box } from '../../internal'
+import { Icon, Box, getLinkComponent } from '../../internal'
 
 interface NavProps {
   type?: string,
@@ -15,7 +15,8 @@ interface NavProps {
   toolTipTitle?: string,
   active?: boolean,
   newTab?: boolean,
-  onClick?: () => void
+  onClick?: () => void,
+  children?: React.ReactNode
 }
 
 export type Navs = NavProps[]
@@ -23,21 +24,26 @@ export type Navs = NavProps[]
 interface Props {
   onClose: () => void,
   open: boolean,
-  navs: Navs
+  navs: Navs,
+  active?: boolean
 }
 
-export const Sidebar = ({ onClose, open, navs }: Props) => {
+export const Sidebar = ({ onClose, open, navs, active }: Props) => {
+  const Link = getLinkComponent()
+
   const renderNavlink = ({ 
     href, 
     icon, 
     name, 
     toolTipTitle,
     newTab,
-    onClick
+    onClick,
+    active,
+    children
   } : NavProps) => {
     const renderNavOption = () => (
       <S.NavOption 
-        active={false} 
+        active={active} 
         key={`navOption${name}`} 
         open={true}
         title={toolTipTitle}
@@ -59,16 +65,19 @@ export const Sidebar = ({ onClose, open, navs }: Props) => {
             { name }
           </S.Text>
         </S.NavContent>
+        {
+          children
+        }
       </S.NavOption>
     )
 
     return (
       href
-        ? <a href={href}>
+        ? <Link href={href}>
             { 
               renderNavOption() 
             }
-          </a>
+          </Link>
         : renderNavOption()
       
     )
@@ -79,7 +88,8 @@ export const Sidebar = ({ onClose, open, navs }: Props) => {
     name, 
     active, 
     onClick, 
-    toolTipTitle 
+    toolTipTitle,
+    children
   }: NavProps) => (
     <S.NavOption 
       active={active} 
@@ -104,6 +114,9 @@ export const Sidebar = ({ onClose, open, navs }: Props) => {
           { name }
         </S.Text>
       </S.NavContent>
+      {
+        children
+      }
     </S.NavOption>
   )
 
@@ -188,10 +201,10 @@ const S = {
   SidebarContent: styled.div<SidebarContentProps>`
     height: 100%;
     background: var(--F_Background);
-    border-right: ${props => props.open ? '2px solid var(--F_Surface)' : 'none'};
+    border-right: ${props => props.open ? '1px solid var(--F_Surface)' : 'none'};
     top: 0;
     width: var(--F_Sidebar_Width);
-    height: calc(100vh * var(--F_Zoom_Scale));
+    height: calc(100% * var(--F_Zoom_Scale));
     overflow-y: auto;
     overflow-x: hidden;
     user-select: none;
@@ -208,7 +221,6 @@ const S = {
   `,
   NavOptions: styled.div`
     width: 100%;
-    padding-top: .5rem;
   `,
   NavOption: styled.div<NavContentProps>`
     cursor: pointer;
@@ -229,8 +241,8 @@ const S = {
     }
 
     &:hover {
-      background: ${props => props.active ? 'var(--F_Surface)' : 'var(--F_Surface)'};
-      * {
+      background: ${props => props.active ? 'var(--F_Surface)' : 'var(--F_Surface_0)'};
+      div {
         color: var(--F_Font_Color);
       }
     }
@@ -254,7 +266,7 @@ const S = {
   `,
   VSpacer: styled.div`
     width: 100%;
-    height: 2px;
+    height: 1px;
     margin: .5rem 0;
     background: var(--F_Surface);
   `,

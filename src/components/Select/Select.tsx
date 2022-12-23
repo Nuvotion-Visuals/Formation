@@ -12,12 +12,14 @@ const Dropdown = ({
   value,
   onChange,
   onClose,
-  options
+  options,
+  hasIcon
 } : {
   value: string,
   onChange: (arg0: string) => void,
   onClose: () => void,
-  options: string[]
+  options: string[],
+  hasIcon: boolean
 }) => {
 
   const scrollContainerRef = useRef<HTMLDivElement | null>(null)
@@ -34,7 +36,10 @@ const Dropdown = ({
     set_scrollTo(true)
   }, [])
 
-  return <S.DropdownDropdown ref={scrollContainerRef}>
+  return <S.DropdownDropdown 
+    ref={scrollContainerRef} 
+    hasIcon={hasIcon}
+  >
     {
       options.map(item =>
         
@@ -96,13 +101,14 @@ export const Select = ({
     >
       <TextInput
         label={label}
-        icon={icon}
+        icon={isOpen ? 'chevron-up' : 'chevron-down'}
         iconPrefix={iconPrefix}
         value={displayValue}
         onChange={value => onChange(value)}
         error={error}
         preventFocus={preventFocus}
         onBlur={() => set_preventFocus(isTouchCapable())}
+        forceFocus={isOpen}
       />
 
       {
@@ -112,6 +118,7 @@ export const Select = ({
               value={value}
               onClose={() => set_isOpen(false)}
               options={options}
+              hasIcon={iconPrefix !== undefined}
             />
         : null
       }
@@ -137,19 +144,21 @@ const S = {
       background: ${props => props.active ? 'var(--F_Surface_2)' : 'var(--F_Surface)'};
     }
   `,
-  DropdownDropdown: styled.div`
+  DropdownDropdown: styled.div<{
+    hasIcon: boolean
+  }>`
     position: absolute;
     z-index: 1;
     background: var(--F_Background);
     border-radius: .5rem;
-    box-shadow: var(--F_Outline_Hover);
-    top: calc(var(--F_Input_Height) - .325rem);
+    box-shadow: var(--F_Outline_Outset_Focus);
+    top: calc(var(--F_Input_Height) + .75rem);
     width: calc(100% - 1.5rem);
     min-width: 8rem;
     max-height: 300px;
     overflow-y: auto;
     overflow-x: hidden;
-    left: 1.5rem;
+    left: ${props => props.hasIcon ? '1.75rem' : '0rem'};
     user-select: none;
   `
 }

@@ -3,8 +3,6 @@ import React, { useState, useEffect } from 'react'
 
 import { getBackground } from '../../internal'
 import { ColorType } from '../../types'
-import { Color } from 'components/Label/Label'
-
 
 interface Props {
   colorString: ColorType,
