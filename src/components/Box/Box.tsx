@@ -18,6 +18,9 @@ interface Props {
   py?: number,
   children?: React.ReactNode,
   width?: number | string,
+  maxWidth?: number | string,
+  height?: number | string,
+  maxHeight?: number | string,
   hide?: boolean,
   wrap?: boolean
 }
@@ -66,6 +69,9 @@ const S = {
     margin: ${props => calculateMargin(props)};
     padding: ${props => calculatePadding(props)};
     width: ${props => typeof props.width === 'string' ? props.width : `${props.width}rem`};
+    max-width: ${props => typeof props.maxWidth === 'string' ? props.maxWidth : `${props.maxWidth}rem`};
+    height: ${props => typeof props.height === 'string' ? props.height : `${props.height}rem`};
+    max-height: ${props => typeof props.maxHeight === 'string' ? props.maxHeight : `${props.maxHeight}rem`};
     flex-wrap: ${props => props.wrap ? 'wrap' : 'auto'};
     position: relative;
   `

@@ -1,7 +1,8 @@
-import React from 'react'
+import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
+import React, { memo } from 'react'
 import styled from 'styled-components'
 
-import { getLinkComponent } from '../../internal'
+import { getLinkComponent, Icon } from '../../internal'
 
 interface Props {
   src?: string,
@@ -9,42 +10,59 @@ interface Props {
   date?: Date,
   small?: boolean,
   href?: string,
-  title?: string,
-  active: boolean
+  name?: string,
+  active?: boolean,
+  icon?: IconName,
+  iconPrefix?: IconPrefix,
 }
 
-export const SpaceIcon = ({ 
+export const SpaceIcon = memo(({ 
   src, 
   onClick,
   date,
   small,
   href,
-  title,
-  active
+  name,
+  active,
+  icon,
+  iconPrefix
 }: Props) => {
-
   const Link = getLinkComponent()
 
-  return (<Link href={href}>
+  const renderSpaceIcon = () =>
     <S.SpaceIcon 
       src={src}
       onClick={onClick}
       small={small}
-      title={title}
+      title={name}
       active={active}
     >
+      <S.Date darken={!!date}>
         {
           date
-            ? <S.Date>
+            ? <>
                 <S.Month>{ date.toLocaleString('en-us', { month: 'short' }).toUpperCase() }</S.Month>
                 <S.Day>{ date.toLocaleString('en-us', { day: 'numeric' }) }</S.Day>
-              </S.Date>
-            : null
+                </>
+            : icon
+              ? <Icon icon={icon} iconPrefix={iconPrefix}/>
+              : null
         }
-      
+      </S.Date>
     </S.SpaceIcon>
-  </Link>)
-}
+
+  return (<>
+    {
+      href
+        ? <Link href={href}>
+            {
+              renderSpaceIcon()
+            }
+          </Link>
+        : renderSpaceIcon()
+    }
+  </>)
+})
 
 const S = {
   SpaceIcon: styled.div<{
@@ -57,6 +75,7 @@ const S = {
     justify-content: center;
     align-items: center;
     width: 52px;
+    min-width: 52px;
     height: 52px;
     background-size: cover;
     background-position: center;
@@ -78,7 +97,9 @@ const S = {
       background-color: ${props => props.src ? 'none' : 'var(--F_Surface_2)'};
     }
   `,
-  Date: styled.div`
+  Date: styled.div<{
+    darken: boolean
+  }>`
     width: 100%;
     height: 100%;
     display: flex;
@@ -86,7 +107,10 @@ const S = {
     flex-wrap: wrap;
     justify-content: center;
     color: white;
-    background: var(--F_Backdrop);
+    * {
+      color: ${props => props.darken ? 'white' : 'var(--F_Font_Color)'};
+    }
+    background: ${props => props.darken ? 'var(--F_Backdrop)' : 'none'};
   `,
   Month: styled.div`
     font-size: 14px;

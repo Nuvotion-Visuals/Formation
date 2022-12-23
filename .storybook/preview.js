@@ -41,7 +41,7 @@ import * as fas from '@fortawesome/free-solid-svg-icons'
 library.add(
   // regular
   far.faHeart, far.faPaperPlane, far.faCheckSquare, far.faSquare,
-  fas.faEnvelope, far.faTrashAlt,
+  fas.faEnvelope, far.faTrashAlt, far.faBookmark,
 
   // solid
   fas.faInfoCircle, fas.faBars, fas.faHeart, fas.faPlus,
@@ -56,7 +56,9 @@ library.add(
   fas.faTrashAlt, fas.faMapMarkerAlt, fas.faEdit, fas.faMoneyCheckDollar,
   fas.faUserPlus, fas.faAddressCard, fas.faHandshakeAngle,
   fas.faArchive, fas.faShare, fas.faTimes, fas.faMessage,
-  fas.faHashtag
+  fas.faHashtag, fas.faMapPin, fas.faBookmark, fas.faDownload,
+  fas.faExternalLink, fas.faCrop, fas.faImage, fas.faUserCircle,
+  fas.faEraser, fas.faImage
 )
 
 export const parameters = {

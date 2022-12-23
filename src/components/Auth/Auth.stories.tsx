@@ -24,20 +24,26 @@ UsernamePassword.args = {
       <TextInput 
         value=''
         icon='user'
+        iconPrefix='fas'
         label='Username'
       />
       <TextInput 
         value=''
         icon='lock'
+        iconPrefix='fas'
         label='Password'
       />
       <Button
         primary={true}
         text='Sign in'
         expand={true}
+        hero={true}
       />
     </Gap>
   </>
+}
+UsernamePassword.parameters = {
+  layout: 'fullscreen'
 }
 
 
@@ -51,16 +57,22 @@ Passwordless.args = {
         value=''
         icon='phone'
         label='Phone number'
+        iconPrefix='fas'
       />
       <Button
         primary={true}
         text='Send login code'
         expand={true}
+        iconPrefix='fas'
+        hero={true}
       />
     </Gap>
   </>
-}
 
+}
+Passwordless.parameters = {
+  layout: 'fullscreen'
+}
 
 
 
