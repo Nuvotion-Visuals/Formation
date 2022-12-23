@@ -22,10 +22,8 @@ interface IntervalType {
 
 interface ItemTimeStampType {
   title: string,
-  startTime: string,
-  endTime: string,
-  startInteger: number, 
-  endInteger: number,
+  startTime: ZonedDateTime,
+  endTime: ZonedDateTime,
   id: string,
   overflowLane: number,
   isPlaced: boolean
@@ -42,15 +40,10 @@ export const Timeline = ({ value, intervals, onChange,  onIntervalClick, onLaneI
     let startTime = ZonedDateTime.parse(item?.startTime)
     let endTime = ZonedDateTime.parse(item?.endTime)
 
-    let formattedStartTime = startTime.format(DateTimeFormatter.ofPattern('HHmm'))
-    let formattedEndTime = endTime.format(DateTimeFormatter.ofPattern('HHmm'))
-
     return {
       "title": item.title,
-      "startTime": item.startTime,
-      "endTime": item.endTime,
-      "startInteger": parseInt(formattedStartTime),
-      "endInteger": parseInt(formattedEndTime),
+      "startTime": startTime,
+      "endTime": endTime,
       "id": item.id,
       "overflowLane": 1,
       "isPlaced": false
@@ -58,7 +51,11 @@ export const Timeline = ({ value, intervals, onChange,  onIntervalClick, onLaneI
   })
 
   // sort activites by start time. critical for calculateOverflowLanes to function properly
-  let itemsByTimeStamp = currentItemTimeStamps?.sort((a, b) => a.startInteger - b.startInteger)
+  let itemsByTimeStamp = currentItemTimeStamps?.sort((a, b) => {
+    let x = a.startTime.isBefore(b.startTime)
+
+    return x === true ? -1 : 1
+  })
 
   const calculateOverflowLanes = (itemsByTimeStamp: ItemTimeStampsType) => {
 
@@ -67,6 +64,8 @@ export const Timeline = ({ value, intervals, onChange,  onIntervalClick, onLaneI
     let laneRecord: ItemTimeStampType[][] = [[]]
 
     itemsByTimeStamp?.forEach((item, index) => {
+
+     
       
       if (index === 0) {
         item.overflowLane = 1
@@ -89,9 +88,12 @@ export const Timeline = ({ value, intervals, onChange,  onIntervalClick, onLaneI
 
         for (let i = lane.length - 1; i > -1; i--){
           let singleLane = lane[i]
-          const isStartTimeConflict = singleLane.startInteger < item.startInteger && item.startInteger < singleLane.endInteger
-          const isEndTimeConflict = singleLane.startTime < item.endTime && item.endTime < singleLane.endTime
-          const isStartTimeIdentical = singleLane.startTime === item.startTime
+
+          console.log(singleLane.startTime.isBefore(item.startTime), 'HEY')
+          
+          const isStartTimeConflict = singleLane.startTime.isBefore(item.startTime) && item.startTime.isBefore(singleLane.endTime)
+          const isEndTimeConflict = singleLane.startTime.isBefore(item.endTime)&& item.endTime.isBefore(singleLane.endTime)
+          const isStartTimeIdentical = singleLane.startTime.isEqual(item.startTime)
           
           if (isStartTimeConflict || isEndTimeConflict || isStartTimeIdentical) {
             isConflicted = true
@@ -196,8 +198,8 @@ export const Timeline = ({ value, intervals, onChange,  onIntervalClick, onLaneI
                     style={{
                       gridColumnStart: item.overflowLane,
                       gridColumnEnd: item.overflowLane,
-                      gridRowStart: renderRow(item?.startTime),
-                      gridRowEnd: renderRow(item?.endTime)
+                      gridRowStart: renderRow(item?.startTime.toString()),
+                      gridRowEnd: renderRow(item?.endTime.toString())
                     }}
                   color={color}
                   backgroundColor={backgroundColor}

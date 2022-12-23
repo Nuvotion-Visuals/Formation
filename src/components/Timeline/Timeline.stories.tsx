@@ -25,14 +25,335 @@ interface IntervalType {
 const Template: ComponentStory<typeof Timeline> = args => {
   // Value Block One
   //
+  const [value, set_value] = useState<AreasType>([
+    {
+      area: 'West Stage',
+      activities: [
+        {
+          title: 'DJ Alpha',
+          startTime: `2022-12-31T18:00-06:00`,
+          endTime: `2022-12-31T20:45-06:00`,
+          id: '1',
+          people: [
+            {
+              name: "DJ Alpha",
+              position: "DJ",
+            },
+            {
+              name: "tech",
+              position: "AV Tech",
+            }
+          ],
+        },
+        {
+          title: 'DJ Beta',
+          startTime: `2022-12-31T20:45-06:00`,
+          endTime: `2022-12-31T23:00-06:00`,
+          id: '2',
+          people: [
+            {
+              name: "DJ Beta",
+              position: "DJ",
+            },
+            {
+              name: "tech",
+              position: "AV Tech",
+            }
+          ],
+        },
+        {
+          title: 'DJ Theta',
+          startTime: `2022-12-31T23:00-06:00`,
+          endTime: `2023-01-01T01:00-06:00`,
+          id: '3',
+          people: [
+            {
+              name: "DJ Theta",
+              position: "DJ",
+            },
+            {
+              name: "tech",
+              position: "AV Tech",
+            }
+          ],
+        },
+        {
+          title: 'DJ Omega',
+          startTime: `2023-01-01T01:00-06:00`,
+          endTime: `2023-01-01T03:00-06:00`,
+          id: '4',
+          people: [
+            {
+              name: "DJ Theta",
+              position: "DJ",
+            },
+            {
+              name: "tech",
+              position: "AV Tech",
+            }
+          ],
+        },
+        {
+          title: 'DJ AGAIN',
+          startTime: `2023-01-01T03:00-06:00`,
+          endTime: `2023-01-01T05:00-06:00`,
+          id: '5',
+          people: [
+            {
+              name: "DJ Theta",
+              position: "DJ",
+            },
+            {
+              name: "tech",
+              position: "AV Tech",
+            }
+          ],
+        },
+        {
+          title: 'DJ AGAIN... AGAIN',
+          startTime: `2023-01-01T05:00-06:00`,
+          endTime: `2023-01-01T06:30-06:00`,
+          id: '10',
+          people: [
+            {
+              name: "DJ Theta",
+              position: "DJ",
+            },
+            {
+              name: "tech",
+              position: "AV Tech",
+            }
+          ],
+        },
+      ]
+    },
+    {
+      area: 'East Stage',
+      activities: [
+        {
+          title: 'Attack Juggling',
+          startTime: `2022-12-31T19:00-06:00`,
+          endTime: `2022-12-31T21:00-06:00`,
+          id: '66b47071-70b9-4aa7-9394-60788627962e',
+          people: [
+            {
+              name: "DJ Alpha",
+              position: "DJ",
+            },
+            {
+              name: "tech",
+              position: "AV Tech",
+            }
+          ],
+        },
+        {
+          title: 'Acrobats & Aerialists',
+          startTime: `2022-12-31T21:00-06:00`,
+          endTime: `2022-12-31T22:00-06:00`,
+          id: '2627c6a3-6dfe-4c6b-a756-e672279dc4ea',
+          people: [
+            {
+              name: "DJ Beta",
+              position: "DJ",
+            },
+            {
+              name: "tech",
+              position: "AV Tech",
+            }
+          ],
+        },
+        {
+          title: 'Burlesque with Berty',
+          startTime: `2022-12-31T22:00-06:00`,
+          endTime: `2023-01-01T00:00-06:00`,
+          id: '2b6fd32b-ea24-4d17-a9f6-1fb8c79e5a76',
+          people: [
+            {
+              name: "DJ Theta",
+              position: "DJ",
+            },
+            {
+              name: "tech",
+              position: "AV Tech",
+            }
+          ],
+        },
+        {
+          title: 'Dance Off',
+          startTime: `2023-01-01T01:00-06:00`,
+          endTime: `2023-01-01T03:00-06:00`,
+          id: '4d4b237b-10c0-4757-a205-bcb13eab0fd8',
+          people: [
+            {
+              name: "DJ Theta",
+              position: "DJ",
+            },
+            {
+              name: "tech",
+              position: "AV Tech",
+            }
+          ],
+        },
+        {
+          title: 'Hypnosis',
+          startTime: `2023-01-01T03:00-06:00`,
+          endTime: `2023-01-01T04:00-06:00`,
+          id: '9057e3a6-4382-4c3d-b5de-2dea2625b316',
+          people: [
+            {
+              name: "DJ Theta",
+              position: "DJ",
+            },
+            {
+              name: "tech",
+              position: "AV Tech",
+            }
+          ],
+        },
+      ]
+    },
+    {
+      area: 'Front Doors',
+      activities: [
+        {
+          title: 'Pre-Open',
+          startTime: `2022-12-31T16:00-06:00`,
+          endTime: `2022-12-31T18:00-06:00`,
+          id: '4',
+          people: [
+            {
+              name: "Larry",
+              position: "Security",
+            },
+            {
+              name: "Samantha",
+              position: "Security",
+            },
+            {
+              name: "Kevin",
+              position: "Ticket Scanner",
+            },
+            {
+              name: "Amanda",
+              position: "Ticket Scanner",
+            }
+          ],
+    
+        },
+        {
+          title: 'Open',
+          startTime: `2022-12-31T18:00-06:00`,
+          endTime: `2023-01-01T07:00-06:00`,
+          id: '5',
+          people: [
+            {
+              name: "Larry",
+              position: "Security",
+            },
+            {
+              name: "Samantha",
+              position: "Security",
+            },
+            {
+              name: "Kevin",
+              position: "Ticket Scanner",
+            },
+            {
+              name: "Amanda",
+              position: "Ticket Scanner",
+            }
+          ],
+    
+        },
+        {
+          title: '18+ entry',
+          startTime: `2022-12-31T18:00-06:00`,
+          endTime: `2022-12-31T22:00-06:00`,
+          id: '5',
+          people: [
+            {
+              name: "Larry",
+              position: "Security",
+            },
+            {
+              name: "Samantha",
+              position: "Security",
+            },
+            {
+              name: "Kevin",
+              position: "Ticket Scanner",
+            },
+            {
+              name: "Amanda",
+              position: "Ticket Scanner",
+            }
+          ],
+    
+        },
+        {
+          title: '21+ entry',
+          startTime: `2022-12-31T22:00-06:00`,
+          endTime: `2023-01-01T05:00-06:00`,
+          id: '5',
+          people: [
+            {
+              name: "Larry",
+              position: "Security",
+            },
+            {
+              name: "Samantha",
+              position: "Security",
+            },
+            {
+              name: "Kevin",
+              position: "Ticket Scanner",
+            },
+            {
+              name: "Amanda",
+              position: "Ticket Scanner",
+            }
+          ],
+    
+        },
+        {
+          title: 'Close + Clean',
+          startTime: `2023-01-01T07:00-06:00`,
+          endTime: `2023-01-01T07:30-06:00`,
+          id: '6',
+          people: [
+            {
+              name: "Larry",
+              position: "Security",
+            },
+            {
+              name: "Samantha",
+              position: "Security",
+            },
+            {
+              name: "Kevin",
+              position: "Ticket Scanner",
+            },
+            {
+              name: "Amanda",
+              position: "Ticket Scanner",
+            }
+          ],
+          
+        },
+      ]
+    }
+  ])
+
+  // Value Block Two
+  //
   // const [value, set_value] = useState<AreasType>([
   //   {
   //     area: 'West Stage',
   //     activities: [
   //       {
   //         title: 'DJ Alpha',
-  //         startTime: `2022-12-31T18:00-06:00`,
-  //         endTime: `2022-12-31T20:45-06:00`,
+  //         startTime: `2022-12-23T09:00-06:00`,
+  //         endTime: `2022-12-23T12:00-06:00`,
   //         id: '1',
   //         people: [
   //           {
@@ -47,313 +368,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
   //       },
   //       {
   //         title: 'DJ Beta',
-  //         startTime: `2022-12-31T20:45-06:00`,
-  //         endTime: `2022-12-31T23:00-06:00`,
-  //         id: '2',
-  //         people: [
-  //           {
-  //             name: "DJ Beta",
-  //             position: "DJ",
-  //           },
-  //           {
-  //             name: "tech",
-  //             position: "AV Tech",
-  //           }
-  //         ],
-  //       },
-  //       {
-  //         title: 'DJ Theta',
-  //         startTime: `2022-12-31T23:00-06:00`,
-  //         endTime: `2023-01-01T01:00-06:00`,
-  //         id: '3',
-  //         people: [
-  //           {
-  //             name: "DJ Theta",
-  //             position: "DJ",
-  //           },
-  //           {
-  //             name: "tech",
-  //             position: "AV Tech",
-  //           }
-  //         ],
-  //       },
-  //       {
-  //         title: 'DJ Omega',
-  //         startTime: `2023-01-01T01:00-06:00`,
-  //         endTime: `2023-01-01T03:00-06:00`,
-  //         id: '4',
-  //         people: [
-  //           {
-  //             name: "DJ Theta",
-  //             position: "DJ",
-  //           },
-  //           {
-  //             name: "tech",
-  //             position: "AV Tech",
-  //           }
-  //         ],
-  //       },
-  //       {
-  //         title: 'DJ AGAIN',
-  //         startTime: `2023-01-01T03:00-06:00`,
-  //         endTime: `2023-01-01T05:00-06:00`,
-  //         id: '5',
-  //         people: [
-  //           {
-  //             name: "DJ Theta",
-  //             position: "DJ",
-  //           },
-  //           {
-  //             name: "tech",
-  //             position: "AV Tech",
-  //           }
-  //         ],
-  //       },
-  //       {
-  //         title: 'DJ AGAIN... AGAIN',
-  //         startTime: `2023-01-01T05:00-06:00`,
-  //         endTime: `2023-01-01T06:30-06:00`,
-  //         id: '10',
-  //         people: [
-  //           {
-  //             name: "DJ Theta",
-  //             position: "DJ",
-  //           },
-  //           {
-  //             name: "tech",
-  //             position: "AV Tech",
-  //           }
-  //         ],
-  //       },
-  //     ]
-  //   },
-  //   {
-  //     area: 'East Stage',
-  //     activities: [
-  //       {
-  //         title: 'Attack Juggling',
-  //         startTime: `2022-12-31T19:00-06:00`,
-  //         endTime: `2022-12-31T21:00-06:00`,
-  //         id: '66b47071-70b9-4aa7-9394-60788627962e',
-  //         people: [
-  //           {
-  //             name: "DJ Alpha",
-  //             position: "DJ",
-  //           },
-  //           {
-  //             name: "tech",
-  //             position: "AV Tech",
-  //           }
-  //         ],
-  //       },
-  //       {
-  //         title: 'Acrobats & Aerialists',
-  //         startTime: `2022-12-31T21:00-06:00`,
-  //         endTime: `2022-12-31T22:00-06:00`,
-  //         id: '2627c6a3-6dfe-4c6b-a756-e672279dc4ea',
-  //         people: [
-  //           {
-  //             name: "DJ Beta",
-  //             position: "DJ",
-  //           },
-  //           {
-  //             name: "tech",
-  //             position: "AV Tech",
-  //           }
-  //         ],
-  //       },
-  //       {
-  //         title: 'Burlesque with Berty',
-  //         startTime: `2022-12-31T22:00-06:00`,
-  //         endTime: `2023-01-01T00:00-06:00`,
-  //         id: '2b6fd32b-ea24-4d17-a9f6-1fb8c79e5a76',
-  //         people: [
-  //           {
-  //             name: "DJ Theta",
-  //             position: "DJ",
-  //           },
-  //           {
-  //             name: "tech",
-  //             position: "AV Tech",
-  //           }
-  //         ],
-  //       },
-  //       {
-  //         title: 'Dance Off',
-  //         startTime: `2023-01-01T01:00-06:00`,
-  //         endTime: `2023-01-01T03:00-06:00`,
-  //         id: '4d4b237b-10c0-4757-a205-bcb13eab0fd8',
-  //         people: [
-  //           {
-  //             name: "DJ Theta",
-  //             position: "DJ",
-  //           },
-  //           {
-  //             name: "tech",
-  //             position: "AV Tech",
-  //           }
-  //         ],
-  //       },
-  //       {
-  //         title: 'Hypnosis',
-  //         startTime: `2023-01-01T03:00-06:00`,
-  //         endTime: `2023-01-01T04:00-06:00`,
-  //         id: '9057e3a6-4382-4c3d-b5de-2dea2625b316',
-  //         people: [
-  //           {
-  //             name: "DJ Theta",
-  //             position: "DJ",
-  //           },
-  //           {
-  //             name: "tech",
-  //             position: "AV Tech",
-  //           }
-  //         ],
-  //       },
-  //     ]
-  //   },
-  //   {
-  //     area: 'Front Doors',
-  //     activities: [
-  //       {
-  //         title: 'Pre-Open',
-  //         startTime: `2022-12-31T16:00-06:00`,
-  //         endTime: `2022-12-31T18:00-06:00`,
-  //         id: '4',
-  //         people: [
-  //           {
-  //             name: "Larry",
-  //             position: "Security",
-  //           },
-  //           {
-  //             name: "Samantha",
-  //             position: "Security",
-  //           },
-  //           {
-  //             name: "Kevin",
-  //             position: "Ticket Scanner",
-  //           },
-  //           {
-  //             name: "Amanda",
-  //             position: "Ticket Scanner",
-  //           }
-  //         ],
-    
-  //       },
-  //       {
-  //         title: 'Open',
-  //         startTime: `2022-12-31T18:00-06:00`,
-  //         endTime: `2023-01-01T07:00-06:00`,
-  //         id: '5',
-  //         people: [
-  //           {
-  //             name: "Larry",
-  //             position: "Security",
-  //           },
-  //           {
-  //             name: "Samantha",
-  //             position: "Security",
-  //           },
-  //           {
-  //             name: "Kevin",
-  //             position: "Ticket Scanner",
-  //           },
-  //           {
-  //             name: "Amanda",
-  //             position: "Ticket Scanner",
-  //           }
-  //         ],
-    
-  //       },
-  //       {
-  //         title: '18+ entry',
-  //         startTime: `2022-12-31T18:00-06:00`,
-  //         endTime: `2022-12-31T22:00-06:00`,
-  //         id: '5',
-  //         people: [
-  //           {
-  //             name: "Larry",
-  //             position: "Security",
-  //           },
-  //           {
-  //             name: "Samantha",
-  //             position: "Security",
-  //           },
-  //           {
-  //             name: "Kevin",
-  //             position: "Ticket Scanner",
-  //           },
-  //           {
-  //             name: "Amanda",
-  //             position: "Ticket Scanner",
-  //           }
-  //         ],
-    
-  //       },
-  //       {
-  //         title: '21+ entry',
-  //         startTime: `2022-12-31T22:00-06:00`,
-  //         endTime: `2023-01-01T05:00-06:00`,
-  //         id: '5',
-  //         people: [
-  //           {
-  //             name: "Larry",
-  //             position: "Security",
-  //           },
-  //           {
-  //             name: "Samantha",
-  //             position: "Security",
-  //           },
-  //           {
-  //             name: "Kevin",
-  //             position: "Ticket Scanner",
-  //           },
-  //           {
-  //             name: "Amanda",
-  //             position: "Ticket Scanner",
-  //           }
-  //         ],
-    
-  //       },
-  //       {
-  //         title: 'Close + Clean',
-  //         startTime: `2023-01-01T07:00-06:00`,
-  //         endTime: `2023-01-01T07:30-06:00`,
-  //         id: '6',
-  //         people: [
-  //           {
-  //             name: "Larry",
-  //             position: "Security",
-  //           },
-  //           {
-  //             name: "Samantha",
-  //             position: "Security",
-  //           },
-  //           {
-  //             name: "Kevin",
-  //             position: "Ticket Scanner",
-  //           },
-  //           {
-  //             name: "Amanda",
-  //             position: "Ticket Scanner",
-  //           }
-  //         ],
-          
-  //       },
-  //     ]
-  //   }
-  // ])
-
-  // Value Block Two
-  //
-  // const [value, set_value] = useState<AreasType>([
-  //   {
-  //     area: 'West Stage',
-  //     activities: [
-  //       {
-  //         title: 'DJ Alpha',
-  //         startTime: `2024-02-28T18:00-06:00`,
-  //         endTime: `2024-02-29T01:00-06:00`,
+  //         startTime: `2022-12-23T08:00-06:00`,
+  //         endTime: `2022-12-23T11:00-06:00`,
   //         id: '1',
   //         people: [
   //           {
@@ -370,38 +386,38 @@ const Template: ComponentStory<typeof Timeline> = args => {
   //   }
   // ])
 
-  // Value Block Two
+  // Value Block Three
   //
-  const [value, set_value] = useState<AreasType>([
-    {
-      area: 'Central Stage',
-      activities: [
-        {
-          title: 'Chicago Event',
-          startTime: `2022-12-21T08:00-06:00`,
-          endTime: `2022-12-21T23:00-06:00`,
-          id: '1',
-          people: [
-            {
-              name: "DJ Alpha",
-              position: "DJ",
-            },
-            {
-              name: "tech",
-              position: "AV Tech",
-            }
-          ],
-        }
-      ]
-    }
-  ])
+  // const [value, set_value] = useState<AreasType>([
+  //   {
+  //     area: 'Central Stage',
+  //     activities: [
+  //       {
+  //         title: 'SF Event',
+  //         startTime: `2022-12-23T11:30-06:00`,
+  //         endTime: `2022-12-23T23:00-06:00`,
+  //         id: '1',
+  //         people: [
+  //           {
+  //             name: "DJ Alpha",
+  //             position: "DJ",
+  //           },
+  //           {
+  //             name: "tech",
+  //             position: "AV Tech",
+  //           }
+  //         ],
+  //       }
+  //     ]
+  //   }
+  // ])
 
 
   const [activeTabs, set_activeTabs] = useState<string[]>([value[0].area])
   const [activityId, setActivityId] = useState<string | null>(null)
   const [currentActivities, set_currentActivities] = useState<AreaType[]>([])
   const [eventDateIntervals, set_eventDateIntervals] = useState<IntervalType[]>()
-  const [currentTime, set_currentTime] = useState(ZonedDateTime.now().format(DateTimeFormatter.ofPattern(`yyyy-M-dd'T'HH:mmXXX`))) 
+  const [currentTime, set_currentTime] = useState(ZonedDateTime.now().format(DateTimeFormatter.ofPattern(`yyyy-M-dd'T'HH:mmXXX`)).toString()) 
   const [timeReferencePosition, set_timeReferencePosition] = useState('')
 
   let tabs: string[] = value?.map(({ area }) => area)
@@ -578,6 +594,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
   // determine if timeStampReference component should be tracked/rendered
   useEffect(() => {
     if (eventDateIntervals !== undefined) {
+      console.log(eventDateIntervals, 'eventDateIntervals')
       let startTime: string = eventDateIntervals[0].value
       let parsedStartTime = ZonedDateTime.parse(startTime)
 
@@ -595,29 +612,24 @@ const Template: ComponentStory<typeof Timeline> = args => {
 
         let currentTimeParsed = ZonedDateTime.parse(currentTime)
 
+        let currentOffset = currentTimeParsed.toString().substring(16)
+        let currentOffsetInt = parseInt(currentOffset)
+
+        let endTimeOffset = parsedEndTime.toString().substring(16)
+        let endTimeOffsetInt = parseInt(endTimeOffset)
+
         let timeComparison = Duration.between(currentTimeParsed, parsedEndTime)
 
+        console.log(timeComparison.toString(), 'timeComparison')
+
         let w = timeComparison.plus(Duration.ofHours(0).plusMinutes(15))
-
-        let x = w._seconds
-        console.log(parsedEndTime, 'END')
-        console.log(w, 'w')
-        console.log(x, 'x')
-
-        set_timeReferencePosition(`${x / 60}px `)
+        let x = w._seconds / 60
+        set_timeReferencePosition(`${x}px`)
       }
+      console.log(isAfterStart, startTime, parsedCurrentTime.toString(), 'after start/current')
+      console.log(isBeforeEnd, parsedCurrentTime.toString(), 'before end/current')
     }      
   }, [eventDateIntervals])
-
-  useEffect(() => console.log(timeReferencePosition, 'timeReferencePosition'))
-
-  // determine timeStampReference components position
-  useEffect(() => {
-    
-
-    console.log(currentTime, 'current TIME')
-  }, [currentTime])
-
 
   return (
     <S.Container>
@@ -729,7 +741,7 @@ const S = {
     bottom: ${props => props.timeReferencePosition !== undefined ? props.timeReferencePosition : ''};
     width: 100%;
     height: 1px;
-    background: red;
+    background: #d44c4c;
     z-index: 500;
 `,
   Overflow: styled.div`
