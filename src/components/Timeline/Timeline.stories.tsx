@@ -626,9 +626,6 @@ const Template: ComponentStory<typeof Timeline> = args => {
         let x = w._seconds / 60
         set_timeReferencePosition(`${x}px`)
       }
-      if (!isAfterStart || !isBeforeEnd) {
-        set_timeReferencePosition(``)
-      }
       console.log(isAfterStart, startTime, parsedCurrentTime.toString(), 'after start/current')
       console.log(isBeforeEnd, parsedCurrentTime.toString(), 'before end/current')
     }      
@@ -645,13 +642,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
       </S.TagsContainer>  
       <S.Content className={'CONTENT'}>
         <S.Timeline>
-          {
-            timeReferencePosition === ''
-              ? <></>
-              : <S.CurrentTimeReference timeReferencePosition={timeReferencePosition}></S.CurrentTimeReference>
-          }
-
-          
+          <S.CurrentTimeReference timeReferencePosition={timeReferencePosition}></S.CurrentTimeReference>
           <S.LeftColumn>
             {
               eventDateIntervals !== undefined  
