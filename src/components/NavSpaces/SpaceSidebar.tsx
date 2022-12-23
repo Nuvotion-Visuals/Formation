@@ -7,7 +7,7 @@ import { AspectRatio, Icon, Dropdown } from '../../internal'
 import { Channels } from './Channels'
 
 interface Props {
-  title: string,
+  name: string,
   src?: string,
   dateString?: string,
   location?: string,
@@ -16,7 +16,7 @@ interface Props {
 }
 
 export const SpaceSidebar = ({  
-  title,
+  name,
   src,
   dateString,
   location,
@@ -37,11 +37,11 @@ export const SpaceSidebar = ({
         }
         <S.HeaderArea>
           <header>
-            <S.Title>
+            <S.Name>
               { 
-                title
+                name
               }
-            </S.Title>
+            </S.Name>
           </header>
 
           {
@@ -106,12 +106,10 @@ const S = {
     align-items: center;
   `,
   SpaceSidebar: styled.div`
-    width: 100%;
-    height: calc(100vh - var(--F_Header_Height));
-    margin-left: 74px;
+    width: calc(100% - 1px);
     flex-wrap: wrap;
     overflow-x: hidden;
-    border-right: 2px solid var(--F_Surface);
+    border-right: 1px solid var(--F_Surface);
     ::-webkit-scrollbar {
       width: .25rem;
       height: .25rem;
@@ -119,10 +117,9 @@ const S = {
   `,
   HeaderArea: styled.div`
     position: relative;
-    padding: 1rem;
-    padding-bottom: .5rem;
+    padding: .75rem;
   `,
-  Title: styled.h1`
+  Name: styled.h1`
     font-size: 20px;
     padding: 0;
     margin: 0;
