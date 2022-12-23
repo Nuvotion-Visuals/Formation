@@ -2,7 +2,7 @@ import React, { useState, useEffect, MouseEvent } from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
 import { Timeline, ActivityEditor, Box, Tags, TimeReference, TimelineSurface } from '../../internal'
-import {  ActivityType, AreaType } from '../../types'
+import { ActivityType, AreaType } from '../../types'
 import { styled } from '@storybook/theming'
 
 import { DateTimeFormatter, Duration, ZonedDateTime, LocalDate, LocalDateTime } from '@js-joda/core'
@@ -16,7 +16,7 @@ type AreasType = AreaType[]
 type ActivitiesType = ActivityType[]
 
 interface IntervalType {
-  display: string,
+  display: string | string[],
   value: string,
   gridNumber: number
 }
@@ -474,11 +474,11 @@ const Template: ComponentStory<typeof Timeline> = args => {
       if (activeTabs.includes(area.area)) {
          return area
       } else {
-        return null
+        return
       }
     })
       
-    let scrubbedData: AreasType = activeIndexedData.filter(item => item !== null)
+    let scrubbedData: AreasType = activeIndexedData.filter(item => item !== undefined)
     set_currentActivities(scrubbedData)
 
   }, [activeTabs, value])
@@ -548,25 +548,25 @@ const Template: ComponentStory<typeof Timeline> = args => {
 
 
         let parsedDate = LocalDate.parse(eventDates[dateIndex])
-        let formattedDate = parsedDate.format(DateTimeFormatter.ofPattern('MM dd'))
+        let formattedDate = parsedDate.format(DateTimeFormatter.ofPattern('MM/dd'))
         let namedDay = parsedDate.dayOfWeek().toString()
 
         return intervalList.map((interval, index) => (
           {
             display:
               index == 0 
-                ?[ `${namedDay.substring(0,3)}`, `${formattedDate}`]
+                ? [ `${namedDay.substring(0,3)}`, `${formattedDate}`]
                 : index * 15 % 60 === 0
                   ? index * 15 / 60 > 12 && index * 15 / 60 < 24
-                    ? `${(index * 15 / 60) - 12}pm`
+                    ? [`${(index * 15 / 60) - 12}pm`]
                     : index * 15 / 60 == 12
-                      ? `${index * 15 / 60}pm`
+                      ? [`${index * 15 / 60}pm`]
                       : index * 15 / 60 == 24
                         ? ``
                         : index * 15 / 60 > 24
-                        ? `${(index * 15) / 60 - 24}am`
-                        : `${(index * 15) / 60}am`
-                  : ''
+                        ? [`${(index * 15) / 60 - 24}am`]
+                        : [`${(index * 15) / 60}am`]
+                  : ['']
             ,
             value:
               index * 15 % 60 === 0

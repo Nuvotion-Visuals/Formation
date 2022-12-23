@@ -15,7 +15,7 @@ interface Props {
 }
 
 interface IntervalType {
-  display: string,
+  display: string | string[],
   value: string,
   gridNumber: number
 }
