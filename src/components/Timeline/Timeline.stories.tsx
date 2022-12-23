@@ -642,7 +642,12 @@ const Template: ComponentStory<typeof Timeline> = args => {
       </S.TagsContainer>  
       <S.Content className={'CONTENT'}>
         <S.Timeline>
-          <S.CurrentTimeReference timeReferencePosition={timeReferencePosition}></S.CurrentTimeReference>
+          {
+            timeReferencePosition !== ''
+              ? <S.CurrentTimeReference timeReferencePosition={timeReferencePosition}></S.CurrentTimeReference>
+              : <></>
+          }
+          
           <S.LeftColumn>
             {
               eventDateIntervals !== undefined  
