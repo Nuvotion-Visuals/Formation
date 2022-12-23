@@ -1,4 +1,10 @@
-export { Article} from './Article/Article'
+<<<<<<< HEAD
+export { ActivityEditor } from './Timeline/ActivityEditor'
+export { Article } from './Article/Article'
+=======
+export { Article } from './Article/Article'
+export { Avatar } from './Avatar/Avatar'
+>>>>>>> 9f3493bf86121576147462a4d5572acdf5381038
 export { ArticlePreview } from './ArticlePreview/ArticlePreview'
 export { AspectRatio } from './AspectRatio/AspectRatio'
 export { Auth } from './Auth/Auth'

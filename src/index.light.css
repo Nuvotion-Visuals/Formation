@@ -63,6 +63,7 @@ It’s easy to picture how a less saturated version of a color would look like, 
   --F_Gradient_To_Background: linear-gradient(to bottom, rgba(255,255,255,.4), var(--F_Background)); 
 
   --F_Warning_Red: rgb(255, 134, 134);
+  --F_Gradient_To_Background: linear-gradient(to bottom, rgba(255,255,255,.4), var(--F_Background)); 
 }
 
 .F_Empty {

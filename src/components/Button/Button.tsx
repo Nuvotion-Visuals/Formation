@@ -122,6 +122,9 @@ export const Button: FC<Props> = React.memo(({
   }
 
   return (
+<<<<<<< HEAD
+    <S.Container disabled={disabled} expand={expand} id={id}>
+=======
     <S.Container 
       disabled={disabled} 
       expand={expand} 
@@ -129,6 +132,7 @@ export const Button: FC<Props> = React.memo(({
       hero={hero}
       expandVertical={expandVertical}
     >
+>>>>>>> 9f3493bf86121576147462a4d5572acdf5381038
       {
         href 
         ? 
@@ -258,6 +262,10 @@ const S = {
   `,
   Button: styled.button.attrs({
     type: 'submit',
+<<<<<<< HEAD
+    value: 'Submit',
+  }) <ButtonProps>`
+=======
     value: 'Submit'
   })<ButtonProps>`
     display: flex;
@@ -275,6 +283,7 @@ const S = {
           : 'var(--F_Surface)'
     }; 
     box-shadow: ${props => props.secondary ? 'var(--F_Outline)' : 'none'};
+>>>>>>> 9f3493bf86121576147462a4d5572acdf5381038
     letter-spacing: var(--F_Letter_Spacing);
     border: none;
     position: relative;
@@ -284,6 +293,49 @@ const S = {
       : 'var(--F_Font_Color)'
     };
     pointer-events: ${props => props.disabled ? 'none' : 'default'}; 
+<<<<<<< HEAD
+    display: flex;
+    flex: 0 0 100%;
+    align-items: center;
+    justify-content: center;
+    height: ${props =>
+      props.hero
+        ? 'auto'
+        : 'var(--F_Input_Height)'
+    };
+    min-width: var(--F_Font_Size_Icon);
+    padding: ${props =>
+      props.hero && !props.square
+        ? '1rem 1.5rem 1rem 1rem'
+        : props.square
+          ? '1rem'
+          : props.hasIcon
+            ? '1rem 1rem 1rem .75rem'
+            : '1rem'
+    };
+    width: ${props => props.square && !props.hero
+      ? '52px'
+      : props.expand ? '100%' : 'auto'}; 
+    border-radius: ${props =>
+      props.hero && props.square
+        ? '100%'
+        : props.tab
+          ? '.5rem .5rem 0 0'
+          : '.5rem'
+    };
+    background: ${props => props.primary
+      ? `var(--F_Primary)`
+      : props.blink
+        ? 'var(--Hover_Single)'
+        : props.secondary
+          ? 'var(--F_Surface)'
+          : typeof(props.background) == 'string'
+            ? props.background
+            : ''
+    }; 
+  
+    box-shadow: ${props => props.secondary ? 'var(--F_Outline)' : 'none'};
+=======
     border-radius: ${props => 
       props.circle
         ? '100%' 
@@ -291,6 +343,7 @@ const S = {
           ? '.5rem .5rem 0 0' 
           : '.5rem'
     };
+>>>>>>> 9f3493bf86121576147462a4d5572acdf5381038
     animation: ${props => props.blink 
       ? css`${blink} 1s linear infinite` 
       : props.singleBlink

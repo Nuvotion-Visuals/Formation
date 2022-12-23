@@ -223,11 +223,15 @@ export {
 
 // Organs (3)
 import { LabelManager } from './components/LabelManager/LabelManager'
+import { Timeline } from './components/Timeline/Timeline'
+export {
+  LabelManager,
+  Timeline
+}
 import { ExpandableList } from './components/ListEditor/ExpandableList'
 
 export {
   DateAndTimePicker,
-  LabelManager,
   ExpandableList
 }
 
