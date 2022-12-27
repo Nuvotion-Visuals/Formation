@@ -128,6 +128,9 @@ const S = {
       padding: 1rem;
       color: var(--F_Font_Color_Label);
       border-left: .5rem solid var(--F_Surface_2);
+      * {
+        color: var(--F_Font_Color_Label);
+      }
     }
 
     img {
