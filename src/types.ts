@@ -6,25 +6,3 @@ export type LabelType = {
   description: string,
   color: string
 }
-
-export type AreaType = {
-  area: string,
-  activities: ActivityType[],
-}
-
-export type ActivityType = {
-  title: string,
-  startTime: string,
-  endTime: string,
-  id: string,
-  people: PersonType[],
-}
-
-export type PersonType = {
-  name: string,
-  position: string,
-}
-
-export type ActivitiesByAreaType = {
-  
-}

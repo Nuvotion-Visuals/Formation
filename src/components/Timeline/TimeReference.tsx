@@ -1,3 +1,4 @@
+import { Box } from '../../internal'
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
 
@@ -14,22 +15,29 @@ interface IntervalType {
 export const TimeReference = ({ intervals }: Props) => {
 
   return (
-    <S.Container>
+    <S.Container className={'help'}>
       {
         intervals.map((interval, index) => (
           interval.display.length === 2
-            ? <S.Interval key={index}>
-                <S.DayOfWeek>
-                  {
-                    interval.display[0]
-                  }
-                </S.DayOfWeek>
-                <S.MonthDay>
-                  {
-                    interval.display[1]
-                  }
-                </S.MonthDay>
-              </S.Interval>
+      
+            ? 
+              <S.DateDisplay>
+                <S.Interval key={index}>
+                 
+                    <S.DayOfWeek>
+                      {
+                        interval.display[0]
+                      }
+                    </S.DayOfWeek>
+                    <S.MonthDay>
+                      {
+                        interval.display[1]
+                      }
+                    </S.MonthDay>
+                 
+                </S.Interval>
+              </S.DateDisplay>
+              
             : <S.Interval key={index}>
                 <S.Hour>
                   {interval.display}
@@ -50,15 +58,27 @@ const S = {
     background: var(--F_Activity_Backdrop);
   `,
   Interval: styled.div<{}>`
+    position: relative;
     width: 100%;
+    height: 15px;
     font-size: 0.8rem;
     display: flex;
     flex-wrap: wrap;
-    justify-content: flex-end;
-    height: 15px;
     overflow-x: visible;
+    transform-origin: 0 12px;
+  `,
+  DateContainer: styled.div`
+    postion: relative;
+    background: red;
+    height: 100%;
+    width: 100%;
+  `,
+  DateDisplay: styled.div`
+    postion: relative;
   `,
   DayOfWeek: styled.div<{}>`
+    position: absolute;
+    top: -1rem;
     width: 100%;
     height: 0.8rem;
     text-align: center;
@@ -75,14 +95,14 @@ const S = {
     text-align: center;
     letter-spacing: 0.3px;
     font-size: 0.8rem;
-    z-index: 200;
     background: var(--F_Backdrop);
     color: white;
     padding-bottom: 0.2rem;
   `,
   Hour: styled.div<{}>`
-    position: relative;
-    top: -0.6rem;
+    position: absolute;
+    top: -0.4rem;
+    /* line-height: 1.75rem; */
     width: 100%;
     text-align: center;
     font-weight: 200;

@@ -1,19 +1,15 @@
-import React, { useState, useEffect, MouseEvent } from 'react'
+import React, { useState, useEffect } from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { Timeline, ActivityEditor, Box, Tags, TimeReference, TimelineSurface } from '../../internal'
-import { ActivityType, AreaType } from '../../types'
+import { Timeline, ActivityEditor, Tags, TimeReference, TimelineSurface } from '../../internal'
 import { styled } from '@storybook/theming'
 
-import { DateTimeFormatter, Duration, ZonedDateTime, LocalDate, LocalDateTime } from '@js-joda/core'
+import { DateTimeFormatter, Duration, ZonedDateTime, LocalDate } from '@js-joda/core'
 
 export default {
   title: 'Advanced Input/Timeline',
   component: Timeline,
 } as ComponentMeta<typeof Timeline>
-
-type AreasType = AreaType[]
-type ActivitiesType = ActivityType[]
 
 interface IntervalType {
   display: string | string[],
@@ -21,10 +17,30 @@ interface IntervalType {
   gridNumber: number
 }
 
+type AreaType = {
+  area: string,
+  activities: ActivityType[],
+}
+
+type ActivityType = {
+  title: string,
+  startTime: string,
+  endTime: string,
+  id: string,
+  people: PersonType[],
+}
+
+type PersonType = {
+  name: string,
+  position: string,
+}
+
+
+type AreasType = AreaType[]
+type ActivitiesType = ActivityType[]
+
 
 const Template: ComponentStory<typeof Timeline> = args => {
-  // Value Block One
-  //
   const [value, set_value] = useState<AreasType>([
     {
       area: 'West Stage',
@@ -343,81 +359,11 @@ const Template: ComponentStory<typeof Timeline> = args => {
       ]
     }
   ])
-
-  // Value Block Two
-  //
-  // const [value, set_value] = useState<AreasType>([
-  //   {
-  //     area: 'West Stage',
-  //     activities: [
-  //       {
-  //         title: 'DJ Alpha',
-  //         startTime: `2022-12-23T09:00-06:00`,
-  //         endTime: `2022-12-23T12:00-06:00`,
-  //         id: '1',
-  //         people: [
-  //           {
-  //             name: "DJ Alpha",
-  //             position: "DJ",
-  //           },
-  //           {
-  //             name: "tech",
-  //             position: "AV Tech",
-  //           }
-  //         ],
-  //       },
-  //       {
-  //         title: 'DJ Beta',
-  //         startTime: `2022-12-23T08:00-06:00`,
-  //         endTime: `2022-12-23T11:00-06:00`,
-  //         id: '1',
-  //         people: [
-  //           {
-  //             name: "DJ Alpha",
-  //             position: "DJ",
-  //           },
-  //           {
-  //             name: "tech",
-  //             position: "AV Tech",
-  //           }
-  //         ],
-  //       }
-  //     ]
-  //   }
-  // ])
-
-  // Value Block Three
-  //
-  // const [value, set_value] = useState<AreasType>([
-  //   {
-  //     area: 'Central Stage',
-  //     activities: [
-  //       {
-  //         title: 'SF Event',
-  //         startTime: `2022-12-23T11:30-06:00`,
-  //         endTime: `2022-12-23T23:00-06:00`,
-  //         id: '1',
-  //         people: [
-  //           {
-  //             name: "DJ Alpha",
-  //             position: "DJ",
-  //           },
-  //           {
-  //             name: "tech",
-  //             position: "AV Tech",
-  //           }
-  //         ],
-  //       }
-  //     ]
-  //   }
-  // ])
-
-
   const [activeTabs, set_activeTabs] = useState<string[]>([value[0].area])
   const [activityId, setActivityId] = useState<string | null>(null)
-  const [currentActivities, set_currentActivities] = useState<AreaType[]>([])
+  const [currentActivities, set_currentActivities] = useState<AreasType>([])
   const [eventDateIntervals, set_eventDateIntervals] = useState<IntervalType[]>()
-  const [currentTime, set_currentTime] = useState(ZonedDateTime.now().format(DateTimeFormatter.ofPattern(`yyyy-M-dd'T'HH:mmXXX`)).toString()) 
+  const [currentTime, set_currentTime] = useState(ZonedDateTime.now().format(DateTimeFormatter.ofPattern(`yyyy-MM-dd'T'HH:mmXXX`)).toString()) 
   const [timeReferencePosition, set_timeReferencePosition] = useState('')
 
   let tabs: string[] = value?.map(({ area }) => area)
@@ -473,13 +419,10 @@ const Template: ComponentStory<typeof Timeline> = args => {
     let activeIndexedData: AreasType = value.map((area) => {
       if (activeTabs.includes(area.area)) {
          return area
-      } else {
-        return
-      }
-    })
-      
-    let scrubbedData: AreasType = activeIndexedData.filter(item => item !== undefined)
-    set_currentActivities(scrubbedData)
+      } 
+    }).filter(item => item !== undefined) as AreaType[];
+
+    set_currentActivities(activeIndexedData)
 
   }, [activeTabs, value])
 
@@ -594,7 +537,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
   // determine if timeStampReference component should be tracked/rendered
   useEffect(() => {
     if (eventDateIntervals !== undefined) {
-      console.log(eventDateIntervals, 'eventDateIntervals')
+      
       let startTime: string = eventDateIntervals[0].value
       let parsedStartTime = ZonedDateTime.parse(startTime)
 
@@ -620,17 +563,15 @@ const Template: ComponentStory<typeof Timeline> = args => {
 
         let timeComparison = Duration.between(currentTimeParsed, parsedEndTime)
 
-        console.log(timeComparison.toString(), 'timeComparison')
+        
 
-        let w = timeComparison.plus(Duration.ofHours(0).plusMinutes(15))
-        let x = w._seconds / 60
-        set_timeReferencePosition(`${x}px`)
+        let durationObject = timeComparison.plus(Duration.ofHours(0).plusMinutes(15))
+        console.log(durationObject, 'durationObject')
+        set_timeReferencePosition(`${durationObject._seconds / 60}px`)
       }
       if (!isAfterStart || !isBeforeEnd) {
         set_timeReferencePosition(``)
       }
-      console.log(isAfterStart, startTime, parsedCurrentTime.toString(), 'after start/current')
-      console.log(isBeforeEnd, parsedCurrentTime.toString(), 'before end/current')
     }      
   }, [eventDateIntervals])
 
@@ -723,19 +664,6 @@ const S = {
     max-width: 100%;
     height: calc(100% - 50px);
     overflow-y: auto;
-
-    ::-webkit-scrollbar {
-      width: 0.5rem;
-    }
-
-    ::-webkit-scrollbar-track {
-      background: #ffffff28;
-      -webkit-box-shadow: inset 0 0 .125rem rgba(0,0,0,0.3);
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: var(--F_Primary_Variant);
-    }
 `,
   Timeline: styled.div`
     position: relative;
@@ -759,7 +687,7 @@ const S = {
   DataView: styled.div`
   `,
   LeftColumn: styled.div`
-    width: 4rem;
+    width: 3rem;
     height: 100%;
   `,
   RightColumn: styled.div`

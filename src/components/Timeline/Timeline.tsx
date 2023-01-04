@@ -201,10 +201,14 @@ export const Timeline = ({ value, intervals, onChange,  onIntervalClick, onLaneI
                       gridRowStart: renderRow(item?.startTime.toString()),
                       gridRowEnd: renderRow(item?.endTime.toString())
                     }}
-                  color={color}
-                  backgroundColor={backgroundColor}
+                  
+                >
+                  <S.Fill
+                    color={color}
+                    backgroundColor={backgroundColor}
                   >
-                      {item.title}
+                    {item.title}
+                  </S.Fill>
                   </S.Item>
                 )
               : <></>   
@@ -229,7 +233,7 @@ const S = {
     min-width: 100%;
     height: 100%;
     display: grid;
-    grid-template-columns: ${props => `repeat(${props.columnCount}, 4rem)`};
+    grid-template-columns: ${props => `repeat(${props.columnCount}, 6rem)`};
     grid-template-rows: ${props => `repeat(${props.rowCount}, 15px)`};
     column-gap: 1px;
   `,
@@ -258,16 +262,24 @@ const S = {
     backgroundColor: string
   }>`
     min-width: 3rem;
-    box-sizing: border-box;
+    /* box-sizing: border-box; */
     position: absolute;
     width: 100%;
     height: 100%;
+    font-size: 12px;
+    z-index: 100;
+    overflow-y: hidden;
+  `,
+  Fill: styled.div<{
+    color: string,
+    backgroundColor: string
+  }>`
+    width: calc(100% - 0.5rem);
+    height: calc(100% - 0.5rem - 1px);
+    margin-bottom: 1px;
     background: ${props => props.backgroundColor ? props.backgroundColor : 'blue'};
     color: ${props => props.color ? props.color : 'lightblue'};
-    font-size: 12px;
-    padding: 0.15rem;
-    z-index: 100;
     border-radius: 0.25rem;
-    overflow-y: hidden;
+    padding: 0.25rem;
   `
 }
