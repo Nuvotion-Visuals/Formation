@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { DateTimeFormatter, ZonedDateTime } from '@js-joda/core'
 import '@js-joda/timezone'
-import { ActivityType } from 'types'
 
 interface Props {
   value: ActivityType[],
@@ -12,6 +11,19 @@ interface Props {
   onLaneItemClick: (e: React.MouseEvent) => void,
   color: string,
   backgroundColor: string
+}
+
+type ActivityType = {
+  title: string,
+  startTime: string,
+  endTime: string,
+  id: string,
+  people: PersonType[],
+}
+
+type PersonType = {
+  name: string,
+  position: string,
 }
 
 interface IntervalType {
@@ -88,8 +100,6 @@ export const Timeline = ({ value, intervals, onChange,  onIntervalClick, onLaneI
 
         for (let i = lane.length - 1; i > -1; i--){
           let singleLane = lane[i]
-
-          console.log(singleLane.startTime.isBefore(item.startTime), 'HEY')
           
           const isStartTimeConflict = singleLane.startTime.isBefore(item.startTime) && item.startTime.isBefore(singleLane.endTime)
           const isEndTimeConflict = singleLane.startTime.isBefore(item.endTime)&& item.endTime.isBefore(singleLane.endTime)
@@ -193,8 +203,8 @@ export const Timeline = ({ value, intervals, onChange,  onIntervalClick, onLaneI
               ? renderItems.map((item, index) => 
                   <S.Item
                     key={index}
-                    onClick={(e) => onLaneItemClick(e)}
                     id={item.id}
+                    onClick={() => null}
                     style={{
                       gridColumnStart: item.overflowLane,
                       gridColumnEnd: item.overflowLane,
@@ -258,8 +268,7 @@ const S = {
     }
   `,
   Item: styled.div<{
-    color: string,
-    backgroundColor: string
+    backgroundColor?: string,
   }>`
     min-width: 3rem;
     /* box-sizing: border-box; */
