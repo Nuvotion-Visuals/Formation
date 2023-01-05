@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { Timeline, ActivityEditor, Tags, TimeReference, TimelineSurface } from '../../internal'
+import { Timeline, Tags, TimeReference, TimelineSurface, LiveTimeReference } from '../../internal'
 import { styled } from '@storybook/theming'
 
 import { DateTimeFormatter, Duration, ZonedDateTime, LocalDate } from '@js-joda/core'
@@ -40,7 +40,7 @@ type AreasType = AreaType[]
 type ActivitiesType = ActivityType[]
 
 
-const Template: ComponentStory<typeof Timeline> = args => {
+const Template: ComponentStory<typeof Timeline> = args => { 
   const [value, set_value] = useState<AreasType>([
     {
       area: 'West Stage',
@@ -363,7 +363,10 @@ const Template: ComponentStory<typeof Timeline> = args => {
   const [activityId, setActivityId] = useState<string | null>(null)
   const [currentActivities, set_currentActivities] = useState<AreasType>([])
   const [eventDateIntervals, set_eventDateIntervals] = useState<IntervalType[]>()
-  const [currentTime, set_currentTime] = useState(ZonedDateTime.now().format(DateTimeFormatter.ofPattern(`yyyy-MM-dd'T'HH:mmXXX`)).toString()) 
+  const [displayTimeReferenceLine, set_displayTimeReferenceLine] = useState<boolean>()
+  
+  const [currentTime, set_currentTime] = useState<string>(ZonedDateTime.now().format(DateTimeFormatter.ofPattern(`yyyy-MM-dd'T'HH:mmXXX`)).toString()) 
+  const [endTime, set_endTime] = useState<ZonedDateTime>()
   const [timeReferencePosition, set_timeReferencePosition] = useState('')
 
   let tabs: string[] = value?.map(({ area }) => area)
@@ -374,45 +377,6 @@ const Template: ComponentStory<typeof Timeline> = args => {
 
     return formattedHourMinute
   }
-
-  // const onLaneItemClick = (e: React.MouseEvent) => {
-  //   const element = e.target as HTMLDivElement
-  //   const target = element.id
-  //   setActivityId(target)
-  // }
-
-  // const onIntervalClick = (interval) => {
-  //   let areaData = value[activeTabs]
-  //   let dateTime = areaData.activities[0].startTime
-  //   let activeDate: string = dateTime?.slice(0, 11)
-
-  //   let dateTimeString = `${activeDate}${interval.value}`
-  //   let startTime = ZonedDateTime.parse(dateTimeString)
-  //   let endTime = startTime.plus(Duration.ofHours(1))
-
-  //   let guid = crypto.randomUUID()
-
-  //   let emptyActivity = {
-  //     "title": '',
-  //     "startTime": startTime.toString(),
-  //     "endTime": endTime.toString(),
-  //     "id": guid,
-  //     "people": []
-  //   }
-
-  //   set_currentActivity(emptyActivity)
-  //   setActivityId(guid)
-
-  //   let newData = value.map((area, index) => {
-  //     if (index === activeTabs) {
-  //       let newArea: AreaType = area
-  //       newArea?.activities.push(emptyActivity)
-  //       return newArea
-  //     }
-  //     return area
-  //   })
-  //   set_value(newData)
-  // }
 
   /*  set currentActivities  */
   useEffect(() => {
@@ -549,22 +513,48 @@ const Template: ComponentStory<typeof Timeline> = args => {
       let isBeforeEnd = parsedCurrentTime.isBefore(parsedEndTime)
 
       if (isAfterStart && isBeforeEnd) {
-        setInterval(() => {
-          set_currentTime(ZonedDateTime.now().format(DateTimeFormatter.ofPattern(`yyyy-M-dd'T'HH:mmXXX`)).toString())
-        }, 1000)
+
+        set_displayTimeReferenceLine(true)
+        set_endTime(parsedEndTime)
+        // setInterval(() => {
+        //   set_currentTime(ZonedDateTime.now().format(DateTimeFormatter.ofPattern(`yyyy-M-dd'T'HH:mmXXX`)).toString())
+        // }, 1000)
 
         let currentTimeParsed = ZonedDateTime.parse(currentTime)
         let timeComparison = Duration.between(currentTimeParsed, parsedEndTime)
-        let durationObject = timeComparison.plus(Duration.ofHours(0).plusMinutes(15))
+        let durationObject = timeComparison.plusMinutes(15)
         
-        // type error, the only 'seconds' declared by the js joda type is a function. The _seconds value property doesn't exist, according to js joda... even though this returns a value.
-        set_timeReferencePosition(`${durationObject.seconds() / 60}px`)
+        set_timeReferencePosition(`${durationObject.seconds() / 60 - 1}px`)
       }
       if (!isAfterStart || !isBeforeEnd) {
-        set_timeReferencePosition(``)
+        set_timeReferencePosition(`none`)
+        set_displayTimeReferenceLine(false)
       }
     }      
   }, [eventDateIntervals])
+
+  useEffect(() => {
+    if (displayTimeReferenceLine === true && endTime !== undefined) {
+      let currentMoment = ZonedDateTime.now()
+      let nextMinute = currentMoment.withSecond(0).withNano(0).plusMinutes(1);
+      let timeout = Duration.between(currentMoment, nextMinute).toMillis();
+
+      setTimeout(() => {
+       
+        let currentTimeParsed = ZonedDateTime.parse(currentTime)
+        
+        let timeComparison = Duration.between(currentTimeParsed, endTime)
+        let durationObject = timeComparison.plusMinutes(15)
+
+        console.log(`${durationObject.seconds() / 60}px`, ' durationObject string interpolation ')
+        console.log('-----     -----     -----')
+        
+        set_timeReferencePosition(`${durationObject.seconds() / 60}px`)
+        set_currentTime(ZonedDateTime.now().format(DateTimeFormatter.ofPattern(`yyyy-MM-dd'T'HH:mmXXX`)).toString())
+       
+      }, timeout)
+    }
+  }, [displayTimeReferenceLine, endTime, currentTime, timeReferencePosition])
 
   return (
     <S.Container>
@@ -580,7 +570,10 @@ const Template: ComponentStory<typeof Timeline> = args => {
           {
             timeReferencePosition === ''
               ? <></>
-              : <S.CurrentTimeReference timeReferencePosition={timeReferencePosition} />
+              : <LiveTimeReference
+                  timeReferencePosition={timeReferencePosition}
+                  time={currentTime}
+                />
           }
 
           
@@ -645,7 +638,6 @@ const S = {
     width: 100%;
     height: 2.25rem;
     padding: 0.5rem;
-    overflow-x: auto; 
     z-index: 1000;
     background: white;
   `,
@@ -662,16 +654,6 @@ const S = {
     min-height: fit-content;
     display: flex;
   `,
-  CurrentTimeReference: styled.div<{
-    timeReferencePosition: string | undefined
-  }>`
-    position: absolute;
-    bottom: ${props => props.timeReferencePosition !== undefined ? props.timeReferencePosition : ''};
-    width: 100%;
-    height: 1px;
-    background: #d44c4c;
-    z-index: 500;
-`,
   Overflow: styled.div`
     max-height: 100%;
 `,

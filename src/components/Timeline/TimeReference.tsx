@@ -54,7 +54,7 @@ const S = {
     position: relative;
     width: 100%;
     min-height: 100%;
-    z-index: 1000;
+    z-index: 400;
     background: var(--F_Activity_Backdrop);
   `,
   Interval: styled.div<{}>`

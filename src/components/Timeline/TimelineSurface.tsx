@@ -35,10 +35,10 @@ const S = {
     z-index: 1000;
     line-height: 0;
     :nth-child(1n+1) {
-      border-bottom: 1px solid #f3f3f3;
+      border-top: 1px solid #c8c8c8;
     }
     :nth-Child(2n+2) {
-      border-bottom: 1px solid #e0e0e0;
+      border-top: 1px solid #eaeaea;
     }
   `
 }

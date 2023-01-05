@@ -133,6 +133,7 @@ import {
   ListItemType,
   Lists,
 } from './components/ListEditor'
+import { LiveTimeReference } from './components/Timeline/LiveTimeReference'
 export {
   ActivityEditor,
   ArticlePreview,
@@ -156,7 +157,8 @@ export {
   ListItemMode,
   ListItemType,
   Lists,
-  LabelColorPicker
+  LabelColorPicker,
+  LiveTimeReference
 }
 
 // Tissue (2)
