@@ -3,12 +3,14 @@ import React, { useState, useEffect } from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
 import { DateAndTimePicker, Box } from '../../internal'
-import { ListEditor } from '../ListEditor'
 import { NavSpaces } from './NavSpaces'
 import { NavTabs } from './NavTabs'
+import { SpacesSidebar } from './SpacesSidebar'
+import { SpaceSidebar } from './SpaceSidebar'
+import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 
 export default {
-  title: 'Navigation/NavSpaces',
+  title: 'Spaces/NavSpaces',
   component: NavSpaces,
 } as ComponentMeta<typeof NavSpaces>
 
@@ -17,7 +19,7 @@ const eventChannels = [
     name: 'Details',
     icon: 'info-circle',
     iconPrefix: 'fas',
-    href: '',
+    href: '#',
     hideOptions: true,
     active: false
   },
@@ -25,7 +27,7 @@ const eventChannels = [
     name: 'People',
     icon: 'users',
     iconPrefix: 'fas',
-    href: '',
+    href: '#',
     hideOptions: true,
     active: true
   },
@@ -33,7 +35,7 @@ const eventChannels = [
     name: 'Tasks',
     icon: 'check-square',
     iconPrefix: 'fas',
-    href: '',
+    href: '#',
     hideOptions: true,
     active: false
   },
@@ -41,7 +43,7 @@ const eventChannels = [
     name: 'Areas',
     icon: 'compass',
     iconPrefix: 'fas',
-    href: '',
+    href: '#',
     hideOptions: true,
     active: false
   },
@@ -49,7 +51,7 @@ const eventChannels = [
     name: 'Finances',
     icon: 'money-check-dollar',
     iconPrefix: 'fas',
-    href: '',
+    href: '#',
     hideOptions: true,
     active: false
   },
@@ -57,7 +59,7 @@ const eventChannels = [
     name: '',
     icon: 'money-check-dollar',
     iconPrefix: 'fas',
-    href: '',
+    href: '#',
     hideOptions: true,
     active: false
   },
@@ -65,7 +67,7 @@ const eventChannels = [
     name: 'Everyone',
     icon: 'hashtag',
     iconPrefix: 'fas',
-    href: '',
+    href: '#',
     hideOptions: true,
     active: false
   },
@@ -73,7 +75,7 @@ const eventChannels = [
     name: 'Organizers',
     icon: 'hashtag',
     iconPrefix: 'fas',
-    href: '',
+    href: '#',
     hideOptions: true,
     active: false
   },
@@ -81,7 +83,7 @@ const eventChannels = [
     name: 'Volunteers',
     icon: 'hashtag',
     iconPrefix: 'fas',
-    href: '',
+    href: '#',
     hideOptions: true,
     active: false
   }
@@ -130,17 +132,19 @@ const organizationChannels = [
   }
 ]
 
+import { Space } from './NavSpaces'
+
 const Template: ComponentStory<typeof NavSpaces> = args => {
   const [activeSwipeIndex, set_activeSwipeIndex] = useState(0)
 
-  const [spaces, set_spaces] = useState([
+  const [spaces, set_spaces] = useState<Space[]>([
     {
-      title: '',
+      name: '',
       icon: 'message',
       iconPrefix: 'fas'
     },
     {
-      title: 'Jive DJs Cork',
+      name: 'Jive DJs Cork',
       // src: 'https://api.avsync.live/uploads/medium_jive_djs_d7e9e4490a.jpg',
       date: new Date(Date.parse('Sep 1, 2022')),
       location: 'Cypress Avenue, Cork',
@@ -148,62 +152,62 @@ const Template: ComponentStory<typeof NavSpaces> = args => {
       href: '#test'
     },
     {
-      title: 'Kino Battle of the Bands',
+      name: 'Kino Battle of the Bands',
       src: 'https://api.avsync.live/uploads/medium_Hero_ab87aace42.jpg',
       date: new Date(Date.parse('Sep 8, 2022')),
       location: 'Kino, Cork',
       channels: eventChannels
     },
     {
-      title: 'The III Studios Session',
+      name: 'The III Studios Session',
       src: 'https://api.avsync.live/uploads/medium_Poster_6ad4c91377.jpg',
       date: new Date(Date.parse('Oct 29, 2022')),
       location: 'The III Studios, Chicago',
       channels: eventChannels
     },
     {
-      title: 'Society Chi Presents',
+      name: 'Society Chi Presents',
       src: 'https://api.avsync.live/uploads/2_82322a7fdb.jpg',
       date: new Date(Date.parse('Nov 29, 2022')),
       location: 'The Aux, Chicago',
       channels: eventChannels
     },
     {
-      title: 'Pretty Happy',
+      name: 'Pretty Happy',
       src: 'https://api.avsync.live/uploads/pretty_happy_95bcc1e160.jpg',
       date: new Date(Date.parse('Dec 4, 2022')),
       location: 'Kino, Chicago',
       channels: eventChannels
     },
     {
-      title: 'Cyprus Avenue Hip Hop Festival',
+      name: 'Cyprus Avenue Hip Hop Festival',
       src: 'https://api.avsync.live/uploads/1_bc67779458.jpg',
       date: new Date(Date.parse('Dec 6, 2022')),
       location: 'Cypress Avenue, Cork',
       channels: eventChannels
     },
     {
-      title: 'AVsync.LIVE Artists Chicago',
+      name: 'AVsync.LIVE Artists Chicago',
       src: 'https://api.avsync.live/uploads/avsync_logo_border_45b816cca1.png',
       channels: organizationChannels
     },
     {
-      title: 'Chicago Venue Owners',
+      name: 'Chicago Venue Owners',
       src: 'https://pbs.twimg.com/media/DtF4cwDWoAMLBCN?format=jpg&name=4096x4096',
       channels: organizationChannels
     },
     {
-      title: 'Glitch Artists Chicago',
+      name: 'Glitch Artists Chicago',
       src: 'https://api.avsync.live/uploads/Mosh_Banner_626d750b85.png',
       channels: organizationChannels
     },
     {
-      title: '',
+      name: '',
       icon: 'plus',
       iconPrefix: 'fas'
     },
   ])
-  const [activeSpaceIndex, set_activeSpaceIndex] = useState(1)
+  const [activeSpaceIndex, set_activeSpaceIndex] = useState(2)
 
   const [dates, set_dates] = useState([{
     startTime: '',
@@ -214,30 +218,41 @@ const Template: ComponentStory<typeof NavSpaces> = args => {
       : ''
   }])
 
-  return (
+  const FirstPage = React.memo(({}) => <div style={{display: 'flex', height: '100%'}}>
+    <SpacesSidebar 
+      activeSpaceIndex={activeSpaceIndex}
+      onClickIndex={index => set_activeSpaceIndex(index)}
+      spaces={spaces}
+    />
+
+    <SpaceSidebar 
+      name={spaces[activeSpaceIndex]?.name}
+      src={spaces[activeSpaceIndex]?.src}
+      dateString={
+        spaces[activeSpaceIndex]?.date?.toLocaleString('en-us', { 
+          weekday: 'long', 
+          month: 'short', 
+          day: 'numeric', 
+          year: 'numeric' 
+        })}
+      location={spaces[activeSpaceIndex]?.location}
+      channels={spaces[activeSpaceIndex]?.channels}
+      dropdownOptions={[]}
+    />
+  </div>)
+
+  return (<>
     <NavSpaces {...args} 
       activeSwipeIndex={activeSwipeIndex}
       onSwipe={index => set_activeSwipeIndex(index)}
-      spaces={spaces}
       activeSpaceIndex={activeSpaceIndex}
-      onSetActiveSpacesIndex={index => set_activeSpaceIndex(index)}
+      spaces={spaces}
       channels={spaces?.[activeSpaceIndex].channels}
-      onCreateSpace={() => alert('Create space handler')}
+      firstPage={<FirstPage />}
       secondPage={<>
         <NavTabs
           navs={(args as any).secondaryTopNav}
           borderBottom={true}
-        />
-        <ListEditor 
-          {...{
-            value: (args as any).lists,
-            onChange: (lists) => { console.log(lists)},
-            onRemoveFunction: () => alert('remove'),
-            calculateRecommendationLists: () => [],
-            calculateRecentLists: () => [],
-            isCreating: false,
-            label: (args as any).label
-          }}
         />
       </>}
       thirdPage={
@@ -246,6 +261,7 @@ const Template: ComponentStory<typeof NavSpaces> = args => {
             set_dates(result)
           }}
           value={dates}
+          iconPrefix='fas'
         />
       }
       dropdownOptions={[
@@ -276,7 +292,7 @@ const Template: ComponentStory<typeof NavSpaces> = args => {
         }
       ]}
     />
-  )
+  </>)
 }
 
 export const Positions = Template.bind({})

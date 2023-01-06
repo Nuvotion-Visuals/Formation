@@ -34,6 +34,7 @@ export const SwipeableViews = ({
             onClick={e => {
               if (index !== activeSwipeIndex) {
                 onIncrement()
+                e.stopPropagation()
               }
             }}
           >

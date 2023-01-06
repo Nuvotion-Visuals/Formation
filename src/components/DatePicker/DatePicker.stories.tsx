@@ -9,14 +9,14 @@ export default {
 } as ComponentMeta<typeof DatePicker>
 
 const Template: ComponentStory<typeof DatePicker> = args => {
-  const [value, set_value] = useState(new Date)
+  const [value, set_value] = useState<Date | null>(null)
 
   useEffect(() => {
     console.log(value)
   }, [value])
 
   return <DatePicker 
-    // {...args} 
+    {...args} 
     onChange={result => {
       set_value(result)
     }}
@@ -27,5 +27,5 @@ const Template: ComponentStory<typeof DatePicker> = args => {
     
 export const Default = Template.bind({})
 Default.args = {
-
+  iconPrefix: 'fas'
 }

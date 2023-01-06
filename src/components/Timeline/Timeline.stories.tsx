@@ -5,6 +5,7 @@ import { Timeline, Tags, TimeReference, TimelineSurface, LiveTimeIndicator } fro
 import { styled } from '@storybook/theming'
 
 import { DateTimeFormatter, Duration, ZonedDateTime, LocalDate } from '@js-joda/core'
+import { Locale } from '@js-joda/locale_en-us'
 
 export default {
   title: 'Advanced Input/Timeline',
@@ -429,7 +430,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
       let emptyDates = new Array(durationDaysInteger).fill([0])
       let eventDates = emptyDates.map((date, index) => {
         if (index === 0) {
-          return origin.format(DateTimeFormatter.ofPattern('yyyy-MM-dd'))
+          return origin.format(DateTimeFormatter.ofPattern('yyyy-MM-dd').withLocale(Locale.US))
         } else {
           return origin.plus(Duration.ofDays(index)).format(DateTimeFormatter.ofPattern('yyyy-MM-dd'))
         }

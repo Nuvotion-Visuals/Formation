@@ -122,6 +122,10 @@ const S = {
     border-radius: 100%;
     cursor: pointer;
 
+    * {
+      color: ${props => props.open ? 'var(--F_Font_Color)' : 'var(--F_Font_Color_Label)'};
+    }
+
     &:hover {
       background: var(--F_Surface);
     }
@@ -130,7 +134,7 @@ const S = {
     onClick: Function | null
   }>`
     position: relative;
-    color: var(--F_Font_Color_Label);
+    color: var(--F_Font_Color);
   `,
   Dropdown: styled.div`
     position: absolute;
@@ -139,8 +143,8 @@ const S = {
     right: 0;
     min-width: 140px;
     background: var(--F_Background);
-    box-shadow: var(--F_Outline);
-    border-radius: .5rem;
+    box-shadow: var(--F_Outline_Outset_Focus);
+    border-radius: .375rem;
     user-select: none;
   `,
   DropdownOption: styled.div<{
@@ -170,7 +174,7 @@ const S = {
   `,
   DropDownText: styled.div`
     padding-left: .125rem;
-    font-size: var(--F_Font_Size_Label);
+    font-size: var(--F_Font_Size);
     display: flex;
   `
 }

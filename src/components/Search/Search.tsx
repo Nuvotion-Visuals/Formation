@@ -147,7 +147,7 @@ const S = {
     color: var(--F_Font_Color_Label);
     height: var(--F_Input_Height);
     border-radius: 0 1rem 1rem 0;
-    padding: 0 2rem;
+    padding: 0 1rem;
     background: var(--F_Surface);
     &:hover, &:active {
       background: var(--F_Surface_1);

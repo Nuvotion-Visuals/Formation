@@ -1,15 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 
-import { Button } from '../../internal'
+import { Button, TimeZone } from '../../internal'
 import { Box } from '../../internal'
 import { Spacer } from '../../internal'
 import { Gap } from '../../internal'
 import { LineBreak } from '../../internal'
-import { getSuperscriptOrdinal, getOrdinal } from '../../utils'
+import { getSuperscriptOrdinal, getOrdinal, capitalizeFirstLetter, getTimezone } from '../../utils'
 
 import { DatePicker } from '../../internal'
 import { TimePicker } from '../../internal'
+import { IconPrefix } from '@fortawesome/fontawesome-common-types'
 
 
 const addMinutes = (time: string, minutes: number) : string => {
@@ -29,12 +30,14 @@ export type DatesAndTimes = DateAndTime[]
 
 interface Props {
   onChange: (arg0: DatesAndTimes) => void,
-  value: DatesAndTimes
+  value: DatesAndTimes,
+  iconPrefix?: IconPrefix
 }
 
 export const DateAndTimePicker = ({ 
   value,
-  onChange 
+  onChange,
+  iconPrefix
 }: Props) => {
   const addDate = () => {
     const lastState = value
@@ -43,16 +46,18 @@ export const DateAndTimePicker = ({
 
     var ndate = new Date(date)
 
-    // Add a day
-    ndate.setDate(ndate.getDate() + 1)
+    if (date) {
 
-
-    // Add a day
-
+      // Add a day
+      ndate.setDate(ndate.getDate() + 1)
+  
+      // Add a day
+      
+    }
     onChange([
       ...value,
       {
-        date: ndate.toDateString(),
+        date: date ? ndate.toDateString() : '',
         startTime,
         endTime
       }
@@ -60,12 +65,12 @@ export const DateAndTimePicker = ({
   }
 
   const removeDate = (index: number) => {
-    onChange(value.filter((x, i) => i !== index))
+    onChange(value?.filter((x, i) => i !== index))
   }
 
   const setValue = (index: number, field: 'date' | 'startTime' | 'endTime', fieldValue: string) => {
     onChange(
-      value.map((day, i) =>
+      value?.map((day, i) =>
         index === i
           ? {
               ...day,
@@ -82,63 +87,59 @@ export const DateAndTimePicker = ({
     )
   }
 
-  const calculateTimeDifference = (timeStart: string, timeEnd: string) => {
-    const diff = (Number(new Date("01/01/2007 " + timeEnd)) - Number(new Date("01/01/2007 " + timeStart))) / 60000
+  
 
-    const minutes = diff % 60
-    const hours = (diff - minutes) / 60
-
-    const difference = hours > 0 
-      ? `${hours}h` + (minutes > 0 ? ` ${minutes}m` : '')
-      : hours === 0
-        ? `${minutes}m`
-        : `${24 + hours}h` + (60 + minutes > 0 ? ` ${60 + minutes}m` : '')
-
-    return difference
-  }
-
+  const [editTimeZone, set_editTimeZone] = useState(false)
+  const [timeZone, set_timeZone] = useState<string | undefined>('')
+  
   return (
-    <>
+    <Box width='100%' wrap={true}>
       {
-        value.map((item, index) => (
+        value?.map((item, index) => (
           <>
             <S.DateAndTime key={index}>
               <Gap  gap={.75}>
                 <Gap disableWrap={true}>
                   <DatePicker
-                    label={value.length > 1 ? `${index + 1}${getSuperscriptOrdinal(index + 1)} Day` : 'Date'}
-                    value={new Date(item?.date ? item.date : new Date())}
+                    label={value?.length > 1 ? `${capitalizeFirstLetter(getOrdinal(index + 1))} day` : 'Date'}
+                    value={item.date ? new Date(item.date) : null}
                     onChange={newDate => setValue(index, 'date', newDate.toString())}
+                    iconPrefix={iconPrefix}
                   />
                 
                   {
-                    value.length > 1
+                    value?.length > 1
                     ? <Button
                         onClick={(e : MouseEvent) => {
                           e?.preventDefault()
                           removeDate(index)
                         }}
                         icon='trash-alt'
-                        iconPrefix='far'
+                        iconPrefix={iconPrefix}
                         secondary={true}
+                        circle={true}
                       /> 
                     : null
                   }
                 </Gap>
 
                 <Gap disableWrap={true}>
+        
                   <TimePicker
                     value={item.startTime}
                     label='Start time'
                     onChange={newStartTime => setValue(index, 'startTime', newStartTime)}
+                    iconPrefix={iconPrefix}
                   />
                   <TimePicker
                     value={item.endTime}
                     label='End time'
                     onChange={newEndTime => setValue(index, 'endTime', newEndTime)}
+                    iconPrefix={iconPrefix}
+                    comparisonStartTime={item.startTime}
                   />
-                  {
-                    value.length > 1 || (item.startTime && item.endTime)
+                  {/* {
+                    value?.length > 1 || (item.startTime && item.endTime)
                       ? <Box width={'8.125rem'} >
                         {
                           item.startTime && item.endTime
@@ -151,37 +152,45 @@ export const DateAndTimePicker = ({
                         }
                       </Box>
                       : null
-                  }
+                  } */}
                 </Gap>
               </Gap>
             </S.DateAndTime>
             
             {
-              index == value.length - 1
+              index == value?.length - 1
                 ? <Spacer/>
-                : <Box mt={1}>
-                    <LineBreak />
+                : <Box my={.375} width='100%'>
                   </Box>
             }
           </>
         ))
       }
-    
-      <Box py={.15} />
 
-      <Box p={.5}>
-        <Button
-          onClick={(e : MouseEvent) => {
-            e?.preventDefault()
-            addDate()
-          }}
-          text={`Add a ${getOrdinal(value.length + 1)} day`}
-          icon={'plus'}
-          iconPrefix={'fas'}
-          expand={true}
+      
+
+      <Box pt={.5} width='100%'>
+        <S.TextButton onClick={addDate}>
+          {`Add a ${getOrdinal(value?.length + 1)} day`}
+        </S.TextButton>
+        <Spacer />
+        
+        <Box hide={editTimeZone}>
+          <S.TextButton onClick={() => set_editTimeZone(true)}>
+            {`${timeZone}`}
+          </S.TextButton>
+        </Box>
+        
+      </Box>
+
+      <Box pt={.75} width='100%' hide={!editTimeZone}>
+        <TimeZone
+          value={timeZone}
+          onChange={newValue => set_timeZone(newValue)}
         />
       </Box>
-    </>
+      
+    </Box>
   )
 }
 
@@ -189,14 +198,25 @@ const S = {
   DateAndTime: styled.div`
     display: flex;
     flex-wrap: wrap;
-    padding: 1rem .5rem;
-    padding-bottom: 0rem;
+    width: 100%;
   `,
   Duration: styled.div`
-    font-size: var(--F_Font_Size);
+    font-size: var(--F_Font_Size_Large);
     color: var(--F_Font_Color_Label);
     text-align: center;
     display: flex;
     flex-shrink: 0;
+  `,
+  TextButton: styled.button<{
+    onClick: () => void
+  }>`
+    border: none;
+    background: none;
+    padding: 0;
+    margin: 0;
+    text-decoration: underline;
+    font-size: var(--F_Font_Size);
+    cursor: pointer;
+    color: var(--F_Font_Color_Label);
   `
 }

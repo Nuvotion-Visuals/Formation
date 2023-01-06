@@ -17,7 +17,8 @@ Regular.args = {
       type: 'nav',
       name: 'Home',
       icon: 'info-circle',
-      href: '/'
+      href: '#',
+      active: true
     },
     {
       type: 'nav',

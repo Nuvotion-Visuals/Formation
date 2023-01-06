@@ -1,18 +1,32 @@
 import React from 'react'
-
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { LineBreak } from '../../internal'
+import { LineBreak } from './LineBreak'
 
 export default {
   title: 'Layout/LineBreak',
   component: LineBreak,
 } as ComponentMeta<typeof LineBreak>
 
-const Template: ComponentStory<typeof LineBreak> = args => 
-  <LineBreak />
 
-export const Regular = Template.bind({})
-Regular.args = {
-
+const Template: ComponentStory<typeof LineBreak> = args => {
+  
+  return <LineBreak 
+    {
+      ...args
+    }
+  />
 }
+
+export const Default = Template.bind({})
+Default.args = {
+  
+}
+
+export const Light = Template.bind({})
+Light.args = {
+  light: true
+}
+
+
+
