@@ -16,15 +16,14 @@ export const LiveTimeReference = ({ timeReferencePosition, time, color }: Props)
   }
 
   let parsedTime = ZonedDateTime.parse(time)
-  console.log(parsedTime, 'parsedTime')
-  let formattedTime = parsedTime.format(DateTimeFormatter.ofPattern(`HH:mm`))
+  let formattedTime = parsedTime.format(DateTimeFormatter.ofPattern(`K:mm`))
 
   return (
     <S.Container
       timeReferencePosition={timeReferencePosition}
     >
-      <S.OverlayLine />
-    <S.Time>{formattedTime}</S.Time>
+      <S.OverlayLine color={color} />
+      <S.Time color={color}>{formattedTime}</S.Time>
     </S.Container>
   )
 }

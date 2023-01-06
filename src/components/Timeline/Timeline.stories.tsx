@@ -359,39 +359,34 @@ const Template: ComponentStory<typeof Timeline> = args => {
       ]
     }
   ])
-  const [activeTabs, set_activeTabs] = useState<string[]>([value[0].area])
-  const [activityId, setActivityId] = useState<string | null>(null)
+  const [activeTags, set_activeTags] = useState<string[]>([value[0].area])
   const [currentActivities, set_currentActivities] = useState<AreasType>([])
   const [eventDateIntervals, set_eventDateIntervals] = useState<IntervalType[]>()
+
+  // state for managing LiveTimeReference component
   const [displayTimeReferenceLine, set_displayTimeReferenceLine] = useState<boolean>()
-  
   const [currentTime, set_currentTime] = useState<string>(ZonedDateTime.now().format(DateTimeFormatter.ofPattern(`yyyy-MM-dd'T'HH:mmXXX`)).toString()) 
   const [endTime, set_endTime] = useState<ZonedDateTime>()
   const [timeReferencePosition, set_timeReferencePosition] = useState('')
 
-  let tabs: string[] = value?.map(({ area }) => area)
+  
+  let tags: string[] = value?.map(({ area }) => area)
 
-  let formattedHourMinute = (index) => {
-    let hourMinute = Math.floor(index * 15 / 60)
-    let formattedHourMinute = ("0" + hourMinute).slice(-2);
-
-    return formattedHourMinute
-  }
-
-  /*  set currentActivities  */
+  //  set currentActivities based on activeTabs 
   useEffect(() => {
     let activeIndexedData: AreasType = value.map((area) => {
-      if (activeTabs.includes(area.area)) {
+      if (activeTags.includes(area.area)) {
          return area
       } 
     }).filter(item => item !== undefined) as AreaType[];
 
     set_currentActivities(activeIndexedData)
 
-  }, [activeTabs, value])
+  }, [activeTags, value])
 
   // create intervals array from value
   useEffect(() => {
+
     // flatten all activities from all areas
     let allActivities: ActivitiesType = value.map((area) => {
       return area.activities
@@ -404,7 +399,6 @@ const Template: ComponentStory<typeof Timeline> = args => {
 
       return item1 - item2
     })
-
     let origin = ZonedDateTime.parse(sortedByStartTime[0].startTime)
 
     // sort&create array by end time and determine end time of data
@@ -414,7 +408,6 @@ const Template: ComponentStory<typeof Timeline> = args => {
 
       return item2 - item1
     })
-
     let terminus = ZonedDateTime.parse(sortedByEndTime[0].endTime)
 
     // evaluate duration between origin and terminus
@@ -458,6 +451,13 @@ const Template: ComponentStory<typeof Timeline> = args => {
         let formattedDate = parsedDate.format(DateTimeFormatter.ofPattern('MM/dd'))
         let namedDay = parsedDate.dayOfWeek().toString()
 
+        let formattedHourMinute = (index) => {
+          let hourMinute = Math.floor(index * 15 / 60)
+          let formattedHourMinute = ("0" + hourMinute).slice(-2);
+      
+          return formattedHourMinute
+        }
+
         return intervalList.map((interval, index) => (
           {
             display:
@@ -498,7 +498,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
     }
   }, [value])
 
-  // determine if timeStampReference component should be tracked/rendered
+  // determine if LiveTimeReference component should be tracked/rendered
   useEffect(() => {
     if (eventDateIntervals !== undefined) {
       
@@ -516,9 +516,6 @@ const Template: ComponentStory<typeof Timeline> = args => {
 
         set_displayTimeReferenceLine(true)
         set_endTime(parsedEndTime)
-        // setInterval(() => {
-        //   set_currentTime(ZonedDateTime.now().format(DateTimeFormatter.ofPattern(`yyyy-M-dd'T'HH:mmXXX`)).toString())
-        // }, 1000)
 
         let currentTimeParsed = ZonedDateTime.parse(currentTime)
         let timeComparison = Duration.between(currentTimeParsed, parsedEndTime)
@@ -533,6 +530,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
     }      
   }, [eventDateIntervals])
 
+  // if LiveTimeReference is rendered, re-calculate the state being passed as props each minute
   useEffect(() => {
     if (displayTimeReferenceLine === true && endTime !== undefined) {
       let currentMoment = ZonedDateTime.now()
@@ -546,10 +544,10 @@ const Template: ComponentStory<typeof Timeline> = args => {
         let timeComparison = Duration.between(currentTimeParsed, endTime)
         let durationObject = timeComparison.plusMinutes(15)
 
-        console.log(`${durationObject.seconds() / 60}px`, ' durationObject string interpolation ')
+        console.log(`${durationObject.seconds() / 60 - 1}px`, ' durationObject string interpolation ')
         console.log('-----     -----     -----')
         
-        set_timeReferencePosition(`${durationObject.seconds() / 60}px`)
+        set_timeReferencePosition(`${durationObject.seconds() / 60 - 1}px`)
         set_currentTime(ZonedDateTime.now().format(DateTimeFormatter.ofPattern(`yyyy-MM-dd'T'HH:mmXXX`)).toString())
        
       }, timeout)
@@ -560,20 +558,20 @@ const Template: ComponentStory<typeof Timeline> = args => {
     <S.Container>
       <S.TagsContainer>
         <Tags
-          allTags={tabs}
-          initialActiveTags={[tabs[0]]}
-          onChange={tabs => set_activeTabs(tabs)}
+          allTags={tags}
+          initialActiveTags={[tags[0]]}
+          onChange={tags => set_activeTags(tags)}
         />
       </S.TagsContainer>  
-      <S.Content className={'CONTENT'}>
+      <S.Content >
         <S.Timeline>
           {
-            timeReferencePosition === ''
-              ? <></>
-              : <LiveTimeReference
+            displayTimeReferenceLine == true
+              ? <LiveTimeReference
                   timeReferencePosition={timeReferencePosition}
                   time={currentTime}
                 />
+              : <></>
           }
 
           

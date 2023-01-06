@@ -271,7 +271,7 @@ const S = {
     backgroundColor?: string,
   }>`
     min-width: 3rem;
-    /* box-sizing: border-box; */
+    box-sizing: border-box;
     position: absolute;
     width: 100%;
     height: 100%;
@@ -284,11 +284,12 @@ const S = {
     backgroundColor: string
   }>`
     width: calc(100% - 0.5rem);
-    height: calc(100% - 0.5rem - 1px);
-    margin-bottom: 1px;
+    height: calc(100% - 0.5rem - 3px);
+    margin: 0.125rem 0;
     background: ${props => props.backgroundColor ? props.backgroundColor : 'blue'};
     color: ${props => props.color ? props.color : 'lightblue'};
     border-radius: 0.25rem;
     padding: 0.25rem;
+
   `
 }

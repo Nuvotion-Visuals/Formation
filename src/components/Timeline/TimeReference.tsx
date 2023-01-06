@@ -20,8 +20,7 @@ export const TimeReference = ({ intervals }: Props) => {
         intervals.map((interval, index) => (
           interval.display.length === 2
       
-            ? 
-              <S.DateDisplay>
+            ? <S.DateDisplay>
                 <S.Interval key={index}>
                  
                     <S.DayOfWeek>
