@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
-import { DateTimeFormatter, Duration, ZonedDateTime, LocalDate } from '@js-joda/core'
+import { DateTimeFormatter, ZonedDateTime } from '@js-joda/core'
 
 interface Props {
   timeReferencePosition?: string,
@@ -9,7 +9,7 @@ interface Props {
   color?: string,
 }
 
-export const LiveTimeReference = ({ timeReferencePosition, time, color }: Props) => {
+export const LiveTimeIndicator = ({ timeReferencePosition, time, color }: Props) => {
 
   if (time === undefined) {
     return null

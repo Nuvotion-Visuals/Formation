@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { Timeline, Tags, TimeReference, TimelineSurface, LiveTimeReference } from '../../internal'
+import { Timeline, Tags, TimeReference, TimelineSurface, LiveTimeIndicator } from '../../internal'
 import { styled } from '@storybook/theming'
 
 import { DateTimeFormatter, Duration, ZonedDateTime, LocalDate } from '@js-joda/core'
@@ -543,9 +543,6 @@ const Template: ComponentStory<typeof Timeline> = args => {
         
         let timeComparison = Duration.between(currentTimeParsed, endTime)
         let durationObject = timeComparison.plusMinutes(15)
-
-        console.log(`${durationObject.seconds() / 60 - 1}px`, ' durationObject string interpolation ')
-        console.log('-----     -----     -----')
         
         set_timeReferencePosition(`${durationObject.seconds() / 60 - 1}px`)
         set_currentTime(ZonedDateTime.now().format(DateTimeFormatter.ofPattern(`yyyy-MM-dd'T'HH:mmXXX`)).toString())
@@ -567,14 +564,12 @@ const Template: ComponentStory<typeof Timeline> = args => {
         <S.Timeline>
           {
             displayTimeReferenceLine == true
-              ? <LiveTimeReference
+              ? <LiveTimeIndicator
                   timeReferencePosition={timeReferencePosition}
                   time={currentTime}
                 />
               : <></>
           }
-
-          
           <S.LeftColumn>
             {
               eventDateIntervals !== undefined  
