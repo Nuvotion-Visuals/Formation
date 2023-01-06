@@ -1662,6 +1662,21 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
+"@js-joda/core@^5.4.1":
+  version "5.4.1"
+  resolved "https://registry.yarnpkg.com/@js-joda/core/-/core-5.4.1.tgz#984922e386169c60a95cdb60bd6199338e9d6e4c"
+  integrity sha512-+uMco2Xm9VYJ81XYWwrvgsM9xEvqs9JvLNrN4/fOg7YJKk4yeqAg+O/cpoFPTGxvfL2Zy0mUcnKlIz9UV0Cadw==
+
+"@js-joda/locale_en-us@^4.8.4":
+  version "4.8.4"
+  resolved "https://registry.yarnpkg.com/@js-joda/locale_en-us/-/locale_en-us-4.8.4.tgz#bf10467ccb68720f78c58739cd8d1f532a5f1077"
+  integrity sha512-EYNU9HkOb5U3IPFxxryuqUsvOoC2vzfnE+XoEE4dekJbqmARPm5hLNcteSMSmO3BUkm6TMED+fVSWNTLdWnMzw==
+
+"@js-joda/timezone@^2.14.0":
+  version "2.14.0"
+  resolved "https://registry.yarnpkg.com/@js-joda/timezone/-/timezone-2.14.0.tgz#774d60009c03a3c44882df5aec819a8780fe5f96"
+  integrity sha512-P1Ft2yyVdHOrBSGC73NMs8rJEkk8VbDGD3iXcI15jfBC3MxYhorl/0n6pCUG+Vsy8i0GvEudP4ELSGu0mq46MA==
+
 "@mdx-js/mdx@^1.6.22":
   version "1.6.22"
   resolved "https://registry.yarnpkg.com/@mdx-js/mdx/-/mdx-1.6.22.tgz#8a723157bf90e78f17dc0f27995398e6c731f1ba"

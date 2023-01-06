@@ -23,7 +23,7 @@ type Props = {
 export const Tabs = React.memo(({ 
   tabs, 
   onSetActiveTab, 
-  initialActiveTab, 
+  initialActiveTab
 }: Props) => {
 
   const [localActiveTab, set_localActiveTab] = useState(initialActiveTab)
