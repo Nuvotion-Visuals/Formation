@@ -313,16 +313,6 @@ const S = {
           ? '.5rem .5rem 0 0'
           : '.5rem'
     };
-    background: ${props => props.primary
-      ? `var(--F_Primary)`
-      : props.blink
-        ? 'var(--Hover_Single)'
-        : props.secondary
-          ? 'var(--F_Surface)'
-          : typeof(props.background) == 'string'
-            ? props.background
-            : ''
-    }; 
   
     box-shadow: ${props => props.secondary ? 'var(--F_Outline)' : 'none'};
     border-radius: ${props => 
