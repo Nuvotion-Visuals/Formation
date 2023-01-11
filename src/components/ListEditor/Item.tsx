@@ -224,6 +224,9 @@ const S = {
           : 'var(--F_Background)'
       };
     }
+    a {
+      width: 100%;
+    }
   `,
   Flex: styled.div`
     display: flex;
