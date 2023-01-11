@@ -15,7 +15,7 @@ interface IntervalType {
 export const TimeReference = ({ intervals }: Props) => {
 
   return (
-    <S.Container className={'help'}>
+    <S.Container >
       {
         intervals.map((interval, index) => (
           interval.display.length === 2
@@ -65,6 +65,7 @@ const S = {
     flex-wrap: wrap;
     overflow-x: visible;
     transform-origin: 0 12px;
+    border-radius: 0.5rem;
   `,
   DateContainer: styled.div`
     postion: relative;

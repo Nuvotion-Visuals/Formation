@@ -16,7 +16,7 @@ export const TimelineSurface = ({intervals}: Props) => {
   return (
     <S.Container>
       {
-        intervals.map((item, index) => <S.Interval key={index} />)
+        intervals.map((item, index) => <S.Interval key={index} id={index.toString()} />)
       }
     </S.Container>
   )
@@ -37,8 +37,12 @@ const S = {
     :nth-child(1n+1) {
       border-top: 1px solid #c8c8c8;
     }
-    :nth-Child(2n+2) {
+    :nth-child(2n+2) {
       border-top: 1px solid #eaeaea;
+    }
+    // midnight display line
+    :nth-child(96n+1) {
+      border-top: 1px solid #404040;
     }
   `
 }
