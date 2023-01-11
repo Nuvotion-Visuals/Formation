@@ -42,14 +42,17 @@ type ActivitiesType = ActivityType[]
 
 
 const Template: ComponentStory<typeof Timeline> = args => { 
+
+  const todaysDateString = ZonedDateTime.now().format(DateTimeFormatter.ofPattern('yyyy-MM-dd'))
+  const tomorrowsDateString = ZonedDateTime.now().plusDays(1).format(DateTimeFormatter.ofPattern('yyyy-MM-dd'))
   const [value, set_value] = useState<AreasType>([
     {
       area: 'West Stage',
       activities: [
         {
           title: 'DJ Alpha',
-          startTime: `2023-01-04T18:00-06:00`,
-          endTime: `2023-01-04T20:45-06:00`,
+          startTime: `${todaysDateString}T18:00-06:00`,
+          endTime: `${todaysDateString}T20:45-06:00`,
           id: '1',
           people: [
             {
@@ -64,8 +67,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
         },
         {
           title: 'DJ Beta',
-          startTime: `2023-01-04T20:45-06:00`,
-          endTime: `2023-01-04T23:00-06:00`,
+          startTime: `${todaysDateString}T20:45-06:00`,
+          endTime: `${todaysDateString}T23:00-06:00`,
           id: '2',
           people: [
             {
@@ -80,8 +83,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
         },
         {
           title: 'DJ Theta',
-          startTime: `2023-01-04T23:00-06:00`,
-          endTime: `2023-01-05T01:00-06:00`,
+          startTime: `${todaysDateString}T23:00-06:00`,
+          endTime: `${tomorrowsDateString}T01:00-06:00`,
           id: '3',
           people: [
             {
@@ -96,8 +99,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
         },
         {
           title: 'DJ Omega',
-          startTime: `2023-01-05T01:00-06:00`,
-          endTime: `2023-01-05T03:00-06:00`,
+          startTime: `${tomorrowsDateString}T01:00-06:00`,
+          endTime: `${tomorrowsDateString}T03:00-06:00`,
           id: '4',
           people: [
             {
@@ -112,8 +115,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
         },
         {
           title: 'DJ AGAIN',
-          startTime: `2023-01-05T03:00-06:00`,
-          endTime: `2023-01-05T05:00-06:00`,
+          startTime: `${tomorrowsDateString}T03:00-06:00`,
+          endTime: `${tomorrowsDateString}T05:00-06:00`,
           id: '5',
           people: [
             {
@@ -128,8 +131,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
         },
         {
           title: 'DJ AGAIN... AGAIN',
-          startTime: `2023-01-05T05:00-06:00`,
-          endTime: `2023-01-05T06:30-06:00`,
+          startTime: `${tomorrowsDateString}T05:00-06:00`,
+          endTime: `${tomorrowsDateString}T06:30-06:00`,
           id: '10',
           people: [
             {
@@ -144,7 +147,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
         },
         {
           title: 'DJ AGAIN... AGAIN',
-          startTime: `2023-01-05T22:00-06:00`,
+          startTime: `${tomorrowsDateString}T22:00-06:00`,
           endTime: `2023-01-06T01:30-06:00`,
           id: '10',
           people: [
@@ -165,8 +168,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
       activities: [
         {
           title: 'Attack Juggling',
-          startTime: `2023-01-04T19:00-06:00`,
-          endTime: `2023-01-04T21:00-06:00`,
+          startTime: `${todaysDateString}T19:00-06:00`,
+          endTime: `${todaysDateString}T21:00-06:00`,
           id: '66b47071-70b9-4aa7-9394-60788627962e',
           people: [
             {
@@ -181,8 +184,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
         },
         {
           title: 'Acrobats & Aerialists',
-          startTime: `2023-01-04T21:00-06:00`,
-          endTime: `2023-01-04T22:00-06:00`,
+          startTime: `${todaysDateString}T21:00-06:00`,
+          endTime: `${todaysDateString}T22:00-06:00`,
           id: '2627c6a3-6dfe-4c6b-a756-e672279dc4ea',
           people: [
             {
@@ -197,8 +200,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
         },
         {
           title: 'Burlesque with Berty',
-          startTime: `2023-01-04T22:00-06:00`,
-          endTime: `2023-01-05T00:00-06:00`,
+          startTime: `${todaysDateString}T22:00-06:00`,
+          endTime: `${tomorrowsDateString}T00:00-06:00`,
           id: '2b6fd32b-ea24-4d17-a9f6-1fb8c79e5a76',
           people: [
             {
@@ -213,8 +216,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
         },
         {
           title: 'Dance Off',
-          startTime: `2023-01-05T01:00-06:00`,
-          endTime: `2023-01-05T03:00-06:00`,
+          startTime: `${tomorrowsDateString}T01:00-06:00`,
+          endTime: `${tomorrowsDateString}T03:00-06:00`,
           id: '4d4b237b-10c0-4757-a205-bcb13eab0fd8',
           people: [
             {
@@ -229,8 +232,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
         },
         {
           title: 'Hypnosis',
-          startTime: `2023-01-05T03:00-06:00`,
-          endTime: `2023-01-05T04:00-06:00`,
+          startTime: `${tomorrowsDateString}T03:00-06:00`,
+          endTime: `${tomorrowsDateString}T04:00-06:00`,
           id: '9057e3a6-4382-4c3d-b5de-2dea2625b316',
           people: [
             {
@@ -250,8 +253,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
       activities: [
         {
           title: 'Pre-Open',
-          startTime: `2023-01-04T16:00-06:00`,
-          endTime: `2023-01-04T18:00-06:00`,
+          startTime: `${todaysDateString}T16:00-06:00`,
+          endTime: `${todaysDateString}T18:00-06:00`,
           id: '4',
           people: [
             {
@@ -275,8 +278,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
         },
         {
           title: 'Open',
-          startTime: `2023-01-04T18:00-06:00`,
-          endTime: `2023-01-05T07:00-06:00`,
+          startTime: `${todaysDateString}T18:00-06:00`,
+          endTime: `${tomorrowsDateString}T07:00-06:00`,
           id: '5',
           people: [
             {
@@ -300,8 +303,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
         },
         {
           title: '18+ entry',
-          startTime: `2023-01-04T18:00-06:00`,
-          endTime: `2023-01-04T22:00-06:00`,
+          startTime: `${todaysDateString}T18:00-06:00`,
+          endTime: `${todaysDateString}T22:00-06:00`,
           id: '5',
           people: [
             {
@@ -325,8 +328,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
         },
         {
           title: '21+ entry',
-          startTime: `2023-01-04T22:00-06:00`,
-          endTime: `2023-01-05T05:00-06:00`,
+          startTime: `${todaysDateString}T22:00-06:00`,
+          endTime: `${tomorrowsDateString}T05:00-06:00`,
           id: '5',
           people: [
             {
@@ -350,8 +353,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
         },
         {
           title: 'Close + Clean',
-          startTime: `2023-01-05T07:00-06:00`,
-          endTime: `2023-01-05T07:30-06:00`,
+          startTime: `${tomorrowsDateString}T07:00-06:00`,
+          endTime: `${tomorrowsDateString}T07:30-06:00`,
           id: '6',
           people: [
             {
