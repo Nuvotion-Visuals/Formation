@@ -85,6 +85,7 @@ export const Button: FC<Props> = React.memo(({
         name={name}
         hasIcon={icon !== undefined}
         background={background}
+        expandVertical={expandVertical}
       >
         {
           icon !== undefined
@@ -165,7 +166,8 @@ interface ButtonProps {
   tab?: boolean,
   type?: string,
   hasIcon: boolean,
-  circle?: boolean
+  circle?: boolean,
+  expandVertical?: boolean
 } 
 
 interface TextProps {
@@ -264,7 +266,6 @@ const S = {
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 100%;
     padding: ${props => calculatePadding(props)}; 
     background: ${props => props.primary 
       ? `var(--F_Primary)`
@@ -288,21 +289,8 @@ const S = {
     flex: 0 0 100%;
     align-items: center;
     justify-content: center;
-    height: ${props =>
-      props.hero
-        ? 'auto'
-        : 'var(--F_Input_Height)'
-    };
+    height: 100%;
     min-width: var(--F_Font_Size_Icon);
-    padding: ${props =>
-      props.hero && !props.square
-        ? '1rem 1.5rem 1rem 1rem'
-        : props.square
-          ? '1rem'
-          : props.hasIcon
-            ? '1rem 1rem 1rem .75rem'
-            : '1rem'
-    };
     width: ${props => props.square && !props.hero
       ? '52px'
       : props.expand ? '100%' : 'auto'}; 
