@@ -142,6 +142,22 @@ const Template: ComponentStory<typeof Timeline> = args => {
             }
           ],
         },
+        {
+          title: 'DJ AGAIN... AGAIN',
+          startTime: `2023-01-05T22:00-06:00`,
+          endTime: `2023-01-06T01:30-06:00`,
+          id: '10',
+          people: [
+            {
+              name: "DJ Theta",
+              position: "DJ",
+            },
+            {
+              name: "tech",
+              position: "AV Tech",
+            }
+          ],
+        },
       ]
     },
     {
@@ -552,6 +568,49 @@ const Template: ComponentStory<typeof Timeline> = args => {
       }, timeout)
     }
   }, [displayTimeReferenceLine, endTime, currentTime, timeReferencePosition])
+
+  const autoScrollFirstActivity = (currentValue: AreasType): string => {
+    if (currentValue.length == 0) {
+      return ''
+    } else {
+      let allActivities = currentValue.map((area) => area.activities).flat()
+
+      let firstActivity = allActivities.reduce((a, b) => {
+        let previous = ZonedDateTime.parse(a.startTime)
+        let current = ZonedDateTime.parse(b.startTime)
+        let comparison = previous.isBefore(current)
+
+        if (comparison == true) {
+          return a
+        }
+        return b
+      })
+
+      let itemIdByIndex = eventDateIntervals?.filter((interval) => {
+        let a = ZonedDateTime.parse(interval.value)
+        let b = ZonedDateTime.parse(firstActivity.startTime)
+
+        return a.isEqual(b)
+      })
+
+      if (itemIdByIndex === undefined) {
+        return ''
+      }
+        
+      return itemIdByIndex[0]?.gridNumber.toString()
+    }
+  }
+
+  // initial pagescroll animation
+  useEffect(() => {
+    if (currentActivities !== undefined) {
+      let initScrollElement: string = autoScrollFirstActivity(currentActivities)
+      
+      document.getElementById(initScrollElement)?.scrollIntoView({
+        behavior: 'smooth'
+      })
+    }
+  }, [currentActivities])
 
   return (
     <S.Container>
