@@ -116,20 +116,20 @@ const S = {
     overflow: hidden;
     border-radius: ${props => props.fullscreen ? '0' : '.5rem'};
     width: ${props => props.width + 'px'};
-    min-height: ${props => props.size === 'tall' ? '95vh' : 'none'};
+    min-height: ${props => props.size === 'tall' ? 'calc(95vh * var(--F_Zoom))' : 'none'};
     width: ${props => 
       props.fullscreen 
         ? '100%'
-        : props.width + 'px'
+        : `calc(${props.width + 'px'} * var(--F_Zoom))`
     };
     height: ${props => 
       props.fullscreen 
         ? '100%'
-        : '500px'
+        : 'calc(500px * var(--F_Zoom))'
     };
 
-    max-width: ${props => props.fullscreen ? '100%' : '90vw'};
-    max-height: ${props => props.fullscreen ? '100%' : '95vh'};
+    max-width: ${props => props.fullscreen ? '100%' : 'calc(90vw * var(--F_Zoom))'};
+    max-height: ${props => props.fullscreen ? '100%' : 'calc(95vh * var(--F_Zoom))'};
   `,
   Content: styled.div<{
     fullscreen?: boolean,

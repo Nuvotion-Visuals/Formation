@@ -434,10 +434,11 @@ const Template: ComponentStory<typeof Timeline> = args => {
     let durationTimeStamp = Duration.between(origin, terminus).toString()
 
     // regex which reads hours from the return of Duration method ---> PT24H60M
-    const regex = /(?<=PT)\d+/;
+    const regex = /PT(\d+)H/
+    const match = durationTimeStamp.match(regex)
 
-    // extract number of hours via regex expression
-    let durationRegEx = durationTimeStamp.match(regex)?.toString()
+    // If the regex matched something, extract the number of hours from the capturing group
+    let durationRegEx = (match && match[1]) ? match[1] : undefined
 
     if (durationRegEx !== undefined) {
 

@@ -210,7 +210,6 @@ export const ImagePicker = ({
                 ? placeholderRatio
                 : ratio
           } 
-          coverBackground={true}
         >
           {
             !value &&
@@ -222,7 +221,7 @@ export const ImagePicker = ({
                 icon={icon}
                 iconPrefix={iconPrefix}
                 hero={hero}
-
+                secondary
               />
           }
           
@@ -230,47 +229,45 @@ export const ImagePicker = ({
       </Box>
     
       {
-                !editing && value &&
-                <Box width='100%'>
-                  <Gap disableWrap={true}>
-                  <Spacer>
-                    <Button
-                      text={value ? `Change ${label}` : `Select ${label}`}
-                      onClick={onClickHandler}
-                      expand={true}
-                      icon={icon}
-                      iconPrefix={iconPrefix}
-                      hero={hero}
-                      secondary={true}
+        !editing && value &&
+          <Box width='100%'>
+            <Gap disableWrap={true}>
+            <Spacer>
+              <Button
+                text={value ? `Change ${label}` : `Select ${label}`}
+                onClick={onClickHandler}
+                expand={true}
+                icon={icon}
+                iconPrefix={iconPrefix}
+                hero={hero}
+                secondary={true}
 
-                    />
-                  </Spacer>
-                
-                    <Button
-                      icon={'crop'}
-                      iconPrefix={iconPrefix ? iconPrefix : 'fas'}
-                      onClick={() => {
-                        set_editing(true)
-                      }}
-                      secondary={true}
-                      hero={hero}
-                      text='Crop'
-                    />
-                
-                    <Button
-                      onClick={onClear}
-                      secondary={true}
-                      icon='trash-alt'
-                      iconPrefix={iconPrefix ? iconPrefix : 'fas'}
-                      hero={hero}
-                      circle={true}
-                    />
-                  </Gap>
-                </Box>
-                  
-              }
-    </Gap>
-    
+              />
+            </Spacer>
+          
+              <Button
+                icon={'crop'}
+                iconPrefix={iconPrefix ? iconPrefix : 'fas'}
+                onClick={() => {
+                  set_editing(true)
+                }}
+                secondary={true}
+                hero={hero}
+                text='Crop'
+              />
+          
+              <Button
+                onClick={onClear}
+                secondary={true}
+                icon='trash-alt'
+                iconPrefix={iconPrefix ? iconPrefix : 'fas'}
+                hero={hero}
+                circle={true}
+              />
+            </Gap>
+          </Box>
+        }
+      </Gap>
     {
       editSrc && editing
         ?  <S_CropperContainer>
@@ -290,7 +287,7 @@ export const ImagePicker = ({
                 
               />
             </AspectRatio>
-           
+          
             <Spacer>
               <Button
                 text={loading ? 'Saving...' : `${label ? 'Save ' + label : 'Save'}`}
@@ -320,10 +317,6 @@ export const ImagePicker = ({
         : null
     }
 
-    
-
-    
-
     {
       (editing) && 
         <S_Spacer>
@@ -348,6 +341,7 @@ const S_CropperContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: .75rem;
+
 `
 
 

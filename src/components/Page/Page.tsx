@@ -36,7 +36,7 @@ const S = {
     justify-content: center;
   `,
   Content: styled.div`
-    max-width: calc(100% - 2rem);
+    max-width: calc(100% - 1.5rem);
     width: 100%;
     display: flex;
     justify-content: center;

@@ -278,6 +278,8 @@ const S = {
     padding-left: 1.5rem;
     padding-bottom: .5rem;
     font-size: var(--F_Font_Size);
+    margin-top: .25rem;
+
   `
 }
 

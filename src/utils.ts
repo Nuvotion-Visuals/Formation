@@ -22,7 +22,7 @@ export const getOrdinal = (number : number) => {
   return deca[Math.floor(number/10)-2] + 'y-' + special[number%10]
 }
 
-export const isTouchCapable = () => 'ontouchstart' in document?.documentElement
+export const isTouchCapable = () => typeof document !== 'undefined' ? 'ontouchstart' in document?.documentElement : false
 
 export const getTimezone = () => Intl.DateTimeFormat().resolvedOptions().timeZone
 

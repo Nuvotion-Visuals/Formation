@@ -60,9 +60,6 @@ Regular.args = {
       toolTipTitle: 'Datamosh video files'
     },
     {
-      type: 'spacer'
-    },
-    {
       type: 'title',
       title: 'Learn'
     },
