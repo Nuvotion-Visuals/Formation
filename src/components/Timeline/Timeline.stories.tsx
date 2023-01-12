@@ -36,7 +36,6 @@ type PersonType = {
   position: string,
 }
 
-
 type AreasType = AreaType[]
 type ActivitiesType = ActivityType[]
 

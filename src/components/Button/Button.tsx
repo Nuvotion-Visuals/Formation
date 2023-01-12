@@ -238,6 +238,20 @@ const calculatePadding = (props: ButtonProps) => {
   }
 }
 
+const calculateBackgroundColor = (props: ButtonProps) => {
+  if (props.primary) {
+    return 'var(--F_Primary)'
+  } else if (props.blink) {
+    return 'var(--Hover_Single)'
+  } else if (props.secondary) {
+    return 'none'
+  } else if (props.background) {
+    return `${props.background}`
+  } else {
+    return 'none'
+  }
+}
+
 const S = {
   Container: styled.div<ContainerProps>`
     cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'}; 
@@ -267,14 +281,7 @@ const S = {
     justify-content: center;
     width: 100%;
     padding: ${props => calculatePadding(props)}; 
-    background: ${props => props.primary 
-      ? `var(--F_Primary)`
-      : props.blink
-        ? 'var(--Hover_Single)'
-        : props.secondary 
-          ? 'none'
-          : 'var(--F_Surface)'
-    }; 
+    background: ${props => calculateBackgroundColor(props)}; 
     box-shadow: ${props => props.secondary ? 'var(--F_Outline)' : 'none'};
     letter-spacing: var(--F_Letter_Spacing);
     border: none;
