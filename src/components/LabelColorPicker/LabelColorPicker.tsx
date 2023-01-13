@@ -5,7 +5,7 @@ import { useOnClickOutside } from '../../internal'
 import { useScrollTo } from '../../internal'
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 
-import { TextInput, getOutline, getBackground } from '../../internal'
+import { TextInput, getLabelOutlineColor, getLabelColor } from '../../internal'
 import { ColorType } from '../../types'
 
 import { LabelColor } from './LabelColor'

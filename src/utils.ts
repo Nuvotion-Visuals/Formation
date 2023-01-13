@@ -41,7 +41,7 @@ export const reorderItems = (items: any[], previousIndex: number, nextIndex: num
   return newItems
 }
 
-export const getBackground = (color: string) => {
+export const getLabelColor = (color: ColorType): string => {
   switch(color) {
     case 'red':
       return 'var(--F_Label_Background_Red)'
@@ -64,15 +64,11 @@ export const getBackground = (color: string) => {
     case 'orange':
       return 'var(--F_Label_Background_Orange)'
     case 'gray':
-    case 'grey':
-      return 'var(--F_Label_Background_Gray)'
-    default:
-      return color
-      
+      return '--F_Label_Background_Gray'
   }
 }
 
-export const getOutline = (color: string) => {
+export const getLabelOutlineColor = (color: ColorType): string => {
   switch(color) {
     case 'red':
       return 'var(--F_Label_Outline_Red)'
@@ -94,8 +90,8 @@ export const getOutline = (color: string) => {
       return 'var(--F_Label_Outline_Teal)'
     case 'orange':
       return 'var(--F_Label_Outline_Orange)'
-    default:
-      return 'var(--F_Label_Outline_Gray)'
+    case 'gray':
+      return '--F_Label_Outline_Gray'
   }
 }
 
@@ -299,6 +295,7 @@ export const calculateFileHash: HashFunction = (file) => {
   return new Promise((resolve, reject) => {
     fileReader.onload = (e) => {
       // read chunk
+      // @ts-ignore
       spark.append(e?.target?.result);
       currentChunk++;
 
@@ -336,6 +333,7 @@ export const markdownToHTML = (markdown: string ) => DOMPurify.sanitize(
 )
 
 import TurndownService from 'turndown'
+import { ColorType } from 'types';
 
 const turndownService = new TurndownService()
 

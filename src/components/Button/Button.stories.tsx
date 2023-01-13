@@ -132,3 +132,9 @@ SingleBlink.args = {
   hero: true,
   singleBlink: true
 }
+
+export const CustomColor = Template.bind({})
+CustomColor.args = {
+  text: 'Download',
+  background: '#1e6ed6',
+}

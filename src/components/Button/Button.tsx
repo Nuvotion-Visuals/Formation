@@ -5,6 +5,7 @@ import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 import { SizeProp } from '@fortawesome/fontawesome-svg-core' // type coersion needed until FA SizeProp defintion is fixed to include "xl"
 
 import { Icon, getLinkComponent, Box } from '../../internal'
+import { ColorType } from 'types'
 
 type Props = {
   href?: string,
@@ -25,12 +26,17 @@ type Props = {
   iconPrefix?: IconPrefix,
   secondary?: boolean,
   background?: string,
+  color?: ColorType,
   singleBlink? : boolean,
   tab? : boolean,
   newTab?: boolean,
   square?: boolean,
   circle?: boolean,
   expandVertical?: boolean
+}
+
+interface ButtonProps extends Props {
+  hasIcon: boolean
 }
 
 export const Button: FC<Props> = React.memo(({ 
@@ -52,6 +58,7 @@ export const Button: FC<Props> = React.memo(({
   iconPrefix,
   secondary,
   background,
+  color,
   singleBlink,
   tab,
   newTab,
@@ -150,26 +157,6 @@ interface ContainerProps {
   expandVertical?: boolean
 }
 
-interface ButtonProps {
-  id?: string,
-  onClick?: Function,
-  title?: string,
-  disabled?: boolean,
-  secondary?: boolean,
-  background?: string,
-  hero?: boolean,
-  square?: boolean,
-  primary?: boolean,
-  singleBlink?: boolean,
-  blink?: boolean,
-  expand?: boolean,
-  tab?: boolean,
-  type?: string,
-  hasIcon: boolean,
-  circle?: boolean,
-  expandVertical?: boolean
-} 
-
 interface TextProps {
   hero?: boolean,
   icon?: string
@@ -219,7 +206,7 @@ const calculateHeight = (props: ContainerProps) => {
   }
 }
 
-const calculatePadding = (props: ButtonProps) => {
+const calculatePadding = (props: Props) => {
   if (props.hero) {
     if (props.square) {
       return '0'
@@ -235,6 +222,23 @@ const calculatePadding = (props: ButtonProps) => {
     else {
       return '0 1.125rem'
     }
+  }
+}
+
+const calculateBackgroundColor = (props:Props) => {
+  if (props.color) {
+    
+  }
+  if (props.primary) {
+    return 'var(--F_Primary)'
+  } else if (props.blink) {
+    return 'var(--Hover_Single)'
+  } else if (props.secondary) {
+    return 'none'
+  } else if (typeof(props.background) == 'string') {
+    return `${props.background}`
+  } else {
+    return 'none'
   }
 }
 
@@ -267,14 +271,7 @@ const S = {
     justify-content: center;
     width: 100%;
     padding: ${props => calculatePadding(props)}; 
-    background: ${props => props.primary 
-      ? `var(--F_Primary)`
-      : props.blink
-        ? 'var(--Hover_Single)'
-        : props.secondary 
-          ? 'none'
-          : 'var(--F_Surface)'
-    }; 
+    background: ${props => calculateBackgroundColor(props)}; 
     box-shadow: ${props => props.secondary ? 'var(--F_Outline)' : 'none'};
     letter-spacing: var(--F_Letter_Spacing);
     border: none;

@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { getOutline, getBackground } from '../../internal'
+import { getLabelColor, getLabelOutlineColor } from '../../internal'
 import { ColorType } from '../../types'
 
 interface Props {
@@ -13,8 +13,8 @@ interface Props {
 export const LabelColor = ({ color, onClick }: Props) => {
   return (<S.LabelColor
     onClick={onClick}
-    color={getBackground(color)}
-    outline={getOutline(color)}
+    color={getLabelColor(color)}
+    outline={getLabelOutlineColor(color)}
   >
     
   </S.LabelColor>)

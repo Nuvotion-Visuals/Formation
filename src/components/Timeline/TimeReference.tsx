@@ -30,7 +30,9 @@ export const TimeReference = ({ intervals }: Props) => {
                     </S.DayOfWeek>
                     <S.MonthDay>
                       {
-                        interval.display[1]
+                        interval.display[1].substring(0, 1) == '0'
+                          ? interval.display[1].substring(1)
+                          : interval.display[1]
                       }
                     </S.MonthDay>
                  
@@ -54,7 +56,7 @@ const S = {
     width: 100%;
     min-height: 100%;
     z-index: 400;
-    background: var(--F_Activity_Backdrop);
+    background: var(--F_Background_Alternating);
   `,
   Interval: styled.div<{}>`
     position: relative;
@@ -64,12 +66,10 @@ const S = {
     display: flex;
     flex-wrap: wrap;
     overflow-x: visible;
-    transform-origin: 0 12px;
-    border-radius: 0.5rem;
+    transform-origin: 0 0.75rem;
   `,
   DateContainer: styled.div`
     postion: relative;
-    background: red;
     height: 100%;
     width: 100%;
   `,
@@ -82,11 +82,10 @@ const S = {
     width: 100%;
     height: 0.8rem;
     text-align: center;
-    font-weight: 800;
     font-size: 0.8rem;
     letter-spacing: 1.1px;
-    background: var(--F_Backdrop);
-    color: white;
+    background: var(--F_Font_Color);
+    color: var(--F_Surface);
     padding-top: 0.2rem;
   `,
   MonthDay: styled.div<{}>`
@@ -95,8 +94,8 @@ const S = {
     text-align: center;
     letter-spacing: 0.3px;
     font-size: 0.8rem;
-    background: var(--F_Backdrop);
-    color: white;
+    background: var(--F_Font_Color);
+    color: var(--F_Surface);
     padding-bottom: 0.2rem;
   `,
   Hour: styled.div<{}>`
