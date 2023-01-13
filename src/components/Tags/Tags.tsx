@@ -10,14 +10,16 @@ type TagsType = {
   allTags: string[],
   initialActiveTags: string[],
   onChange: (tags: string[]) => void,
-  noPadding?: boolean
+  noPadding?: boolean,
+  colors?: string[]
 }
 
 export const Tags = ({ 
   allTags, 
   initialActiveTags, 
   onChange, 
-  noPadding 
+  noPadding,
+  colors
 }: TagsType) => {
 
   const [activeTags, set_activeTags] = useState(initialActiveTags)
@@ -71,9 +73,9 @@ export const Tags = ({
           allTags.map((tag, index) => 
             <S.ButtonContainer key={`tag${index}`}>
               <Button 
-                text={tag} 
+                text={tag}
                 primary={activeTags.includes(tag)}
-                onClick={() => toggleTagActive(tag)} 
+                onClick={() => toggleTagActive(tag)}
                 secondary={!activeTags.includes(tag)}
               />
             </S.ButtonContainer>

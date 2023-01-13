@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
 import { DateTimeFormatter, ZonedDateTime } from '@js-joda/core'
+import { Box, Break, Gap } from '../../internal'
 
 interface Props {
   timeReferencePosition?: string,
@@ -15,6 +16,8 @@ export const LiveTimeIndicator = ({ timeReferencePosition, time, color }: Props)
     return null
   }
 
+  let currentTimeZone = new Date().toLocaleTimeString('en-us',{timeZoneName:'short'})
+
   let parsedTime = ZonedDateTime.parse(time)
   let formattedTime = parsedTime.format(DateTimeFormatter.ofPattern(`K:mm`))
 
@@ -23,7 +26,13 @@ export const LiveTimeIndicator = ({ timeReferencePosition, time, color }: Props)
       timeReferencePosition={timeReferencePosition}
     >
       <S.OverlayLine color={color} />
-      <S.Time color={color}>{formattedTime}</S.Time>
+      <S.Time color={color}>
+        
+        <Box>{formattedTime}</Box>
+          <Break />
+        <Box>{currentTimeZone.slice(-3)}</Box>
+       
+      </S.Time>
     </S.Container>
   )
 }
@@ -37,28 +46,31 @@ const S = {
     position: absolute;
     bottom: ${props => props.timeReferencePosition !== undefined ? props.timeReferencePosition : ''};
     width: 100%;
-    height: 0.35rem;
+    height: 0.5rem;
     z-index: 500;
   `,
   Time: styled.div<{
     color?: string
   }>`
-    background: ${props => props.color ? props.color : '#d18383'};
+    background: ${props => props.color ? props.color : 'hsl(4, 100%, 38%)'};
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
     width: 3rem;
-    height: 0.75rem;
+    height: 30px;
     position: absolute;
-    border-radius: 0.5rem;
-    color: #5d2a2a;
-    text-align: center;
+    color: white;
     font-weight: 400;
     font-size: 0.75rem;
+    margin-top: -.5rem;
   `,
   OverlayLine: styled.div<{
     color?: string
   }>`
     position: absolute;
     bottom: 0;
-    background: ${props => props.color ? props.color : '#ff9696'};
+    background: ${props => props.color ? props.color : 'hsl(4, 100%, 38%)'};
     height: 1px;
     width: 100%;
   `

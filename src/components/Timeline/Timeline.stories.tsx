@@ -657,11 +657,11 @@ const Template: ComponentStory<typeof Timeline> = args => {
                         onIntervalClick={() => null}
                         onLaneItemClick={() => null}
                         color={['#000f1a', '#1A0000', '#01001a', '#001a04'][index]}
-                        backgroundColor={ ['#94c3d6b8', '#d69494bb', '#9c94d6ba', '#94d69cb9'][index]}
+                        backgroundColor={['#94c3d6b8', '#d69494bb', '#9c94d6ba', '#94d69cb9'][index]}
                       />
                     )
                   })
-                :<></>
+                : <></>
               
             }
             
@@ -695,7 +695,7 @@ const S = {
     height: 2.25rem;
     padding: 0.5rem;
     z-index: 1000;
-    background: white;
+    background: var(--F_Background);
   `,
   Content: styled.div`
     position: relative;

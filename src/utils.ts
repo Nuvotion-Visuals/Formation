@@ -41,7 +41,7 @@ export const reorderItems = (items: any[], previousIndex: number, nextIndex: num
   return newItems
 }
 
-export const getBackground = (color: string) => {
+export const getLabelColor = (color: ColorType) => {
   switch(color) {
     case 'red':
       return 'var(--F_Label_Background_Red)'
@@ -63,16 +63,10 @@ export const getBackground = (color: string) => {
       return 'var(--F_Label_Background_Teal)'
     case 'orange':
       return 'var(--F_Label_Background_Orange)'
-    case 'gray':
-    case 'grey':
-      return 'var(--F_Label_Background_Gray)'
-    default:
-      return color
-      
   }
 }
 
-export const getOutline = (color: string) => {
+export const getLabelOutlineColor = (color: ColorType) => {
   switch(color) {
     case 'red':
       return 'var(--F_Label_Outline_Red)'
@@ -94,8 +88,6 @@ export const getOutline = (color: string) => {
       return 'var(--F_Label_Outline_Teal)'
     case 'orange':
       return 'var(--F_Label_Outline_Orange)'
-    default:
-      return 'var(--F_Label_Outline_Gray)'
   }
 }
 
@@ -336,6 +328,7 @@ export const markdownToHTML = (markdown: string ) => DOMPurify.sanitize(
 )
 
 import TurndownService from 'turndown'
+import { ColorType } from 'types';
 
 const turndownService = new TurndownService()
 

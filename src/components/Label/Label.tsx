@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
-import { getOutline, getBackground } from '../../internal'
+import { getLabelColor, getLabelOutlineColor } from '../../internal'
 import { ColorType } from '../../types' 
 
 interface Props {
@@ -21,8 +21,8 @@ export const Label = ({
 
   useEffect(() => {
 
-    setBackground(getBackground(color))
-    setOutline(getOutline(color))
+    setBackground(getLabelColor(color))
+    setOutline(getLabelOutlineColor(color))
 
   }, [color])
 
@@ -44,7 +44,7 @@ const S = {
     padding: .25rem .5rem;
     border-radius: 16px;
     font-size: var(--F_Font_Size_Label);
-    background: ${props => props.background};
+    background: ${props => props.background ? props.background : 'var(--F_Label_Background_Gray)'};
     color: white;
     width: fit-content;
     display: flex;

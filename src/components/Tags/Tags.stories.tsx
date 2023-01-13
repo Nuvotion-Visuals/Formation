@@ -32,3 +32,9 @@ InitialSelected.args = {
   allTags: ['rock', 'hip hop', 'pop', 'country', 'heavy metal', 'classical', 'electronic'],
   initialActiveTags: ['rock', 'hip hop'],
 }
+
+export const MulitColored = Template.bind({})
+MulitColored.args = {
+  allTags: ['red', 'green', 'blue', 'yellow', 'violet'],
+  initialActiveTags: ['red']
+}

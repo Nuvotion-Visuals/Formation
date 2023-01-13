@@ -5,6 +5,7 @@ import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 import { SizeProp } from '@fortawesome/fontawesome-svg-core' // type coersion needed until FA SizeProp defintion is fixed to include "xl"
 
 import { Icon, getLinkComponent, Box } from '../../internal'
+import { ColorType } from 'types'
 
 type Props = {
   href?: string,
@@ -25,6 +26,7 @@ type Props = {
   iconPrefix?: IconPrefix,
   secondary?: boolean,
   background?: string,
+  color?: ColorType,
   singleBlink? : boolean,
   tab? : boolean,
   newTab?: boolean,
@@ -52,6 +54,7 @@ export const Button: FC<Props> = React.memo(({
   iconPrefix,
   secondary,
   background,
+  color,
   singleBlink,
   tab,
   newTab,
@@ -238,14 +241,17 @@ const calculatePadding = (props: ButtonProps) => {
   }
 }
 
-const calculateBackgroundColor = (props: ButtonProps) => {
+const calculateBackgroundColor = (props: Props) => {
+  if (props.color) {
+    
+  }
   if (props.primary) {
     return 'var(--F_Primary)'
   } else if (props.blink) {
     return 'var(--Hover_Single)'
   } else if (props.secondary) {
     return 'none'
-  } else if (props.background) {
+  } else if (typeof(props.background) == 'string') {
     return `${props.background}`
   } else {
     return 'none'

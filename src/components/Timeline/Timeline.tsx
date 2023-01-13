@@ -76,9 +76,6 @@ export const Timeline = ({ value, intervals, onChange,  onIntervalClick, onLaneI
     let laneRecord: ItemTimeStampType[][] = [[]]
 
     itemsByTimeStamp?.forEach((item, index) => {
-
-     
-      
       if (index === 0) {
         item.overflowLane = 1
         laneRecord[0].push(item)
