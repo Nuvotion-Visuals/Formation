@@ -1,7 +1,7 @@
 import styled, { css, keyframes } from 'styled-components'
 import React, { useState, useEffect } from 'react'
 
-import { getBackground } from '../../internal'
+import { getLabelColor } from '../../internal'
 import { ColorType } from '../../types'
 
 interface Props {
@@ -20,7 +20,7 @@ export const Badge = ({ colorString, count, children }: Props) => {
   const [isInvisible, setIsInvisible] = useState<boolean>(true)
 
   useEffect(() => {
-    setBadgeColor(getBackground(colorString))
+    setBadgeColor(getLabelColor(colorString))
   }, [colorString])
 
   useEffect(() => {

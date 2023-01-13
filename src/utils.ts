@@ -41,7 +41,7 @@ export const reorderItems = (items: any[], previousIndex: number, nextIndex: num
   return newItems
 }
 
-export const getLabelColor = (color: ColorType) => {
+export const getLabelColor = (color: ColorType): string => {
   switch(color) {
     case 'red':
       return 'var(--F_Label_Background_Red)'
@@ -63,10 +63,12 @@ export const getLabelColor = (color: ColorType) => {
       return 'var(--F_Label_Background_Teal)'
     case 'orange':
       return 'var(--F_Label_Background_Orange)'
+    case 'gray':
+      return '--F_Label_Background_Gray'
   }
 }
 
-export const getLabelOutlineColor = (color: ColorType) => {
+export const getLabelOutlineColor = (color: ColorType): string => {
   switch(color) {
     case 'red':
       return 'var(--F_Label_Outline_Red)'
@@ -88,6 +90,8 @@ export const getLabelOutlineColor = (color: ColorType) => {
       return 'var(--F_Label_Outline_Teal)'
     case 'orange':
       return 'var(--F_Label_Outline_Orange)'
+    case 'gray':
+      return '--F_Label_Outline_Gray'
   }
 }
 
@@ -291,6 +295,7 @@ export const calculateFileHash: HashFunction = (file) => {
   return new Promise((resolve, reject) => {
     fileReader.onload = (e) => {
       // read chunk
+      // @ts-ignore
       spark.append(e?.target?.result);
       currentChunk++;
 

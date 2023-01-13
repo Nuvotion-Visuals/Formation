@@ -16,8 +16,8 @@ export const Label = ({
   title
 }: Props) => {
 
-  const [background, setBackground] = useState<string>('gray')
-  const [outline, setOutline] = useState<string>('gray')
+  const [background, setBackground] = useState<string>('blue')
+  const [outline, setOutline] = useState<string>('blue')
 
   useEffect(() => {
 

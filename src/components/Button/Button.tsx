@@ -35,6 +35,10 @@ type Props = {
   expandVertical?: boolean
 }
 
+interface ButtonProps extends Props {
+  hasIcon: boolean
+}
+
 export const Button: FC<Props> = React.memo(({ 
   hero, 
   name, 
@@ -153,26 +157,6 @@ interface ContainerProps {
   expandVertical?: boolean
 }
 
-interface ButtonProps {
-  id?: string,
-  onClick?: Function,
-  title?: string,
-  disabled?: boolean,
-  secondary?: boolean,
-  background?: string,
-  hero?: boolean,
-  square?: boolean,
-  primary?: boolean,
-  singleBlink?: boolean,
-  blink?: boolean,
-  expand?: boolean,
-  tab?: boolean,
-  type?: string,
-  hasIcon: boolean,
-  circle?: boolean,
-  expandVertical?: boolean
-} 
-
 interface TextProps {
   hero?: boolean,
   icon?: string
@@ -222,7 +206,7 @@ const calculateHeight = (props: ContainerProps) => {
   }
 }
 
-const calculatePadding = (props: ButtonProps) => {
+const calculatePadding = (props: Props) => {
   if (props.hero) {
     if (props.square) {
       return '0'
@@ -241,7 +225,7 @@ const calculatePadding = (props: ButtonProps) => {
   }
 }
 
-const calculateBackgroundColor = (props: Props) => {
+const calculateBackgroundColor = (props:Props) => {
   if (props.color) {
     
   }
