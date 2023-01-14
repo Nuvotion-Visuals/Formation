@@ -130,6 +130,7 @@ export const copyToClipboard = (str: string, onSuccess?: () => void, onError?: (
 //   // an error occurred
 // });
 
+
 export const downloadFile = (str: string, filename: string, mimeType: string) => {
   const link = document.createElement('a');
   link.setAttribute('download', filename);
@@ -186,6 +187,7 @@ export const getTimeAgo = (date : Date) : string => {
   return timeAgo.format(new Date(date), 'round')  
 }
 
+
 export const blobToBase64 = (blob : Blob, callback: (value: string) => void) => {
   var a = new FileReader();
   a.onload = function(e) {
@@ -196,8 +198,16 @@ export const blobToBase64 = (blob : Blob, callback: (value: string) => void) => 
   a.readAsDataURL(blob);
 }
 
-// This function creates a timestamp in the format YYYY-MM-DD-HH-MM-SS by using the Date object in JavaScript. 
-// This timestamp can be used to record the current date and time in a consistent format.
+/**
+ * Creates a timestamp in the format YYYY-MM-DD-HH-MM-SS by using the Date object in JavaScript.
+ * This timestamp can be used to record the current date and time in a consistent format.
+ * 
+ * @returns {string} timestamp
+ * 
+ * @example
+ * // returns timestamp
+ * timestamp()
+ */
 export const timestamp = () : string => {
   const now = new Date()
   const pad = (number: number) => number.toString().padStart(2, '0')
@@ -220,7 +230,16 @@ export function getCookie(name: string): string | undefined {
   if (parts.length === 2) return parts?.pop()?.split(';')?.shift()
 }
   
-
+/**
+ * Convert resource url to data url
+ * 
+ * @param {string} url - The resource url
+ * @returns {Promise<string>} dataUrl
+ * 
+ * @example
+ * // returns dataUrl
+ * resourceUrlToDataUrl("https://example.com/image.jpg")
+ */
 export const resourceUrlToDataUrl = async (url : string)  => {
   try {
     const blob = await fetch(url).then(response => response.blob())
@@ -237,6 +256,21 @@ export const resourceUrlToDataUrl = async (url : string)  => {
   }
 }
 
+
+/**
+ * Resizes an image dataURL to fit within maximum width and height and returns the resized image dataURL
+ * 
+ * @param {string} dataURL - The image dataURL
+ * @param {number} [maxWidth=512] - The maximum width of the resized image
+ * @param {number} [maxHeight=512] - The maximum height of the resized image
+ * @param {string} [format="jpeg"] - The format of the resized image. Can be "jpeg" or "png"
+ * @param {number} [compression=1.0] - The compression of the resized image (for JPEG format only)
+ * @returns {string} The resized image dataURL
+ * 
+ * @example
+ * // returns resized image dataURL
+ * resizeDataURL("data:image/png;base64,iVBORw0KG...", 512, 512, "png", 0.7)
+ */
 export const resizeDataURL = (
   dataURL: string,
   maxWidth?: number,
@@ -279,7 +313,6 @@ export const resizeDataURL = (
 
   return resizedDataURL;
 };
-
 
 interface HashFunction {
   (file: File): Promise<string>;
@@ -324,13 +357,25 @@ import { marked } from 'marked'
 import DOMPurify from 'isomorphic-dompurify'
 import showdown from 'showdown'
 const converter = new showdown.Converter()
-export const markdownToHTML = (markdown: string ) => DOMPurify.sanitize(
-  marked(converter.makeHtml(markdown)), 
-  { 
-    ADD_TAGS: ['iframe'], 
-    ADD_ATTR: ['allow', 'allowfullscreen', 'frameborder', 'scrolling'] 
-  }
-)
+/**
+ * Converts markdown to html and sanitize it 
+ * 
+ * @param {string} markdown 
+ * @returns {string} html
+ * 
+ * @example
+ * // returns html
+ * markdownToHTML("# Hello World")
+ */
+export const markdownToHTML = (markdown: string ) => {
+    //convert markdown to html using showdown library
+    const html = converter.makeHtml(markdown)
+    //sanitize the html using DOMPurify
+    return DOMPurify.sanitize(marked(html), {
+      ADD_TAGS: ['iframe'],
+      ADD_ATTR: ['allow', 'allowfullscreen', 'frameborder', 'scrolling']
+    });
+}
 
 import TurndownService from 'turndown'
 import { ColorType } from 'types';
@@ -339,3 +384,55 @@ const turndownService = new TurndownService()
 
 export const HTMLtoMarkdown = (html: string) => 
   turndownService.turndown(html)
+
+/**
+Converts a title string to a "slug" string, which replaces all non-alphanumeric characters with hyphens and converts it to lowercase
+*
+@param {string} title - The input title string
+@returns {string} The "slug" string
+@example
+// returns "how-to-train-your-dragon"
+titleToSlug("How To Train Your Dragon")
+*
+@example
+// returns "the-hitchhiker's-guide-to-the-galaxy"
+titleToSlug("The Hitchhiker's Guide To The Galaxy")
+*/
+export const titleToSlug = (title: string): string => {
+  // Replace all non-alphanumeric characters with hyphens
+  return title.replace(/[^a-z0-9]/gi, '-').toLowerCase();
+}
+
+/**
+Converts a "slug" string to a title case string, meaning the first letter of each word is capitalized, while considering certain lowercase words that should not be capitalized
+*
+@param {string} slug - The input "slug" string
+@returns {string} The title case string
+@example
+// returns "How To Train Your Dragon"
+slugToTitle("how-to-train-your-dragon")
+*
+@example
+// returns "The Hitchhiker's Guide To The Galaxy"
+slugToTitle("the-hitchhiker's-guide-to-the-galaxy")
+*/
+export const slugToTitle = (slug: string): string => {
+  // Replace hyphens with spaces
+  const title = slug.replace(/-/g, ' ');
+
+  // Split the title into words
+  const words = title.split(' ');
+
+  // Create an array of lowercase words that should not be capitalized
+  const lowercaseWords = [
+    'a', 'an', 'and', 'as', 'at', 'but', 'by',
+    'for', 'if', 'in', 'nor', 'of', 'off', 'on',
+    'or', 'per', 'so', 'the', 'to', 'up', 'via', 'yet'
+  ];
+
+  // Capitalize each word, unless it should be lowercase
+  return words.map((word) => {
+    return lowercaseWords.includes(word) ? word : word.replace(/\b\w/g, (w) => w.toUpperCase());
+  }).join(' ');
+}
+  
