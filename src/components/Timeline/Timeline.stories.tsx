@@ -351,6 +351,80 @@ const Template: ComponentStory<typeof Timeline> = args => {
     
         },
         {
+          title: '21+ entry',
+          startTime: `${todaysDateString}T22:00-06:00`,
+          endTime: `${tomorrowsDateString}T05:00-06:00`,
+          id: '5',
+          people: [
+            {
+              name: "Larry",
+              position: "Security",
+            },
+            {
+              name: "Samantha",
+              position: "Security",
+            },
+            {
+              name: "Kevin",
+              position: "Ticket Scanner",
+            },
+            {
+              name: "Amanda",
+              position: "Ticket Scanner",
+            }
+          ],
+    
+        },
+        {
+          title: '21+ entry',
+          startTime: `${todaysDateString}T22:00-06:00`,
+          endTime: `${tomorrowsDateString}T05:00-06:00`,
+          id: '5',
+          people: [
+            {
+              name: "Larry",
+              position: "Security",
+            },
+            {
+              name: "Samantha",
+              position: "Security",
+            },
+            {
+              name: "Kevin",
+              position: "Ticket Scanner",
+            },
+            {
+              name: "Amanda",
+              position: "Ticket Scanner",
+            }
+          ],
+    
+        },{
+          title: '21+ entry',
+          startTime: `${todaysDateString}T22:00-06:00`,
+          endTime: `${tomorrowsDateString}T05:00-06:00`,
+          id: '5',
+          people: [
+            {
+              name: "Larry",
+              position: "Security",
+            },
+            {
+              name: "Samantha",
+              position: "Security",
+            },
+            {
+              name: "Kevin",
+              position: "Ticket Scanner",
+            },
+            {
+              name: "Amanda",
+              position: "Ticket Scanner",
+            }
+          ],
+    
+        },
+        {
           title: 'Close + Clean',
           startTime: `${tomorrowsDateString}T07:00-06:00`,
           endTime: `${tomorrowsDateString}T07:30-06:00`,
@@ -619,7 +693,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
       <S.TagsContainer>
         <Tags
           allTags={tags}
-          initialActiveTags={[tags[0]]}
+          initialActiveTags={[tags[0], tags[2]]}
           onChange={tags => set_activeTags(tags)}
         />
       </S.TagsContainer>  
@@ -707,7 +781,7 @@ const S = {
   Timeline: styled.div`
     position: relative;
     width: 100%;
-    min-height: fit-content;
+    min-height: 100%;
     display: flex;
   `,
   Overflow: styled.div`
@@ -721,8 +795,8 @@ const S = {
   `,
   RightColumn: styled.div`
     position: relative;
-    width: calc(100% - 4rem);
-    height: fit-content;
+    width: calc(100% - 3rem);
+    height: 100%;
     display: flex;
     flex-direction: row;
     overflow-x: auto;
