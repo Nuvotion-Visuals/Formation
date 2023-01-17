@@ -7,24 +7,24 @@ import { styled } from '@storybook/theming'
 import { DateTimeFormatter, Duration, ZonedDateTime, LocalDate } from '@js-joda/core'
 import { Locale } from '@js-joda/locale_en-us'
 import { Button, ButtonProps } from '../Button/Button'
-import { ItemTimeStampType } from './Timeline'
+import { ActivityForm } from './ActivityForm'
 
 export default {
   title: 'Advanced Input/Timeline',
   component: Timeline,
 } as ComponentMeta<typeof Timeline>
 
-interface IntervalType {
-  display: string | string[],
-  value: string,
-  gridNumber: number
-}
-
 type areaColorType = {
   itemBackground: string,
   itemText: string,
   buttonBackground: string,
   buttonHoverBackground: string
+}
+
+interface IntervalType {
+  display: string | string[],
+  value: string,
+  gridNumber: number
 }
 
 type AreaType = {
@@ -34,16 +34,17 @@ type AreaType = {
   activities: ActivityType[],
 }
 
-type ActivityType = {
+export type ActivityType = {
   title: string,
   startTime: string,
   endTime: string,
   id: string,
   areaId: string,
   people: PersonType[],
+  overflowLane: number
 }
 
-type PersonType = {
+export type PersonType = {
   name: string,
   position: string,
 }
@@ -515,6 +516,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
 
   // state for modal interactions
   const [isOpen, set_isOpen] = useState<boolean>(true)
+  const [activityData, set_activityData] = useState<ActivityType | null>()
 
   // state for managing LiveTimeReference component
   const [displayTimeReferenceLine, set_displayTimeReferenceLine] = useState<boolean>()
@@ -531,9 +533,9 @@ const Template: ComponentStory<typeof Timeline> = args => {
     }
   })
 
-  const onLaneItemClick = (item) => {
+  const onLaneItemClick = (item: ActivityType) => {
     set_isOpen(true)
-    console.log(item, 'item')
+    set_activityData(item)
   }
 
   //  set currentActivities based on activeTabs 
@@ -610,7 +612,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
         let formattedDate = parsedDate.format(DateTimeFormatter.ofPattern('MM/dd'))
         let namedDay = parsedDate.dayOfWeek().toString()
 
-        let formattedHourMinute = (index) => {
+        let formattedHourMinute = (index: number) => {
           let hourMinute = Math.floor(index * 15 / 60)
           let formattedHourMinute = ("0" + hourMinute).slice(-2);
       
@@ -814,7 +816,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
               onClose={() => set_isOpen(false)}
               iconPrefix={'fas'}
               title={'Edit Activity'}
-              content={<div>Hey There Modal!</div>}
+              content={<ActivityForm activity={activityData != undefined ? activityData : null} />}
               size={'sm'}
               fullscreen
               onBack={undefined}

@@ -3,28 +3,16 @@ import styled from 'styled-components'
 import { DateTimeFormatter, ZonedDateTime } from '@js-joda/core'
 import '@js-joda/timezone'
 
-interface Props {
+import { ActivityType, PersonType } from './Timeline.stories'
+
+export interface Props {
   value: ActivityType[],
   intervals: IntervalType[],
   onChange: (time: any) => void,
   onIntervalClick: (interval: IntervalType) => void,
-  onLaneItemClick: (item: ItemTimeStampType) => void,
+  onLaneItemClick: (item: ActivityType) => void,
   color: string,
   backgroundColor: string
-}
-
-type ActivityType = {
-  title: string,
-  startTime: string,
-  endTime: string,
-  id: string,
-  areaId: string,
-  people: PersonType[],
-}
-
-type PersonType = {
-  name: string,
-  position: string,
 }
 
 interface IntervalType {
@@ -33,14 +21,15 @@ interface IntervalType {
   gridNumber: number
 }
 
-export interface ItemTimeStampType {
+interface ItemTimeStampType {
   title: string,
   startTime: ZonedDateTime,
   endTime: ZonedDateTime,
   id: string,
   areaId: string,
   overflowLane: number,
-  isPlaced: boolean
+  isPlaced: boolean,
+  people: PersonType[]
 }
 
 type ItemTimeStampsType = ItemTimeStampType[]
@@ -48,7 +37,7 @@ type ItemTimeStampsType = ItemTimeStampType[]
 export const Timeline = ({ value, intervals, onChange,  onIntervalClick, onLaneItemClick, color, backgroundColor }: Props) => {
 
   const [columnCount, set_columnCount] = useState<number>(1)
-  const [renderItems, set_renderItems] = useState<ItemTimeStampType[]>()
+  const [renderItems, set_renderItems] = useState<ActivityType[]>()
 
   let currentItemTimeStamps: ItemTimeStampsType = value?.map((item) => {
     let startTime = ZonedDateTime.parse(item?.startTime)
@@ -61,7 +50,8 @@ export const Timeline = ({ value, intervals, onChange,  onIntervalClick, onLaneI
       "id": item.id,
       "areaId": item.areaId,
       "overflowLane": 1,
-      "isPlaced": false
+      "isPlaced": false,
+      "people": item.people !== undefined ? item.people : []
     }
   })
 
@@ -156,8 +146,20 @@ export const Timeline = ({ value, intervals, onChange,  onIntervalClick, onLaneI
       laneRecord = filteredRecord
     }
 
+    let activityItemsByTimeStamp = itemsByTimeStamp.map((item) => {
+      return {
+        title: item.title,
+        startTime: item.startTime.toString(),
+        endTime: item.endTime.toString(),
+        id: item.id,
+        areaId: item.areaId,
+        people: item.people,
+        overflowLane: item.overflowLane
+      }
+    })
+
     set_columnCount(laneRecord.length)
-    set_renderItems(itemsByTimeStamp)
+    set_renderItems(activityItemsByTimeStamp)
   }
 
   useEffect(() => {
