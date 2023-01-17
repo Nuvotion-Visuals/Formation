@@ -3,11 +3,13 @@ import styled from 'styled-components'
 import xor from 'lodash.xor'
 import union from 'lodash.union'
 
+import { ButtonProps } from 'components/Button/Button'
+
 import { Button } from '../../internal'
 import { Icon } from '../../internal'
 
 type TagsType = {
-  allTags: string[],
+  allTags: ButtonProps[],
   initialActiveTags: string[],
   onChange: (tags: string[]) => void,
   noPadding?: boolean,
@@ -59,11 +61,12 @@ export const Tags = ({
     }
   }
 
-  const toggleTagActive = (tag : string) => {
+  const toggleTagActive = (tag : string | undefined) => {
+    if (tag === undefined) return;
     set_activeTags(activeTags.includes(tag) 
-        ? xor(activeTags, [tag]) 
-        : union(activeTags, [tag])
-      )  
+      ? xor(activeTags, [tag]) 
+      : union(activeTags, [tag])
+    )  
   }
 
   return (
@@ -71,15 +74,19 @@ export const Tags = ({
       <S.Tags ref={ref} onScroll={onScroll} noPadding={noPadding}>
         {
           allTags.map((tag, index) => 
-            <S.ButtonContainer key={`tag${index}`}>
-              <Button 
-                text={tag}
-                primary={activeTags.includes(tag)}
-                onClick={() => toggleTagActive(tag)}
-                secondary={!activeTags.includes(tag)}
-              />
-            </S.ButtonContainer>
-          )
+            
+            tag.name !== undefined  
+                ?<S.ButtonContainer key={`tag${index}`}>
+                  <Button 
+                    text={tag.name}
+                    primary={activeTags.includes(tag.name)}
+                    onClick={() => tag !== undefined && toggleTagActive(tag.name)}
+                    secondary={!activeTags.includes(tag.name)}
+                    background={tag.background}
+                  />
+              </S.ButtonContainer>
+              :<></>)
+          
         }
         <S.Padding_R />
       </S.Tags>

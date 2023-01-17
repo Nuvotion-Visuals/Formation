@@ -6,6 +6,7 @@ import { styled } from '@storybook/theming'
 
 import { DateTimeFormatter, Duration, ZonedDateTime, LocalDate } from '@js-joda/core'
 import { Locale } from '@js-joda/locale_en-us'
+import { ButtonProps } from '../Button/Button'
 
 export default {
   title: 'Advanced Input/Timeline',
@@ -463,7 +464,13 @@ const Template: ComponentStory<typeof Timeline> = args => {
   const [timeReferencePosition, set_timeReferencePosition] = useState('')
 
   
-  let tags: string[] = value?.map(({ area }) => area)
+  let tags: ButtonProps[] = value?.map(({ area }) => {
+    return {
+      name: area,
+      hasIcon: false,
+      
+    }
+  })
 
   //  set currentActivities based on activeTabs 
   useEffect(() => {
@@ -693,7 +700,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
       <S.TagsContainer>
         <Tags
           allTags={tags}
-          initialActiveTags={[tags[0], tags[2]]}
+          initialActiveTags={tags[0].name !== undefined ? [tags[0]?.name] : ['']}
           onChange={tags => set_activeTags(tags)}
         />
       </S.TagsContainer>  
