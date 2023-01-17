@@ -23,18 +23,35 @@ const Template: ComponentStory<typeof Tags> = args => {
 
 export const NoneSelected = Template.bind({})
 NoneSelected.args = {
-  allTags: ['rock', 'hip hop', 'pop', 'country', 'heavy metal', 'classical', 'electronic'],
+  allTags: [{ name: 'rock' }, { name: 'hip hop' }, { name: 'pop' }, { name: 'country' }, { name: 'heavy metal' }, { name: 'classical' }, { name: 'electronic' }],
   initialActiveTags: [],
 }
 
 export const InitialSelected = Template.bind({})
 InitialSelected.args = {
-  allTags: ['rock', 'hip hop', 'pop', 'country', 'heavy metal', 'classical', 'electronic'],
+  allTags: [{ name: 'rock' }, { name: 'hip hop' }, { name: 'pop' }, { name: 'country' }, { name: 'heavy metal' }, { name: 'classical' }, { name: 'electronic' }],
   initialActiveTags: ['rock', 'hip hop'],
 }
 
 export const MulitColored = Template.bind({})
 MulitColored.args = {
-  allTags: ['red', 'green', 'blue', 'yellow', 'violet'],
+  allTags: [
+    {
+      name: 'red',
+      background: 'red'
+    },
+    {
+      name: 'green',
+      background: 'green'  }, 
+    {
+      name: 'blue',
+      background: 'blue'  }, 
+    {
+      name: 'yellow',
+      background: 'yellow'  }, 
+    {
+      name: 'violet',
+      background: 'violet'  }
+  ],
   initialActiveTags: ['red']
 }

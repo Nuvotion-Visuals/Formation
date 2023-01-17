@@ -6,6 +6,7 @@ import { styled } from '@storybook/theming'
 
 import { DateTimeFormatter, Duration, ZonedDateTime, LocalDate } from '@js-joda/core'
 import { Locale } from '@js-joda/locale_en-us'
+import { ButtonProps } from '../Button/Button'
 
 export default {
   title: 'Advanced Input/Timeline',
@@ -18,8 +19,16 @@ interface IntervalType {
   gridNumber: number
 }
 
+type areaColorType = {
+  itemBackground: string,
+  itemText: string,
+  buttonBackground: string,
+  buttonHoverBackground: string
+}
+
 type AreaType = {
   area: string,
+  colors: areaColorType,
   activities: ActivityType[],
 }
 
@@ -47,6 +56,12 @@ const Template: ComponentStory<typeof Timeline> = args => {
   const [value, set_value] = useState<AreasType>([
     {
       area: 'West Stage',
+      colors: {
+        itemBackground: 'var(--F_Timeline_Item_Background_Red)',
+        itemText: 'var(--F_Timeline_Item_Text_Red)',
+        buttonBackground: 'var(--F_Timeline_Item_Background_Red)',
+        buttonHoverBackground: 'var(--F_Timeline_Item_Text_Red)'
+      },
       activities: [
         {
           title: 'DJ Alpha',
@@ -164,6 +179,12 @@ const Template: ComponentStory<typeof Timeline> = args => {
     },
     {
       area: 'East Stage',
+      colors: {
+        itemBackground: 'var(--F_Timeline_Item_Background_Blue)',
+        itemText: 'var(--F_Timeline_Item_Text_Blue)',
+        buttonBackground: 'var(--F_Timeline_Item_Background_Blue)',
+        buttonHoverBackground: 'var(--F_Timeline_Item_Text_Blue)'
+      },
       activities: [
         {
           title: 'Attack Juggling',
@@ -249,6 +270,12 @@ const Template: ComponentStory<typeof Timeline> = args => {
     },
     {
       area: 'Front Doors',
+      colors: {
+        itemBackground: 'var(--F_Timeline_Item_Background_Yellow)',
+        itemText: 'var(--F_Timeline_Item_Text_Yellow)',
+        buttonBackground: 'var(--F_Timeline_Item_Background_Yellow)',
+        buttonHoverBackground: 'var(--F_Timeline_Item_Text_Yellow)'
+      },
       activities: [
         {
           title: 'Pre-Open',
@@ -351,6 +378,80 @@ const Template: ComponentStory<typeof Timeline> = args => {
     
         },
         {
+          title: '21+ entry',
+          startTime: `${todaysDateString}T22:00-06:00`,
+          endTime: `${tomorrowsDateString}T05:00-06:00`,
+          id: '5',
+          people: [
+            {
+              name: "Larry",
+              position: "Security",
+            },
+            {
+              name: "Samantha",
+              position: "Security",
+            },
+            {
+              name: "Kevin",
+              position: "Ticket Scanner",
+            },
+            {
+              name: "Amanda",
+              position: "Ticket Scanner",
+            }
+          ],
+    
+        },
+        {
+          title: '21+ entry',
+          startTime: `${todaysDateString}T22:00-06:00`,
+          endTime: `${tomorrowsDateString}T05:00-06:00`,
+          id: '5',
+          people: [
+            {
+              name: "Larry",
+              position: "Security",
+            },
+            {
+              name: "Samantha",
+              position: "Security",
+            },
+            {
+              name: "Kevin",
+              position: "Ticket Scanner",
+            },
+            {
+              name: "Amanda",
+              position: "Ticket Scanner",
+            }
+          ],
+    
+        },{
+          title: '21+ entry',
+          startTime: `${todaysDateString}T22:00-06:00`,
+          endTime: `${tomorrowsDateString}T05:00-06:00`,
+          id: '5',
+          people: [
+            {
+              name: "Larry",
+              position: "Security",
+            },
+            {
+              name: "Samantha",
+              position: "Security",
+            },
+            {
+              name: "Kevin",
+              position: "Ticket Scanner",
+            },
+            {
+              name: "Amanda",
+              position: "Ticket Scanner",
+            }
+          ],
+    
+        },
+        {
           title: 'Close + Clean',
           startTime: `${tomorrowsDateString}T07:00-06:00`,
           endTime: `${tomorrowsDateString}T07:30-06:00`,
@@ -389,18 +490,18 @@ const Template: ComponentStory<typeof Timeline> = args => {
   const [timeReferencePosition, set_timeReferencePosition] = useState('')
 
   
-  let tags: string[] = value?.map(({ area }) => area)
+  let tags: ButtonProps[] = value?.map(({ area, colors }) => {
+    return {
+      name: area,
+      hasIcon: false,
+      background: colors.buttonBackground
+    }
+  })
 
   //  set currentActivities based on activeTabs 
   useEffect(() => {
-    let activeIndexedData: AreasType = value.map((area) => {
-      if (activeTags.includes(area.area)) {
-         return area
-      } 
-    }).filter(item => item !== undefined) as AreaType[];
-
-    set_currentActivities(activeIndexedData)
-
+    let activeIndexedData: AreaType[] = value.filter(area => activeTags.includes(area.area));
+    set_currentActivities(activeIndexedData);
   }, [activeTags, value])
 
   // create intervals array from value
@@ -619,7 +720,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
       <S.TagsContainer>
         <Tags
           allTags={tags}
-          initialActiveTags={[tags[0]]}
+          initialActiveTags={tags[0].name !== undefined ? [tags[0]?.name] : ['']}
           onChange={tags => set_activeTags(tags)}
         />
       </S.TagsContainer>  
@@ -656,8 +757,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
                         onChange={() => null}
                         onIntervalClick={() => null}
                         onLaneItemClick={() => null}
-                        color={['#000f1a', '#1A0000', '#01001a', '#001a04'][index]}
-                        backgroundColor={['#94c3d6b8', '#d69494bb', '#9c94d6ba', '#94d69cb9'][index]}
+                        color={item.colors.itemText}
+                        backgroundColor={item.colors.itemBackground}
                       />
                     )
                   })
@@ -707,7 +808,7 @@ const S = {
   Timeline: styled.div`
     position: relative;
     width: 100%;
-    min-height: fit-content;
+    min-height: 100%;
     display: flex;
   `,
   Overflow: styled.div`
@@ -721,8 +822,8 @@ const S = {
   `,
   RightColumn: styled.div`
     position: relative;
-    width: calc(100% - 4rem);
-    height: fit-content;
+    width: calc(100% - 3rem);
+    height: 100%;
     display: flex;
     flex-direction: row;
     overflow-x: auto;

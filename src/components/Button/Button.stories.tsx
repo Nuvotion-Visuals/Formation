@@ -136,5 +136,6 @@ SingleBlink.args = {
 export const CustomColor = Template.bind({})
 CustomColor.args = {
   text: 'Download',
-  background: '#1e6ed6',
+  background: '#aacfff',
+  primary: true
 }

@@ -51,6 +51,13 @@ It’s easy to picture how a less saturated version of a color would look like, 
   --F_Label_Background_Gray: #424242;
   --F_Label_Outline_Gray: #1b1b1b;
 
+  --F_Timeline_Item_Background_Red: #c64f4f90;
+  --F_Timeline_Item_Text_Red: #730303;
+  --F_Timeline_Item_Background_Blue: #4f5dc690;
+  --F_Timeline_Item_Text_Blue: #083877;
+  --F_Timeline_Item_Background_Yellow: #c6b24f90;
+  --F_Timeline_Item_Text_Yellow: #705c02;
+
   --F_Backdrop: rgba(0, 0, 0, 0.834);
   --F_Activity_Backdrop: #f9f9f9;
 

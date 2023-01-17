@@ -4,7 +4,7 @@ import styled, { keyframes, css } from 'styled-components'
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 import { SizeProp } from '@fortawesome/fontawesome-svg-core' // type coersion needed until FA SizeProp defintion is fixed to include "xl"
 
-import { Icon, getLinkComponent, Box } from '../../internal'
+import { Icon, getLinkComponent } from '../../internal'
 import { ColorType } from 'types'
 
 type Props = {
@@ -35,7 +35,7 @@ type Props = {
   expandVertical?: boolean
 }
 
-interface ButtonProps extends Props {
+ export interface ButtonProps extends Props {
   hasIcon: boolean
 }
 
@@ -225,21 +225,44 @@ const calculatePadding = (props: Props) => {
   }
 }
 
-const calculateBackgroundColor = (props:Props) => {
-  if (props.color) {
-    
+const calculateBackgroundColor = (props: Props) => {
+  if (typeof props.background === 'string' && props.primary) {
+    return props.background;
   }
   if (props.primary) {
-    return 'var(--F_Primary)'
-  } else if (props.blink) {
-    return 'var(--Hover_Single)'
-  } else if (props.secondary) {
-    return 'none'
-  } else if (typeof(props.background) == 'string') {
-    return `${props.background}`
-  } else {
-    return 'none'
+    return 'var(--F_Primary)';
   }
+  if (props.blink) {
+    return 'var(--Hover_Single)';
+  }
+  if (props.secondary) {
+    return 'none';
+  }
+  return 'var(--F_Surface)';
+}
+
+const calculateHoverBackgroundColor = (props: Props) => {
+  if (typeof props.background === 'string') {
+    return props.background
+  }
+  if (props.background) {
+    return 'var(--F_Surface_1)'
+  }
+   else if (props.primary) {
+    return `var(--F_Primary_Hover)`
+  }
+  
+}
+
+const calculateActiveBackgroundColor = (props: Props) => {
+  if (typeof props.background === 'string') {
+    return props.background
+  }
+  if (props.primary) {
+    return `var(--F_Primary)`
+  } 
+  return 'var(--F_Surface_2)'
+  
 }
 
 const S = {
@@ -325,12 +348,7 @@ const S = {
     }
     
     &:hover {
-      background: ${props => props.primary 
-        ? `var(--F_Primary_Hover)`
-      : props.background
-        ? props.background
-        : 'var(--F_Surface_1)'
-    
+      background: ${props => calculateHoverBackgroundColor(props)
       };
       * {
         color: var(--F_Font_Color);
@@ -339,9 +357,7 @@ const S = {
     };
   
     &:active {
-      background: ${props => props.primary 
-        ? `var(--F_Primary)`
-        : 'var(--F_Surface_2)'
+      background: ${props => calculateActiveBackgroundColor(props)
       };
       transform: translateY(1px);
     };
