@@ -245,12 +245,13 @@ const calculateHoverBackgroundColor = (props: Props) => {
   if (typeof props.background === 'string') {
     return props.background
   }
-  if (props.primary) {
-    return `var(--F_Primary_Hover)`
-  }
   if (props.background) {
     return 'var(--F_Surface_1)'
   }
+   else if (props.primary) {
+    return `var(--F_Primary_Hover)`
+  }
+  
 }
 
 const calculateActiveBackgroundColor = (props: Props) => {

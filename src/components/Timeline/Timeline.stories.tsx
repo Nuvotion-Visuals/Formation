@@ -19,8 +19,16 @@ interface IntervalType {
   gridNumber: number
 }
 
+type areaColorType = {
+  itemBackground: string,
+  itemText: string,
+  buttonBackground: string,
+  buttonHoverBackground: string
+}
+
 type AreaType = {
   area: string,
+  colors: areaColorType,
   activities: ActivityType[],
 }
 
@@ -48,6 +56,12 @@ const Template: ComponentStory<typeof Timeline> = args => {
   const [value, set_value] = useState<AreasType>([
     {
       area: 'West Stage',
+      colors: {
+        itemBackground: 'var(--F_Timeline_Item_Background_Red)',
+        itemText: 'var(--F_Timeline_Item_Text_Red)',
+        buttonBackground: 'var(--F_Timeline_Item_Background_Red)',
+        buttonHoverBackground: 'var(--F_Timeline_Item_Text_Red)'
+      },
       activities: [
         {
           title: 'DJ Alpha',
@@ -165,6 +179,12 @@ const Template: ComponentStory<typeof Timeline> = args => {
     },
     {
       area: 'East Stage',
+      colors: {
+        itemBackground: 'var(--F_Timeline_Item_Background_Blue)',
+        itemText: 'var(--F_Timeline_Item_Text_Blue)',
+        buttonBackground: 'var(--F_Timeline_Item_Background_Blue)',
+        buttonHoverBackground: 'var(--F_Timeline_Item_Text_Blue)'
+      },
       activities: [
         {
           title: 'Attack Juggling',
@@ -250,6 +270,12 @@ const Template: ComponentStory<typeof Timeline> = args => {
     },
     {
       area: 'Front Doors',
+      colors: {
+        itemBackground: 'var(--F_Timeline_Item_Background_Yellow)',
+        itemText: 'var(--F_Timeline_Item_Text_Yellow)',
+        buttonBackground: 'var(--F_Timeline_Item_Background_Yellow)',
+        buttonHoverBackground: 'var(--F_Timeline_Item_Text_Yellow)'
+      },
       activities: [
         {
           title: 'Pre-Open',
@@ -464,24 +490,18 @@ const Template: ComponentStory<typeof Timeline> = args => {
   const [timeReferencePosition, set_timeReferencePosition] = useState('')
 
   
-  let tags: ButtonProps[] = value?.map(({ area }) => {
+  let tags: ButtonProps[] = value?.map(({ area, colors }) => {
     return {
       name: area,
       hasIcon: false,
-      
+      background: colors.buttonBackground
     }
   })
 
   //  set currentActivities based on activeTabs 
   useEffect(() => {
-    let activeIndexedData: AreasType = value.map((area) => {
-      if (activeTags.includes(area.area)) {
-         return area
-      } 
-    }).filter(item => item !== undefined) as AreaType[];
-
-    set_currentActivities(activeIndexedData)
-
+    let activeIndexedData: AreaType[] = value.filter(area => activeTags.includes(area.area));
+    set_currentActivities(activeIndexedData);
   }, [activeTags, value])
 
   // create intervals array from value
@@ -737,8 +757,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
                         onChange={() => null}
                         onIntervalClick={() => null}
                         onLaneItemClick={() => null}
-                        color={['#000f1a', '#1A0000', '#01001a', '#001a04'][index]}
-                        backgroundColor={['#94c3d6b8', '#d69494bb', '#9c94d6ba', '#94d69cb9'][index]}
+                        color={item.colors.itemText}
+                        backgroundColor={item.colors.itemBackground}
                       />
                     )
                   })
