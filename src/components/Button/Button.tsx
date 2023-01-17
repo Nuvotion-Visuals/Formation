@@ -238,7 +238,7 @@ const calculateBackgroundColor = (props: Props) => {
   if (props.secondary) {
     return 'none';
   }
-  return 'none';
+  return 'var(--F_Surface)';
 }
 
 const calculateHoverBackgroundColor = (props: Props) => {
