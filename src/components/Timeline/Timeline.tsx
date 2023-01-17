@@ -8,7 +8,7 @@ interface Props {
   intervals: IntervalType[],
   onChange: (time: any) => void,
   onIntervalClick: (interval: IntervalType) => void,
-  onLaneItemClick: (e: React.MouseEvent) => void,
+  onLaneItemClick: (item: ItemTimeStampType) => void,
   color: string,
   backgroundColor: string
 }
@@ -18,6 +18,7 @@ type ActivityType = {
   startTime: string,
   endTime: string,
   id: string,
+  areaId: string,
   people: PersonType[],
 }
 
@@ -32,11 +33,12 @@ interface IntervalType {
   gridNumber: number
 }
 
-interface ItemTimeStampType {
+export interface ItemTimeStampType {
   title: string,
   startTime: ZonedDateTime,
   endTime: ZonedDateTime,
   id: string,
+  areaId: string,
   overflowLane: number,
   isPlaced: boolean
 }
@@ -57,6 +59,7 @@ export const Timeline = ({ value, intervals, onChange,  onIntervalClick, onLaneI
       "startTime": startTime,
       "endTime": endTime,
       "id": item.id,
+      "areaId": item.areaId,
       "overflowLane": 1,
       "isPlaced": false
     }
@@ -161,36 +164,12 @@ export const Timeline = ({ value, intervals, onChange,  onIntervalClick, onLaneI
     calculateOverflowLanes(itemsByTimeStamp)
   }, [value]) 
 
-  const autoScrollFirstActivity = (value: ActivityType[]): string => {
-    if (value !== undefined) {
-      let firstActivityStartTime = value.reduce((prev, curr) => prev.startTime < curr.startTime ? prev : curr).startTime
-  
-      let firstActivityGridPosition = renderRow(firstActivityStartTime)
-      
-      if (firstActivityGridPosition) {
-        return (firstActivityGridPosition - 5).toString()
-      }
-      return '6'
-    }  
-    return '6'
-  }
-
   // match time string to interval value of type number, use this to calculate gridRow
   const renderRow = (time: string) => {
     const gridObject = intervals.filter(interval => interval.value === time)
 
     return gridObject[0]?.gridNumber + 1
   }
-  
-  // initial pagescroll animation
-  useEffect(() => {
-    if (value !== undefined) {
-      let initScrollElement: string = autoScrollFirstActivity(value)
-      document.getElementById(initScrollElement)?.scrollIntoView({
-        behavior: 'smooth'
-      })
-    }
-  }, [JSON.stringify(value)])
 
   return (
     <S.Container >
@@ -201,7 +180,7 @@ export const Timeline = ({ value, intervals, onChange,  onIntervalClick, onLaneI
                   <S.Item
                     key={index}
                     id={item.id}
-                    onClick={() => null}
+                    onClick={() => onLaneItemClick(item)}
                     style={{
                       gridColumnStart: item.overflowLane,
                       gridColumnEnd: item.overflowLane,

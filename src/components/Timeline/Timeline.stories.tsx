@@ -6,7 +6,8 @@ import { styled } from '@storybook/theming'
 
 import { DateTimeFormatter, Duration, ZonedDateTime, LocalDate } from '@js-joda/core'
 import { Locale } from '@js-joda/locale_en-us'
-import { ButtonProps } from '../Button/Button'
+import { Button, ButtonProps } from '../Button/Button'
+import { ItemTimeStampType } from './Timeline'
 
 export default {
   title: 'Advanced Input/Timeline',
@@ -28,6 +29,7 @@ type areaColorType = {
 
 type AreaType = {
   area: string,
+  areaId: string,
   colors: areaColorType,
   activities: ActivityType[],
 }
@@ -37,6 +39,7 @@ type ActivityType = {
   startTime: string,
   endTime: string,
   id: string,
+  areaId: string,
   people: PersonType[],
 }
 
@@ -50,12 +53,15 @@ type ActivitiesType = ActivityType[]
 
 
 const Template: ComponentStory<typeof Timeline> = args => { 
-
+  // automatically create a two day calendar using clients date information
   const todaysDateString = ZonedDateTime.now().format(DateTimeFormatter.ofPattern('yyyy-MM-dd'))
   const tomorrowsDateString = ZonedDateTime.now().plusDays(1).format(DateTimeFormatter.ofPattern('yyyy-MM-dd'))
+
+  // mock data to be rendered
   const [value, set_value] = useState<AreasType>([
     {
       area: 'West Stage',
+      areaId: '9e8f1a5c-2b9a-4f8a-a2c2-7f7cb8c5af8d',
       colors: {
         itemBackground: 'var(--F_Timeline_Item_Background_Red)',
         itemText: 'var(--F_Timeline_Item_Text_Red)',
@@ -68,6 +74,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
           startTime: `${todaysDateString}T18:00-06:00`,
           endTime: `${todaysDateString}T20:45-06:00`,
           id: '1',
+          areaId: '9e8f1a5c-2b9a-4f8a-a2c2-7f7cb8c5af8d',
           people: [
             {
               name: "DJ Alpha",
@@ -84,6 +91,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
           startTime: `${todaysDateString}T20:45-06:00`,
           endTime: `${todaysDateString}T23:00-06:00`,
           id: '2',
+          areaId: '9e8f1a5c-2b9a-4f8a-a2c2-7f7cb8c5af8d',
           people: [
             {
               name: "DJ Beta",
@@ -100,6 +108,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
           startTime: `${todaysDateString}T23:00-06:00`,
           endTime: `${tomorrowsDateString}T01:00-06:00`,
           id: '3',
+          areaId: '9e8f1a5c-2b9a-4f8a-a2c2-7f7cb8c5af8d',
           people: [
             {
               name: "DJ Theta",
@@ -116,6 +125,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
           startTime: `${tomorrowsDateString}T01:00-06:00`,
           endTime: `${tomorrowsDateString}T03:00-06:00`,
           id: '4',
+          areaId: '9e8f1a5c-2b9a-4f8a-a2c2-7f7cb8c5af8d',
           people: [
             {
               name: "DJ Theta",
@@ -132,6 +142,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
           startTime: `${tomorrowsDateString}T03:00-06:00`,
           endTime: `${tomorrowsDateString}T05:00-06:00`,
           id: '5',
+          areaId: '9e8f1a5c-2b9a-4f8a-a2c2-7f7cb8c5af8d',
           people: [
             {
               name: "DJ Theta",
@@ -147,7 +158,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
           title: 'DJ AGAIN... AGAIN',
           startTime: `${tomorrowsDateString}T05:00-06:00`,
           endTime: `${tomorrowsDateString}T06:30-06:00`,
-          id: '10',
+          id: '6',
+          areaId: '9e8f1a5c-2b9a-4f8a-a2c2-7f7cb8c5af8d',
           people: [
             {
               name: "DJ Theta",
@@ -163,7 +175,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
           title: 'DJ AGAIN... AGAIN',
           startTime: `${tomorrowsDateString}T22:00-06:00`,
           endTime: `2023-01-06T01:30-06:00`,
-          id: '10',
+          id: '7',
+          areaId: '9e8f1a5c-2b9a-4f8a-a2c2-7f7cb8c5af8d',
           people: [
             {
               name: "DJ Theta",
@@ -179,6 +192,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
     },
     {
       area: 'East Stage',
+      areaId: 'd45a7b9d-68ee-4f3b-a5d7-b1f48a4c5048',
       colors: {
         itemBackground: 'var(--F_Timeline_Item_Background_Blue)',
         itemText: 'var(--F_Timeline_Item_Text_Blue)',
@@ -191,6 +205,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
           startTime: `${todaysDateString}T19:00-06:00`,
           endTime: `${todaysDateString}T21:00-06:00`,
           id: '66b47071-70b9-4aa7-9394-60788627962e',
+          areaId: 'd45a7b9d-68ee-4f3b-a5d7-b1f48a4c5048',
           people: [
             {
               name: "DJ Alpha",
@@ -207,6 +222,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
           startTime: `${todaysDateString}T21:00-06:00`,
           endTime: `${todaysDateString}T22:00-06:00`,
           id: '2627c6a3-6dfe-4c6b-a756-e672279dc4ea',
+          areaId: 'd45a7b9d-68ee-4f3b-a5d7-b1f48a4c5048',
           people: [
             {
               name: "DJ Beta",
@@ -223,6 +239,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
           startTime: `${todaysDateString}T22:00-06:00`,
           endTime: `${tomorrowsDateString}T00:00-06:00`,
           id: '2b6fd32b-ea24-4d17-a9f6-1fb8c79e5a76',
+          areaId: 'd45a7b9d-68ee-4f3b-a5d7-b1f48a4c5048',
           people: [
             {
               name: "DJ Theta",
@@ -239,6 +256,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
           startTime: `${tomorrowsDateString}T01:00-06:00`,
           endTime: `${tomorrowsDateString}T03:00-06:00`,
           id: '4d4b237b-10c0-4757-a205-bcb13eab0fd8',
+          areaId: 'd45a7b9d-68ee-4f3b-a5d7-b1f48a4c5048',
           people: [
             {
               name: "DJ Theta",
@@ -255,6 +273,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
           startTime: `${tomorrowsDateString}T03:00-06:00`,
           endTime: `${tomorrowsDateString}T04:00-06:00`,
           id: '9057e3a6-4382-4c3d-b5de-2dea2625b316',
+          areaId: 'd45a7b9d-68ee-4f3b-a5d7-b1f48a4c5048',
           people: [
             {
               name: "DJ Theta",
@@ -270,6 +289,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
     },
     {
       area: 'Front Doors',
+      areaId: 'e4b4e9a1-f7e2-4b1c-b2a5-8a94e8b45c3a',
       colors: {
         itemBackground: 'var(--F_Timeline_Item_Background_Yellow)',
         itemText: 'var(--F_Timeline_Item_Text_Yellow)',
@@ -281,7 +301,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
           title: 'Pre-Open',
           startTime: `${todaysDateString}T16:00-06:00`,
           endTime: `${todaysDateString}T18:00-06:00`,
-          id: '4',
+          id: '20',
+          areaId: 'e4b4e9a1-f7e2-4b1c-b2a5-8a94e8b45c3a',
           people: [
             {
               name: "Larry",
@@ -306,7 +327,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
           title: 'Open',
           startTime: `${todaysDateString}T18:00-06:00`,
           endTime: `${tomorrowsDateString}T07:00-06:00`,
-          id: '5',
+          id: '21',
+          areaId: 'e4b4e9a1-f7e2-4b1c-b2a5-8a94e8b45c3a',
           people: [
             {
               name: "Larry",
@@ -331,7 +353,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
           title: '18+ entry',
           startTime: `${todaysDateString}T18:00-06:00`,
           endTime: `${todaysDateString}T22:00-06:00`,
-          id: '5',
+          id: '22',
+          areaId: 'e4b4e9a1-f7e2-4b1c-b2a5-8a94e8b45c3a',
           people: [
             {
               name: "Larry",
@@ -356,7 +379,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
           title: '21+ entry',
           startTime: `${todaysDateString}T22:00-06:00`,
           endTime: `${tomorrowsDateString}T05:00-06:00`,
-          id: '5',
+          id: '23',
+          areaId: 'e4b4e9a1-f7e2-4b1c-b2a5-8a94e8b45c3a',
           people: [
             {
               name: "Larry",
@@ -381,7 +405,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
           title: '21+ entry',
           startTime: `${todaysDateString}T22:00-06:00`,
           endTime: `${tomorrowsDateString}T05:00-06:00`,
-          id: '5',
+          id: '24',
+          areaId: 'e4b4e9a1-f7e2-4b1c-b2a5-8a94e8b45c3a',
           people: [
             {
               name: "Larry",
@@ -406,7 +431,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
           title: '21+ entry',
           startTime: `${todaysDateString}T22:00-06:00`,
           endTime: `${tomorrowsDateString}T05:00-06:00`,
-          id: '5',
+          id: '25',
+          areaId: 'e4b4e9a1-f7e2-4b1c-b2a5-8a94e8b45c3a',
           people: [
             {
               name: "Larry",
@@ -430,7 +456,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
           title: '21+ entry',
           startTime: `${todaysDateString}T22:00-06:00`,
           endTime: `${tomorrowsDateString}T05:00-06:00`,
-          id: '5',
+          id: '26',
+          areaId: 'e4b4e9a1-f7e2-4b1c-b2a5-8a94e8b45c3a',
           people: [
             {
               name: "Larry",
@@ -455,7 +482,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
           title: 'Close + Clean',
           startTime: `${tomorrowsDateString}T07:00-06:00`,
           endTime: `${tomorrowsDateString}T07:30-06:00`,
-          id: '6',
+          id: '27',
+          areaId: 'e4b4e9a1-f7e2-4b1c-b2a5-8a94e8b45c3a',
           people: [
             {
               name: "Larry",
@@ -479,12 +507,14 @@ const Template: ComponentStory<typeof Timeline> = args => {
       ]
     }
   ])
+
+  // state for managing rendering based on user's interactions
   const [activeTags, set_activeTags] = useState<string[]>([value[0].area])
   const [currentActivities, set_currentActivities] = useState<AreasType>([])
   const [eventDateIntervals, set_eventDateIntervals] = useState<IntervalType[]>()
 
   // state for modal interactions
-  const [isOpen, set_isOpen] = useState<boolean>(false)
+  const [isOpen, set_isOpen] = useState<boolean>(true)
 
   // state for managing LiveTimeReference component
   const [displayTimeReferenceLine, set_displayTimeReferenceLine] = useState<boolean>()
@@ -500,6 +530,11 @@ const Template: ComponentStory<typeof Timeline> = args => {
       background: colors.buttonBackground
     }
   })
+
+  const onLaneItemClick = (item) => {
+    set_isOpen(true)
+    console.log(item, 'item')
+  }
 
   //  set currentActivities based on activeTabs 
   useEffect(() => {
@@ -759,7 +794,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
                         intervals={eventDateIntervals}
                         onChange={() => null}
                         onIntervalClick={() => null}
-                        onLaneItemClick={() => null}
+                        onLaneItemClick={onLaneItemClick}
                         color={item.colors.itemText}
                         backgroundColor={item.colors.itemBackground}
                       />
@@ -776,9 +811,21 @@ const Template: ComponentStory<typeof Timeline> = args => {
         isOpen
           ? <Modal
               isOpen={isOpen}
-            onClose={() => set_isOpen(false)}
-            title={''}
-            icon={''}
+              onClose={() => set_isOpen(false)}
+              iconPrefix={'fas'}
+              title={'Edit Activity'}
+              content={<div>Hey There Modal!</div>}
+              size={'sm'}
+              fullscreen
+              onBack={undefined}
+              footerContent={
+                <>
+                  <Button
+                    text='Save'
+                    primary={true}
+                    expand={true}
+                  />
+                </>}
             />
           : <></>
       }
