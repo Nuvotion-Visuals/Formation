@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { Timeline, Tags, TimeReference, TimelineSurface, LiveTimeIndicator } from '../../internal'
+import { Timeline, Tags, TimeReference, TimelineSurface, LiveTimeIndicator, Modal } from '../../internal'
 import { styled } from '@storybook/theming'
 
 import { DateTimeFormatter, Duration, ZonedDateTime, LocalDate } from '@js-joda/core'
@@ -483,6 +483,9 @@ const Template: ComponentStory<typeof Timeline> = args => {
   const [currentActivities, set_currentActivities] = useState<AreasType>([])
   const [eventDateIntervals, set_eventDateIntervals] = useState<IntervalType[]>()
 
+  // state for modal interactions
+  const [isOpen, set_isOpen] = useState<boolean>(false)
+
   // state for managing LiveTimeReference component
   const [displayTimeReferenceLine, set_displayTimeReferenceLine] = useState<boolean>()
   const [currentTime, set_currentTime] = useState<string>(ZonedDateTime.now().format(DateTimeFormatter.ofPattern(`yyyy-MM-dd'T'HH:mmXXX`)).toString()) 
@@ -769,6 +772,16 @@ const Template: ComponentStory<typeof Timeline> = args => {
           </S.RightColumn>
         </S.Timeline>
       </S.Content>
+      {
+        isOpen
+          ? <Modal
+              isOpen={isOpen}
+            onClose={() => set_isOpen(false)}
+            title={''}
+            icon={''}
+            />
+          : <></>
+      }
     </S.Container>
   )
 }

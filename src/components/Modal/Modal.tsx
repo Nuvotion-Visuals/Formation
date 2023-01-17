@@ -6,8 +6,8 @@ import { ModalTaskbar } from './ModalTaskbar'
 
 interface Props {
   title: string,
-  icon: IconName,
-  iconPrefix: IconPrefix,
+  icon?: IconName,
+  iconPrefix?: IconPrefix,
   content: React.ReactNode,
   size: 'sm' | 'md' | 'lg' | 'tall' | 'xl',
   fullscreen?: boolean,

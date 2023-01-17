@@ -6,8 +6,8 @@ import { Icon, Spacer, Button } from '../../internal'
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 
 interface Props {
-  icon: IconName,
-  iconPrefix: IconPrefix,
+  icon?: IconName,
+  iconPrefix?: IconPrefix,
   title: string,
   onClose?: () => void,
   onBack?: () => void,
@@ -32,7 +32,12 @@ export const ModalTaskbar = ({
           />
       }
       <S_Center>
-        <Icon icon={icon} iconPrefix={iconPrefix}/>
+        {
+          icon !== undefined  
+            ? <Icon icon={icon} iconPrefix={iconPrefix} />
+            : <></>
+        }
+        
         <S_Text>{title}</S_Text>
       </S_Center>
       <Spacer />
