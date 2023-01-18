@@ -859,7 +859,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
               onClose={() => set_isOpen(false)}
               iconPrefix={'fas'}
               title={'Edit Activity'}
-              content={<ActivityForm activity={activityData != undefined ? activityData : null} areas={areaStrings} />}
+            content={<ActivityForm activity={activityData != undefined ? activityData : null} areas={areaStrings} />}
               size={'sm'}
               fullscreen
               onBack={undefined}

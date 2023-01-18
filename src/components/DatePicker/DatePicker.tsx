@@ -302,7 +302,6 @@ export const DatePicker = ({
     <S.DatePicker
       onClick={() => {
         set_preventFocus(isTouchCapable())
-        
       }}
     >
       <TextInput
