@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 
 import { ActivityType } from './Timeline.stories'
 
-import { Box, DateAndTimePicker, Select, TextInput } from '../../internal'
+import { Box, Button, DateAndTimePicker, Select, TextInput } from '../../internal'
 import { DateTimeFormatter, ZonedDateTime } from '@js-joda/core'
 import { Locale } from '@js-joda/locale_en-us'
 
@@ -41,7 +41,8 @@ export const ActivityForm = ({ activity, areas }: Props) => {
   }
 
   const [area, set_area] = useState<string>()
-  const [value, set_value] = useState([{
+  const [title, set_title] = useState<string | undefined>(activity !== undefined ? activity?.title : '')
+  const [dateTimeValue, set_dateTimeValue] = useState([{
     startTime: formatTimeString(activity?.startTime),
     endTime: formatTimeString(activity?.endTime),
     date: formatDateString(activity?.startTime)}
@@ -50,20 +51,31 @@ export const ActivityForm = ({ activity, areas }: Props) => {
   return (
     <S.Container>
         <Box mb={2}>
-          <TextInput value={activity !== null ? activity.title : ''} />
+          <TextInput 
+            value={title !== undefined ? title : ''} 
+            onChange={(newValue) => set_title(newValue)} 
+            label={'Title'} 
+          />
         </Box>
         <DateAndTimePicker
           iconPrefix='fas'
-        onChange={result => { set_value(result) }}
-          value={value}
+          onChange={result => { set_dateTimeValue(result)}}
+          value={dateTimeValue}
         />
         <Box mt={2}>
           <Select
             options={areas}
-            value={activity !== null ? activity.area : areas[0]}
-            onChange={() => null}
+            value={area !== undefined ? area : areas[0]}
+            onChange={newValue => set_area(newValue)}
           />
         </Box>
+        <S.ButtonContainer>
+          <Button 
+            text='Save'
+            primary={true}
+            expand={true}
+          />
+        </S.ButtonContainer>
     </S.Container>
   )
 }
@@ -72,5 +84,12 @@ const S = {
   Container: styled.div`
     height: 100%;
     width: 100%;
+    position: relative;
   `,
+  ButtonContainer: styled.div`
+    height: 8rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+  `
 }
