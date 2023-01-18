@@ -897,7 +897,7 @@ const S = {
   `,
   TagsContainer: styled.div`
     position: relative;
-    width: 100%;
+    width: calc(100% - 1rem);
     height: 2.25rem;
     padding: 0.5rem;
     z-index: 1000;
@@ -916,9 +916,6 @@ const S = {
     min-height: 100%;
     display: flex;
   `,
-  Overflow: styled.div`
-    max-height: 100%;
-`,
   DataView: styled.div`
   `,
   LeftColumn: styled.div`
@@ -927,7 +924,7 @@ const S = {
   `,
   RightColumn: styled.div`
     position: relative;
-    width: calc(100% - 3rem);
+    width: calc(100% - 2rem);
     height: 100%;
     display: flex;
     flex-direction: row;

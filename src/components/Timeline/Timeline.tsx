@@ -177,7 +177,7 @@ export const Timeline = ({ value, intervals, onChange,  onIntervalClick, onLaneI
   }
 
   return (
-    <S.Container >
+    <S.Container className='timeline container'>
       <S.Grid columnCount={columnCount} rowCount={intervals.length}>
           {
             renderItems !== undefined
