@@ -39,6 +39,7 @@ export type ActivityType = {
   startTime: string,
   endTime: string,
   id: string,
+  area: string,
   areaId: string,
   people: PersonType[],
   overflowLane: number
@@ -75,7 +76,9 @@ const Template: ComponentStory<typeof Timeline> = args => {
           startTime: `${todaysDateString}T18:00-06:00`,
           endTime: `${todaysDateString}T20:45-06:00`,
           id: '1',
+          area: 'West Stage',
           areaId: '9e8f1a5c-2b9a-4f8a-a2c2-7f7cb8c5af8d',
+          overflowLane: 1,
           people: [
             {
               name: "DJ Alpha",
@@ -92,7 +95,9 @@ const Template: ComponentStory<typeof Timeline> = args => {
           startTime: `${todaysDateString}T20:45-06:00`,
           endTime: `${todaysDateString}T23:00-06:00`,
           id: '2',
+          area: 'West Stage',
           areaId: '9e8f1a5c-2b9a-4f8a-a2c2-7f7cb8c5af8d',
+          overflowLane: 1,
           people: [
             {
               name: "DJ Beta",
@@ -109,7 +114,9 @@ const Template: ComponentStory<typeof Timeline> = args => {
           startTime: `${todaysDateString}T23:00-06:00`,
           endTime: `${tomorrowsDateString}T01:00-06:00`,
           id: '3',
+          area: 'West Stage',
           areaId: '9e8f1a5c-2b9a-4f8a-a2c2-7f7cb8c5af8d',
+          overflowLane: 1,
           people: [
             {
               name: "DJ Theta",
@@ -126,7 +133,9 @@ const Template: ComponentStory<typeof Timeline> = args => {
           startTime: `${tomorrowsDateString}T01:00-06:00`,
           endTime: `${tomorrowsDateString}T03:00-06:00`,
           id: '4',
+          area: 'West Stage',
           areaId: '9e8f1a5c-2b9a-4f8a-a2c2-7f7cb8c5af8d',
+          overflowLane: 1,
           people: [
             {
               name: "DJ Theta",
@@ -143,7 +152,9 @@ const Template: ComponentStory<typeof Timeline> = args => {
           startTime: `${tomorrowsDateString}T03:00-06:00`,
           endTime: `${tomorrowsDateString}T05:00-06:00`,
           id: '5',
+          area: 'West Stage',
           areaId: '9e8f1a5c-2b9a-4f8a-a2c2-7f7cb8c5af8d',
+          overflowLane: 1,
           people: [
             {
               name: "DJ Theta",
@@ -160,7 +171,9 @@ const Template: ComponentStory<typeof Timeline> = args => {
           startTime: `${tomorrowsDateString}T05:00-06:00`,
           endTime: `${tomorrowsDateString}T06:30-06:00`,
           id: '6',
+          area: 'West Stage',
           areaId: '9e8f1a5c-2b9a-4f8a-a2c2-7f7cb8c5af8d',
+          overflowLane: 1,
           people: [
             {
               name: "DJ Theta",
@@ -177,7 +190,9 @@ const Template: ComponentStory<typeof Timeline> = args => {
           startTime: `${tomorrowsDateString}T22:00-06:00`,
           endTime: `2023-01-06T01:30-06:00`,
           id: '7',
+          area: 'West Stage',
           areaId: '9e8f1a5c-2b9a-4f8a-a2c2-7f7cb8c5af8d',
+          overflowLane: 1,
           people: [
             {
               name: "DJ Theta",
@@ -206,7 +221,9 @@ const Template: ComponentStory<typeof Timeline> = args => {
           startTime: `${todaysDateString}T19:00-06:00`,
           endTime: `${todaysDateString}T21:00-06:00`,
           id: '66b47071-70b9-4aa7-9394-60788627962e',
+          area: 'East Stage',
           areaId: 'd45a7b9d-68ee-4f3b-a5d7-b1f48a4c5048',
+          overflowLane: 1,
           people: [
             {
               name: "DJ Alpha",
@@ -223,7 +240,9 @@ const Template: ComponentStory<typeof Timeline> = args => {
           startTime: `${todaysDateString}T21:00-06:00`,
           endTime: `${todaysDateString}T22:00-06:00`,
           id: '2627c6a3-6dfe-4c6b-a756-e672279dc4ea',
+          area: 'East Stage',
           areaId: 'd45a7b9d-68ee-4f3b-a5d7-b1f48a4c5048',
+          overflowLane: 1,
           people: [
             {
               name: "DJ Beta",
@@ -240,7 +259,9 @@ const Template: ComponentStory<typeof Timeline> = args => {
           startTime: `${todaysDateString}T22:00-06:00`,
           endTime: `${tomorrowsDateString}T00:00-06:00`,
           id: '2b6fd32b-ea24-4d17-a9f6-1fb8c79e5a76',
+          area: 'East Stage',
           areaId: 'd45a7b9d-68ee-4f3b-a5d7-b1f48a4c5048',
+          overflowLane: 1,
           people: [
             {
               name: "DJ Theta",
@@ -257,7 +278,9 @@ const Template: ComponentStory<typeof Timeline> = args => {
           startTime: `${tomorrowsDateString}T01:00-06:00`,
           endTime: `${tomorrowsDateString}T03:00-06:00`,
           id: '4d4b237b-10c0-4757-a205-bcb13eab0fd8',
+          area: 'East Stage',
           areaId: 'd45a7b9d-68ee-4f3b-a5d7-b1f48a4c5048',
+          overflowLane: 1,
           people: [
             {
               name: "DJ Theta",
@@ -274,7 +297,9 @@ const Template: ComponentStory<typeof Timeline> = args => {
           startTime: `${tomorrowsDateString}T03:00-06:00`,
           endTime: `${tomorrowsDateString}T04:00-06:00`,
           id: '9057e3a6-4382-4c3d-b5de-2dea2625b316',
+          area: 'East Stage',
           areaId: 'd45a7b9d-68ee-4f3b-a5d7-b1f48a4c5048',
+          overflowLane: 1,
           people: [
             {
               name: "DJ Theta",
@@ -303,7 +328,9 @@ const Template: ComponentStory<typeof Timeline> = args => {
           startTime: `${todaysDateString}T16:00-06:00`,
           endTime: `${todaysDateString}T18:00-06:00`,
           id: '20',
+          area: 'Front Doors',
           areaId: 'e4b4e9a1-f7e2-4b1c-b2a5-8a94e8b45c3a',
+          overflowLane: 1,
           people: [
             {
               name: "Larry",
@@ -329,7 +356,9 @@ const Template: ComponentStory<typeof Timeline> = args => {
           startTime: `${todaysDateString}T18:00-06:00`,
           endTime: `${tomorrowsDateString}T07:00-06:00`,
           id: '21',
+          area: 'Front Doors',
           areaId: 'e4b4e9a1-f7e2-4b1c-b2a5-8a94e8b45c3a',
+          overflowLane: 1,
           people: [
             {
               name: "Larry",
@@ -355,7 +384,9 @@ const Template: ComponentStory<typeof Timeline> = args => {
           startTime: `${todaysDateString}T18:00-06:00`,
           endTime: `${todaysDateString}T22:00-06:00`,
           id: '22',
+          area: 'Front Doors',
           areaId: 'e4b4e9a1-f7e2-4b1c-b2a5-8a94e8b45c3a',
+          overflowLane: 1,
           people: [
             {
               name: "Larry",
@@ -381,7 +412,9 @@ const Template: ComponentStory<typeof Timeline> = args => {
           startTime: `${todaysDateString}T22:00-06:00`,
           endTime: `${tomorrowsDateString}T05:00-06:00`,
           id: '23',
+          area: 'Front Doors',
           areaId: 'e4b4e9a1-f7e2-4b1c-b2a5-8a94e8b45c3a',
+          overflowLane: 1,
           people: [
             {
               name: "Larry",
@@ -407,7 +440,9 @@ const Template: ComponentStory<typeof Timeline> = args => {
           startTime: `${todaysDateString}T22:00-06:00`,
           endTime: `${tomorrowsDateString}T05:00-06:00`,
           id: '24',
+          area: 'Front Doors',
           areaId: 'e4b4e9a1-f7e2-4b1c-b2a5-8a94e8b45c3a',
+          overflowLane: 1,
           people: [
             {
               name: "Larry",
@@ -433,7 +468,9 @@ const Template: ComponentStory<typeof Timeline> = args => {
           startTime: `${todaysDateString}T22:00-06:00`,
           endTime: `${tomorrowsDateString}T05:00-06:00`,
           id: '25',
+          area: 'Front Doors',
           areaId: 'e4b4e9a1-f7e2-4b1c-b2a5-8a94e8b45c3a',
+          overflowLane: 1,
           people: [
             {
               name: "Larry",
@@ -458,7 +495,9 @@ const Template: ComponentStory<typeof Timeline> = args => {
           startTime: `${todaysDateString}T22:00-06:00`,
           endTime: `${tomorrowsDateString}T05:00-06:00`,
           id: '26',
+          area: 'Front Doors',
           areaId: 'e4b4e9a1-f7e2-4b1c-b2a5-8a94e8b45c3a',
+          overflowLane: 1,
           people: [
             {
               name: "Larry",
@@ -484,7 +523,9 @@ const Template: ComponentStory<typeof Timeline> = args => {
           startTime: `${tomorrowsDateString}T07:00-06:00`,
           endTime: `${tomorrowsDateString}T07:30-06:00`,
           id: '27',
+          area: 'Front Doors',
           areaId: 'e4b4e9a1-f7e2-4b1c-b2a5-8a94e8b45c3a',
+          overflowLane: 1,
           people: [
             {
               name: "Larry",
@@ -532,6 +573,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
       background: colors.buttonBackground
     }
   })
+
+  let areaStrings: string[] = value?.map((area) => area.area)
 
   const onLaneItemClick = (item: ActivityType) => {
     set_isOpen(true)
@@ -816,7 +859,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
               onClose={() => set_isOpen(false)}
               iconPrefix={'fas'}
               title={'Edit Activity'}
-              content={<ActivityForm activity={activityData != undefined ? activityData : null} />}
+              content={<ActivityForm activity={activityData != undefined ? activityData : null} areas={areaStrings} />}
               size={'sm'}
               fullscreen
               onBack={undefined}

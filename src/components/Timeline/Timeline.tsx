@@ -26,6 +26,7 @@ interface ItemTimeStampType {
   startTime: ZonedDateTime,
   endTime: ZonedDateTime,
   id: string,
+  area: string,
   areaId: string,
   overflowLane: number,
   isPlaced: boolean,
@@ -48,6 +49,7 @@ export const Timeline = ({ value, intervals, onChange,  onIntervalClick, onLaneI
       "startTime": startTime,
       "endTime": endTime,
       "id": item.id,
+      "area": item.area,
       "areaId": item.areaId,
       "overflowLane": 1,
       "isPlaced": false,
@@ -152,6 +154,7 @@ export const Timeline = ({ value, intervals, onChange,  onIntervalClick, onLaneI
         startTime: item.startTime.toString(),
         endTime: item.endTime.toString(),
         id: item.id,
+        area: item.area,
         areaId: item.areaId,
         people: item.people,
         overflowLane: item.overflowLane
