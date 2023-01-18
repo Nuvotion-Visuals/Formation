@@ -581,6 +581,28 @@ const Template: ComponentStory<typeof Timeline> = args => {
     set_activityData(item)
   }
 
+  const onChange = (newValue: ActivityType) => {
+    console.log('hey', newValue)
+    set_value(prevValue => {
+      const updatedAreas = prevValue.map(area => {
+          if (area.areaId === newValue.areaId) {
+              return {
+                  ...area,
+                  activities: area.activities.map(activity => {
+                      if (activity.id === newValue.id) {
+                          return newValue;
+                      }
+                      return activity;
+                  }),
+              };
+          }
+          return area;
+      });
+      return updatedAreas;
+    });
+    setTimeout(() => (set_isOpen(false)), 250)
+  }
+
   //  set currentActivities based on activeTabs 
   useEffect(() => {
     let activeIndexedData: AreaType[] = value.filter(area => activeTags.includes(area.area));
@@ -859,11 +881,14 @@ const Template: ComponentStory<typeof Timeline> = args => {
               onClose={() => set_isOpen(false)}
               iconPrefix={'fas'}
               title={'Edit Activity'}
-              content={<ActivityForm activity={activityData != undefined ? activityData : null} areas={areaStrings} />}
+              content={
+                <ActivityForm
+                  activity={activityData != undefined ? activityData : null} areas={areaStrings}
+                  onChange={(newValue) => onChange(newValue)}
+                />}
               size={'sm'}
               fullscreen
               onBack={undefined}
-
             />
           : <></>
       }
