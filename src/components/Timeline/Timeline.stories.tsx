@@ -592,8 +592,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
   }
 
   const onChange = (newValue: ActivityType) => {
-    let prevItemById = value.map((area) => area.activities.filter((activity) => activity.id === newValue.id))
-    let prevValue = prevItemById[0][0]
+    let prevValue = value.find(area => area.activities.find(activity => activity.id === newValue.id))
 
     if (prevValue == undefined) {
       console.log('this works, hurray!')
