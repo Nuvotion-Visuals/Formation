@@ -592,28 +592,58 @@ const Template: ComponentStory<typeof Timeline> = args => {
   }
 
   const onChange = (newValue: ActivityType) => {
+    let prevItemById = value.map((area) => area.activities.filter((activity) => activity.id === newValue.id))
+    let prevValue = prevItemById[0][0]
 
-    
-    set_value(prevValue => {
-      const updatedAreas = prevValue.map(area => {
-          if (area.areaId === newValue.areaId) {
-              return {
-                  ...area,
-                  activities: area.activities.map(activity => {
-                      if (activity.id === newValue.id) {
-                          return newValue;
-                      }
-                      return activity;
-                  }),
-              };
-          }
-          return area;
+    if (prevValue == undefined) {
+      console.log('this works, hurray!')
+    }
+
+    else if (prevValue.areaId === newValue.areaId) {
+      set_value(prevState => {
+        const updatedAreas: AreaType[] = prevState.map(area => {
+            if (area.areaId === newValue.areaId) {
+                return {
+                    ...area,
+                    activities: area.activities.map(activity => {
+                        if (activity.id === newValue.id) {
+                            return newValue;
+                        }
+                        return activity;
+                    }),
+                };
+            }
+            return area;
+        });
+        return updatedAreas;
       });
-      return updatedAreas;
-    });
+    }
+    
+    else {
+      set_value(prevState => {
+        const updatedAreas: AreaType[] = prevState.map(area => {
+            if (area.areaId === prevValue.areaId) {
+                return {
+                    ...area,
+                    activities: area.activities.filter(activity => activity.id !== newValue.id)
+                };
+            }
+            if (area.areaId === newValue.areaId) {
+                return {
+                    ...area,
+                    activities: [...area.activities, newValue]
+                };
+            }
+            return area;
+        });
+        return updatedAreas;
+      });
+    }
 
     setTimeout(() => (set_isOpen(false)), 250)
   }
+
+  useEffect(() => console.log(value, 'VALUEVALUE'))
 
   //  set currentActivities based on activeTabs 
   useEffect(() => {

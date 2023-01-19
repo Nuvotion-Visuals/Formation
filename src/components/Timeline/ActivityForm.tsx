@@ -83,7 +83,7 @@ export const ActivityForm = ({ activity, areas, onChange }: Props) => {
   const selectionList = areas.map((area) => area.area)
 
   const [area, set_area] = useState<string | undefined>(activity == undefined ? areas[0].area : activity.area)
-
+  const [areaId, set_areaId] = useState<string | undefined>(activity == undefined ? areas[0].areaId : activity.areaId)
 
   const [title, set_title] = useState<string | undefined>(activity !== undefined ? activity?.title : '')
   const [dateTimeValue, set_dateTimeValue] = useState([{
@@ -92,12 +92,18 @@ export const ActivityForm = ({ activity, areas, onChange }: Props) => {
     date: formatDateString(activity?.startTime)}
   ])
 
+  useEffect(() => {
+    let idMatch = areas.filter(item => item.area === area)
+    set_areaId(idMatch[0].areaId)
+    console.log(idMatch[0].areaId, 'idMatch')
+  }, [area])
+
   const onClick = (e: React.MouseEvent) => {
     e.preventDefault()
 
     let startTime = combineSplitDateTimeString(dateTimeValue[0].startTime, dateTimeValue[0].date)
     let endTime = combineSplitDateTimeString(dateTimeValue[0].endTime, dateTimeValue[0].date)
-    console.log(startTime, 'startTime')
+    
 
     let newValue: ActivityType = {
       title: title !== undefined ? title : '',
@@ -105,10 +111,12 @@ export const ActivityForm = ({ activity, areas, onChange }: Props) => {
       endTime: endTime,
       id: activity?.id !== undefined ? activity?.id : '',
       area: area !== undefined ? area : '',
-      areaId: activity?.areaId !== undefined ? activity.areaId : '',
+      areaId: areaId !== undefined ? areaId : '',
       people: activity?.people !== undefined ? activity.people : [],
       overflowLane: 1
     }
+
+    console.log(newValue, 'newValue')
 
     onChange(newValue)
   }
