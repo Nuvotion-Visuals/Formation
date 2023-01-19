@@ -50,6 +50,11 @@ export type PersonType = {
   position: string,
 }
 
+export type areaIdType = {
+  area: string,
+  areaId: string
+}
+
 type AreasType = AreaType[]
 type ActivitiesType = ActivityType[]
 
@@ -574,7 +579,12 @@ const Template: ComponentStory<typeof Timeline> = args => {
     }
   })
 
-  let areaStrings: string[] = value?.map((area) => area.area)
+  let areaStrings: areaIdType[] = value?.map((area) => {
+    return {
+      area: area.area,
+      areaId: area.areaId
+   }
+  })
 
   const onLaneItemClick = (item: ActivityType) => {
     set_isOpen(true)
@@ -582,7 +592,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
   }
 
   const onChange = (newValue: ActivityType) => {
-    console.log('hey', newValue)
+
+    
     set_value(prevValue => {
       const updatedAreas = prevValue.map(area => {
           if (area.areaId === newValue.areaId) {
@@ -600,6 +611,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
       });
       return updatedAreas;
     });
+
     setTimeout(() => (set_isOpen(false)), 250)
   }
 

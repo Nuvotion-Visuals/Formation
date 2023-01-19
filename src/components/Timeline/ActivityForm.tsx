@@ -1,7 +1,7 @@
 import styled from 'styled-components'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
-import { ActivityType } from './Timeline.stories'
+import { ActivityType, areaIdType } from './Timeline.stories'
 
 import { Box, Button, DateAndTimePicker, Select, TextInput } from '../../internal'
 import { DateTimeFormatter, LocalDate, LocalDateTime, LocalTime, ZonedDateTime, ZoneId } from '@js-joda/core'
@@ -9,7 +9,7 @@ import { Locale } from '@js-joda/locale_en-us'
 
 interface Props {
   activity: ActivityType | null,
-  areas: string[],
+  areas: areaIdType[],
   onChange: (newValue: ActivityType) => void,
 }
 
@@ -80,15 +80,17 @@ export const ActivityForm = ({ activity, areas, onChange }: Props) => {
     return `${dateString}T${newTimeString}${newTimeZone}`
   }
 
-  const [area, set_area] = useState<string | undefined>(activity !== undefined ? activity?.area : areas[0])
+  const selectionList = areas.map((area) => area.area)
+
+  const [area, set_area] = useState<string | undefined>(activity == undefined ? areas[0].area : activity.area)
+
+
   const [title, set_title] = useState<string | undefined>(activity !== undefined ? activity?.title : '')
   const [dateTimeValue, set_dateTimeValue] = useState([{
     startTime: formatTimeString(activity?.startTime),
     endTime: formatTimeString(activity?.endTime),
     date: formatDateString(activity?.startTime)}
   ])
-
-  
 
   const onClick = (e: React.MouseEvent) => {
     e.preventDefault()
@@ -127,8 +129,8 @@ export const ActivityForm = ({ activity, areas, onChange }: Props) => {
         />
         <Box mt={2} mb={4}>
           <Select
-            options={areas}
-            value={area !== undefined ? area : areas[0]}
+            options={selectionList}
+            value={area !== undefined ? area : areas[0].area}
             onChange={newValue => set_area(newValue)}
           />
       </Box>

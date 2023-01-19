@@ -53,7 +53,7 @@ export const TimeReference = ({ intervals }: Props) => {
 const S = {
   Container: styled.div<{}>`
     position: relative;
-    width: 100%;
+    width: 3rem;
     min-height: 100%;
     z-index: 400;
     background: var(--F_Background_Alternating);
