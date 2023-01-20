@@ -3,8 +3,10 @@ import React, { useEffect, useState } from 'react'
 
 import { ActivityType, areaIdType } from './Timeline.stories'
 
-import { Box, Button, DateAndTimePicker, Gap, Select, Spacer, TextInput } from '../../internal'
-import { DateTimeFormatter, LocalDate, LocalDateTime, LocalTime, ZonedDateTime, ZoneId } from '@js-joda/core'
+import { Box, Button, DateAndTimePicker, Select, TextInput } from '../../internal'
+import { TimeZone } from '../../internal'
+
+import { DateTimeFormatter, LocalDate, ZonedDateTime, ZoneId } from '@js-joda/core'
 import { Locale } from '@js-joda/locale_en-us'
 
 interface Props {
@@ -119,7 +121,7 @@ export const ActivityForm = ({ activity, areas, onChange }: Props) => {
   const onClick = (e: React.MouseEvent) => {
     e.preventDefault()
 
-    if(e.target.name !== 'remove'){
+    if(e.target instanceof HTMLButtonElement && e.target.name !== 'remove'){
       let startTime = combineSplitDateTimeString(dateTimeValue[0].startTime, dateTimeValue[0].date)
       let endTime = combineSplitDateTimeString(dateTimeValue[0].endTime, dateTimeValue[0].date)
       
@@ -136,7 +138,7 @@ export const ActivityForm = ({ activity, areas, onChange }: Props) => {
       }
 
       onChange(newValue)
-    } else if (e.target.name === 'remove'){
+    } else if (e.target instanceof HTMLButtonElement && e.target.name == 'remove'){
 
       let newValue: ActivityType = {
         title: '%%REMOVE%%',
@@ -168,12 +170,14 @@ export const ActivityForm = ({ activity, areas, onChange }: Props) => {
           iconPrefix='fas'
           onChange={result => {set_dateTimeValue(result)}}
           value={dateTimeValue}
+          isMultiDay={false}
         />
         <Box mt={2} mb={4}>
           <Select
             options={selectionList}
             value={area !== undefined ? area : areas[0].area}
             onChange={newValue => set_area(newValue)}
+            iconPrefix='fas'
           />
       </Box>
       <Box mb={.5}>
@@ -199,7 +203,7 @@ export const ActivityForm = ({ activity, areas, onChange }: Props) => {
 }
 
 const S = {
-  Container: styled.form`
+  Container: styled.div`
     height: calc(100% - 4rem);
     width: 100%;
     position: relative;

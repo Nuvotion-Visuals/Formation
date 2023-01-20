@@ -972,11 +972,12 @@ const Template: ComponentStory<typeof Timeline> = args => {
               title={'Edit Activity'}
               content={
                 <ActivityForm
-                  activity={activityData != undefined ? activityData : null} areas={areaStrings}
+                  activity={activityData != undefined ? activityData : null}
+                  areas={areaStrings}
                   onChange={(newValue) => onChange(newValue)}
                 />}
               size={'sm'}
-              fullscreen
+              fullscreen={true}
               onBack={undefined}
             />
           : <></>
@@ -1041,6 +1042,7 @@ const S = {
     position: fixed;
     bottom: 2rem;
     right: 2rem;
+    z-index: 700;
   `,
   Button: styled.div`
     width: 3rem;
@@ -1048,11 +1050,12 @@ const S = {
     border-radius: 50%;
     background: var(--F_Primary);
     color: var(--F_Background);
+    font-size: 1.5rem;
     display: flex;
     justify-content: center;
     align-items: center;
   `,
   Text: styled.div`
-    
+    height: 1.6rem;
   `
 }

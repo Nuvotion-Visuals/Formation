@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
 import { Button, TimeZone } from '../../internal'
@@ -32,13 +32,15 @@ export type DatesAndTimes = DateAndTime[]
 interface Props {
   onChange: (arg0: DatesAndTimes) => void,
   value: DatesAndTimes,
-  iconPrefix?: IconPrefix
+  iconPrefix?: IconPrefix,
+  isMultiDay?: boolean
 }
 
 export const DateAndTimePicker = ({ 
   value,
   onChange,
-  iconPrefix
+  iconPrefix,
+  isMultiDay
 }: Props) => {
 
   
@@ -90,6 +92,8 @@ export const DateAndTimePicker = ({
       )
     )
   }
+
+  useEffect(() => console.log(isMultiDay, 'isMultiDay'), [])
 
   
 
@@ -174,9 +178,16 @@ export const DateAndTimePicker = ({
       
 
       <Box pt={.5} width='100%'>
-        <S.TextButton onClick={addDate}>
-          {`Add a ${getOrdinal(value?.length + 1)} day`}
-        </S.TextButton>
+        {
+          isMultiDay == undefined
+            ?   <></>
+            : isMultiDay 
+              ?   <S.TextButton onClick={addDate}>
+                    {`Add a ${getOrdinal(value?.length + 1)} day`}
+                  </S.TextButton>
+              : <></>
+        }
+        
         <Spacer />
         
         <Box hide={editTimeZone}>

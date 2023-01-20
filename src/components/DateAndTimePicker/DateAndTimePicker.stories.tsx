@@ -31,5 +31,11 @@ const Template: ComponentStory<typeof DateAndTimePicker> = args => {
     
 export const Default = Template.bind({})
 Default.args = {
-  iconPrefix: 'fas'
+  iconPrefix: 'fas',
+}
+
+export const MultiDay = Template.bind({})
+MultiDay.args = {
+  iconPrefix: 'fas',
+  isMultiDay: true
 }
