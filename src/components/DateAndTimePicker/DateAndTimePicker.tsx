@@ -23,7 +23,8 @@ const addMinutes = (time: string, minutes: number) : string => {
 interface DateAndTime {
   date: string,
   startTime: string,
-  endTime: string
+  endTime: string,
+  timeZone?: string
 }
 
 export type DatesAndTimes = DateAndTime[]
@@ -39,6 +40,8 @@ export const DateAndTimePicker = ({
   onChange,
   iconPrefix
 }: Props) => {
+
+  
   const addDate = () => {
     const lastState = value
     const length = lastState.length
@@ -59,7 +62,8 @@ export const DateAndTimePicker = ({
       {
         date: date ? ndate.toDateString() : '',
         startTime,
-        endTime
+        endTime,
+        timeZone
       }
     ])
   }

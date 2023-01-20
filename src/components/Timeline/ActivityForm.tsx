@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 
 import { ActivityType, areaIdType } from './Timeline.stories'
 
-import { Box, Button, DateAndTimePicker, Select, TextInput } from '../../internal'
+import { Box, Button, DateAndTimePicker, Gap, Select, Spacer, TextInput } from '../../internal'
 import { DateTimeFormatter, LocalDate, LocalDateTime, LocalTime, ZonedDateTime, ZoneId } from '@js-joda/core'
 import { Locale } from '@js-joda/locale_en-us'
 
@@ -17,7 +17,7 @@ export const ActivityForm = ({ activity, areas, onChange }: Props) => {
 
   const formatTimeZoneString = (time: string | undefined) => {
     if(activity == undefined){
-      return
+      return '-06:00'
     }
     if (time == undefined){
       const zoneId = ZoneId.of(ZoneId.systemDefault().id());
@@ -80,6 +80,22 @@ export const ActivityForm = ({ activity, areas, onChange }: Props) => {
     return `${dateString}T${newTimeString}${newTimeZone}`
   }
 
+  const generateUUID = () => { // Public Domain/MIT
+    var d = new Date().getTime();//Timestamp
+    var d2 = ((typeof performance !== 'undefined') && performance.now && (performance.now()*1000)) || 0;//Time in microseconds since page-load or 0 if unsupported
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = Math.random() * 16;//random number between 0 and 16
+        if(d > 0){//Use timestamp until depleted
+            r = (d + r)%16 | 0;
+            d = Math.floor(d/16);
+        } else {//Use microseconds since page-load if supported
+            r = (d2 + r)%16 | 0;
+            d2 = Math.floor(d2/16);
+        }
+        return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+    });
+}
+
   const selectionList = areas.map((area) => area.area)
 
   const [area, set_area] = useState<string | undefined>(activity == undefined ? areas[0].area : activity.area)
@@ -87,9 +103,11 @@ export const ActivityForm = ({ activity, areas, onChange }: Props) => {
 
   const [title, set_title] = useState<string | undefined>(activity !== undefined ? activity?.title : '')
   const [dateTimeValue, set_dateTimeValue] = useState([{
-    startTime: formatTimeString(activity?.startTime),
-    endTime: formatTimeString(activity?.endTime),
-    date: formatDateString(activity?.startTime)}
+      startTime: formatTimeString(activity?.startTime),
+      endTime: formatTimeString(activity?.endTime),
+      date: formatDateString(activity?.startTime),
+      timeZone: formatTimeZoneString(activity?.startTime)
+    }
   ])
 
   useEffect(() => {
@@ -101,24 +119,40 @@ export const ActivityForm = ({ activity, areas, onChange }: Props) => {
   const onClick = (e: React.MouseEvent) => {
     e.preventDefault()
 
-    let startTime = combineSplitDateTimeString(dateTimeValue[0].startTime, dateTimeValue[0].date)
-    let endTime = combineSplitDateTimeString(dateTimeValue[0].endTime, dateTimeValue[0].date)
-    
+    if(e.target.name !== 'remove'){
+      let startTime = combineSplitDateTimeString(dateTimeValue[0].startTime, dateTimeValue[0].date)
+      let endTime = combineSplitDateTimeString(dateTimeValue[0].endTime, dateTimeValue[0].date)
+      
 
-    let newValue: ActivityType = {
-      title: title !== undefined ? title : '',
-      startTime: startTime,
-      endTime: endTime,
-      id: activity?.id !== undefined ? activity?.id : '',
-      area: area !== undefined ? area : '',
-      areaId: areaId !== undefined ? areaId : '',
-      people: activity?.people !== undefined ? activity.people : [],
-      overflowLane: 1
+      let newValue: ActivityType = {
+        title: title !== undefined ? title : '',
+        startTime: startTime,
+        endTime: endTime,
+        id: activity?.id !== undefined ? activity?.id : generateUUID(),
+        area: area !== undefined ? area : '',
+        areaId: areaId !== undefined ? areaId : '',
+        people: activity?.people !== undefined ? activity.people : [],
+        overflowLane: 1
+      }
+
+      onChange(newValue)
+    } else if (e.target.name === 'remove'){
+
+      let newValue: ActivityType = {
+        title: '%%REMOVE%%',
+        startTime: '',
+        endTime: '',
+        id: activity?.id ? activity?.id : '',
+        area: '',
+        areaId: activity?.areaId ? activity?.areaId : '',
+        people: [],
+        overflowLane: 1
+      }
+
+      onChange(newValue)
     }
 
-    console.log(newValue, 'newValue')
 
-    onChange(newValue)
   }
   
   return (
@@ -132,7 +166,7 @@ export const ActivityForm = ({ activity, areas, onChange }: Props) => {
         </Box>
         <DateAndTimePicker
           iconPrefix='fas'
-          onChange={result => { set_dateTimeValue(result)}}
+          onChange={result => {set_dateTimeValue(result)}}
           value={dateTimeValue}
         />
         <Box mt={2} mb={4}>
@@ -142,12 +176,24 @@ export const ActivityForm = ({ activity, areas, onChange }: Props) => {
             onChange={newValue => set_area(newValue)}
           />
       </Box>
-      <Button
-        text='Save'
-        primary={true}
-        expand={true}
-        onClick={(e: React.MouseEvent) => onClick(e)}
-      />
+      <Box mb={.5}>
+        <Button
+          text='Save'
+          primary={true}
+          expand={true}
+          onClick={(e: React.MouseEvent) => onClick(e)}
+        />
+      </Box>
+      <Box>
+        <Button
+          text='Remove'
+          name={'remove'}
+          primary={false}
+          expand={true}
+          secondary
+          onClick={(e: React.MouseEvent) => onClick(e)}
+        />
+      </Box>
     </S.Container>
   )
 }
@@ -157,5 +203,5 @@ const S = {
     height: calc(100% - 4rem);
     width: 100%;
     position: relative;
-  `,
+  `
 }

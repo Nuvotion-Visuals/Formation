@@ -83,7 +83,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
           id: '1',
           area: 'West Stage',
           areaId: '9e8f1a5c-2b9a-4f8a-a2c2-7f7cb8c5af8d',
-          overflowLane: 1,
+          overflowLane: 1, 
           people: [
             {
               name: "DJ Alpha",
@@ -561,7 +561,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
   const [eventDateIntervals, set_eventDateIntervals] = useState<IntervalType[]>()
 
   // state for modal interactions
-  const [isOpen, set_isOpen] = useState<boolean>(true)
+  const [isOpen, set_isOpen] = useState<boolean>(false)
   const [activityData, set_activityData] = useState<ActivityType | null>()
 
   // state for managing LiveTimeReference component
@@ -569,6 +569,10 @@ const Template: ComponentStory<typeof Timeline> = args => {
   const [currentTime, set_currentTime] = useState<string>(ZonedDateTime.now().format(DateTimeFormatter.ofPattern(`yyyy-MM-dd'T'HH:mmXXX`)).toString()) 
   const [endTime, set_endTime] = useState<ZonedDateTime>()
   const [timeReferencePosition, set_timeReferencePosition] = useState('')
+
+
+
+  const [isRefreshed, set_isRefreshed] = useState(true)
 
   
   let tags: ButtonProps[] = value?.map(({ area, colors }) => {
@@ -592,10 +596,39 @@ const Template: ComponentStory<typeof Timeline> = args => {
   }
 
   const onChange = (newValue: ActivityType) => {
+
     let prevValue = value.find(area => area.activities.find(activity => activity.id === newValue.id))
 
-    if (prevValue == undefined) {
-      console.log('this works, hurray!')
+    if (newValue.title === '%%REMOVE%%') {
+      set_value(prevState => {
+
+        const updatedAreas: AreaType[] = prevState.map(area => {
+          if (newValue.areaId === area.areaId) {
+            return {
+              ...area, 
+              activities: area.activities.filter(activity => activity.id !== newValue.id)
+            }
+          } else {
+            return area
+          }
+        })
+        return updatedAreas
+      })
+
+    } else if (prevValue == undefined) {
+
+      set_value(prevState => {
+        const updatedAreas: AreaType[] = prevState.map(area => {
+          if (area.areaId === newValue.areaId) {
+            area.activities.push(newValue)
+            return area
+          }
+          return area
+        })
+
+        return updatedAreas
+      })
+      
     }
 
     else if (prevValue.areaId === newValue.areaId) {
@@ -618,7 +651,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
       });
     }
     
-    else {
+    else if (prevValue !== undefined){
       set_value(prevState => {
         const updatedAreas: AreaType[] = prevState.map(area => {
             if (area.areaId === prevValue.areaId) {
@@ -638,17 +671,23 @@ const Template: ComponentStory<typeof Timeline> = args => {
         return updatedAreas;
       });
     }
+    set_isRefreshed(false)
 
     setTimeout(() => (set_isOpen(false)), 250)
   }
-
-  useEffect(() => console.log(value, 'VALUEVALUE'))
 
   //  set currentActivities based on activeTabs 
   useEffect(() => {
     let activeIndexedData: AreaType[] = value.filter(area => activeTags.includes(area.area));
     set_currentActivities(activeIndexedData);
-  }, [activeTags, value])
+  }, [activeTags])
+
+  // if value changes, refresh current activities
+  useEffect(() => {
+    let activeIndexedData: AreaType[] = value.filter(area => activeTags.includes(area.area));
+    set_currentActivities(activeIndexedData);
+    set_isRefreshed(true)
+  }, [value])
 
   // create intervals array from value
   useEffect(() => {
@@ -893,7 +932,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
           </S.LeftColumn>
           <S.RightColumn>
             {
-              eventDateIntervals !== undefined
+              eventDateIntervals !== undefined && isRefreshed == true
                 ? currentActivities?.map((item, index) => {
                     return (
                       <Timeline
@@ -913,6 +952,15 @@ const Template: ComponentStory<typeof Timeline> = args => {
             }
             
           </S.RightColumn>
+
+          <S.FixedContainer>
+            <S.Button onClick={() => set_isOpen(true)}>
+              <S.Text>
+                +
+              </S.Text>
+            </S.Button>
+          </S.FixedContainer>
+
         </S.Timeline>
       </S.Content>
       {
@@ -988,5 +1036,23 @@ const S = {
     display: flex;
     flex-direction: row;
     overflow-x: auto;
+  `,
+  FixedContainer: styled.div`
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+  `,
+  Button: styled.div`
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background: var(--F_Primary);
+    color: var(--F_Background);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  `,
+  Text: styled.div`
+    
   `
 }
