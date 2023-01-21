@@ -8,7 +8,8 @@ It’s easy to picture how a less saturated version of a color would look like, 
   --F_Primary_Hover: hsl(165, 87%, 35%);
   --F_Primary_Variant: hsl(165, 87%, 33%); /* More saturated, vibrant variant */
 
-  --F_Background: hsl(0, 0%, 100%);
+  --F_Background: hsla(0, 0%, 100%, 1.0);
+  --F_Background_Light: hsla(0, 0%, 100%, .4);
   --F_Background_Alternating: hsl(0, 0%, 96%);
 
   --F_Emphasize: hsl(39, 100%, 94%);
@@ -27,29 +28,17 @@ It’s easy to picture how a less saturated version of a color would look like, 
   --F_Font_Color_Warning: hsl(25, 100%, 55%);
   --F_Font_Color_Link: hsl(201, 66%, 29%);
 
-  --F_Label_Background_Red: #b71c1c;
-  --F_Label_Outline_Red: #8e0000;
-  --F_Label_Background_Pink: #880e4f;
-  --F_Label_Outline_Pink: #560027;
-  --F_Label_Background_Purple: #4a148c;
-  --F_Label_Outline_Purple: #38006b;
-  --F_Label_Background_Dark_Purple: #311b92;
-  --F_Label_Outline_Dark_Purple: #000063;
-  --F_Label_Background_Indigo: #1a237e;
-  --F_Label_Outline_Indigo: #000051;
+  --F_Label_Background_Red: #b40505;
+  --F_Label_Background_Orange: #ff8c00;
+  --F_Label_Background_Yellow: #927c01;
+  --F_Label_Background_Green: #0B6623;
   --F_Label_Background_Blue: #0d47a1;
-  --F_Label_Light_Background_Blue: #0d48a165;
-  --F_Label_Outline_Blue: #002171;
-  --F_Label_Background_Light_Blue: #01579b;
-  --F_Label_Outline_Light_Blue: #002f6c;
+  --F_Label_Background_Indigo: #8000DE;
+  --F_Label_Background_Violet: #4a148c;
+  --F_Label_Background_Pink: #880e4f;
   --F_Label_Background_Cyan: #006064;
-  --F_Label_Outline_Cyan: #00363a;
   --F_Label_Background_Teal: #004d40;
-  --F_Label_Outline_Teal: #00251a;
-  --F_Label_Background_Orange: #bf360c;
-  --F_Label_Outline_Orange: #870000;
   --F_Label_Background_Gray: #424242;
-  --F_Label_Outline_Gray: #1b1b1b;
 
   --F_Timeline_Item_Background_Red: #c64f4f90;
   --F_Timeline_Item_Text_Red: #730303;
@@ -67,7 +56,7 @@ It’s easy to picture how a less saturated version of a color would look like, 
   --F_Progress_Green: #51c91e;
   --F_Progress_Complete: #00ff13;
 
-  --F_Gradient_To_Background: linear-gradient(to bottom, rgba(255,255,255,.4), var(--F_Background)); 
+  --F_Gradient_To_Background: linear-gradient(to bottom, var(--F_Background_Light), var(--F_Background)); 
 }
 
 .F_Empty {
@@ -1702,4 +1691,60 @@ button {
   min-height: var(--F_Input_Height_Hero);
   color: var(--F_Font_Color);
   height: calc(100% - var(--F_Input_Height));
+}
+
+[data-theme="dark"] {
+  --F_Primary: hsl(4, 83%, 26%);
+  --F_Primary_Hover: hsl(4, 83%, 32%);
+  --F_Primary_Variant: hsl(4, 100%, 38%); /* More saturated, vibrant variant */
+
+  --F_Background: hsla(0, 0%, 7%);
+  --F_Background_Light: hsla(0, 0%, 7%, .4);
+  --F_Background_Alternating: hsl(0, 0%, 5%);
+  
+  --F_Emphasize: hsl(40, 100%, 13%);
+  --F_Emphasize_Hover: hsl(40, 100%, 18%);
+  
+  --F_Surface_0: hsl(0, 0%, 12%);
+  --F_Surface: hsl(0, 0%, 16%);
+  --F_Surface_1: hsl(0, 0%, 25%); /* hover */
+  --F_Surface_2: hsl(0, 0%, 34%); /* active */
+
+  --F_Font_Color: hsl(0, 0%, 93%);
+  --F_Font_Color_Disabled: hsl(0, 0%, 50%);
+  --F_Font_Color_Label: hsl(0, 0%, 73%);
+  --F_Font_Color_Error: hsl(0, 100%, 48%);
+  --F_Font_Color_Success: hsl(120, 100%, 25%);
+  --F_Font_Color_Warning: hsl(25, 100%, 40%);
+  --F_Font_Color_Link: hsl(201, 100%, 80%);
+
+  --F_Label_Background_Red: #b40505;
+  --F_Label_Background_Orange: #ff8c00;
+  --F_Label_Background_Yellow: #927c01;
+  --F_Label_Background_Green: #0B6623;
+  --F_Label_Background_Blue: #0d47a1;
+  --F_Label_Background_Indigo: #8000DE;
+  --F_Label_Background_Violet: #4a148c;
+  --F_Label_Background_Pink: #880e4f;
+  --F_Label_Background_Cyan: #006064;
+  --F_Label_Background_Teal: #004d40;
+  --F_Label_Background_Gray: #424242;
+
+  --F_Timeline_Item_Background_Red: #c64f4f90;
+  --F_Timeline_Item_Text_Red: #730303;
+  --F_Timeline_Item_Background_Blue: #4f5dc690;
+  --F_Timeline_Item_Text_Blue: #083877;
+  --F_Timeline_Item_Background_Yellow: #c6b24f90;
+  --F_Timeline_Item_Text_Yellow: #705c02;
+
+  --F_Backdrop: rgb(0, 0, 0, .4);
+  --F_Activity_Backdrop: #f9f9f9;
+
+  --F_Progress_Red: #af2222;
+  --F_Progress_Orange: #b59b1c;
+  --F_Progress_Yellow: #b6b617;
+  --F_Progress_Green: #51c91e;
+  --F_Progress_Complete: #00ff13;
+
+  --F_Gradient_To_Background: linear-gradient(to bottom, var(--F_Background_Light), var(--F_Background)); 
 }

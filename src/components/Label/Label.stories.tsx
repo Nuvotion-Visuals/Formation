@@ -16,15 +16,39 @@ Red.args = {
   label: 'denied'
 }
 
+export const Orange = Template.bind({})
+Orange.args = {
+  color: 'orange',
+  label: 'pending'
+}
+
+export const Yellow = Template.bind({})
+Yellow.args = {
+  color: 'yellow',
+  label: 'caution'
+}
+
 export const Green = Template.bind({})
 Green.args = {
   color: 'green',
   label: 'accepted'
 }
 
-export const Gray = Template.bind({})
-Gray.args = {
-  color: 'gray',
-  label: 'undefined'
+export const Blue = Template.bind({})
+Blue.args = {
+  color: 'blue',
+  label: 'absent'
+}
+
+export const Indigo = Template.bind({})
+Indigo.args = {
+  color: 'indigo',
+  label: 'VIP'
+}
+
+export const Violet = Template.bind({})
+Violet.args = {
+  color: 'violet',
+  label: 'interested'
 }
 

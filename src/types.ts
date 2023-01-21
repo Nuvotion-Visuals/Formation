@@ -1,8 +1,18 @@
 export type ColorType = 
-  'red' | 'pink' | 'purple' | 'darkpurple' | 'indigo' | 'blue' | 'lightblue' | 'cyan' | 'teal' | 'orange'| 'gray'
+  'red' | 
+  'orange'| 
+  'yellow' |
+  'green' |
+  'blue' | 
+  'indigo' | 
+  'violet' |
+  'pink' | 
+  'cyan' | 
+  'teal' | 
+  'gray'
 
 export type LabelType = {
   name: string,
   description: string,
-  color: string
+  color: ColorType
 }

@@ -21,7 +21,18 @@ const Template: ComponentStory<typeof LabelColorPicker> = args => {
 export const Default = Template.bind({})
 Default.args = {
   options: [
-    'pink',  'red', 'orange', 'purple', 'darkpurple', 'indigo', 'blue', 'lightblue', 'cyan', 'teal',
+    'red',
+    'orange',
+    'yellow',
+    'green',
+    'blue',
+    'indigo',
+    'violet',
+    'pink',
+    'purple',
+    'cyan',
+    'teal',
+    'gray'
   ],
   label: 'Label color'
 }

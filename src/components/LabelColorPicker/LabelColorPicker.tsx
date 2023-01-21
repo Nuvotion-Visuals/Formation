@@ -5,7 +5,7 @@ import { useOnClickOutside } from '../../internal'
 import { useScrollTo } from '../../internal'
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 
-import { TextInput, getLabelOutlineColor, getLabelColor } from '../../internal'
+import { TextInput, getLabelColor } from '../../internal'
 import { ColorType } from '../../types'
 
 import { LabelColor } from './LabelColor'
@@ -54,7 +54,7 @@ const Dropdown = ({
 interface Props {
   value: string,
   label?: string,
-  onChange: (arg0: string) => void,
+  onChange: (arg0: ColorType) => void,
   error?: string,
   options: ColorType[],
   icon?: IconName,
@@ -92,7 +92,7 @@ export const LabelColorPicker = ({
         icon={icon}
         iconPrefix={iconPrefix}
         value={value}
-        onChange={value => onChange(value)}
+        onChange={value => onChange(value as ColorType)}
         error={error}
         preventFocus={preventFocus}
         onBlur={() => set_preventFocus(isTouchCapable())}
@@ -102,7 +102,7 @@ export const LabelColorPicker = ({
       {
         isOpen
           ? <Dropdown
-              onChange={newValue => onChange(newValue)}
+              onChange={newValue => onChange(newValue as ColorType)}
               value={value}
               onClose={() => set_isOpen(false)}
               options={options}
@@ -138,7 +138,7 @@ const S = {
     background: var(--F_Background);
     border-radius: .5rem;
     box-shadow: var(--F_Outline_Hover);
-    top: calc(var(--F_Input_Height) - .325rem);
+    top: calc(var(--F_Input_Height) + .75rem);
     width: calc(100% - 2.5rem);
     min-width: 8rem;
     max-height: 300px;

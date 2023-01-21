@@ -45,53 +45,26 @@ export const getLabelColor = (color: ColorType): string => {
   switch(color) {
     case 'red':
       return 'var(--F_Label_Background_Red)'
-    case 'pink':
-      return 'var(--F_Label_Background_Pink)'
-    case 'purple':
-      return 'var(--F_Label_Background_Purple)'
-    case 'darkpurple':
-      return 'var(--F_Label_Background_Dark_Purple)'
-    case 'indigo':
-      return 'var(--F_Label_Background_Indigo)'
+      case 'orange':
+        return 'var(--F_Label_Background_Orange)'
+    case 'yellow':
+      return 'var(--F_Label_Background_Yellow)'
+    case 'green':
+      return 'var(--F_Label_Background_Green)'
     case 'blue':
       return 'var(--F_Label_Background_Blue)'
-    case 'lightblue':
-      return 'var(--F_Label_Background_Light_Blue)'
+    case 'indigo':
+      return 'var(--F_Label_Background_Indigo)'
+    case 'violet':
+      return 'var(--F_Label_Background_Violet)'
+    case 'pink':
+      return 'var(--F_Label_Background_Pink)'
     case 'cyan':
       return 'var(--F_Label_Background_Cyan)'
     case 'teal':
       return 'var(--F_Label_Background_Teal)'
-    case 'orange':
-      return 'var(--F_Label_Background_Orange)'
     case 'gray':
-      return '--F_Label_Background_Gray'
-  }
-}
-
-export const getLabelOutlineColor = (color: ColorType): string => {
-  switch(color) {
-    case 'red':
-      return 'var(--F_Label_Outline_Red)'
-    case 'pink':
-      return 'var(--F_Label_Outline_Pink)'
-    case 'purple':
-      return 'var(--F_Label_Outline_Purple)'
-    case 'darkpurple':
-      return 'var(--F_Label_Outline_Dark_Purple)'
-    case 'indigo':
-      return 'var(--F_Label_Outline_Indigo)'
-    case 'blue':
-      return 'var(--F_Label_Outline_Blue)'
-    case 'lightblue':
-      return 'var(--F_Label_Outline_Light_Blue)'
-    case 'cyan':
-      return 'var(--F_Label_Outline_Cyan)'
-    case 'teal':
-      return 'var(--F_Label_Outline_Teal)'
-    case 'orange':
-      return 'var(--F_Label_Outline_Orange)'
-    case 'gray':
-      return '--F_Label_Outline_Gray'
+      return 'var(--F_Label_Background_Gray)'
   }
 }
 
@@ -103,6 +76,39 @@ export const getColorFromGuid = (guid : string) => {
     return pastel 
   }
   return 'white'
+}
+
+function shadeColor(color: string, percent: number) {
+
+  var R = parseInt(color.substring(1,3),16);
+  var G = parseInt(color.substring(3,5),16);
+  var B = parseInt(color.substring(5,7),16);
+
+  R = R * (100 + percent) / 100;
+  G = G * (100 + percent) / 100;
+  B = B * (100 + percent) / 100;
+
+  R = (R<255)?R:255;  
+  G = (G<255)?G:255;  
+  B = (B<255)?B:255;  
+
+  R = Math.round(R)
+  G = Math.round(G)
+  B = Math.round(B)
+
+  var RR = ((R.toString(16).length==1)?"0"+R.toString(16):R.toString(16));
+  var GG = ((G.toString(16).length==1)?"0"+G.toString(16):G.toString(16));
+  var BB = ((B.toString(16).length==1)?"0"+B.toString(16):B.toString(16));
+
+  return "#"+RR+GG+BB;
+}
+
+export function calculateHoverColor(hex: string): string {
+  return shadeColor(hex, -8)
+}
+
+export function calculateActiveColor(hex: string): string {
+  return shadeColor(hex, -12)
 }
 
 export const getInitials = (name : string) => 

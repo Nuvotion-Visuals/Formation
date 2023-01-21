@@ -7,13 +7,12 @@ It’s easy to picture how a less saturated version of a color would look like, 
   --F_Primary_Hover: hsl(4, 83%, 32%);
   --F_Primary_Variant: hsl(4, 100%, 38%); /* More saturated, vibrant variant */
 
-  --F_Background: hsl(0, 0%, 7%);
+  --F_Background: hsla(0, 0%, 7%);
+  --F_Background_Light: hsla(0, 0%, 7%, .4);
   --F_Background_Alternating: hsl(0, 0%, 5%);
   
   --F_Emphasize: hsl(40, 100%, 13%);
   --F_Emphasize_Hover: hsl(40, 100%, 18%);
-
-  
   
   --F_Surface_0: hsl(0, 0%, 12%);
   --F_Surface: hsl(0, 0%, 16%);
@@ -28,36 +27,39 @@ It’s easy to picture how a less saturated version of a color would look like, 
   --F_Font_Color_Warning: hsl(25, 100%, 40%);
   --F_Font_Color_Link: hsl(201, 100%, 80%);
 
-  --F_Label_Background_Red: #b71c1c;
-  --F_Label_Outline_Red: #f05545;
-  --F_Label_Background_Pink: #880e4f;
-  --F_Label_Outline_Pink: #e35183;
-  --F_Label_Background_Purple: #4a148c;
-  --F_Label_Outline_Purple: #7c43bd;
-  --F_Label_Background_Dark_Purple: #311b92;
-  --F_Label_Outline_Dark_Purple: #6746c3;
-  --F_Label_Background_Indigo: #1a237e;
-  --F_Label_Outline_Indigo: #534bae;
+  --F_Label_Background_Red: #b40505;
+  --F_Label_Background_Orange: #ff8c00;
+  --F_Label_Background_Yellow: #927c01;
+  --F_Label_Background_Green: #0B6623;
   --F_Label_Background_Blue: #0d47a1;
-  --F_Label_Outline_Blue: #5472d3;
-  --F_Label_Background_Light_Blue: #01579b;
-  --F_Label_Outline_Light_Blue: #4f83cc;
+  --F_Label_Background_Indigo: #8000DE;
+  --F_Label_Background_Violet: #4a148c;
+  --F_Label_Background_Pink: #880e4f;
   --F_Label_Background_Cyan: #006064;
-  --F_Label_Outline_Cyan: #428e92;
   --F_Label_Background_Teal: #004d40;
-  --F_Label_Outline_Teal: #39796b;
-  --F_Label_Background_Orange: #bf360c;
-  --F_Label_Outline_Orange: #f9683a;
   --F_Label_Background_Gray: #424242;
-  --F_Label_Outline_Gray: #6d6d6d;
+
+  --F_Timeline_Item_Background_Red: #c64f4f90;
+  --F_Timeline_Item_Text_Red: #730303;
+  --F_Timeline_Item_Background_Blue: #4f5dc690;
+  --F_Timeline_Item_Text_Blue: #083877;
+  --F_Timeline_Item_Background_Yellow: #c6b24f90;
+  --F_Timeline_Item_Text_Yellow: #705c02;
 
   --F_Backdrop: rgb(0, 0, 0, .4);
+  --F_Activity_Backdrop: #f9f9f9;
 
   --F_Progress_Red: #af2222;
   --F_Progress_Orange: #b59b1c;
   --F_Progress_Yellow: #b6b617;
   --F_Progress_Green: #51c91e;
   --F_Progress_Complete: #00ff13;
+
+  --F_Gradient_To_Background: linear-gradient(to bottom, var(--F_Background_Light), var(--F_Background)); 
+}
+
+.F_Empty {
+  filter: invert();
 }
 
 /* Zoom */
@@ -70,19 +72,19 @@ It’s easy to picture how a less saturated version of a color would look like, 
 /* Outlines */
 /* Outlines use box shadows so as to not take up space in the document */
 :root {
-  --F_Outline: inset 0 0 0 1px var(--F_Surface);
-  --F_Outline_Light: inset 0 0 0 1px hsl(0, 0%, 14%);
+  --F_Outline: inset 0 0 0 1px hsl(0, 0%, 70%);
+  --F_Outline_Light: inset 0 0 0 1px hsl(0, 0%, 80%);
   --F_Outline_Hover: inset 0 0 0 1px hsl(0, 0%, 50%);
-  --F_Outline_Focus: inset 0 0 0 1px hsl(0, 0%, 65%);
+  --F_Outline_Focus: inset 0 0 0 1px hsl(0, 0%, 35%);
   --F_Outline_Primary: inset 0 0 0 1px var(--F_Primary);
   --F_Outline_Error: inset 0 0 0 1px var(--F_Font_Color_Error);
   --F_Outline_Disabled: inset 0 0 0 1px var(--F_Font_Color_Disabled);
   --F_Outline_Success: inset 0 0 0 1px var(--F_Font_Color_Success);
 
   --F_Outline_Outset: 0 0 0 1px hsl(0, 0%, 70%);
-  --F_Outline_Outset_Light: 0 0 0 1px hsl(0, 0%, 20%);
+  --F_Outline_Outset_Light: 0 0 0 1px hsl(0, 0%, 80%);
   --F_Outline_Outset_Hover: 0 0 0 1px hsl(0, 0%, 50%);
-  --F_Outline_Outset_Focus: 0 0 0 1px hsl(0, 0%, 65%);
+  --F_Outline_Outset_Focus: 0 0 0 1px hsl(0, 0%, 35%);
   --F_Outline_Outset_Primary: 0 0 0 1px var(--F_Primary);
   --F_Outline_Outset_Error: 0 0 0 1px var(--F_Font_Color_Error);
   --F_Outline_Outset_Disabled: 0 0 0 1px var(--F_Font_Color_Disabled);
@@ -93,7 +95,7 @@ It’s easy to picture how a less saturated version of a color would look like, 
 :root {
   --F_Header_Height: 50px;
   
-  --F_Input_Height: 34px;
+  --F_Input_Height: 2.25rem;
   --F_Input_Height_Hero: calc(var(--F_Input_Height) + 1rem);
 
   --F_Sidebar_Width: 246px;
@@ -107,7 +109,7 @@ It’s easy to picture how a less saturated version of a color would look like, 
   --F_Font_Size: 15px;
   --F_Font_Size_Label: 14px;
   --F_Font_Size_Title: 17px;
-  
+
   --F_Letter_Spacing: .04em;
   --F_Letter_Spacing_Title: .04em;
 
@@ -614,7 +616,6 @@ button {
 }
 .lm_content {
   background: var(--F_Background);
-  border: 1px solid transparent;
 }
 .lm_dragProxy .lm_content {
 }
@@ -648,6 +649,7 @@ button {
 .lm_header .lm_tab .lm_close_tab {
   height: 100%;
   padding-right: .375rem;
+  filter: invert();
   background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAJCAYAAADgkQYQAAAAQUlEQVR4nHXOQQ4AMAgCQeT/f6aXpsGK3jSTuCVJAAr7iBdoAwCKd0nwfaAdHbYERw5b44+E8JoBjEYGMBq5gAYP3usUDu2IvoUAAAAASUVORK5CYII=");
   background-position: center center;
   background-repeat: no-repeat;
@@ -687,22 +689,26 @@ button {
   position: relative;
   background-position: center center;
   background-repeat: no-repeat;
-  opacity: 0.4;
+  opacity: 0.7;
   transition: opacity 300ms ease;
 }
 .lm_controls > li:hover {
   opacity: 1;
 }
 .lm_controls .lm_popout {
+  filter: invert();
   background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAJCAYAAADgkQYQAAAAPklEQVR4nI2Q0QoAIAwCNfr/X7aXCpGN8snBdgejJOzckpkxs9jR6K6T5JpU0nWl5pSXTk7qwh8SnNT+CAAWCgkKFpuSWsUAAAAASUVORK5CYII=");
 }
 .lm_controls .lm_maximise {
+  filter: invert();
   background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAJCAYAAADgkQYQAAAAKElEQVR4nGP8////fwYCgImQAgYGBgYWKM2IR81/okwajIpgvsMbVgAwgQYRVakEKQAAAABJRU5ErkJggg==");
 }
 .lm_controls .lm_close {
+  filter: invert();
   background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAJCAYAAADgkQYQAAAAQUlEQVR4nHXOQQ4AMAgCQeT/f6aXpsGK3jSTuCVJAAr7iBdoAwCKd0nwfaAdHbYERw5b44+E8JoBjEYGMBq5gAYP3usUDu2IvoUAAAAASUVORK5CYII=");
 }
 .lm_controls .lm_dock {
+  filter: invert();
   background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAJCAYAAADpeqZqAAAAWklEQVR4nJWOyw3AIAxDHcQC7L8jbwT3AlJBfNp3SiI7dtRaLSlKKeoA1oEsKSQZCEluexw8Tm3ohk+E7bnOUHUGcNh+HwbBygw4AZ7FN/Lt84p0l+yTflV8AKQyLdcCRJi/AAAAAElFTkSuQmCC");
   transform: rotate(-45deg);
   transition: transform 300ms;
@@ -718,6 +724,7 @@ button {
   background-color: var(--F_Background);
 }
 .lm_maximised .lm_controls .lm_maximise {
+  filter: invert();
   background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAJCAYAAADgkQYQAAAAKElEQVR4nGP8////fwYCgImQAgYGBgYWKM2IR81/okwajIpgvsMbVgAwgQYRVakEKQAAAABJRU5ErkJggg==");
 }
 .lm_transition_indicator {
@@ -729,9 +736,10 @@ button {
 }
 .lm_popin .lm_bg {
   background: #ffffff;
-  opacity: 0.3;
+  opacity: 0.5;
 }
 .lm_popin .lm_icon {
+  filter: invert();
   background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA0AAAAJCAYAAADpeqZqAAAAWklEQVR4nJWOyw3AIAxDHcQC7L8jbwT3AlJBfNp3SiI7dtRaLSlKKeoA1oEsKSQZCEluexw8Tm3ohk+E7bnOUHUGcNh+HwbBygw4AZ7FN/Lt84p0l+yTflV8AKQyLdcCRJi/AAAAAElFTkSuQmCC');
   background-position: center center;
   background-repeat: no-repeat;
@@ -740,7 +748,6 @@ button {
 .lm_popin:hover .lm_icon {
   opacity: 1;
 }
-
 /* quill */
 .ql-container {
   font-size: var(--F_Font_Size);
@@ -1683,4 +1690,62 @@ button {
   min-height: var(--F_Input_Height_Hero);
   color: var(--F_Font_Color);
   height: calc(100% - var(--F_Input_Height));
+}
+
+[data-theme="light"] {
+  --F_Primary: hsl(165, 87%, 39%);
+  --F_Primary_100: hsl(165, 71%, 62%);
+  --F_Primary_Hover: hsl(165, 87%, 35%);
+  --F_Primary_Variant: hsl(165, 87%, 33%); /* More saturated, vibrant variant */
+
+  --F_Background: hsla(0, 0%, 100%, 1.0);
+  --F_Background_Light: hsla(0, 0%, 100%, .4);
+  --F_Background_Alternating: hsl(0, 0%, 96%);
+
+  --F_Emphasize: hsl(39, 100%, 94%);
+  --F_Emphasize_Hover: hsl(39, 80%, 86%);
+
+  --F_Surface_0: hsl(0, 0%, 88%);
+  --F_Surface: hsl(0, 0%, 80%);
+  --F_Surface_1: hsl(0, 0%, 75%); /* hover */
+  --F_Surface_2: hsl(0, 0%, 66%); /* active */
+
+  --F_Font_Color: hsl(0, 0%, 14%);
+  --F_Font_Color_Disabled: hsl(0, 0%, 33%);
+  --F_Font_Color_Label: hsl(0, 0%, 32%);
+  --F_Font_Color_Error: hsl(0, 90%, 60%);
+  --F_Font_Color_Success: hsl(147, 70%, 45%);
+  --F_Font_Color_Warning: hsl(25, 100%, 55%);
+  --F_Font_Color_Link: hsl(201, 66%, 29%);
+
+  --F_Label_Background_Red: #b40505;
+  --F_Label_Background_Orange: #ff8c00;
+  --F_Label_Background_Yellow: #927c01;
+  --F_Label_Background_Green: #0B6623;
+  --F_Label_Background_Blue: #0d47a1;
+  --F_Label_Background_Indigo: #8000DE;
+  --F_Label_Background_Violet: #4a148c;
+  --F_Label_Background_Pink: #880e4f;
+  --F_Label_Background_Cyan: #006064;
+  --F_Label_Background_Teal: #004d40;
+  --F_Label_Background_Gray: #424242;
+
+  --F_Timeline_Item_Background_Red: #c64f4f90;
+  --F_Timeline_Item_Text_Red: #730303;
+  --F_Timeline_Item_Background_Blue: #4f5dc690;
+  --F_Timeline_Item_Text_Blue: #083877;
+  --F_Timeline_Item_Background_Yellow: #c6b24f90;
+  --F_Timeline_Item_Text_Yellow: #705c02;
+
+  --F_Backdrop: rgba(0, 0, 0, 0.834);
+  --F_Activity_Backdrop: #f9f9f9;
+
+  --F_Progress_Red: #af2222;
+  --F_Progress_Orange: #b59b1c;
+  --F_Progress_Yellow: #b6b617;
+  --F_Progress_Green: #51c91e;
+  --F_Progress_Complete: #00ff13;
+
+  --F_Gradient_To_Background: linear-gradient(to bottom, var(--F_Background_Light), var(--F_Background)); 
+
 }

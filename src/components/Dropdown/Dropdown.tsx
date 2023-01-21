@@ -11,7 +11,7 @@ type DropDownOption = {
   iconPrefix?: IconPrefix,
   hmyRef?: string,
   onClick?: Function,
-  text: string
+  text: string,
 }
 
 type Option = {
@@ -141,7 +141,7 @@ const S = {
     overflow: hidden;
     z-index: 100;
     right: 0;
-    min-width: 140px;
+    min-width: 160px;
     background: var(--F_Background);
     box-shadow: var(--F_Outline_Outset_Focus);
     border-radius: .375rem;
