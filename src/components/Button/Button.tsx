@@ -4,7 +4,7 @@ import styled, { keyframes, css } from 'styled-components'
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 import { SizeProp } from '@fortawesome/fontawesome-svg-core' // type coersion needed until FA SizeProp defintion is fixed to include "xl"
 
-import { Icon, getLinkComponent } from '../../internal'
+import { Icon, getLinkComponent, calculateHoverColor, calculateActiveColor } from '../../internal'
 import { ColorType } from 'types'
 
 type Props = {
@@ -242,21 +242,20 @@ const calculateBackgroundColor = (props: Props) => {
 }
 
 const calculateHoverBackgroundColor = (props: Props) => {
-  if (typeof props.background === 'string') {
-    return props.background
+  if (props.background !== undefined) {
+    return calculateHoverColor(props.background)
   }
-  if (props.background) {
-    return 'var(--F_Surface_1)'
-  }
-   else if (props.primary) {
+  if (props.primary) {
     return `var(--F_Primary_Hover)`
   }
-  
+  else {
+    return `var(--F_Surface_1)`
+  }
 }
 
 const calculateActiveBackgroundColor = (props: Props) => {
-  if (typeof props.background === 'string') {
-    return props.background
+  if (props.background !== undefined) {
+    return calculateActiveColor(props.background)
   }
   if (props.primary) {
     return `var(--F_Primary)`
@@ -348,8 +347,7 @@ const S = {
     }
     
     &:hover {
-      background: ${props => calculateHoverBackgroundColor(props)
-      };
+      background: ${props => calculateHoverBackgroundColor(props)};
       * {
         color: var(--F_Font_Color);
       }

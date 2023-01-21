@@ -58,7 +58,17 @@ export const LabelEditor = ({
         value={internalValue.color}
         onChange={newValue => set_internalValue({...internalValue, color: newValue})}
         options={[
-          'pink',  'red', 'orange', 'purple', 'darkpurple', 'indigo', 'blue', 'lightblue', 'cyan', 'teal',
+          'red',
+          'orange',
+          'yellow',
+          'green',
+          'blue',
+          'indigo',
+          'violet',
+          'pink',
+          'cyan',
+          'teal',
+          'gray'
         ]}
       />
       <Box mt={.125} width='100%'>

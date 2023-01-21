@@ -25,7 +25,6 @@ import {
   isTouchCapable,
   reorderItems,
   getLabelColor,
-  getLabelOutlineColor,
   getInitials,
   getColorFromGuid,
   getTimezone,
@@ -44,7 +43,9 @@ import {
   blobToBase64,
   timestamp,
   markdownToHTML,
-  HTMLtoMarkdown
+  HTMLtoMarkdown,
+  calculateHoverColor,
+  calculateActiveColor
 } from './utils'
 export {
   getSuperscriptOrdinal,
@@ -52,7 +53,6 @@ export {
   isTouchCapable,
   reorderItems,
   getLabelColor,
-  getLabelOutlineColor,
   getInitials,
   getColorFromGuid,
   getTimezone,
@@ -71,7 +71,9 @@ export {
   blobToBase64,
   timestamp,
   markdownToHTML,
-  HTMLtoMarkdown
+  HTMLtoMarkdown,
+  calculateHoverColor,
+  calculateActiveColor
 }
 
 // hooks
@@ -102,7 +104,7 @@ import { ColorPicker } from './components/ColorPicker/ColorPicker'
 import { Empty } from './components/Empty/Empty'
 import { Gap } from './components/Gap/Gap'
 import { Grid } from './components/Grid/Grid'
-import { Icon } from './components/Icon/Icon'
+import { Icon, Props as IconProps } from './components/Icon/Icon'
 import { Label } from './components/Label/Label'
 import { LineBreak } from './components/LineBreak/LineBreak'
 import { LoadingSpinner } from './components/LoadingSpinner/LoadingSpinner'
@@ -137,7 +139,7 @@ export {
   Empty,
   Gap,
   Grid,
-  Icon,
+  Icon, IconProps,
   Label,
   LineBreak,
   LoadingSpinner,

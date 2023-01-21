@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
-import { getLabelColor, getLabelOutlineColor } from '../../internal'
+import { getLabelColor } from '../../internal'
 import { ColorType } from '../../types' 
 
 interface Props {
@@ -16,19 +16,14 @@ export const Label = ({
   title
 }: Props) => {
 
-  const [background, setBackground] = useState<string>('blue')
-  const [outline, setOutline] = useState<string>('blue')
+  const [background, setBackground] = useState<string>('none')
 
   useEffect(() => {
-
     setBackground(getLabelColor(color))
-    setOutline(getLabelOutlineColor(color))
-
   }, [color])
 
-
   return (
-    <S.Label background={background} outline={outline} title={title}>
+    <S.Label background={background} title={title}>
       {
         label
       }
@@ -39,7 +34,6 @@ export const Label = ({
 const S = {
   Label: styled.div<{
     background: string,
-    outline: string
   }>`
     padding: .25rem .5rem;
     border-radius: 16px;

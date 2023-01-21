@@ -4,7 +4,7 @@ import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 import React from 'react'
 import styled from 'styled-components'
 
-interface Props extends FontAwesomeIconProps{
+export interface Props extends FontAwesomeIconProps{
   iconPrefix: IconPrefix | undefined
 }
 
