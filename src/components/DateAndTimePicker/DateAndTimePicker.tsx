@@ -5,12 +5,12 @@ import { Button, TimeZone } from '../../internal'
 import { Box } from '../../internal'
 import { Spacer } from '../../internal'
 import { Gap } from '../../internal'
-import { LineBreak } from '../../internal'
-import { getSuperscriptOrdinal, getOrdinal, capitalizeFirstLetter, getTimezone } from '../../utils'
+import {  getOrdinal, capitalizeFirstLetter } from '../../utils'
 
 import { DatePicker } from '../../internal'
 import { TimePicker } from '../../internal'
 import { IconPrefix } from '@fortawesome/fontawesome-common-types'
+import { ZonedDateTime } from '@js-joda/core'
 
 
 const addMinutes = (time: string, minutes: number) : string => {
@@ -24,7 +24,7 @@ interface DateAndTime {
   date: string,
   startTime: string,
   endTime: string,
-  timeZone?: string
+  timeZone: string
 }
 
 export type DatesAndTimes = DateAndTime[]
@@ -42,6 +42,19 @@ export const DateAndTimePicker = ({
   iconPrefix,
   isMultiDay
 }: Props) => {
+
+  const formatDateString = (date: Date): string => {
+    const offset = date.getTimezoneOffset();
+    const offsetSign = offset < 0 ? '+' : '-';
+    const offsetHours = `0${Math.floor(Math.abs(offset) / 60)}`.slice(-2);
+    const offsetMinutes = `0${Math.abs(offset) % 60}`.slice(-2);
+    const offsetStr = `${offsetSign}${offsetHours}:${offsetMinutes}`;
+    const formattedDate = `${date.getUTCMonth() + 1}-${date.getUTCDate()}-${date.getUTCFullYear()}T${date.getUTCHours().toString().padStart(2, '0')}:${date.getUTCMinutes().toString().padStart(2, '0')}${offsetStr}`;
+
+
+    console.log(formattedDate, 'formattedDate')
+    return formattedDate
+  }
 
   
   const addDate = () => {
@@ -65,7 +78,7 @@ export const DateAndTimePicker = ({
         date: date ? ndate.toDateString() : '',
         startTime,
         endTime,
-        timeZone
+        timeZone: timeZone !== undefined ? timeZone : '-06:00'
       }
     ])
   }
@@ -93,10 +106,6 @@ export const DateAndTimePicker = ({
     )
   }
 
-  useEffect(() => console.log(isMultiDay, 'isMultiDay'), [])
-
-  
-
   const [editTimeZone, set_editTimeZone] = useState(false)
   const [timeZone, set_timeZone] = useState<string | undefined>('')
   
@@ -111,7 +120,7 @@ export const DateAndTimePicker = ({
                   <DatePicker
                     label={value?.length > 1 ? `${capitalizeFirstLetter(getOrdinal(index + 1))} day` : 'Date'}
                     value={item.date ? new Date(item.date) : null}
-                    onChange={newDate => setValue(index, 'date', newDate.toString())}
+                    onChange={newDate => setValue(index, 'date', formatDateString(newDate) )}
                     iconPrefix={iconPrefix}
                   />
                 

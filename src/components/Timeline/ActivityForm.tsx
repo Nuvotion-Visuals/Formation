@@ -6,6 +6,8 @@ import { ActivityType, areaIdType } from './Timeline.stories'
 import { Box, Button, DateAndTimePicker, Select, TextInput } from '../../internal'
 import { TimeZone } from '../../internal'
 
+import { DatesAndTimes } from 'components/DateAndTimePicker/DateAndTimePicker'
+
 import { DateTimeFormatter, LocalDate, ZonedDateTime, ZoneId } from '@js-joda/core'
 import { Locale } from '@js-joda/locale_en-us'
 
@@ -13,9 +15,10 @@ interface Props {
   activity: ActivityType | null,
   areas: areaIdType[],
   onChange: (newValue: ActivityType) => void,
+  isOpen?: boolean
 }
 
-export const ActivityForm = ({ activity, areas, onChange }: Props) => {
+export const ActivityForm = ({ activity, areas, onChange, isOpen }: Props) => {
 
   const formatTimeZoneString = (time: string | undefined) => {
     if(activity == undefined){
@@ -100,27 +103,39 @@ export const ActivityForm = ({ activity, areas, onChange }: Props) => {
 
   const selectionList = areas.map((area) => area.area)
 
-  const [area, set_area] = useState<string | undefined>(activity == undefined ? areas[0].area : activity.area)
-  const [areaId, set_areaId] = useState<string | undefined>(activity == undefined ? areas[0].areaId : activity.areaId)
-
-  const [title, set_title] = useState<string | undefined>(activity !== undefined ? activity?.title : '')
+  const [area, set_area] = useState<string | undefined>()
+  const [areaId, set_areaId] = useState<string | undefined>()
+  const [title, set_title] = useState<string | undefined>()
   const [dateTimeValue, set_dateTimeValue] = useState([{
+    startTime: formatTimeString(activity?.startTime),
+    endTime: formatTimeString(activity?.endTime),
+    date: formatDateString(activity?.startTime),
+    timeZone: activity?.startTime !== undefined ? formatTimeZoneString(activity?.startTime) : '-06:00'
+  }
+])
+
+  useEffect(() => {
+    set_area(activity == undefined ? areas[0].area : activity.area)
+    set_areaId(activity == undefined ? areas[0].areaId : activity.areaId)
+    set_title(activity !== undefined ? activity?.title : '')
+    set_dateTimeValue([{
       startTime: formatTimeString(activity?.startTime),
       endTime: formatTimeString(activity?.endTime),
       date: formatDateString(activity?.startTime),
-      timeZone: formatTimeZoneString(activity?.startTime)
+      timeZone: activity?.startTime !== undefined ? formatTimeZoneString(activity?.startTime) : '-06:00'
     }
   ])
+  }, [activity])
+
+  useEffect(() => console.log(dateTimeValue, 'dateTimeValue'), [dateTimeValue])
 
   useEffect(() => {
     let idMatch = areas.filter(item => item.area === area)
-    set_areaId(idMatch[0].areaId)
-    console.log(idMatch[0].areaId, 'idMatch')
+    set_areaId(idMatch[0]?.areaId)
+    console.log(idMatch[0]?.areaId, 'idMatch')
   }, [area])
 
   const onClick = (e: React.MouseEvent) => {
-    e.preventDefault()
-
     if(e.target instanceof HTMLButtonElement && e.target.name !== 'remove'){
       let startTime = combineSplitDateTimeString(dateTimeValue[0].startTime, dateTimeValue[0].date)
       let endTime = combineSplitDateTimeString(dateTimeValue[0].endTime, dateTimeValue[0].date)
@@ -138,6 +153,7 @@ export const ActivityForm = ({ activity, areas, onChange }: Props) => {
       }
 
       onChange(newValue)
+      
     } else if (e.target instanceof HTMLButtonElement && e.target.name == 'remove'){
 
       let newValue: ActivityType = {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { Timeline, Tags, TimeReference, TimelineSurface, LiveTimeIndicator, Modal } from '../../internal'
+import { Timeline, Tags, TimeReference, TimelineSurface, LiveTimeIndicator, Modal, Box } from '../../internal'
 import { styled } from '@storybook/theming'
 
 import { DateTimeFormatter, Duration, ZonedDateTime, LocalDate } from '@js-joda/core'
@@ -554,6 +554,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
       ]
     }
   ])
+  const [firstDayTimeString, set_firstDayTimeString] = useState('')
 
   // state for managing rendering based on user's interactions
   const [activeTags, set_activeTags] = useState<string[]>([value[0].area])
@@ -569,8 +570,6 @@ const Template: ComponentStory<typeof Timeline> = args => {
   const [currentTime, set_currentTime] = useState<string>(ZonedDateTime.now().format(DateTimeFormatter.ofPattern(`yyyy-MM-dd'T'HH:mmXXX`)).toString()) 
   const [endTime, set_endTime] = useState<ZonedDateTime>()
   const [timeReferencePosition, set_timeReferencePosition] = useState('')
-
-
 
   const [isRefreshed, set_isRefreshed] = useState(true)
 
@@ -591,8 +590,22 @@ const Template: ComponentStory<typeof Timeline> = args => {
   })
 
   const onLaneItemClick = (item: ActivityType) => {
-    set_isOpen(true)
     set_activityData(item)
+    set_isOpen(true)
+  }
+
+  const addActivity = () => {
+    set_activityData({
+      title: '',
+      startTime: `${firstDayTimeString}`,
+      endTime: `${firstDayTimeString}`,
+      id: '',
+      area: areaStrings[0].area,
+      areaId: areaStrings[0].areaId,
+      people: [],
+      overflowLane: 1
+    })
+    set_isOpen(true)
   }
 
   const onChange = (newValue: ActivityType) => {
@@ -601,7 +614,6 @@ const Template: ComponentStory<typeof Timeline> = args => {
 
     if (newValue.title === '%%REMOVE%%') {
       set_value(prevState => {
-
         const updatedAreas: AreaType[] = prevState.map(area => {
           if (newValue.areaId === area.areaId) {
             return {
@@ -616,19 +628,18 @@ const Template: ComponentStory<typeof Timeline> = args => {
       })
 
     } else if (prevValue == undefined) {
+      console.log(newValue, 'newValue')
+      // set_value(prevState => {
+      //   const updatedAreas: AreaType[] = prevState.map(area => {
+      //     if (area.areaId === newValue.areaId) {
+      //       area.activities.push(newValue)
+      //       return area
+      //     }
+      //     return area
+      //   })
 
-      set_value(prevState => {
-        const updatedAreas: AreaType[] = prevState.map(area => {
-          if (area.areaId === newValue.areaId) {
-            area.activities.push(newValue)
-            return area
-          }
-          return area
-        })
-
-        return updatedAreas
-      })
-      
+      //   return updatedAreas
+      // })
     }
 
     else if (prevValue.areaId === newValue.areaId) {
@@ -651,9 +662,10 @@ const Template: ComponentStory<typeof Timeline> = args => {
       });
     }
     
-    else if (prevValue !== undefined){
+    else {
       set_value(prevState => {
         const updatedAreas: AreaType[] = prevState.map(area => {
+          // @ts-ignore
             if (area.areaId === prevValue.areaId) {
                 return {
                     ...area,
@@ -675,6 +687,11 @@ const Template: ComponentStory<typeof Timeline> = args => {
 
     setTimeout(() => (set_isOpen(false)), 250)
   }
+
+  // set date string for new activity creation reference
+  useEffect(() => {
+    set_firstDayTimeString(value[0].activities[0].startTime) 
+  },[])
 
   //  set currentActivities based on activeTabs 
   useEffect(() => {
@@ -954,7 +971,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
           </S.RightColumn>
 
           <S.FixedContainer>
-            <S.Button onClick={() => set_isOpen(true)}>
+            <S.Button onClick={() => addActivity()}>
               <S.Text>
                 +
               </S.Text>
@@ -964,23 +981,24 @@ const Template: ComponentStory<typeof Timeline> = args => {
         </S.Timeline>
       </S.Content>
       {
-        isOpen
-          ? <Modal
+        <Box hide={!isOpen}>
+          <Modal
               isOpen={isOpen}
               onClose={() => set_isOpen(false)}
               iconPrefix={'fas'}
               title={'Edit Activity'}
               content={
                 <ActivityForm
-                  activity={activityData != undefined ? activityData : null}
+                  activity={activityData !== undefined ? activityData : null}
                   areas={areaStrings}
                   onChange={(newValue) => onChange(newValue)}
+                  // isOpen={isOpen}
                 />}
               size={'sm'}
               fullscreen={true}
               onBack={undefined}
-            />
-          : <></>
+          />
+        </Box>
       }
     </S.Container>
   )
