@@ -10,18 +10,44 @@ interface Props {
 
 export const Theme = ({  }: Props) => {
   const colors = [
-    '--F_Background',
     '--F_Primary',
+    '--F_Primary_Variant',
+    '--F_Primary_Hover',
+
+    '--F_Background',
+    '--F_Background_Light',
+    '--F_Background_Alternating',
+    
+    '--F_Emphasize',
+    '--F_Emphasize_Hover',
+    
     '--F_Surface_0',
     '--F_Surface',
     '--F_Surface_1',
-    '--F_Surface_2'
+    '--F_Surface_2',
+
+    '--F_Backdrop',
+    '--F_Backdrop_Light'
+  ]
+
+  const labelColors = [
+    '--F_Label_Background_Red',
+    '--F_Label_Background_Orange',
+    '--F_Label_Background_Yellow',
+    '--F_Label_Background_Green',
+    '--F_Label_Background_Blue',
+    '--F_Label_Background_Indigo',
+    '--F_Label_Background_Purple',
+    '--F_Label_Background_Pink',
+    '--F_Label_Background_Cyan',
+    '--F_Label_Background_Teal',
+    '--F_Label_Background_Gray',
   ]
 
   const outlines = [
     '--F_Outline',
-    '--F_Outline_Light',
     '--F_Outline_Hover',
+    '--F_Outline_Focus',
     '--F_Outline_Primary',
     '--F_Outline_Error',
     '--F_Outline_Disabled',
@@ -30,12 +56,19 @@ export const Theme = ({  }: Props) => {
 
   const fontColors = [
     '--F_Font_Color',
-    '--F_Font_Color_Label',
     '--F_Font_Color_Disabled',
+    '--F_Font_Color_Label',
     '--F_Font_Color_Error',
     '--F_Font_Color_Success',
     '--F_Font_Color_Warning',
-    '--F_Font_Color_Link'
+    '--F_Font_Color_Link',
+  ]
+
+  const fontSizes = [
+    '--F_Font_Size',
+    '--F_Font_Size_Label',
+    '--F_Font_Size_Small',
+    '--F_Font_Size_Title',
   ]
 
   return (
@@ -57,10 +90,10 @@ export const Theme = ({  }: Props) => {
   --F_Primary: hotpink;
 }
 `}
-          </pre>
+        </pre>
 
-          <h2>Background Colors</h2>
-          <table>
+        <h2>Colors</h2>
+        <table>
           <tr>
             <th>CSS Variable</th>
             <th>Value</th>
@@ -81,7 +114,30 @@ export const Theme = ({  }: Props) => {
               
             )
           }
+        </table>
 
+        <h2>Label Colors</h2>
+        <table>
+          <tr>
+            <th>CSS Variable</th>
+            <th>Value</th>
+          </tr>
+          {
+            labelColors.map(color =>
+              <tr>
+                <S.Label>{
+                  color
+                }</S.Label>
+                <td><S.Color background={color} isLabel>
+                
+                {
+                  getComputedStyle(document.documentElement).getPropertyValue(color)
+                }
+              </S.Color></td>
+              </tr>
+              
+            )
+          }
         </table>
 
         <h2>Outlines</h2>
@@ -93,11 +149,12 @@ export const Theme = ({  }: Props) => {
           {
             outlines.map(outline =>
               <tr>
-                <S.Label>{
-                  outline
-                }</S.Label>
-                <td><S.Color outline={outline} >
-                
+                <S.Label>
+                  {
+                    outline
+                  }
+                </S.Label>
+                <td><S.Color outline={outline}>
                 {
                   getComputedStyle(document.documentElement).getPropertyValue(outline)
                 }
@@ -108,7 +165,7 @@ export const Theme = ({  }: Props) => {
           }
         </table>
 
-        <h2>Typography</h2>
+        <h2>Font Colors</h2>
         <table>
           <tr>
             <th>CSS Variable</th>
@@ -131,7 +188,36 @@ export const Theme = ({  }: Props) => {
             )
           }
         </table>
-        </Article>
+
+        <h2>Font Sizes</h2>
+        <table>
+          <tr>
+            <th>CSS Variable</th>
+            <th>Value</th>
+          </tr>
+          {
+            fontSizes.map(fontSize =>
+              <tr>
+                <S.Label>
+                  {
+                    fontSize
+                  }
+                </S.Label>
+                <td>
+                  <S.Font 
+                    size={getComputedStyle(document.documentElement).getPropertyValue(fontSize)}
+                  >
+                    {
+                      `${fontSize} is ${getComputedStyle(document.documentElement).getPropertyValue(fontSize)}`
+                    }
+                  </S.Font>
+                </td>
+              </tr>
+              
+            )
+          }
+        </table>
+      </Article>
     </Page>
 
     </S.Theme>
@@ -141,7 +227,9 @@ export const Theme = ({  }: Props) => {
 interface ColorProps {
   background?: string,
   outline?: string,
-  fontColor?: string
+  fontColor?: string,
+  fontSize?: string,
+  isLabel?: boolean
 }
 
 const S = {
@@ -156,8 +244,8 @@ const S = {
   `,
   P: styled.p`
     padding-bottom: 1rem;
-    line-height: 1.1em;
     font-size: var(--F_Font_Size);
+    line-height: 1.1em;
   `,
   Pre: styled.pre`
     margin-bottom: 1rem;
@@ -176,9 +264,14 @@ const S = {
     padding: 0 1rem;
     /* justify-content: center; */
     background: ${props => props.background ? `var(${props.background})` : null};
-    color: ${props => props.fontColor ? `var(${props.fontColor})` : 'var(--F_Font_Color)'};
+    color: ${props => props.isLabel? 'white' : props.fontColor ? `var(${props.fontColor})` : 'var(--F_Font_Color)'};
     box-shadow: ${props => props.outline ? `var(${props.outline})` : null};
     font-family: monospace;
+  `,
+  Font: styled.div<{
+    size: string
+  }>`
+    font-size: ${props => `${props.size} !important`};
   `,
   Label: styled.td`
     font-family: monospace;

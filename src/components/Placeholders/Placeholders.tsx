@@ -67,14 +67,14 @@ const S_PlaceholderLeft = styled.div`
   height: 1.5rem;
   width: 1.5rem;
   border-radius: 100%;
-  background: #ccc;
+  background: var(--F_Surface_2);
 `
 
 const S_PlaceholderRight = styled.div`
   height: 1rem;
   width: calc(100% - 3rem);
   border-radius: 1rem;
-  background: #ccc;
+  background: var(--F_Surface_2);
 `
 
 const S_Message = styled.div`

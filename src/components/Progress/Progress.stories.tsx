@@ -12,7 +12,6 @@ const Template: ComponentStory<typeof Progress> = (args) => <Progress {...args} 
 
 export const Small = Template.bind({})
 Small.args = {
-  small: true,
   maximum: 10,
   value: 1,
 }
@@ -34,7 +33,6 @@ Regular.args = {
 
 export const RegularGradient = Template.bind({})
 Regular.args = {
-  small: undefined,
   gradient: true,
   maximum: 10,
   value: 1,

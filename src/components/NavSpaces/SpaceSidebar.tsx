@@ -1,8 +1,9 @@
 import React from 'react'
 
 import styled from 'styled-components'
+import { ColorType } from '../../types'
 
-import { AspectRatio, Icon, Dropdown } from '../../internal'
+import { AspectRatio, Icon, Dropdown, Spacer, getLabelColor, Placeholders } from '../../internal'
 
 import { Channels } from './Channels'
 
@@ -12,7 +13,8 @@ interface Props {
   dateString?: string,
   location?: string,
   channels: any,
-  dropdownOptions?: any
+  dropdownOptions?: any,
+  color?: ColorType
 }
 
 export const SpaceSidebar = ({  
@@ -21,17 +23,28 @@ export const SpaceSidebar = ({
   dateString,
   location,
   channels,
-  dropdownOptions
+  dropdownOptions,
+  color
 }: Props) => {
   return (
     <S.SpaceSidebar>
+      <Spacer />
+      {
+        !src && !name &&
+          <Placeholders />
+      }
       <>
         {
-          src
+          src || color
             ? <AspectRatio 
-                ratio={2}
+                ratio={src ? 2 : 20}
                 coverBackground={true}
                 backgroundSrc={src} 
+                backgroundColor={
+                  color 
+                    ? getLabelColor(color)
+                    : undefined
+                }
               />
           : null
         }

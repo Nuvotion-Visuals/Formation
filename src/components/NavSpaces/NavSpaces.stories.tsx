@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { DateAndTimePicker, Box } from '../../internal'
+import { DateAndTimePicker, Box, Placeholders } from '../../internal'
 import { NavSpaces } from './NavSpaces'
 import { NavTabs } from './NavTabs'
 import { SpacesSidebar } from './SpacesSidebar'
@@ -149,7 +149,8 @@ const Template: ComponentStory<typeof NavSpaces> = args => {
       date: new Date(Date.parse('Sep 1, 2022')),
       location: 'Cypress Avenue, Cork',
       channels: eventChannels,
-      href: '#test'
+      href: '#test',
+      color: 'indigo'
     },
     {
       name: 'Kino Battle of the Bands',
@@ -160,7 +161,6 @@ const Template: ComponentStory<typeof NavSpaces> = args => {
     },
     {
       name: 'The III Studios Session',
-      src: 'https://api.avsync.live/uploads/medium_Poster_6ad4c91377.jpg',
       date: new Date(Date.parse('Oct 29, 2022')),
       location: 'The III Studios, Chicago',
       channels: eventChannels
@@ -228,6 +228,7 @@ const Template: ComponentStory<typeof NavSpaces> = args => {
     <SpaceSidebar 
       name={spaces[activeSpaceIndex]?.name}
       src={spaces[activeSpaceIndex]?.src}
+      color={spaces[activeSpaceIndex]?.color}
       dateString={
         spaces[activeSpaceIndex]?.date?.toLocaleString('en-us', { 
           weekday: 'long', 
@@ -254,15 +255,18 @@ const Template: ComponentStory<typeof NavSpaces> = args => {
           navs={(args as any).secondaryTopNav}
           borderBottom={true}
         />
+        <Placeholders />
       </>}
       thirdPage={
-        <DateAndTimePicker 
-          onChange={result => {
-            set_dates(result)
-          }}
-          value={dates}
-          iconPrefix='fas'
-        />
+        <Box p={.75}>
+          <DateAndTimePicker 
+            onChange={result => {
+              set_dates(result)
+            }}
+            value={dates}
+            iconPrefix='fas'
+          />
+        </Box>
       }
       dropdownOptions={[
         {

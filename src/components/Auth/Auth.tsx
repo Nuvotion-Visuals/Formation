@@ -104,7 +104,7 @@ const S_Auth = styled.div`
   background: var(--F_Background);
   border-radius: 1rem;
   color: var(--F_Font_Color);
-  box-shadow: var(--F_Outline_Light);
+  box-shadow: var(--F_Outline);
 `
 
 const S_LogoContainer = styled.div<{

@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 import { SpaceIcon } from './SpaceIcon'
 
-import { Icon, Box } from '../../internal'
+import { Icon, Box, getLabelColor } from '../../internal'
 
 import { Space } from './NavSpaces'
 
@@ -42,6 +42,11 @@ export const SpacesSidebar = memo(({
                 active={activeSpaceIndex === index}
                 icon={space.icon}
                 iconPrefix={space.iconPrefix}
+                colorString={
+                  space.color
+                    ? getLabelColor(space.color)
+                    : undefined
+                }
               />
             </S.SidebarContainer>
           )

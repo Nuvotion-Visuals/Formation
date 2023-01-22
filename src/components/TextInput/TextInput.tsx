@@ -21,7 +21,7 @@ type Props = {
   autoFocus?: boolean,
   icon?: IconName,
   iconPrefix?: IconPrefix,
-  tooltip?: string,
+  hint?: string,
   onClick?: () => void,
   preventFocus?: boolean,
   onBlur?: () => void,
@@ -46,7 +46,7 @@ export const TextInput = ({
   autoFocus,
   icon,
   iconPrefix,
-  tooltip,
+  hint,
   onClick,
   preventFocus,
   onBlur,
@@ -173,28 +173,15 @@ export const TextInput = ({
           label
         }
       </S.Label>
-
-        {
-          tooltip
-            ? <S.ErrorIconContainer 
-                title={tooltip}
-              >
-                <Icon 
-                  icon={'info-circle'} 
-                  iconPrefix={iconPrefix}
-                />
-              </S.ErrorIconContainer>
-            : null
-        }
     </S.Container>
     
     {
-      error
-        ? <S.ErrorContainer>
-            <S.Error>
-              { error }
-            </S.Error>
-          </S.ErrorContainer>
+      error || hint
+        ? <S.MessageContainer isHint={!!hint} hasIcon={!!icon}>
+            <S.Message>
+              { error ? error : hint }
+            </S.Message>
+          </S.MessageContainer>
         : null
     }
     </S.OutterContainer>
@@ -244,7 +231,6 @@ const S = {
     width: calc(100% - 2rem);
     height: ${props => props.compact ? 'var(--F_Input_Height)' : 'var(--F_Input_Height_Hero)'};
     line-height: 0;
-
     &:hover {
       box-shadow: ${props => 
         props.success 
@@ -342,20 +328,21 @@ const S = {
     pointer-events: none;
     animation: ${props => props.shrink ? css`${moveUp} ${props.disableAnimation ? '0s' : '.15s'} forwards` : 'none'};
   `,
-  ErrorContainer: styled.div`
+  MessageContainer: styled.div<{
+    isHint: boolean,
+    hasIcon: boolean
+  }>`
     width: 100%;
     margin-top: .5rem;
-
-    color: var(--F_Font_Color_Error);
+    color: ${props => props.isHint ? 'var(--F_Font_Color_Disabled)' : 'var(--F_Font_Color_Error)'};
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    /* line-height: 1; */
-  `,
-  Error: styled.div`
-    margin-top: -.25rem;
     margin-left: 1rem;
-    font-size: 13px;
+  `,
+  Message: styled.div`
+    margin-top: -.25rem;
+    font-size: var(--F_Font_Size_Small);
   `,
   ErrorIconContainer: styled.div`
     position: relative;

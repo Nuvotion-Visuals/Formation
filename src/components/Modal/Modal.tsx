@@ -103,7 +103,7 @@ const S = {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgb(0, 0, 0, .16);
+    background: var(--F_Backdrop_Light);
     display: ${props => props.show ? 'flex' : 'none'};
   `,
   Modal: styled.div<{

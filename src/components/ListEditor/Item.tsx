@@ -2,9 +2,9 @@ import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 import React from 'react'
 import styled from 'styled-components'
 
-import { Box, Break, getLinkComponent, Spacer } from '../../internal'
+import { Box, Break, getLinkComponent, Spacer, getLabelColor } from '../../internal'
 import { SpaceIcon } from '../NavSpaces/SpaceIcon'
-
+import { ColorType } from '../../types'
 
 import { 
   Dropdown, 
@@ -21,7 +21,7 @@ export interface Props {
   iconPrefix?: IconPrefix,
   src?: string,
   text?: string,
-  color?: string,
+  color?: ColorType,
   label?: string,
   subtitle?: string,
   dateString?: string,
@@ -82,6 +82,7 @@ export const Item = ({
           icon={icon}
           iconPrefix={iconPrefix}
           active={active}
+          colorString={color ? getLabelColor(color) : undefined}
         />
       }
       
@@ -92,7 +93,7 @@ export const Item = ({
                 name={name ? getInitials(name) : '?'}
                 color={
                   color 
-                    ? color
+                    ? getLabelColor(color)
                     : name ? undefined : 'var(--F_Surface_2)'}
                 icon={icon}
                 iconPrefix={iconPrefix}

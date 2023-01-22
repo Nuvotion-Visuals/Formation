@@ -8,6 +8,7 @@ import { useBreakpoint } from '../../internal'
 import { NavBottom } from './NavBottom'
 import { NavTop } from './NavTop'
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
+import { ColorType } from '../../types'
 
 export interface Space {
   name: string,
@@ -18,7 +19,8 @@ export interface Space {
   icon?: IconName,
   iconPrefix?: IconPrefix,
   src?: string,
-  onClick?: () => void
+  onClick?: () => void,
+  color?: ColorType
 }
 
 interface Props {
@@ -205,6 +207,7 @@ export const NavSpaces = ({
           <NavTop
             name={spaces[activeSpaceIndex]?.name}
             src={spaces[activeSpaceIndex]?.src}
+            color={spaces[activeSpaceIndex]?.color}
             date={spaces[activeSpaceIndex]?.date}
             onBack={() => onSwipe(activeSwipeIndex - 1)}  
             hideReturnContext={true}          
