@@ -45,7 +45,8 @@ import {
   markdownToHTML,
   HTMLtoMarkdown,
   calculateHoverColor,
-  calculateActiveColor
+  calculateActiveColor,
+  shadeHexColor
 } from './utils'
 export {
   getSuperscriptOrdinal,
@@ -73,7 +74,8 @@ export {
   markdownToHTML,
   HTMLtoMarkdown,
   calculateHoverColor,
-  calculateActiveColor
+  calculateActiveColor,
+  shadeHexColor
 }
 
 // hooks

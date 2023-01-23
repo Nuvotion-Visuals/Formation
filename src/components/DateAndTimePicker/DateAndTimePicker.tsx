@@ -43,20 +43,6 @@ export const DateAndTimePicker = ({
   isMultiDay
 }: Props) => {
 
-  const formatDateString = (date: Date): string => {
-    const offset = date.getTimezoneOffset();
-    const offsetSign = offset < 0 ? '+' : '-';
-    const offsetHours = `0${Math.floor(Math.abs(offset) / 60)}`.slice(-2);
-    const offsetMinutes = `0${Math.abs(offset) % 60}`.slice(-2);
-    const offsetStr = `${offsetSign}${offsetHours}:${offsetMinutes}`;
-    const formattedDate = `${date.getUTCMonth() + 1}-${date.getUTCDate()}-${date.getUTCFullYear()}T${date.getUTCHours().toString().padStart(2, '0')}:${date.getUTCMinutes().toString().padStart(2, '0')}${offsetStr}`;
-
-
-    console.log(formattedDate, 'formattedDate')
-    return formattedDate
-  }
-
-  
   const addDate = () => {
     const lastState = value
     const length = lastState.length
@@ -88,6 +74,8 @@ export const DateAndTimePicker = ({
   }
 
   const setValue = (index: number, field: 'date' | 'startTime' | 'endTime', fieldValue: string) => {
+
+    console.log(value, 'value')
     onChange(
       value?.map((day, i) =>
         index === i
@@ -120,7 +108,7 @@ export const DateAndTimePicker = ({
                   <DatePicker
                     label={value?.length > 1 ? `${capitalizeFirstLetter(getOrdinal(index + 1))} day` : 'Date'}
                     value={item.date ? new Date(item.date) : null}
-                    onChange={newDate => setValue(index, 'date', formatDateString(newDate) )}
+                    onChange={newDate => setValue(index, 'date', newDate.toString())}
                     iconPrefix={iconPrefix}
                   />
                 

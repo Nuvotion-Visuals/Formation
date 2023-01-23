@@ -3,10 +3,11 @@ import React, { useEffect, useState } from 'react'
 
 import { ActivityType, areaIdType } from './Timeline.stories'
 
-import { Box, Button, DateAndTimePicker, Select, TextInput } from '../../internal'
+import { Box, Button, DateAndTimePicker, Select, TextInput, LabelColorPicker } from '../../internal'
 import { TimeZone } from '../../internal'
 
 import { DatesAndTimes } from 'components/DateAndTimePicker/DateAndTimePicker'
+
 
 import { DateTimeFormatter, LocalDate, ZonedDateTime, ZoneId } from '@js-joda/core'
 import { Locale } from '@js-joda/locale_en-us'
@@ -19,6 +20,19 @@ interface Props {
 }
 
 export const ActivityForm = ({ activity, areas, onChange, isOpen }: Props) => {
+
+  const formatIncomingDateString = (date: Date): string => {
+    const offset = date.getTimezoneOffset();
+    const offsetSign = offset < 0 ? '+' : '-';
+    const offsetHours = `0${Math.floor(Math.abs(offset) / 60)}`.slice(-2);
+    const offsetMinutes = `0${Math.abs(offset) % 60}`.slice(-2);
+    const offsetStr = `${offsetSign}${offsetHours}:${offsetMinutes}`;
+    const formattedDate = `${date.getUTCMonth() + 1}-${date.getUTCDate()}-${date.getUTCFullYear()}T${date.getUTCHours().toString().padStart(2, '0')}:${date.getUTCMinutes().toString().padStart(2, '0')}${offsetStr}`;
+
+
+    console.log(formattedDate, 'formattedDate')
+    return formattedDate
+  }
 
   const formatTimeZoneString = (time: string | undefined) => {
     if(activity == undefined){
@@ -47,7 +61,7 @@ export const ActivityForm = ({ activity, areas, onChange, isOpen }: Props) => {
     return formattedString
   }
 
-  const formatDateString = (time: string | undefined) => {
+  const formatUTCString = (time: string | undefined) => {
     if (time == undefined) {
       let todayDateObject = ZonedDateTime.now()
       let formatter = DateTimeFormatter.ofPattern('M/d/y')
@@ -55,11 +69,17 @@ export const ActivityForm = ({ activity, areas, onChange, isOpen }: Props) => {
 
       return formattedString
     }
-      let dateObject = ZonedDateTime.parse(time)
-      let formatter = DateTimeFormatter.ofPattern('M/d/y')
-      let formattedString: string = dateObject.format(formatter)
+      // let dateObject = ZonedDateTime.parse(time)
+      // let formatter = DateTimeFormatter.ofPattern('M/d/y')
+    let dateStamp = Date.parse(time)
+    let dateObject = new Date(dateStamp)
 
-      return formattedString
+    let formattedString = dateObject.toLocaleDateString('en-us', { year: "numeric", month: "numeric", day: "numeric" })
+    
+    console.log(formattedString, 'formattedString')
+    
+
+    return formattedString
   }
 
   const convertTo24Hours = (timeString: string) => {
@@ -75,14 +95,37 @@ export const ActivityForm = ({ activity, areas, onChange, isOpen }: Props) => {
     return hours + ':' + minutes;
   }
 
-  const combineSplitDateTimeString = (time: string, date: string) => {    
-    let dateFormatter = DateTimeFormatter.ofPattern('M/d/yyyy');
-    let dateString = LocalDate.parse(date, dateFormatter).toString()
+  const combineSplitDateTimeString = (time: string, date: string) => {
 
     let newTimeString = convertTo24Hours(time)
     let newTimeZone = formatTimeZoneString(activity?.startTime)
+    // needs to understand what kind of string it is dealing with... from js-joda or date
+    if (/^\d/.test(date)) {
+      // process code for when string begins with a number
+      let dateFormatter = DateTimeFormatter.ofPattern('M/d/yyyy');
+      let dateString = LocalDate.parse(date, dateFormatter).toString()
+  
+      return `${dateString}T${newTimeString}${newTimeZone}`
+    } else {
+      // process code for when string begins with a character
+      let dateStamp = Date.parse(date);
+      let dateObject = new Date(dateStamp);
 
-    return `${dateString}T${newTimeString}${newTimeZone}`
+      let formattedString = dateObject.toLocaleDateString('en-us', { year: "numeric", month: "numeric", day: "numeric" });
+
+      let dateArray = formattedString.split("/");
+      let month = dateArray[0].length === 1 ? `0${dateArray[0]}` : dateArray[0];
+
+      let newDate = `${dateArray[2]}-${month}-${dateArray[1]}`
+
+      
+      
+      console.log(newDate, 'newDate')
+
+      return `${newDate}T${newTimeString}${newTimeZone}`;
+    }
+
+    
   }
 
   const generateUUID = () => { // Public Domain/MIT
@@ -99,7 +142,9 @@ export const ActivityForm = ({ activity, areas, onChange, isOpen }: Props) => {
         }
         return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
     });
-}
+  }
+  
+  
 
   const selectionList = areas.map((area) => area.area)
 
@@ -109,7 +154,7 @@ export const ActivityForm = ({ activity, areas, onChange, isOpen }: Props) => {
   const [dateTimeValue, set_dateTimeValue] = useState([{
     startTime: formatTimeString(activity?.startTime),
     endTime: formatTimeString(activity?.endTime),
-    date: formatDateString(activity?.startTime),
+    date: '',
     timeZone: activity?.startTime !== undefined ? formatTimeZoneString(activity?.startTime) : '-06:00'
   }
 ])
@@ -121,7 +166,7 @@ export const ActivityForm = ({ activity, areas, onChange, isOpen }: Props) => {
     set_dateTimeValue([{
       startTime: formatTimeString(activity?.startTime),
       endTime: formatTimeString(activity?.endTime),
-      date: formatDateString(activity?.startTime),
+      date: formatUTCString(activity?.startTime),
       timeZone: activity?.startTime !== undefined ? formatTimeZoneString(activity?.startTime) : '-06:00'
     }
   ])
@@ -196,6 +241,24 @@ export const ActivityForm = ({ activity, areas, onChange, isOpen }: Props) => {
             iconPrefix='fas'
           />
       </Box>
+      <LabelColorPicker
+        options={[
+          'red',
+          'orange',
+          'yellow',
+          'green',
+          'blue',
+          'indigo',
+          'violet',
+          'pink',
+          'cyan',
+          'teal',
+          'gray'
+        ]}
+        label='Label color'
+        value={'gray'}
+        onChange={() => null}
+      />
       <Box mb={.5}>
         <Button
           text='Save'

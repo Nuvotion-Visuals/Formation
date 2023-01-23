@@ -5,14 +5,18 @@ import '@js-joda/timezone'
 
 import { ActivityType, PersonType } from './Timeline.stories'
 
+import { getLabelColor } from '../../internal'
+import { ColorType } from 'types'
+
+
 export interface Props {
   value: ActivityType[],
   intervals: IntervalType[],
   onChange: (time: any) => void,
   onIntervalClick: (interval: IntervalType) => void,
   onLaneItemClick: (item: ActivityType) => void,
-  color: string,
-  backgroundColor: string
+  color: ColorType,
+  backgroundColor: ColorType
 }
 
 interface IntervalType {
@@ -248,9 +252,7 @@ const S = {
       border-bottom: 1px solid #d7d7d7;
     }
   `,
-  Item: styled.div<{
-    backgroundColor?: string,
-  }>`
+  Item: styled.div<{}>`
     min-width: 3rem;
     box-sizing: border-box;
     position: absolute;
@@ -261,14 +263,14 @@ const S = {
     overflow-y: hidden;
   `,
   Fill: styled.div<{
-    color: string,
-    backgroundColor: string
+    color: ColorType,
+    backgroundColor: ColorType
   }>`
     width: calc(100% - 0.5rem);
     height: calc(100% - 0.5rem - 3px);
     margin: 0.125rem 0;
-    background: ${props => props.backgroundColor ? props.backgroundColor : 'blue'};
-    color: ${props => props.color ? props.color : 'lightblue'};
+    background: ${props => props.backgroundColor ? getLabelColor(props.backgroundColor) : 'blue'};
+    color: white;
     border-radius: 0.25rem;
     padding: 0.25rem;
 

@@ -4,7 +4,7 @@ import styled, { keyframes, css } from 'styled-components'
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 import { SizeProp } from '@fortawesome/fontawesome-svg-core' // type coersion needed until FA SizeProp defintion is fixed to include "xl"
 
-import { Icon, getLinkComponent, calculateHoverColor, calculateActiveColor } from '../../internal'
+import { Icon, getLinkComponent, calculateHoverColor, calculateActiveColor, getLabelColor } from '../../internal'
 import { ColorType } from 'types'
 
 type Props = {
@@ -25,7 +25,7 @@ type Props = {
   id?: string,
   iconPrefix?: IconPrefix,
   secondary?: boolean,
-  background?: string,
+  background?: ColorType,
   color?: ColorType,
   singleBlink? : boolean,
   tab? : boolean,
@@ -227,7 +227,7 @@ const calculatePadding = (props: Props) => {
 
 const calculateBackgroundColor = (props: Props) => {
   if (typeof props.background === 'string' && props.primary) {
-    return props.background;
+    return getLabelColor(props.background);
   }
   if (props.primary) {
     return 'var(--F_Primary)';

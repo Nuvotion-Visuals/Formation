@@ -8,6 +8,7 @@ import { DateTimeFormatter, Duration, ZonedDateTime, LocalDate } from '@js-joda/
 import { Locale } from '@js-joda/locale_en-us'
 import { Button, ButtonProps } from '../Button/Button'
 import { ActivityForm } from './ActivityForm'
+import { ColorType } from 'types'
 
 export default {
   title: 'Advanced Input/Timeline',
@@ -30,7 +31,7 @@ interface IntervalType {
 type AreaType = {
   area: string,
   areaId: string,
-  colors: areaColorType,
+  areaColor: ColorType,
   activities: ActivityType[],
 }
 
@@ -52,7 +53,8 @@ export type PersonType = {
 
 export type areaIdType = {
   area: string,
-  areaId: string
+  areaId: string,
+  areaColor: ColorType
 }
 
 type AreasType = AreaType[]
@@ -69,12 +71,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
     {
       area: 'West Stage',
       areaId: '9e8f1a5c-2b9a-4f8a-a2c2-7f7cb8c5af8d',
-      colors: {
-        itemBackground: 'var(--F_Timeline_Item_Background_Red)',
-        itemText: 'var(--F_Timeline_Item_Text_Red)',
-        buttonBackground: 'var(--F_Timeline_Item_Background_Red)',
-        buttonHoverBackground: 'var(--F_Timeline_Item_Text_Red)'
-      },
+      areaColor: 'green',
       activities: [
         {
           title: 'DJ Alpha',
@@ -214,12 +211,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
     {
       area: 'East Stage',
       areaId: 'd45a7b9d-68ee-4f3b-a5d7-b1f48a4c5048',
-      colors: {
-        itemBackground: 'var(--F_Timeline_Item_Background_Blue)',
-        itemText: 'var(--F_Timeline_Item_Text_Blue)',
-        buttonBackground: 'var(--F_Timeline_Item_Background_Blue)',
-        buttonHoverBackground: 'var(--F_Timeline_Item_Text_Blue)'
-      },
+      areaColor: 'blue',
       activities: [
         {
           title: 'Attack Juggling',
@@ -321,12 +313,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
     {
       area: 'Front Doors',
       areaId: 'e4b4e9a1-f7e2-4b1c-b2a5-8a94e8b45c3a',
-      colors: {
-        itemBackground: 'var(--F_Timeline_Item_Background_Yellow)',
-        itemText: 'var(--F_Timeline_Item_Text_Yellow)',
-        buttonBackground: 'var(--F_Timeline_Item_Background_Yellow)',
-        buttonHoverBackground: 'var(--F_Timeline_Item_Text_Yellow)'
-      },
+      areaColor: 'gray',
       activities: [
         {
           title: 'Pre-Open',
@@ -574,18 +561,19 @@ const Template: ComponentStory<typeof Timeline> = args => {
   const [isRefreshed, set_isRefreshed] = useState(true)
 
   
-  let tags: ButtonProps[] = value?.map(({ area, colors }) => {
+  let tags: ButtonProps[] = value?.map(({ area, areaColor }) => {
     return {
       name: area,
       hasIcon: false,
-      background: colors.buttonBackground
+      background: areaColor
     }
   })
 
   let areaStrings: areaIdType[] = value?.map((area) => {
     return {
       area: area.area,
-      areaId: area.areaId
+      areaId: area.areaId,
+      areaColor: area.areaColor
    }
   })
 
@@ -959,8 +947,8 @@ const Template: ComponentStory<typeof Timeline> = args => {
                         onChange={() => null}
                         onIntervalClick={() => null}
                         onLaneItemClick={onLaneItemClick}
-                        color={item.colors.itemText}
-                        backgroundColor={item.colors.itemBackground}
+                        color={item.areaColor}
+                        backgroundColor={item.areaColor}
                       />
                     )
                   })

@@ -78,7 +78,7 @@ export const getColorFromGuid = (guid : string) => {
   return 'white'
 }
 
-function shadeColor(color: string, percent: number) {
+export function shadeHexColor(color: string, percent: number) {
 
   var R = parseInt(color.substring(1,3),16);
   var G = parseInt(color.substring(3,5),16);
@@ -104,11 +104,11 @@ function shadeColor(color: string, percent: number) {
 }
 
 export function calculateHoverColor(hex: string): string {
-  return shadeColor(hex, -8)
+  return shadeHexColor(hex, -8)
 }
 
 export function calculateActiveColor(hex: string): string {
-  return shadeColor(hex, -12)
+  return shadeHexColor(hex, -12)
 }
 
 export const getInitials = (name : string) => 
