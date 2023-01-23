@@ -1,16 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 
-import { Button, TimeZone } from '../../internal'
-import { Box } from '../../internal'
-import { Spacer } from '../../internal'
-import { Gap } from '../../internal'
+import { Button, TimeZone, Box, Spacer, Gap, DatePicker, TimePicker } from '../../internal'
 import {  getOrdinal, capitalizeFirstLetter } from '../../utils'
-
-import { DatePicker } from '../../internal'
-import { TimePicker } from '../../internal'
 import { IconPrefix } from '@fortawesome/fontawesome-common-types'
-import { ZonedDateTime } from '@js-joda/core'
 
 
 const addMinutes = (time: string, minutes: number) : string => {
