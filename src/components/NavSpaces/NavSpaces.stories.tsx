@@ -187,6 +187,15 @@ const Template: ComponentStory<typeof NavSpaces> = args => {
       channels: eventChannels
     },
     {
+      name: 'New Organization 112',
+      color: 'cyan',
+      channels: organizationChannels
+    },
+    {
+      color: 'red',
+      channels: organizationChannels
+    },
+    {
       name: 'AVsync.LIVE Artists Chicago',
       src: 'https://api.avsync.live/uploads/avsync_logo_border_45b816cca1.png',
       channels: organizationChannels

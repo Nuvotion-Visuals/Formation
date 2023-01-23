@@ -8,7 +8,7 @@ import { AspectRatio, Icon, Dropdown, Spacer, getLabelColor, Placeholders } from
 import { Channels } from './Channels'
 
 interface Props {
-  name: string,
+  name?: string,
   src?: string,
   dateString?: string,
   location?: string,
@@ -29,10 +29,6 @@ export const SpaceSidebar = ({
   return (
     <S.SpaceSidebar>
       <Spacer />
-      {
-        !src && !name &&
-          <Placeholders />
-      }
       <>
         {
           src || color
@@ -52,7 +48,7 @@ export const SpaceSidebar = ({
           <header>
             <S.Name>
               { 
-                name
+                name ? name : 'No name yet'
               }
             </S.Name>
           </header>

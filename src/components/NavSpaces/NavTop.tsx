@@ -47,12 +47,13 @@ export const NavTop = ({
                   src={src}
                   date={date}
                   small={true}
+                  name={name}
                   active={true}
                   colorString={color ? getLabelColor(color) : undefined}
                 />
                 <S.Title>
                   {
-                    name
+                    name ? name : 'No name yet'
                   }
                 </S.Title>
               </S.SpaceInfo>

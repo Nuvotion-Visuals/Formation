@@ -11,7 +11,7 @@ import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 import { ColorType } from '../../types'
 
 export interface Space {
-  name: string,
+  name?: string,
   date?: Date,
   location?: string,
   channels?: any,
@@ -85,7 +85,8 @@ export const NavSpaces = ({
             name={spaces[activeSpaceIndex]?.name}
             src={spaces[activeSpaceIndex]?.src}
             date={spaces[activeSpaceIndex]?.date}
-            onBack={() => onSwipe(activeSwipeIndex - 1)}            
+            onBack={() => onSwipe(activeSwipeIndex - 1)}      
+            color={spaces[activeSpaceIndex]?.color}      
           />
 
           <S.Scroll 
@@ -109,6 +110,7 @@ export const NavSpaces = ({
             src={spaces[activeSpaceIndex]?.src}
             date={spaces[activeSpaceIndex]?.date}
             onBack={() => onSwipe(activeSwipeIndex - 1)}
+            color={spaces[activeSpaceIndex]?.color}
           />
           <S.Scroll 
             numberOfNavBars={1}
@@ -162,6 +164,7 @@ export const NavSpaces = ({
               name={spaces[activeSpaceIndex]?.name}
               src={spaces[activeSpaceIndex]?.src}
               hideContext={true}
+              color={spaces[activeSpaceIndex]?.color}
             />
             <S.Scroll 
               numberOfNavBars={0}

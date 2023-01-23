@@ -3,7 +3,7 @@ import React, { memo } from 'react'
 import styled from 'styled-components'
 import { ColorType } from '../../types'
 
-import { getLinkComponent, Icon, calculateHoverColor } from '../../internal'
+import { getLinkComponent, Icon, calculateHoverColor, getInitials } from '../../internal'
 
 interface Props {
   src?: string,
@@ -50,7 +50,9 @@ export const SpaceIcon = memo(({
                 </>
             : icon
               ? <Icon icon={icon} iconPrefix={iconPrefix}/>
-              : null
+              : !src
+                ? <S.Name>{name ? getInitials(name) : '?'}</S.Name>
+                : null
         }
       </S.Date>
     </S.SpaceIcon>
@@ -141,5 +143,11 @@ const S = {
     width: 100%;
     text-align: center;
     margin-top: -0.875rem;
+  `,
+  Name: styled.div`
+    font-weight: 600;
+    font-size: 20px;
+    width: 100%;
+    text-align: center;
   `
 }

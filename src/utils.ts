@@ -114,7 +114,7 @@ export function calculateActiveColor(hex: string): string {
 }
 
 export const getInitials = (name : string) => 
-  name?.split(' ').map((n,i,a)=> i === 0 || i+1 === a.length ? n[0] : null).join('')
+  name?.split(' ').map((n,i,a)=> i === 0 || i+1 === a.length ? n[0] : null).join('').toUpperCase()
 
 
 export const capitalizeFirstLetter = (string: string) => string[0].toUpperCase() + string.substring(1)
