@@ -13,13 +13,15 @@ const Dropdown = ({
   onChange,
   onClose,
   options,
-  hasIcon
+  hasIcon,
+  maxWidth
 } : {
   value: string,
   onChange: (arg0: string) => void,
   onClose: () => void,
   options: string[],
-  hasIcon: boolean
+  hasIcon: boolean,
+  maxWidth?: string
 }) => {
 
   const scrollContainerRef = useRef<HTMLDivElement | null>(null)
@@ -39,6 +41,7 @@ const Dropdown = ({
   return <S.DropdownDropdown 
     ref={scrollContainerRef} 
     hasIcon={hasIcon}
+    maxWidth={maxWidth}
   >
     {
       options.map(item =>
@@ -65,7 +68,8 @@ interface Props {
   error?: string,
   options: string[],
   icon?: IconName,
-  iconPrefix?: IconPrefix
+  iconPrefix?: IconPrefix,
+  maxWidth?: string
 }
 
 export const Select = ({
@@ -75,7 +79,8 @@ export const Select = ({
   error,
   options,
   icon,
-  iconPrefix
+  iconPrefix,
+  maxWidth
 }: Props) => {
   const [isOpen, set_isOpen] = useState(false)
   const [displayValue, set_displayValue] = useState(value)
@@ -98,10 +103,11 @@ export const Select = ({
         set_preventFocus(isTouchCapable())
         set_isOpen(!isOpen)
       }}
+      maxWidth={maxWidth}
     >
       <TextInput
         label={label}
-        icon={isOpen ? 'chevron-up' : 'chevron-down'}
+        icon={icon ? icon : isOpen ? 'chevron-up' : 'chevron-down'}
         iconPrefix={iconPrefix}
         value={displayValue}
         onChange={value => onChange(value)}
@@ -119,6 +125,7 @@ export const Select = ({
               onClose={() => set_isOpen(false)}
               options={options}
               hasIcon={iconPrefix !== undefined}
+              maxWidth={maxWidth}
             />
         : null
       }
@@ -127,9 +134,12 @@ export const Select = ({
 } 
 
 const S = {
-  Select: styled.div`
+  Select: styled.div<{
+    maxWidth?: string
+  }>`
     position: relative;
     width: 100%;
+    max-width: ${props => props.maxWidth ? props.maxWidth : 'auto'};
   `,
   Item: styled.div<{
     active: boolean
@@ -145,7 +155,8 @@ const S = {
     }
   `,
   DropdownDropdown: styled.div<{
-    hasIcon: boolean
+    hasIcon: boolean,
+    maxWidth?: string
   }>`
     position: absolute;
     z-index: 1;
@@ -154,8 +165,9 @@ const S = {
     box-shadow: var(--F_Outline_Outset_Focus);
     top: calc(var(--F_Input_Height) + .75rem);
     width: calc(100% - 1.5rem);
-    min-width: 8rem;
+    min-width: ${props => props.maxWidth ? props.maxWidth : '6rem'};
     max-height: 300px;
+    max-width: ${props => props.maxWidth ? props.maxWidth : 'auto'};
     overflow-y: auto;
     overflow-x: hidden;
     left: ${props => props.hasIcon ? '1.75rem' : '0rem'};

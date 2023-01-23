@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
 import { LabelColorPicker } from './LabelColorPicker'
+import { Colors } from '../../types'
 
 export default {
   title: 'Input/LabelColorPicker',
@@ -20,20 +21,7 @@ const Template: ComponentStory<typeof LabelColorPicker> = args => {
 
 export const Default = Template.bind({})
 Default.args = {
-  options: [
-    'red',
-    'orange',
-    'yellow',
-    'green',
-    'blue',
-    'indigo',
-    'violet',
-    'pink',
-    'purple',
-    'cyan',
-    'teal',
-    'gray'
-  ],
+  options: Colors,
   label: 'Label color'
 }
 

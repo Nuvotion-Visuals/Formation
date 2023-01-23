@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 
-import { Icon, Spacer, Box, getLinkComponent, LineBreak, Item, } from '../../internal'
+import { Placeholders, LineBreak, Item, } from '../../internal'
 
 type Channel = {
   name: string,
@@ -25,7 +25,7 @@ export const Channels = ({ channels }: Props) => {
       {
         channels?.length >= 0
           ? <LineBreak />
-          : null
+          : <Placeholders />
       }
     
       {

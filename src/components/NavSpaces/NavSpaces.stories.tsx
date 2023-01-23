@@ -188,8 +188,7 @@ const Template: ComponentStory<typeof NavSpaces> = args => {
     },
     {
       name: 'New Organization 112',
-      color: 'cyan',
-      channels: organizationChannels
+      color: 'cyan'
     },
     {
       color: 'red',
