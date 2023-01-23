@@ -163,7 +163,7 @@ export const ActivityForm = ({ activity, areas, onChange, isOpen }: Props) => {
   useEffect(() => {
     set_area(activity == undefined ? areas[0].area : activity.area)
     set_areaId(activity == undefined ? areas[0].areaId : activity.areaId)
-    set_areaColor(color => undefined ? areas[0].areaColor : '')
+    set_areaColor(color => undefined ? areas[0].areaColor : 'blue')
     set_title(activity !== undefined ? activity?.title : '')
     set_dateTimeValue([{
       startTime: formatTimeString(activity?.startTime),
