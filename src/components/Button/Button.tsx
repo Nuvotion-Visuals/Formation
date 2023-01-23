@@ -227,7 +227,7 @@ const calculatePadding = (props: Props) => {
 
 const calculateBackgroundColor = (props: Props) => {
   if (typeof props.background === 'string' && props.primary) {
-    return getLabelColor(props.background);
+    return props.background;
   }
   if (props.primary) {
     return 'var(--F_Primary)';

@@ -150,6 +150,7 @@ export const ActivityForm = ({ activity, areas, onChange, isOpen }: Props) => {
 
   const [area, set_area] = useState<string | undefined>()
   const [areaId, set_areaId] = useState<string | undefined>()
+  const [areaColor, set_areaColor] = useState<string | undefined>()
   const [title, set_title] = useState<string | undefined>()
   const [dateTimeValue, set_dateTimeValue] = useState([{
     startTime: formatTimeString(activity?.startTime),
@@ -162,6 +163,7 @@ export const ActivityForm = ({ activity, areas, onChange, isOpen }: Props) => {
   useEffect(() => {
     set_area(activity == undefined ? areas[0].area : activity.area)
     set_areaId(activity == undefined ? areas[0].areaId : activity.areaId)
+    set_areaColor(color => undefined ? areas[0].areaColor : '')
     set_title(activity !== undefined ? activity?.title : '')
     set_dateTimeValue([{
       startTime: formatTimeString(activity?.startTime),
