@@ -1,9 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
-
-import { Button, Spacer } from '../../internal'
+import { Spacer, getLabelColor } from '../../internal'
+import { ColorType } from '../../types'
 
 import { NavBack } from './NavBack'
 import { SpaceIcon } from './SpaceIcon'
@@ -15,7 +14,8 @@ interface Props {
   onBack?: () => void,
   hideContext?: boolean,
   hideReturnContext?: boolean,
-  children?: React.ReactNode
+  children?: React.ReactNode,
+  color?: ColorType
 }
 
 export const NavTop = ({ 
@@ -25,7 +25,8 @@ export const NavTop = ({
   onBack,
   hideContext,
   hideReturnContext,
-  children
+  children,
+  color
 } : Props) => {
   return (<S.Header>
     <S.Inner onClick={onBack}>
@@ -46,11 +47,13 @@ export const NavTop = ({
                   src={src}
                   date={date}
                   small={true}
+                  name={name}
                   active={true}
+                  colorString={color ? getLabelColor(color) : undefined}
                 />
                 <S.Title>
                   {
-                    name
+                    name ? name : 'No name yet'
                   }
                 </S.Title>
               </S.SpaceInfo>

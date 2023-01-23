@@ -15,22 +15,17 @@ export const Progress = ({  maximum, value, small, gradient, showLabel, centerLa
   const [gradientColor, setGradientColor] = useState<string>('')
 
   const calculateGradient = (status: number) => {
-    switch (true) {
-      case (status > 0 && status <= 25):
-        setGradientColor('var(--F_Progress_Red)')
-        break;
-      case (status > 25.01 && status <= 50):
-        setGradientColor('var(--F_Progress_Orange)')
-        break;
-      case (status > 50.01 && status <= 75):
-        setGradientColor('var(--F_Progress_Yellow)')
-        break;
-      case (status > 75.01 && status <= 99.5):
-        setGradientColor('var(--F_Progress_Green)')
-        break;
-      case (status > 99.6 && status <= 100):
-        setGradientColor('var(--F_Progress_Complete)')
-        break;
+    if (status > 33) {
+      setGradientColor('var(--F_Label_Color_Red)')
+    }
+    if (status > 33 && status > 66) {
+      setGradientColor('var(--F_Label_Color_Orange)')
+    }
+    if (status > 66 && status > 99) {
+      setGradientColor('var(--F_Label_Color_Orange)')
+    }
+    else {
+      setGradientColor('var(--F_Label_Color_Green)')
     }
   }
 
@@ -46,7 +41,7 @@ export const Progress = ({  maximum, value, small, gradient, showLabel, centerLa
     >
       <S.Slider
         status={constrainedValue / maximum * 100}  
-        gradient={gradient !== undefined ? gradient : false}
+        gradient={gradient}
         gradientColor={gradientColor}
       />
       { 
@@ -74,7 +69,7 @@ const S = {
   `,
   Slider: styled.div<{
     status: number,
-    gradient: boolean,
+    gradient?: boolean,
     gradientColor: string,
   }>`
     height: 100%;

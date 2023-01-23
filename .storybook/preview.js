@@ -58,7 +58,8 @@ library.add(
   fas.faArchive, fas.faShare, fas.faTimes, fas.faMessage,
   fas.faHashtag, fas.faMapPin, fas.faBookmark, fas.faDownload,
   fas.faExternalLink, fas.faCrop, fas.faImage, fas.faUserCircle,
-  fas.faEraser, fas.faImage
+  fas.faEraser, fas.faImage, fas.faChevronDown, fas.faChevronUp, 
+  fas.faSort, fas.faArrowUp, fas.faArrowDown, fas.faThumbTack
 )
 
 export const parameters = {

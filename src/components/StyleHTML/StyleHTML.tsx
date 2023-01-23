@@ -152,7 +152,7 @@ const S = {
 
     table {
       border-collapse:separate;
-      border: solid var(--F_Surface_1) 2px;
+      border: solid var(--F_Surface_1) 1px;
       border-radius:.5rem;
       color: var(--F_Font_Color);
       margin-top: 1rem;
@@ -170,7 +170,7 @@ const S = {
     }
 
     td, th {
-      border-left: solid var(--F_Surface_1) 2px;
+      border-left: solid var(--F_Surface_1) 1px;
       padding: 5px;
       padding: .75rem;
     }
@@ -182,7 +182,7 @@ const S = {
     }
 
     td {
-      border-top: solid var(--F_Surface_1) 2px;
+      border-top: solid var(--F_Surface_1) 1px;
     }
 
     td:last-child {

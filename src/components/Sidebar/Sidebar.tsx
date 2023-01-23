@@ -192,7 +192,7 @@ const S = {
     top: 0;
     width: calc(100vw * var(--F_Zoom_Scale));
     height: calc(100vh * var(--F_Zoom_Scale));
-    background: var(--F_Backdrop);
+    background: var(--F_Backdrop_Light);
     z-index: 2;
     @media screen and (min-width: 1024px) {
       display: none;

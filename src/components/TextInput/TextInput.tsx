@@ -20,8 +20,8 @@ type Props = {
   value: string,
   autoFocus?: boolean,
   icon?: IconName,
-  iconPrefix?: IconPrefix,
-  tooltip?: string,
+  iconPrefix?: IconPrefix
+  hint?: string,
   onClick?: () => void,
   preventFocus?: boolean,
   onBlur?: () => void,
@@ -31,6 +31,7 @@ type Props = {
   onChangeEvent?: (e: any) => void,
   placeholder?: string,
   forceFocus?: boolean,
+  hideOutline?: boolean
 }
 
 export const TextInput = ({ 
@@ -46,7 +47,7 @@ export const TextInput = ({
   autoFocus,
   icon,
   iconPrefix,
-  tooltip,
+  hint,
   onClick,
   preventFocus,
   onBlur,
@@ -56,7 +57,8 @@ export const TextInput = ({
   name,
   onChangeEvent,
   placeholder,
-  forceFocus
+  forceFocus,
+  hideOutline
 }: Props) => {
   // @ts-ignore
   const autoFocusRef = useCallback(el => el && autoFocus ? el.focus() : null, [])
@@ -82,6 +84,7 @@ export const TextInput = ({
       success={success}
       compact={compact}
       forceFocus={forceFocus}
+      hideOutline={hideOutline}
     >
       <S.ErrorIconContainer>
         
@@ -173,28 +176,15 @@ export const TextInput = ({
           label
         }
       </S.Label>
-
-        {
-          tooltip
-            ? <S.ErrorIconContainer 
-                title={tooltip}
-              >
-                <Icon 
-                  icon={'info-circle'} 
-                  iconPrefix={iconPrefix}
-                />
-              </S.ErrorIconContainer>
-            : null
-        }
     </S.Container>
     
     {
-      error
-        ? <S.ErrorContainer>
-            <S.Error>
-              { error }
-            </S.Error>
-          </S.ErrorContainer>
+      error || hint
+        ? <S.MessageContainer isHint={!!hint} hasIcon={!!icon}>
+            <S.Message>
+              { error ? error : hint }
+            </S.Message>
+          </S.MessageContainer>
         : null
     }
     </S.OutterContainer>
@@ -228,14 +218,14 @@ const S = {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    
   `,
   Container: styled.div<{
     error?: string,
     disabled?: boolean,
     success?: boolean,
     compact?: boolean,
-    forceFocus?: boolean
+    forceFocus?: boolean,
+    hideOutline?: boolean
   }>`
     position: relative;
     display: flex;
@@ -244,7 +234,18 @@ const S = {
     width: calc(100% - 2rem);
     height: ${props => props.compact ? 'var(--F_Input_Height)' : 'var(--F_Input_Height_Hero)'};
     line-height: 0;
-
+    border-radius: .75rem;
+    box-shadow: ${props => 
+      props.hideOutline
+        ? 'none'
+        : props.success 
+          ? 'var(--F_Outline_Success)' 
+          : props.error
+            ? 'var(--F_Outline_Error)'
+            : props.forceFocus
+                ? 'var(--F_Outline_Focus)'
+                : 'var(--F_Outline)'
+    };
     &:hover {
       box-shadow: ${props => 
         props.success 
@@ -273,18 +274,6 @@ const S = {
       label {
         color: var(--F_Font_Color);
       }
-
-    };
-    border-radius: .75rem;
-
-    box-shadow: ${props => 
-      props.success 
-        ? 'var(--F_Outline_Success)' 
-        : props.error
-          ? 'var(--F_Outline_Error)'
-          : props.forceFocus
-              ? 'var(--F_Outline_Focus)'
-              : 'var(--F_Outline)'
     };
   `,
   Input: styled.input<{
@@ -342,20 +331,21 @@ const S = {
     pointer-events: none;
     animation: ${props => props.shrink ? css`${moveUp} ${props.disableAnimation ? '0s' : '.15s'} forwards` : 'none'};
   `,
-  ErrorContainer: styled.div`
+  MessageContainer: styled.div<{
+    isHint: boolean,
+    hasIcon: boolean
+  }>`
     width: 100%;
     margin-top: .5rem;
-
-    color: var(--F_Font_Color_Error);
+    color: ${props => props.isHint ? 'var(--F_Font_Color_Disabled)' : 'var(--F_Font_Color_Error)'};
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    /* line-height: 1; */
-  `,
-  Error: styled.div`
-    margin-top: -.25rem;
     margin-left: 1rem;
-    font-size: 13px;
+  `,
+  Message: styled.div`
+    margin-top: -.25rem;
+    font-size: var(--F_Font_Size_Small);
   `,
   ErrorIconContainer: styled.div`
     position: relative;

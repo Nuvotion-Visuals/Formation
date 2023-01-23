@@ -32,3 +32,11 @@ NoLabel.args = {
   options: ['JavaScript', 'HTML', 'CSS']
 }
 
+export const CustomIcon = Template.bind({})
+CustomIcon.args = {
+  label: 'Size',
+  iconPrefix: 'fas',
+  icon: 'users',
+  options: ['1', '2', '3', '4'],
+  maxWidth: '6rem'
+}

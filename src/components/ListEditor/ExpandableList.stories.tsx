@@ -49,7 +49,7 @@ Positions.args = {
     color: 'none',
     title: 'Dancers',
     children: <>
-      <Label label={'2 / 3'} color={'darkorange'}/>
+      <Label label={'2 / 3'} color={'orange'}/>
     </>,
     options: [
       {
@@ -90,7 +90,7 @@ Positions.args = {
       name: 'Isabelle',
       onClick: () => {},
       children: <>
-        <Label label={'tentative'} color={'darkorange'}/>
+        <Label label={'tentative'} color={'orange'}/>
       </>,
       options: [
         {
@@ -160,7 +160,7 @@ Details.args = {
       color: 'none',
       emphasize: true,
       children: <>
-        <Label label={'todo'} color={'darkorange'}/>
+        <Label label={'todo'} color={'orange'}/>
       </>,
       options: [
         {

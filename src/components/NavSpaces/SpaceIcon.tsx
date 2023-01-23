@@ -1,8 +1,9 @@
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 import React, { memo } from 'react'
 import styled from 'styled-components'
+import { ColorType } from '../../types'
 
-import { getLinkComponent, Icon } from '../../internal'
+import { getLinkComponent, Icon, calculateHoverColor, getInitials } from '../../internal'
 
 interface Props {
   src?: string,
@@ -14,6 +15,7 @@ interface Props {
   active?: boolean,
   icon?: IconName,
   iconPrefix?: IconPrefix,
+  colorString?: string
 }
 
 export const SpaceIcon = memo(({ 
@@ -25,7 +27,8 @@ export const SpaceIcon = memo(({
   name,
   active,
   icon,
-  iconPrefix
+  iconPrefix,
+  colorString
 }: Props) => {
   const Link = getLinkComponent()
 
@@ -36,8 +39,9 @@ export const SpaceIcon = memo(({
       small={small}
       title={name}
       active={active}
+      color={colorString}
     >
-      <S.Date darken={!!date}>
+      <S.Date darken={!!date && !!src} hasColor={!!colorString}>
         {
           date
             ? <>
@@ -46,7 +50,9 @@ export const SpaceIcon = memo(({
                 </>
             : icon
               ? <Icon icon={icon} iconPrefix={iconPrefix}/>
-              : null
+              : !src
+                ? <S.Name>{name ? getInitials(name) : '?'}</S.Name>
+                : null
         }
       </S.Date>
     </S.SpaceIcon>
@@ -79,9 +85,7 @@ const S = {
     height: 52px;
     background-size: cover;
     background-position: center;
-    /* transform-origin: 0 0; */
     transform: ${props => props.small ? 'scale(0.75)' : 'none'};
-    /* box-shadow: ${props => props.active ? 'none' : 'var(--F_Outline)'}; */
     transition: border-radius .3s;
     overflow: hidden;
     align-items: start;
@@ -91,14 +95,28 @@ const S = {
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
-    background-color: ${props => props.src ? 'none' : 'var(--F_Surface_1)'};
-    
+    background-color: ${props => 
+      props.src 
+        ? 'none' 
+        : props.color 
+          ? props.color
+          : 'var(--F_Surface_1)'
+    };
     &:hover {
-      background-color: ${props => props.src ? 'none' : 'var(--F_Surface_2)'};
-    }
+      border-radius: .5rem;
+
+      background-color: ${props => 
+      props.src 
+        ? 'none' 
+        : props.color 
+          ? calculateHoverColor(props.color)
+          : 'var(--F_Surface_2)'
+      }
+    };
   `,
   Date: styled.div<{
-    darken: boolean
+    darken: boolean,
+    hasColor: boolean
   }>`
     width: 100%;
     height: 100%;
@@ -106,11 +124,12 @@ const S = {
     align-items: center;
     flex-wrap: wrap;
     justify-content: center;
-    color: white;
+    color: ${props => props.darken ? 'white' : 'var(--F_Font_Color)'};
+    color: #e4e4e4;
     * {
-      color: ${props => props.darken ? 'white' : 'var(--F_Font_Color)'};
+      color: ${props => props.hasColor || props.darken ? 'white' : 'var(--F_Font_Color)'};
     }
-    background: ${props => props.darken ? 'var(--F_Backdrop)' : 'none'};
+    background: ${props => props.darken ? 'var(--F_Backdrop_Light)' : 'none'};
   `,
   Month: styled.div`
     font-size: 14px;
@@ -124,5 +143,11 @@ const S = {
     width: 100%;
     text-align: center;
     margin-top: -0.875rem;
+  `,
+  Name: styled.div`
+    font-weight: 600;
+    font-size: 20px;
+    width: 100%;
+    text-align: center;
   `
 }

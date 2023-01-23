@@ -4,7 +4,6 @@ it’s often more intuitive than defining a color in terms of the Red, Green and
 It’s easy to picture how a less saturated version of a color would look like, for example. */
 :root {
   --F_Primary: hsl(165, 87%, 39%);
-  --F_Primary_100: hsl(165, 71%, 62%);
   --F_Primary_Hover: hsl(165, 87%, 35%);
   --F_Primary_Variant: hsl(165, 87%, 33%); /* More saturated, vibrant variant */
 
@@ -12,8 +11,8 @@ It’s easy to picture how a less saturated version of a color would look like, 
   --F_Background_Light: hsla(0, 0%, 100%, .4);
   --F_Background_Alternating: hsl(0, 0%, 96%);
 
-  --F_Emphasize: hsl(39, 100%, 94%);
-  --F_Emphasize_Hover: hsl(39, 80%, 86%);
+  --F_Emphasize: #FFF3E0;
+  --F_Emphasize_Hover: #FFE0B2;
 
   --F_Surface_0: hsl(0, 0%, 88%);
   --F_Surface: hsl(0, 0%, 80%);
@@ -21,24 +20,24 @@ It’s easy to picture how a less saturated version of a color would look like, 
   --F_Surface_2: hsl(0, 0%, 66%); /* active */
 
   --F_Font_Color: hsl(0, 0%, 14%);
-  --F_Font_Color_Disabled: hsl(0, 0%, 33%);
+  --F_Font_Color_Disabled: hsl(0, 0%, 40%);
   --F_Font_Color_Label: hsl(0, 0%, 32%);
   --F_Font_Color_Error: hsl(0, 90%, 60%);
   --F_Font_Color_Success: hsl(147, 70%, 45%);
   --F_Font_Color_Warning: hsl(25, 100%, 55%);
   --F_Font_Color_Link: hsl(201, 66%, 29%);
 
-  --F_Label_Background_Red: #b40505;
-  --F_Label_Background_Orange: #ff8c00;
-  --F_Label_Background_Yellow: #927c01;
-  --F_Label_Background_Green: #0B6623;
-  --F_Label_Background_Blue: #0d47a1;
-  --F_Label_Background_Indigo: #8000DE;
-  --F_Label_Background_Violet: #4a148c;
-  --F_Label_Background_Pink: #880e4f;
-  --F_Label_Background_Cyan: #006064;
-  --F_Label_Background_Teal: #004d40;
-  --F_Label_Background_Gray: #424242;
+  --F_Label_Background_Red: #D32F2F;
+  --F_Label_Background_Orange: #F4511E;
+  --F_Label_Background_Yellow: #FFAB00;
+  --F_Label_Background_Green: #388E3C;
+  --F_Label_Background_Blue: #1976D2;
+  --F_Label_Background_Indigo: #5C6BC0;
+  --F_Label_Background_Purple: #673AB7;
+  --F_Label_Background_Pink: #EC407A;
+  --F_Label_Background_Cyan: #0097A7;
+  --F_Label_Background_Teal: #009688;
+  --F_Label_Background_Gray: #757575;
 
   --F_Timeline_Item_Background_Red: #c64f4f90;
   --F_Timeline_Item_Text_Red: #730303;
@@ -47,20 +46,30 @@ It’s easy to picture how a less saturated version of a color would look like, 
   --F_Timeline_Item_Background_Yellow: #c6b24f90;
   --F_Timeline_Item_Text_Yellow: #705c02;
 
-  --F_Backdrop: rgba(0, 0, 0, 0.834);
-  --F_Activity_Backdrop: #f9f9f9;
-
-  --F_Progress_Red: #af2222;
-  --F_Progress_Orange: #b59b1c;
-  --F_Progress_Yellow: #b6b617;
-  --F_Progress_Green: #51c91e;
-  --F_Progress_Complete: #00ff13;
+  --F_Backdrop: rgba(0, 0, 0, .7);
+  --F_Backdrop_Light: rgba(0, 0, 0, 0.4);
 
   --F_Gradient_To_Background: linear-gradient(to bottom, var(--F_Background_Light), var(--F_Background)); 
-}
 
-.F_Empty {
-  filter: invert();
+  --F_Invert: invert(1);
+
+  /* Outlines */
+  /* Outlines use box shadows so as to not take up space in the document */
+  --F_Outline: inset 0 0 0 1px hsl(0, 0%, 60%);
+  --F_Outline_Hover: inset 0 0 0 1px hsl(0, 0%, 40%);
+  --F_Outline_Focus: inset 0 0 0 1px hsl(0, 0%, 20%);
+  --F_Outline_Primary: inset 0 0 0 1px var(--F_Primary);
+  --F_Outline_Error: inset 0 0 0 1px var(--F_Font_Color_Error);
+  --F_Outline_Disabled: inset 0 0 0 1px var(--F_Font_Color_Disabled);
+  --F_Outline_Success: inset 0 0 0 1px var(--F_Font_Color_Success);
+
+  --F_Outline_Outset: 0 0 0 1px hsl(0, 0%, 60%);
+  --F_Outline_Outset_Hover: 0 0 0 1px hsl(0, 0%, 40%);
+  --F_Outline_Outset_Focus: 0 0 0 1px hsl(0, 0%, 20%);
+  --F_Outline_Outset_Primary: 0 0 0 1px var(--F_Primary);
+  --F_Outline_Outset_Error: 0 0 0 1px var(--F_Font_Color_Error);
+  --F_Outline_Outset_Disabled: 0 0 0 1px var(--F_Font_Color_Disabled);
+  --F_Outline_Outset_Success: 0 0 0 1px var(--F_Font_Color_Success);
 }
 
 /* Zoom */
@@ -68,28 +77,6 @@ It’s easy to picture how a less saturated version of a color would look like, 
 :root {
   --F_Zoom: 1;
   --F_Zoom_Scale: calc(1 / var(--F_Zoom)); /* Derived property, do not edit*/
-}
-
-/* Outlines */
-/* Outlines use box shadows so as to not take up space in the document */
-:root {
-  --F_Outline: inset 0 0 0 1px hsl(0, 0%, 70%);
-  --F_Outline_Light: inset 0 0 0 1px hsl(0, 0%, 80%);
-  --F_Outline_Hover: inset 0 0 0 1px hsl(0, 0%, 50%);
-  --F_Outline_Focus: inset 0 0 0 1px hsl(0, 0%, 35%);
-  --F_Outline_Primary: inset 0 0 0 1px var(--F_Primary);
-  --F_Outline_Error: inset 0 0 0 1px var(--F_Font_Color_Error);
-  --F_Outline_Disabled: inset 0 0 0 1px var(--F_Font_Color_Disabled);
-  --F_Outline_Success: inset 0 0 0 1px var(--F_Font_Color_Success);
-
-  --F_Outline_Outset: 0 0 0 1px hsl(0, 0%, 70%);
-  --F_Outline_Outset_Light: 0 0 0 1px hsl(0, 0%, 80%);
-  --F_Outline_Outset_Hover: 0 0 0 1px hsl(0, 0%, 50%);
-  --F_Outline_Outset_Focus: 0 0 0 1px hsl(0, 0%, 35%);
-  --F_Outline_Outset_Primary: 0 0 0 1px var(--F_Primary);
-  --F_Outline_Outset_Error: 0 0 0 1px var(--F_Font_Color_Error);
-  --F_Outline_Outset_Disabled: 0 0 0 1px var(--F_Font_Color_Disabled);
-  --F_Outline_Outset_Success: 0 0 0 1px var(--F_Font_Color_Success);
 }
 
 /* Element proportions */
@@ -109,6 +96,7 @@ It’s easy to picture how a less saturated version of a color would look like, 
   --F_Font_Family: sans-serif;
   --F_Font_Size: 15px;
   --F_Font_Size_Label: 14px;
+  --F_Font_Size_Small: 13px;
   --F_Font_Size_Title: 17px;
 
   --F_Letter_Spacing: .04em;
@@ -1718,33 +1706,47 @@ button {
   --F_Font_Color_Warning: hsl(25, 100%, 40%);
   --F_Font_Color_Link: hsl(201, 100%, 80%);
 
-  --F_Label_Background_Red: #b40505;
-  --F_Label_Background_Orange: #ff8c00;
-  --F_Label_Background_Yellow: #927c01;
-  --F_Label_Background_Green: #0B6623;
-  --F_Label_Background_Blue: #0d47a1;
-  --F_Label_Background_Indigo: #8000DE;
-  --F_Label_Background_Violet: #4a148c;
-  --F_Label_Background_Pink: #880e4f;
-  --F_Label_Background_Cyan: #006064;
-  --F_Label_Background_Teal: #004d40;
-  --F_Label_Background_Gray: #424242;
+  --F_Label_Background_Red: #A72323;
+  --F_Label_Background_Orange: #B83309;
+  --F_Label_Background_Yellow: #996700;
+  --F_Label_Background_Green: #2D7230;
+  --F_Label_Background_Blue: #145EA8;
+  --F_Label_Background_Indigo: #344087;
+  --F_Label_Background_Purple: #522E92;
+  --F_Label_Background_Pink: #A11041;
+  --F_Label_Background_Cyan: #007986;
+  --F_Label_Background_Teal: #00786D;
+  --F_Label_Background_Gray: #757575;
 
   --F_Timeline_Item_Background_Red: #c64f4f90;
   --F_Timeline_Item_Text_Red: #730303;
   --F_Timeline_Item_Background_Blue: #4f5dc690;
   --F_Timeline_Item_Text_Blue: #083877;
   --F_Timeline_Item_Background_Yellow: #c6b24f90;
-  --F_Timeline_Item_Text_Yellow: #705c02;
+  --F_Timeline_Item_Text_Yellow: #585F63;
 
-  --F_Backdrop: rgb(0, 0, 0, .4);
-  --F_Activity_Backdrop: #f9f9f9;
-
-  --F_Progress_Red: #af2222;
-  --F_Progress_Orange: #b59b1c;
-  --F_Progress_Yellow: #b6b617;
-  --F_Progress_Green: #51c91e;
-  --F_Progress_Complete: #00ff13;
+  --F_Backdrop: rgba(0, 0, 0, .7);
+  --F_Backdrop_Light: rgba(0, 0, 0, 0.4);
 
   --F_Gradient_To_Background: linear-gradient(to bottom, var(--F_Background_Light), var(--F_Background)); 
+
+  --F_Invert: invert(0);
+
+  /* Outlines */
+  /* Outlines use box shadows so as to not take up space in the document */
+  --F_Outline: inset 0 0 0 1px hsl(0, 0%, 30%);
+  --F_Outline_Hover: inset 0 0 0 1px hsl(0, 0%, 50%);
+  --F_Outline_Focus: inset 0 0 0 1px hsl(0, 0%,70%);
+  --F_Outline_Primary: inset 0 0 0 1px var(--F_Primary);
+  --F_Outline_Error: inset 0 0 0 1px var(--F_Font_Color_Error);
+  --F_Outline_Disabled: inset 0 0 0 1px var(--F_Font_Color_Disabled);
+  --F_Outline_Success: inset 0 0 0 1px var(--F_Font_Color_Success);
+
+  --F_Outline_Outset: 0 0 0 1px hsl(0, 0%, 30%);
+  --F_Outline_Outset_Hover: 0 0 0 1px hsl(0, 0%, 50%);
+  --F_Outline_Outset_Focus: 0 0 0 1px hsl(0, 0%, 70%);
+  --F_Outline_Outset_Primary: 0 0 0 1px var(--F_Primary);
+  --F_Outline_Outset_Error: 0 0 0 1px var(--F_Font_Color_Error);
+  --F_Outline_Outset_Disabled: 0 0 0 1px var(--F_Font_Color_Disabled);
+  --F_Outline_Outset_Success: 0 0 0 1px var(--F_Font_Color_Success);
 }

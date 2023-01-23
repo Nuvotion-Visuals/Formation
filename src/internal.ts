@@ -170,7 +170,7 @@ export {
 // Molecules (1)
 import { ArticlePreview } from './components/ArticlePreview/ArticlePreview'
 import { Article } from './components/Article/Article'
-import { Search } from './components/Search/Search'
+import { SearchSortFilter } from './components/SearchSortFilter/SearchSortFilter'
 import { Radio } from './components/Radio/Radio'
 import { Button } from './components/Button/Button'
 import { Notification } from './components/Notification/Notification'
@@ -185,7 +185,7 @@ import { LiveTimeIndicator } from './components/Timeline/LiveTimeIndicator'
 export {
   ArticlePreview,
   Article,
-  Search,
+  SearchSortFilter,
   Radio,
   Button,
   Notification,

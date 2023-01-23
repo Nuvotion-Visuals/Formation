@@ -56,12 +56,12 @@ Success.args = {
   iconPrefix: 'fas'
 }
 
-export const Tooltip = Template.bind({})
-Tooltip.args = {
+export const Hint = Template.bind({})
+Hint.args = {
   label: 'Email address',
   icon: 'envelope',
   iconPrefix: 'fas',
-  tooltip: 'Your email address is never shared with third parties.'
+  hint: 'Your email address is never shared with third parties.'
 }
 
 export const NoLabel = Template.bind({})

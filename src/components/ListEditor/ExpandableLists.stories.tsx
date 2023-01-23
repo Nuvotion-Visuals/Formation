@@ -31,7 +31,7 @@ const Template: ComponentStory<typeof ExpandableLists> = args => {
             color: 'none',
             title: newItemName,
             children: <>
-              <Label label={`0 / ${count}`} color={'darkorange'}/>
+              <Label label={`0 / ${count}`} color={'orange'}/>
             </>,
             options: [
               {
@@ -60,7 +60,7 @@ const Template: ComponentStory<typeof ExpandableLists> = args => {
             emphasize: true,
             onClick: () => {},
             children: <>
-              <Label label={'todo'} color={'darkorange'}/>
+              <Label label={'todo'} color={'orange'}/>
             </>,
             options: [
               {
