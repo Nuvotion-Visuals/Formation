@@ -4,35 +4,19 @@ import React, { useEffect, useState } from 'react'
 import { ActivityType, areaIdType } from './Timeline.stories'
 
 import { Box, Button, DateAndTimePicker, Select, TextInput, LabelColorPicker } from '../../internal'
-import { TimeZone } from '../../internal'
-
-import { DatesAndTimes } from 'components/DateAndTimePicker/DateAndTimePicker'
 
 
 import { DateTimeFormatter, LocalDate, ZonedDateTime, ZoneId } from '@js-joda/core'
 import { Locale } from '@js-joda/locale_en-us'
+import { ColorType } from 'types'
 
 interface Props {
   activity: ActivityType | null,
   areas: areaIdType[],
-  onChange: (newValue: ActivityType) => void,
-  isOpen?: boolean
+  onChange: (newValue: ActivityType) => void
 }
 
-export const ActivityForm = ({ activity, areas, onChange, isOpen }: Props) => {
-
-  const formatIncomingDateString = (date: Date): string => {
-    const offset = date.getTimezoneOffset();
-    const offsetSign = offset < 0 ? '+' : '-';
-    const offsetHours = `0${Math.floor(Math.abs(offset) / 60)}`.slice(-2);
-    const offsetMinutes = `0${Math.abs(offset) % 60}`.slice(-2);
-    const offsetStr = `${offsetSign}${offsetHours}:${offsetMinutes}`;
-    const formattedDate = `${date.getUTCMonth() + 1}-${date.getUTCDate()}-${date.getUTCFullYear()}T${date.getUTCHours().toString().padStart(2, '0')}:${date.getUTCMinutes().toString().padStart(2, '0')}${offsetStr}`;
-
-
-    console.log(formattedDate, 'formattedDate')
-    return formattedDate
-  }
+export const ActivityForm = ({ activity, areas, onChange }: Props) => {
 
   const formatTimeZoneString = (time: string | undefined) => {
     if(activity == undefined){
@@ -69,15 +53,10 @@ export const ActivityForm = ({ activity, areas, onChange, isOpen }: Props) => {
 
       return formattedString
     }
-      // let dateObject = ZonedDateTime.parse(time)
-      // let formatter = DateTimeFormatter.ofPattern('M/d/y')
     let dateStamp = Date.parse(time)
     let dateObject = new Date(dateStamp)
 
     let formattedString = dateObject.toLocaleDateString('en-us', { year: "numeric", month: "numeric", day: "numeric" })
-    
-    console.log(formattedString, 'formattedString')
-    
 
     return formattedString
   }
@@ -99,15 +78,15 @@ export const ActivityForm = ({ activity, areas, onChange, isOpen }: Props) => {
 
     let newTimeString = convertTo24Hours(time)
     let newTimeZone = formatTimeZoneString(activity?.startTime)
-    // needs to understand what kind of string it is dealing with... from js-joda or date
+    // determine where string came from: js-joda or date object
     if (/^\d/.test(date)) {
-      // process code for when string begins with a number
+      // process code for when string begins with a number (js joda)
       let dateFormatter = DateTimeFormatter.ofPattern('M/d/yyyy');
       let dateString = LocalDate.parse(date, dateFormatter).toString()
   
       return `${dateString}T${newTimeString}${newTimeZone}`
     } else {
-      // process code for when string begins with a character
+      // process code for when string begins with a character (date object)
       let dateStamp = Date.parse(date);
       let dateObject = new Date(dateStamp);
 
@@ -126,6 +105,12 @@ export const ActivityForm = ({ activity, areas, onChange, isOpen }: Props) => {
     }
 
     
+  }
+
+  const lookupAreaColorByAreaId = () => {
+    let areaColor = areas.find((area) => area.areaId === activity?.areaId)?.areaColor
+
+    return areaColor
   }
 
   const generateUUID = () => { // Public Domain/MIT
@@ -150,7 +135,7 @@ export const ActivityForm = ({ activity, areas, onChange, isOpen }: Props) => {
 
   const [area, set_area] = useState<string | undefined>()
   const [areaId, set_areaId] = useState<string | undefined>()
-  const [areaColor, set_areaColor] = useState<string | undefined>()
+  const [areaColor, set_areaColor] = useState<ColorType | undefined>()
   const [title, set_title] = useState<string | undefined>()
   const [dateTimeValue, set_dateTimeValue] = useState([{
     startTime: formatTimeString(activity?.startTime),
@@ -163,7 +148,7 @@ export const ActivityForm = ({ activity, areas, onChange, isOpen }: Props) => {
   useEffect(() => {
     set_area(activity == undefined ? areas[0].area : activity.area)
     set_areaId(activity == undefined ? areas[0].areaId : activity.areaId)
-    set_areaColor(color => undefined ? areas[0].areaColor : 'blue')
+    set_areaColor(activity == undefined ? areas[0].areaColor : lookupAreaColorByAreaId())
     set_title(activity !== undefined ? activity?.title : '')
     set_dateTimeValue([{
       startTime: formatTimeString(activity?.startTime),
@@ -174,12 +159,9 @@ export const ActivityForm = ({ activity, areas, onChange, isOpen }: Props) => {
   ])
   }, [activity])
 
-  useEffect(() => console.log(dateTimeValue, 'dateTimeValue'), [dateTimeValue])
-
   useEffect(() => {
     let idMatch = areas.filter(item => item.area === area)
     set_areaId(idMatch[0]?.areaId)
-    console.log(idMatch[0]?.areaId, 'idMatch')
   }, [area])
 
   const onClick = (e: React.MouseEvent) => {
@@ -195,6 +177,7 @@ export const ActivityForm = ({ activity, areas, onChange, isOpen }: Props) => {
         id: activity?.id !== undefined ? activity?.id : generateUUID(),
         area: area !== undefined ? area : '',
         areaId: areaId !== undefined ? areaId : '',
+        areaColor: areaColor !== undefined ? areaColor : 'blue',
         people: activity?.people !== undefined ? activity.people : [],
         overflowLane: 1
       }
@@ -210,6 +193,7 @@ export const ActivityForm = ({ activity, areas, onChange, isOpen }: Props) => {
         id: activity?.id ? activity?.id : '',
         area: '',
         areaId: activity?.areaId ? activity?.areaId : '',
+        areaColor: 'blue',
         people: [],
         overflowLane: 1
       }
@@ -257,9 +241,9 @@ export const ActivityForm = ({ activity, areas, onChange, isOpen }: Props) => {
           'teal',
           'gray'
         ]}
-        label='Label color'
-        value={'gray'}
-        onChange={() => null}
+        label='Area Color'
+        value={areaColor !== undefined ? areaColor : 'gray'}
+        onChange={newValue => set_areaColor(newValue)}
       />
       <Box mb={.5}>
         <Button

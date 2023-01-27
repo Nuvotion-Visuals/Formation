@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { DateTimeFormatter, ZonedDateTime } from '@js-joda/core'
+import { ZonedDateTime } from '@js-joda/core'
 import '@js-joda/timezone'
 
 import { ActivityType, PersonType } from './Timeline.stories'
@@ -32,6 +32,7 @@ interface ItemTimeStampType {
   id: string,
   area: string,
   areaId: string,
+  areaColor: ColorType,
   overflowLane: number,
   isPlaced: boolean,
   people: PersonType[]
@@ -55,6 +56,7 @@ export const Timeline = ({ value, intervals, onChange,  onIntervalClick, onLaneI
       "id": item.id,
       "area": item.area,
       "areaId": item.areaId,
+      "areaColor": item.areaColor,
       "overflowLane": 1,
       "isPlaced": false,
       "people": item.people !== undefined ? item.people : []
@@ -160,6 +162,7 @@ export const Timeline = ({ value, intervals, onChange,  onIntervalClick, onLaneI
         id: item.id,
         area: item.area,
         areaId: item.areaId,
+        areaColor: item.areaColor,
         people: item.people,
         overflowLane: item.overflowLane
       }

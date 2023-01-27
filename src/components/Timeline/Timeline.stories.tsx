@@ -15,13 +15,6 @@ export default {
   component: Timeline,
 } as ComponentMeta<typeof Timeline>
 
-type areaColorType = {
-  itemBackground: string,
-  itemText: string,
-  buttonBackground: string,
-  buttonHoverBackground: string
-}
-
 interface IntervalType {
   display: string | string[],
   value: string,
@@ -42,6 +35,7 @@ export type ActivityType = {
   id: string,
   area: string,
   areaId: string,
+  areaColor: ColorType,
   people: PersonType[],
   overflowLane: number
 }
@@ -62,7 +56,7 @@ type ActivitiesType = ActivityType[]
 
 
 const Template: ComponentStory<typeof Timeline> = args => { 
-  // automatically create a two day calendar using clients date information
+  // automatically create a two day calendar using client side date information
   const todaysDateString = ZonedDateTime.now().format(DateTimeFormatter.ofPattern('yyyy-MM-dd'))
   const tomorrowsDateString = ZonedDateTime.now().plusDays(1).format(DateTimeFormatter.ofPattern('yyyy-MM-dd'))
 
@@ -80,6 +74,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
           id: '1',
           area: 'West Stage',
           areaId: '9e8f1a5c-2b9a-4f8a-a2c2-7f7cb8c5af8d',
+          areaColor: 'green',
           overflowLane: 1, 
           people: [
             {
@@ -99,6 +94,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
           id: '2',
           area: 'West Stage',
           areaId: '9e8f1a5c-2b9a-4f8a-a2c2-7f7cb8c5af8d',
+          areaColor: 'green',
           overflowLane: 1,
           people: [
             {
@@ -118,6 +114,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
           id: '3',
           area: 'West Stage',
           areaId: '9e8f1a5c-2b9a-4f8a-a2c2-7f7cb8c5af8d',
+          areaColor: 'green',
           overflowLane: 1,
           people: [
             {
@@ -137,6 +134,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
           id: '4',
           area: 'West Stage',
           areaId: '9e8f1a5c-2b9a-4f8a-a2c2-7f7cb8c5af8d',
+          areaColor: 'green',
           overflowLane: 1,
           people: [
             {
@@ -156,6 +154,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
           id: '5',
           area: 'West Stage',
           areaId: '9e8f1a5c-2b9a-4f8a-a2c2-7f7cb8c5af8d',
+          areaColor: 'green',
           overflowLane: 1,
           people: [
             {
@@ -175,6 +174,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
           id: '6',
           area: 'West Stage',
           areaId: '9e8f1a5c-2b9a-4f8a-a2c2-7f7cb8c5af8d',
+          areaColor: 'green',
           overflowLane: 1,
           people: [
             {
@@ -194,6 +194,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
           id: '7',
           area: 'West Stage',
           areaId: '9e8f1a5c-2b9a-4f8a-a2c2-7f7cb8c5af8d',
+          areaColor: 'green',
           overflowLane: 1,
           people: [
             {
@@ -220,6 +221,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
           id: '66b47071-70b9-4aa7-9394-60788627962e',
           area: 'East Stage',
           areaId: 'd45a7b9d-68ee-4f3b-a5d7-b1f48a4c5048',
+          areaColor: 'blue',
           overflowLane: 1,
           people: [
             {
@@ -239,6 +241,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
           id: '2627c6a3-6dfe-4c6b-a756-e672279dc4ea',
           area: 'East Stage',
           areaId: 'd45a7b9d-68ee-4f3b-a5d7-b1f48a4c5048',
+          areaColor: 'blue',
           overflowLane: 1,
           people: [
             {
@@ -258,6 +261,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
           id: '2b6fd32b-ea24-4d17-a9f6-1fb8c79e5a76',
           area: 'East Stage',
           areaId: 'd45a7b9d-68ee-4f3b-a5d7-b1f48a4c5048',
+          areaColor: 'blue',
           overflowLane: 1,
           people: [
             {
@@ -277,6 +281,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
           id: '4d4b237b-10c0-4757-a205-bcb13eab0fd8',
           area: 'East Stage',
           areaId: 'd45a7b9d-68ee-4f3b-a5d7-b1f48a4c5048',
+          areaColor: 'blue',
           overflowLane: 1,
           people: [
             {
@@ -296,6 +301,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
           id: '9057e3a6-4382-4c3d-b5de-2dea2625b316',
           area: 'East Stage',
           areaId: 'd45a7b9d-68ee-4f3b-a5d7-b1f48a4c5048',
+          areaColor: 'blue',
           overflowLane: 1,
           people: [
             {
@@ -322,6 +328,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
           id: '20',
           area: 'Front Doors',
           areaId: 'e4b4e9a1-f7e2-4b1c-b2a5-8a94e8b45c3a',
+          areaColor: 'gray',
           overflowLane: 1,
           people: [
             {
@@ -350,6 +357,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
           id: '21',
           area: 'Front Doors',
           areaId: 'e4b4e9a1-f7e2-4b1c-b2a5-8a94e8b45c3a',
+          areaColor: 'gray',
           overflowLane: 1,
           people: [
             {
@@ -378,6 +386,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
           id: '22',
           area: 'Front Doors',
           areaId: 'e4b4e9a1-f7e2-4b1c-b2a5-8a94e8b45c3a',
+          areaColor: 'gray',
           overflowLane: 1,
           people: [
             {
@@ -406,6 +415,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
           id: '23',
           area: 'Front Doors',
           areaId: 'e4b4e9a1-f7e2-4b1c-b2a5-8a94e8b45c3a',
+          areaColor: 'gray',
           overflowLane: 1,
           people: [
             {
@@ -434,6 +444,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
           id: '24',
           area: 'Front Doors',
           areaId: 'e4b4e9a1-f7e2-4b1c-b2a5-8a94e8b45c3a',
+          areaColor: 'gray',
           overflowLane: 1,
           people: [
             {
@@ -462,6 +473,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
           id: '25',
           area: 'Front Doors',
           areaId: 'e4b4e9a1-f7e2-4b1c-b2a5-8a94e8b45c3a',
+          areaColor: 'gray',
           overflowLane: 1,
           people: [
             {
@@ -489,6 +501,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
           id: '26',
           area: 'Front Doors',
           areaId: 'e4b4e9a1-f7e2-4b1c-b2a5-8a94e8b45c3a',
+          areaColor: 'gray',
           overflowLane: 1,
           people: [
             {
@@ -517,6 +530,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
           id: '27',
           area: 'Front Doors',
           areaId: 'e4b4e9a1-f7e2-4b1c-b2a5-8a94e8b45c3a',
+          areaColor: 'gray',
           overflowLane: 1,
           people: [
             {
@@ -577,6 +591,38 @@ const Template: ComponentStory<typeof Timeline> = args => {
    }
   })
 
+  const autoScrollFirstActivity = (currentValue: AreasType): string => {
+    if (currentValue.length == 0) {
+      return ''
+    } else {
+      let allActivities = currentValue.map((area) => area.activities).flat()
+
+      let firstActivity = allActivities.reduce((a, b) => {
+        let previous = ZonedDateTime.parse(a.startTime)
+        let current = ZonedDateTime.parse(b.startTime)
+        let comparison = previous.isBefore(current)
+
+        if (comparison == true) {
+          return a
+        }
+        return b
+      })
+
+      let itemIdByIndex = eventDateIntervals?.filter((interval) => {
+        let a = ZonedDateTime.parse(interval.value)
+        let b = ZonedDateTime.parse(firstActivity.startTime)
+
+        return a.isEqual(b)
+      })
+
+      if (itemIdByIndex === undefined) {
+        return ''
+      }
+        
+      return itemIdByIndex[0]?.gridNumber.toString()
+    }
+  }
+
   const onLaneItemClick = (item: ActivityType) => {
     set_activityData(item)
     set_isOpen(true)
@@ -590,6 +636,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
       id: '',
       area: areaStrings[0].area,
       areaId: areaStrings[0].areaId,
+      areaColor: areaStrings[0].areaColor,
       people: [],
       overflowLane: 1
     })
@@ -616,20 +663,19 @@ const Template: ComponentStory<typeof Timeline> = args => {
       })
 
     } else if (prevValue == undefined) {
-      console.log(newValue, 'newValue')
-      // set_value(prevState => {
-      //   const updatedAreas: AreaType[] = prevState.map(area => {
-      //     if (area.areaId === newValue.areaId) {
-      //       area.activities.push(newValue)
-      //       return area
-      //     }
-      //     return area
-      //   })
+      set_value(prevState => {
+        const updatedAreas: AreaType[] = prevState.map(area => {
+          if (area.areaId === newValue.areaId) {
+            area.activities.push(newValue)
+            return area
+          }
+          return area
+        })
 
-      //   return updatedAreas
-      // })
+        return updatedAreas
+      })
     }
-
+    // if the activity is in the same area as before only update the specific area
     else if (prevValue.areaId === newValue.areaId) {
       set_value(prevState => {
         const updatedAreas: AreaType[] = prevState.map(area => {
@@ -649,11 +695,11 @@ const Template: ComponentStory<typeof Timeline> = args => {
         return updatedAreas;
       });
     }
-    
-    else {
+    // if the activity is in a new area, remove the previous value and insert the new value in the correct area. 
+    else if (prevValue.areaId !== newValue.areaId){
       set_value(prevState => {
         const updatedAreas: AreaType[] = prevState.map(area => {
-          // @ts-ignore
+            // @ts-ignore
             if (area.areaId === prevValue.areaId) {
                 return {
                     ...area,
@@ -671,6 +717,31 @@ const Template: ComponentStory<typeof Timeline> = args => {
         return updatedAreas;
       });
     }
+
+    // if areaColor is different, update the area and subsequent children with the new color
+    if (prevValue?.areaColor !== newValue.areaColor) {
+      set_value(prevState => {
+        const updatedAreas: AreaType[] = prevState.map(area => {
+          if (area.areaId === newValue.areaId) {
+            return {
+              ...area,
+              areaColor: newValue.areaColor,
+              activities: area.activities.map(activity => {
+                return {
+                  ...activity,
+                  areaColor: newValue.areaColor
+                }
+              })
+            }
+          } else {
+            return area
+          }
+        });
+        return updatedAreas;
+      });
+    }
+   
+
     set_isRefreshed(false)
 
     setTimeout(() => (set_isOpen(false)), 250)
@@ -862,38 +933,6 @@ const Template: ComponentStory<typeof Timeline> = args => {
     }
   }, [displayTimeReferenceLine, endTime, currentTime, timeReferencePosition])
 
-  const autoScrollFirstActivity = (currentValue: AreasType): string => {
-    if (currentValue.length == 0) {
-      return ''
-    } else {
-      let allActivities = currentValue.map((area) => area.activities).flat()
-
-      let firstActivity = allActivities.reduce((a, b) => {
-        let previous = ZonedDateTime.parse(a.startTime)
-        let current = ZonedDateTime.parse(b.startTime)
-        let comparison = previous.isBefore(current)
-
-        if (comparison == true) {
-          return a
-        }
-        return b
-      })
-
-      let itemIdByIndex = eventDateIntervals?.filter((interval) => {
-        let a = ZonedDateTime.parse(interval.value)
-        let b = ZonedDateTime.parse(firstActivity.startTime)
-
-        return a.isEqual(b)
-      })
-
-      if (itemIdByIndex === undefined) {
-        return ''
-      }
-        
-      return itemIdByIndex[0]?.gridNumber.toString()
-    }
-  }
-
   // initial pagescroll animation
   useEffect(() => {
     if (currentActivities !== undefined) {
@@ -959,11 +998,14 @@ const Template: ComponentStory<typeof Timeline> = args => {
           </S.RightColumn>
 
           <S.FixedContainer>
-            <S.Button onClick={() => addActivity()}>
-              <S.Text>
-                +
-              </S.Text>
-            </S.Button>
+            <Button
+              onClick={() => addActivity()}
+              primary={true}
+              circle={true}
+              hero={true}
+              icon={'plus'}
+              iconPrefix={'fas'}
+            />
           </S.FixedContainer>
 
         </S.Timeline>
@@ -980,7 +1022,6 @@ const Template: ComponentStory<typeof Timeline> = args => {
                   activity={activityData !== undefined ? activityData : null}
                   areas={areaStrings}
                   onChange={(newValue) => onChange(newValue)}
-                  // isOpen={isOpen}
                 />}
               size={'sm'}
               fullscreen={true}
@@ -1049,19 +1090,5 @@ const S = {
     bottom: 2rem;
     right: 2rem;
     z-index: 700;
-  `,
-  Button: styled.div`
-    width: 3rem;
-    height: 3rem;
-    border-radius: 50%;
-    background: var(--F_Primary);
-    color: var(--F_Background);
-    font-size: 1.5rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  `,
-  Text: styled.div`
-    height: 1.6rem;
   `
 }
