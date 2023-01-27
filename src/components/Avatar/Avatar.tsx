@@ -63,7 +63,7 @@ const S = {
     font-size: var(--F_Font_Size_Label);
     color: white;
     * {
-      color: ${props => props.labelColor ? 'white' : 'auto'};
+      color: ${props => props.labelColor && props.labelColor !== 'none' ? 'white' : 'auto'};
     }
     font-weight: 600;
   `

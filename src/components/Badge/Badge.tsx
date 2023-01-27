@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react'
 import { getLabelColor, LabelColor } from '../../internal'
 
 interface Props {
-  colorString: LabelColor,
+  labelColor: LabelColor,
   count: number,
   children: React.ReactNode
 }
@@ -13,14 +13,8 @@ interface BadgeProps {
   invisible: boolean,
 }
 
-export const Badge = ({ colorString, count, children }: Props) => {
-  
-  const [badgeColor, setBadgeColor] = useState<string>('')
+export const Badge = ({ labelColor, count, children }: Props) => {
   const [isInvisible, setIsInvisible] = useState<boolean>(true)
-
-  useEffect(() => {
-    setBadgeColor(getLabelColor(colorString))
-  }, [colorString])
 
   useEffect(() => {
     if (count !== undefined) {
@@ -31,7 +25,7 @@ export const Badge = ({ colorString, count, children }: Props) => {
   return (
     <S.Container >
       { children }
-      <S.Badge color={badgeColor} invisible={isInvisible}>
+      <S.Badge labelColor={labelColor} invisible={isInvisible}>
         <S.Text>
           {
             count !== 0
@@ -77,6 +71,7 @@ const S = {
   `,
   Badge: styled.div<{
     invisible: boolean,
+    labelColor: LabelColor
   }>`
     position: absolute;
     top: -.5rem;
@@ -85,7 +80,7 @@ const S = {
     height: 1.125rem;
     min-width: 1.125rem;
     min-height: 1.125rem;
-    background: ${props => props.color};
+    background: ${props => getLabelColor(props.labelColor)};
     font-size: 10px;
     border-radius: 50%;
     pointer-events: none;

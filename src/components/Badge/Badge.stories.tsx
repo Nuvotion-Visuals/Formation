@@ -24,14 +24,14 @@ const Template: ComponentStory<typeof Badge> = (args) => {
 
 export const NotificationBell = Template.bind({})
 NotificationBell.args = {
-  colorString: 'red',
+  labelColor: 'red',
   count: 3,
   children: <Icon icon='user' iconPrefix='fas' size='2x' />
 }
 
 export const SpaceIcon = Template.bind({})
 SpaceIcon.args = {
-  colorString: 'red',
+  labelColor: 'red',
   count: 11,
   children: <FSpaceIcon {...{
     title: 'Jive DJs Cork',
@@ -43,7 +43,7 @@ SpaceIcon.args = {
 
 export const Nav = Template.bind({})
 Nav.args = {
-  colorString: 'red',
+  labelColor: 'red',
   count: 3,
   disable: true,
   children: <NavBottom

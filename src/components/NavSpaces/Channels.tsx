@@ -37,7 +37,7 @@ export const Channels = ({ channels }: Props) => {
                 href={channel.href}
                 active={channel.active}
                 title={channel.name}
-                color='none'
+                labelColor='none'
                 name={undefined}
                 onClick={channel.onClick}
               />

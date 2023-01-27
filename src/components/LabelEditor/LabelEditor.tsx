@@ -35,7 +35,7 @@ export const LabelEditor = ({
     <Box pb={.5}>
       <Label
         label={internalValue.name ? internalValue.name : 'Label preview'}
-        labelColor={internalValue.labelColor as any}
+        labelColor={internalValue.labelColor}
         title={internalValue.description}
       />
     

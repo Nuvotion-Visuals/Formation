@@ -71,10 +71,10 @@ export const labelColors : LabelColor[] = [
 export type LabelType = {
   name: string,
   description: string,
-  color: LabelColor
+  labelColor: LabelColor
 }
-export const getLabelColor = (color: LabelColor): string => {
-  switch(color) {
+export const getLabelColor = (labelColor: LabelColor): string => {
+  switch(labelColor) {
     case 'red':
       return 'var(--F_Label_Background_Red)'
       case 'orange':

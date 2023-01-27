@@ -29,7 +29,7 @@ export const List = ({
               }} 
               reorderId={reorderId} 
               holdTime={200}
-              placeholder={<Item emphasize={true} name={' '} color='none' />}
+              placeholder={<Item emphasize={true} name={' '} labelColor='none' />}
             >
               {
                 value.map(props => <Item {...props} indent={indent}/>)
