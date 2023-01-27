@@ -5,7 +5,7 @@ export type ColorType =
   'green' |
   'blue' | 
   'indigo' | 
-  'violet' |
+  'purple' |
   'pink' |
   'cyan' | 
   'teal' | 
@@ -19,7 +19,7 @@ export const Colors : ColorType[] = [
   'green',
   'blue', 
   'indigo', 
-  'violet',
+  'purple',
   'pink', 
   'cyan', 
   'teal', 

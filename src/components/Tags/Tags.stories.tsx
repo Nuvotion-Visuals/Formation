@@ -38,20 +38,28 @@ MulitColored.args = {
   allTags: [
     {
       name: 'red',
-      background: 'red'
+      labelColor: 'red'
     },
     {
       name: 'green',
-      background: 'green'  }, 
+      labelColor: 'green'  
+    }, 
     {
-      name: 'blue',
-      background: 'blue'  }, 
+      name: 'purple',
+      labelColor: 'purple'  
+    }, 
     {
       name: 'yellow',
-      background: 'yellow'  }, 
+      labelColor: 'yellow'  
+    }, 
     {
-      name: 'violet',
-      background: 'violet'  }
+      name: 'pink',
+      labelColor: 'pink'  
+    },
+    {
+      name: 'blue',
+      labelColor: 'blue'  
+    }
   ],
   initialActiveTags: ['red']
 }

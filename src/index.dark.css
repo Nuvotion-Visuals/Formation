@@ -27,16 +27,16 @@ It’s easy to picture how a less saturated version of a color would look like, 
   --F_Font_Color_Warning: hsl(25, 100%, 40%);
   --F_Font_Color_Link: hsl(201, 100%, 80%);
 
-  --F_Label_Background_Red: #A72323;
-  --F_Label_Background_Orange: #B83309;
-  --F_Label_Background_Yellow: #996700;
-  --F_Label_Background_Green: #2D7230;
-  --F_Label_Background_Blue: #145EA8;
-  --F_Label_Background_Indigo: #344087;
-  --F_Label_Background_Purple: #522E92;
-  --F_Label_Background_Pink: #A11041;
-  --F_Label_Background_Cyan: #007986;
-  --F_Label_Background_Teal: #00786D;
+  --F_Label_Background_Red: #933737;
+  --F_Label_Background_Orange: #9e4123;
+  --F_Label_Background_Yellow: #825f17;
+  --F_Label_Background_Green: #376839;
+  --F_Label_Background_Blue: #2a5e92;
+  --F_Label_Background_Indigo: #40497b;
+  --F_Label_Background_Purple: #563d83;
+  --F_Label_Background_Pink: #8b2648;
+  --F_Label_Background_Cyan: #146972;
+  --F_Label_Background_Teal: #12665e;
   --F_Label_Background_Gray: #757575;
 
   --F_Timeline_Item_Background_Red: #c64f4f90;
@@ -1707,16 +1707,16 @@ button {
   --F_Font_Color_Warning: hsl(25, 100%, 55%);
   --F_Font_Color_Link: hsl(201, 66%, 29%);
 
-  --F_Label_Background_Red: #D32F2F;
-  --F_Label_Background_Orange: #F4511E;
-  --F_Label_Background_Yellow: #FFAB00;
-  --F_Label_Background_Green: #388E3C;
-  --F_Label_Background_Blue: #1976D2;
-  --F_Label_Background_Indigo: #5C6BC0;
-  --F_Label_Background_Purple: #673AB7;
-  --F_Label_Background_Pink: #EC407A;
-  --F_Label_Background_Cyan: #0097A7;
-  --F_Label_Background_Teal: #009688;
+  --F_Label_Background_Red: #ba4848;
+  --F_Label_Background_Orange: #d4623e;
+  --F_Label_Background_Yellow: #d99e26;
+  --F_Label_Background_Green: #458148;
+  --F_Label_Background_Blue: #3576b6;
+  --F_Label_Background_Indigo: #6b75b1;
+  --F_Label_Background_Purple: #6c4da4;
+  --F_Label_Background_Pink: #d25a82;
+  --F_Label_Background_Cyan: #19838e;
+  --F_Label_Background_Teal: #167f76;
   --F_Label_Background_Gray: #757575;
 
   --F_Timeline_Item_Background_Red: #c64f4f90;

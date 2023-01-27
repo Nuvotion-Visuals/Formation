@@ -44,8 +44,8 @@ import {
   timestamp,
   markdownToHTML,
   HTMLtoMarkdown,
-  calculateHoverColor,
-  calculateActiveColor
+  getLabelColorHover,
+  getLabelColorActive
 } from './utils'
 export {
   getSuperscriptOrdinal,
@@ -72,8 +72,8 @@ export {
   timestamp,
   markdownToHTML,
   HTMLtoMarkdown,
-  calculateHoverColor,
-  calculateActiveColor
+  getLabelColorHover,
+  getLabelColorActive
 }
 
 // hooks

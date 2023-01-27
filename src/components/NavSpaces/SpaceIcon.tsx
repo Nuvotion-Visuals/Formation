@@ -3,7 +3,7 @@ import React, { memo } from 'react'
 import styled from 'styled-components'
 import { ColorType } from '../../types'
 
-import { getLinkComponent, Icon, calculateHoverColor, getInitials } from '../../internal'
+import { getLinkComponent, Icon, getLabelColorHover, getInitials } from '../../internal'
 
 interface Props {
   src?: string,
@@ -109,7 +109,7 @@ const S = {
       props.src 
         ? 'none' 
         : props.color 
-          ? calculateHoverColor(props.color)
+          ? getLabelColorHover(props.color)
           : 'var(--F_Surface_2)'
       }
     };

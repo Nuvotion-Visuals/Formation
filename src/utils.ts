@@ -55,8 +55,8 @@ export const getLabelColor = (color: ColorType): string => {
       return 'var(--F_Label_Background_Blue)'
     case 'indigo':
       return 'var(--F_Label_Background_Indigo)'
-    case 'violet':
-      return 'var(--F_Label_Background_Violet)'
+    case 'purple':
+      return 'var(--F_Label_Background_Purple)'
     case 'pink':
       return 'var(--F_Label_Background_Pink)'
     case 'cyan':
@@ -105,12 +105,12 @@ B = (B<255)?B:255;
   return "#"+RR+GG+BB;
 }
 
-export function calculateHoverColor(hex: string): string {
-  return shadeColor(hex, -8)
+export function getLabelColorHover(labelColor: ColorType): string {
+  return `hsl(from red h s calc(l - 5%))`
 }
 
-export function calculateActiveColor(hex: string): string {
-  return shadeColor(hex, -12)
+export function getLabelColorActive(labelColor: ColorType): string {
+  return `hsl(from ${getLabelColor(labelColor)} h s calc(l - 40%))`
 }
 
 export const getInitials = (name : string) => 
