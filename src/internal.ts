@@ -46,7 +46,8 @@ import {
   timestamp,
   markdownToHTML,
   HTMLtoMarkdown,
-  LabelType
+  LabelType,
+  generateUUID
 } from './utils'
 export {
   getSuperscriptOrdinal,
@@ -75,7 +76,8 @@ export {
   timestamp,
   markdownToHTML,
   HTMLtoMarkdown,
-  LabelType
+  LabelType,
+  generateUUID
 }
 
 // hooks

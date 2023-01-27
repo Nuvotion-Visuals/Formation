@@ -8,7 +8,7 @@ import { Box, Button, DateAndTimePicker, Select, TextInput, LabelColorPicker } f
 
 import { DateTimeFormatter, LocalDate, ZonedDateTime, ZoneId } from '@js-joda/core'
 import { Locale } from '@js-joda/locale_en-us'
-import { LabelColor } from '../../internal'
+import { LabelColor, generateUUID } from '../../internal'
 
 interface Props {
   activity: ActivityType | null,
@@ -113,21 +113,23 @@ export const ActivityForm = ({ activity, areas, onChange }: Props) => {
     return areaColor
   }
 
-  const generateUUID = () => { // Public Domain/MIT
-    var d = new Date().getTime();//Timestamp
-    var d2 = ((typeof performance !== 'undefined') && performance.now && (performance.now()*1000)) || 0;//Time in microseconds since page-load or 0 if unsupported
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-        var r = Math.random() * 16;//random number between 0 and 16
-        if(d > 0){//Use timestamp until depleted
-            r = (d + r)%16 | 0;
-            d = Math.floor(d/16);
-        } else {//Use microseconds since page-load if supported
-            r = (d2 + r)%16 | 0;
-            d2 = Math.floor(d2/16);
-        }
-        return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
-    });
-  }
+  // const generateUUID = () => { // Public Domain/MIT
+  //   var d = new Date().getTime( );//Timestamp
+  //   var d2 = ((typeof performance !== 'undefined') && performance.now && (performance.now()*1000)) || 0;//Time in microseconds since page-load or 0 if unsupported
+  //   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+  //       var r = Math.random() * 16;//random number between 0 and 16
+  //       if(d > 0){//Use timestamp until depleted
+  //           r = (d + r)%16 | 0;
+  //           d = Math.floor(d/16);
+  //       } else {//Use microseconds since page-load if supported
+  //           r = (d2 + r)%16 | 0;
+  //           d2 = Math.floor(d2/16);
+  //       }
+  //       return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+  //   });
+
+    
+  // }
   
   
 
