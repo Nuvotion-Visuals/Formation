@@ -3,9 +3,9 @@ import styled, { css, keyframes } from 'styled-components'
 
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 
-import { Icon, Box } from '../../internal'
-import { ColorType } from '../../types'
-import { LabelColor } from '../LabelColorPicker/LabelColor'
+import { Icon, Box, LabelColor, getLabelColor } from '../../internal'
+import { LabelColorCircle } from '../LabelColorPicker/LabelColorCircle'
+
 
 type Props = {
   name?: string,
@@ -26,7 +26,7 @@ type Props = {
   preventFocus?: boolean,
   onBlur?: () => void,
   ref?: any,
-  labelColor?: ColorType,
+  labelColor?: LabelColor,
   onEnter?: () => void,
   onChangeEvent?: (e: any) => void,
   placeholder?: string,
@@ -94,8 +94,8 @@ export const TextInput = ({
                 error={false}
               >
                 <Box ml={-.125}>
-                  <LabelColor
-                    color={labelColor}
+                  <LabelColorCircle
+                    labelColor={labelColor}
                     ref={null}
                     onClick={() => {}}
                   />

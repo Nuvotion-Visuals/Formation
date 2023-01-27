@@ -1,11 +1,10 @@
 import styled, { css, keyframes } from 'styled-components'
 import React, { useState, useEffect } from 'react'
 
-import { getLabelColor } from '../../internal'
-import { ColorType } from '../../types'
+import { getLabelColor, LabelColor } from '../../internal'
 
 interface Props {
-  colorString: ColorType,
+  colorString: LabelColor,
   count: number,
   children: React.ReactNode
 }

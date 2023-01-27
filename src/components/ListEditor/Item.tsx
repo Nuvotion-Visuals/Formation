@@ -2,9 +2,8 @@ import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 import React from 'react'
 import styled from 'styled-components'
 
-import { Box, Break, getLinkComponent, Spacer, getLabelColor } from '../../internal'
+import { Box, Break, getLinkComponent, Spacer, getLabelColor, LabelColor } from '../../internal'
 import { SpaceIcon } from '../NavSpaces/SpaceIcon'
-import { ColorType } from '../../types'
 
 import { 
   Dropdown, 
@@ -21,7 +20,7 @@ export interface Props {
   iconPrefix?: IconPrefix,
   src?: string,
   text?: string,
-  color?: ColorType,
+  labelColor?: LabelColor,
   label?: string,
   subtitle?: string,
   dateString?: string,
@@ -49,7 +48,7 @@ export const Item = ({
   iconPrefix,
   src,
   text,
-  color,
+  labelColor,
   title,
   date,
   small,
@@ -82,7 +81,7 @@ export const Item = ({
           icon={icon}
           iconPrefix={iconPrefix}
           active={active}
-          colorString={color ? getLabelColor(color) : undefined}
+          labelColor={labelColor}
         />
       }
       
@@ -91,10 +90,7 @@ export const Item = ({
           ? <S.AvatarContainer active={active}>
               <Avatar
                 name={name ? getInitials(name) : '?'}
-                color={
-                  color 
-                    ? getLabelColor(color)
-                    : name ? undefined : 'var(--F_Surface_2)'}
+                labelColor={labelColor}
                 icon={icon}
                 iconPrefix={iconPrefix}
                 src={src}

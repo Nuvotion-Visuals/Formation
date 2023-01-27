@@ -5,10 +5,9 @@ import { useOnClickOutside } from '../../internal'
 import { useScrollTo } from '../../internal'
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 
-import { TextInput, getLabelColor } from '../../internal'
-import { ColorType } from '../../types'
+import { TextInput, LabelColor as LabelColorType } from '../../internal'
 
-import { LabelColor } from './LabelColor'
+import { LabelColorCircle } from './LabelColorCircle'
 
 const Dropdown = ({ 
   value,
@@ -19,7 +18,7 @@ const Dropdown = ({
   value: string,
   onChange: (arg0: string) => void,
   onClose: () => void,
-  options: ColorType[]
+  options: LabelColorType[]
 }) => {
 
   const scrollContainerRef = useRef<HTMLDivElement | null>(null)
@@ -38,8 +37,8 @@ const Dropdown = ({
   return <S.DropdownDropdown ref={scrollContainerRef}>
     {
       options.map(item => 
-        <LabelColor
-          color={item as any}
+        <LabelColorCircle
+          labelColor={item as any}
           ref={value === item ? scrollToRef : null}
           onClick={() => {
             onChange(item)
@@ -54,9 +53,9 @@ const Dropdown = ({
 interface Props {
   value: string,
   label?: string,
-  onChange: (arg0: ColorType) => void,
+  onChange: (arg0: LabelColorType) => void,
   error?: string,
-  options: ColorType[],
+  options: LabelColorType[],
   icon?: IconName,
   iconPrefix?: IconPrefix
 }
@@ -92,7 +91,7 @@ export const LabelColorPicker = ({
         icon={icon}
         iconPrefix={iconPrefix}
         value={value}
-        onChange={value => onChange(value as ColorType)}
+        onChange={value => onChange(value as LabelColorType)}
         error={error}
         preventFocus={preventFocus}
         onBlur={() => set_preventFocus(isTouchCapable())}
@@ -102,7 +101,7 @@ export const LabelColorPicker = ({
       {
         isOpen
           ? <Dropdown
-              onChange={newValue => onChange(newValue as ColorType)}
+              onChange={newValue => onChange(newValue as LabelColorType)}
               value={value}
               onClose={() => set_isOpen(false)}
               options={options}

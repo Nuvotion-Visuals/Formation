@@ -1,8 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Spacer, getLabelColor } from '../../internal'
-import { ColorType } from '../../types'
+import { Spacer, getLabelColor, LabelColor } from '../../internal'
 
 import { NavBack } from './NavBack'
 import { SpaceIcon } from './SpaceIcon'
@@ -15,7 +14,7 @@ interface Props {
   hideContext?: boolean,
   hideReturnContext?: boolean,
   children?: React.ReactNode,
-  color?: ColorType
+  labelColor?: LabelColor
 }
 
 export const NavTop = ({ 
@@ -26,7 +25,7 @@ export const NavTop = ({
   hideContext,
   hideReturnContext,
   children,
-  color
+  labelColor
 } : Props) => {
   return (<S.Header>
     <S.Inner onClick={onBack}>
@@ -49,7 +48,7 @@ export const NavTop = ({
                   small={true}
                   name={name}
                   active={true}
-                  colorString={color ? getLabelColor(color) : undefined}
+                  labelColor={labelColor ? labelColor : undefined}
                 />
                 <S.Title>
                   {

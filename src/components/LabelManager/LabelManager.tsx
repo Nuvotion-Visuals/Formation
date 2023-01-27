@@ -9,9 +9,11 @@ import {
   Spacer, 
   Dropdown, 
   LabelEditor, 
-  Gap
+  Gap,
+  LabelColor,
+  LabelType
 } from '../../internal'
-import { LabelType } from '../../types'
+
 
 interface Props {
   value: LabelType[],
@@ -42,7 +44,7 @@ export const LabelManager = ({ value, onChange }: Props) => {
               value={{
                 name: '',
                 description: '',
-                color: 'gray'
+                labelColor: 'gray'
               }}
               onChange={newLabel => onChange([...value, newLabel])}
               onClose={() => set_editingIndex(null)}
@@ -55,7 +57,7 @@ export const LabelManager = ({ value, onChange }: Props) => {
     }
   
     {
-      value.map(({ name, description, color }, index) =>
+      value.map(({ name, description, labelColor }, index) =>
       <>
         <Box p={.75}>
           <Gap autoWidth={true}>
@@ -65,7 +67,7 @@ export const LabelManager = ({ value, onChange }: Props) => {
                   value={{
                     name,
                     description,
-                    color
+                    labelColor
                   }}
                   onChange={newValue => 
                     onChange(value.map((item, itemIndex) => 
@@ -78,7 +80,7 @@ export const LabelManager = ({ value, onChange }: Props) => {
                 />
               : <Label
                   label={name}
-                  color={color}
+                  labelColor={labelColor}
                   title={description}
                 />
           }

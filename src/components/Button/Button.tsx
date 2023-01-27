@@ -4,8 +4,7 @@ import styled, { keyframes, css } from 'styled-components'
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 import { SizeProp } from '@fortawesome/fontawesome-svg-core' // type coersion needed until FA SizeProp defintion is fixed to include "xl"
 
-import { Icon, getLinkComponent, getLabelColorHover, getLabelColorActive, getLabelColor } from '../../internal'
-import { ColorType } from 'types'
+import { Icon, getLinkComponent, LabelColor, getLabelColor } from '../../internal'
 
 type Props = {
   href?: string,
@@ -25,8 +24,8 @@ type Props = {
   id?: string,
   iconPrefix?: IconPrefix,
   secondary?: boolean,
-  labelColor?: ColorType,
-  color?: ColorType,
+  labelColor?: LabelColor,
+  color?: LabelColor,
   singleBlink? : boolean,
   tab? : boolean,
   newTab?: boolean,

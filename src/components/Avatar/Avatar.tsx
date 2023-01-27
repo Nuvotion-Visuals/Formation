@@ -1,15 +1,14 @@
 import styled from 'styled-components'
 import React from 'react'
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
-import { getInitials, getColorFromGuid, Icon } from '../../internal'
+import { getInitials, getColorFromGuid, Icon, LabelColor, getLabelColor } from '../../internal'
 
 interface Props {
   name?: string,
   src?: string,
   icon?: IconName,
   iconPrefix?: IconPrefix,
-  color?: string,
-  active?: boolean
+  labelColor?: LabelColor
 }
 
 export const Avatar = ({ 
@@ -17,27 +16,19 @@ export const Avatar = ({
   src,
   icon,
   iconPrefix,
-  color,
-  active
+  labelColor,
 }: Props) => {
   return (
     <S.Avatar 
       src={src}
-      color={
-        color
-          ? color
-          : name 
-            ? getColorFromGuid(name) 
-            : getColorFromGuid(String(Math.random()))
-      }
-      active={active}
+      labelColor={labelColor}
     >
       {
         icon
           ? <Icon 
               icon={icon} 
               iconPrefix={iconPrefix} 
-              size={color === 'none' ? 'lg' : '1x'}
+              size={labelColor === 'none' ? 'lg' : '1x'}
               fixedWidth={true}
             />
           : name && !src 
@@ -51,15 +42,14 @@ export const Avatar = ({
 
 const S = {
   Avatar: styled.div<{
-    color?: string,
-    src?: string,
-    active?: boolean
+    labelColor?: LabelColor,
+    src?: string
   }>`
     height: 1.675rem;
     max-width: 1.675rem;
     min-width: 1.675rem;
     border-radius: 50%;
-    background-color: ${props => props.color};
+    background-color: ${props => props.labelColor ? getLabelColor(props.labelColor) : 'none'};
     background-image: ${props => props.src 
       ? `url(${props.src})` 
       : 'none'
@@ -73,8 +63,7 @@ const S = {
     font-size: var(--F_Font_Size_Label);
     color: white;
     * {
-      /* color: ${props => props.color === 'none' ? 'auto' : 'white'}; */
-      color: ${props => props.active ? 'var(--F_Font_Color)' : 'auto'};
+      color: ${props => props.labelColor ? 'white' : 'auto'};
     }
     font-weight: 600;
   `

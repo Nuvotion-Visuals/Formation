@@ -25,6 +25,8 @@ import {
   isTouchCapable,
   reorderItems,
   getLabelColor,
+  LabelColor,
+  labelColors,
   getInitials,
   getColorFromGuid,
   getTimezone,
@@ -44,8 +46,7 @@ import {
   timestamp,
   markdownToHTML,
   HTMLtoMarkdown,
-  getLabelColorHover,
-  getLabelColorActive
+  LabelType
 } from './utils'
 export {
   getSuperscriptOrdinal,
@@ -53,6 +54,8 @@ export {
   isTouchCapable,
   reorderItems,
   getLabelColor,
+  LabelColor,
+  labelColors,
   getInitials,
   getColorFromGuid,
   getTimezone,
@@ -72,8 +75,7 @@ export {
   timestamp,
   markdownToHTML,
   HTMLtoMarkdown,
-  getLabelColorHover,
-  getLabelColorActive
+  LabelType
 }
 
 // hooks

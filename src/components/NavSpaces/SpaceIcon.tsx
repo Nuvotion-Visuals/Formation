@@ -1,9 +1,8 @@
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 import React, { memo } from 'react'
 import styled from 'styled-components'
-import { ColorType } from '../../types'
 
-import { getLinkComponent, Icon, getLabelColorHover, getInitials } from '../../internal'
+import { getLinkComponent, Icon, getInitials, getLabelColor, LabelColor } from '../../internal'
 
 interface Props {
   src?: string,
@@ -15,7 +14,7 @@ interface Props {
   active?: boolean,
   icon?: IconName,
   iconPrefix?: IconPrefix,
-  colorString?: string
+  labelColor?: LabelColor
 }
 
 export const SpaceIcon = memo(({ 
@@ -28,7 +27,7 @@ export const SpaceIcon = memo(({
   active,
   icon,
   iconPrefix,
-  colorString
+  labelColor
 }: Props) => {
   const Link = getLinkComponent()
 
@@ -39,9 +38,9 @@ export const SpaceIcon = memo(({
       small={small}
       title={name}
       active={active}
-      color={colorString}
+      labelColor={labelColor}
     >
-      <S.Date darken={!!date && !!src} hasColor={!!colorString}>
+      <S.Date darken={!!date && !!src} hasColor={!!labelColor}>
         {
           date
             ? <>
@@ -75,6 +74,7 @@ const S = {
     active?: boolean,
     src?: string,
     small?: boolean,
+    labelColor?: LabelColor
   }>`
     display: flex;
     flex-wrap: wrap;
@@ -98,8 +98,8 @@ const S = {
     background-color: ${props => 
       props.src 
         ? 'none' 
-        : props.color 
-          ? props.color
+        : props.labelColor
+          ? getLabelColor(props.labelColor)
           : 'var(--F_Surface_1)'
     };
     &:hover {
@@ -108,8 +108,8 @@ const S = {
       background-color: ${props => 
       props.src 
         ? 'none' 
-        : props.color 
-          ? getLabelColorHover(props.color)
+        : props.labelColor
+          ? getLabelColor(props.labelColor)
           : 'var(--F_Surface_2)'
       }
     };
