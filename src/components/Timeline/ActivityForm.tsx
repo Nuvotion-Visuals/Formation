@@ -8,7 +8,7 @@ import { Box, Button, DateAndTimePicker, Select, TextInput, LabelColorPicker } f
 
 import { DateTimeFormatter, LocalDate, ZonedDateTime, ZoneId } from '@js-joda/core'
 import { Locale } from '@js-joda/locale_en-us'
-import { ColorType } from 'types'
+import { LabelColor } from '../../internal'
 
 interface Props {
   activity: ActivityType | null,
@@ -135,7 +135,7 @@ export const ActivityForm = ({ activity, areas, onChange }: Props) => {
 
   const [area, set_area] = useState<string | undefined>()
   const [areaId, set_areaId] = useState<string | undefined>()
-  const [areaColor, set_areaColor] = useState<ColorType | undefined>()
+  const [areaColor, set_areaColor] = useState<LabelColor | undefined>()
   const [title, set_title] = useState<string | undefined>()
   const [dateTimeValue, set_dateTimeValue] = useState([{
     startTime: formatTimeString(activity?.startTime),
@@ -235,7 +235,7 @@ export const ActivityForm = ({ activity, areas, onChange }: Props) => {
           'green',
           'blue',
           'indigo',
-          'violet',
+          'purple',
           'pink',
           'cyan',
           'teal',

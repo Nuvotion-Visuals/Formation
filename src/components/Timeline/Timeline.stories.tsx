@@ -8,7 +8,7 @@ import { DateTimeFormatter, Duration, ZonedDateTime, LocalDate } from '@js-joda/
 import { Locale } from '@js-joda/locale_en-us'
 import { Button, ButtonProps } from '../Button/Button'
 import { ActivityForm } from './ActivityForm'
-import { ColorType } from 'types'
+import { LabelColor } from '../../internal'
 
 export default {
   title: 'Advanced Input/Timeline',
@@ -24,7 +24,7 @@ interface IntervalType {
 type AreaType = {
   area: string,
   areaId: string,
-  areaColor: ColorType,
+  areaColor: LabelColor,
   activities: ActivityType[],
 }
 
@@ -35,7 +35,7 @@ export type ActivityType = {
   id: string,
   area: string,
   areaId: string,
-  areaColor: ColorType,
+  areaColor: LabelColor,
   people: PersonType[],
   overflowLane: number
 }
@@ -48,7 +48,7 @@ export type PersonType = {
 export type areaIdType = {
   area: string,
   areaId: string,
-  areaColor: ColorType
+  areaColor: LabelColor
 }
 
 type AreasType = AreaType[]
@@ -579,7 +579,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
     return {
       name: area,
       hasIcon: false,
-      background: areaColor
+      labelColor: areaColor
     }
   })
 
