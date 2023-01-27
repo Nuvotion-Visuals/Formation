@@ -66,13 +66,13 @@ const S = {
     background: ${({ type }) => {
       switch(type) {
         case 'success':
-          return 'var(--F_Label_Background_Green)'
+          return 'var(--F_Label_Color_Green)'
         case 'error':
-          return 'var(--F_Label_Background_Red)'
+          return 'var(--F_Label_Color_Red)'
         case 'warning':
-          return 'var(--F_Label_Background_Orange)'
+          return 'var(--F_Label_Color_Orange)'
         case 'info':
-          return 'var(--F_Label_Background_Gray)'
+          return 'var(--F_Label_Color_Gray)'
       }
     }};
   `,

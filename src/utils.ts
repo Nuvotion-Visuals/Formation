@@ -76,27 +76,27 @@ export type LabelType = {
 export const getLabelColor = (labelColor: LabelColor): string => {
   switch(labelColor) {
     case 'red':
-      return 'var(--F_Label_Background_Red)'
+      return 'var(--F_Label_Color_Red)'
       case 'orange':
-        return 'var(--F_Label_Background_Orange)'
+        return 'var(--F_Label_Color_Orange)'
     case 'yellow':
-      return 'var(--F_Label_Background_Yellow)'
+      return 'var(--F_Label_Color_Yellow)'
     case 'green':
-      return 'var(--F_Label_Background_Green)'
+      return 'var(--F_Label_Color_Green)'
     case 'blue':
-      return 'var(--F_Label_Background_Blue)'
+      return 'var(--F_Label_Color_Blue)'
     case 'indigo':
-      return 'var(--F_Label_Background_Indigo)'
+      return 'var(--F_Label_Color_Indigo)'
     case 'purple':
-      return 'var(--F_Label_Background_Purple)'
+      return 'var(--F_Label_Color_Purple)'
     case 'pink':
-      return 'var(--F_Label_Background_Pink)'
+      return 'var(--F_Label_Color_Pink)'
     case 'cyan':
-      return 'var(--F_Label_Background_Cyan)'
+      return 'var(--F_Label_Color_Cyan)'
     case 'teal':
-      return 'var(--F_Label_Background_Teal)'
+      return 'var(--F_Label_Color_Teal)'
     case 'gray':
-      return 'var(--F_Label_Background_Gray)'
+      return 'var(--F_Label_Color_Gray)'
     default:
       return 'none'
   }

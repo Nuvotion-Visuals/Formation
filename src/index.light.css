@@ -27,17 +27,17 @@ It’s easy to picture how a less saturated version of a color would look like, 
   --F_Font_Color_Warning: hsl(25, 100%, 55%);
   --F_Font_Color_Link: hsl(201, 66%, 29%);
 
-  --F_Label_Background_Red: #ba4848;
-  --F_Label_Background_Orange: #d4623e;
-  --F_Label_Background_Yellow: #d99e26;
-  --F_Label_Background_Green: #458148;
-  --F_Label_Background_Blue: #3576b6;
-  --F_Label_Background_Indigo: #6b75b1;
-  --F_Label_Background_Purple: #6c4da4;
-  --F_Label_Background_Pink: #d25a82;
-  --F_Label_Background_Cyan: #19838e;
-  --F_Label_Background_Teal: #167f76;
-  --F_Label_Background_Gray: #757575;
+  --F_Label_Color_Red: #ba4848;
+  --F_Label_Color_Orange: #d4623e;
+  --F_Label_Color_Yellow: #d99e26;
+  --F_Label_Color_Green: #458148;
+  --F_Label_Color_Blue: #3576b6;
+  --F_Label_Color_Indigo: #6b75b1;
+  --F_Label_Color_Purple: #6c4da4;
+  --F_Label_Color_Pink: #d25a82;
+  --F_Label_Color_Cyan: #19838e;
+  --F_Label_Color_Teal: #167f76;
+  --F_Label_Color_Gray: #757575;
 
   --F_Timeline_Item_Background_Red: #c64f4f90;
   --F_Timeline_Item_Text_Red: #730303;
@@ -1706,17 +1706,17 @@ button {
   --F_Font_Color_Warning: hsl(25, 100%, 40%);
   --F_Font_Color_Link: hsl(201, 100%, 80%);
 
-  --F_Label_Background_Red: #933737;
-  --F_Label_Background_Orange: #9e4123;
-  --F_Label_Background_Yellow: #825f17;
-  --F_Label_Background_Green: #376839;
-  --F_Label_Background_Blue: #2a5e92;
-  --F_Label_Background_Indigo: #40497b;
-  --F_Label_Background_Purple: #563d83;
-  --F_Label_Background_Pink: #8b2648;
-  --F_Label_Background_Cyan: #146972;
-  --F_Label_Background_Teal: #12665e;
-  --F_Label_Background_Gray: #555555;
+  --F_Label_Color_Red: #933737;
+  --F_Label_Color_Orange: #9e4123;
+  --F_Label_Color_Yellow: #825f17;
+  --F_Label_Color_Green: #376839;
+  --F_Label_Color_Blue: #2a5e92;
+  --F_Label_Color_Indigo: #40497b;
+  --F_Label_Color_Purple: #563d83;
+  --F_Label_Color_Pink: #8b2648;
+  --F_Label_Color_Cyan: #146972;
+  --F_Label_Color_Teal: #12665e;
+  --F_Label_Color_Gray: #555555;
 
   --F_Timeline_Item_Background_Red: #c64f4f90;
   --F_Timeline_Item_Text_Red: #730303;
