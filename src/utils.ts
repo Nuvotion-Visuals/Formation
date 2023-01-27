@@ -41,30 +41,62 @@ export const reorderItems = (items: any[], previousIndex: number, nextIndex: num
   return newItems
 }
 
-export const getLabelColor = (color: ColorType): string => {
-  switch(color) {
+export type LabelColor = 
+  'red' | 
+  'orange' | 
+  'yellow' |
+  'green' |
+  'blue' | 
+  'indigo' | 
+  'purple' |
+  'pink' |
+  'cyan' | 
+  'teal' | 
+  'gray' |
+  'none'
+export const labelColors : LabelColor[] = [
+  'red', 
+  'orange', 
+  'yellow',
+  'green',
+  'blue', 
+  'indigo', 
+  'purple',
+  'pink', 
+  'cyan', 
+  'teal', 
+  'gray',
+  'none'
+]
+export type LabelType = {
+  name: string,
+  description: string,
+  labelColor: LabelColor
+}
+export const getLabelColor = (labelColor: LabelColor): string => {
+  switch(labelColor) {
     case 'red':
-      return 'var(--F_Label_Background_Red)'
+      return 'var(--F_Label_Color_Red)'
       case 'orange':
-        return 'var(--F_Label_Background_Orange)'
+        return 'var(--F_Label_Color_Orange)'
     case 'yellow':
-      return 'var(--F_Label_Background_Yellow)'
+      return 'var(--F_Label_Color_Yellow)'
     case 'green':
-      return 'var(--F_Label_Background_Green)'
+      return 'var(--F_Label_Color_Green)'
     case 'blue':
-      return 'var(--F_Label_Background_Blue)'
+      return 'var(--F_Label_Color_Blue)'
     case 'indigo':
-      return 'var(--F_Label_Background_Indigo)'
-    case 'violet':
-      return 'var(--F_Label_Background_Violet)'
+      return 'var(--F_Label_Color_Indigo)'
+    case 'purple':
+      return 'var(--F_Label_Color_Purple)'
     case 'pink':
-      return 'var(--F_Label_Background_Pink)'
+      return 'var(--F_Label_Color_Pink)'
     case 'cyan':
-      return 'var(--F_Label_Background_Cyan)'
+      return 'var(--F_Label_Color_Cyan)'
     case 'teal':
-      return 'var(--F_Label_Background_Teal)'
+      return 'var(--F_Label_Color_Teal)'
     case 'gray':
-      return 'var(--F_Label_Background_Gray)'
+      return 'var(--F_Label_Color_Gray)'
     default:
       return 'none'
   }
@@ -78,39 +110,6 @@ export const getColorFromGuid = (guid : string) => {
     return pastel 
   }
   return 'white'
-}
-
-export function shadeHexColor(color: string, percent: number) {
-
-  var R = parseInt(color.substring(1,3),16);
-  var G = parseInt(color.substring(3,5),16);
-  var B = parseInt(color.substring(5,7),16);
-
-  R = R * (100 + percent) / 100;
-  G = G * (100 + percent) / 100;
-  B = B * (100 + percent) / 100;
-
-  R = (R<255)?R:255;  
-  G = (G<255)?G:255;  
-B = (B<255)?B:255;  
-
-  R = Math.round(R)
-  G = Math.round(G)
-  B = Math.round(B)
-
-  var RR = ((R.toString(16).length==1)?"0"+R.toString(16):R.toString(16));
-  var GG = ((G.toString(16).length==1)?"0"+G.toString(16):G.toString(16));
-  var BB = ((B.toString(16).length==1)?"0"+B.toString(16):B.toString(16));
-
-  return "#"+RR+GG+BB;
-}
-
-export function calculateHoverColor(hex: string): string {
-  return shadeHexColor(hex, -8)
-}
-
-export function calculateActiveColor(hex: string): string {
-  return shadeHexColor(hex, -12)
 }
 
 export const getInitials = (name : string) => 
@@ -386,7 +385,6 @@ export const markdownToHTML = (markdown: string ) => {
 }
 
 import TurndownService from 'turndown'
-import { ColorType } from 'types';
 
 const turndownService = new TurndownService()
 

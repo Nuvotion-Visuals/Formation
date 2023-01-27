@@ -14,21 +14,22 @@ const Template: ComponentStory<typeof LabelManager> = args => {
     {
       name: 'pending',
       description: '',
-      color: 'orange'
+      labelColor: 'orange'
     },
     {
       name: 'rejected',
       description: '',
-      color: 'red'
+      labelColor: 'red'
     },
     {
       name: 'accepted',
       description: '',
-      color: 'green'
+      labelColor: 'green'
     }
   ])
   return <LabelManager 
     {...args} 
+    // @ts-ignore
     value={value} 
     onChange={newValue => set_value(newValue)} 
   />

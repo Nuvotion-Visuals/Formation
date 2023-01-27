@@ -13,17 +13,11 @@ const Template: ComponentStory<typeof Avatar> = (args) =>
   <Avatar {...args} />
 
 
-export const AutomaticColor = Template.bind({})
-AutomaticColor.args = {
-  name: 'Tom Leamon'
-}
-
-export const CustomColor = Template.bind({})
-CustomColor.args = {
+export const LabelColor = Template.bind({})
+LabelColor.args = {
   name: 'Tom Leamon',
-  color: '#c00c00'
+  labelColor: 'red'
 }
-
 
 export const Image = Template.bind({})
 Image.args = {
@@ -35,13 +29,14 @@ export const Icon = Template.bind({})
 Icon.args = {
   name: 'Tom Leamon',
   icon: 'user',
-  iconPrefix: 'fas'
+  iconPrefix: 'fas',
+  labelColor: 'blue'
 }
 
-export const IconNoBackground = Template.bind({})
-IconNoBackground.args = {
+export const IconNoLabelColor = Template.bind({})
+IconNoLabelColor.args = {
   name: 'Tom Leamon',
   icon: 'user',
   iconPrefix: 'fas',
-  color: 'none'
+  colorLabel: 'none'
 }

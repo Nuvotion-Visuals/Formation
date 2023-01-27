@@ -133,9 +133,16 @@ SingleBlink.args = {
   singleBlink: true
 }
 
-export const CustomColor = Template.bind({})
-CustomColor.args = {
+export const CustomColorOrange = Template.bind({})
+CustomColorOrange.args = {
   text: 'Download',
-  background: '#aacfff',
+  labelColor: 'orange',
+  primary: true
+}
+
+export const CustomColorPink = Template.bind({})
+CustomColorPink.args = {
+  text: 'Download',
+  labelColor: 'pink',
   primary: true
 }

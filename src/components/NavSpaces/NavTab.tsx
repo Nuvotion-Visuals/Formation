@@ -46,7 +46,7 @@ export const NavTab = ({
       <S.NavTab vertical={vertical} active={active}>
         {
           count
-            ? <Badge colorString='red' count={count}>
+            ? <Badge labelColor='red' count={count}>
                 {
                   renderIcon()
                 }

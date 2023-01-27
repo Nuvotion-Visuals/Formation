@@ -4,8 +4,7 @@ import styled, { keyframes, css } from 'styled-components'
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 import { SizeProp } from '@fortawesome/fontawesome-svg-core' // type coersion needed until FA SizeProp defintion is fixed to include "xl"
 
-import { Icon, getLinkComponent, calculateHoverColor, calculateActiveColor, getLabelColor } from '../../internal'
-import { ColorType } from 'types'
+import { Icon, getLinkComponent, LabelColor, getLabelColor } from '../../internal'
 
 type Props = {
   href?: string,
@@ -25,8 +24,7 @@ type Props = {
   id?: string,
   iconPrefix?: IconPrefix,
   secondary?: boolean,
-  background?: ColorType,
-  color?: ColorType,
+  labelColor?: LabelColor,
   singleBlink? : boolean,
   tab? : boolean,
   newTab?: boolean,
@@ -35,7 +33,7 @@ type Props = {
   expandVertical?: boolean
 }
 
- export interface ButtonProps extends Props {
+export interface ButtonProps extends Props {
   hasIcon: boolean
 }
 
@@ -57,8 +55,7 @@ export const Button: FC<Props> = React.memo(({
   id,
   iconPrefix,
   secondary,
-  background,
-  color,
+  labelColor,
   singleBlink,
   tab,
   newTab,
@@ -91,7 +88,7 @@ export const Button: FC<Props> = React.memo(({
         tab={tab}
         name={name}
         hasIcon={icon !== undefined}
-        background={background}
+        labelColor={labelColor}
         expandVertical={expandVertical}
       >
         {
@@ -226,8 +223,8 @@ const calculatePadding = (props: Props) => {
 }
 
 const calculateBackgroundColor = (props: Props) => {
-  if (typeof props.background === 'string' && props.primary) {
-    return props.background;
+  if (typeof props.labelColor === 'string' && props.primary) {
+    return getLabelColor(props.labelColor);
   }
   if (props.primary) {
     return 'var(--F_Primary)';
@@ -242,8 +239,8 @@ const calculateBackgroundColor = (props: Props) => {
 }
 
 const calculateHoverBackgroundColor = (props: Props) => {
-  if (props.background !== undefined) {
-    return calculateHoverColor(props.background)
+  if (typeof props.labelColor === 'string' && props.primary) {
+    return getLabelColor(props.labelColor);
   }
   if (props.primary) {
     return `var(--F_Primary_Hover)`
@@ -254,8 +251,8 @@ const calculateHoverBackgroundColor = (props: Props) => {
 }
 
 const calculateActiveBackgroundColor = (props: Props) => {
-  if (props.background !== undefined) {
-    return calculateActiveColor(props.background)
+  if (typeof props.labelColor === 'string' && props.primary) {
+    return getLabelColor(props.labelColor);
   }
   if (props.primary) {
     return `var(--F_Primary)`
@@ -275,7 +272,6 @@ const S = {
     width: ${props => calculateWidth(props)};
     display: flex;
     align-items: center;
-
     a {
       height: 100%;
     }
@@ -301,7 +297,9 @@ const S = {
     overflow: hidden;
     color: ${props => props.disabled
       ? 'var(--F_Font_Color_Disabled)'
-      : 'var(--F_Font_Color)'
+      : props.labelColor !== undefined 
+        ? 'white' 
+        : 'var(--F_Font_Color)'
     };
     pointer-events: ${props => props.disabled ? 'none' : 'default'}; 
     display: flex;
@@ -320,7 +318,6 @@ const S = {
           ? '.5rem .5rem 0 0'
           : '.5rem'
     };
-  
     box-shadow: ${props => props.secondary ? 'var(--F_Outline)' : 'none'};
     border-radius: ${props => 
       props.circle
@@ -336,7 +333,6 @@ const S = {
           : 'none'
     };
     cursor: ${props => props.disabled ? 'default' : 'pointer'}; 
-
     svg {
       color: ${props => props.disabled 
         ? 'var(--F_Font_Color_Disabled)' 
@@ -345,19 +341,21 @@ const S = {
           : 'var(--F_Font_Color)'
       };
     }
-    
     &:hover {
       background: ${props => calculateHoverBackgroundColor(props)};
       * {
         color: var(--F_Font_Color);
+        color: ${props => props.labelColor !== undefined ? 'white' : 'var(--F_Font_Color)'};
       }
       box-shadow: none;
+      filter: ${props => props.labelColor !== undefined ? 'brightness(108%)' : 'none'};
     };
   
     &:active {
       background: ${props => calculateActiveBackgroundColor(props)
       };
       transform: translateY(1px);
+      filter: ${props => props.labelColor !== undefined ? 'brightness(116%)' : 'none'};
     };
   `,
   IconContainer: styled.div<{

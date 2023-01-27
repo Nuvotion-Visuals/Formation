@@ -12,43 +12,49 @@ const Template: ComponentStory<typeof Label> = (args) => <Label {...args} />
 
 export const Red = Template.bind({})
 Red.args = {
-  color: 'red',
+  labelColor: 'red',
   label: 'denied'
 }
 
 export const Orange = Template.bind({})
 Orange.args = {
-  color: 'orange',
+  labelColor: 'orange',
   label: 'pending'
 }
 
 export const Yellow = Template.bind({})
 Yellow.args = {
-  color: 'yellow',
+  labelColor: 'yellow',
   label: 'caution'
 }
 
 export const Green = Template.bind({})
 Green.args = {
-  color: 'green',
+  labelColor: 'green',
   label: 'accepted'
 }
 
 export const Blue = Template.bind({})
 Blue.args = {
-  color: 'blue',
+  labelColor: 'blue',
   label: 'absent'
 }
 
 export const Indigo = Template.bind({})
 Indigo.args = {
-  color: 'indigo',
+  labelColor: 'indigo',
   label: 'VIP'
 }
 
-export const Violet = Template.bind({})
-Violet.args = {
-  color: 'violet',
+export const Purple = Template.bind({})
+Purple.args = {
+  labelColor: 'purple',
   label: 'interested'
 }
 
+export const OnClick = Template.bind({})
+OnClick.args = {
+  labelColor: 'purple',
+  label: 'blacklisted',
+  onClick: () => alert('Hello')
+}

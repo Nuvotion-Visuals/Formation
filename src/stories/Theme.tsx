@@ -31,17 +31,17 @@ export const Theme = ({  }: Props) => {
   ]
 
   const labelColors = [
-    '--F_Label_Background_Red',
-    '--F_Label_Background_Orange',
-    '--F_Label_Background_Yellow',
-    '--F_Label_Background_Green',
-    '--F_Label_Background_Blue',
-    '--F_Label_Background_Indigo',
-    '--F_Label_Background_Purple',
-    '--F_Label_Background_Pink',
-    '--F_Label_Background_Cyan',
-    '--F_Label_Background_Teal',
-    '--F_Label_Background_Gray',
+    '--F_Label_Color_Red',
+    '--F_Label_Color_Orange',
+    '--F_Label_Color_Yellow',
+    '--F_Label_Color_Green',
+    '--F_Label_Color_Blue',
+    '--F_Label_Color_Indigo',
+    '--F_Label_Color_Purple',
+    '--F_Label_Color_Pink',
+    '--F_Label_Color_Cyan',
+    '--F_Label_Color_Teal',
+    '--F_Label_Color_Gray',
   ]
 
   const outlines = [

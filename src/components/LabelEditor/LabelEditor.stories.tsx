@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
 import { LabelEditor } from './LabelEditor'
+import { LabelColor } from '../../internal'
 
 export default {
   title: 'Input/LabelEditor',
@@ -13,7 +14,7 @@ const Template: ComponentStory<typeof LabelEditor> = (args) => {
   const [value, set_value] = useState({
     name: '',
     description: '',
-    color: 'orange'
+    labelColor: 'orange' as LabelColor
   })
 
   return (

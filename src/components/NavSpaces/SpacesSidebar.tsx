@@ -42,11 +42,7 @@ export const SpacesSidebar = memo(({
                 active={activeSpaceIndex === index}
                 icon={space.icon}
                 iconPrefix={space.iconPrefix}
-                colorString={
-                  space.color
-                    ? getLabelColor(space.color)
-                    : undefined
-                }
+                labelColor={space.labelColor}
               />
             </S.SidebarContainer>
           )

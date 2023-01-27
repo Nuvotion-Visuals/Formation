@@ -150,7 +150,7 @@ const Template: ComponentStory<typeof NavSpaces> = args => {
       location: 'Cypress Avenue, Cork',
       channels: eventChannels,
       href: '#test',
-      color: 'indigo'
+      labelColor: 'indigo'
     },
     {
       name: 'Kino Battle of the Bands',
@@ -188,10 +188,10 @@ const Template: ComponentStory<typeof NavSpaces> = args => {
     },
     {
       name: 'New Organization 112',
-      color: 'cyan'
+      labelColor: 'cyan'
     },
     {
-      color: 'red',
+      labelColor: 'red',
       channels: organizationChannels
     },
     {
@@ -236,7 +236,7 @@ const Template: ComponentStory<typeof NavSpaces> = args => {
     <SpaceSidebar 
       name={spaces[activeSpaceIndex]?.name}
       src={spaces[activeSpaceIndex]?.src}
-      color={spaces[activeSpaceIndex]?.color}
+      labelColor={spaces[activeSpaceIndex]?.labelColor}
       dateString={
         spaces[activeSpaceIndex]?.date?.toLocaleString('en-us', { 
           weekday: 'long', 

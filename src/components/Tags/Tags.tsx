@@ -12,16 +12,14 @@ type TagsType = {
   allTags: ButtonProps[],
   initialActiveTags: string[],
   onChange: (tags: string[]) => void,
-  noPadding?: boolean,
-  colors?: string[]
+  noPadding?: boolean
 }
 
 export const Tags = ({ 
   allTags, 
   initialActiveTags, 
   onChange, 
-  noPadding,
-  colors
+  noPadding
 }: TagsType) => {
 
   const [activeTags, set_activeTags] = useState(initialActiveTags)
@@ -82,7 +80,7 @@ export const Tags = ({
                     primary={activeTags.includes(tag.name)}
                     onClick={() => tag !== undefined && toggleTagActive(tag.name)}
                     secondary={!activeTags.includes(tag.name)}
-                    background={tag.background}
+                    labelColor={activeTags.includes(tag.name) ? tag.labelColor : undefined}
                   />
               </S.ButtonContainer>
               :<></>)

@@ -66,13 +66,13 @@ const S = {
     background: ${({ type }) => {
       switch(type) {
         case 'success':
-          return 'var(--F_Font_Color_Success)'
+          return 'var(--F_Label_Color_Green)'
         case 'error':
-          return 'var(--F_Font_Color_Error)'
+          return 'var(--F_Label_Color_Red)'
         case 'warning':
-          return 'var(--F_Font_Color_Warning)'
+          return 'var(--F_Label_Color_Orange)'
         case 'info':
-          return 'var(--F_Surface)'
+          return 'var(--F_Label_Color_Gray)'
       }
     }};
   `,
@@ -84,15 +84,19 @@ const S = {
     width: var(--F_Input_Height);
     min-height: var(--F_Input_Height);
     height: 100%;
+    * {
+      color: white;
+    }
   `,
   Content: styled.div`
     width: calc(100% - var(--F_Input_Height));
     display: flex;
     align-items: center;
-    padding: .75rem .5rem;
+    padding: .75rem .25rem;
     padding-right: 1rem;
     line-height: 1.5;
-    color: var(--F_Font_Color);
+    color: white;
+  
   `
 }
 

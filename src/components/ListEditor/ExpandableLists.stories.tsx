@@ -28,10 +28,10 @@ const Template: ComponentStory<typeof ExpandableLists> = args => {
           item: {
             icon: 'chevron-up',
             iconPrefix: 'fas',
-            color: 'none',
+            labelColor: 'none',
             title: newItemName,
             children: <>
-              <Label label={`0 / ${count}`} color={'orange'}/>
+              <Label label={`0 / ${count}`} labelColor={'orange'}/>
             </>,
             options: [
               {
@@ -56,11 +56,11 @@ const Template: ComponentStory<typeof ExpandableLists> = args => {
             icon: 'user',
             iconPrefix: 'fas',
             name: 'Unassigned',
-            color: 'none',
+            labelColor: 'none',
             emphasize: true,
             onClick: () => {},
             children: <>
-              <Label label={'todo'} color={'orange'}/>
+              <Label label={'todo'} labelColor={'orange'}/>
             </>,
             options: [
               {

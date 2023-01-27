@@ -9,9 +9,11 @@ import {
   Gap, 
   Spacer, 
   Box, 
-  LabelColorPicker } from '../../internal'
+  LabelColorPicker,
+  LabelType,
+  labelColors
+} from '../../internal'
 
-import { LabelType } from '../../types'
 
 interface Props {
   value: LabelType,
@@ -33,7 +35,7 @@ export const LabelEditor = ({
     <Box pb={.5}>
       <Label
         label={internalValue.name ? internalValue.name : 'Label preview'}
-        color={internalValue.color as any}
+        labelColor={internalValue.labelColor}
         title={internalValue.description}
       />
     
@@ -55,21 +57,9 @@ export const LabelEditor = ({
       <Break />
       <LabelColorPicker
         label='Color'
-        value={internalValue.color}
-        onChange={newValue => set_internalValue({...internalValue, color: newValue})}
-        options={[
-          'red',
-          'orange',
-          'yellow',
-          'green',
-          'blue',
-          'indigo',
-          'violet',
-          'pink',
-          'cyan',
-          'teal',
-          'gray'
-        ]}
+        value={internalValue.labelColor}
+        onChange={newValue => set_internalValue({...internalValue, labelColor: newValue})}
+        options={labelColors}
       />
       <Box mt={.125} width='100%'>
         <Gap>

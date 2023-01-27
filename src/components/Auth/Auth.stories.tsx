@@ -37,7 +37,6 @@ UsernamePassword.args = {
         primary={true}
         text='Sign in'
         expand={true}
-        hero={true}
       />
     </Gap>
   </>
@@ -64,7 +63,6 @@ Passwordless.args = {
         text='Send login code'
         expand={true}
         iconPrefix='fas'
-        hero={true}
       />
     </Gap>
   </>
