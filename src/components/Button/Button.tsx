@@ -25,7 +25,6 @@ type Props = {
   iconPrefix?: IconPrefix,
   secondary?: boolean,
   labelColor?: LabelColor,
-  color?: LabelColor,
   singleBlink? : boolean,
   tab? : boolean,
   newTab?: boolean,
@@ -34,7 +33,7 @@ type Props = {
   expandVertical?: boolean
 }
 
- export interface ButtonProps extends Props {
+export interface ButtonProps extends Props {
   hasIcon: boolean
 }
 
@@ -57,7 +56,6 @@ export const Button: FC<Props> = React.memo(({
   iconPrefix,
   secondary,
   labelColor,
-  color,
   singleBlink,
   tab,
   newTab,
