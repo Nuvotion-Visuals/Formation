@@ -95,18 +95,23 @@ export const Button: FC<Props> = React.memo(({
           icon !== undefined
             ? <S.IconContainer square={impliedSquare}>
               <Icon 
-                  iconPrefix={iconPrefix ? iconPrefix : 'far'} 
-                  icon={icon}  
-                  rotation={rotate ? 90 : undefined}
-                  size={
-                    hero 
-                      ? ('xl' as SizeProp) // type coersion needed until FA SizeProp defintion is fixed to include "xl"
-                      : 'lg'
-                    } 
-                />
+                iconPrefix={iconPrefix ? iconPrefix : 'far'} 
+                icon={icon}  
+                rotation={rotate ? 90 : undefined}
+                size={
+                  hero 
+                    ? ('xl' as SizeProp) // type coersion needed until FA SizeProp defintion is fixed to include "xl"
+                    : 'lg'
+                  } 
+              />
               
                 
               </S.IconContainer>
+            : null
+        }
+        {
+          labelColor && secondary
+            ? <S.LabelCircle labelColor={labelColor} />
             : null
         }
         {
@@ -297,7 +302,7 @@ const S = {
     overflow: hidden;
     color: ${props => props.disabled
       ? 'var(--F_Font_Color_Disabled)'
-      : props.labelColor !== undefined 
+      : props.labelColor !== undefined && !props.secondary 
         ? 'white' 
         : 'var(--F_Font_Color)'
     };
@@ -345,23 +350,33 @@ const S = {
       background: ${props => calculateHoverBackgroundColor(props)};
       * {
         color: var(--F_Font_Color);
-        color: ${props => props.labelColor !== undefined ? 'white' : 'var(--F_Font_Color)'};
+        color: ${props => props.labelColor !== undefined && !props.secondary ? 'white' : 'var(--F_Font_Color)'};
       }
       box-shadow: none;
-      filter: ${props => props.labelColor !== undefined ? 'brightness(108%)' : 'none'};
+      filter: ${props => props.labelColor !== undefined && !props.secondary ? 'brightness(108%)' : 'none'};
     };
   
     &:active {
       background: ${props => calculateActiveBackgroundColor(props)
       };
       transform: translateY(1px);
-      filter: ${props => props.labelColor !== undefined ? 'brightness(116%)' : 'none'};
+      filter: ${props => props.labelColor !== undefined && !props.secondary ? 'brightness(116%)' : 'none'};
     };
   `,
   IconContainer: styled.div<{
     square?: boolean
   }>`
     padding-right: ${props => props.square ? '0' : '.5rem'};
+  `,
+  LabelCircle: styled.div<{
+    labelColor: LabelColor
+  }>`
+    width: 1rem;
+    height: 1rem;
+    margin-left: -.25rem;
+    margin-right: .5rem;
+    border-radius: 100%;
+    background: ${props => getLabelColor(props.labelColor)};
   `
 }
 

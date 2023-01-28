@@ -239,17 +239,6 @@ const S = {
       color: ${props => props.active ? 'var(--F_Font_Color)' : 'auto'};
     }
   `,
-  Avatar: styled.div`
-    height: 1.75rem;
-    min-width: 1.75rem;
-    border-radius: 50%;
-    background: ${props => props.color};
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: var(--F_Outline_Label);
-    font-size: var(--F_Font_Size_Label);
-  `,
   Text: styled.div<{
     active?: boolean
   }>`

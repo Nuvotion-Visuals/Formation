@@ -3,9 +3,7 @@ import styled from 'styled-components'
 import xor from 'lodash.xor'
 import union from 'lodash.union'
 
-import { ButtonProps } from 'components/Button/Button'
-
-import { Button } from '../../internal'
+import { Button, ButtonProps } from '../../internal'
 import { Icon } from '../../internal'
 
 type TagsType = {
@@ -80,7 +78,7 @@ export const Tags = ({
                     primary={activeTags.includes(tag.name)}
                     onClick={() => tag !== undefined && toggleTagActive(tag.name)}
                     secondary={!activeTags.includes(tag.name)}
-                    labelColor={activeTags.includes(tag.name) ? tag.labelColor : undefined}
+                    labelColor={tag.labelColor}
                   />
               </S.ButtonContainer>
               :<></>)

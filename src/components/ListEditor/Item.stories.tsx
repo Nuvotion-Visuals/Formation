@@ -15,7 +15,7 @@ const Template: ComponentStory<typeof Item> = args =>
 export const Person = Template.bind({})
 Person.args = {
   name: 'DJ SKoli',
-  colorLabel: 'purple',
+  labelColor: 'purple',
   options: [
     {
       icon: 'ellipsis-v',
@@ -89,7 +89,7 @@ export const Detail = Template.bind({})
 Detail.args = {
   text: '21 people',
   icon: 'user',
-  colorLabel: 'none',
+  labelColor: 'none',
   iconPrefix: 'fas',
   options: [
     {
@@ -106,7 +106,7 @@ export const Title = Template.bind({})
 Title.args = {
   label: 'Name',
   title: 'Hydrodynamics',
-  colorLabel: 'none',
+  labelColor: 'none',
   iconPrefix: 'fas',
   options: [
     {
@@ -126,7 +126,7 @@ Event.args = {
   subtitle: 'Jan 24, 2022',
   src: 'https://api.avsync.live/uploads/avsync_logo_border_45b816cca1.png',
   title: 'Hydrodynamics',
-  colorLabel: 'none',
+  labelColor: 'none',
   iconPrefix: 'fas',
   options: [
     {
@@ -145,7 +145,7 @@ Space.args = {
   label: 'Liquid Dance Chicago Presents',
   src: 'https://api.avsync.live/uploads/1_bc67779458.jpg',
   title: 'Hydrodynamics',
-  colorLabel: 'none',
+  labelColor: 'none',
   iconPrefix: 'fas',
   options: [
     {

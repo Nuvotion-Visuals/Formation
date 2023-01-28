@@ -3,10 +3,24 @@ import styled from 'styled-components'
 import { ZonedDateTime } from '@js-joda/core'
 import '@js-joda/timezone'
 
-import { ActivityType, PersonType } from './Timeline.stories'
+import { getLabelColor, LabelColor } from '../../internal'
 
-import { getLabelColor } from '../../internal'
-import { ColorType } from 'types'
+export type ActivityType = {
+  title: string,
+  startTime: string,
+  endTime: string,
+  id: string,
+  area: string,
+  areaId: string,
+  labelColor: LabelColor,
+  people: PersonType[],
+  overflowLane: number
+}
+
+export type PersonType = {
+  name: string,
+  position: string,
+}
 
 
 export interface Props {
@@ -15,8 +29,7 @@ export interface Props {
   onChange: (time: any) => void,
   onIntervalClick: (interval: IntervalType) => void,
   onLaneItemClick: (item: ActivityType) => void,
-  color: ColorType,
-  backgroundColor: ColorType
+  labelColor: LabelColor
 }
 
 interface IntervalType {
@@ -32,7 +45,7 @@ interface ItemTimeStampType {
   id: string,
   area: string,
   areaId: string,
-  areaColor: ColorType,
+  labelColor: LabelColor,
   overflowLane: number,
   isPlaced: boolean,
   people: PersonType[]
@@ -40,7 +53,7 @@ interface ItemTimeStampType {
 
 type ItemTimeStampsType = ItemTimeStampType[]
 
-export const Timeline = ({ value, intervals, onChange,  onIntervalClick, onLaneItemClick, color, backgroundColor }: Props) => {
+export const Timeline = ({ value, intervals, onChange,  onIntervalClick, onLaneItemClick, labelColor }: Props) => {
 
   const [columnCount, set_columnCount] = useState<number>(1)
   const [renderItems, set_renderItems] = useState<ActivityType[]>()
@@ -56,7 +69,7 @@ export const Timeline = ({ value, intervals, onChange,  onIntervalClick, onLaneI
       "id": item.id,
       "area": item.area,
       "areaId": item.areaId,
-      "areaColor": item.areaColor,
+      "labelColor": item.labelColor,
       "overflowLane": 1,
       "isPlaced": false,
       "people": item.people !== undefined ? item.people : []
@@ -162,7 +175,7 @@ export const Timeline = ({ value, intervals, onChange,  onIntervalClick, onLaneI
         id: item.id,
         area: item.area,
         areaId: item.areaId,
-        areaColor: item.areaColor,
+        labelColor: item.labelColor,
         people: item.people,
         overflowLane: item.overflowLane
       }
@@ -202,8 +215,7 @@ export const Timeline = ({ value, intervals, onChange,  onIntervalClick, onLaneI
                   
                 >
                   <S.Fill
-                    color={color}
-                    backgroundColor={backgroundColor}
+                    labelColor={labelColor}
                   >
                     {item.title}
                   </S.Fill>
@@ -266,16 +278,16 @@ const S = {
     overflow-y: hidden;
   `,
   Fill: styled.div<{
-    color: ColorType,
-    backgroundColor: ColorType
+    labelColor: LabelColor
   }>`
+    position: relative;
     width: calc(100% - 0.5rem);
     height: calc(100% - 0.5rem - 3px);
     margin: 0.125rem 0;
-    background: ${props => props.backgroundColor ? getLabelColor(props.backgroundColor) : 'blue'};
-    color: white;
+    background: ${props => props.labelColor ? getLabelColor(props.labelColor) : 'gray'};
     border-radius: 0.25rem;
     padding: 0.25rem;
-
+    opacity: 0.875;
+    color: white;
   `
 }

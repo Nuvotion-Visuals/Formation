@@ -26,7 +26,7 @@ export const ExpandableLists = ({
               }} 
               reorderId='reorder' 
               holdTime={200}
-              placeholder={<Item emphasize={true} name={' '} color='none' />}
+              placeholder={<Item emphasize={true} name={' '} labelColor='none' />}
             >
               {
                 value?.map((expandableList, index) => 

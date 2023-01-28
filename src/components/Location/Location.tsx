@@ -265,7 +265,6 @@ export const Location = ({
       id='pac-input'
       icon='map-marker-alt'
       iconPrefix={iconPrefix}
-      tooltip='The name of location may be shared with Google'
       label={label}
     />
     

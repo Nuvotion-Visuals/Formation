@@ -27,11 +27,9 @@ export const LiveTimeIndicator = ({ timeReferencePosition, time, color }: Props)
     >
       <S.OverlayLine color={color} />
       <S.Time color={color}>
-        
         <Box>{formattedTime}</Box>
           <Break />
         <Box>{currentTimeZone.slice(-3)}</Box>
-       
       </S.Time>
     </S.Container>
   )

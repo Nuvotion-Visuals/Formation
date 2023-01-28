@@ -1,5 +1,4 @@
-import { Box } from '../../internal'
-import React, { useEffect } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
 interface Props {
@@ -22,20 +21,18 @@ export const TimeReference = ({ intervals }: Props) => {
       
             ? <S.DateDisplay key={index}>
                 <S.Interval>
-                 
-                    <S.DayOfWeek>
-                      {
-                        interval.display[0]
-                      }
-                    </S.DayOfWeek>
-                    <S.MonthDay>
-                      {
-                        interval.display[1].substring(0, 1) == '0'
-                          ? interval.display[1].substring(1)
-                          : interval.display[1]
-                      }
-                    </S.MonthDay>
-                 
+                  <S.DayOfWeek>
+                    {
+                      interval.display[0]
+                    }
+                  </S.DayOfWeek>
+                  <S.MonthDay>
+                    {
+                      interval.display[1].substring(0, 1) == '0'
+                        ? interval.display[1].substring(1)
+                        : interval.display[1]
+                    }
+                  </S.MonthDay>
                 </S.Interval>
               </S.DateDisplay>
               
@@ -56,7 +53,7 @@ const S = {
     width: 3rem;
     min-height: 100%;
     z-index: 400;
-    background: var(--F_Background_Alternating);
+    background: var(--F_Background);
   `,
   Interval: styled.div<{}>`
     position: relative;
@@ -69,12 +66,10 @@ const S = {
     transform-origin: 0 0.75rem;
   `,
   DateContainer: styled.div`
-    postion: relative;
     height: 100%;
     width: 100%;
   `,
   DateDisplay: styled.div`
-    postion: relative;
   `,
   DayOfWeek: styled.div<{}>`
     position: absolute;

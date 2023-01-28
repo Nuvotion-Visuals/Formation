@@ -4,7 +4,7 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
   },
-  "version": "0.9.78",
+  "version": "0.9.80",
   "description": "Formation is a comprehensive component library powered by React, Styled Components, and CSS variables built for real-world applications that demand fully responsive design and unifed cross-platform experiences. ",
   "keywords": [
     "react",
@@ -41,12 +41,9 @@
     "rollup": "rm -rf dist && NODE_ENV=production rollup -c",
     "package": "yarn rollup && npm pack",
     "test": "jest",
-    "storybook": "start-storybook -p 6006",
+    "dev": "start-storybook -p 6006",
     "kill-linux": "kill $(lsof -t -i:6006)",
     "storybook-build": "build-storybook",
-    "storybook-publish": "build-storybook && gh-pages -d storybook-static",
-    "storybook-legacy": "start-storybook -p 6006",
-    "storybook-publish-legacy": "build-storybook && gh-pages -d storybook-static",
     "kill": "kill $(lsof -t -i:6006)"
   },
   "author": "AVsync.LIVE LLC",
@@ -133,6 +130,7 @@
     "@types/react-swipeable-views": "^0.13.1",
     "@types/spark-md5": "^3.0.2",
     "@types/turndown": "^5.0.1",
+    "@types/uuid": "^9.0.0",
     "isomorphic-dompurify": "^0.21.0",
     "javascript-time-ago": "^2.5.9",
     "lodash.union": "^4.6.0",
@@ -152,7 +150,8 @@
     "showdown": "^2.1.0",
     "spark-md5": "^3.0.2",
     "thumbo": "^1.0.8",
-    "turndown": "^7.1.1"
+    "turndown": "^7.1.1",
+    "uuid": "^9.0.0"
   },
   "peerDependencies": {
     "react": "^18.0.0",

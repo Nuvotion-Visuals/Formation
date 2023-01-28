@@ -46,10 +46,10 @@ Positions.args = {
   item: {
     icon: 'chevron-up',
     iconPrefix: 'fas',
-    color: 'none',
+    labelColor: 'none',
     title: 'Dancers',
     children: <>
-      <Label label={'2 / 3'} color={'orange'}/>
+      <Label label={'2 / 3'} labelColor={'orange'}/>
     </>,
     options: [
       {
@@ -63,7 +63,7 @@ Positions.args = {
       name: 'Scotty Distortion',
       onClick: () => {},
       children: <>
-        <Label label={'confirmed'} color={'green'}/>
+        <Label label={'confirmed'} labelColor={'green'}/>
       </>,
       options: [
         {
@@ -77,7 +77,7 @@ Positions.args = {
       onClick: () => {},
       active: true,
       children: <>
-        <Label label={'confirmed'} color={'green'}/>
+        <Label label={'confirmed'} labelColor={'green'}/>
       </>,
       options: [
         {
@@ -90,7 +90,7 @@ Positions.args = {
       name: 'Isabelle',
       onClick: () => {},
       children: <>
-        <Label label={'tentative'} color={'orange'}/>
+        <Label label={'tentative'} labelColor={'orange'}/>
       </>,
       options: [
         {
@@ -110,10 +110,10 @@ Details.args = {
   item: {
     icon: 'chevron-up',
     iconPrefix: 'fas',
-    color: 'none',
+    labelColor: 'none',
     title: 'Basics',
     children: <>
-      <Label label={'3 / 3'} color={'green'}/>
+      <Label label={'3 / 3'} labelColor={'green'}/>
     </>,
     options: [
       {
@@ -128,7 +128,7 @@ Details.args = {
       iconPrefix: 'fas',
       label: 'Name',
       title: 'Hydrodynamics',
-      color: 'none',
+      labelColor: 'none',
       onClick: () => {},
       options: [
         {
@@ -142,7 +142,7 @@ Details.args = {
       iconPrefix: 'fas',
       label: 'Date',
       title: 'Monday, October 31, 2022',
-      color: 'none',
+      labelColor: 'none',
       active: true,
       onClick: () => {},
       options: [
@@ -157,10 +157,10 @@ Details.args = {
       iconPrefix: 'fas',
       label: 'Tickets',
       onClick: () => {},
-      color: 'none',
+      labelColor: 'none',
       emphasize: true,
       children: <>
-        <Label label={'todo'} color={'orange'}/>
+        <Label label={'todo'} labelColor={'orange'}/>
       </>,
       options: [
         {
@@ -175,7 +175,7 @@ Details.args = {
       label: 'Location',
       onClick: () => {},
       title: 'South Loop',
-      color: 'none',
+      labelColor: 'none',
       options: [
         {
           icon: 'arrow-right',

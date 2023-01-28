@@ -174,7 +174,7 @@ import { ArticlePreview } from './components/ArticlePreview/ArticlePreview'
 import { Article } from './components/Article/Article'
 import { SearchSortFilter } from './components/SearchSortFilter/SearchSortFilter'
 import { Radio } from './components/Radio/Radio'
-import { Button } from './components/Button/Button'
+import { Button, ButtonProps } from './components/Button/Button'
 import { Notification } from './components/Notification/Notification'
 import { TextInput } from './components/TextInput/TextInput'
 import { Dropdown, OptionsType } from './components/Dropdown/Dropdown'
@@ -189,7 +189,7 @@ export {
   Article,
   SearchSortFilter,
   Radio,
-  Button,
+  Button, ButtonProps,
   Notification,
   TextInput,
   Dropdown, OptionsType,

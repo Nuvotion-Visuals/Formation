@@ -108,9 +108,9 @@ export const ActivityForm = ({ activity, areas, onChange }: Props) => {
   }
 
   const lookupAreaColorByAreaId = () => {
-    let areaColor = areas.find((area) => area.areaId === activity?.areaId)?.areaColor
+    let labelColor = areas.find((area) => area.areaId === activity?.areaId)?.labelColor
 
-    return areaColor
+    return labelColor
   }
 
   // const generateUUID = () => { // Public Domain/MIT
@@ -137,7 +137,7 @@ export const ActivityForm = ({ activity, areas, onChange }: Props) => {
 
   const [area, set_area] = useState<string | undefined>()
   const [areaId, set_areaId] = useState<string | undefined>()
-  const [areaColor, set_areaColor] = useState<LabelColor | undefined>()
+  const [labelColor, set_areaColor] = useState<LabelColor | undefined>()
   const [title, set_title] = useState<string | undefined>()
   const [dateTimeValue, set_dateTimeValue] = useState([{
     startTime: formatTimeString(activity?.startTime),
@@ -150,7 +150,7 @@ export const ActivityForm = ({ activity, areas, onChange }: Props) => {
   useEffect(() => {
     set_area(activity == undefined ? areas[0].area : activity.area)
     set_areaId(activity == undefined ? areas[0].areaId : activity.areaId)
-    set_areaColor(activity == undefined ? areas[0].areaColor : lookupAreaColorByAreaId())
+    set_areaColor(activity == undefined ? areas[0].labelColor : lookupAreaColorByAreaId())
     set_title(activity !== undefined ? activity?.title : '')
     set_dateTimeValue([{
       startTime: formatTimeString(activity?.startTime),
@@ -179,7 +179,7 @@ export const ActivityForm = ({ activity, areas, onChange }: Props) => {
         id: activity?.id !== undefined ? activity?.id : generateUUID(),
         area: area !== undefined ? area : '',
         areaId: areaId !== undefined ? areaId : '',
-        areaColor: areaColor !== undefined ? areaColor : 'blue',
+        labelColor: labelColor !== undefined ? labelColor : 'blue',
         people: activity?.people !== undefined ? activity.people : [],
         overflowLane: 1
       }
@@ -195,7 +195,7 @@ export const ActivityForm = ({ activity, areas, onChange }: Props) => {
         id: activity?.id ? activity?.id : '',
         area: '',
         areaId: activity?.areaId ? activity?.areaId : '',
-        areaColor: 'blue',
+        labelColor: 'blue',
         people: [],
         overflowLane: 1
       }
@@ -244,7 +244,7 @@ export const ActivityForm = ({ activity, areas, onChange }: Props) => {
           'gray'
         ]}
         label='Area Color'
-        value={areaColor !== undefined ? areaColor : 'gray'}
+        value={labelColor !== undefined ? labelColor : 'gray'}
         onChange={newValue => set_areaColor(newValue)}
       />
       <Box mb={.5}>

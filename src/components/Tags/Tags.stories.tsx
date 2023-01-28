@@ -33,8 +33,8 @@ InitialSelected.args = {
   initialActiveTags: ['rock', 'hip hop'],
 }
 
-export const MulitColored = Template.bind({})
-MulitColored.args = {
+export const LabelColors = Template.bind({})
+LabelColors.args = {
   allTags: [
     {
       name: 'red',
