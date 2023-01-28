@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { Timeline, Tags, TimeReference, TimelineSurface, LiveTimeIndicator } from '../../internal'
+import { Timeline, Tags, TimeReference, TimelineSurface, LiveTimeIndicator, Modal, Box } from '../../internal'
 import { styled } from '@storybook/theming'
 
 import { DateTimeFormatter, Duration, ZonedDateTime, LocalDate } from '@js-joda/core'
 import { Locale } from '@js-joda/locale_en-us'
-import { ButtonProps } from '../Button/Button'
+import { Button, ButtonProps } from '../Button/Button'
+import { ActivityForm } from './ActivityForm'
+import { LabelColor } from '../../internal'
 
 export default {
   title: 'Advanced Input/Timeline',
@@ -19,30 +21,34 @@ interface IntervalType {
   gridNumber: number
 }
 
-type areaColorType = {
-  itemBackground: string,
-  itemText: string,
-  buttonBackground: string,
-  buttonHoverBackground: string
-}
-
 type AreaType = {
   area: string,
-  colors: areaColorType,
+  areaId: string,
+  areaColor: LabelColor,
   activities: ActivityType[],
 }
 
-type ActivityType = {
+export type ActivityType = {
   title: string,
   startTime: string,
   endTime: string,
   id: string,
+  area: string,
+  areaId: string,
+  areaColor: LabelColor,
   people: PersonType[],
+  overflowLane: number
 }
 
-type PersonType = {
+export type PersonType = {
   name: string,
   position: string,
+}
+
+export type areaIdType = {
+  area: string,
+  areaId: string,
+  areaColor: LabelColor
 }
 
 type AreasType = AreaType[]
@@ -50,24 +56,26 @@ type ActivitiesType = ActivityType[]
 
 
 const Template: ComponentStory<typeof Timeline> = args => { 
-
+  // automatically create a two day calendar using client side date information
   const todaysDateString = ZonedDateTime.now().format(DateTimeFormatter.ofPattern('yyyy-MM-dd'))
   const tomorrowsDateString = ZonedDateTime.now().plusDays(1).format(DateTimeFormatter.ofPattern('yyyy-MM-dd'))
+
+  // mock data to be rendered
   const [value, set_value] = useState<AreasType>([
     {
       area: 'West Stage',
-      colors: {
-        itemBackground: 'var(--F_Timeline_Item_Background_Red)',
-        itemText: 'var(--F_Timeline_Item_Text_Red)',
-        buttonBackground: 'var(--F_Timeline_Item_Background_Red)',
-        buttonHoverBackground: 'var(--F_Timeline_Item_Text_Red)'
-      },
+      areaId: '9e8f1a5c-2b9a-4f8a-a2c2-7f7cb8c5af8d',
+      areaColor: 'green',
       activities: [
         {
           title: 'DJ Alpha',
           startTime: `${todaysDateString}T18:00-06:00`,
           endTime: `${todaysDateString}T20:45-06:00`,
           id: '1',
+          area: 'West Stage',
+          areaId: '9e8f1a5c-2b9a-4f8a-a2c2-7f7cb8c5af8d',
+          areaColor: 'green',
+          overflowLane: 1, 
           people: [
             {
               name: "DJ Alpha",
@@ -84,6 +92,10 @@ const Template: ComponentStory<typeof Timeline> = args => {
           startTime: `${todaysDateString}T20:45-06:00`,
           endTime: `${todaysDateString}T23:00-06:00`,
           id: '2',
+          area: 'West Stage',
+          areaId: '9e8f1a5c-2b9a-4f8a-a2c2-7f7cb8c5af8d',
+          areaColor: 'green',
+          overflowLane: 1,
           people: [
             {
               name: "DJ Beta",
@@ -100,6 +112,10 @@ const Template: ComponentStory<typeof Timeline> = args => {
           startTime: `${todaysDateString}T23:00-06:00`,
           endTime: `${tomorrowsDateString}T01:00-06:00`,
           id: '3',
+          area: 'West Stage',
+          areaId: '9e8f1a5c-2b9a-4f8a-a2c2-7f7cb8c5af8d',
+          areaColor: 'green',
+          overflowLane: 1,
           people: [
             {
               name: "DJ Theta",
@@ -116,6 +132,10 @@ const Template: ComponentStory<typeof Timeline> = args => {
           startTime: `${tomorrowsDateString}T01:00-06:00`,
           endTime: `${tomorrowsDateString}T03:00-06:00`,
           id: '4',
+          area: 'West Stage',
+          areaId: '9e8f1a5c-2b9a-4f8a-a2c2-7f7cb8c5af8d',
+          areaColor: 'green',
+          overflowLane: 1,
           people: [
             {
               name: "DJ Theta",
@@ -132,6 +152,10 @@ const Template: ComponentStory<typeof Timeline> = args => {
           startTime: `${tomorrowsDateString}T03:00-06:00`,
           endTime: `${tomorrowsDateString}T05:00-06:00`,
           id: '5',
+          area: 'West Stage',
+          areaId: '9e8f1a5c-2b9a-4f8a-a2c2-7f7cb8c5af8d',
+          areaColor: 'green',
+          overflowLane: 1,
           people: [
             {
               name: "DJ Theta",
@@ -147,7 +171,11 @@ const Template: ComponentStory<typeof Timeline> = args => {
           title: 'DJ AGAIN... AGAIN',
           startTime: `${tomorrowsDateString}T05:00-06:00`,
           endTime: `${tomorrowsDateString}T06:30-06:00`,
-          id: '10',
+          id: '6',
+          area: 'West Stage',
+          areaId: '9e8f1a5c-2b9a-4f8a-a2c2-7f7cb8c5af8d',
+          areaColor: 'green',
+          overflowLane: 1,
           people: [
             {
               name: "DJ Theta",
@@ -163,7 +191,11 @@ const Template: ComponentStory<typeof Timeline> = args => {
           title: 'DJ AGAIN... AGAIN',
           startTime: `${tomorrowsDateString}T22:00-06:00`,
           endTime: `2023-01-06T01:30-06:00`,
-          id: '10',
+          id: '7',
+          area: 'West Stage',
+          areaId: '9e8f1a5c-2b9a-4f8a-a2c2-7f7cb8c5af8d',
+          areaColor: 'green',
+          overflowLane: 1,
           people: [
             {
               name: "DJ Theta",
@@ -179,18 +211,18 @@ const Template: ComponentStory<typeof Timeline> = args => {
     },
     {
       area: 'East Stage',
-      colors: {
-        itemBackground: 'var(--F_Timeline_Item_Background_Blue)',
-        itemText: 'var(--F_Timeline_Item_Text_Blue)',
-        buttonBackground: 'var(--F_Timeline_Item_Background_Blue)',
-        buttonHoverBackground: 'var(--F_Timeline_Item_Text_Blue)'
-      },
+      areaId: 'd45a7b9d-68ee-4f3b-a5d7-b1f48a4c5048',
+      areaColor: 'blue',
       activities: [
         {
           title: 'Attack Juggling',
           startTime: `${todaysDateString}T19:00-06:00`,
           endTime: `${todaysDateString}T21:00-06:00`,
           id: '66b47071-70b9-4aa7-9394-60788627962e',
+          area: 'East Stage',
+          areaId: 'd45a7b9d-68ee-4f3b-a5d7-b1f48a4c5048',
+          areaColor: 'blue',
+          overflowLane: 1,
           people: [
             {
               name: "DJ Alpha",
@@ -207,6 +239,10 @@ const Template: ComponentStory<typeof Timeline> = args => {
           startTime: `${todaysDateString}T21:00-06:00`,
           endTime: `${todaysDateString}T22:00-06:00`,
           id: '2627c6a3-6dfe-4c6b-a756-e672279dc4ea',
+          area: 'East Stage',
+          areaId: 'd45a7b9d-68ee-4f3b-a5d7-b1f48a4c5048',
+          areaColor: 'blue',
+          overflowLane: 1,
           people: [
             {
               name: "DJ Beta",
@@ -223,6 +259,10 @@ const Template: ComponentStory<typeof Timeline> = args => {
           startTime: `${todaysDateString}T22:00-06:00`,
           endTime: `${tomorrowsDateString}T00:00-06:00`,
           id: '2b6fd32b-ea24-4d17-a9f6-1fb8c79e5a76',
+          area: 'East Stage',
+          areaId: 'd45a7b9d-68ee-4f3b-a5d7-b1f48a4c5048',
+          areaColor: 'blue',
+          overflowLane: 1,
           people: [
             {
               name: "DJ Theta",
@@ -239,6 +279,10 @@ const Template: ComponentStory<typeof Timeline> = args => {
           startTime: `${tomorrowsDateString}T01:00-06:00`,
           endTime: `${tomorrowsDateString}T03:00-06:00`,
           id: '4d4b237b-10c0-4757-a205-bcb13eab0fd8',
+          area: 'East Stage',
+          areaId: 'd45a7b9d-68ee-4f3b-a5d7-b1f48a4c5048',
+          areaColor: 'blue',
+          overflowLane: 1,
           people: [
             {
               name: "DJ Theta",
@@ -255,6 +299,10 @@ const Template: ComponentStory<typeof Timeline> = args => {
           startTime: `${tomorrowsDateString}T03:00-06:00`,
           endTime: `${tomorrowsDateString}T04:00-06:00`,
           id: '9057e3a6-4382-4c3d-b5de-2dea2625b316',
+          area: 'East Stage',
+          areaId: 'd45a7b9d-68ee-4f3b-a5d7-b1f48a4c5048',
+          areaColor: 'blue',
+          overflowLane: 1,
           people: [
             {
               name: "DJ Theta",
@@ -270,18 +318,18 @@ const Template: ComponentStory<typeof Timeline> = args => {
     },
     {
       area: 'Front Doors',
-      colors: {
-        itemBackground: 'var(--F_Timeline_Item_Background_Yellow)',
-        itemText: 'var(--F_Timeline_Item_Text_Yellow)',
-        buttonBackground: 'var(--F_Timeline_Item_Background_Yellow)',
-        buttonHoverBackground: 'var(--F_Timeline_Item_Text_Yellow)'
-      },
+      areaId: 'e4b4e9a1-f7e2-4b1c-b2a5-8a94e8b45c3a',
+      areaColor: 'gray',
       activities: [
         {
           title: 'Pre-Open',
           startTime: `${todaysDateString}T16:00-06:00`,
           endTime: `${todaysDateString}T18:00-06:00`,
-          id: '4',
+          id: '20',
+          area: 'Front Doors',
+          areaId: 'e4b4e9a1-f7e2-4b1c-b2a5-8a94e8b45c3a',
+          areaColor: 'gray',
+          overflowLane: 1,
           people: [
             {
               name: "Larry",
@@ -306,7 +354,11 @@ const Template: ComponentStory<typeof Timeline> = args => {
           title: 'Open',
           startTime: `${todaysDateString}T18:00-06:00`,
           endTime: `${tomorrowsDateString}T07:00-06:00`,
-          id: '5',
+          id: '21',
+          area: 'Front Doors',
+          areaId: 'e4b4e9a1-f7e2-4b1c-b2a5-8a94e8b45c3a',
+          areaColor: 'gray',
+          overflowLane: 1,
           people: [
             {
               name: "Larry",
@@ -331,7 +383,11 @@ const Template: ComponentStory<typeof Timeline> = args => {
           title: '18+ entry',
           startTime: `${todaysDateString}T18:00-06:00`,
           endTime: `${todaysDateString}T22:00-06:00`,
-          id: '5',
+          id: '22',
+          area: 'Front Doors',
+          areaId: 'e4b4e9a1-f7e2-4b1c-b2a5-8a94e8b45c3a',
+          areaColor: 'gray',
+          overflowLane: 1,
           people: [
             {
               name: "Larry",
@@ -356,7 +412,11 @@ const Template: ComponentStory<typeof Timeline> = args => {
           title: '21+ entry',
           startTime: `${todaysDateString}T22:00-06:00`,
           endTime: `${tomorrowsDateString}T05:00-06:00`,
-          id: '5',
+          id: '23',
+          area: 'Front Doors',
+          areaId: 'e4b4e9a1-f7e2-4b1c-b2a5-8a94e8b45c3a',
+          areaColor: 'gray',
+          overflowLane: 1,
           people: [
             {
               name: "Larry",
@@ -381,7 +441,11 @@ const Template: ComponentStory<typeof Timeline> = args => {
           title: '21+ entry',
           startTime: `${todaysDateString}T22:00-06:00`,
           endTime: `${tomorrowsDateString}T05:00-06:00`,
-          id: '5',
+          id: '24',
+          area: 'Front Doors',
+          areaId: 'e4b4e9a1-f7e2-4b1c-b2a5-8a94e8b45c3a',
+          areaColor: 'gray',
+          overflowLane: 1,
           people: [
             {
               name: "Larry",
@@ -406,7 +470,11 @@ const Template: ComponentStory<typeof Timeline> = args => {
           title: '21+ entry',
           startTime: `${todaysDateString}T22:00-06:00`,
           endTime: `${tomorrowsDateString}T05:00-06:00`,
-          id: '5',
+          id: '25',
+          area: 'Front Doors',
+          areaId: 'e4b4e9a1-f7e2-4b1c-b2a5-8a94e8b45c3a',
+          areaColor: 'gray',
+          overflowLane: 1,
           people: [
             {
               name: "Larry",
@@ -430,7 +498,11 @@ const Template: ComponentStory<typeof Timeline> = args => {
           title: '21+ entry',
           startTime: `${todaysDateString}T22:00-06:00`,
           endTime: `${tomorrowsDateString}T05:00-06:00`,
-          id: '5',
+          id: '26',
+          area: 'Front Doors',
+          areaId: 'e4b4e9a1-f7e2-4b1c-b2a5-8a94e8b45c3a',
+          areaColor: 'gray',
+          overflowLane: 1,
           people: [
             {
               name: "Larry",
@@ -455,7 +527,11 @@ const Template: ComponentStory<typeof Timeline> = args => {
           title: 'Close + Clean',
           startTime: `${tomorrowsDateString}T07:00-06:00`,
           endTime: `${tomorrowsDateString}T07:30-06:00`,
-          id: '6',
+          id: '27',
+          area: 'Front Doors',
+          areaId: 'e4b4e9a1-f7e2-4b1c-b2a5-8a94e8b45c3a',
+          areaColor: 'gray',
+          overflowLane: 1,
           people: [
             {
               name: "Larry",
@@ -479,9 +555,16 @@ const Template: ComponentStory<typeof Timeline> = args => {
       ]
     }
   ])
+  const [firstDayTimeString, set_firstDayTimeString] = useState('')
+
+  // state for managing rendering based on user's interactions
   const [activeTags, set_activeTags] = useState<string[]>([value[0].area])
   const [currentActivities, set_currentActivities] = useState<AreasType>([])
   const [eventDateIntervals, set_eventDateIntervals] = useState<IntervalType[]>()
+
+  // state for modal interactions
+  const [isOpen, set_isOpen] = useState<boolean>(false)
+  const [activityData, set_activityData] = useState<ActivityType | null>()
 
   // state for managing LiveTimeReference component
   const [displayTimeReferenceLine, set_displayTimeReferenceLine] = useState<boolean>()
@@ -489,20 +572,198 @@ const Template: ComponentStory<typeof Timeline> = args => {
   const [endTime, set_endTime] = useState<ZonedDateTime>()
   const [timeReferencePosition, set_timeReferencePosition] = useState('')
 
+  const [isRefreshed, set_isRefreshed] = useState(true)
+
   
-  let tags: ButtonProps[] = value?.map(({ area, colors }) => {
+  let tags: ButtonProps[] = value?.map(({ area, areaColor }) => {
     return {
       name: area,
       hasIcon: false,
-      background: colors.buttonBackground
+      labelColor: areaColor
     }
   })
+
+  let areaStrings: areaIdType[] = value?.map((area) => {
+    return {
+      area: area.area,
+      areaId: area.areaId,
+      areaColor: area.areaColor
+   }
+  })
+
+  const autoScrollFirstActivity = (currentValue: AreasType): string => {
+    if (currentValue.length == 0) {
+      return ''
+    } else {
+      let allActivities = currentValue.map((area) => area.activities).flat()
+
+      let firstActivity = allActivities.reduce((a, b) => {
+        let previous = ZonedDateTime.parse(a.startTime)
+        let current = ZonedDateTime.parse(b.startTime)
+        let comparison = previous.isBefore(current)
+
+        if (comparison == true) {
+          return a
+        }
+        return b
+      })
+
+      let itemIdByIndex = eventDateIntervals?.filter((interval) => {
+        let a = ZonedDateTime.parse(interval.value)
+        let b = ZonedDateTime.parse(firstActivity.startTime)
+
+        return a.isEqual(b)
+      })
+
+      if (itemIdByIndex === undefined) {
+        return ''
+      }
+        
+      return itemIdByIndex[0]?.gridNumber.toString()
+    }
+  }
+
+  const onLaneItemClick = (item: ActivityType) => {
+    set_activityData(item)
+    set_isOpen(true)
+  }
+
+  const addActivity = () => {
+    set_activityData({
+      title: '',
+      startTime: `${firstDayTimeString}`,
+      endTime: `${firstDayTimeString}`,
+      id: '',
+      area: areaStrings[0].area,
+      areaId: areaStrings[0].areaId,
+      areaColor: areaStrings[0].areaColor,
+      people: [],
+      overflowLane: 1
+    })
+    set_isOpen(true)
+  }
+
+  const onChange = (newValue: ActivityType) => {
+
+    let prevValue = value.find(area => area.activities.find(activity => activity.id === newValue.id))
+
+    if (newValue.title === '%%REMOVE%%') {
+      set_value(prevState => {
+        const updatedAreas: AreaType[] = prevState.map(area => {
+          if (newValue.areaId === area.areaId) {
+            return {
+              ...area, 
+              activities: area.activities.filter(activity => activity.id !== newValue.id)
+            }
+          } else {
+            return area
+          }
+        })
+        return updatedAreas
+      })
+
+    } else if (prevValue == undefined) {
+      set_value(prevState => {
+        const updatedAreas: AreaType[] = prevState.map(area => {
+          if (area.areaId === newValue.areaId) {
+            area.activities.push(newValue)
+            return area
+          }
+          return area
+        })
+
+        return updatedAreas
+      })
+    }
+    // if the activity is in the same area as before only update the specific area
+    else if (prevValue.areaId === newValue.areaId) {
+      set_value(prevState => {
+        const updatedAreas: AreaType[] = prevState.map(area => {
+            if (area.areaId === newValue.areaId) {
+                return {
+                    ...area,
+                    activities: area.activities.map(activity => {
+                        if (activity.id === newValue.id) {
+                            return newValue;
+                        }
+                        return activity;
+                    }),
+                };
+            }
+            return area;
+        });
+        return updatedAreas;
+      });
+    }
+    // if the activity is in a new area, remove the previous value and insert the new value in the correct area. 
+    else if (prevValue.areaId !== newValue.areaId){
+      set_value(prevState => {
+        const updatedAreas: AreaType[] = prevState.map(area => {
+            // @ts-ignore
+            if (area.areaId === prevValue.areaId) {
+                return {
+                    ...area,
+                    activities: area.activities.filter(activity => activity.id !== newValue.id)
+                };
+            }
+            if (area.areaId === newValue.areaId) {
+                return {
+                    ...area,
+                    activities: [...area.activities, newValue]
+                };
+            }
+            return area;
+        });
+        return updatedAreas;
+      });
+    }
+
+    // if areaColor is different, update the area and subsequent children with the new color
+    if (prevValue?.areaColor !== newValue.areaColor) {
+      set_value(prevState => {
+        const updatedAreas: AreaType[] = prevState.map(area => {
+          if (area.areaId === newValue.areaId) {
+            return {
+              ...area,
+              areaColor: newValue.areaColor,
+              activities: area.activities.map(activity => {
+                return {
+                  ...activity,
+                  areaColor: newValue.areaColor
+                }
+              })
+            }
+          } else {
+            return area
+          }
+        });
+        return updatedAreas;
+      });
+    }
+   
+
+    set_isRefreshed(false)
+
+    setTimeout(() => (set_isOpen(false)), 250)
+  }
+
+  // set date string for new activity creation reference
+  useEffect(() => {
+    set_firstDayTimeString(value[0].activities[0].startTime) 
+  },[])
 
   //  set currentActivities based on activeTabs 
   useEffect(() => {
     let activeIndexedData: AreaType[] = value.filter(area => activeTags.includes(area.area));
     set_currentActivities(activeIndexedData);
-  }, [activeTags, value])
+  }, [activeTags])
+
+  // if value changes, refresh current activities
+  useEffect(() => {
+    let activeIndexedData: AreaType[] = value.filter(area => activeTags.includes(area.area));
+    set_currentActivities(activeIndexedData);
+    set_isRefreshed(true)
+  }, [value])
 
   // create intervals array from value
   useEffect(() => {
@@ -572,7 +833,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
         let formattedDate = parsedDate.format(DateTimeFormatter.ofPattern('MM/dd'))
         let namedDay = parsedDate.dayOfWeek().toString()
 
-        let formattedHourMinute = (index) => {
+        let formattedHourMinute = (index: number) => {
           let hourMinute = Math.floor(index * 15 / 60)
           let formattedHourMinute = ("0" + hourMinute).slice(-2);
       
@@ -672,38 +933,6 @@ const Template: ComponentStory<typeof Timeline> = args => {
     }
   }, [displayTimeReferenceLine, endTime, currentTime, timeReferencePosition])
 
-  const autoScrollFirstActivity = (currentValue: AreasType): string => {
-    if (currentValue.length == 0) {
-      return ''
-    } else {
-      let allActivities = currentValue.map((area) => area.activities).flat()
-
-      let firstActivity = allActivities.reduce((a, b) => {
-        let previous = ZonedDateTime.parse(a.startTime)
-        let current = ZonedDateTime.parse(b.startTime)
-        let comparison = previous.isBefore(current)
-
-        if (comparison == true) {
-          return a
-        }
-        return b
-      })
-
-      let itemIdByIndex = eventDateIntervals?.filter((interval) => {
-        let a = ZonedDateTime.parse(interval.value)
-        let b = ZonedDateTime.parse(firstActivity.startTime)
-
-        return a.isEqual(b)
-      })
-
-      if (itemIdByIndex === undefined) {
-        return ''
-      }
-        
-      return itemIdByIndex[0]?.gridNumber.toString()
-    }
-  }
-
   // initial pagescroll animation
   useEffect(() => {
     if (currentActivities !== undefined) {
@@ -747,7 +976,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
           </S.LeftColumn>
           <S.RightColumn>
             {
-              eventDateIntervals !== undefined
+              eventDateIntervals !== undefined && isRefreshed == true
                 ? currentActivities?.map((item, index) => {
                     return (
                       <Timeline
@@ -756,9 +985,9 @@ const Template: ComponentStory<typeof Timeline> = args => {
                         intervals={eventDateIntervals}
                         onChange={() => null}
                         onIntervalClick={() => null}
-                        onLaneItemClick={() => null}
-                        color={item.colors.itemText}
-                        backgroundColor={item.colors.itemBackground}
+                        onLaneItemClick={onLaneItemClick}
+                        color={item.areaColor}
+                        backgroundColor={item.areaColor}
                       />
                     )
                   })
@@ -767,8 +996,39 @@ const Template: ComponentStory<typeof Timeline> = args => {
             }
             
           </S.RightColumn>
+
+          <S.FixedContainer>
+            <Button
+              onClick={() => addActivity()}
+              primary={true}
+              circle={true}
+              hero={true}
+              icon={'plus'}
+              iconPrefix={'fas'}
+            />
+          </S.FixedContainer>
+
         </S.Timeline>
       </S.Content>
+      {
+        <Box hide={!isOpen}>
+          <Modal
+              isOpen={isOpen}
+              onClose={() => set_isOpen(false)}
+              iconPrefix={'fas'}
+              title={'Edit Activity'}
+              content={
+                <ActivityForm
+                  activity={activityData !== undefined ? activityData : null}
+                  areas={areaStrings}
+                  onChange={(newValue) => onChange(newValue)}
+                />}
+              size={'sm'}
+              fullscreen={true}
+              onBack={undefined}
+          />
+        </Box>
+      }
     </S.Container>
   )
 }
@@ -792,7 +1052,7 @@ const S = {
   `,
   TagsContainer: styled.div`
     position: relative;
-    width: 100%;
+    width: calc(100% - 1rem);
     height: 2.25rem;
     padding: 0.5rem;
     z-index: 1000;
@@ -811,9 +1071,6 @@ const S = {
     min-height: 100%;
     display: flex;
   `,
-  Overflow: styled.div`
-    max-height: 100%;
-`,
   DataView: styled.div`
   `,
   LeftColumn: styled.div`
@@ -822,10 +1079,16 @@ const S = {
   `,
   RightColumn: styled.div`
     position: relative;
-    width: calc(100% - 3rem);
+    width: calc(100% - 2rem);
     height: 100%;
     display: flex;
     flex-direction: row;
     overflow-x: auto;
+  `,
+  FixedContainer: styled.div`
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 700;
   `
 }

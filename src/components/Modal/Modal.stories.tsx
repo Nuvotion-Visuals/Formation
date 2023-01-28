@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { Button, Modal, AspectRatio, Empty, Box, Steps, Gap } from '../../internal'
+import { Button, Modal, AspectRatio, Empty, Box, Steps } from '../../internal'
 
 export default {
   title: 'Layout/Modal',
@@ -34,7 +34,8 @@ const Template: ComponentStory<typeof Modal> = (args) => {
 const content = <>
 <AspectRatio ratio={16/9} >
   <Empty />
-</AspectRatio><AspectRatio ratio={16/9} >
+</AspectRatio>
+<AspectRatio ratio={16 / 9} >
   <Empty />
 </AspectRatio>
 <AspectRatio ratio={16/9} >

@@ -1,29 +1,22 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { DateTimeFormatter, ZonedDateTime } from '@js-joda/core'
+import { ZonedDateTime } from '@js-joda/core'
 import '@js-joda/timezone'
 
-interface Props {
+import { ActivityType, PersonType } from './Timeline.stories'
+
+import { getLabelColor } from '../../internal'
+import { ColorType } from 'types'
+
+
+export interface Props {
   value: ActivityType[],
   intervals: IntervalType[],
   onChange: (time: any) => void,
   onIntervalClick: (interval: IntervalType) => void,
-  onLaneItemClick: (e: React.MouseEvent) => void,
-  color: string,
-  backgroundColor: string
-}
-
-type ActivityType = {
-  title: string,
-  startTime: string,
-  endTime: string,
-  id: string,
-  people: PersonType[],
-}
-
-type PersonType = {
-  name: string,
-  position: string,
+  onLaneItemClick: (item: ActivityType) => void,
+  color: ColorType,
+  backgroundColor: ColorType
 }
 
 interface IntervalType {
@@ -37,8 +30,12 @@ interface ItemTimeStampType {
   startTime: ZonedDateTime,
   endTime: ZonedDateTime,
   id: string,
+  area: string,
+  areaId: string,
+  areaColor: ColorType,
   overflowLane: number,
-  isPlaced: boolean
+  isPlaced: boolean,
+  people: PersonType[]
 }
 
 type ItemTimeStampsType = ItemTimeStampType[]
@@ -46,7 +43,7 @@ type ItemTimeStampsType = ItemTimeStampType[]
 export const Timeline = ({ value, intervals, onChange,  onIntervalClick, onLaneItemClick, color, backgroundColor }: Props) => {
 
   const [columnCount, set_columnCount] = useState<number>(1)
-  const [renderItems, set_renderItems] = useState<ItemTimeStampType[]>()
+  const [renderItems, set_renderItems] = useState<ActivityType[]>()
 
   let currentItemTimeStamps: ItemTimeStampsType = value?.map((item) => {
     let startTime = ZonedDateTime.parse(item?.startTime)
@@ -57,8 +54,12 @@ export const Timeline = ({ value, intervals, onChange,  onIntervalClick, onLaneI
       "startTime": startTime,
       "endTime": endTime,
       "id": item.id,
+      "area": item.area,
+      "areaId": item.areaId,
+      "areaColor": item.areaColor,
       "overflowLane": 1,
-      "isPlaced": false
+      "isPlaced": false,
+      "people": item.people !== undefined ? item.people : []
     }
   })
 
@@ -153,27 +154,27 @@ export const Timeline = ({ value, intervals, onChange,  onIntervalClick, onLaneI
       laneRecord = filteredRecord
     }
 
+    let activityItemsByTimeStamp = itemsByTimeStamp.map((item) => {
+      return {
+        title: item.title,
+        startTime: item.startTime.toString(),
+        endTime: item.endTime.toString(),
+        id: item.id,
+        area: item.area,
+        areaId: item.areaId,
+        areaColor: item.areaColor,
+        people: item.people,
+        overflowLane: item.overflowLane
+      }
+    })
+
     set_columnCount(laneRecord.length)
-    set_renderItems(itemsByTimeStamp)
+    set_renderItems(activityItemsByTimeStamp)
   }
 
   useEffect(() => {
     calculateOverflowLanes(itemsByTimeStamp)
   }, [value]) 
-
-  const autoScrollFirstActivity = (value: ActivityType[]): string => {
-    if (value !== undefined) {
-      let firstActivityStartTime = value.reduce((prev, curr) => prev.startTime < curr.startTime ? prev : curr).startTime
-  
-      let firstActivityGridPosition = renderRow(firstActivityStartTime)
-      
-      if (firstActivityGridPosition) {
-        return (firstActivityGridPosition - 5).toString()
-      }
-      return '6'
-    }  
-    return '6'
-  }
 
   // match time string to interval value of type number, use this to calculate gridRow
   const renderRow = (time: string) => {
@@ -181,19 +182,9 @@ export const Timeline = ({ value, intervals, onChange,  onIntervalClick, onLaneI
 
     return gridObject[0]?.gridNumber + 1
   }
-  
-  // initial pagescroll animation
-  useEffect(() => {
-    if (value !== undefined) {
-      let initScrollElement: string = autoScrollFirstActivity(value)
-      document.getElementById(initScrollElement)?.scrollIntoView({
-        behavior: 'smooth'
-      })
-    }
-  }, [JSON.stringify(value)])
 
   return (
-    <S.Container >
+    <S.Container className='timeline container'>
       <S.Grid columnCount={columnCount} rowCount={intervals.length}>
           {
             renderItems !== undefined
@@ -201,7 +192,7 @@ export const Timeline = ({ value, intervals, onChange,  onIntervalClick, onLaneI
                   <S.Item
                     key={index}
                     id={item.id}
-                    onClick={() => null}
+                    onClick={() => onLaneItemClick(item)}
                     style={{
                       gridColumnStart: item.overflowLane,
                       gridColumnEnd: item.overflowLane,
@@ -264,9 +255,7 @@ const S = {
       border-bottom: 1px solid #d7d7d7;
     }
   `,
-  Item: styled.div<{
-    backgroundColor?: string,
-  }>`
+  Item: styled.div<{}>`
     min-width: 3rem;
     box-sizing: border-box;
     position: absolute;
@@ -277,14 +266,14 @@ const S = {
     overflow-y: hidden;
   `,
   Fill: styled.div<{
-    color: string,
-    backgroundColor: string
+    color: ColorType,
+    backgroundColor: ColorType
   }>`
     width: calc(100% - 0.5rem);
     height: calc(100% - 0.5rem - 3px);
     margin: 0.125rem 0;
-    background: ${props => props.backgroundColor ? props.backgroundColor : 'blue'};
-    color: ${props => props.color ? props.color : 'lightblue'};
+    background: ${props => props.backgroundColor ? getLabelColor(props.backgroundColor) : 'blue'};
+    color: white;
     border-radius: 0.25rem;
     padding: 0.25rem;
 

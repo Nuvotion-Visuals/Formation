@@ -479,3 +479,9 @@ export function hashString(str: string): number {
   }
   return hash
 }
+
+import {v4 as uuidv4} from 'uuid';
+
+export function generateUUID() {
+  return uuidv4()
+}

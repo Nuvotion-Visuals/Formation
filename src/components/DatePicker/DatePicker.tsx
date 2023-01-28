@@ -12,6 +12,7 @@ import { Spacer } from '../../internal'
 import { LineBreak } from '../../internal'
 import { IconPrefix } from '@fortawesome/fontawesome-common-types'
 
+
 const cloneDate = (date : Date) => new Date(date?.valueOf())
 
 const isValidDate = (value: string, format = 'mm/dd/yyyy') : boolean => {
@@ -39,6 +40,7 @@ const isValidDate = (value: string, format = 'mm/dd/yyyy') : boolean => {
 const getFirstDayofWeek = (date : Date) : Date => {
   const temp = cloneDate(date)
   temp.setDate(temp.getDate() - temp.getDay())
+  
   return temp
 }
 
@@ -302,7 +304,6 @@ export const DatePicker = ({
     <S.DatePicker
       onClick={() => {
         set_preventFocus(isTouchCapable())
-        
       }}
     >
       <TextInput

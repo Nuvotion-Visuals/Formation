@@ -20,8 +20,8 @@ export const TimeReference = ({ intervals }: Props) => {
         intervals.map((interval, index) => (
           interval.display.length === 2
       
-            ? <S.DateDisplay>
-                <S.Interval key={index}>
+            ? <S.DateDisplay key={index}>
+                <S.Interval>
                  
                     <S.DayOfWeek>
                       {
@@ -53,7 +53,7 @@ export const TimeReference = ({ intervals }: Props) => {
 const S = {
   Container: styled.div<{}>`
     position: relative;
-    width: 100%;
+    width: 3rem;
     min-height: 100%;
     z-index: 400;
     background: var(--F_Background_Alternating);

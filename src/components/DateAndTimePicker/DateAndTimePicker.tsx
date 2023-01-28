@@ -1,15 +1,8 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 
-import { Button, TimeZone } from '../../internal'
-import { Box } from '../../internal'
-import { Spacer } from '../../internal'
-import { Gap } from '../../internal'
-import { LineBreak } from '../../internal'
-import { getSuperscriptOrdinal, getOrdinal, capitalizeFirstLetter, getTimezone } from '../../utils'
-
-import { DatePicker } from '../../internal'
-import { TimePicker } from '../../internal'
+import { Button, TimeZone, Box, Spacer, Gap, DatePicker, TimePicker } from '../../internal'
+import {  getOrdinal, capitalizeFirstLetter } from '../../utils'
 import { IconPrefix } from '@fortawesome/fontawesome-common-types'
 
 
@@ -23,7 +16,8 @@ const addMinutes = (time: string, minutes: number) : string => {
 interface DateAndTime {
   date: string,
   startTime: string,
-  endTime: string
+  endTime: string,
+  timeZone: string
 }
 
 export type DatesAndTimes = DateAndTime[]
@@ -31,14 +25,17 @@ export type DatesAndTimes = DateAndTime[]
 interface Props {
   onChange: (arg0: DatesAndTimes) => void,
   value: DatesAndTimes,
-  iconPrefix?: IconPrefix
+  iconPrefix?: IconPrefix,
+  isMultiDay?: boolean
 }
 
 export const DateAndTimePicker = ({ 
   value,
   onChange,
-  iconPrefix
+  iconPrefix,
+  isMultiDay
 }: Props) => {
+
   const addDate = () => {
     const lastState = value
     const length = lastState.length
@@ -59,7 +56,8 @@ export const DateAndTimePicker = ({
       {
         date: date ? ndate.toDateString() : '',
         startTime,
-        endTime
+        endTime,
+        timeZone: timeZone !== undefined ? timeZone : '-06:00'
       }
     ])
   }
@@ -69,6 +67,8 @@ export const DateAndTimePicker = ({
   }
 
   const setValue = (index: number, field: 'date' | 'startTime' | 'endTime', fieldValue: string) => {
+
+    console.log(value, 'value')
     onChange(
       value?.map((day, i) =>
         index === i
@@ -86,8 +86,6 @@ export const DateAndTimePicker = ({
       )
     )
   }
-
-  
 
   const [editTimeZone, set_editTimeZone] = useState(false)
   const [timeZone, set_timeZone] = useState<string | undefined>('')
@@ -170,9 +168,16 @@ export const DateAndTimePicker = ({
       
 
       <Box pt={.5} width='100%'>
-        <S.TextButton onClick={addDate}>
-          {`Add a ${getOrdinal(value?.length + 1)} day`}
-        </S.TextButton>
+        {
+          isMultiDay == undefined
+            ?   <></>
+            : isMultiDay 
+              ?   <S.TextButton onClick={addDate}>
+                    {`Add a ${getOrdinal(value?.length + 1)} day`}
+                  </S.TextButton>
+              : <></>
+        }
+        
         <Spacer />
         
         <Box hide={editTimeZone}>
