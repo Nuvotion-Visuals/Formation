@@ -3,20 +3,11 @@ import styled from 'styled-components'
 
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 
-import { Placeholders, LineBreak, Item, } from '../../internal'
+import { Placeholders, LineBreak, Item, ItemProps } from '../../internal'
 
-type Channel = {
-  name: string,
-  icon: IconName,
-  iconPrefix: IconPrefix,
-  href: string,
-  hideOptions?: boolean,
-  active: boolean,
-  onClick?: () => void
-}
 
 interface Props {
-  channels: Channel[]
+  channels: ItemProps[]
 }
 
 export const Channels = ({ channels }: Props) => {
@@ -32,14 +23,9 @@ export const Channels = ({ channels }: Props) => {
         channels?.map(channel =>
           channel.name
             ? <Item
-                icon={channel.icon}
-                iconPrefix={channel.iconPrefix}
-                href={channel.href}
-                active={channel.active}
-                title={channel.name}
-                labelColor='none'
-                name={undefined}
-                onClick={channel.onClick}
+                {
+                  ...channel
+                }
               />
             : <LineBreak />
         )

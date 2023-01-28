@@ -220,6 +220,7 @@ const Template: ComponentStory<typeof NavSpaces> = args => {
   const [dates, set_dates] = useState([{
     startTime: '',
     endTime: '',
+    timeZone: '',
     date: 
     spaces[activeSpaceIndex]?.date
       ? spaces?.[activeSpaceIndex]?.date?.toDateString() || ''
