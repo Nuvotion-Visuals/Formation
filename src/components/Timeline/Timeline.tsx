@@ -22,6 +22,11 @@ export type PersonType = {
   position: string,
 }
 
+export type areaIdType = {
+  area: string,
+  areaId: string,
+  labelColor: LabelColor
+}
 
 export interface Props {
   value: ActivityType[],

@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import React, { useEffect, useState } from 'react'
 
-import { ActivityType, areaIdType } from './Timeline.stories'
+import { ActivityType, areaIdType } from './Timeline'
 
 import { Box, Button, DateAndTimePicker, Select, TextInput, LabelColorPicker } from '../../internal'
 

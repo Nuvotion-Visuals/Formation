@@ -7,6 +7,7 @@ import { styled } from '@storybook/theming'
 import { DateTimeFormatter, Duration, ZonedDateTime, LocalDate } from '@js-joda/core'
 import { Locale } from '@js-joda/locale_en-us'
 import { ActivityForm } from './ActivityForm'
+import { areaIdType } from './Timeline'
 import { LabelColor, Button, ButtonProps } from '../../internal'
 
 export default {
@@ -42,12 +43,6 @@ export type ActivityType = {
 export type PersonType = {
   name: string,
   position: string,
-}
-
-export type areaIdType = {
-  area: string,
-  areaId: string,
-  labelColor: LabelColor
 }
 
 type AreasType = AreaType[]

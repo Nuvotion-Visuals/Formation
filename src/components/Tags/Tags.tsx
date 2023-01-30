@@ -144,7 +144,7 @@ const S = {
     align-items: center;
     justify-content: center;
     /* background: linear-gradient(to right, rgba(18,18,18,0) 0%, rgba(18,18,18,.8) 20%, rgba(18,18,18,1) 100%); */
-    background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,.8) 20%, rgba(255,255,255,1) 100%);
+    background: var(--F_Gradient_To_Right);
     color: var(--F_Font_Color_Label);
     &:hover {
       color: var(--F_Font_Color);
@@ -161,7 +161,7 @@ const S = {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(to left, rgba(18,18,18,0) 0%, rgba(18,18,18,.8) 20%, rgba(18,18,18,1) 100%);
+    background: var(--F_Gradient_To_Left);
     color: var(--F_Font_Color_Label);
     &:hover {
       color: var(--F_Font_Color);

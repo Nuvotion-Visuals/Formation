@@ -260,6 +260,13 @@ export const Location = ({
 
   const [displayName, set_displayName] = useState(value?.displayName ? value?.displayName : '')
 
+  useEffect(() => {
+    onChange({
+      ...value,
+      displayName
+    })
+  }, [displayName])
+
   return (<Box width='100%' wrap={true}>
     <TextInput 
       value={displayName}

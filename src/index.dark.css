@@ -71,6 +71,8 @@ It’s easy to picture how a less saturated version of a color would look like, 
   --F_Outline_Outset_Disabled: 0 0 0 1px var(--F_Font_Color_Disabled);
   --F_Outline_Outset_Success: 0 0 0 1px var(--F_Font_Color_Success);
 
+  --F_Gradient_To_Left: linear-gradient(to left, hsla(0, 0%, 7%, 0) 0%, hsla(0, 0%, 7%,.8) 20%, hsla(0, 0%, 7%,1) 100%);
+  --F_Gradient_To_Right:  linear-gradient(to right, hsla(0, 0%, 7%, 0) 0%, hsla(0, 0%, 7%,.8) 20%, hsla(0, 0%, 7%,1) 100%);
 }
 
 /* Zoom */
@@ -1750,4 +1752,7 @@ button {
   --F_Outline_Outset_Error: 0 0 0 1px var(--F_Font_Color_Error);
   --F_Outline_Outset_Disabled: 0 0 0 1px var(--F_Font_Color_Disabled);
   --F_Outline_Outset_Success: 0 0 0 1px var(--F_Font_Color_Success);
+
+  --F_Gradient_To_Left: linear-gradient(to left, hsla(0, 0%, 100%, 0) 0%, hsla(0, 0%, 100%,.8) 20%, hsla(0, 0%, 100%,1) 100%);
+  --F_Gradient_To_Right:  linear-gradient(to right, hsla(0, 0%, 100%, 0) 0%, hsla(0, 0%, 100%,.8) 20%, hsla(0, 0%, 100%,1) 100%);
 }
