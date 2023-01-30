@@ -1,82 +1,97 @@
+import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 import React from 'react'
 import styled from 'styled-components'
 
-import { Gap } from '../../internal'
-import { Icon } from '../../internal'
+import { Icon, Box, LineBreak, Gap, Item, ItemProps } from '../../internal'
 
 interface Props {
-  options: {
-    value: string,
-    name: string
-  }[],
+  label?: string,
+  options: ItemProps[],
+  icon: IconName,
+  iconPrefix: IconPrefix,
   value: string,
   onChange: (arg0: string) => void
 }
 
-export const Radio = ({ options, value, onChange } : Props) => {
-  return <Gap>
+export const Radio = ({ options, value, onChange, label, icon, iconPrefix } : Props) => {
+  return <S.Radio><Box wrap width='100%'>
+    {
+      (icon || label) &&
+      <Box width={'100%'} pl={.75} my={.5}>
+        <Gap gap={.75}>
+          {
+            icon && <Icon icon={icon} iconPrefix={iconPrefix} />
+          }
+
+          {
+            label && <S.Label>{ label }</S.Label>
+          }
+        </Gap>
+      </Box>
+    }
+    <LineBreak light />
+    
     {
       options.map((option, index) => 
-        <S.OptionContainer 
-          active={value === option.value}
-          onClick={() => onChange(option.value)}
-        >
-          <S.OptionSelected>
-            <Icon icon={value === option.value ? 'check-square' : 'square'} iconPrefix={'far'} fixedWidth/>
-          </S.OptionSelected>
-          <S.Option
-              
-              active={value === option.value}
-              key={`option${index}`}
-            >
-              {
-                option.name
-              }
-          </S.Option> 
-        </S.OptionContainer>   
+      <S.OptionLabel htmlFor={option.name}>
+          <Item 
+            {
+              ...option
+            }
+            onClick={() => onChange(option.value || '')}
+            active={value === option.value}
+            name={undefined}
+            icon={
+              option.icon 
+                ? option.icon 
+                : value === option.value 
+                  ? 'circle-dot'
+                  : 'circle'
+            }
+            iconPrefix={
+              option.iconPrefix
+                ? option.iconPrefix
+                : 'far'
+            }
+          />
+          <div style={{ display: 'none'}}>
+            <input 
+              type="radio" 
+              id={option.name} 
+              name={option.name} 
+              value={option.value} 
+            />
+          </div>
+        <LineBreak light />
+        </S.OptionLabel>
       )
     }
-  </Gap>
-}
-
-interface OptionContainer {
-  active: boolean
-}
-
-interface OptionProps {
-  active: boolean
+  </Box></S.Radio>
 }
 
 const S = {
-  OptionContainer: styled.div<OptionContainer>`
+  Radio: styled.div`
     width: 100%;
     display: flex;
-    background: ${props => props.active ? 'var(--F_Surface_2)' : 'var(--F_Surface)'};
-    cursor: pointer;
-    border-radius: 8px;
-
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: var(--F_Outline_Outset);
     &:hover {
-      background: ${props => props.active ? 'var(--F_Surface_2)' : 'var(--F_Surface_1)'};
-    }
-    &:active {
-      transform: translateY(1px);
+      label {
+        color: var(--F_Font_Color);
+      }
+      box-shadow: var(--F_Outline_Outset_Hover);
     }
   `,
-  Option: styled.div<OptionProps>`
+  OptionLabel: styled.label`
+    display: flex;
+    flex-wrap: wrap;
     width: 100%;
-    color: var(--F_Font_Color);
-    color: ${props => props.active ? 'var(--F_Font_Color)' : 'var(--F_Font_Color_Label)'};
-    display: flex;
-    align-items: center;
-    height: var(--Tile_Taskbar_Height);
-    font-size: var(--F_Font_Size);
-    
+
   `,
-  OptionSelected: styled.div`
-    height: var(--F_Input_Height);
-    width: var(--F_Input_Height);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  `
+  Label: styled.label`
+    font-size: var(--F_Font_Size_Label);
+    color: var(--F_Font_Color_Label);
+    pointer-events: none;
+  `,
 }

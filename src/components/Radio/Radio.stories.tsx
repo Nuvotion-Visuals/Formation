@@ -18,21 +18,57 @@ const Template: ComponentStory<typeof Radio> = (args) => {
   />
 }
 
-export const Default = Template.bind({})
-Default.args = {
+export const Label = Template.bind({})
+Label.args = {
+  label: 'Visibility',
+  icon: 'globe',
+  iconPrefix: 'fas',
   options: [
     {
-      value: 'Option 1',
-      name: 'Option 1'
+      value: 'private',
+      title: 'Private',
+      subtitle: 'Only you and the people you choose can access your Scene',
+      name: 'visibility'
     },
     {
-      value: 'Option 2',
-      name: 'Option 2'
+      value: 'unlisted',
+      title: 'Unlisted',
+      subtitle: 'Anyone with the link can see your Scene',
+      name: 'visibility'
     },
     {
-      value: 'Option 3',
-      name: 'Option 3'
+      value: 'public',
+      title: 'Public',
+      subtitle: 'Everyone can see your Scene',
+      name: 'visibility'
     }
   ]
 }
 
+export const Avatars = Template.bind({})
+Avatars.args = {
+  label: 'Assignment',
+  options: [
+    {
+      title: 'Tom',
+      value: 'tom',
+      labelColor: 'orange',
+      name: 'assignment',
+      icon: undefined
+    },
+    {
+      title: 'Matt',
+      value: 'matt',
+      labelColor: 'purple',
+      name: 'assignment',
+      icon: undefined
+    },
+    {
+      title: 'Ennio',
+      value: 'ennio',
+      labelColor: 'pink',
+      name: 'assignment',
+      icon: undefined
+    }
+  ]
+}

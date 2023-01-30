@@ -35,7 +35,8 @@ export interface Props {
   emphasize?: boolean,
   indent?: boolean,
   pageTitle?: string,
-  newTab?: boolean
+  newTab?: boolean,
+  value?: any
 }
 
 export const Item = ({ 
@@ -60,7 +61,8 @@ export const Item = ({
   emphasize,
   indent,
   pageTitle,
-  newTab
+  newTab,
+  value
 }: Props): JSX.Element => {
   const Link = getLinkComponent()
 
@@ -114,7 +116,7 @@ export const Item = ({
       }
 
       {
-        title && <><S.Title>{ title }</S.Title> { (text || subtitle) && <Break /> }</>
+        title && <><S.Title active={active}>{ title }</S.Title> { title && <Break /> }</>
       }
       
       {
@@ -122,7 +124,7 @@ export const Item = ({
       }
 
       {
-        subtitle && <><S.Text active={active}>{ subtitle }</S.Text></>
+        subtitle && <><Break /><S.Subtitle >{ subtitle }</S.Subtitle></>
       }
 
       {
@@ -177,7 +179,7 @@ export const Item = ({
 }
 
 const S = {
-  ListItem: styled.div<{
+  ListItem: styled.span<{
     active?: boolean,
     emphasize?: boolean,
     showHover?: boolean,
@@ -260,9 +262,19 @@ const S = {
     display: flex;
     align-items: center;
   `,
-  Title: styled.div`
+  Title: styled.div<{
+    active?: boolean
+  }>`
     font-size: var(--F_Font_Size);
     color: var(--F_Font_Color);
+    padding: .325rem .5rem;
+    color: ${props => props.active ? 'var(--F_Font_Color)' : 'var(--F_Font_Color_Label)'};
+    font-weight: ${props => props.active ? '600' : '400'};
+
+  `,
+  Subtitle: styled.div`
+    font-size: var(--F_Font_Size_Label);
+    color: var(--F_Font_Color_Label);
     padding: .325rem .5rem;
   `,
   PageTitle: styled.div<{
