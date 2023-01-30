@@ -10,7 +10,7 @@ export default {
 } as ComponentMeta<typeof Location>
 
 const Template: ComponentStory<typeof Location> = (args) => {
-  const [value, set_value] = useState({} as LocationData)
+  const [value, set_value] = useState((args as any).initialValue as LocationData)
   return (
     <Location 
       {...args} 
@@ -23,6 +23,16 @@ const Template: ComponentStory<typeof Location> = (args) => {
 export const Regular = Template.bind({})
 Regular.args = {
   iconPrefix: 'fas',
-  value: {},
+  initialValue: {},
   label: 'Location'
+}
+
+export const Initial = Template.bind({})
+Initial.args = {
+  iconPrefix: 'fas',
+  initialValue: {
+    displayName: 'The III Studios'
+  },
+  label: 'Location',
+  autoFocus: true
 }

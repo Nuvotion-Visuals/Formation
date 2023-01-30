@@ -90,7 +90,8 @@ interface Props {
   onChange: (props : LocationData) => void,
   iconPrefix?: IconPrefix,
   label?: string,
-  alwaysHideMap?: boolean
+  alwaysHideMap?: boolean,
+  autoFocus?: boolean
 }
 
 export const Location = ({ 
@@ -98,7 +99,8 @@ export const Location = ({
   onChange,
   iconPrefix,
   label,
-  alwaysHideMap
+  alwaysHideMap,
+  autoFocus
 } : Props) => {
   const [hideMap, set_hideMap] = useState(true)
 
@@ -266,6 +268,7 @@ export const Location = ({
       icon='map-marker-alt'
       iconPrefix={iconPrefix}
       label={label}
+      autoFocus={autoFocus}
     />
     
     <S.Map id='map' hide={hideMap || !!alwaysHideMap}></S.Map>

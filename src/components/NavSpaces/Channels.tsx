@@ -5,9 +5,18 @@ import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 
 import { Placeholders, LineBreak, Item, ItemProps } from '../../internal'
 
+type Channel = {
+  name: string,
+  icon: IconName,
+  iconPrefix: IconPrefix,
+  href: string,
+  hideOptions?: boolean,
+  active: boolean,
+  onClick?: () => void
+}
 
 interface Props {
-  channels: ItemProps[]
+  channels: Channel[]
 }
 
 export const Channels = ({ channels }: Props) => {
@@ -23,9 +32,13 @@ export const Channels = ({ channels }: Props) => {
         channels?.map(channel =>
           channel.name
             ? <Item
-                {
-                  ...channel
-                }
+                icon={channel.icon}
+                iconPrefix={channel.iconPrefix}
+                href={channel.href}
+                active={channel.active}
+                name={channel.name}
+                labelColor='none'
+                onClick={channel.onClick}
               />
             : <LineBreak />
         )
