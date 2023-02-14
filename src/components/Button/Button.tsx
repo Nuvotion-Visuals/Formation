@@ -21,6 +21,7 @@ type Props = {
   disabled?: boolean,
   expand?: boolean,
   submit?: boolean,
+  minimal?: boolean,
   id?: string,
   iconPrefix?: IconPrefix,
   secondary?: boolean,
@@ -55,6 +56,7 @@ export const Button: FC<Props> = React.memo(({
   id,
   iconPrefix,
   secondary,
+  minimal,
   labelColor,
   singleBlink,
   tab,
@@ -83,13 +85,14 @@ export const Button: FC<Props> = React.memo(({
         expand={expand}
         type={submit ? 'submit' : undefined}
         id={id}
-        secondary={secondary && !primary}
+        secondary={(secondary && !primary) || minimal}
         singleBlink={singleBlink}
         tab={tab}
         name={name}
         hasIcon={icon !== undefined}
         labelColor={labelColor}
         expandVertical={expandVertical}
+        minimal={minimal}
       >
         {
           icon !== undefined
@@ -295,7 +298,6 @@ const S = {
     width: 100%;
     padding: ${props => calculatePadding(props)}; 
     background: ${props => calculateBackgroundColor(props)}; 
-    box-shadow: ${props => props.secondary ? 'var(--F_Outline)' : 'none'};
     letter-spacing: var(--F_Letter_Spacing);
     border: none;
     position: relative;
@@ -323,7 +325,7 @@ const S = {
           ? '.5rem .5rem 0 0'
           : '.5rem'
     };
-    box-shadow: ${props => props.secondary ? 'var(--F_Outline)' : 'none'};
+    box-shadow: ${props => props.secondary && !props.minimal ? 'var(--F_Outline)' : 'none'};
     border-radius: ${props => 
       props.circle
         ? '100%' 

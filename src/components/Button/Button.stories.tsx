@@ -75,6 +75,14 @@ Circle.args = {
   circle: true,
 }
 
+export const Minimal = Template.bind({})
+Minimal.args = {
+  icon: 'times',
+  iconPrefix: 'fas',
+  circle: true,
+  minimal: true
+}
+
 export const CircleHero = Template.bind({})
 CircleHero.args = {
   icon: 'times',

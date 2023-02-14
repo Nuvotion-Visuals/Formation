@@ -1,13 +1,15 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Icon } from '../../internal'
+import { Icon, getLinkComponent } from '../../internal'
 import { useEffect, useRef, useState } from 'react'
 
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 
+
 type DropDownOption = {
-  icon: IconName,
+  href?: string,
+  icon?: IconName,
   iconPrefix?: IconPrefix,
   hmyRef?: string,
   onClick?: Function,
@@ -29,6 +31,8 @@ interface Props {
 }
 
 export const Dropdown = React.memo(({ options }: Props) => {
+  const Link = getLinkComponent()
+
   const [open, setOpen] = useState(false)
 
   const myRef = useRef<HTMLInputElement>(null)
@@ -81,16 +85,38 @@ export const Dropdown = React.memo(({ options }: Props) => {
                 ? <S.Dropdown>
                     {
                       option.dropDownOptions.map((dropDownOption, index) => (
-                        <S.DropdownOption
-                          key={index}
-                          onClick={() => dropDownOption.onClick && dropDownOption.onClick()}
-                        > 
-                          <S.IconSpacer>
-                            <Icon fixedWidth={true} icon={dropDownOption.icon} iconPrefix={dropDownOption.iconPrefix} />
-                          </S.IconSpacer>
+                        dropDownOption?.href
+                          ? <Link href={dropDownOption.href}>
+                              <S.DropdownOption
+                                key={index}
+                                onClick={() => dropDownOption.onClick && dropDownOption.onClick()}
+                              > 
+                              {
+                                dropDownOption.icon &&
+                                  <S.IconSpacer>
+                                    <Icon fixedWidth={true} icon={dropDownOption.icon} iconPrefix={dropDownOption.iconPrefix} />
+                                  </S.IconSpacer>
+                              }
+                                
+                                <S.DropDownText>{ dropDownOption.text } </S.DropDownText>
+                                
+                              </S.DropdownOption>
+                            </Link>
+                          : <S.DropdownOption
+                              key={index}
+                              onClick={() => dropDownOption.onClick && dropDownOption.onClick()}
+                            > 
+                        {
+                          dropDownOption.icon &&
+                            <S.IconSpacer>
+                              <Icon fixedWidth={true} icon={dropDownOption.icon} iconPrefix={dropDownOption.iconPrefix} />
+                            </S.IconSpacer>
+                        }
+                          
                           <S.DropDownText>{ dropDownOption.text } </S.DropDownText>
                           
                         </S.DropdownOption>
+                       
                       ))
                     }
                   </S.Dropdown>
@@ -155,6 +181,9 @@ const S = {
     height: var(--F_Input_Height);
     padding: 0 .5rem;
     cursor: pointer;
+    * {
+      color: var(--F_Font_Color);
+    }
 
     &:hover {
       background: var(--F_Surface_1);
