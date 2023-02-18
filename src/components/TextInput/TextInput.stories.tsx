@@ -83,3 +83,39 @@ AutoFocus.args = {
   label: 'First name',
   autoFocus: true
 }
+
+export const Search = Template.bind({})
+Search.args = {
+  compact: true,
+  iconPrefix: 'fas',
+  placeholder: 'Search Formation',
+  canClear: true,
+  buttons: [
+    {
+      icon: 'search',
+      iconPrefix: 'fas',
+      minimal: true,
+    }
+  ]
+}
+
+export const Ask = Template.bind({})
+Ask.args = {
+  compact: true,
+  iconPrefix: 'fas',
+  placeholder: 'Ask Lexi',
+  canClear: true,
+  buttons: [
+    {
+      icon: 'search',
+      iconPrefix: 'fas',
+      minimal: true,
+    },
+    {
+      icon: 'message',
+      iconPrefix: 'fas',
+      minimal: true,
+    }
+  ]
+}
+

@@ -249,6 +249,9 @@ const calculateHoverBackgroundColor = (props: ButtonProps) => {
   if (props.primary) {
     return `var(--F_Primary_Hover)`
   }
+  if (props.minimal) {
+    return 'none'
+  }
   else {
     return `var(--F_Surface_1)`
   }

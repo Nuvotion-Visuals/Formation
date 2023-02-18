@@ -32,10 +32,11 @@ interface Props {
   activeSpaceIndex: number,
   onSetActiveSpacesIndex: (index: number) => void,
   navsPrimary: any,
-  navsSecondary: any,
+  navsSecondary?: any,
   channels: any,
   dropdownOptions: any,
-  hideSpaceName?: boolean
+  hideSpaceName?: boolean,
+  disableTablet?: boolean
 }
 
 export const NavSpaces = ({ 
@@ -48,7 +49,8 @@ export const NavSpaces = ({
   activeSpaceIndex,
   navsPrimary,
   navsSecondary,
-  hideSpaceName
+  hideSpaceName,
+  disableTablet
 }: Props) => {
   const { isDesktop, isTablet, isMobile } = useBreakpoint()
 
@@ -97,7 +99,7 @@ export const NavSpaces = ({
           }
 
           <S.Scroll 
-            numberOfNavBars={2}
+            numberOfNavBars={navsSecondary ? 2 : 1}
           >
             {
               secondPage
@@ -259,7 +261,7 @@ export const NavSpaces = ({
     if (isDesktop) {
       return renderContentDesktop()
     }
-    else if (isTablet) {
+    else if (isTablet && !disableTablet) {
       return renderContentTablet()
     }
     else {

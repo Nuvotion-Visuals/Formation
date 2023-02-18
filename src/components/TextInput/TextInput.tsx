@@ -3,7 +3,7 @@ import styled, { css, keyframes } from 'styled-components'
 
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 
-import { Icon, Box, LabelColor, getLabelColor } from '../../internal'
+import { Icon, Box, LabelColor, getLabelColor, Button, ButtonProps } from '../../internal'
 import { LabelColorCircle } from '../LabelColorPicker/LabelColorCircle'
 
 
@@ -31,7 +31,11 @@ type Props = {
   onChangeEvent?: (e: any) => void,
   placeholder?: string,
   forceFocus?: boolean,
-  hideOutline?: boolean
+  hideOutline?: boolean,
+  secondaryIcon?: IconName,
+  secondaryOnClick?: () => void,
+  buttons?: ButtonProps[],
+  canClear?: boolean
 }
 
 export const TextInput = ({ 
@@ -58,13 +62,22 @@ export const TextInput = ({
   onChangeEvent,
   placeholder,
   forceFocus,
-  hideOutline
+  hideOutline,
+  secondaryIcon,
+  secondaryOnClick,
+  buttons,
+  canClear
 }: Props) => {
   // @ts-ignore
   const autoFocusRef = useCallback(el => el && autoFocus ? el.focus() : null, [])
 
   const [locked, setLocked] = useState(!!value)
   const [focused, setFocused] = useState(!!value)
+
+  if (canClear) {
+    secondaryIcon = 'times'
+    secondaryOnClick = () => onChange && onChange('')
+  }
 
   useEffect(() => {
     if (value) {
@@ -164,6 +177,28 @@ export const TextInput = ({
           }
         }}
       />
+
+      {
+        secondaryIcon &&
+          <S.SecondaryIconContainer onClick={secondaryOnClick}>
+            <Icon 
+              icon={secondaryIcon} 
+              iconPrefix={iconPrefix}
+            />
+          </S.SecondaryIconContainer>
+      }
+
+      {
+        buttons && buttons.length > 0
+          && <Box mr={-.5}>
+                <S.Divider />
+                {
+                  buttons.map(buttonProps => <Button {...buttonProps}/>)
+                }
+              
+              </Box>
+      }
+
       <S.Label 
         locked={locked} 
         focused={focused} 
@@ -218,6 +253,13 @@ const S = {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
+  `,
+  Divider: styled.div`
+    width: 1px;
+    height: 1rem;
+    background: var(--F_Surface);
+    margin-left: .75rem;
+    margin-right: .25rem;
   `,
   Container: styled.div<{
     error?: string,
@@ -349,6 +391,10 @@ const S = {
   `,
   ErrorIconContainer: styled.div`
     position: relative;
+  `,
+  SecondaryIconContainer: styled.div`
+    position: relative;
+    cursor: ${props => props.onClick ? 'pointer' : 'auto'};
   `,
   IconContainer: styled.div<{
     error: boolean

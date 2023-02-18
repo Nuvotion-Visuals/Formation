@@ -265,6 +265,8 @@ const Template: ComponentStory<typeof NavSpaces> = args => {
           borderBottom={true}
         />
         <Placeholders />
+        <Placeholders />
+        <Placeholders />
       </>}
       thirdPage={
         <Box p={.75}>
@@ -700,8 +702,8 @@ Teams.parameters = {
 }
 
 
-export const NoNavs = Template.bind({})
-NoNavs.args = {
+export const NoSecondaryNavs = Template.bind({})
+NoSecondaryNavs.args = {
   label: 'Team title',
   secondaryTopNav: [
     {
@@ -718,6 +720,33 @@ NoNavs.args = {
       href: '/iframe.html?args=&id=navigation-navspaces--teams&viewMode=story',
       active: true
     },
+  ],
+  navsPrimary: [
+    {
+      icon: 'calendar-alt',
+      iconPrefix: 'fas',
+      title: 'All events',
+      href: '#',
+      active: true
+    },
+    {
+      icon: 'check-square',
+      iconPrefix: 'fas',
+      title: 'Tasks',
+      href: '#'
+    },
+    {
+      icon: 'bell',
+      iconPrefix: 'fas',
+      title: 'Notifications',
+      href: '#'
+    },
+    {
+      icon: 'user',
+      iconPrefix: 'fas',
+      title: 'Profile',
+      href: '#'
+    }
   ],
   lists: [
     {
@@ -801,9 +830,9 @@ NoNavs.args = {
       ]
     }
   ],
-  hideSpaceName: true
+  disableTablet: true
 }
-NoNavs.parameters = {
+NoSecondaryNavs.parameters = {
   layout: 'fullscreen'
 }
 
