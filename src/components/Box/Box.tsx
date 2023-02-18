@@ -22,7 +22,8 @@ interface Props {
   height?: number | string,
   maxHeight?: number | string,
   hide?: boolean,
-  wrap?: boolean
+  wrap?: boolean,
+  minWidth?: number | string,
 }
 
 export const Box = React.memo((props : Props) => {
@@ -70,6 +71,7 @@ const S = {
     padding: ${props => calculatePadding(props)};
     width: ${props => typeof props.width === 'string' ? props.width : `${props.width}rem`};
     max-width: ${props => typeof props.maxWidth === 'string' ? props.maxWidth : `${props.maxWidth}rem`};
+    min-width: ${props => typeof props.minWidth === 'string' ? props.minWidth : `${props.minWidth}rem`};
     height: ${props => typeof props.height === 'string' ? props.height : `${props.height}rem`};
     max-height: ${props => typeof props.maxHeight === 'string' ? props.maxHeight : `${props.maxHeight}rem`};
     flex-wrap: ${props => props.wrap ? 'wrap' : 'auto'};

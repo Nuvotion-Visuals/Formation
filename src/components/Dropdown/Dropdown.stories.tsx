@@ -1,7 +1,7 @@
 import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { Dropdown } from '../../internal'
+import { Dropdown, TextInput, Box } from '../../internal'
 
 export default {
   title: 'Input/Dropdown',
@@ -15,69 +15,82 @@ const Template: ComponentStory<typeof Dropdown> = args =>
 
 export const Options = Template.bind({})
 Options.args = {
-  options: [
+  icon: 'ellipsis-vertical',
+  iconPrefix: 'fas',
+  minimal: true,
+  circle: true,
+  items: [
     {
-      icon: 'ellipsis-vertical',
+      icon: 'heart',
+      title: 'Save',
+      onClick: () => {}
+    },
+    {
+      icon: 'paper-plane',
+      title: 'Send',
+      onClick: () => {}
+    },
+    {
+      icon: 'plus',
       iconPrefix: 'fas',
-      dropDownOptions: [
-        {
-          icon: 'heart',
-          text: 'Save'
-        },
-        {
-          icon: 'paper-plane',
-          text: 'Send'
-        },
-        {
-          icon: 'plus',
-          iconPrefix: 'fas',
-          text: 'Add'
-        }
-      ]
+      title: 'Add',
+      onClick: () => {}
     }
   ]
 }
 
 export const NoIcons = Template.bind({})
 NoIcons.args = {
-  options: [
+  icon: 'ellipsis-vertical',
+  iconPrefix: 'fas',
+  minimal: true,
+  circle: true,
+  items: [
     {
-      icon: 'ellipsis-vertical',
+      title: 'Save',
+      onClick: () => {}
+    },
+    {
+      title: 'Send',
+      onClick: () => {}
+    },
+    {
       iconPrefix: 'fas',
-      dropDownOptions: [
-        {
-          text: 'Save'
-        },
-        {
-          text: 'Send'
-        },
-        {
-          text: 'Add'
-        }
-      ]
+      title: 'Add',
+      onClick: () => {}
     }
   ]
 }
 
-export const NoIconsLink = Template.bind({})
-NoIconsLink.args = {
-  options: [
+export const Insert = Template.bind({})
+Insert.args = {
+  icon: 'plus',
+  iconPrefix: 'fas',
+  minimal: true,
+  circle: true,
+  items: [
     {
-      icon: 'ellipsis-vertical',
-      iconPrefix: 'fas',
-      dropDownOptions: [
-        {
-          text: 'Save',
-          href: 'https://formation-ui.netlify.app',
-          newTab: true
-        },
-        {
-          text: 'Send'
-        },
-        {
-          text: 'Add'
-        }
-      ]
-    }
+      children: <div onClick={e => e.stopPropagation()}>
+        <Box minWidth={17}>
+          <TextInput
+            value=''
+            onChange={() => {}}
+            iconPrefix='fas'
+            compact
+            placeholder='Insert content from URL'
+            canClear
+            buttons={[
+              {
+                icon: 'arrow-right',
+                iconPrefix: 'fas',
+                minimal: true
+              }
+            ]}
+          />
+        </Box>
+      </div>,
+      onClick: () => {}
+    },
   ]
 }
+

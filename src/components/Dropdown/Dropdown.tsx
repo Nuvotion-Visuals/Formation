@@ -1,36 +1,17 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { Icon, getLinkComponent } from '../../internal'
+import { Icon, getLinkComponent, ItemProps, Item, Button, ButtonProps } from '../../internal'
 import { useEffect, useRef, useState } from 'react'
-
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 
-
-type DropDownOption = {
-  href?: string,
-  icon?: IconName,
-  iconPrefix?: IconPrefix,
-  hmyRef?: string,
-  onClick?: Function,
-  text: string,
+interface Props extends ButtonProps{
+  items: ItemProps[],
 }
 
-type Option = {
-  icon: IconName,
-  iconPrefix?: IconPrefix,
-  hmyRef?: string,
-  onClick?: Function,
-  dropDownOptions?: DropDownOption[]
-}
+export const Dropdown = React.memo((props: Props) => {
+  const items = props.items
 
-export type OptionsType = Option[]
-
-interface Props {
-  options: OptionsType
-}
-
-export const Dropdown = React.memo(({ options }: Props) => {
   const Link = getLinkComponent()
 
   const [open, setOpen] = useState(false)
@@ -51,80 +32,30 @@ export const Dropdown = React.memo(({ options }: Props) => {
 
   return (<>
     <S.Options 
-      onClick={(e) => {
-        e.stopPropagation()
-        setOpen(!open)
-      }}
+      
       ref={myRef}
     >
-      {
-        options.map((option, index) => (
+    
           <S.IconContainer 
-            key={index}
-            onClick={
-              option.onClick 
-                ? option.dropDownOptions
-                    ? () => {
-                        if (option?.onClick) {
-                          option.onClick()
-                        }
-                        setOpen(!open)
-                      }
-                    : () => option.onClick  && option.onClick()
-                : option.dropDownOptions
-                    ? () => setOpen(!open)
-                    : () => {}
-            }
+          onClick={() => setOpen(!open)}
           >
-            <S.IconCircle open={open}>
-              <Icon icon={option.icon} iconPrefix={option.iconPrefix} />
-            </S.IconCircle>
+            
+            <Button 
+              {...props}
+              
+            />
 
             {
-              option.dropDownOptions && open
+              items && open
                 ? <S.Dropdown>
                     {
-                      option.dropDownOptions.map((dropDownOption, index) => (
-                        dropDownOption?.href
-                          ? <Link href={dropDownOption.href}>
-                              <S.DropdownOption
-                                key={index}
-                                onClick={() => dropDownOption.onClick && dropDownOption.onClick()}
-                              > 
-                              {
-                                dropDownOption.icon &&
-                                  <S.IconSpacer>
-                                    <Icon fixedWidth={true} icon={dropDownOption.icon} iconPrefix={dropDownOption.iconPrefix} />
-                                  </S.IconSpacer>
-                              }
-                                
-                                <S.DropDownText>{ dropDownOption.text } </S.DropDownText>
-                                
-                              </S.DropdownOption>
-                            </Link>
-                          : <S.DropdownOption
-                              key={index}
-                              onClick={() => dropDownOption.onClick && dropDownOption.onClick()}
-                            > 
-                        {
-                          dropDownOption.icon &&
-                            <S.IconSpacer>
-                              <Icon fixedWidth={true} icon={dropDownOption.icon} iconPrefix={dropDownOption.iconPrefix} />
-                            </S.IconSpacer>
-                        }
-                          
-                          <S.DropDownText>{ dropDownOption.text } </S.DropDownText>
-                          
-                        </S.DropdownOption>
-                       
-                      ))
+                      items.map(itemProps => <Item {...itemProps} />)
                     }
                   </S.Dropdown>
                 : null
             }
           </S.IconContainer>
-        ))
-      }
+      
     </S.Options>
   </>)
 })
@@ -156,9 +87,7 @@ const S = {
       background: var(--F_Surface);
     }
   `,
-  IconContainer: styled.div<{
-    onClick: Function | null
-  }>`
+  IconContainer: styled.div`
     position: relative;
     color: var(--F_Font_Color);
   `,

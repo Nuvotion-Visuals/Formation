@@ -1,3 +1,6 @@
+import Div100vh from 'react-div-100vh'
+export { Div100vh }
+
 export { Article } from './Article/Article'
 export { Avatar } from './Avatar/Avatar'
 export { ArticlePreview } from './ArticlePreview/ArticlePreview'

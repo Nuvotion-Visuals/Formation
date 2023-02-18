@@ -12,7 +12,6 @@ interface Props {
   dateString?: string,
   location?: string,
   channels: any,
-  dropdownOptions?: any,
   labelColor?: LabelColor
 }
 
@@ -22,7 +21,6 @@ export const SpaceSidebar = ({
   dateString,
   location,
   channels,
-  dropdownOptions,
   labelColor
 }: Props) => {
   return (
@@ -51,16 +49,6 @@ export const SpaceSidebar = ({
               }
             </S.Name>
           </header>
-
-          {
-            dropdownOptions
-              ? <S.Absolute>
-                  <Dropdown
-                    options={dropdownOptions}
-                  />
-                </S.Absolute>
-              : null
-          }
 
           {
             dateString || location

@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 import React from 'react'
 import { Gap } from '../../internal'
-import { Dropdown, OptionsType, Box, TextInput } from '../../internal'
+import { Dropdown, Box, TextInput, Button } from '../../internal'
 import { IconPrefix } from '@fortawesome/fontawesome-common-types'
 
 interface Props {
@@ -12,7 +12,6 @@ interface Props {
   onExpand?: (newExpanded: boolean) => void,
   placeholder?: string,
   iconPrefix: IconPrefix,
-  sortOptions?: OptionsType,
   onEnter?: () => void,
   hideOutline?: boolean
 }
@@ -24,7 +23,6 @@ export const SearchSortFilter = React.memo(({
   onExpand,
   placeholder,
   iconPrefix,
-  sortOptions,
   onEnter,
   hideOutline
 }: Props) => {
@@ -49,24 +47,17 @@ export const SearchSortFilter = React.memo(({
         </S.NoOutline>
         {
           onExpand && expanded !== undefined && 
-            <Dropdown
-            options={[
-              {
-                icon: expanded
-                  ? 'chevron-up'
-                  : 'chevron-down',
-                iconPrefix,
-                onClick: () => {
-                  onExpand(!expanded)
-                }
-              }
-            ]}
+            <Button
+              icon={ expanded
+                ? 'chevron-up'
+                : 'chevron-down'}
+              iconPrefix={iconPrefix}
+              onClick={() => {
+                onExpand(!expanded)
+              }}
+              minimal
+            
           />
-        }
-
-        {
-          sortOptions &&
-            <Dropdown options={sortOptions} />
         }
         </Gap>
       </Box>

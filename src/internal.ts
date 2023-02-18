@@ -177,7 +177,7 @@ import { Radio } from './components/Radio/Radio'
 import { Button, ButtonProps } from './components/Button/Button'
 import { Notification } from './components/Notification/Notification'
 import { TextInput } from './components/TextInput/TextInput'
-import { Dropdown, OptionsType } from './components/Dropdown/Dropdown'
+import { Dropdown } from './components/Dropdown/Dropdown'
 import { Sidebar, Navs } from './components/Sidebar/Sidebar'
 import { Select } from './components/Select/Select'
 import { Switch } from './components/Switch/Switch'
@@ -192,7 +192,7 @@ export {
   Button, ButtonProps,
   Notification,
   TextInput,
-  Dropdown, OptionsType,
+  Dropdown,
   Sidebar, Navs,
   Select,
   Item,

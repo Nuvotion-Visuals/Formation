@@ -29,32 +29,28 @@ export const Default = Template.bind({})
 Default.args = {
   iconPrefix: 'fas',
   hideOutline: true,
-  sortOptions: [
+  minimal: true,
+  icon: 'sort',
+  items: [
     {
-      icon: 'sort',
+      icon: 'arrow-up',
       iconPrefix: 'fas',
-      dropDownOptions: [
-        {
-          icon: 'arrow-up',
-          iconPrefix: 'fas',
-          text: 'Newest'
-        },
-        {
-          icon: 'arrow-down',
-          iconPrefix: 'fas',
-          text: 'Oldest'
-        },
-        {
-          icon: 'clock',
-          iconPrefix: 'fas',
-          text: 'Last edited'
-        },
-        {
-          icon: 'thumbtack',
-          iconPrefix: 'fas',
-          text: 'Custom order'
-        }
-      ]
+      text: 'Newest'
+    },
+    {
+      icon: 'arrow-down',
+      iconPrefix: 'fas',
+      text: 'Oldest'
+    },
+    {
+      icon: 'clock',
+      iconPrefix: 'fas',
+      text: 'Last edited'
+    },
+    {
+      icon: 'thumbtack',
+      iconPrefix: 'fas',
+      text: 'Custom order'
     }
   ]
 }

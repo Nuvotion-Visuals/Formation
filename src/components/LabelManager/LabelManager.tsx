@@ -95,17 +95,24 @@ export const LabelManager = ({ value, onChange }: Props) => {
           <Spacer />
           <S.Absolute>
             <Dropdown
-              options={[
-                {
-                  icon: 'edit',
-                  iconPrefix: 'fas',
-                  onClick: () => {
-                    editingIndex === null
-                      ? set_editingIndex(index)
-                      : set_editingIndex(null)
+              {...{
+                icon: 'ellipsis-vertical',
+                iconPrefix: 'fas',
+                minimal: true,
+                circle: true,
+                items: [
+                  {
+                    icon: 'edit',
+                    title: 'Edit',
+                    iconPrefix: 'fas',
+                    onClick: () => {
+                      editingIndex === null
+                        ? set_editingIndex(index)
+                        : set_editingIndex(null)
+                    }
                   }
-                }
-              ]}
+                ]
+              }}
             />
           </S.Absolute>
           

@@ -9,12 +9,10 @@ import {
   Dropdown, 
   Avatar, 
   getInitials, 
-  OptionsType 
 } from '../../internal'
 
 export interface Props {
   name?: string,
-  options?: OptionsType,
   onClick?: () => void,
   icon?: IconName,
   iconPrefix?: IconPrefix,
@@ -43,7 +41,6 @@ export const Item = ({
   name,
   label,
   subtitle,
-  options,
   onClick,
   icon,
   iconPrefix,
@@ -144,16 +141,6 @@ export const Item = ({
           </Box>
         : null
     }
-
-    {
-        options
-          ? <>
-                <Dropdown
-                  options={options}
-                />
-            </>
-          : null
-      }
     </Box>
   )
 

@@ -264,6 +264,9 @@ const calculateActiveBackgroundColor = (props: ButtonProps) => {
   if (props.primary) {
     return `var(--F_Primary)`
   } 
+  if (props.minimal) {
+    return 'none'
+  }
   return 'var(--F_Surface_2)'
   
 }

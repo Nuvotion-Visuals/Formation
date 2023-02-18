@@ -60,7 +60,8 @@ library.add(
   fas.faExternalLink, fas.faCrop, fas.faImage, fas.faUserCircle,
   fas.faEraser, fas.faImage, fas.faChevronDown, fas.faChevronUp, 
   fas.faSort, fas.faArrowUp, fas.faArrowDown, fas.faThumbTack,
-  fas.faCircle, fas.faCircleDot, fas.faGlobe
+  fas.faCircle, fas.faCircleDot, fas.faGlobe, fas.faLink,
+  fas.faArrowRight
 )
 
 export const parameters = {
