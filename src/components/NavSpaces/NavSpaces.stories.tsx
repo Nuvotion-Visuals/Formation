@@ -699,3 +699,111 @@ Teams.parameters = {
   layout: 'fullscreen'
 }
 
+
+export const NoNavs = Template.bind({})
+NoNavs.args = {
+  label: 'Team title',
+  secondaryTopNav: [
+    {
+      title: 'People',
+      iconPrefix: 'fas',
+      href: '#'
+    },
+    {
+      title: 'Positions',
+      href: '/iframe.html?args=&id=navigation-navspaces--positions&viewMode=story',
+    },
+    {
+      title: 'Teams',
+      href: '/iframe.html?args=&id=navigation-navspaces--teams&viewMode=story',
+      active: true
+    },
+  ],
+  lists: [
+    {
+      'title': 'Artists',
+      'guid': '',
+      'listItems': [
+        {
+          'title': 'DJ SKoli',
+          'avatar': false
+        },
+        {
+          'title': 'King Spookey',
+          'avatar': false
+        },
+        {
+          'title': 'Subsus',
+          'avatar': false
+        }
+      ]
+  },
+    {
+      'title': 'Crew',
+      'guid': '',
+      'listItems': [
+        {
+          'title': 'Isabella',
+          'avatar': false
+        },
+        {
+          'title': 'Lexi',
+          'avatar': false
+        },
+        {
+          'title': 'Gloria',
+          'avatar': false
+        },
+        {
+          'title': 'Michael',
+          'avatar': false
+        },
+        {
+          'title': 'PJ',
+          'avatar': false
+        },
+        {
+          'title': '',
+          'avatar': false
+        },
+        {
+          'title': '',
+          'avatar': false
+        }
+      ]
+    },
+    {
+      'title': 'Management',
+      'guid': '',
+      'listItems': [
+        {
+          'title': 'AVsync.LIVE',
+          'avatar': false
+        },
+        {
+          'title': 'Neocord',
+          'avatar': false
+        }
+      ]
+    },
+    {
+      'title': 'Kitchen',
+      'guid': '',
+      'listItems': [
+        {
+          'title': 'Atomosity',
+          'avatar': false
+        },
+        {
+          'title': '',
+          'avatar': false
+        }
+      ]
+    }
+  ],
+  hideSpaceName: true
+}
+NoNavs.parameters = {
+  layout: 'fullscreen'
+}
+

@@ -582,7 +582,7 @@ const Template: ComponentStory<typeof Timeline> = args => {
       area: area.area,
       areaId: area.areaId,
       labelColor: area.labelColor
-   }
+    }
   })
 
   const autoScrollFirstActivity = (currentValue: AreasType): string => {

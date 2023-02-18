@@ -66,14 +66,6 @@ export const RichTextEditor = ({
 
   const [show, set_show] = useState(!label || !!value)
 
-  useEffect(() => {
-    if (show) {
-      if (quillRef?.current) {
-        (quillRef.current as any).focus()
-      }
-    }
-  }, [show])
-
   return (
     <S.Container
       outset={outset}
@@ -86,20 +78,14 @@ export const RichTextEditor = ({
         }, 0);
       }}
       height={height}
-      onClick={() => {
-        if (quillRef?.current) {
-          (quillRef.current as any).focus()
-        }
-      }}
+      
     >
       {
         label &&
           <S.Label 
             onClick={() => {
               set_show(true);
-              if (quillRef?.current) {
-                (quillRef.current as any).focus()
-              }
+              
             }}
             shrink={show}
           >

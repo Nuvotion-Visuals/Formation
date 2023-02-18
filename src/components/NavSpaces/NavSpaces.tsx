@@ -34,7 +34,8 @@ interface Props {
   navsPrimary: any,
   navsSecondary: any,
   channels: any,
-  dropdownOptions: any
+  dropdownOptions: any,
+  hideSpaceName?: boolean
 }
 
 export const NavSpaces = ({ 
@@ -46,7 +47,8 @@ export const NavSpaces = ({
   spaces,
   activeSpaceIndex,
   navsPrimary,
-  navsSecondary
+  navsSecondary,
+  hideSpaceName
 }: Props) => {
   const { isDesktop, isTablet, isMobile } = useBreakpoint()
 
@@ -73,20 +75,26 @@ export const NavSpaces = ({
           {
             firstPage
           }
-          <NavBottom
-            navs={navsPrimary}
-            trimRight={true}
-          />
+          {
+            navsPrimary &&
+              <NavBottom
+                navs={navsPrimary}
+                trimRight={true}
+              />
+          }
         </View>
 
         <View>
-          <NavTop
-            name={spaces[activeSpaceIndex]?.name}
-            src={spaces[activeSpaceIndex]?.src}
-            date={spaces[activeSpaceIndex]?.date}
-            onBack={() => onSwipe(activeSwipeIndex - 1)}      
-            labelColor={spaces[activeSpaceIndex]?.labelColor}      
-          />
+          {
+            !hideSpaceName &&
+            <NavTop
+              name={spaces[activeSpaceIndex]?.name}
+              src={spaces[activeSpaceIndex]?.src}
+              date={spaces[activeSpaceIndex]?.date}
+              onBack={() => onSwipe(activeSwipeIndex - 1)}      
+              labelColor={spaces[activeSpaceIndex]?.labelColor}      
+            />
+          }
 
           <S.Scroll 
             numberOfNavBars={2}
@@ -97,20 +105,26 @@ export const NavSpaces = ({
             <S.HeaderSpacerY />
             <S.HeaderSpacerY />
           </S.Scroll>
-
-          <NavBottom
-            navs={navsSecondary}
-          />
+          {
+            navsSecondary &&
+            <NavBottom
+              navs={navsSecondary}
+            />
+          }
+          
         </View>
 
         <View>
-          <NavTop
-            name={spaces[activeSpaceIndex]?.name}
-            src={spaces[activeSpaceIndex]?.src}
-            date={spaces[activeSpaceIndex]?.date}
-            onBack={() => onSwipe(activeSwipeIndex - 1)}
-            labelColor={spaces[activeSpaceIndex]?.labelColor}
-          />
+          {
+            !hideSpaceName &&
+              <NavTop
+                name={spaces[activeSpaceIndex]?.name}
+                src={spaces[activeSpaceIndex]?.src}
+                date={spaces[activeSpaceIndex]?.date}
+                onBack={() => onSwipe(activeSwipeIndex - 1)}
+                labelColor={spaces[activeSpaceIndex]?.labelColor}
+              />
+          }
           <S.Scroll 
             numberOfNavBars={1}
           >
@@ -134,10 +148,13 @@ export const NavSpaces = ({
               firstPage
             }
           </S.MainScroll>
-          <NavBottom
-            navs={navsPrimary}
-            trimRight={true}
-          />
+          {
+            navsPrimary &&
+            <NavBottom
+              navs={navsPrimary}
+              trimRight={true}
+            />
+          }
         </View>
 
         <SwipeableViews
@@ -158,13 +175,16 @@ export const NavSpaces = ({
           </View>
 
           <View>
-            <NavTop
-              onBack={() => onSwipe(activeSwipeIndex - 1)}
-              name={spaces[activeSpaceIndex]?.name}
-              src={spaces[activeSpaceIndex]?.src}
-              hideContext={true}
-              labelColor={spaces[activeSpaceIndex]?.labelColor}
-            />
+            {
+              !hideSpaceName &&
+                <NavTop
+                  onBack={() => onSwipe(activeSwipeIndex - 1)}
+                  name={spaces[activeSpaceIndex]?.name}
+                  src={spaces[activeSpaceIndex]?.src}
+                  hideContext={true}
+                  labelColor={spaces[activeSpaceIndex]?.labelColor}
+                />
+            }
             <S.Scroll 
               numberOfNavBars={0}
             >
@@ -189,10 +209,13 @@ export const NavSpaces = ({
               firstPage
             }
           </S.MainScroll>
-          <NavBottom
-            navs={navsPrimary}
-            trimRight={true}
-          />
+          {
+            navsPrimary &&
+              <NavBottom
+                navs={navsPrimary}
+                trimRight={true}
+              />
+          }
         </View>
 
         <S.MainContent>
@@ -206,14 +229,18 @@ export const NavSpaces = ({
         </S.MainContent>
 
         <S.SecondaryContent>
-          <NavTop
-            name={spaces[activeSpaceIndex]?.name}
-            src={spaces[activeSpaceIndex]?.src}
-            labelColor={spaces[activeSpaceIndex]?.labelColor}
-            date={spaces[activeSpaceIndex]?.date}
-            onBack={() => onSwipe(activeSwipeIndex - 1)}  
-            hideReturnContext={true}          
-          />
+          {
+            !hideSpaceName &&
+            <NavTop
+              name={spaces[activeSpaceIndex]?.name}
+              src={spaces[activeSpaceIndex]?.src}
+              labelColor={spaces[activeSpaceIndex]?.labelColor}
+              date={spaces[activeSpaceIndex]?.date}
+              onBack={() => onSwipe(activeSwipeIndex - 1)}  
+              hideReturnContext={true}          
+            />
+          }
+          
         
           <S.Scroll 
             numberOfNavBars={1} 

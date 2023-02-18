@@ -6,7 +6,8 @@ import { SizeProp } from '@fortawesome/fontawesome-svg-core' // type coersion ne
 
 import { Icon, getLinkComponent, LabelColor, getLabelColor } from '../../internal'
 
-type Props = {
+
+export interface ButtonProps {
   href?: string,
   hero?: boolean,
   name?: string,
@@ -34,11 +35,7 @@ type Props = {
   expandVertical?: boolean
 }
 
-export interface ButtonProps extends Props {
-  hasIcon: boolean
-}
-
-export const Button: FC<Props> = React.memo(({ 
+export const Button: FC<ButtonProps> = React.memo(({ 
   hero, 
   name, 
   icon, 
@@ -64,7 +61,7 @@ export const Button: FC<Props> = React.memo(({
   square,
   circle,
   expandVertical
-}: Props) => {
+}: ButtonProps) => {
 
   const Link = getLinkComponent()
 
@@ -89,7 +86,6 @@ export const Button: FC<Props> = React.memo(({
         singleBlink={singleBlink}
         tab={tab}
         name={name}
-        hasIcon={icon !== undefined}
         labelColor={labelColor}
         expandVertical={expandVertical}
         minimal={minimal}
@@ -211,7 +207,7 @@ const calculateHeight = (props: ContainerProps) => {
   }
 }
 
-const calculatePadding = (props: Props) => {
+const calculatePadding = (props: ButtonProps) => {
   if (props.hero) {
     if (props.square) {
       return '0'
@@ -230,7 +226,7 @@ const calculatePadding = (props: Props) => {
   }
 }
 
-const calculateBackgroundColor = (props: Props) => {
+const calculateBackgroundColor = (props: ButtonProps) => {
   if (typeof props.labelColor === 'string' && props.primary) {
     return getLabelColor(props.labelColor);
   }
@@ -246,7 +242,7 @@ const calculateBackgroundColor = (props: Props) => {
   return 'var(--F_Surface)';
 }
 
-const calculateHoverBackgroundColor = (props: Props) => {
+const calculateHoverBackgroundColor = (props: ButtonProps) => {
   if (typeof props.labelColor === 'string' && props.primary) {
     return getLabelColor(props.labelColor);
   }
@@ -258,7 +254,7 @@ const calculateHoverBackgroundColor = (props: Props) => {
   }
 }
 
-const calculateActiveBackgroundColor = (props: Props) => {
+const calculateActiveBackgroundColor = (props: ButtonProps) => {
   if (typeof props.labelColor === 'string' && props.primary) {
     return getLabelColor(props.labelColor);
   }
