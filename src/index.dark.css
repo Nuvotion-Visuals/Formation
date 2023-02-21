@@ -748,9 +748,8 @@ button {
   position: relative;
 }
 .ql-tooltip {
-  left: .75rem !important;
-  margin-right: .75rem;
-  padding: .25rem;
+  left: 0 !important;
+  margin-right: 0;
 }
 .ql-container.ql-disabled .ql-tooltip {
   visibility: hidden;
@@ -775,7 +774,6 @@ button {
   height: 100%;
   outline: none;
   overflow-y: auto;
-  padding: .75rem 1rem;
   tab-size: 4;
   -moz-tab-size: 4;
   text-align: left;
@@ -1136,10 +1134,15 @@ button {
 .ql-editor.ql-blank::before {
   color: var(--F_Font_Color_Disabled);
   content: attr(data-placeholder);
-  left: 15px;
+  left: 0;
   pointer-events: none;
   position: absolute;
-  right: 15px;
+}
+.ql-toolbar {
+  padding: .25rem;
+  justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
 }
 .ql-bubble.ql-toolbar:after,
 .ql-bubble .ql-toolbar:after {
@@ -1250,19 +1253,19 @@ button {
 @media (pointer: coarse) {
   .ql-bubble.ql-toolbar button:hover:not(.ql-active),
   .ql-bubble .ql-toolbar button:hover:not(.ql-active) {
-    color: var(--F_Font_Color);
+    color: var(--F_Font_Color_Disabled);
   }
   .ql-bubble.ql-toolbar button:hover:not(.ql-active) .ql-fill,
   .ql-bubble .ql-toolbar button:hover:not(.ql-active) .ql-fill,
   .ql-bubble.ql-toolbar button:hover:not(.ql-active) .ql-stroke.ql-fill,
   .ql-bubble .ql-toolbar button:hover:not(.ql-active) .ql-stroke.ql-fill {
-    fill: var(--F_Font_Color);
+    fill: var(--F_Font_Color_Disabled);
   }
   .ql-bubble.ql-toolbar button:hover:not(.ql-active) .ql-stroke,
   .ql-bubble .ql-toolbar button:hover:not(.ql-active) .ql-stroke,
   .ql-bubble.ql-toolbar button:hover:not(.ql-active) .ql-stroke-miter,
   .ql-bubble .ql-toolbar button:hover:not(.ql-active) .ql-stroke-miter {
-    stroke: var(--F_Font_Color);
+    stroke: var(--F_Font_Color_Disabled);
   }
 }
 .ql-bubble {
@@ -1300,20 +1303,20 @@ button {
 }
 .ql-bubble .ql-stroke {
   fill: none;
-  stroke: var(--F_Font_Color);
+  stroke: var(--F_Font_Color_Disabled);
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-width: 2;
 }
 .ql-bubble .ql-stroke-miter {
   fill: none;
-  stroke: var(--F_Font_Color);
+  stroke: var(--F_Font_Color_Disabled);
   stroke-miterlimit: 10;
   stroke-width: 2;
 }
 .ql-bubble .ql-fill,
 .ql-bubble .ql-stroke.ql-fill {
-  fill: var(--F_Font_Color);
+  fill: var(--F_Font_Color_Disabled);
 }
 .ql-bubble .ql-empty {
   fill: none;
@@ -1359,7 +1362,7 @@ button {
   text-decoration: underline;
 }
 .ql-bubble .ql-editor blockquote {
-  border-left: 4px solid var(--F_Font_Color);
+  border-left: 4px solid var(--F_Font_Color_Disabled);
   margin-bottom: 5px;
   margin-top: 5px;
   padding-left: 16px;
@@ -1388,7 +1391,7 @@ button {
   max-width: 100%;
 }
 .ql-bubble .ql-picker {
-  color: var(--F_Font_Color);
+  color: var(--F_Font_Color_Disabled);
   display: inline-block;
   float: left;
   font-size: 14px;
@@ -1652,7 +1655,7 @@ button {
   right: 20px;
 }
 .ql-bubble .ql-tooltip-editor a:before {
-  color: var(--F_Font_Color);
+  color: var(--F_Font_Color_Disabled);
   content: "\D7";
   font-size: 16px;
   font-weight: bold;

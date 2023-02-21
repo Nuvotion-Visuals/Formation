@@ -22,17 +22,17 @@ class ExtendBubbleTheme extends BubbleTheme {
 
 Quill.register('themes/bubble', ExtendBubbleTheme);
 
-
 interface Props {
   icon?: IconName,
   iconPrefix?: IconPrefix,
   label?: string,
   placeholder?: string,
   value: string,
-  onChange: (arg0: string) => void,
+  onChange?: (arg0: string) => void,
   height?: string,
   outset?: boolean,
-  onEnter?: (arg0: string) => void
+  onEnter?: (arg0: string) => void,
+  readOnly?: boolean
 }
 
 export const RichTextEditor = ({ 
@@ -44,7 +44,8 @@ export const RichTextEditor = ({
   onChange,
   height,
   outset,
-  onEnter
+  onEnter,
+  readOnly
 } : Props) => {
   const quillRef = React.useRef(null)
 
@@ -120,67 +121,54 @@ export const RichTextEditor = ({
   
   const [show, set_show] = useState(!label || !!value)
 
-  return (
-    <S.Container
-      outset={outset}
-      onBlur={() => {
-        setTimeout(function(){
-          if (document.activeElement?.className.includes('sb-') && label) {
-            const empty = value === undefined || value === '<p><br></p>'
-            set_show(!empty)
+  const renderContent = () => (
+    <Suspense fallback={<Box p={1}><LoadingSpinner small={true} /></Box>}>
+      <ReactQuill 
+        readOnly={readOnly}
+        theme='bubble' 
+        value={value} 
+        onChange={onChange} 
+        modules={modules}
+        ref={quillRef}
+        placeholder={placeholder}
+        onKeyDown={e => {
+          if (e.code === 'Enter' && onEnter && !e.shiftKey) {
+            e.preventDefault()
+            onEnter(value)
+            return
           }
-        }, 0);
-      }}
-      height={height}
-      
-    >
-      {
-        label &&
-          <S.Label 
-            onClick={() => {
-              set_show(true);
-              
+        }}
+        
+      />
+    </Suspense>
+  )
+
+  return (<>
+    {
+      readOnly
+        ? renderContent()
+        : <S.Container
+            outset={outset}
+            onBlur={() => {
+              setTimeout(function(){
+                if (document.activeElement?.className.includes('sb-') && label) {
+                  const empty = value === undefined || value === '<p><br></p>'
+                  set_show(!empty)
+                }
+              }, 0);
             }}
-            shrink={show}
+            height={height}
+            onClick={() => {
+              if (quillRef?.current) {
+                (quillRef.current as any).focus()
+              }
+            }}
           >
-            {
-              icon &&
-                <Box pr={.5}>
-                  <Icon icon={icon} iconPrefix={iconPrefix} />
-                </Box>
-            }
-            {
-              label
-            }
-          </S.Label>
-      }
-
-      <S.TextEditorContainer shrink={!show} onClick={() => {
-        if (quillRef?.current) {
-          (quillRef.current as any).focus()
-        }
-      }}>
-      <Suspense fallback={<Box p={1}><LoadingSpinner small={true} /></Box>}>
-        <ReactQuill 
-          theme='bubble' 
-          value={value} 
-          onChange={onChange} 
-          modules={modules}
-          ref={quillRef}
-          placeholder={placeholder}
-          onKeyDown={e => {
-            if (e.code === 'Enter' && onEnter && !e.shiftKey) {
-              e.preventDefault()
-              onEnter(value)
-              return
-            }
-          }}
-          
-        />
-      </Suspense>
-
-      </S.TextEditorContainer>
-    </S.Container>
+            { renderContent() }
+          </S.Container>
+    }
+  </>
+    
   )
 }
 
@@ -193,10 +181,12 @@ const S = {
     border-radius: .75rem;
     transition: .15s height; 
     position: relative;
-    width: 100%;
+    width: calc(100% - 2rem);
     height: ${props => props.height ? props.height : 'auto'};
     max-height: ${props => props.height ? props.height : 'auto'};
     overflow-y: auto;
+    padding: .75rem 1rem;
+    padding-bottom: ${props => props.height ? 'none' : '54px'};
     .quill {
       height: ${props => props.height ? props.height : 'auto'};
     }
@@ -211,30 +201,6 @@ const S = {
         color: var(--F_Font_Color);
       }
     }
-    
-  `,
-  TextEditorContainer: styled.div<{
-    shrink?: boolean
-  }>`
-    width: 100%;
-    display: ${props => props.shrink ? 'none' : 'block'};
-    height: 100%;
-
-  `,
-  Label: styled.label<{
-    shrink?: boolean
-  }>`
-    font-size: ${props => props.shrink ? 'var(--F_Font_Size)' : 'var(--F_Font_Size_Large)'};
-    color: var(--F_Font_Color_Label);
-    height: ${props => props.shrink ? 'var(--F_Input_Height)' : 'var(--F_Input_Height_Hero)'};
-    transition: .15s all; 
-    display: flex;
-    padding: 0 1rem;
-    padding-bottom: 0;
-    align-items: center;
-    user-select: none;
-    margin-bottom: ${props => props.shrink ? '0' : '-.75rem)'};
-  
   `
 }
 
