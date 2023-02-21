@@ -194,11 +194,11 @@ const S = {
     height: ${props => props.height ? props.height : 'auto'};
     max-height: ${props => props.height ? props.height : 'auto'};
     width: 100%;
-    padding-bottom: ${props => props.height ? 'none' : '54px'};
     overflow-y: auto;
     .quill {
-      height: ${props => props.height ? `calc(${props.height}px - 1.5rem)` : 'auto'};
+      height: ${props => props.height ? `calc(${props.height}px - 1.5rem)` : '100%'};
       width: 100%;
+      padding-bottom: 42px;
     }
 
     &:hover {
