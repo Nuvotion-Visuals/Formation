@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 import ReactQuill, { Quill } from 'react-quill';
 
-import { Box, Icon, LineBreak, LoadingSpinner, Spacer } from '../../internal'
+import { Box, LoadingSpinner, Button, ButtonProps } from '../../internal'
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 
 const BubbleTheme = Quill.import('themes/bubble');
@@ -32,12 +32,11 @@ interface Props {
   height?: string,
   outset?: boolean,
   onEnter?: (arg0: string) => void,
-  readOnly?: boolean
+  readOnly?: boolean,
+  buttons?: ButtonProps[]
 }
 
 export const RichTextEditor = ({ 
-  icon,
-  iconPrefix,
   label,
   placeholder,
   value,
@@ -45,7 +44,8 @@ export const RichTextEditor = ({
   height,
   outset,
   onEnter,
-  readOnly
+  readOnly,
+  buttons
 } : Props) => {
   const quillRef = React.useRef(null)
 
@@ -119,8 +119,6 @@ export const RichTextEditor = ({
     }
   }, [quillRef])
   
-  const [show, set_show] = useState(!label || !!value)
-
   const renderContent = () => (
     <Suspense fallback={<Box p={1}><LoadingSpinner small={true} /></Box>}>
       <ReactQuill 
@@ -149,14 +147,6 @@ export const RichTextEditor = ({
         ? renderContent()
         : <S.Container
             outset={outset}
-            onBlur={() => {
-              setTimeout(function(){
-                if (document.activeElement?.className.includes('sb-') && label) {
-                  const empty = value === undefined || value === '<p><br></p>'
-                  set_show(!empty)
-                }
-              }, 0);
-            }}
             height={height}
             onClick={() => {
               if (quillRef?.current) {
@@ -164,7 +154,27 @@ export const RichTextEditor = ({
               }
             }}
           >
-            { renderContent() }
+            {
+              buttons
+                ? <>
+                    <S.Left>
+                      <S.Scroll>
+                        { renderContent() }
+                      </S.Scroll>
+                    </S.Left>
+
+                    <S.Right onClick={e => e.stopPropagation()}>
+                        {
+                        buttons?.map(buttonProps => <Button {...buttonProps} />)
+                      }
+                    </S.Right>
+                  </>
+                : <S.ScrollFull>
+                    { renderContent() }
+                  </S.ScrollFull>
+            }
+            
+            
           </S.Container>
     }
   </>
@@ -180,15 +190,15 @@ const S = {
     box-shadow: ${props => props.outset ? 'var(--F_Outline_Outset)' : 'var(--F_Outline)'};
     border-radius: .75rem;
     transition: .15s height; 
-    position: relative;
-    width: calc(100% - 2rem);
+    display: flex;
     height: ${props => props.height ? props.height : 'auto'};
     max-height: ${props => props.height ? props.height : 'auto'};
-    overflow-y: auto;
-    padding: .75rem 1rem;
+    width: 100%;
     padding-bottom: ${props => props.height ? 'none' : '54px'};
+    overflow-y: auto;
     .quill {
-      height: ${props => props.height ? props.height : 'auto'};
+      height: ${props => props.height ? `calc(${props.height}px - 1.5rem)` : 'auto'};
+      width: 100%;
     }
 
     &:hover {
@@ -196,11 +206,36 @@ const S = {
     }
     &:focus-within {
       box-shadow: ${props => props.outset ? 'var(--F_Outline_Outset_Focus)' : 'var(--F_Outline_Focus)'};
-
-      label {
-        color: var(--F_Font_Color);
-      }
     }
-  `
+  `,
+  Scroll: styled.div`
+    height: calc(100% - 1.5rem);
+    width: calc(100% - 2rem);
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: .75rem 1rem;
+  `,
+  ScrollFull: styled.div`
+    position: relative;
+    height: calc(100% - 1.5rem);
+    width: calc(100% - 2rem);
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: .75rem 1rem;
+  `,
+  Left: styled.div`
+    position: relative;
+    width: 100%;
+    width: 100%;
+    height: 100%;
+  `,
+  Right:  styled.div`
+    position: relative;
+    width: var(--F_Input_Height);
+    display: flex;
+    align-items: flex-start;
+    padding: .25rem 0;
+    padding-right: .25rem;
+  `,
 }
 

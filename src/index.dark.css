@@ -741,6 +741,9 @@ button {
   opacity: 1;
 }
 /* quill */
+.quill {
+
+}
 .ql-container {
   font-size: var(--F_Font_Size);
   width: 100%;
@@ -779,6 +782,8 @@ button {
   text-align: left;
   white-space: pre-wrap;
   word-wrap: break-word;
+  width: 100%;
+  overflow-x: hidden;
 }
 .ql-editor sub {
   vertical-align: sub;

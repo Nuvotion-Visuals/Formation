@@ -39,9 +39,15 @@ FixedHeight.args = {
   height: '600px'
 }
 
-export const Icon = Template.bind({})
-Icon.args = {
-  placeholder: 'Write a description',
-  icon: 'info-circle',
-  iconPrefix: 'fas'
+export const Buttons = Template.bind({})
+Buttons.args = {
+  placeholder: 'Ask me a question',
+  height: '300px',
+  buttons: [
+    {
+      icon: 'paper-plane',
+      iconPrefix: 'fas',
+      minimal: true,
+    }
+  ]
 }
