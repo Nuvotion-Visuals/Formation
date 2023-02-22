@@ -741,9 +741,6 @@ button {
   opacity: 1;
 }
 /* quill */
-.quill {
-
-}
 .ql-container {
   font-size: var(--F_Font_Size);
   width: 100%;
@@ -773,7 +770,7 @@ button {
 }
 .ql-editor {
   box-sizing: border-box;
-  line-height: 1.42;
+  line-height: 1.66;
   height: 100%;
   outline: none;
   overflow-y: auto;
@@ -1374,8 +1371,8 @@ button {
 }
 .ql-bubble .ql-editor code,
 .ql-bubble .ql-editor pre {
-  background-color: #f0f0f0;
-  border-radius: 3px;
+  background-color: var(--F_Surface_0);
+  border-radius: .25rem;
 }
 .ql-bubble .ql-editor pre {
   white-space: pre-wrap;
@@ -1388,8 +1385,8 @@ button {
   padding: 2px 4px;
 }
 .ql-bubble .ql-editor pre.ql-syntax {
-  background-color: #23241f;
-  color: #f8f8f2;
+  background-color: var(--F_Surface_0);
+  color: var(--F_Font_Color);
   overflow: visible;
 }
 .ql-bubble .ql-editor img {
@@ -1704,7 +1701,6 @@ button {
 .ql-container.ql-bubble:not(.ql-disabled) a:hover::after {
   visibility: visible;
 }
-
 
 [data-theme="light"] {
   --F_Primary: hsl(165, 87%, 39%);

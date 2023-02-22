@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { RichTextEditor, Box } from '../../internal'
+import { RichTextEditor, Box, Button } from '../../internal'
 
 
 export default {
@@ -43,11 +43,9 @@ export const Buttons = Template.bind({})
 Buttons.args = {
   placeholder: 'Ask me a question',
   height: '300px',
-  buttons: [
-    {
-      icon: 'paper-plane',
-      iconPrefix: 'fas',
-      minimal: true,
-    }
-  ]
+  children: <Button 
+    icon='paper-plane'
+    iconPrefix='fas'
+    minimal
+  />
 }

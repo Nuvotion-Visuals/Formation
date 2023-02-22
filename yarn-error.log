@@ -1,5 +1,5 @@
 Arguments: 
-  /home/tom/.nvm/versions/node/v18.12.1/bin/node /usr/local/bin/yarn publish
+  /home/tom/.nvm/versions/node/v18.12.1/bin/node /usr/local/bin/yarn add @types/quill-emoji
 
 PATH: 
   /usr/lib/code-server/lib/vscode/bin/remote-cli:/home/tom/.cargo/bin:/home/tom/.nvm/versions/node/v18.12.1/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin
@@ -14,17 +14,17 @@ Platform:
   linux x64
 
 Trace: 
-  Error: canceled
-      at Interface.<anonymous> (/usr/local/lib/node_modules/yarn/lib/cli.js:137150:13)
-      at Interface.emit (node:events:513:28)
-      at [_ttyWrite] [as _ttyWrite] (node:internal/readline/interface:1124:18)
-      at ReadStream.onkeypress (node:internal/readline/interface:273:20)
-      at ReadStream.emit (node:events:513:28)
-      at emitKeys (node:internal/readline/utils:357:14)
-      at emitKeys.next (<anonymous>)
-      at ReadStream.onData (node:internal/readline/emitKeypressEvents:64:36)
-      at ReadStream.emit (node:events:513:28)
-      at addChunk (node:internal/streams/readable:324:12)
+  Error: https://registry.npmjs.org/@types%2fquill-emoji: Not found
+      at params.callback [as _callback] (/usr/local/lib/node_modules/yarn/lib/cli.js:66145:18)
+      at self.callback (/usr/local/lib/node_modules/yarn/lib/cli.js:140890:22)
+      at Request.emit (node:events:513:28)
+      at Request.<anonymous> (/usr/local/lib/node_modules/yarn/lib/cli.js:141862:10)
+      at Request.emit (node:events:513:28)
+      at IncomingMessage.<anonymous> (/usr/local/lib/node_modules/yarn/lib/cli.js:141784:12)
+      at Object.onceWrapper (node:events:627:28)
+      at IncomingMessage.emit (node:events:525:35)
+      at endReadableNT (node:internal/streams/readable:1359:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:82:21)
 
 npm manifest: 
   {
@@ -33,7 +33,7 @@ npm manifest:
     "publishConfig": {
       "registry": "https://registry.npmjs.org"
     },
-  "version": "0.9.105",
+    "version": "0.9.114",
     "description": "Formation is a comprehensive component library powered by React, Styled Components, and CSS variables built for real-world applications that demand fully responsive design and unifed cross-platform experiences. ",
     "keywords": [
       "react",
@@ -165,6 +165,7 @@ npm manifest:
       "lodash.union": "^4.6.0",
       "lodash.xor": "^4.5.0",
       "marked": "^4.0.19",
+      "quill-emoji": "^0.2.0",
       "rc-slider": "^10.0.1",
       "react-div-100vh": "^0.7.0",
       "react-easy-crop": "^4.6.3",
@@ -3855,6 +3856,11 @@ Lockfile:
       json-schema-traverse "^0.4.1"
       uri-js "^4.2.2"
   
+  amdefine@>=0.0.4:
+    version "1.0.1"
+    resolved "https://registry.yarnpkg.com/amdefine/-/amdefine-1.0.1.tgz#4a5282ac164729e93619bcfd3ad151f817ce91f5"
+    integrity sha512-S2Hw0TtNkMJhIabBwIojKL9YHO5T0n5eNqWJ7Lrlel/zDbftQpxpapi8tZs3X1HWa+u+QeydGmzzNU0m09+Rcg==
+  
   ansi-align@^3.0.0:
     version "3.0.1"
     resolved "https://registry.yarnpkg.com/ansi-align/-/ansi-align-3.0.1.tgz#0cdf12e111ace773a86e9a1fad1225c43cb19a59"
@@ -4959,6 +4965,14 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.3.1.tgz#dfcfa3891e306ec1dad105d0e88f4417b8535e8e"
     integrity sha512-OlQdbZ7gLfGarSqxesMesDa5uz7KFbID8Kpq/SxIoNGDqY8lSYs0D+hhtBXhcdB3rcbXArFr7vlHheLk1voeNA==
   
+  clean-css@^3.4.20:
+    version "3.4.28"
+    resolved "https://registry.yarnpkg.com/clean-css/-/clean-css-3.4.28.tgz#bf1945e82fc808f55695e6ddeaec01400efd03ff"
+    integrity sha512-aTWyttSdI2mYi07kWqHi24NUU9YlELFKGOAgFzZjDN1064DMAOy2FBuoyGmkKRlXkbpXd0EVHmiVkbKhKoirTw==
+    dependencies:
+      commander "2.8.x"
+      source-map "0.4.x"
+  
   clean-css@^4.2.3:
     version "4.2.4"
     resolved "https://registry.yarnpkg.com/clean-css/-/clean-css-4.2.4.tgz#733bf46eba4e607c6891ea57c24a989356831178"
@@ -5093,6 +5107,13 @@ Lockfile:
     version "1.0.8"
     resolved "https://registry.yarnpkg.com/comma-separated-tokens/-/comma-separated-tokens-1.0.8.tgz#632b80b6117867a158f1080ad498b2fbe7e3f5ea"
     integrity sha512-GHuDRO12Sypu2cV70d1dkA2EUmXHgntrzbpvOB+Qy+49ypNfGgFQIC2fhhXbnyrJRynDCAARsT7Ou0M6hirpfw==
+  
+  commander@2.8.x:
+    version "2.8.1"
+    resolved "https://registry.yarnpkg.com/commander/-/commander-2.8.1.tgz#06be367febfda0c330aa1e2a072d3dc9762425d4"
+    integrity sha512-+pJLBFVk+9ZZdlAOB5WuIElVPPth47hILFkmGym57aq8kwxsowvByvB0DHs1vQAhyMZzdcpTtF0VDKGkSDR4ZQ==
+    dependencies:
+      graceful-readlink ">= 1.0.0"
   
   commander@^2.18.0, commander@^2.19.0, commander@^2.20.0:
     version "2.20.3"
@@ -6025,6 +6046,19 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/emittery/-/emittery-0.10.2.tgz#902eec8aedb8c41938c46e9385e9db7e03182933"
     integrity sha512-aITqOwnLanpHLNXZJENbOgjUBeHocD+xsSJmNrjovKBW5HbSpW3d1pEls7GFQPUWXiwG9+0P4GtHfEqC/4M0Iw==
   
+  emoji-data-css@^1.0.1:
+    version "1.0.1"
+    resolved "https://registry.yarnpkg.com/emoji-data-css/-/emoji-data-css-1.0.1.tgz#4f95b48394b58571ed3284acfa709ea511875f8f"
+    integrity sha512-+fV7z7bDAMx4FrnC1YyIhi3yBURSkNETxwEstw7kl/cmwzF2vGiT0aRWipoWPtmM2fdD9ezvRai9DUEKBlT6YA==
+    dependencies:
+      clean-css "^3.4.20"
+      emoji-datasource "^2.4.4"
+  
+  emoji-datasource@^2.4.4:
+    version "2.4.4"
+    resolved "https://registry.yarnpkg.com/emoji-datasource/-/emoji-datasource-2.4.4.tgz#b97ac1896bc208ecf1833564a20687a5215d0389"
+    integrity sha512-Uyb23tvxUSlPiRQaK1ot+uOlLv1ivd/gcI8x+cqvLCRRMoan8waXXPrXU6UtASpORzcwCOA9dGlzqzLXw+WL7Q==
+  
   emoji-regex@^8.0.0:
     version "8.0.0"
     resolved "https://registry.yarnpkg.com/emoji-regex/-/emoji-regex-8.0.0.tgz#e818fd69ce5ccfcb404594f842963bf53164cc37"
@@ -6894,6 +6928,11 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/functions-have-names/-/functions-have-names-1.2.3.tgz#0404fe4ee2ba2f607f0e0ec3c80bae994133b834"
     integrity sha512-xckBUXyTIqT97tq2x2AMb+g163b5JFysYk0x4qxNFwbfQkmNZoiRHb6sPzI9/QV33WeuvVYBUIiD4NzNIyqaRQ==
   
+  fuse.js@^3.3.0:
+    version "3.6.1"
+    resolved "https://registry.yarnpkg.com/fuse.js/-/fuse.js-3.6.1.tgz#7de85fdd6e1b3377c23ce010892656385fd9b10c"
+    integrity sha512-hT9yh/tiinkmirKrlv4KWOjztdoZo1mx9Qh4KvWqC7isoXwdUY3PNWUxceF4/qO9R6riA2C29jdTOeQOIROjgw==
+  
   gauge@^3.0.0:
     version "3.0.2"
     resolved "https://registry.yarnpkg.com/gauge/-/gauge-3.0.2.tgz#03bf4441c044383908bcfa0656ad91803259b395"
@@ -7093,6 +7132,11 @@ Lockfile:
     version "4.2.10"
     resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.10.tgz#147d3a006da4ca3ce14728c7aefc287c367d7a6c"
     integrity sha512-9ByhssR2fPVsNZj478qUUbKfmL0+t5BDVyjShtyZZLiK7ZDAArFFfopyOTj0M05wE2tJPisA4iTnnXl2YoPvOA==
+  
+  "graceful-readlink@>= 1.0.0":
+    version "1.0.1"
+    resolved "https://registry.yarnpkg.com/graceful-readlink/-/graceful-readlink-1.0.1.tgz#4cafad76bc62f02fa039b2f94e9a3dd3a391a725"
+    integrity sha512-8tLu60LgxF6XpdbK8OW3FA+IfTNBn1ZHGHKF4KQbEeSkajYw5PlYJcKluntgegDPTg8UkHjpet1T82vk6TQ68w==
   
   gzip-js@^0.3.2:
     version "0.3.2"
@@ -10826,6 +10870,14 @@ Lockfile:
       extend "^3.0.2"
       fast-diff "1.1.2"
   
+  quill-emoji@^0.2.0:
+    version "0.2.0"
+    resolved "https://registry.yarnpkg.com/quill-emoji/-/quill-emoji-0.2.0.tgz#2d8b830cfd3389a408100f3b7de8d656da74d06f"
+    integrity sha512-0kqHKTFA9hk1Vf5g32KBm/NYZal6n9N/ATmk13Hka/XYsgrEIaShSR84B5VMB7bg5o9+TMeIzc+wey5OP7hv+A==
+    dependencies:
+      emoji-data-css "^1.0.1"
+      fuse.js "^3.3.0"
+  
   quill@^1.3.7:
     version "1.3.7"
     resolved "https://registry.yarnpkg.com/quill/-/quill-1.3.7.tgz#da5b2f3a2c470e932340cdbf3668c9f21f9286e8"
@@ -12026,6 +12078,13 @@ Lockfile:
     version "0.4.1"
     resolved "https://registry.yarnpkg.com/source-map-url/-/source-map-url-0.4.1.tgz#0af66605a745a5a2f91cf1bbf8a7afbc283dec56"
     integrity sha512-cPiFOTLUKvJFIg4SKVScy4ilPPW6rFgMgfuZJPNoDuMs3nC1HbMUycBoJw77xFIp6z1UJQJOfx6C9GMH80DiTw==
+  
+  source-map@0.4.x:
+    version "0.4.4"
+    resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.4.4.tgz#eba4f5da9c0dc999de68032d8b4f76173652036b"
+    integrity sha512-Y8nIfcb1s/7DcobUz1yOO1GSp7gyL+D9zLHDehT7iRESqGSxjJ448Sg7rvfgsRJCnKLdSl11uGf0s9X80cH0/A==
+    dependencies:
+      amdefine ">=0.0.4"
   
   source-map@^0.5.0, source-map@^0.5.6:
     version "0.5.7"
