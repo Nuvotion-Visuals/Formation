@@ -11,7 +11,7 @@ interface Props {
   indent?: boolean
 }
 
-export const List = ({
+export const List = React.memo(({
   value,
   onReorder,
   reorderId,
@@ -44,14 +44,14 @@ export const List = ({
       
     </S.ListEditor>
   )
-}
+})
 
 const S = {
-  ListEditor: styled.div`
+  ListEditor: React.memo(styled.div`
     width: 100%;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-  `
+  `)
 }

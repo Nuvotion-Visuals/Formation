@@ -5,12 +5,12 @@ interface Props {
   light?: boolean
 }
 
-export const LineBreak = ({ light } : Props) => <S.Break light={light}/>
+export const LineBreak = React.memo(({ light } : Props) => <S.Break light={light}/>)
 
 const S = {
-  Break: styled.div<Props>`
+  Break: React.memo(styled.div<Props>`
     width: 100%;
     display: flex;
     border-bottom: ${props => props.light ? '1px solid var(--F_Surface_0)' : '1px solid var(--F_Surface)'};
-  `
+  `)
 }

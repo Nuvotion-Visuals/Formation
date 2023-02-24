@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { Icon } from '../../internal'
 
 interface Props {
-  onClick?: () => void,
+  onClick?: (e: React.MouseEvent) => void,
   small?: boolean
 }
 

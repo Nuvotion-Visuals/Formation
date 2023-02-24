@@ -18,8 +18,8 @@ export interface Space {
   icon?: IconName,
   iconPrefix?: IconPrefix,
   src?: string,
-  onClick?: () => void,
-  labelColor?: LabelColor
+  onClick?: (e: React.MouseEvent) => void,
+  labelColor?: LabelColor,
 }
 
 interface Props {
@@ -36,7 +36,8 @@ interface Props {
   channels: any,
   dropdownOptions: any,
   hideSpaceName?: boolean,
-  disableTablet?: boolean
+  disableTablet?: boolean,
+  sidebarWidth?: string
 }
 
 export const NavSpaces = ({ 
@@ -50,7 +51,8 @@ export const NavSpaces = ({
   navsPrimary,
   navsSecondary,
   hideSpaceName,
-  disableTablet
+  disableTablet,
+  sidebarWidth
 }: Props) => {
   const { isDesktop, isTablet, isMobile } = useBreakpoint()
 
@@ -144,7 +146,7 @@ export const NavSpaces = ({
     return (<>
       <S.Container>
 
-        <View width={'320px'}>
+        <View width={sidebarWidth || '320px'}>
           <S.MainScroll>
             {
               firstPage
@@ -205,7 +207,7 @@ export const NavSpaces = ({
   const renderContentDesktop = () => {
     return (<>
       <S.Container>
-        <View width={'320px'}>
+        <View width={sidebarWidth || '320px'}>
           <S.MainScroll>
             {
               firstPage

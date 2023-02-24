@@ -12,8 +12,7 @@ export interface ButtonProps {
   hero?: boolean,
   name?: string,
   icon?: IconName,
-  onClick?: Function,
-  onBlur?: Function,
+  onClick?: (e: React.MouseEvent) => void,
   primary?: boolean,
   text?: string,
   blink?: boolean,
@@ -40,7 +39,6 @@ export const Button: FC<ButtonProps> = React.memo(({
   name, 
   icon, 
   onClick, 
-  onBlur,
   primary, 
   text, 
   blink, 
@@ -70,8 +68,7 @@ export const Button: FC<ButtonProps> = React.memo(({
   const renderButton = () => {
     return (
       <S.Button
-        onClick={onClick ? (e) => onClick(e) : () => {}} 
-        onBlur={onBlur ? (e) => onBlur(e) : () => {}}
+        onClick={onClick ? (e: React.MouseEvent) => onClick(e) : () => {}} 
         primary={primary} 
         blink={blink}
         square={impliedSquare}
@@ -97,6 +94,7 @@ export const Button: FC<ButtonProps> = React.memo(({
                 iconPrefix={iconPrefix ? iconPrefix : 'far'} 
                 icon={icon}  
                 rotation={rotate ? 90 : undefined}
+                fixedWidth
                 size={
                   hero 
                     ? ('xl' as SizeProp) // type coersion needed until FA SizeProp defintion is fixed to include "xl"
@@ -272,7 +270,7 @@ const calculateActiveBackgroundColor = (props: ButtonProps) => {
 }
 
 const S = {
-  Container: styled.div<ContainerProps>`
+  Container: React.memo(styled.div<ContainerProps>`
     cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'}; 
     flex-shrink: 0;
     user-select: none;
@@ -285,12 +283,12 @@ const S = {
     a {
       height: 100%;
     }
-  `,
-  Text: styled.div<TextProps>`
+  `),
+  Text: React.memo(styled.div<TextProps>`
     font-size: ${props => props.hero ? 'var(--F_Font_Size_Title)' : 'var(--F_Font_Size)'};
     display: flex;
-  `,
-  Button: styled.button.attrs({
+  `),
+  Button: React.memo(styled.button.attrs({
     type: 'submit',
     value: 'Submit'
   })<ButtonProps>`
@@ -366,13 +364,13 @@ const S = {
       transform: translateY(1px);
       filter: ${props => props.labelColor !== undefined && !props.secondary ? 'brightness(116%)' : 'none'};
     };
-  `,
-  IconContainer: styled.div<{
+  `),
+  IconContainer: React.memo(styled.div<{
     square?: boolean
   }>`
     padding-right: ${props => props.square ? '0' : '.5rem'};
-  `,
-  LabelCircle: styled.div<{
+  `),
+  LabelCircle: React.memo(styled.div<{
     labelColor: LabelColor
   }>`
     width: 1rem;
@@ -381,7 +379,7 @@ const S = {
     margin-right: .5rem;
     border-radius: 100%;
     background: ${props => getLabelColor(props.labelColor)};
-  `
+  `)
 }
 
 const blink = keyframes`

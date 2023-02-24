@@ -50,13 +50,7 @@ Positions.args = {
     title: 'Dancers',
     children: <>
       <Label label={'2 / 3'} labelColor={'orange'}/>
-    </>,
-    options: [
-      {
-        icon: 'ellipsis-v',
-        iconPrefix: 'fas'
-      }
-    ]
+    </>
   },
   list: [
     {
@@ -64,13 +58,7 @@ Positions.args = {
       onClick: () => {},
       children: <>
         <Label label={'confirmed'} labelColor={'green'}/>
-      </>,
-      options: [
-        {
-          icon: 'ellipsis-v',
-          iconPrefix: 'fas'
-        }
-      ]
+      </>
     },
     {
       name: 'Sleepy',
@@ -78,26 +66,14 @@ Positions.args = {
       active: true,
       children: <>
         <Label label={'confirmed'} labelColor={'green'}/>
-      </>,
-      options: [
-        {
-          icon: 'ellipsis-v',
-          iconPrefix: 'fas'
-        }
-      ]
+      </>
     },
     {
       name: 'Isabelle',
       onClick: () => {},
       children: <>
         <Label label={'tentative'} labelColor={'orange'}/>
-      </>,
-      options: [
-        {
-          icon: 'ellipsis-v',
-          iconPrefix: 'fas'
-        }
-      ]
+      </>
     }
   ]
 }
@@ -114,13 +90,7 @@ Details.args = {
     title: 'Basics',
     children: <>
       <Label label={'3 / 3'} labelColor={'green'}/>
-    </>,
-    options: [
-      {
-        icon: 'ellipsis-v',
-        iconPrefix: 'fas'
-      }
-    ]
+    </>
   },
   list: [
     {
@@ -129,13 +99,7 @@ Details.args = {
       label: 'Name',
       title: 'Hydrodynamics',
       labelColor: 'none',
-      onClick: () => {},
-      options: [
-        {
-          icon: 'arrow-right',
-          iconPrefix: 'fas'
-        }
-      ]
+      onClick: () => {}
     },
     {
       icon: 'calendar-alt',
@@ -144,13 +108,7 @@ Details.args = {
       title: 'Monday, October 31, 2022',
       labelColor: 'none',
       active: true,
-      onClick: () => {},
-      options: [
-        {
-          icon: 'arrow-right',
-          iconPrefix: 'fas'
-        }
-      ]
+      onClick: () => {}
     },
     {
       icon: 'money-check-dollar',
@@ -161,13 +119,7 @@ Details.args = {
       emphasize: true,
       children: <>
         <Label label={'todo'} labelColor={'orange'}/>
-      </>,
-      options: [
-        {
-          icon: 'arrow-right',
-          iconPrefix: 'fas'
-        }
-      ]
+      </>
     },
     {
       icon: 'map-marker-alt',
@@ -175,13 +127,7 @@ Details.args = {
       label: 'Location',
       onClick: () => {},
       title: 'South Loop',
-      labelColor: 'none',
-      options: [
-        {
-          icon: 'arrow-right',
-          iconPrefix: 'fas'
-        }
-      ]
+      labelColor: 'none'
     },
     
   ]

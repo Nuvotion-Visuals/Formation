@@ -64,7 +64,7 @@ const calculatePadding = (props : Props) => {
 }
 
 const S = {
-  Box: styled.div<Props>`
+  Box: React.memo(styled.div<Props>`
     display: ${props => props.hide ? 'none' : 'flex'};
     justify-content: center;
     align-items: center;
@@ -78,5 +78,5 @@ const S = {
     min-height: ${props => typeof props.minHeight === 'string' ? props.minHeight : `${props.minHeight}rem`};
     flex-wrap: ${props => props.wrap ? 'wrap' : 'auto'};
     position: relative;
-  `
+  `)
 }

@@ -15,7 +15,7 @@ interface NavProps {
   toolTipTitle?: string,
   active?: boolean,
   newTab?: boolean,
-  onClick?: () => void,
+  onClick?: (e: React.MouseEvent) => void,
   children?: React.ReactNode
 }
 
@@ -47,9 +47,9 @@ export const Sidebar = ({ onClose, open, navs, active }: Props) => {
         key={`navOption${name}`} 
         open={true}
         title={toolTipTitle}
-        onClick={() => {
+        onClick={(e) => {
           if (onClick) {
-            onClick()
+            onClick(e)
           }
         }}
       >
@@ -93,9 +93,9 @@ export const Sidebar = ({ onClose, open, navs, active }: Props) => {
   }: NavProps) => (
     <S.NavOption 
       active={active} 
-      onClick={() => {
+      onClick={(e) => {
         if (onClick) {
-          onClick()
+          onClick(e)
         }
       }}
       key={`navOption${name}`} 

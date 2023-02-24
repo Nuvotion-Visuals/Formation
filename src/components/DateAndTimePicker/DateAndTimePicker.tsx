@@ -108,7 +108,7 @@ export const DateAndTimePicker = ({
                   {
                     value?.length > 1
                     ? <Button
-                        onClick={(e : MouseEvent) => {
+                        onClick={e => {
                           e?.preventDefault()
                           removeDate(index)
                         }}
@@ -122,7 +122,6 @@ export const DateAndTimePicker = ({
                 </Gap>
 
                 <Gap disableWrap={true}>
-        
                   <TimePicker
                     value={item.startTime}
                     label='Start time'

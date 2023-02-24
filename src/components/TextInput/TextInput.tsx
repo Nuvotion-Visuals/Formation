@@ -22,7 +22,7 @@ type Props = {
   icon?: IconName,
   iconPrefix?: IconPrefix
   hint?: string,
-  onClick?: () => void,
+  onClick?: (e: React.MouseEvent) => void,
   preventFocus?: boolean,
   onBlur?: () => void,
   ref?: any,
@@ -33,12 +33,12 @@ type Props = {
   forceFocus?: boolean,
   hideOutline?: boolean,
   secondaryIcon?: IconName,
-  secondaryOnClick?: () => void,
+  secondaryOnClick?: (e: React.MouseEvent) => void,
   buttons?: ButtonProps[],
   canClear?: boolean
 }
 
-export const TextInput = ({ 
+export const TextInput = React.memo(({ 
   label, 
   error, 
   success, 
@@ -86,11 +86,13 @@ export const TextInput = ({
     }
   }, [value])
 
-  return (<S.OutterContainer onClick={() => {
-    if (onClick) {
-      onClick()
+  return (<S.OutterContainer 
+    onClick={(e: React.MouseEvent) => {
+      if (onClick) {
+        onClick(e)
+      }
     }
-  }}>
+  }>
     <S.Container 
       error={error} 
       disabled={disabled} 
@@ -102,28 +104,27 @@ export const TextInput = ({
       <S.ErrorIconContainer>
         
         {
-          labelColor
-            ? <S.IconContainer 
-                error={false}
-              >
-                <Box ml={-.125}>
-                  <LabelColorCircle
-                    labelColor={labelColor}
-                    ref={null}
-                    onClick={() => {}}
-                  />
-                </Box>
-                </S.IconContainer> 
-            : null
+          labelColor &&
+            <S.IconContainer 
+              error={false}
+            >
+              <Box ml={-.125}>
+                <LabelColorCircle
+                  labelColor={labelColor}
+                  ref={null}
+                  onClick={() => {}}
+                />
+              </Box>
+              </S.IconContainer> 
         }
     
         {
-          icon
-            ? <Icon 
+          icon &&
+            <Icon 
                 icon={icon} 
                 iconPrefix={iconPrefix}
+                fixedWidth
               />
-            : null
         }
       </S.ErrorIconContainer>
 
@@ -136,7 +137,7 @@ export const TextInput = ({
         preventFocus={preventFocus}
         placeholder={placeholder}
         onKeyDown={onEnter 
-          ? e => {
+          ? (e : React.KeyboardEvent<HTMLInputElement>) => {
               if (e.key === 'Enter') {
                 onEnter()
               }
@@ -150,7 +151,7 @@ export const TextInput = ({
         type={type ? type : 'text'}
         locked={locked}
         focused={focused}
-        onChange={event => {
+        onChange={(event : React.ChangeEvent<HTMLInputElement>)  => {
           if (onChangeEvent) {
             onChangeEvent(event)
           }
@@ -184,6 +185,7 @@ export const TextInput = ({
             <Icon 
               icon={secondaryIcon} 
               iconPrefix={iconPrefix}
+              fixedWidth
             />
           </S.SecondaryIconContainer>
       }
@@ -224,7 +226,7 @@ export const TextInput = ({
     }
     </S.OutterContainer>
   )
-}
+})
 
 const moveUp = keyframes`
   0% { 
@@ -248,20 +250,20 @@ const moveDown = keyframes`
 `
 
 const S = {
-  OutterContainer: styled.div`
+  OutterContainer: React.memo(styled.div`
     width: 100%;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-  `,
-  Divider: styled.div`
+  `),
+  Divider: React.memo(styled.div`
     width: 1px;
     height: 1rem;
     background: var(--F_Surface);
     margin-left: .75rem;
     margin-right: .25rem;
-  `,
-  Container: styled.div<{
+  `),
+  Container: React.memo(styled.div<{
     error?: string,
     disabled?: boolean,
     success?: boolean,
@@ -317,8 +319,8 @@ const S = {
         color: var(--F_Font_Color);
       }
     };
-  `,
-  Input: styled.input<{
+  `),
+  Input: React.memo(styled.input<{
     name?: string,
     hasLabel?: boolean,
     error?: string,
@@ -345,7 +347,7 @@ const S = {
     vertical-align: center;
     line-height: 1em;
     border: none;
-    margin-left: ${props => props.hasIcon ? '.75rem' : '0'};
+    margin-left: ${props => props.hasIcon ? '.5rem' : '0'};
     padding: 0;
     outline: none;
     -webkit-appearance: none;
@@ -353,8 +355,8 @@ const S = {
     pointer-events: ${props => props.preventFocus ? 'none' : 'auto'};
     box-sizing: border-box;
     animation: ${props => (props.shrink && props.hasLabel) ? css`${moveDown} ${props.disableAnimation ? '0s' : '.15s'} forwards` : 'none'};
-  `,
-  Label: styled.label<{
+  `),
+  Label: React.memo(styled.label<{
     locked: boolean,
     hasIcon: boolean,
     focused: boolean,
@@ -367,13 +369,13 @@ const S = {
     top: 50%;
     line-height: 0;
     height: .5rem;
-    left: ${props => props.hasIcon ? '2.65rem' : '1rem'};
+    left: ${props => props.hasIcon ? '2.75rem' : '1rem'};
     color: var(--F_Font_Color_Label);
     font-size: var(--F_Font_Size_Large);
     pointer-events: none;
     animation: ${props => props.shrink ? css`${moveUp} ${props.disableAnimation ? '0s' : '.15s'} forwards` : 'none'};
-  `,
-  MessageContainer: styled.div<{
+  `),
+  MessageContainer: React.memo(styled.div<{
     isHint: boolean,
     hasIcon: boolean
   }>`
@@ -384,24 +386,24 @@ const S = {
     flex-wrap: wrap;
     align-items: center;
     margin-left: 1rem;
-  `,
-  Message: styled.div`
+  `),
+  Message: React.memo(styled.div`
     margin-top: -.25rem;
     font-size: var(--F_Font_Size_Small);
-  `,
-  ErrorIconContainer: styled.div`
+  `),
+  ErrorIconContainer: React.memo(styled.div`
     position: relative;
-  `,
-  SecondaryIconContainer: styled.div`
+  `),
+  SecondaryIconContainer: React.memo(styled.div`
     position: relative;
     cursor: ${props => props.onClick ? 'pointer' : 'auto'};
-  `,
-  IconContainer: styled.div<{
+  `),
+  IconContainer: React.memo(styled.div<{
     error: boolean
   }>`
     position: relative;
     * {
       color: ${props => props.error ? 'var(--F_Font_Color_Error)' : 'var(--F_Font_Color)'};
     }
-  `
+  `)
 }

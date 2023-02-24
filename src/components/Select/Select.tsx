@@ -8,7 +8,7 @@ import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 
 import { TextInput } from '../../internal'
 
-const Dropdown = ({ 
+const Dropdown = React.memo(({ 
   value,
   onChange,
   onClose,
@@ -59,7 +59,7 @@ const Dropdown = ({
       )
     }
   </S.DropdownDropdown>
-}
+})
 
 interface Props {
   value: string,
@@ -72,7 +72,7 @@ interface Props {
   maxWidth?: string
 }
 
-export const Select = ({
+export const Select = React.memo(({
   value,
   onChange,
   label,
@@ -131,7 +131,7 @@ export const Select = ({
       }
     </S.Select>
   )
-} 
+})
 
 const S = {
   Select: styled.div<{

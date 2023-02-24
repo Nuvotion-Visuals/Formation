@@ -11,9 +11,9 @@ import {
   getInitials, 
 } from '../../internal'
 
-export interface Props {
+export interface ItemProps {
   name?: string,
-  onClick?: () => void,
+  onClick?: (e: React.MouseEvent) => void,
   icon?: IconName,
   iconPrefix?: IconPrefix,
   src?: string,
@@ -37,7 +37,7 @@ export interface Props {
   value?: any
 }
 
-export const Item = ({ 
+export const Item = React.memo(({ 
   name,
   label,
   subtitle,
@@ -60,7 +60,7 @@ export const Item = ({
   pageTitle,
   newTab,
   value
-}: Props): JSX.Element => {
+}: ItemProps): JSX.Element => {
   const Link = getLinkComponent()
 
   const renderItem = () => (
@@ -125,7 +125,7 @@ export const Item = ({
       }
 
       {
-        content && <><S.Title>{ content }</S.Title></>
+        content && <>{ content }</>
       }
 
     </S.Flex>
@@ -134,11 +134,7 @@ export const Item = ({
 
     {
       children
-        ? <Box px={.5} >
-            {
-              children
-            }
-          </Box>
+        ? children
         : null
     }
     </Box>
@@ -163,10 +159,10 @@ export const Item = ({
       }
     </S.ListItem>
   </S.Container>)
-}
+})
 
 const S = {
-  ListItem: styled.span<{
+  ListItem: React.memo(styled.span<{
     active?: boolean,
     emphasize?: boolean,
     showHover?: boolean,
@@ -174,7 +170,7 @@ const S = {
   }>`
     width: calc(100% - 1rem);
     height: ${props => props.pageTitle ? 'var(--F_Header_Height)' : 'auto'};
-    padding: ${props => props.pageTitle ? '0 .5rem' : '.325rem .5rem'};
+    padding: ${props => props.pageTitle ? '0 .5rem' : '.175rem .5rem'};
     display: flex;
     align-items: center;
     position: relative;
@@ -213,12 +209,13 @@ const S = {
     a {
       width: 100%;
     }
-  `,
-  Flex: styled.div`
+  `),
+  Flex: React.memo(styled.div`
     display: flex;
     flex-wrap: wrap;
-  `,
-  AvatarContainer: styled.div<{
+    gap: .175rem;
+  `),
+  AvatarContainer: React.memo(styled.div<{
     active?: boolean
   }>`
     height: 100%;
@@ -227,66 +224,65 @@ const S = {
     * {
       color: ${props => props.active ? 'var(--F_Font_Color)' : 'auto'};
     }
-  `,
-  Text: styled.div<{
+  `),
+  Text: React.memo(styled.div<{
     active?: boolean
   }>`
     
     display: flex;
     align-items: center;
-    font-size: var(--F_Font_Size_Label);
+    font-size: var(--F_Font_Size);
+    color: var(--F_Font_Color);
     line-height: 1.33;
     padding: 0 .5rem;
-    color: ${props => props.active ? 'var(--F_Font_Color)' : 'var(--F_Font_Color_Label)'};
     font-weight: ${props => props.active ? '600' : '400'};
-
-  `,
-  Absolute: styled.div`
+  `),
+  Absolute: React.memo(styled.div`
     position: absolute;
     height: 100%;
     right: .5rem;
     cursor: pointer;
     display: flex;
     align-items: center;
-  `,
-  Title: styled.div<{
+  `),
+  Title: React.memo(styled.div<{
     active?: boolean
   }>`
-    font-size: var(--F_Font_Size);
+    font-size: var(--F_Font_Size_Title);
     color: var(--F_Font_Color);
-    padding: .325rem .5rem;
-    color: ${props => props.active ? 'var(--F_Font_Color)' : 'var(--F_Font_Color_Label)'};
+    padding: 0 .5rem;
+    color: var(--F_Font_Color);
     font-weight: ${props => props.active ? '600' : '400'};
 
-  `,
-  Subtitle: styled.div`
+  `),
+  Subtitle: React.memo(styled.div`
     font-size: var(--F_Font_Size_Label);
     color: var(--F_Font_Color_Label);
-    padding: .325rem .5rem;
-  `,
-  PageTitle: styled.div<{
+    padding: 0 .5rem;
+  `),
+  PageTitle: React.memo(styled.div<{
     active?: boolean
   }>`
     font-size: var(--F_Font_Size_Title);
     color: var(--F_Font_Color);
     font-weight: 600;
-    padding: .325rem .5rem;
-  `,
-  DropdownSpacer: styled.div<{
+    padding: 0 .5rem;
+  `),
+  DropdownSpacer: React.memo(styled.div<{
     spaces: number
   }>`
     height: 100%;
     padding: ${props => `calc(${props.spaces} * 0.75rem)`};
-  `,
-  Indent: styled.div<{
+  `),
+  Indent: React.memo(styled.div<{
     active?: boolean
   }>`
-    width: 1.875rem;
-    min-width: 1.875rem;
+    width: 1.5rem;
+    min-width: 1.5rem;
     background: ${props => props.active ? 'var(--F_Surface)' : 'var(--F_Background)'};
-  `,
-  Container: styled.div`
+  `),
+  Container: React.memo(styled.div`
     display: flex;
     width: 100%;
-  `
+  `)
 }

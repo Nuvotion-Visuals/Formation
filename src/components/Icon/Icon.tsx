@@ -1,29 +1,28 @@
 import { FontAwesomeIcon, FontAwesomeIconProps } from '@fortawesome/react-fontawesome'
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
-
 import React from 'react'
 import styled from 'styled-components'
 
-export interface Props extends FontAwesomeIconProps{
+export interface Props extends FontAwesomeIconProps {
   iconPrefix: IconPrefix | undefined
 }
 
-export const Icon = React.memo((props : Props) => {
-  const { iconPrefix, icon } = props
+export const Icon = React.memo((props: Props) => {
+  const { iconPrefix, icon, ...rest } = props
 
-  return <S.Icon 
-    {...props}
-    icon={[
-      iconPrefix
-        ? iconPrefix
-        : 'far',
-      (icon as IconName)
-    ]} 
-  />
+  return (
+    <S.Icon
+      {...rest}
+      icon={[
+        iconPrefix ? iconPrefix : 'far',
+        (icon as IconName)
+      ]}
+    />
+  )
 })
 
 const S = {
-  Icon: styled(props => <FontAwesomeIcon {...props} />)`
-    color: var(--F_Font_Color_Disabled);
-  `
+  Icon: React.memo(styled(FontAwesomeIcon)`    
+    color: var(--F_Font_Color_Disabled); 
+  `)
 }

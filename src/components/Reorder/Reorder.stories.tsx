@@ -38,5 +38,10 @@ Gap.args = {
   reorderId: 'reorder',
   gap: .5,
   maxItemWidth: 12,
-  holdTime: 100
+  holdTime: 100,
+  placeholder: <AspectRatio ratio={16/9}>
+  <Empty>
+    Placeholder
+  </Empty>
+  </AspectRatio>
 }

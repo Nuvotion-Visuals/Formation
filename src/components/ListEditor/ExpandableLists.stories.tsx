@@ -29,7 +29,7 @@ const Template: ComponentStory<typeof ExpandableLists> = args => {
             icon: 'chevron-up',
             iconPrefix: 'fas',
             labelColor: 'none',
-            title: newItemName,
+            text: newItemName,
             children: <>
               <Label label={`0 / ${count}`} labelColor={'orange'}/>
             </>,
@@ -57,7 +57,7 @@ const Template: ComponentStory<typeof ExpandableLists> = args => {
             iconPrefix: 'fas',
             name: 'Unassigned',
             labelColor: 'none',
-            emphasize: true,
+            emphasize: false,
             onClick: () => {},
             children: <>
               <Label label={'todo'} labelColor={'orange'}/>
@@ -79,7 +79,7 @@ const Template: ComponentStory<typeof ExpandableLists> = args => {
   const [expanded, set_expanded] = useState<boolean[]>([])
 
   useEffect(() => {
-    set_expanded(new Array(value.length).fill(true))
+    set_expanded(new Array(value.length).fill(false))
   }, [value])
 
   return (<>
@@ -98,10 +98,14 @@ const Template: ComponentStory<typeof ExpandableLists> = args => {
         options={new Array(50).fill(0).map((item, i) => String(i + 1))}
         value={String(count)}
         onChange={newValue => set_count(Number(newValue))}
+        icon='users'
+        iconPrefix='fas'
       />
       <Button
-        text='Add'
         icon='plus'
+        hero
+        circle
+        secondary
         iconPrefix='fas'
         onClick={add}
         disabled={newItemName === ''}

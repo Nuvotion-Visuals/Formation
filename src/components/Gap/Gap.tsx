@@ -32,7 +32,7 @@ interface GapProps {
 }
 
 const S = {
-  Gap: styled.div<GapProps>`
+  Gap: React.memo(styled.div<GapProps>`
     width: ${props => props.autoWidth ? 'auto' : '100%'};
     display: flex;
     align-items: center;
@@ -45,6 +45,6 @@ const S = {
           : `${props.gap}rem`
         : '.5rem'
     };
-  `
+  `)
 }
 
