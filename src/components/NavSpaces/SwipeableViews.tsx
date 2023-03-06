@@ -10,7 +10,7 @@ interface Props {
   onIncrement: () => void
 }
 
-export const SwipeableViews = ({
+export const SwipeableViews = React.memo(({
   children,
   activeSwipeIndex,
   onSwipe,
@@ -47,7 +47,7 @@ export const SwipeableViews = ({
       }
     </ReactSwipeableViews>
   )
-}
+})
 
 const appear = keyframes`
   0% {

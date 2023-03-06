@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { RichTextEditor, StyleHTML } from '../../internal'
+import { RichTextEditor, Box, Button } from '../../internal'
 
 
 export default {
@@ -15,9 +15,9 @@ const Template: ComponentStory<typeof RichTextEditor> = args => {
 
   return (<>
     <RichTextEditor {...args} value={value} onChange={newValue => set_value(newValue)} />
-    <StyleHTML>
-      <div dangerouslySetInnerHTML={{ __html: value ? value : '' }} />
-    </StyleHTML>
+
+    <Box width='100%' py={.5} />
+    <RichTextEditor value={value} readOnly />
   </>
   )
 }
@@ -32,12 +32,6 @@ Outset.args = {
   outset: true,
   onEnter: () => alert('Enter')
 }
-  
-export const Label = Template.bind({})
-Label.args = {
-  label: 'Description',
-  placeholder: 'Write a description'
-}
 
 export const FixedHeight = Template.bind({})
 FixedHeight.args = {
@@ -45,10 +39,13 @@ FixedHeight.args = {
   height: '600px'
 }
 
-export const Icon = Template.bind({})
-Icon.args = {
-  label: 'Description',
-  placeholder: 'Write a description',
-  icon: 'info-circle',
-  iconPrefix: 'fas'
+export const Buttons = Template.bind({})
+Buttons.args = {
+  placeholder: 'Ask me a question',
+  height: '300px',
+  children: <Button 
+    icon='paper-plane'
+    iconPrefix='fas'
+    minimal
+  />
 }

@@ -7,7 +7,7 @@ interface Props {
   label: string,
   labelColor: LabelColor,
   title?: string,
-  onClick?: () => void
+  onClick?: (e: React.MouseEvent) => void
 }
 
 export const Label = (props: Props) => {

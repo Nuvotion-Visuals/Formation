@@ -61,13 +61,3 @@ export const ExpandableLists = ({
     </>
   )
 }
-
-const S = {
-  ListEditor: styled.div`
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-  `
-}

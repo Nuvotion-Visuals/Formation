@@ -35,7 +35,7 @@ export const Link = ({
 }
 
 const S = {
-  Link: styled.a`
+  Link: React.memo(styled.a`
     text-decoration: none;
-  `
+  `)
 }

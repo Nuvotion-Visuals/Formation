@@ -7,7 +7,6 @@ import { NavSpaces } from './NavSpaces'
 import { NavTabs } from './NavTabs'
 import { SpacesSidebar } from './SpacesSidebar'
 import { SpaceSidebar } from './SpaceSidebar'
-import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 
 export default {
   title: 'Spaces/NavSpaces',
@@ -247,7 +246,6 @@ const Template: ComponentStory<typeof NavSpaces> = args => {
         })}
       location={spaces[activeSpaceIndex]?.location}
       channels={spaces[activeSpaceIndex]?.channels}
-      dropdownOptions={[]}
     />
   </div>)
 
@@ -313,6 +311,7 @@ const Template: ComponentStory<typeof NavSpaces> = args => {
 export const Positions = Template.bind({})
 Positions.args = {
   label: 'Position title',
+  sidebarWidth: '320px',
   secondaryTopNav: [
     {
       title: 'People',

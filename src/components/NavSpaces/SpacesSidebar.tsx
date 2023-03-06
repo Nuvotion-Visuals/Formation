@@ -31,9 +31,9 @@ export const SpacesSidebar = memo(({
 
               <SpaceIcon
                 src={space.src}
-                onClick={() => 
+                onClick={(e) => 
                   space?.onClick
-                    ? space.onClick()
+                    ? space.onClick(e)
                     : onClickIndex(index)
                 }
                 date={space.date}

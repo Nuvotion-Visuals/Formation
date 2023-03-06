@@ -6,7 +6,7 @@ import { getLinkComponent, Icon, getInitials, getLabelColor, LabelColor } from '
 
 interface Props {
   src?: string,
-  onClick?: () => void,
+  onClick?: (e: React.MouseEvent) => void,
   date?: Date,
   small?: boolean,
   href?: string,

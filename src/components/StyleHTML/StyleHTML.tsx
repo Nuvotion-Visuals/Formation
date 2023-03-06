@@ -222,5 +222,15 @@ const S = {
     mark {
       background: var(--F_Primary);
     }
+
+    sub {
+      vertical-align: sub;
+      font-size: smaller;
+    }
+
+    sup {
+      vertical-align: super;
+      font-size: smaller;
+    }
   `
 }

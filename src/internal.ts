@@ -93,7 +93,7 @@ export {
 }
 
 // types
-import { Props as ItemProps } from './components/ListEditor/Item'
+import { ItemProps } from './components/ListEditor/Item'
 export {
   ItemProps
 }

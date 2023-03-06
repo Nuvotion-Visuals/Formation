@@ -12,11 +12,11 @@ interface Props {
   maxItemWidth?: number,
   gap?: number,
   disabled?: boolean,
-  placeholder?: React.ReactNode,
+  placeholder: React.ReactNode,
   holdTime?: number
 }
 
-export const Reorder = ({ 
+export const Reorder = React.memo(({ 
   children, 
   onChange,
   reorderId,
@@ -52,10 +52,10 @@ export const Reorder = ({
       }
     </S.DraggableContainer>
   )
-}
+})
 
 const S = {
-  DraggableContainer: styled(props => <ReactReorder {...props} />)`
+  DraggableContainer: React.memo(styled(props => <ReactReorder {...props} />)`
     width: 100%;
     display: grid;
     grid-template-columns: ${props => 
@@ -69,13 +69,13 @@ const S = {
       z-index: 99;
       cursor: move;
     }
-  `,
-  DraggableItem: styled.div`
+  `),
+  DraggableItem: React.memo(styled.div`
     display: flex;
     flex-basis: 100%;
     width: 100%;
     max-width: 100%;
     height: 100%;
     flex-wrap: wrap;
-  `
+  `)
 }

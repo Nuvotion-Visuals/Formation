@@ -12,7 +12,7 @@ type Channel = {
   href: string,
   hideOptions?: boolean,
   active: boolean,
-  onClick?: () => void
+  onClick?: (e: React.MouseEvent) => void
 }
 
 interface Props {

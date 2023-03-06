@@ -9,7 +9,7 @@ type Tab = {
   name: string,
   icon?: IconName,
   iconPrefix?: IconPrefix,
-  onClick?: () => void,
+  onClick?: (e: React.MouseEvent) => void,
   prefix?: IconPrefix,
   suffix?: string
 }
@@ -41,10 +41,10 @@ export const Tabs = React.memo(({
             text={`${prefix ? prefix : ''}${name}${suffix ? suffix : ''}`} 
             icon={icon} 
             iconPrefix={iconPrefix}
-            onClick={() => {
+            onClick={(e) => {
               set_localActiveTab(name)
               onClick
-                ? onClick()
+                ? onClick(e)
                 : null
             }} 
             expand={true}

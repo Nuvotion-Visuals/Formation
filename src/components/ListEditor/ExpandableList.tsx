@@ -14,7 +14,7 @@ export interface Props {
   reorderId: string
 }
 
-export const ExpandableList = ({ 
+export const ExpandableList = React.memo(({ 
   value,
   expanded,
   onExpand,
@@ -25,37 +25,37 @@ export const ExpandableList = ({
   return (<S.Container hide={false}>
     <Item 
       {...value.item} 
-      onClick={() => {
+      onClick={(e) => {
         if (onExpand && expanded !== undefined) {
           onExpand(expanded)
         }
         if (value.item?.onClick) {
-          value.item?.onClick()
+          value.item?.onClick(e)
         }
       }}
     />
-    <LineBreak />
+    {/* <LineBreak /> */}
     <S.ListContainer hide={!expanded}>
       <List value={value.list} onReorder={onReorder} reorderId={reorderId} indent={true}/>
-    <LineBreak />
+    {/* <LineBreak /> */}
 
     </S.ListContainer>
   </S.Container>)
-}
+})
 
 const S = {
-  Container: styled.div<{
+  Container: React.memo(styled.div<{
     hide: boolean
   }>`
     display: ${props => props.hide ? 'none' : 'flex'};
     flex-wrap: wrap;
     width: 100%;
-  `,
-  ListContainer: styled.div<{
+  `),
+  ListContainer: React.memo(styled.div<{
     hide: boolean
   }>`
     display: ${props => props.hide ? 'none' : 'flex'};
     flex-wrap: wrap;
     width: 100%;
-  `
+  `)
 }
