@@ -4,7 +4,7 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
   },
-  "version": "0.9.121",
+  "version": "0.9.123",
   "description": "Formation is a comprehensive component library powered by React, Styled Components, and CSS variables built for real-world applications that demand fully responsive design and unifed cross-platform experiences. ",
   "keywords": [
     "react",
@@ -38,7 +38,7 @@
     "formation"
   ],
   "scripts": {
-    "rollup": "rm -rf dist && NODE_ENV=production rollup -c",
+    "rollup": "rm -rf dist && cross-env NODE_ENV=production rollup -c",
     "package": "yarn rollup && npm pack",
     "test": "jest",
     "dev": "start-storybook -p 6006",
@@ -131,6 +131,8 @@
     "@types/spark-md5": "^3.0.2",
     "@types/turndown": "^5.0.1",
     "@types/uuid": "^9.0.0",
+    "cross-env": "^7.0.3",
+    "highlight.js": "^11.7.0",
     "isomorphic-dompurify": "^0.21.0",
     "javascript-time-ago": "^2.5.9",
     "lodash.union": "^4.6.0",
