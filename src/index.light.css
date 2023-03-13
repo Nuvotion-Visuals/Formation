@@ -73,6 +73,8 @@ It’s easy to picture how a less saturated version of a color would look like, 
 
   --F_Gradient_To_Left: linear-gradient(to left, hsla(0, 0%, 100%, 0) 0%, hsla(0, 0%, 100%,.8) 20%, hsla(0, 0%, 100%,1) 100%);
   --F_Gradient_To_Right:  linear-gradient(to right, hsla(0, 0%, 100%, 0) 0%, hsla(0, 0%, 100%,.8) 20%, hsla(0, 0%, 100%,1) 100%);
+  --F_Gradient_To_Bottom:  linear-gradient(to bottom, hsla(0, 0%, 100%, 0) 0%, hsla(0, 0%, 100%,.8) 20%, hsla(0, 0%, 100%,1) 100%);
+  --F_Gradient_To_Top:  linear-gradient(to top, hsla(0, 0%, 100%, 0) 0%, hsla(0, 0%, 100%,.8) 20%, hsla(0, 0%, 100%,1) 100%);
 }
 
 /* Zoom */
@@ -1818,4 +1820,6 @@ code.hljs{
 
   --F_Gradient_To_Left: linear-gradient(to left, hsla(0, 0%, 7%, 0) 0%, hsla(0, 0%, 7%,.8) 20%, hsla(0, 0%, 7%,1) 100%);
   --F_Gradient_To_Right:  linear-gradient(to right, hsla(0, 0%, 7%, 0) 0%, hsla(0, 0%, 7%,.8) 20%, hsla(0, 0%, 7%,1) 100%);
+  --F_Gradient_To_Bottom:  linear-gradient(to bottom, hsla(0, 0%, 7%, 0) 0%, hsla(0, 0%, 7%,.8) 20%, hsla(0, 0%, 7%,1) 100%);
+  --F_Gradient_To_Top:  linear-gradient(to top, hsla(0, 0%, 7%, 0) 0%, hsla(0, 0%, 7%,.8) 20%, hsla(0, 0%, 7%,1) 100%);
 }

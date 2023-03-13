@@ -8,7 +8,8 @@ interface Props {
   src?: string,
   icon?: IconName,
   iconPrefix?: IconPrefix,
-  labelColor?: LabelColor
+  labelColor?: LabelColor,
+  minimalIcon?: boolean
 }
 
 export const Avatar = ({ 
@@ -17,6 +18,7 @@ export const Avatar = ({
   icon,
   iconPrefix,
   labelColor,
+  minimalIcon
 }: Props) => {
   return (
     <S.Avatar 
@@ -28,7 +30,13 @@ export const Avatar = ({
           ? <Icon 
               icon={icon} 
               iconPrefix={iconPrefix} 
-              size={labelColor === 'none' ? 'lg' : '1x'}
+              size={
+                labelColor === 'none' 
+                  ? 'lg' 
+                  : minimalIcon
+                    ? 'sm'
+                    : '1x'
+              }
               fixedWidth={true}
             />
           : name && !src 

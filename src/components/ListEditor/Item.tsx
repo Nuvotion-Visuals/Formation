@@ -16,6 +16,7 @@ export interface ItemProps {
   onClick?: (e: React.MouseEvent) => void,
   icon?: IconName,
   iconPrefix?: IconPrefix,
+  minimalIcon?: boolean,
   src?: string,
   text?: string,
   labelColor?: LabelColor,
@@ -44,6 +45,7 @@ export const Item = React.memo(({
   onClick,
   icon,
   iconPrefix,
+  minimalIcon,
   src,
   text,
   labelColor,
@@ -92,51 +94,50 @@ export const Item = React.memo(({
                 labelColor={labelColor}
                 icon={icon}
                 iconPrefix={iconPrefix}
+                minimalIcon={minimalIcon}
                 src={src}
               />
             </S.AvatarContainer>
           : null
       }
 
-      <S.Flex>
+      <S.Flex minimal={minimalIcon}>
+        {
+          name && <S.Text active={active}>{ name }</S.Text>
+        }
+
+        {
+          label && <S.Text active={active}>{ label }</S.Text>
+        }
+
+        {
+          pageTitle && <S.PageTitle active={active}>{ pageTitle }</S.PageTitle>
+        }
+
+        {
+          title && <S.Title active={active}>{ title }</S.Title>
+        }
+        
+        {
+          text && <S.Text active={active}>{ text }</S.Text>
+        }
+
+        {
+          subtitle && <S.Subtitle >{ subtitle }</S.Subtitle>
+        }
+
+        {
+          content && <>{ content }</>
+        }
+      </S.Flex>
+
+      <Spacer />
 
       {
-        name && <><S.Text active={active}>{ name }</S.Text></>
+        children
+          ? children
+          : null
       }
-
-      {
-        label && <><S.Text active={active}>{ label }</S.Text><Break /></>
-      }
-
-      {
-        pageTitle && <><S.PageTitle active={active}>{ pageTitle }</S.PageTitle></>
-      }
-
-      {
-        title && <><S.Title active={active}>{ title }</S.Title> { title && <Break /> }</>
-      }
-      
-      {
-        text && <><S.Text active={active}>{ text }</S.Text></>
-      }
-
-      {
-        subtitle && <><Break /><S.Subtitle >{ subtitle }</S.Subtitle></>
-      }
-
-      {
-        content && <>{ content }</>
-      }
-
-    </S.Flex>
-
-    <Spacer />
-
-    {
-      children
-        ? children
-        : null
-    }
     </Box>
   )
 
@@ -180,7 +181,7 @@ const S = {
         ? 'var(--F_Surface)' 
         : props.emphasize
           ? 'var(--F_Emphasize)'
-          : 'var(--F_Background)'
+          : 'none'
     };
     &:hover {
       background: ${props => 
@@ -192,7 +193,7 @@ const S = {
                 : 'var(--F_Surface_0)'
           : props.emphasize
             ? 'var(--F_Emphasize)'
-            : 'var(--F_Background)'
+            : 'none'
       };
     }
     &:active {
@@ -203,17 +204,20 @@ const S = {
               : props.emphasize
                 ? 'var(--F_Emphasize_Hover)'
                 : 'var(--F_Surface)'
-          : 'var(--F_Background)'
+          : 'none'
       };
     }
     a {
       width: 100%;
     }
   `),
-  Flex: React.memo(styled.div`
+  Flex: React.memo(styled.div<{
+    minimal?: boolean
+  }>`
     display: flex;
     flex-wrap: wrap;
     gap: .175rem;
+    margin-left: ${props => props.minimal ? '-0.5rem' : '0'};
   `),
   AvatarContainer: React.memo(styled.div<{
     active?: boolean
@@ -253,7 +257,7 @@ const S = {
     padding: 0 .5rem;
     color: var(--F_Font_Color);
     font-weight: ${props => props.active ? '600' : '400'};
-
+    width: 100%;
   `),
   Subtitle: React.memo(styled.div`
     font-size: var(--F_Font_Size_Label);

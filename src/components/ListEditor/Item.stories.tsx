@@ -167,3 +167,14 @@ PageName.args = {
 PageName.parameters = {
   layout: 'fullscreen'
 }
+
+export const Group = Template.bind({})
+Group.args = {
+  subtitle: 'Test',
+  icon: 'thumbtack',
+  iconPrefix: 'fas',
+  minimalIcon: true
+}
+Group.parameters = {
+  layout: 'fullscreen'
+}

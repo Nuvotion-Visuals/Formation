@@ -19,8 +19,9 @@ const Template: ComponentStory<typeof ExpandableList> = args => {
       item: {
         ...value.item,
         icon: expanded 
-          ? 'chevron-up' 
-          : 'chevron-down'
+          ? 'caret-down' 
+          : 'caret-right',
+        minimalIcon: true
       }
     })
   }, [expanded])
@@ -47,7 +48,7 @@ Positions.args = {
     icon: 'chevron-up',
     iconPrefix: 'fas',
     labelColor: 'none',
-    title: 'Dancers',
+    subtitle: 'Dancers',
     children: <>
       <Label label={'2 / 3'} labelColor={'orange'}/>
     </>
@@ -55,6 +56,7 @@ Positions.args = {
   list: [
     {
       name: 'Scotty Distortion',
+      labelColor: 'red',
       onClick: () => {},
       children: <>
         <Label label={'confirmed'} labelColor={'green'}/>
@@ -62,6 +64,7 @@ Positions.args = {
     },
     {
       name: 'Sleepy',
+      labelColor: 'green',
       onClick: () => {},
       active: true,
       children: <>
@@ -70,6 +73,7 @@ Positions.args = {
     },
     {
       name: 'Isabelle',
+      labelColor: 'blue',
       onClick: () => {},
       children: <>
         <Label label={'tentative'} labelColor={'orange'}/>
