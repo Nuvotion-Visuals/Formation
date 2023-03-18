@@ -123,7 +123,7 @@ export const Item = React.memo(({
         }
 
         {
-          subtitle && <S.Subtitle >{ subtitle }</S.Subtitle>
+          subtitle && <S.Subtitle active={active}>{ subtitle }</S.Subtitle>
         }
 
         {
@@ -169,9 +169,9 @@ const S = {
     showHover?: boolean,
     pageTitle?: string
   }>`
-    width: calc(100% - 1rem);
+    width: calc(100% - .35rem);
     height: ${props => props.pageTitle ? 'var(--F_Header_Height)' : 'auto'};
-    padding: ${props => props.pageTitle ? '0 .5rem' : '.175rem .5rem'};
+    padding: ${props => props.pageTitle ? '0 .5rem' : '.175rem'};
     display: flex;
     align-items: center;
     position: relative;
@@ -216,7 +216,7 @@ const S = {
   }>`
     display: flex;
     flex-wrap: wrap;
-    gap: .175rem;
+    gap: .2rem;
     margin-left: ${props => props.minimal ? '-0.5rem' : '0'};
   `),
   AvatarContainer: React.memo(styled.div<{
@@ -232,7 +232,6 @@ const S = {
   Text: React.memo(styled.div<{
     active?: boolean
   }>`
-    
     display: flex;
     align-items: center;
     font-size: var(--F_Font_Size);
@@ -258,11 +257,15 @@ const S = {
     color: var(--F_Font_Color);
     font-weight: ${props => props.active ? '600' : '400'};
     width: 100%;
+    line-height: 1.33;
   `),
-  Subtitle: React.memo(styled.div`
+  Subtitle: React.memo(styled.div<{
+    active?: boolean
+  }>`
     font-size: var(--F_Font_Size_Label);
-    color: var(--F_Font_Color_Label);
+    color: ${props => props.active ? 'var(--F_Font_Color)' : 'var(--F_Font_Color_Label)'};
     padding: 0 .5rem;
+    line-height: 1.33;
   `),
   PageTitle: React.memo(styled.div<{
     active?: boolean
@@ -271,6 +274,7 @@ const S = {
     color: var(--F_Font_Color);
     font-weight: 600;
     padding: 0 .5rem;
+    line-height: 1.33;
   `),
   DropdownSpacer: React.memo(styled.div<{
     spaces: number
@@ -281,8 +285,8 @@ const S = {
   Indent: React.memo(styled.div<{
     active?: boolean
   }>`
-    width: 1.5rem;
-    min-width: 1.5rem;
+    width: .5rem;
+    min-width: .5rem;
     background: ${props => props.active ? 'var(--F_Surface)' : 'var(--F_Background)'};
   `),
   Container: React.memo(styled.div`

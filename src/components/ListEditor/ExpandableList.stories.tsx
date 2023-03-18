@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { Label, ExpandableList } from '../../internal'
+import { Label, ExpandableList, Dropdown } from '../../internal'
 
 export default {
   title: 'Items/ExpandableList',
@@ -82,6 +82,78 @@ Positions.args = {
   ]
 }
 Positions.parameters = {
+  layout: 'fullscreen'
+}
+
+export const Group = Template.bind({})
+Group.args = {
+  item: {
+    icon: 'caret-down',
+    iconPrefix: 'fas',
+    labelColor: 'none',
+    subtitle: 'Dancers',
+    children: <>
+      <Dropdown
+        icon='ellipsis-v'
+        minimal
+        minimalIcon={true}
+        iconPrefix='fas'
+        items={[]}
+      />
+    </>
+  },
+  list: [
+    {
+      subtitle: 'Scotty Distortion',
+      icon: 'hashtag',
+      minimalIcon: true,
+      iconPrefix: 'fas',
+      onClick: () => {},
+      children: <>
+        <Dropdown
+          icon='ellipsis-v'
+          minimal
+          minimalIcon={true}
+          iconPrefix='fas'
+          items={[]}
+        />
+      </>
+    },
+    {
+      subtitle: 'Sleepy',
+      icon: 'hashtag',
+      minimalIcon: true,
+      iconPrefix: 'fas',
+      onClick: () => {},
+      active: true,
+      children: <>
+        <Dropdown
+          icon='ellipsis-v'
+          minimal
+          minimalIcon={true}
+          iconPrefix='fas'
+          items={[]}
+        />
+      </>
+    },
+    {
+      subtitle: 'Isabelle',
+      icon: 'hashtag',
+      minimalIcon: true,
+      onClick: () => {},
+      children: <>
+        <Dropdown
+          icon='ellipsis-v'
+          minimal
+          minimalIcon={true}
+          iconPrefix='fas'
+          items={[]}
+        />
+      </>
+    }
+  ]
+}
+Group.parameters = {
   layout: 'fullscreen'
 }
 

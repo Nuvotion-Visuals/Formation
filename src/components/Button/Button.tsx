@@ -24,6 +24,7 @@ export interface ButtonProps {
   minimal?: boolean,
   id?: string,
   iconPrefix?: IconPrefix,
+  minimalIcon?: boolean,
   secondary?: boolean,
   labelColor?: LabelColor,
   singleBlink? : boolean,
@@ -50,6 +51,7 @@ export const Button: FC<ButtonProps> = React.memo(({
   submit,
   id,
   iconPrefix,
+  minimalIcon,
   secondary,
   minimal,
   labelColor,
@@ -86,6 +88,7 @@ export const Button: FC<ButtonProps> = React.memo(({
         labelColor={labelColor}
         expandVertical={expandVertical}
         minimal={minimal}
+        minimalIcon={minimalIcon}
       >
         {
           icon !== undefined
@@ -98,7 +101,9 @@ export const Button: FC<ButtonProps> = React.memo(({
                 size={
                   hero 
                     ? ('xl' as SizeProp) // type coersion needed until FA SizeProp defintion is fixed to include "xl"
-                    : 'lg'
+                    : minimalIcon
+                      ? '1x'
+                      : 'lg'
                   } 
               />
               
@@ -135,6 +140,7 @@ export const Button: FC<ButtonProps> = React.memo(({
       square={impliedSquare} 
       hero={hero}
       expandVertical={expandVertical}
+      minimalIcon={minimalIcon}
     >
       {
         href 
@@ -153,7 +159,8 @@ interface ContainerProps {
   expand?: boolean,
   square?: boolean,
   hero?: boolean,
-  expandVertical?: boolean
+  expandVertical?: boolean,
+  minimalIcon?: boolean
 }
 
 interface TextProps {
@@ -162,7 +169,10 @@ interface TextProps {
 }
 
 const calculateWidth = (props: ContainerProps) => {
-  if (props.expand) {
+  if (props.minimalIcon) {
+    return '1.5rem'
+  }
+  else if (props.expand) {
     return '100%'
   }
   else if (props.hero) {
@@ -184,7 +194,10 @@ const calculateWidth = (props: ContainerProps) => {
 }
 
 const calculateHeight = (props: ContainerProps) => {
-  if (props.expandVertical) {
+  if (props.minimalIcon) {
+    return '1rem'
+  }
+  else if (props.expandVertical) {
     return '100%'
   }
   else if (props.hero) {

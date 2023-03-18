@@ -355,6 +355,9 @@ const S = {
     pointer-events: ${props => props.preventFocus ? 'none' : 'auto'};
     box-sizing: border-box;
     animation: ${props => (props.shrink && props.hasLabel) ? css`${moveDown} ${props.disableAnimation ? '0s' : '.15s'} forwards` : 'none'};
+    &::placeholder {
+      color: var(--F_Font_Color_Disabled);
+    }
   `),
   Label: React.memo(styled.label<{
     locked: boolean,

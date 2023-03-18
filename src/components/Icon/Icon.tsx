@@ -4,7 +4,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 export interface Props extends FontAwesomeIconProps {
-  iconPrefix: IconPrefix | undefined
+  iconPrefix?: IconPrefix | undefined
 }
 
 export const Icon = React.memo((props: Props) => {
@@ -14,7 +14,7 @@ export const Icon = React.memo((props: Props) => {
     <S.Icon
       {...rest}
       icon={[
-        iconPrefix ? iconPrefix : 'far',
+        iconPrefix ? iconPrefix : 'fas',
         (icon as IconName)
       ]}
     />

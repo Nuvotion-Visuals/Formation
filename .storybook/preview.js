@@ -61,7 +61,8 @@ library.add(
   fas.faEraser, fas.faImage, fas.faChevronDown, fas.faChevronUp, 
   fas.faSort, fas.faArrowUp, fas.faArrowDown, fas.faThumbTack,
   fas.faCircle, fas.faCircleDot, fas.faGlobe, fas.faLink,
-  fas.faArrowRight, fas.faPaperPlane, fas.faCaretDown, fas.faCaretRight
+  fas.faArrowRight, fas.faPaperPlane, fas.faCaretDown, fas.faCaretRight,
+  fas.faHashtag
 )
 
 export const parameters = {
