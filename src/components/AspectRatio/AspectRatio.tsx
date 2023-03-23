@@ -6,7 +6,8 @@ export interface Props {
   ratio: number,
   backgroundSrc?: string,
   backgroundColor?: string,
-  coverBackground?: boolean
+  coverBackground?: boolean,
+  borderRadius?: number | string
 }
 
 export const AspectRatio = ({ 
@@ -14,12 +15,14 @@ export const AspectRatio = ({
   ratio, 
   backgroundSrc,
   backgroundColor,
-  coverBackground
+  coverBackground,
+  borderRadius
 } : Props) => {
   return (
     <S.AspectRatio 
       ratio={`${100 / ratio}%`} 
       backgroundColor={backgroundColor}
+      borderRadius={borderRadius}
     >
       <S.Content>
         {
@@ -39,7 +42,8 @@ export const AspectRatio = ({
 interface AspectRatioProps {
   ratio: string,
   src?: string,
-  backgroundColor?: string
+  backgroundColor?: string,
+  borderRadius?: string | number
 }
 
 interface BackgroundProps {
@@ -59,6 +63,7 @@ const S = {
     background-position: center;
     background-size: cover;
     background-color: ${props => props.backgroundColor};
+    border-radius: ${props => typeof props.borderRadius === 'string' ? props.borderRadius : typeof props.borderRadius === 'number' ? `${props.borderRadius}rem` : 0};
   `,
   Content: styled.div`
     position: absolute;

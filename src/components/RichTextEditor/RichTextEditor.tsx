@@ -43,7 +43,8 @@ interface Props {
   outset?: boolean,
   onEnter?: (arg0: string) => void,
   readOnly?: boolean,
-  children?: React.ReactNode
+  children?: React.ReactNode,
+  autoFocus?: boolean;
 }
 
 export const RichTextEditor = ({ 
@@ -54,6 +55,7 @@ export const RichTextEditor = ({
   height,
   outset,
   onEnter,
+  autoFocus,
   readOnly,
   children
 } : Props) => {
@@ -130,14 +132,21 @@ export const RichTextEditor = ({
 
   useEffect(() => {
     const quill = (quillRef.current as any)?.getEditor();
-    
+  
     if (quill) {
       const tooltip = quill.theme.tooltip;
-      tooltip.textbox.addEventListener('click', function(event: MouseEvent) {
+      tooltip.textbox.addEventListener('click', function (event: MouseEvent) {
         event.stopPropagation();
       });
+  
+      if (quillRef?.current && autoFocus) {
+        const quillEditorContent = quill.container.querySelector(".ql-editor");
+        if (quillEditorContent) {
+          quillEditorContent.click();
+        }
+      }
     }
-  }, [quillRef])
+  }, [quillRef, autoFocus]);
   
   const renderContent = () => (
     <S.QuillContainer>

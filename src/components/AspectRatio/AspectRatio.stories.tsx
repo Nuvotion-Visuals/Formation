@@ -33,6 +33,12 @@ Fullscreen4x3 .args = {
   ratio: 4/3
 }
 
+export const BorderRadius = Template.bind({})
+BorderRadius .args = {
+  ratio: 4/3,
+  borderRadius: .75
+}
+
 export const Square1x1 = Template.bind({})
 Square1x1.args = {
   ratio: 1

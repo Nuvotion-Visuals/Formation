@@ -27,6 +27,10 @@ Regular.args = {
 
 }
 
+export const Autofocus = Template.bind({})
+Autofocus.args = {
+  autoFocus: true
+}
 export const Outset = Template.bind({})
 Outset.args = {
   outset: true,
