@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { useContext, useMemo } from 'react'
 import styled, { keyframes } from 'styled-components'
 
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 
-import { Icon, Box, getLinkComponent } from '../../internal'
+import { Icon, Box, LinkContext, Link as IntLink } from '../../internal'
 
 interface NavProps {
   type?: string,
@@ -29,7 +29,7 @@ interface Props {
 }
 
 export const Sidebar = ({ onClose, open, navs, active }: Props) => {
-  const Link = getLinkComponent()
+  const Link: any = useContext(LinkContext) || IntLink;
 
   const renderNavlink = ({ 
     href, 

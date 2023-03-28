@@ -5,7 +5,7 @@ interface Props {
   children: React.ReactNode
 }
 
-export const NavHeader = ({ 
+export const NavHeader = React.memo(({ 
   children
 } : Props) => {
 
@@ -14,7 +14,7 @@ export const NavHeader = ({
       children
     }
   </S.NavHeader>)
-}
+})
 
 const S = {
   NavHeader: styled.div`

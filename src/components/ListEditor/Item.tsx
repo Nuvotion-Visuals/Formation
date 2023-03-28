@@ -1,14 +1,15 @@
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
-import React from 'react'
+import React, { useContext, useMemo } from 'react'
 import styled from 'styled-components'
 
-import { Box, Break, getLinkComponent, Spacer, getLabelColor, LabelColor } from '../../internal'
+import { Box, Break, Spacer, getLabelColor, LabelColor, Link as IntLink } from '../../internal'
 import { SpaceIcon } from '../NavSpaces/SpaceIcon'
 
 import { 
   Dropdown, 
   Avatar, 
   getInitials, 
+  LinkContext
 } from '../../internal'
 
 export interface ItemProps {
@@ -63,7 +64,7 @@ export const Item = React.memo(({
   newTab,
   value
 }: ItemProps): JSX.Element => {
-  const Link = getLinkComponent()
+  const Link: any = useContext(LinkContext) || IntLink;
 
   const renderItem = () => (
     <Box width='100%'>

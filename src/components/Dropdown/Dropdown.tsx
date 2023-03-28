@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useContext, useMemo } from 'react'
 import styled from 'styled-components'
 
-import { Icon, getLinkComponent, ItemProps, Item, Button, ButtonProps } from '../../internal'
+import { ItemProps, Item, Button, ButtonProps, LinkContext, Link as IntLink } from '../../internal'
 import { useEffect, useRef, useState } from 'react'
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 
@@ -12,7 +12,7 @@ interface Props extends ButtonProps{
 export const Dropdown = React.memo((props: Props) => {
   const items = props.items
 
-  const Link = getLinkComponent()
+  const Link: any = useContext(LinkContext) || IntLink;
 
   const [open, setOpen] = useState(false)
 

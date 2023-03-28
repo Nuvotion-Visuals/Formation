@@ -1,8 +1,8 @@
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
-import React, { memo } from 'react'
+import React, { memo, useContext, useMemo } from 'react'
 import styled from 'styled-components'
 
-import { getLinkComponent, Icon, getInitials, getLabelColor, LabelColor } from '../../internal'
+import { Icon, getInitials, getLabelColor, LabelColor, LinkContext, Link as IntLink } from '../../internal'
 
 interface Props {
   src?: string,
@@ -29,7 +29,7 @@ export const SpaceIcon = memo(({
   iconPrefix,
   labelColor
 }: Props) => {
-  const Link = getLinkComponent()
+  const Link: any = useContext(LinkContext) || IntLink;
 
   const renderSpaceIcon = () =>
     <S.SpaceIcon 

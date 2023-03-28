@@ -40,7 +40,7 @@ interface Props {
   sidebarWidth?: string
 }
 
-export const NavSpaces = ({ 
+export const NavSpaces = React.memo(({ 
   activeSwipeIndex, 
   onSwipe,
   firstPage,
@@ -272,7 +272,7 @@ export const NavSpaces = ({
   }
 
   return renderContent()
-}
+})
 
 const S = {
   Container: styled.div`

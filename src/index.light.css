@@ -1143,7 +1143,7 @@ button {
   position: absolute;
 }
 .ql-toolbar {
-  padding: .25rem;
+  padding: .125rem;
   justify-content: center;
   display: flex;
   flex-wrap: wrap;
@@ -1286,8 +1286,7 @@ button {
   visibility: hidden;
 }
 .ql-bubble .ql-tooltip {
-  position: absolute;
-  transform: translateY(10px);
+  position: relative;
 }
 .ql-bubble .ql-tooltip a {
   cursor: pointer;
@@ -1614,7 +1613,8 @@ button {
   background-color: var(--F_Background);
   border-radius: .5rem;
   color: #fff;
-  box-shadow: var(--F_Outline_Focus);
+  box-shadow: var(--F_Outline);
+  top: 2px !important;
 }
 .ql-bubble .ql-tooltip-arrow {
   border-left: 6px solid transparent;

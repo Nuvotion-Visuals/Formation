@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useContext, useMemo } from 'react'
 import styled from 'styled-components'
 
-import { Icon, Badge, getLinkComponent } from '../../internal'
+import { Icon, Badge, LinkContext, Link as IntLink } from '../../internal'
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 
 interface Props {
@@ -24,7 +24,7 @@ export const NavTab = ({
   vertical
 } : Props) => {
 
-  const Link = getLinkComponent()
+  const Link: any = useContext(LinkContext) || IntLink;
 
   const renderIcon = () => <>
     {

@@ -6,8 +6,7 @@ import { Box, LoadingSpinner, Button, ButtonProps } from '../../internal'
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 // import "quill-emoji/dist/quill-emoji.css";
 const LazyReactQuill = typeof window === 'object' ? require('react-quill') : () => false;
-// @ts-ignore
-import * as Emoji from "quill-emoji";
+
 import hljs from 'highlight.js'
 
 const { Quill } = LazyReactQuill
@@ -16,20 +15,68 @@ if (typeof window === 'object') {
 // register custom bubble theme to default to being open, and make tooltips work correctly
 const BubbleTheme = Quill.import('themes/bubble');
   class ExtendBubbleTheme extends BubbleTheme {
-    constructor(quill: any, options: any) {
-      super(quill, options);
+  constructor(quill: any, options: any) {
+    super(quill, options);
 
-      quill.on('selection-change', (range: any) => {
-        if (range && range.length > 0) {
-          console.log(range)
-          quill.theme.tooltip.show();
-          quill.theme.tooltip.position(quill.getBounds(range));
-        }
-      });
-    }
+    quill.on('selection-change', (range: any) => {
+      if (range && range.length > 0) {
+        this.positionTooltip(quill, range);
+      }
+    });
+
+    quill.container.addEventListener('dblclick', () => {
+      const range = quill.getSelection();
+      // if (range && range.length > 0) {
+        this.positionTooltip(quill, range);
+      // }
+    });
   }
+
+  positionTooltip(quill: any, range: any) {
+    const tooltip = quill.theme.tooltip;
+    const containerBounds = quill.container.getBoundingClientRect();
+    const rangeBounds = quill.getBounds(range);
+
+    // Calculate the position to display the tooltip below the selection.
+    let top = 0;
+    let left = rangeBounds.left + (rangeBounds.width / 2) - (tooltip.root.offsetWidth / 2);
+
+    // Check if the tooltip would be cut off on the left or right side, and adjust its position accordingly.
+    if (left < containerBounds.left) {
+      left = containerBounds.left;
+    } else if (left + tooltip.root.offsetWidth > containerBounds.right) {
+      left = containerBounds.right - tooltip.root.offsetWidth;
+    }
+
+    // Apply the calculated position to the tooltip.
+    tooltip.root.style.left = `${left}px`;
+    tooltip.root.style.top = `${top}px`;
+    
+    // Add a close button to the tooltip
+    const closeButton = document.createElement('button');
+    closeButton.innerHTML = '×';
+    closeButton.style.cssText = `background: none; padding: .25rem .5rem; border: none; color: var(--F_Font_Color); font-size: 15px; cursor: pointer;`
+
+    closeButton.style.position = 'absolute';
+    closeButton.style.top = '0';
+    closeButton.style.right = '0';
+    closeButton.addEventListener('click', () => {
+      tooltip.hide();
+    });
+    tooltip.root.appendChild(closeButton);
+
+    tooltip.show();
+  }
+}
   Quill.register('themes/bubble', ExtendBubbleTheme);
-  // Quill.register("modules/emoji", Emoji);
+
+  // Dynamically import quill-emoji
+  // @ts-ignore
+  import('quill-emoji').then(Emoji => {
+    Quill.register("modules/emoji", Emoji.default);
+  }).catch(error => {
+    console.error('Failed to load quill-emoji', error);
+  });
 }
 
 interface Props {
@@ -96,27 +143,28 @@ export const RichTextEditor = ({
   const modules = useMemo(() => ({
     toolbar: {
       container: [
-        [{ header: [1, 2, 3, 4, 5, 6, false] }],
+        { header: [1, 2, 3, 4, 5, 6, false] },
 
-        ['bold', 'italic', 'underline', 'strike'],
+        'bold', 'italic', 'underline', 'strike',
 
-        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+        { 'list': 'ordered' }, { 'list': 'bullet' },
 
-        ['link', 'blockquote', 'code-block'],
+        'link', 'blockquote', 'code-block',
 
-        [{ 'color': [] }, { 'background': [] }],
+        { 'color': [] }, { 'background': [] },
 
-        [{ 'script': 'sub' }, { 'script': 'super' }],
+        { 'script': 'sub' }, { 'script': 'super' },
 
-        [{ 'align': [] }],
+        { 'align': [] },
 
-        [{ indent: "-1" }, { indent: "+1" }],
+        { indent: "-1" }, { indent: "+1" },
 
-        ['image', 'video'],
+        'image', 'video',
 
-        ["emoji"],
+        'clean',
 
-        ['clean']
+        "emoji",
+
       ],
       handlers: {
         'image': imageHandler
@@ -124,10 +172,10 @@ export const RichTextEditor = ({
     },
     syntax: {
       highlight: (text: string) => hljs.highlightAuto(text).value
-    }
-    // "emoji-toolbar": true,
-    // "emoji-textarea": false,
-    // "emoji-shortname": true,
+    },
+    "emoji-toolbar": true,
+    "emoji-textarea": false,
+    "emoji-shortname": true,
   }), [])
 
   useEffect(() => {
@@ -232,7 +280,6 @@ const S = {
     .quill {
       height: ${props => props.height ? `calc(${props.height}px - 1.5rem)` : '100%'};
       width: 100%;
-      padding-bottom: 42px;
     }
 
     &:hover {
@@ -252,7 +299,7 @@ const S = {
   ScrollFull: styled.div`
     position: relative;
     height: calc(100% - 1.5rem);
-    width: calc(100% - 2rem);
+    width: calc(100% - 1.5rem);
     overflow-y: auto;
     overflow-x: hidden;
     padding: .75rem 1rem;
@@ -677,7 +724,7 @@ const S = {
       position: absolute;
     }
     .ql-toolbar {
-      padding: .25rem;
+      padding: .125rem;
       justify-content: center;
       display: flex;
       flex-wrap: wrap;
@@ -820,8 +867,7 @@ const S = {
       visibility: hidden;
     }
     .ql-bubble .ql-tooltip {
-      position: absolute;
-      transform: translateY(10px);
+      position: relative;
     }
     .ql-bubble .ql-tooltip a {
       cursor: pointer;
@@ -1148,7 +1194,8 @@ const S = {
       background-color: var(--F_Background);
       border-radius: .5rem;
       color: #fff;
-      box-shadow: var(--F_Outline_Focus);
+      box-shadow: var(--F_Outline);
+      top: 2px !important;
     }
     .ql-bubble .ql-tooltip-arrow {
       border-left: 6px solid transparent;

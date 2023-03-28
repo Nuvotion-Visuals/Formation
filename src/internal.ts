@@ -251,3 +251,10 @@ export const getLinkComponent = () => linkComponent
 export const setLinkComponent = (newLinkComponent : React.ReactNode) => {
   linkComponent = newLinkComponent
 }
+
+import { LinkContext, Linker } from './components/Linker/Linker'
+
+export {
+  LinkContext,
+  Linker
+}

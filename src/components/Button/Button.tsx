@@ -1,10 +1,10 @@
-import React, { FC } from 'react'
+import React, { FC, useContext, useMemo } from 'react'
 import styled, { keyframes, css } from 'styled-components'
 
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 import { SizeProp } from '@fortawesome/fontawesome-svg-core' // type coersion needed until FA SizeProp defintion is fixed to include "xl"
 
-import { Icon, getLinkComponent, LabelColor, getLabelColor } from '../../internal'
+import { Icon, LabelColor, getLabelColor, LinkContext, Link as IntLink } from '../../internal'
 
 
 export interface ButtonProps {
@@ -63,7 +63,7 @@ export const Button: FC<ButtonProps> = React.memo(({
   expandVertical
 }: ButtonProps) => {
 
-  const Link = getLinkComponent()
+  const Link: any = useContext(LinkContext) || IntLink;
 
   const impliedSquare = !text || circle || square
 

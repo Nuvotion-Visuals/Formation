@@ -1,14 +1,13 @@
-import React from 'react'
+import React, { useContext, useMemo } from 'react'
 import styled from 'styled-components'
-
-import { getLinkComponent } from '../../internal'
+import { LinkContext, Link as IntLink } from '../../internal'
 
 interface Props {
   src: string
 }
 
 export const NavLogo = ({ src }: Props) => {
-  const Link = getLinkComponent()
+  const Link: any = useContext(LinkContext) || IntLink;
   
   return (<S.Container>
     <Link href='/'>

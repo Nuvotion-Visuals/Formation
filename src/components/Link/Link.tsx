@@ -8,7 +8,7 @@ interface Props {
   children?: React.ReactNode
 }
 
-export const Link = ({
+export const Link = React.memo(({
   href,
   newTab,
   linkComponent,
@@ -32,7 +32,7 @@ export const Link = ({
           </S.Link>
     }
   </>)
-}
+})
 
 const S = {
   Link: React.memo(styled.a`

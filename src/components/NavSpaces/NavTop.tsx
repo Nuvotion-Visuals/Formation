@@ -17,7 +17,7 @@ interface Props {
   labelColor?: LabelColor
 }
 
-export const NavTop = ({ 
+export const NavTop = React.memo(({ 
   name,
   src,
   date, 
@@ -61,7 +61,7 @@ export const NavTop = ({
       <Spacer />
     </S.Inner>
   </S.Header>)
-}
+})
 
 const S = {
   Header: styled.div`
