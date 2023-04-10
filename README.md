@@ -162,11 +162,8 @@ Formation adheres to the principles of unimpeded user interface and user experie
 
 The key principles of unimpeded UI UX design are:
  1. Minimize distractions and interruptions: A unimpeded UI and UX design should minimize distractions and interruptions for the user. This means avoiding unnecessary animations, transitions, and pop-ups that can disrupt the user's workflow, and instead focusing on providing a clear and consistent interface that allows the user to focus on their task.
-
  2. Provide immediate feedback and response: A unimpeded UI and UX design should provide immediate feedback and response to the user's actions. This means responding to user input as quickly as possible, and providing clear feedback to indicate that the action has been received and is being processed.
-
  3. Emphasize simplicity and clarity: A unimpeded UI and UX design should emphasize simplicity and clarity in its design. This means avoiding cluttered or complex interfaces, and instead using clear and concise language, icons, and visual elements to communicate information and actions to the user.
-
  4. Prioritize ease of use and accessibility: A unimpeded UI and UX design should prioritize ease of use and accessibility for all users. This means designing interfaces that are easy to navigate and understand, and making sure that the design is accessible to users with disabilities or other accessibility needs.
 
 By following these principles, designers can create interfaces and experiences that are seamless, intuitive, and enjoyable for users.

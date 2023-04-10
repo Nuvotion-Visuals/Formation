@@ -1,31 +1,15 @@
 import React from 'react'
 import styled from 'styled-components'
 
-import { StyleHTML } from '../../internal'
+import { RichTextEditor, StyleHTML } from '../../internal'
 
 interface Props {
-  children: React.ReactNode
+  children?: React.ReactNode,
+  value: string
 }
 
-export const Article = ({ children }: Props) => {
+export const Article = ({ children, value }: Props) => {
   return (
-    <S.Article>
-      <StyleHTML>
-        {
-          children
-        }
-      </StyleHTML>
-    </S.Article>
+    <RichTextEditor value={value} readOnly />
   )
-}
-
-const S = {
-  Article: styled.article`
-    line-height: 1.5em;
-    padding-bottom: 1rem;
-    * {
-    color: var(--F_Font_Color);
-
-    }
-  `
 }
