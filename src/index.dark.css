@@ -782,6 +782,7 @@ button {
   word-wrap: break-word;
   width: 100%;
   overflow-x: hidden;
+  margin-bottom: -.75rem;
 }
 .ql-editor sub {
   vertical-align: sub;

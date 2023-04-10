@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
       
 import { Page } from '../components/Page/Page'
-import { Article } from '../components/Article/Article'
+import { StyleHTML } from '../components/StyleHTML/StyleHTML'
 
 interface Props {
   
@@ -74,7 +74,7 @@ export const Theme = ({  }: Props) => {
   return (
     <S.Theme>
       <Page>
-        <Article>
+        <StyleHTML>
           <h1>Theme</h1>
           <h2>Theming With CSS Variables</h2>
           <p>
@@ -217,7 +217,7 @@ export const Theme = ({  }: Props) => {
             )
           }
         </table>
-      </Article>
+      </StyleHTML>
     </Page>
 
     </S.Theme>

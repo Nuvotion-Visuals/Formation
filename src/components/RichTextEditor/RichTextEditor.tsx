@@ -364,6 +364,7 @@ const S = {
       word-wrap: break-word;
       width: 100%;
       overflow-x: hidden;
+      margin-bottom: -.75rem;
     }
     .ql-editor sub {
       vertical-align: sub;
@@ -391,13 +392,18 @@ const S = {
       padding: 0;
       counter-reset: list-1 list-2 list-3 list-4 list-5 list-6 list-7 list-8 list-9;
     }
+    .ql-editor p {
+      margin-bottom: .75rem;
+    }
     .ql-editor ol,
     .ql-editor ul {
       padding-left: .75rem;
+      margin-bottom: .75rem;
     }
     .ql-editor ol > li,
     .ql-editor ul > li {
       list-style-type: none;
+      margin-bottom: .25rem;
     }
     .ql-editor ul > li::before {
       content: '\2022';
@@ -929,9 +935,11 @@ const S = {
     }
     .ql-bubble .ql-editor h2 {
       font-size: 1.5em;
+      margin-top: 1rem;
     }
     .ql-bubble .ql-editor h3 {
       font-size: 1.17em;
+      margin-top: 1rem;
     }
     .ql-bubble .ql-editor h4 {
       font-size: 1em;
@@ -944,6 +952,7 @@ const S = {
     }
     .ql-bubble .ql-editor a {
       text-decoration: underline;
+      color: var(--F_Font_Color_Link);
     }
     .ql-bubble .ql-editor blockquote {
       border-left: 4px solid var(--F_Font_Color_Disabled);
@@ -955,21 +964,23 @@ const S = {
     .ql-bubble .ql-editor pre {
       background-color: var(--F_Surface_0);
       border-radius: .25rem;
+      font-size: 14px;
     }
     .ql-bubble .ql-editor pre {
       white-space: pre-wrap;
       margin-bottom: 5px;
       margin-top: 5px;
-      padding: 5px 10px;
+      padding: .5rem .75rem;
     }
     .ql-bubble .ql-editor code {
       font-size: 85%;
       padding: 2px 4px;
     }
     .ql-bubble .ql-editor pre.ql-syntax {
-      background-color: var(--F_Surface_0);
-      color: var(--F_Font_Color);
       overflow: visible;
+      margin-bottom: .5rem;
+      background: black;
+      color: #ccc;
     }
     .ql-bubble .ql-editor img {
       max-width: 100%;
@@ -1284,50 +1295,67 @@ const S = {
     .ql-container.ql-bubble:not(.ql-disabled) a:hover::after {
       visibility: visible;
     }
-    pre code.hljs{
-      display:block;
-      overflow-x:auto;
-      padding:1em
+
+    :root {
+      --F_Syntax_Selection: rgba(255, 255, 255, 0.35);
+      --F_Syntax_Text: #ffffff;
+      --F_Syntax_String: #c47a4e;
+      --F_Syntax_Number: #f3c74d;
+      --F_Syntax_Title: #78a9ff;
+      --F_Syntax_Built_In: #f7d038;
+      --F_Syntax_Keyword: #d67fb7;
+      --F_Syntax_Function: #f65d92;
+      --F_Syntax_Params: #6eb7ff;
+      --F_Syntax_Comment: #63c381;
     }
-    code.hljs{
-      padding:3px 5px
+
+    pre code {
+      display: block;
+      overflow-x: auto;
+      padding: 10px;
+      -webkit-text-size-adjust: none;
     }
-    .hljs{
-      background:#23241f;
-      color:#f8f8f2
+
+    pre code *::selection,
+    .hljs::selection {
+      background: var(--F_Syntax_Selection) !important;
     }
-    .hljs-subst,.hljs-tag{
-      color:#f8f8f2
+
+    .hljs {
+      color: var(--F_Syntax_Text);
     }
-    .hljs-emphasis,.hljs-strong{
-      color:#a8a8a2
+
+    .hljs-string {
+      color: var(--F_Syntax_String);
     }
-    .hljs-bullet,.hljs-link,.hljs-literal,.hljs-number,.hljs-quote,.hljs-regexp{
-      color:#ae81ff
+
+    .hljs-number {
+      color: var(--F_Syntax_Number) !important;
     }
-    .hljs-code,.hljs-section,.hljs-selector-class,.hljs-title{
-      color:#a6e22e
+
+    .hljs-title {
+      color: var(--F_Syntax_Title) !important;
     }
-    .hljs-strong{
-      font-weight:700
+
+    .hljs-built_in {
+      color: var(--F_Syntax_Built_In) !important;
     }
-    .hljs-emphasis{
-      font-style:italic
+
+    .hljs-keyword {
+      color: var(--F_Syntax_Keyword) !important;
     }
-    .hljs-attr,.hljs-keyword,.hljs-name,.hljs-selector-tag{
-      color:#f92672
+
+    .hljs-function > .hljs-keyword {
+      color: var(--F_Syntax_Function) !important;
+      font-style: italic;
     }
-    .hljs-attribute,.hljs-symbol{
-      color:#66d9ef
+
+    .hljs-params {
+      color: var(--F_Syntax_Params);
     }
-    .hljs-class .hljs-title,.hljs-params,.hljs-title.class_{
-      color:#f8f8f2
-    }
-    .hljs-addition,.hljs-built_in,.hljs-selector-attr,.hljs-selector-id,.hljs-selector-pseudo,.hljs-string,.hljs-template-variable,.hljs-type,.hljs-variable{
-      color:#e6db74
-    }
-    .hljs-comment,.hljs-deletion,.hljs-meta{
-      color:#75715e
+
+    .hljs-comment {
+      color: var(--F_Syntax_Comment);
     }
   `
 }
