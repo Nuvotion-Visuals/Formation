@@ -19,7 +19,7 @@ It’s easy to picture how a less saturated version of a color would look like, 
   --F_Surface_1: hsl(0, 0%, 25%); /* hover */
   --F_Surface_2: hsl(0, 0%, 34%); /* active */
 
-  --F_Font_Color: hsl(0, 0%, 93%);
+  --F_Font_Color: hsl(0, 0%, 88%);
   --F_Font_Color_Disabled: hsl(0, 0%, 50%);
   --F_Font_Color_Label: hsl(0, 0%, 73%);
   --F_Font_Color_Error: hsl(0, 100%, 48%);
