@@ -233,21 +233,8 @@ export const NavSpaces = React.memo(({
         </S.MainContent>
 
         <S.SecondaryContent>
-          {
-            !hideSpaceName &&
-            <NavTop
-              name={spaces[activeSpaceIndex]?.name}
-              src={spaces[activeSpaceIndex]?.src}
-              labelColor={spaces[activeSpaceIndex]?.labelColor}
-              date={spaces[activeSpaceIndex]?.date}
-              onBack={() => onSwipe(activeSwipeIndex - 1)}  
-              hideReturnContext={true}          
-            />
-          }
-          
-        
           <S.Scroll 
-            numberOfNavBars={1} 
+            numberOfNavBars={0} 
             subtractBorder={true}
           >
             {
