@@ -10,20 +10,24 @@ import { Space } from './NavSpaces'
 interface Props {
   spaces: Space[],
   onClickIndex: (index: number) => void,
-  activeSpaceIndex: number
+  activeSpaceIndex: number,
+  children: React.ReactNode
 }
 
 export const SpacesSidebar = memo(({ 
   spaces,
   onClickIndex,
-  activeSpaceIndex
+  activeSpaceIndex,
+  children
 }: Props) => {
 
   return (<>
     <S.Sidebar>
 
         <Box py={0} width='100%'/>
-
+        {
+          children
+        }
         {
           spaces.map((space, index) => 
             <S.SidebarContainer key={index}>

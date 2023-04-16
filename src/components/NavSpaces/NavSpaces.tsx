@@ -6,7 +6,6 @@ import Div100vh from 'react-div-100vh'
 import { SwipeableViews } from './SwipeableViews'
 import { useBreakpoint, LabelColor } from '../../internal'
 import { NavBottom } from './NavBottom'
-import { NavTop } from './NavTop'
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 
 export interface Space {
@@ -89,19 +88,8 @@ export const NavSpaces = React.memo(({
         </View>
 
         <View>
-          {
-            !hideSpaceName &&
-            <NavTop
-              name={spaces[activeSpaceIndex]?.name}
-              src={spaces[activeSpaceIndex]?.src}
-              date={spaces[activeSpaceIndex]?.date}
-              onBack={() => onSwipe(activeSwipeIndex - 1)}      
-              labelColor={spaces[activeSpaceIndex]?.labelColor}      
-            />
-          }
-
           <S.Scroll 
-            numberOfNavBars={navsSecondary ? 2 : 1}
+            numberOfNavBars={0}
           >
             {
               secondPage
@@ -109,28 +97,14 @@ export const NavSpaces = React.memo(({
             <S.HeaderSpacerY />
             <S.HeaderSpacerY />
           </S.Scroll>
-          {
-            navsSecondary &&
-            <NavBottom
-              navs={navsSecondary}
-            />
-          }
+         
           
         </View>
 
         <View>
-          {
-            !hideSpaceName &&
-              <NavTop
-                name={spaces[activeSpaceIndex]?.name}
-                src={spaces[activeSpaceIndex]?.src}
-                date={spaces[activeSpaceIndex]?.date}
-                onBack={() => onSwipe(activeSwipeIndex - 1)}
-                labelColor={spaces[activeSpaceIndex]?.labelColor}
-              />
-          }
+        
           <S.Scroll 
-            numberOfNavBars={1}
+            numberOfNavBars={0}
           >
             {
               thirdPage
@@ -179,16 +153,6 @@ export const NavSpaces = React.memo(({
           </View>
 
           <View>
-            {
-              !hideSpaceName &&
-                <NavTop
-                  onBack={() => onSwipe(activeSwipeIndex - 1)}
-                  name={spaces[activeSpaceIndex]?.name}
-                  src={spaces[activeSpaceIndex]?.src}
-                  hideContext={true}
-                  labelColor={spaces[activeSpaceIndex]?.labelColor}
-                />
-            }
             <S.Scroll 
               numberOfNavBars={0}
             >

@@ -159,16 +159,14 @@ html, body {
 
 /* Scrollbars */
 ::-webkit-scrollbar {
-  width: .75rem;
-  height: .75rem;
+  width: .5rem;
+  height: .5rem;
 }
 ::-webkit-scrollbar-track {
   background: var(--F_Surface_0);
-  border-radius: 6px;
 }
 ::-webkit-scrollbar-thumb {
   background: var(--F_Surface_1);
-  border-radius: 6px;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: var(--F_Surface_2);
@@ -1351,6 +1349,8 @@ button {
 }
 .ql-bubble .ql-editor h1 {
   font-size: 2em;
+  line-height: 1.2;
+  margin-bottom: .75rem;
 }
 .ql-bubble .ql-editor h2 {
   font-size: 1.5em;
@@ -1403,6 +1403,7 @@ button {
 }
 .ql-bubble .ql-editor img {
   max-width: 100%;
+  margin-bottom: .75rem;
 }
 .ql-bubble .ql-picker {
   color: var(--F_Font_Color_Disabled);

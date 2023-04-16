@@ -20,7 +20,7 @@ const Template: ComponentStory<typeof SpacesSidebar> = (args) => {
       }
       onClickIndex={index => set_activeSpaceIndex(index)}
       activeSpaceIndex={activeSpaceIndex}
-    />
+    ></SpacesSidebar>
   )
 } 
   

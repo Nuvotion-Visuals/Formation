@@ -932,6 +932,8 @@ const S = {
     }
     .ql-bubble .ql-editor h1 {
       font-size: 2em;
+      line-height: 1.2;
+      margin-bottom: .75rem;
     }
     .ql-bubble .ql-editor h2 {
       font-size: 1.5em;
@@ -984,6 +986,7 @@ const S = {
     }
     .ql-bubble .ql-editor img {
       max-width: 100%;
+      margin-bottom: .75rem;
     }
     .ql-bubble .ql-picker {
       color: var(--F_Font_Color_Disabled);
