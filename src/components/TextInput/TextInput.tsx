@@ -35,7 +35,8 @@ type Props = {
   secondaryIcon?: IconName,
   secondaryOnClick?: (e: React.MouseEvent) => void,
   buttons?: ButtonProps[],
-  canClear?: boolean
+  canClear?: boolean,
+  onClear?: () => void,
 }
 
 export const TextInput = React.memo(({ 
@@ -66,7 +67,8 @@ export const TextInput = React.memo(({
   secondaryIcon,
   secondaryOnClick,
   buttons,
-  canClear
+  canClear,
+  onClear
 }: Props) => {
   // @ts-ignore
   const autoFocusRef = useCallback(el => el && autoFocus ? el.focus() : null, [])
@@ -76,7 +78,14 @@ export const TextInput = React.memo(({
 
   if (canClear) {
     secondaryIcon = 'times'
-    secondaryOnClick = () => onChange && onChange('')
+    secondaryOnClick = () => {
+      if (onChange) {
+        onChange('')
+      }
+      if (onClear) {
+        onClear()
+      }
+    }
   }
 
   useEffect(() => {
