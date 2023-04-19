@@ -47,7 +47,8 @@ import {
   markdownToHTML,
   HTMLtoMarkdown,
   LabelType,
-  generateUUID
+  generateUUID,
+  usePrevious
 } from './utils'
 export {
   getSuperscriptOrdinal,
@@ -77,7 +78,8 @@ export {
   markdownToHTML,
   HTMLtoMarkdown,
   LabelType,
-  generateUUID
+  generateUUID,
+  usePrevious
 }
 
 // hooks
@@ -176,7 +178,7 @@ import { SearchSortFilter } from './components/SearchSortFilter/SearchSortFilter
 import { Radio } from './components/Radio/Radio'
 import { Button, ButtonProps } from './components/Button/Button'
 import { Notification } from './components/Notification/Notification'
-import { TextInput } from './components/TextInput/TextInput'
+import { TextInput, TextInputProps } from './components/TextInput/TextInput'
 import { Dropdown } from './components/Dropdown/Dropdown'
 import { Sidebar, Navs } from './components/Sidebar/Sidebar'
 import { Select } from './components/Select/Select'
@@ -184,6 +186,7 @@ import { Switch } from './components/Switch/Switch'
 import { LabelColorPicker } from './components/LabelColorPicker/LabelColorPicker'
 import { Item } from './components/ListEditor/Item'
 import { LiveTimeIndicator } from './components/Timeline/LiveTimeIndicator'
+import { AutocompleteDropdown } from './components/AutocompleteDropdown/AutocompleteDropdown'
 export {
   ArticlePreview,
   Article,
@@ -191,14 +194,15 @@ export {
   Radio,
   Button, ButtonProps,
   Notification,
-  TextInput,
+  TextInput, TextInputProps,
   Dropdown,
   Sidebar, Navs,
   Select,
   Item,
   Switch,
   LabelColorPicker,
-  LiveTimeIndicator
+  LiveTimeIndicator,
+  AutocompleteDropdown
 }
 
 // Tissue (2)

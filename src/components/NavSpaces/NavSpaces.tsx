@@ -250,7 +250,7 @@ const S = {
     display: flex;
     flex-wrap: wrap;
     position: relative;
-    border-left: 2px solid var(--F_Surface);
+    border-left: 1px solid var(--F_Surface);
     min-width: 320px;
 
     @media (min-width: 1400px) {

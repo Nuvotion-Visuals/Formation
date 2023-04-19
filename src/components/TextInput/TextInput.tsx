@@ -7,7 +7,7 @@ import { Icon, Box, LabelColor, getLabelColor, Button, ButtonProps } from '../..
 import { LabelColorCircle } from '../LabelColorPicker/LabelColorCircle'
 
 
-type Props = {
+export type TextInputProps = {
   name?: string,
   label?: string,
   error?: string,
@@ -37,6 +37,7 @@ type Props = {
   buttons?: ButtonProps[],
   canClear?: boolean,
   onClear?: () => void,
+  dropdownOpen?: boolean
 }
 
 export const TextInput = React.memo(({ 
@@ -68,8 +69,9 @@ export const TextInput = React.memo(({
   secondaryOnClick,
   buttons,
   canClear,
-  onClear
-}: Props) => {
+  onClear,
+  dropdownOpen
+}: TextInputProps) => {
   // @ts-ignore
   const autoFocusRef = useCallback(el => el && autoFocus ? el.focus() : null, [])
 
@@ -109,6 +111,7 @@ export const TextInput = React.memo(({
       compact={compact}
       forceFocus={forceFocus}
       hideOutline={hideOutline}
+      dropdownOpen={dropdownOpen}
     >
       <S.ErrorIconContainer>
         
@@ -278,7 +281,8 @@ const S = {
     success?: boolean,
     compact?: boolean,
     forceFocus?: boolean,
-    hideOutline?: boolean
+    hideOutline?: boolean,
+    dropdownOpen?: boolean
   }>`
     position: relative;
     display: flex;
@@ -288,6 +292,7 @@ const S = {
     height: ${props => props.compact ? 'var(--F_Input_Height)' : 'var(--F_Input_Height_Hero)'};
     line-height: 0;
     border-radius: .75rem;
+    border-radius: ${props => props.dropdownOpen ? '.75rem .75rem 0 0' : '.75rem'};
     box-shadow: ${props => 
       props.hideOutline
         ? 'none'
