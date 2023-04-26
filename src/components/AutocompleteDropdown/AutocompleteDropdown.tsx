@@ -113,9 +113,8 @@ export const AutocompleteDropdown = React.memo((props: Props) => {
         forceFocus={isOpen}
         placeholder={placeholder}
         compact={compact}
-        dropdownOpen={isOpen}
+        dropdownOpen={isOpen && items.length !== 0}
         canClear={value !== ''}
-      
       />
 
       {

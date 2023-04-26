@@ -4,32 +4,25 @@ import styled from 'styled-components'
 
 import { Icon, Box, LineBreak, Gap, Item, ItemProps } from '../../internal'
 
-interface Props {
-  label?: string,
+interface Props extends ItemProps {
   options: ItemProps[],
-  icon: IconName,
-  iconPrefix: IconPrefix,
   value: string,
-  onChange: (arg0: string) => void
-}
+  onChange: (arg0: string) => void,
+  minimal?: boolean
+} 
 
-export const Radio = ({ options, value, onChange, label, icon, iconPrefix } : Props) => {
-  return <S.Radio><Box wrap width='100%'>
+export const Radio = (props : Props) => {
+  const { options, value, onChange, label, icon, iconPrefix, minimal } = props
+
+  return <S.Radio minimal={minimal || false}><Box wrap width='100%'>
     {
       (icon || label) &&
-      <Box width={'100%'} pl={.75} my={.5}>
-        <Gap gap={.75}>
-          {
-            icon && <Icon icon={icon} iconPrefix={iconPrefix} />
-          }
-
-          {
-            label && <S.Label>{ label }</S.Label>
-          }
-        </Gap>
-      </Box>
+      <Item
+        label={label} icon={icon} iconPrefix={iconPrefix}
+      />
     }
-    <LineBreak light />
+
+    { !minimal && <LineBreak light />}
     
     {
       options.map((option, index) => 
@@ -62,7 +55,7 @@ export const Radio = ({ options, value, onChange, label, icon, iconPrefix } : Pr
               value={option.value} 
             />
           </div>
-        <LineBreak light />
+          { !minimal && <LineBreak light />}
         </S.OptionLabel>
       )
     }
@@ -70,17 +63,17 @@ export const Radio = ({ options, value, onChange, label, icon, iconPrefix } : Pr
 }
 
 const S = {
-  Radio: styled.div`
+  Radio: styled.div<{
+    minimal: boolean
+  }>`
     width: 100%;
     display: flex;
     border-radius: 4px;
     overflow: hidden;
-    box-shadow: var(--F_Outline_Outset);
+    box-shadow: ${props => props.minimal ? 'none' : 'var(--F_Outline_Outset)'};
     &:hover {
-      label {
-        color: var(--F_Font_Color);
-      }
-      box-shadow: var(--F_Outline_Outset_Hover);
+    
+      box-shadow: ${props => props.minimal ? 'none' : 'var(--F_Outline_Outset_Hover)'};
     }
   `,
   OptionLabel: styled.label`

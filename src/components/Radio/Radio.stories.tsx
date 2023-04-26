@@ -72,3 +72,31 @@ Avatars.args = {
     }
   ]
 }
+
+export const Minimal = Template.bind({})
+Minimal.args = {
+  label: 'Minimal',
+  icon: 'globe',
+  iconPrefix: 'fas',
+  minimal: true,
+  options: [
+    {
+      value: 'private',
+      title: 'Private',
+      subtitle: 'Only you and the people you choose can access your Scene',
+      name: 'visibility'
+    },
+    {
+      value: 'unlisted',
+      title: 'Unlisted',
+      subtitle: 'Anyone with the link can see your Scene',
+      name: 'visibility'
+    },
+    {
+      value: 'public',
+      title: 'Public',
+      subtitle: 'Everyone can see your Scene',
+      name: 'visibility'
+    }
+  ]
+}
