@@ -77,12 +77,35 @@ const BubbleTheme = Quill.import('themes/bubble');
   }).catch(error => {
     console.error('Failed to load quill-emoji', error);
   });
+
+  // @ts-ignore
+  import('quill-emoji').then(Emoji => {
+    const Inline = Quill.import("blots/inline");
+    class HighlightBlot extends Inline {}
+    HighlightBlot.blotName = "highlight";
+    HighlightBlot.tagName = "mark";
+    Quill.register(HighlightBlot);
+  }).catch(error => {
+    console.error('Failed to load quill-emoji', error);
+  });
 }
 
+const applyHighlight = (quill: any, textToHighlight: string) => {
+  // Clear existing highlights
+  const text = quill.getText();
+  quill.formatText(0, text.length, "highlight", false);
+
+  // Apply new highlight if textToHighlight is not empty
+  if (textToHighlight) {
+    const startIndex = text.indexOf(textToHighlight);
+    if (startIndex !== -1) {
+      quill.formatText(startIndex, textToHighlight.length, "highlight", true);
+    }
+  }
+};
 interface Props {
   icon?: IconName,
   iconPrefix?: IconPrefix,
-  label?: string,
   placeholder?: string,
   value: string,
   onChange?: (arg0: string) => void,
@@ -92,10 +115,10 @@ interface Props {
   readOnly?: boolean,
   children?: React.ReactNode,
   autoFocus?: boolean;
+  highlightedPart?: string;
 }
 
 export const RichTextEditor = ({ 
-  label,
   placeholder,
   value,
   onChange,
@@ -104,9 +127,17 @@ export const RichTextEditor = ({
   onEnter,
   autoFocus,
   readOnly,
-  children
+  children,
+  highlightedPart
 } : Props) => {
   const quillRef = React.useRef(null)
+
+  useEffect(() => {
+    const quill = (quillRef.current as any)?.getEditor();
+    if (quill) {
+      applyHighlight(quill, highlightedPart || '');
+    }
+  }, [quillRef, highlightedPart]);
 
   const imageHandler = () => {
     let quill = (quillRef.current as any).getEditor();
@@ -144,27 +175,16 @@ export const RichTextEditor = ({
     toolbar: {
       container: [
         { header: [1, 2, 3, 4, 5, 6, false] },
-
         'bold', 'italic', 'underline', 'strike',
-
         { 'list': 'ordered' }, { 'list': 'bullet' },
-
         'link', 'blockquote', 'code-block',
-
         { 'color': [] }, { 'background': [] },
-
         { 'script': 'sub' }, { 'script': 'super' },
-
         { 'align': [] },
-
         { indent: "-1" }, { indent: "+1" },
-
         'image', 'video',
-
         'clean',
-
         "emoji",
-
       ],
       handlers: {
         'image': imageHandler

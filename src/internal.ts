@@ -134,6 +134,7 @@ import { Modal } from './components/Modal/Modal'
 import { ImagePicker } from './components/ImagePicker/ImagePicker'
 import { RichTextEditor } from './components/RichTextEditor/RichTextEditor'
 import { Steps } from './components/Steps/Steps'
+import { Checkboxes } from './components/Checkboxes/Checkboxes'
 
 export {
   AspectRatio,
@@ -168,7 +169,8 @@ export {
   Modal,
   ImagePicker,
   RichTextEditor,
-  Steps
+  Steps,
+  Checkboxes,
 }
 
 // Molecules (1)

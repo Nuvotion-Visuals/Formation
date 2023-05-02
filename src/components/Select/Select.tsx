@@ -69,7 +69,9 @@ interface Props {
   options: string[],
   icon?: IconName,
   iconPrefix?: IconPrefix,
-  maxWidth?: string
+  maxWidth?: string,
+  hideOutline?: boolean,
+  placeholder?: string
 }
 
 export const Select = React.memo(({
@@ -80,7 +82,9 @@ export const Select = React.memo(({
   options,
   icon,
   iconPrefix,
-  maxWidth
+  maxWidth,
+  hideOutline,
+  placeholder
 }: Props) => {
   const [isOpen, set_isOpen] = useState(false)
   const [displayValue, set_displayValue] = useState(value)
@@ -115,6 +119,8 @@ export const Select = React.memo(({
         preventFocus={preventFocus}
         onBlur={() => set_preventFocus(isTouchCapable())}
         forceFocus={isOpen}
+        hideOutline={hideOutline}
+        placeholder={placeholder}
       />
 
       {

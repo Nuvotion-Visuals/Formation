@@ -40,3 +40,12 @@ CustomIcon.args = {
   options: ['1', '2', '3', '4'],
   maxWidth: '6rem'
 }
+
+export const HideOutline = Template.bind({})
+HideOutline.args = {
+  iconPrefix: 'fas',
+  options: ['JavaScript', 'HTML', 'CSS'],
+  hideOutline: true,
+  placeholder: 'Language'
+}
+

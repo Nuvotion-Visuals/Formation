@@ -1715,6 +1715,13 @@ button {
   visibility: visible;
 }
 
+mark {
+  background: none;
+  padding: 0;
+  color: var(--F_Primary_Variant);
+  font-size: inherit;
+}
+
 :root {
   --F_Syntax_Selection: rgba(255, 255, 255, 0.35);
   --F_Syntax_Text: #ffffff;

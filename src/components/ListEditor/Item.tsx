@@ -239,7 +239,7 @@ const S = {
     color: var(--F_Font_Color);
     line-height: 1.33;
     padding: 0 .5rem;
-    font-weight: ${props => props.active ? '600' : '400'};
+    font-weight: ${props => props.active ? '400' : '400'};
   `),
   Absolute: React.memo(styled.div`
     position: absolute;
@@ -256,7 +256,7 @@ const S = {
     color: var(--F_Font_Color);
     padding: 0 .5rem;
     color: var(--F_Font_Color);
-    font-weight: ${props => props.active ? '600' : '400'};
+    font-weight: ${props => props.active ? '400' : '400'};
     width: 100%;
     line-height: 1.33;
   `),

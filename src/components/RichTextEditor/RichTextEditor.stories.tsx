@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { RichTextEditor, Box, Button } from '../../internal'
+import { RichTextEditor, Box, Button, TextInput } from '../../internal'
 
 
 export default {
@@ -13,11 +13,23 @@ export default {
 const Template: ComponentStory<typeof RichTextEditor> = args => {
   const [value, set_value] = useState('')
 
-  return (<>
-    <RichTextEditor {...args} value={value} onChange={newValue => set_value(newValue)} />
+  const [hightlight, set_highlight] = useState('')
 
+  return (<>
+    <TextInput 
+      icon='search'
+      iconPrefix='fas'
+      compact
+      placeholder='Find'
+      hideOutline
+      value={hightlight}
+      onChange={val => set_highlight(val)}
+    />
+    <RichTextEditor {...args} value={value} onChange={newValue => set_value(newValue)} />
+    
     <Box width='100%' py={.5} />
-    <RichTextEditor value={value} readOnly />
+   
+    <RichTextEditor value={value} readOnly highlightedPart={hightlight} />
   </>
   )
 }

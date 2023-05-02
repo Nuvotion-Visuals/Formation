@@ -1,24 +1,34 @@
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 
 import { Icon, Box, LineBreak, Gap, Item, ItemProps } from '../../internal'
 
 interface Props extends ItemProps {
   options: ItemProps[],
-  value: string,
-  onChange: (arg0: string) => void,
+  value: string[],
+  onChange: (arg0: string[]) => void,
   minimal?: boolean
 } 
 
-export const Radio = (props : Props) => {
+export const Checkboxes = (props : Props) => {
   const { options, value, onChange, label, icon, iconPrefix, minimal } = props
 
-  return <S.Radio minimal={minimal || false}><Box wrap width='100%'>
+  const handleClick = (optionValue: string) => {
+    const newValue = value.includes(optionValue)
+      ? value.filter(val => val !== optionValue)
+      : [...value, optionValue];
+    onChange(newValue);
+  };
+
+  return <S.Checkboxes minimal={minimal || false}><Box wrap width='100%'>
     {
       (icon || label) &&
       <Item
         label={label} icon={icon} iconPrefix={iconPrefix}
+        {
+          ...props
+        }
       />
     }
 
@@ -31,15 +41,14 @@ export const Radio = (props : Props) => {
             {
               ...option
             }
-            onClick={() => onChange(option.value || '')}
-            active={value === option.value && !minimal}
+            onClick={() => handleClick(option.value || '')}
             name={undefined}
             icon={
               option.icon 
                 ? option.icon 
-                : value === option.value 
-                  ? 'circle-dot'
-                  : 'circle'
+                : value?.includes(option.value)
+                  ? 'check-square'
+                  : 'square'
             }
             iconPrefix={
               option.iconPrefix
@@ -49,7 +58,7 @@ export const Radio = (props : Props) => {
           />
           <div style={{ display: 'none'}}>
             <input 
-              type="radio" 
+              type="checkbox" 
               id={option.name} 
               name={option.name} 
               value={option.value} 
@@ -59,11 +68,11 @@ export const Radio = (props : Props) => {
         </S.OptionLabel>
       )
     }
-  </Box></S.Radio>
+  </Box></S.Checkboxes>
 }
 
 const S = {
-  Radio: styled.div<{
+  Checkboxes: styled.div<{
     minimal: boolean
   }>`
     width: 100%;
