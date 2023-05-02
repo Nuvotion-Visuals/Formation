@@ -495,3 +495,30 @@ export const usePrevious = <T>(value: T): T | undefined => {
   });
   return ref.current;
 };
+
+
+type ScrollOptions = {
+  behavior?: "auto" | "smooth";
+  block?: "start" | "center" | "end" | "nearest";
+  inline?: "start" | "center" | "end" | "nearest";
+}
+
+export const scrollToElementById = (id: string, options: ScrollOptions) => {
+setTimeout(() => {
+  const target = document.getElementById(id);
+  if (target) {
+    target.scrollIntoView(options);
+  } 
+  else {
+    console.error(`Element with ID 'top_${id}' not found.`);
+  }
+}, 100);
+}
+
+export const getAlphabetLetter = (index: number): string => {
+if (index < 0 || index > 25) {
+  throw new Error('Index must be between 0 and 25');
+}
+
+return String.fromCharCode(index + 97).toUpperCase();
+}
