@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 
 import { Button, TimeZone, Box, Spacer, Gap, DatePicker, TimePicker } from '../../internal'
-import {  getOrdinal, capitalizeFirstLetter } from '../../utils'
+import { getOrdinal, capitalizeFirstLetter } from '../../internal'
 import { IconPrefix } from '@fortawesome/fontawesome-common-types'
 
 
