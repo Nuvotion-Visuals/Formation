@@ -3,7 +3,6 @@ import { ComponentStory, ComponentMeta } from '@storybook/react'
 
 import { NumberSlider } from '../../internal'
 
-
 export default {
   title: 'Input/NumberSlider',
   component: NumberSlider,
@@ -23,5 +22,40 @@ Default.args = {
   min: 0,
   max: 100,
   value: 50
+}
+
+export const Precise = Template.bind({})
+Precise.args = {
+  min: 0,
+  max: 100,
+  value: 50,
+  precise: true
+}
+
+export const Hue = Template.bind({})
+Hue.args = {
+  min: 0,
+  max: 100,
+  value: 50,
+  precise: true,
+  hue: true
+}
+
+export const Opacity = Template.bind({})
+Opacity.args = {
+  min: 0,
+  max: 100,
+  value: 50,
+  precise: true,
+  opacity: true
+}
+
+export const Color = Template.bind({})
+Color.args = {
+  min: 0,
+  max: 100,
+  value: 50,
+  precise: true,
+  color: 'green'
 }
 

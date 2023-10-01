@@ -32,7 +32,8 @@ export interface ButtonProps {
   newTab?: boolean,
   square?: boolean,
   circle?: boolean,
-  expandVertical?: boolean
+  expandVertical?: boolean,
+  compact?: boolean
 }
 
 export const Button: FC<ButtonProps> = React.memo(({ 
@@ -60,7 +61,8 @@ export const Button: FC<ButtonProps> = React.memo(({
   newTab,
   square,
   circle,
-  expandVertical
+  expandVertical,
+  compact
 }: ButtonProps) => {
 
   const Link: any = useContext(LinkContext) || IntLink;
@@ -89,6 +91,7 @@ export const Button: FC<ButtonProps> = React.memo(({
         expandVertical={expandVertical}
         minimal={minimal}
         minimalIcon={minimalIcon}
+        compact={compact}
       >
         {
           icon !== undefined
@@ -97,7 +100,6 @@ export const Button: FC<ButtonProps> = React.memo(({
                 iconPrefix={iconPrefix ? iconPrefix : 'far'} 
                 icon={icon}  
                 rotation={rotate ? 90 : undefined}
-                fixedWidth
                 size={
                   hero 
                     ? ('xl' as SizeProp) // type coersion needed until FA SizeProp defintion is fixed to include "xl"
@@ -141,6 +143,7 @@ export const Button: FC<ButtonProps> = React.memo(({
       hero={hero}
       expandVertical={expandVertical}
       minimalIcon={minimalIcon}
+      compact={compact}
     >
       {
         href 
@@ -160,7 +163,8 @@ interface ContainerProps {
   square?: boolean,
   hero?: boolean,
   expandVertical?: boolean,
-  minimalIcon?: boolean
+  minimalIcon?: boolean,
+  compact?: boolean
 }
 
 interface TextProps {
@@ -185,7 +189,12 @@ const calculateWidth = (props: ContainerProps) => {
   }
   else {
     if (props.square) {
-      return 'var(--F_Input_Height)'
+      if (props.compact) {
+        return 'var(--F_Input_Height_Compact)'
+      }
+      else {
+        return 'var(--F_Input_Height)'
+      }
     }
     else {
       return 'auto'
@@ -194,7 +203,10 @@ const calculateWidth = (props: ContainerProps) => {
 }
 
 const calculateHeight = (props: ContainerProps) => {
-  if (props.minimalIcon) {
+  if (props.compact) {
+    return 'var(--F_Input_Height_Compact)'
+  }
+  else if (props.minimalIcon) {
     return '1rem'
   }
   else if (props.expandVertical) {
@@ -219,7 +231,15 @@ const calculateHeight = (props: ContainerProps) => {
 }
 
 const calculatePadding = (props: ButtonProps) => {
-  if (props.hero) {
+  if (props.compact) {
+    if (props.square) {
+      return '0'
+    }
+    else {
+      return '0 .75rem'
+    }
+  }
+  else if (props.hero) {
     if (props.square) {
       return '0'
     }

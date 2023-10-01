@@ -25,3 +25,11 @@ Default.args = {
   value: [25, 75]
 }
 
+export const Precise = Template.bind({})
+Precise.args = {
+  min: 0,
+  max: 100,
+  value: [25, 75],
+  precise: true
+}
+

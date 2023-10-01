@@ -36,6 +36,22 @@ Primary.args = {
   primary: true
 }
 
+export const Compact = Template.bind({})
+Compact.args = {
+  text: 'Download',
+  icon: 'download',
+  iconPrefix: 'fas',
+  compact: true
+}
+
+export const CompactSquare = Template.bind({})
+CompactSquare.args = {
+  icon: 'download',
+  iconPrefix: 'fas',
+  compact: true,
+  square: true
+}
+
 
 export const HeroPrimary = Template.bind({})
 HeroPrimary.args = {

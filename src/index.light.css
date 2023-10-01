@@ -19,6 +19,8 @@ It’s easy to picture how a less saturated version of a color would look like, 
   --F_Surface_1: hsl(0, 0%, 75%); /* hover */
   --F_Surface_2: hsl(0, 0%, 66%); /* active */
 
+  --F_Tile_Radius: 4px;
+
   --F_Font_Color: hsl(0, 0%, 17%);
   --F_Font_Color_Disabled: hsl(0, 0%, 40%);
   --F_Font_Color_Label: hsl(0, 0%, 32%);
@@ -89,6 +91,7 @@ It’s easy to picture how a less saturated version of a color would look like, 
   --F_Header_Height: 50px;
   
   --F_Input_Height: 2.25rem;
+  --F_Input_Height_Compact: 1.5rem;
   --F_Input_Height_Hero: calc(var(--F_Input_Height) + 1rem);
 
   --F_Sidebar_Width: 246px;
@@ -1776,6 +1779,50 @@ pre code *::selection,
 
 .hljs-comment {
   color: var(--F_Syntax_Comment);
+}
+
+/* number slider and range slider */
+.rc-slider {
+  position: relative;
+  height: var(--F_Input_Height_Compact);
+  width: 100%;
+  display: flex;
+  margin: 0 8px;
+  align-items: center;
+  -ms-touch-action: none;
+      touch-action: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+.rc-slider * {
+  box-sizing: border-box;
+  overflow: visible;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+.rc-slider-rail {
+  position: absolute;
+  width: 100%;
+  background: var(--F_Background_Alternating);
+  height: var(--F_Input_Height_Compact);
+  cursor: grab;
+}
+.rc-slider-track {
+  position: absolute;
+  left: 0;
+  height: 100%;
+  background: var(--F_Surface);
+}
+.rc-slider-handle {
+  position: absolute;
+  z-index: 1;
+  width: 16px;
+  height: 100%;
+  cursor: pointer;
+  border-radius: var(--F_Tile_Radius);
+  cursor: -webkit-grab;
+  cursor: grab;
+  background: var(--F_Primary_Variant);
+  -ms-touch-action: pan-x;
+      touch-action: pan-x;
 }
 
 

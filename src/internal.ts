@@ -61,8 +61,7 @@ export { LoadingSpinner } from './components/LoadingSpinner/LoadingSpinner'
 export { NavHeader } from './components/NavHeader/NavHeader'
 export { NavLogo } from './components/NavLogo/NavLogo'
 export { NavMenuBars } from './components/NavMenuBars/NavMenuBars'
-export { NumberRange } from './components/NumberRange/NumberRange'
-export { NumberSlider } from './components/NumberSlider/NumberSlider'
+export { NumberRange } from './components/Sliders/NumberRange'
 export { Page } from './components/Page/Page'
 export { ParseHTML } from './components/ParseHTML/ParseHTML'
 export { Progress } from './components/Progress/Progress'
@@ -96,7 +95,7 @@ export { LabelColorPicker } from './components/LabelColorPicker/LabelColorPicker
 export { Item } from './components/ListEditor/Item'
 export { LiveTimeIndicator } from './components/Timeline/LiveTimeIndicator'
 export { AutocompleteDropdown } from './components/AutocompleteDropdown/AutocompleteDropdown'
-
+export { NumberInput } from './components/NumberInput/NumberInput'
 
 // Tissue (2)
 export { Navigation } from './components/Navigation/Navigation'
@@ -114,6 +113,7 @@ export { LabelManager } from './components/LabelManager/LabelManager'
 export { Timeline } from './components/Timeline/Timeline'
 export { ExpandableList } from './components/ListEditor/ExpandableList'
 export { DateAndTimePicker } from './components/DateAndTimePicker/DateAndTimePicker'
+export { NumberSlider } from './components/Sliders/NumberSlider'
 
 import React from 'react'
 
