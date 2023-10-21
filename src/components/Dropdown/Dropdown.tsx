@@ -1,71 +1,239 @@
-import React, { useContext, useMemo } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+import ReactDOM from 'react-dom'
 import styled from 'styled-components'
+import { Item, ItemProps } from '../../internal'
+import { Button, ButtonProps } from '../../internal'
+import { TextInput } from '../../internal'
 
-import { ItemProps, Item, Button, ButtonProps, LinkContext, Link as IntLink } from '../../internal'
-import { useEffect, useRef, useState } from 'react'
-import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
-
-interface Props extends ButtonProps{
-  items: ItemProps[],
+interface Props extends ButtonProps {
+  items: ItemProps[]
+  onOpen?: (open: boolean) => void
+  maxWidth?: string,
+  searchPlaceholder?: string
 }
 
 export const Dropdown = React.memo((props: Props) => {
   const items = props.items
-
-  const Link: any = useContext(LinkContext) || IntLink;
-
   const [open, setOpen] = useState(false)
-
-  const myRef = useRef<HTMLInputElement>(null)
+  const myRef = useRef<HTMLDivElement>(null)
+  const dropdownRef = useRef<HTMLDivElement>(null)
+  const portalContainer = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
-    const handleClickOutside = (event : MouseEvent) => {
-      if (myRef.current && !myRef.current.contains(event.target as Node)) {
+    if (!portalContainer.current) {
+      portalContainer.current = document.createElement('div')
+      document.body.appendChild(portalContainer.current)
+    }
+
+    return () => {
+      if (portalContainer.current) {
+        document.body.removeChild(portalContainer.current)
+      }
+    }
+  }, [])
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        myRef.current &&
+        !myRef.current.contains(event.target as Node) &&
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setOpen(false)
       }
     }
+
     document.addEventListener('mousedown', handleClickOutside)
+
     return () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
   }, [myRef])
 
-  return (<>
-    <S.Options 
-      
-      ref={myRef}
-    >
-    
-          <S.IconContainer 
-          onClick={() => setOpen(!open)}
-          >
-            
-            <Button 
-              {...props}
-              
-            />
-
-            {
-              items && open
-                ? <S.Dropdown>
-                    {
-                      items.map(itemProps => <Item {...itemProps} />)
-                    }
-                  </S.Dropdown>
-                : null
+  useEffect(() => {
+    const dropdownElement = dropdownRef.current
+    if (dropdownElement && myRef.current) {
+      const rect = myRef.current.getBoundingClientRect()
+      const windowHeight = window.innerHeight
+      const windowWidth = window.innerWidth
+      const dropdownHeight = dropdownElement.offsetHeight
+      const dropdownWidth = dropdownElement.offsetWidth
+  
+      // Reposition based on bottom screen edge
+      if (rect.bottom + dropdownHeight > windowHeight) {
+        dropdownElement.style.top = `${rect.top - dropdownHeight}px`
+      } else {
+        dropdownElement.style.top = `${rect.bottom}px`
+      }
+  
+      // Reposition based on right screen edge
+      if (rect.right + dropdownWidth > windowWidth) {
+        dropdownElement.style.left = `${rect.left - dropdownWidth + rect.width}px`
+      } else {
+        dropdownElement.style.left = `${rect.left}px`
+      }
+    }
+  
+    if (props.onOpen) {
+      props.onOpen(open)
+    }
+  }, [open])
+  
+  useEffect(() => {
+    const handleKeyDown = async (event: KeyboardEvent) => {
+      const activeIndex = items.findIndex(item => item.active)
+      let nextActiveIndex = -1
+  
+      if (event.code === 'ArrowDown') {
+        for (let i = activeIndex + 1; i < items.length; i++) {
+          if (items[i].onClick) {
+            nextActiveIndex = i
+            break
+          }
+        }
+      } 
+      else if (event.code === 'ArrowUp') {
+        for (let i = activeIndex - 1; i >= 0; i--) {
+          if (items[i].onClick) {
+            nextActiveIndex = i
+            break
+          }
+        }
+      }
+  
+      if (nextActiveIndex !== -1 && items[nextActiveIndex].onClick) {
+        const nativeEvent = new MouseEvent('click', {
+          bubbles: true,
+          cancelable: true,
+          view: window,
+        })
+        // @ts-ignore
+        items[nextActiveIndex].onClick(nativeEvent as unknown as React.MouseEvent<Element, MouseEvent>)
+  
+        const element = itemRefs.current[nextActiveIndex]
+        if (element) {
+          const dropdownElement = dropdownRef.current
+          if (dropdownElement) {
+            const elementRect = element.getBoundingClientRect()
+            const dropdownRect = dropdownElement.getBoundingClientRect()
+  
+            const isOutOfView =
+              elementRect.bottom > dropdownRect.bottom ||
+              elementRect.top < dropdownRect.top
+  
+            if (isOutOfView) {
+              element.scrollIntoView({ behavior: 'auto' })  // Instant scroll
             }
-          </S.IconContainer>
-      
-    </S.Options>
-  </>)
+          }
+        }
+      }
+    }
+  
+    if (open) {
+      window.addEventListener('keydown', handleKeyDown)
+    }
+  
+    return () => {
+      if (open) {
+        window.removeEventListener('keydown', handleKeyDown)
+      }
+    }
+  }, [items, open])
+  
+
+  useEffect(() => {
+    const dropdownElement = dropdownRef.current
+    if (dropdownElement) {
+      dropdownElement.style.visibility = open ? 'visible' : 'hidden'
+    }
+    if (open && searchRef.current) {
+      setTimeout(() => {
+        searchRef.current?.focus()
+      }, 0)
+    }
+  }, [open])
+
+  const itemRefs = useRef<(HTMLDivElement | null)[]>([])
+
+  const [search, set_search] = useState('')
+
+  const enableSearch = props.items.length > 10
+
+  const filteredItems = enableSearch
+    ? props.items.filter(itemProps => 
+        itemProps?.name?.toLowerCase()?.includes(search?.toLowerCase())
+      )
+    : props.items
+
+  const searchRef = useRef<HTMLInputElement>(null)
+
+  return (
+    <>
+      <S.Options ref={myRef} expand={props.expand}>
+        <S.IconContainer 
+          onClick={(e) => {
+            e.stopPropagation()
+            setOpen(!open)}
+          }
+          maxWidth={props.maxWidth}
+          expand={props.expand}
+        >
+          <Button {...props} />
+        </S.IconContainer>
+      </S.Options>
+      {portalContainer.current && ReactDOM.createPortal(
+        <S.Dropdown 
+          ref={dropdownRef} 
+          style={{ visibility: 'hidden' }}
+          maxWidth={props.maxWidth}
+        >
+          {
+            enableSearch &&
+              <S.Sticky>
+                <TextInput
+                  value={search}
+                  onChange={val => set_search(val)}
+                  ref={searchRef}
+                  placeholder={props.searchPlaceholder ? props.searchPlaceholder : 'Search...'}
+                />
+              </S.Sticky>
+          }
+          
+          {filteredItems.map((itemProps, index) => (
+            <Item
+              ref={el => itemRefs.current[index] = el}
+              key={index}
+              {...itemProps}
+              onClick={(e) => {
+                if (itemProps.onClick) {
+                  itemProps.onClick(e)
+                }
+                setOpen(false)
+                if (itemRefs.current[index]) {
+                  itemRefs.current[index]!.scrollIntoView({ behavior: 'auto' }) // Instant scroll
+                }
+              }}
+          />
+          ))}
+        </S.Dropdown>,
+        portalContainer.current
+      )}
+    </>
+  )
 })
 
+export default Dropdown
+
 const S = {
-  Options: styled.div`
+  Options: styled.div<{
+    expand?: boolean
+  }>`
     display: flex;
-    justify-content: center;
     align-items: center;
     position: relative;
+    overflow: hidden;
+    width: ${props => props.expand ? '100%' : 'auto'};
   `,
   IconCircle: styled.div<{
     open: boolean,
@@ -87,20 +255,28 @@ const S = {
       background: var(--F_Surface);
     }
   `,
-  IconContainer: styled.div`
+  IconContainer: styled.div<{
+    maxWidth?: string,
+    expand?: boolean
+  }>`
     position: relative;
     color: var(--F_Font_Color);
+    max-width: ${props => props.maxWidth ? props.maxWidth : 'auto'};
+    width: ${props => props.expand ? '100%' : 'auto'};
   `,
-  Dropdown: styled.div`
-    position: absolute;
-    overflow: hidden;
-    z-index: 100;
-    right: 0;
-    min-width: 160px;
-    background: var(--F_Background);
-    box-shadow: var(--F_Outline_Outset_Focus);
+  Dropdown: styled.div<{
+    maxWidth?: string
+  }>`
+    position: fixed;
+    z-index: 1000;
+    background: var(--F_Surface);
+    box-shadow: var(--F_Outline_Outset);
     border-radius: .375rem;
+    overflow: hidden;
     user-select: none;
+    width: ${props => props.maxWidth ? props.maxWidth : '110px'};
+    max-height: 400px;  // Add max-height
+    overflow-y: auto;   // Add overflow-y
   `,
   DropdownOption: styled.div<{
     onClick: Function | null
@@ -109,6 +285,7 @@ const S = {
     align-items: center;
     height: var(--F_Input_Height);
     padding: 0 .5rem;
+
     cursor: pointer;
     * {
       color: var(--F_Font_Color);
@@ -134,5 +311,12 @@ const S = {
     padding-left: .125rem;
     font-size: var(--F_Font_Size);
     display: flex;
+  `,
+  Sticky: styled.div`
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background: var(--F_Surface);
+    padding: .25rem;
   `
 }

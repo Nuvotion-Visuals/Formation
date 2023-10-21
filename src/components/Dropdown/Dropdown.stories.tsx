@@ -1,23 +1,23 @@
 import React from 'react'
+import styled, { css } from 'styled-components'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
-
-import { Dropdown, TextInput, Box } from '../../internal'
+import { Dropdown } from './Dropdown'
+import { Box } from '../../internal'
 
 export default {
   title: 'Input/Dropdown',
   component: Dropdown,
 } as ComponentMeta<typeof Dropdown>
 
-
 const Template: ComponentStory<typeof Dropdown> = args => 
-  <Dropdown {...args} />
-  
+  <Box>
+    <Dropdown {...args} />
+  </Box>
 
 export const Options = Template.bind({})
 Options.args = {
   icon: 'ellipsis-vertical',
   iconPrefix: 'fas',
-  minimal: true,
   circle: true,
   items: [
     {
@@ -39,58 +39,68 @@ Options.args = {
   ]
 }
 
-export const NoIcons = Template.bind({})
-NoIcons.args = {
-  icon: 'ellipsis-vertical',
-  iconPrefix: 'fas',
-  minimal: true,
-  circle: true,
-  items: [
-    {
-      title: 'Save',
-      onClick: () => {}
-    },
-    {
-      title: 'Send',
-      onClick: () => {}
-    },
-    {
-      iconPrefix: 'fas',
-      title: 'Add',
-      onClick: () => {}
+const StyledBox = styled(Box)<{ position: string }>`
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 2rem);
+
+  ${props => {
+    switch (props.position) {
+      case 'topLeft':
+        return css`
+          display: flex;
+          align-items: flex-start;
+          justify-content: flex-start;
+        `
+      case 'topRight':
+        return css`
+          display: flex;
+          align-items: flex-start;
+          justify-content: flex-end;
+        `
+      case 'bottomLeft':
+        return css`
+          display: flex;
+          align-items: flex-end;
+          justify-content: flex-start;
+        `
+      case 'bottomRight':
+        return css`
+          display: flex;
+          align-items: flex-end;
+          justify-content: flex-end;
+        `
+      default:
+        return ''
     }
-  ]
+  }}
+`
+
+const CornerTemplate: ComponentStory<typeof Dropdown> = (args: any) => 
+  <StyledBox position={args.position}>
+    <Dropdown {...args} />
+  </StyledBox>
+
+export const TopLeft = CornerTemplate.bind({})
+TopLeft.args = {
+  ...Options.args,
+  position: 'topLeft'
 }
 
-export const Insert = Template.bind({})
-Insert.args = {
-  icon: 'plus',
-  iconPrefix: 'fas',
-  minimal: true,
-  circle: true,
-  items: [
-    {
-      children: <div onClick={e => e.stopPropagation()}>
-        <Box minWidth={17}>
-          <TextInput
-            value=''
-            onChange={() => {}}
-            iconPrefix='fas'
-            compact
-            placeholder='Insert content from URL'
-            canClear
-            buttons={[
-              {
-                icon: 'arrow-right',
-                iconPrefix: 'fas',
-                minimal: true
-              }
-            ]}
-          />
-        </Box>
-      </div>,
-      onClick: () => {}
-    },
-  ]
+export const TopRight = CornerTemplate.bind({})
+TopRight.args = {
+  ...Options.args,
+  position: 'topRight'
 }
 
+export const BottomLeft = CornerTemplate.bind({})
+BottomLeft.args = {
+  ...Options.args,
+  position: 'bottomLeft'
+}
+
+export const BottomRight = CornerTemplate.bind({})
+BottomRight.args = {
+  ...Options.args,
+  position: 'bottomRight'
+}

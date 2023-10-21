@@ -1,5 +1,5 @@
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
-import React, { useContext, useMemo } from 'react'
+import React, { forwardRef, useContext, useMemo } from 'react'
 import styled from 'styled-components'
 
 import { Box, Break, Spacer, getLabelColor, LabelColor, Link as IntLink } from '../../internal'
@@ -39,7 +39,7 @@ export interface ItemProps {
   value?: any
 }
 
-export const Item = React.memo(({ 
+export const Item = forwardRef<HTMLDivElement, ItemProps>(({
   name,
   label,
   subtitle,
@@ -63,7 +63,7 @@ export const Item = React.memo(({
   pageTitle,
   newTab,
   value
-}: ItemProps): JSX.Element => {
+}: ItemProps, ref): JSX.Element => {
   const Link: any = useContext(LinkContext) || IntLink;
 
   const renderItem = () => (
@@ -142,7 +142,7 @@ export const Item = React.memo(({
     </Box>
   )
 
-  return (<S.Container>
+  return (<S.Container ref={ref}>
     <S.ListItem 
       onClick={onClick} 
       active={active} 
