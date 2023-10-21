@@ -162,7 +162,7 @@ export const Dropdown = React.memo((props: Props) => {
 
   const filteredItems = enableSearch
     ? props.items.filter(itemProps => 
-        itemProps?.name?.toLowerCase()?.includes(search?.toLowerCase())
+        (itemProps?.name || itemProps?.label || itemProps?.text)?.toLowerCase()?.includes(search?.toLowerCase())
       )
     : props.items
 
@@ -182,43 +182,48 @@ export const Dropdown = React.memo((props: Props) => {
           <Button {...props} />
         </S.IconContainer>
       </S.Options>
-      {portalContainer.current && ReactDOM.createPortal(
-        <S.Dropdown 
-          ref={dropdownRef} 
-          style={{ visibility: 'hidden' }}
-          maxWidth={props.maxWidth}
-        >
-          {
-            enableSearch &&
-              <S.Sticky>
-                <TextInput
-                  value={search}
-                  onChange={val => set_search(val)}
-                  ref={searchRef}
-                  placeholder={props.searchPlaceholder ? props.searchPlaceholder : 'Search...'}
-                />
-              </S.Sticky>
-          }
-          
-          {filteredItems.map((itemProps, index) => (
-            <Item
-              ref={el => itemRefs.current[index] = el}
-              key={index}
-              {...itemProps}
-              onClick={(e) => {
-                if (itemProps.onClick) {
-                  itemProps.onClick(e)
-                }
-                setOpen(false)
-                if (itemRefs.current[index]) {
-                  itemRefs.current[index]!.scrollIntoView({ behavior: 'auto' }) // Instant scroll
-                }
-              }}
-          />
-          ))}
-        </S.Dropdown>,
-        portalContainer.current
-      )}
+      {
+        portalContainer.current && ReactDOM.createPortal(
+          <S.Dropdown 
+            ref={dropdownRef} 
+            style={{ visibility: 'hidden' }}
+            maxWidth={props.maxWidth}
+          >
+            {
+              enableSearch &&
+                <S.Sticky>
+                  <TextInput
+                    value={search}
+                    onChange={val => set_search(val)}
+                    ref={searchRef}
+                    canClear={search !== ''}
+                    compact
+                    placeholder={props.searchPlaceholder ? props.searchPlaceholder : 'Search...'}
+                    autoFocus
+                  />
+                </S.Sticky>
+            }
+            
+            {filteredItems.map((itemProps, index) => (
+              <Item
+                ref={el => itemRefs.current[index] = el}
+                key={index}
+                {...itemProps}
+                onClick={(e) => {
+                  if (itemProps.onClick) {
+                    itemProps.onClick(e)
+                  }
+                  setOpen(false)
+                  if (itemRefs.current[index]) {
+                    itemRefs.current[index]!.scrollIntoView({ behavior: 'auto' }) // Instant scroll
+                  }
+                }}
+            />
+            ))}
+          </S.Dropdown>,
+          portalContainer.current
+        )
+      }
     </>
   )
 })

@@ -6,7 +6,6 @@ import { Box, Break, Spacer, getLabelColor, LabelColor, Link as IntLink } from '
 import { SpaceIcon } from '../NavSpaces/SpaceIcon'
 
 import { 
-  Dropdown, 
   Avatar, 
   getInitials, 
   LinkContext
@@ -30,6 +29,7 @@ export interface ItemProps {
   href?: string,
   active?: boolean,
   spaceIcon?: boolean,
+  prefix?: React.ReactNode,
   children?: React.ReactNode,
   content?: React.ReactNode,
   emphasize?: boolean,
@@ -62,7 +62,8 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(({
   indent,
   pageTitle,
   newTab,
-  value
+  value,
+  prefix
 }: ItemProps, ref): JSX.Element => {
   const Link: any = useContext(LinkContext) || IntLink;
 
@@ -100,6 +101,10 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(({
               />
             </S.AvatarContainer>
           : null
+      }
+
+      {
+        prefix
       }
 
       <S.Flex minimal={minimalIcon}>
@@ -179,7 +184,7 @@ const S = {
     cursor: ${props => props.showHover ? 'pointer' : 'auto'};
     background: ${props => 
       props.active 
-        ? 'var(--F_Surface)' 
+        ? 'var(--F_Primary)' 
         : props.emphasize
           ? 'var(--F_Emphasize)'
           : 'none'
@@ -188,7 +193,7 @@ const S = {
       background: ${props => 
         props.showHover
           ? props.active 
-              ? 'var(--F_Surface)' 
+              ? 'var(--F_Primary)' 
               : props.emphasize
                 ? 'var(--F_Emphasize_Hover)'
                 : 'var(--F_Surface_0)'
@@ -201,7 +206,7 @@ const S = {
       background: ${props => 
         props.showHover
           ? props.active 
-              ? 'var(--F_Surface_1)' 
+              ? 'var(--F_Primary)' 
               : props.emphasize
                 ? 'var(--F_Emphasize_Hover)'
                 : 'var(--F_Surface)'
