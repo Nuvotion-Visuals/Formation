@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import { Box, Button, Gap, Icon } from '../../internal'
+import { Box, Button, ButtonProps, Gap, Icon } from '../../internal'
 import { FileDrop } from '../../internal'
 import styled from 'styled-components'
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
@@ -11,6 +11,8 @@ interface FileUploadProps extends React.InputHTMLAttributes<HTMLInputElement> {
   iconPrefix?: IconPrefix
   dragMessage?: string
   browseMessage?: string
+  minimal?: boolean
+  buttonProps?: ButtonProps
 }
 
 export const FileUpload: React.FC<FileUploadProps> = ({ 
@@ -20,6 +22,8 @@ export const FileUpload: React.FC<FileUploadProps> = ({
   children, 
   dragMessage = 'Drag files to upload', // Default value
   browseMessage = 'Browse files', // Default value
+  minimal = false,  // New prop
+  buttonProps,
   ...rest 
 }) => {
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -41,6 +45,27 @@ export const FileUpload: React.FC<FileUploadProps> = ({
     if (fileInputRef.current) {
       fileInputRef.current.click()
     }
+  }
+
+  if (minimal) {
+    return (
+      <FileDrop onFileDrop={handleFileDrop}>
+        <Button
+          {...buttonProps}
+          onClick={e => {
+            e.stopPropagation()
+            triggerFileInput()
+          }} 
+        />
+        <input
+          ref={fileInputRef}
+          type="file"
+          hidden
+          onChange={handleInputChange}
+          {...rest}
+        />
+      </FileDrop>
+    )
   }
 
   return (
@@ -93,6 +118,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
 
 const S = {
   FileUpload: styled.div`
+    width: 100%;
     border: 2px dashed var(--F_Surface_1);
     border-radius: var(--F_Tile_Radius);
     cursor: pointer;

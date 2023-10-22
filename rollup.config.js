@@ -26,6 +26,17 @@ export default [
       },
     ],
     plugins: [
+      {
+        name: 'handle-dynamic-imports',
+        renderDynamicImport({ moduleId }) {
+          if (moduleId.includes('generateImageThumbnail')) {
+            return {
+              left: 'typeof window !== "undefined" ? import(', 
+              right: ') : Promise.resolve()'
+            }
+          }
+        }
+      },
       resolve(),
       commonjs(),
       typescript({ tsconfig: './tsconfig.json' }),
@@ -41,7 +52,8 @@ export default [
       autoExternal(),
       cleanup(),
       terser()
-    ]
+    ],
+    inlineDynamicImports: false
   },
   {
     input: 'dist/esm/index.d.ts',

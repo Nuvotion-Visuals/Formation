@@ -1,7 +1,13 @@
-import Thumbo, { Transfer } from "thumbo";
 import { resourceUrlToDataUrl } from '../internal';
 
-Thumbo.init();
+let Thumbo: any
+let Transfer: any
+if (typeof window !== 'undefined') {
+  const ThumboLib = require('thumbo')
+  Thumbo = ThumboLib.default
+  Transfer = ThumboLib.Transfer
+  Thumbo.init()
+}
 
 const generateImageThumbnail = async (file: File, callback: (image: string) => void, maxDimension = 256) => {
   const ext = file.type.split('/')[1]

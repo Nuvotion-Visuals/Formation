@@ -75,3 +75,13 @@ ImageOnly.args = {
   children: <S.CustomMessage>Accepted formats: <strong>PNG, JPEG</strong></S.CustomMessage>,
 }
 
+export const Minimal = Template.bind({})
+Minimal.args = {
+  multiple: false,
+  minimal: true,
+  buttonProps: {
+    text: 'Upload',
+    iconPrefix: 'fas',
+    icon: 'upload',
+  }
+}

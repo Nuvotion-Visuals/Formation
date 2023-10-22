@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useCallback, useRef, useEffect } from 'react'
 import styled from 'styled-components'
 
-import { TextInput, Button, Icon, LoadingSpinner, Gap, Box, DragOrigin } from '../../internal'
+import { TextInput, Button, Icon, LoadingSpinner, Gap, Box, DragOrigin, generateThumbnail } from '../../internal'
 import { Placeholders } from './Placeholders'
 
 const LazyThumbnail = ({ file, thumbnailCache }: { file: File, thumbnailCache: any}) => {
@@ -19,12 +19,11 @@ const LazyThumbnail = ({ file, thumbnailCache }: { file: File, thumbnailCache: a
               setSrc(cachedThumbnail)
             } 
             else {
-              const thumbnail = await new Promise((resolve) =>
-                import('../../internal').then(module => module.generateThumbnail(file, (src) => resolve(src), 86))
-              )
-              thumbnailCache.set(fileName, thumbnail)
+              generateThumbnail(file, (src) => {
+                thumbnailCache.set(fileName, src)
+                setSrc(src)
+              })
               // @ts-ignore
-              setSrc(thumbnail)
             }
           } 
           catch (error) {
