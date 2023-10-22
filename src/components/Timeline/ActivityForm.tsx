@@ -223,9 +223,9 @@ export const ActivityForm = ({ activity, areas, onChange }: Props) => {
         />
         <Box mt={2} mb={4}>
           <Select
-            options={selectionList}
+            options={selectionList.map(selection => ({ label: selection, value: selection }))}
             value={area !== undefined ? area : areas[0].area}
-            onChange={newValue => set_area(newValue)}
+            onChange={(newValue: string) => set_area(newValue)}
             iconPrefix='fas'
           />
       </Box>
@@ -273,6 +273,6 @@ const S = {
   Container: styled.div`
     height: calc(100% - 4rem);
     width: 100%;
-    position: relative;
+    /* position: relative; */
   `
 }

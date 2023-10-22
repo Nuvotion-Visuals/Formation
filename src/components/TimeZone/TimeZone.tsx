@@ -42,7 +42,7 @@ export const minimalTimeZoneSet = [
 export const tzCodesByLabel = minimalTimeZoneSet.reduce((a, v) => ({ ...a, [v.label]: v.tzCode}), {}) 
 
 interface Props {
-  onChange: (arg0: string | undefined) => void,
+  onChange: (arg0: string) => void,
   value: string | undefined
 }
 
@@ -51,13 +51,6 @@ export const TimeZone = ({
   value
 } : Props) => {
 
-  useEffect(() => {
-    if (!value) {
-      onChange(minimalTimeZoneSet.find(tz => tz.tzCode === getTimezone())?.label)
-    }
-  }, [])
-
-
   return (
     <Select
       value={value || ''}
@@ -65,9 +58,12 @@ export const TimeZone = ({
       iconPrefix='fas'
       label={'Time zone'}
       options={
-        minimalTimeZoneSet.map(timeZone => timeZone.label)
+        minimalTimeZoneSet.map(timeZone => ({
+          label: timeZone.label,
+          value: timeZone.tzCode
+        }))
       }
-      onChange={value=> onChange(value)}
+      onChange={(value: string) => onChange(value)}
     />
   )
 }
