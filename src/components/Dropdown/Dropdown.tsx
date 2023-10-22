@@ -26,11 +26,11 @@ export const Dropdown = React.memo((props: Props) => {
       document.body.appendChild(portalContainer.current)
     }
 
-    return () => {
-      if (portalContainer.current) {
-        document.body.removeChild(portalContainer.current)
-      }
-    }
+    // return () => {
+    //   if (portalContainer.current) {
+    //     document.body.removeChild(portalContainer.current)
+    //   }
+    // }
   }, [])
 
   useEffect(() => {

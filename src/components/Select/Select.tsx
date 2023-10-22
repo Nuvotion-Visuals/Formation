@@ -19,19 +19,17 @@ export const Select = ({
   allowDirectEntry,
   ...props
 }: Props) => {
-  const [intervalValue, setIntervalValue] = useState(value)
+  const [labelValue, setLabelValue] = useState(value)
   const [maxWidth, setMaxWidth] = useState<string | undefined>('100%')
   const selectContainerRef = useRef<HTMLDivElement>(null)
 
-  // Update intervalValue based on the incoming "value" prop
   useEffect(() => {
     const matchingOption = options.find(option => option.value === value)
     if (matchingOption) {
-      setIntervalValue(matchingOption.label)
+      setLabelValue(matchingOption.label)
     }
   }, [value, options])
 
-  // Update maxWidth based on the select container's width
   useEffect(() => {
     if (selectContainerRef.current) {
       setMaxWidth(`${selectContainerRef.current.offsetWidth}px`)
@@ -39,21 +37,41 @@ export const Select = ({
   }, [])
 
   useEffect(() => {
-    onChange(intervalValue)
-  }, [intervalValue])
+    const matchingOption = options.find(option => option.label === labelValue)
+    if (matchingOption) {
+      onChange(matchingOption.value)
+    }
+  }, [labelValue])
+
+  const handleInputChange = (inputValue: string) => {
+    if (allowDirectEntry) {
+      setLabelValue(inputValue)
+      const matchingOption = options.find(option => option.label === inputValue)
+      if (matchingOption) {
+        onChange(matchingOption.value)
+      }
+      else {
+        onChange(inputValue)
+      }
+    }
+  }
 
   return (
     <S.Select ref={selectContainerRef}>
       <Dropdown
         items={options.map(option => ({
           text: option.label,
-          onClick: () => onChange(option.value)
+          onClick: () => {
+            setLabelValue(option.label)
+            onChange(option.value)
+          },
+          key: option.value
         }))}
         maxWidth={maxWidth}
       >
         <TextInput
-          value={intervalValue}
-          onChange={allowDirectEntry ? val => {  setIntervalValue(val)} : () => {}}
+          value={labelValue}
+          onChange={handleInputChange}
           {...props}
         />
       </Dropdown>

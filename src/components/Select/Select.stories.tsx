@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Meta, ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { Select } from '../../internal' 
+import { Box, Select } from '../../internal' 
 
 export default {
   title: 'Input/Select',
@@ -12,7 +12,12 @@ export default {
 const Template: ComponentStory<typeof Select> = args => {
   const [value, setValue] = useState('option1')
   return (
-    <Select {...args} value={value} onChange={val => setValue(val) }/>
+    <>
+      <Box mb={.5}>
+        Value: {value}
+      </Box>
+      <Select {...args} value={value} onChange={val => setValue(val) }/>
+    </>
   )
 }
 
