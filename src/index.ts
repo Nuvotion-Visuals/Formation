@@ -64,6 +64,10 @@ export { TimelineSurface } from './components/Timeline/TimelineSurface'
 export { LiveTimeIndicator } from './components/Timeline/LiveTimeIndicator'
 export { AutocompleteDropdown } from './components/AutocompleteDropdown/AutocompleteDropdown'
 export { Checkboxes } from './components/Checkboxes/Checkboxes'
+export { FileUpload } from './components/FileUpload/FileUpload'
+export { FileDrop } from './components/DragAndDrop/FileDrop'
+export { DropTarget } from './components/DragAndDrop/DropTarget'
+export { DragOrigin } from './components/DragAndDrop/DragOrigin'
 
 import { Link } from './components/Link/Link'
 let linkComponent = Link as any
