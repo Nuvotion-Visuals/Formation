@@ -63,7 +63,8 @@ library.add(
   fas.faCircle, fas.faCircleDot, fas.faGlobe, fas.faLink,
   fas.faArrowRight, fas.faPaperPlane, fas.faCaretDown, fas.faCaretRight,
   fas.faHashtag, fas.faCaretUp, fas.faCloudUpload, fas.faUpload,
-  fas.faFolder
+  fas.faFolder, fas.faPlay, fas.faPause, fas.faVolumeMute, fas.faVolumeHigh,
+  fas.faExpand, fas.faRepeat
 )
 
 export const parameters = {

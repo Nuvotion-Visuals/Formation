@@ -69,6 +69,8 @@ export { FileDrop } from './components/DragAndDrop/FileDrop'
 export { DropTarget } from './components/DragAndDrop/DropTarget'
 export { DragOrigin } from './components/DragAndDrop/DragOrigin'
 export { FileBrowser } from './components/FileBrowser/FileBrowser'
+export { VideoPlayer } from './components/VideoPlayer/VideoPlayer'
+export { AudioPlayer } from './components/AudioPlayer/AudioPlayer'
 
 import { Link } from './components/Link/Link'
 let linkComponent = Link as any

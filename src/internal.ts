@@ -122,6 +122,8 @@ export { ExpandableList } from './components/ListEditor/ExpandableList'
 export { DateAndTimePicker } from './components/DateAndTimePicker/DateAndTimePicker'
 export { NumberSlider } from './components/Sliders/NumberSlider'
 export { FileBrowser } from './components/FileBrowser/FileBrowser'
+export { VideoPlayer } from './components/VideoPlayer/VideoPlayer'
+export { AudioPlayer } from './components/AudioPlayer/AudioPlayer'
 
 import React from 'react'
 
