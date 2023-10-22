@@ -77,6 +77,5 @@ const S = {
     max-height: ${props => typeof props.maxHeight === 'string' ? props.maxHeight : `${props.maxHeight}rem`};
     min-height: ${props => typeof props.minHeight === 'string' ? props.minHeight : `${props.minHeight}rem`};
     flex-wrap: ${props => props.wrap ? 'wrap' : 'auto'};
-    position: relative;
   `)
 }

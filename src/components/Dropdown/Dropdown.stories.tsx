@@ -238,8 +238,8 @@ const BlendDropdownTemplate: ComponentStory<typeof Dropdown> = (initialArgs: any
   )
 }
 
-export const BlendOptions = BlendDropdownTemplate.bind({})
-BlendOptions.args = {
+export const SearchableDropdownWithImages = BlendDropdownTemplate.bind({})
+SearchableDropdownWithImages.args = {
   text: 'Normal',
   disableCenter: true,
   maxWidth: '200px',

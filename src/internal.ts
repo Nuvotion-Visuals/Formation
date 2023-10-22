@@ -78,6 +78,7 @@ export { ImagePicker } from './components/ImagePicker/ImagePicker'
 export { RichTextEditor } from './components/RichTextEditor/RichTextEditor'
 export { Steps } from './components/Steps/Steps'
 export { Checkboxes } from './components/Checkboxes/Checkboxes'
+export { DropCorners } from './components/DragAndDrop/DropCorners'
 
 // Molecules (1)
 export { ArticlePreview } from './components/ArticlePreview/ArticlePreview'
@@ -96,6 +97,10 @@ export { Item } from './components/ListEditor/Item'
 export { LiveTimeIndicator } from './components/Timeline/LiveTimeIndicator'
 export { AutocompleteDropdown } from './components/AutocompleteDropdown/AutocompleteDropdown'
 export { NumberInput } from './components/NumberInput/NumberInput'
+export { FileUpload } from './components/FileUpload/FileUpload'
+export { FileDrop } from './components/DragAndDrop/FileDrop'
+export { DropTarget } from './components/DragAndDrop/DropTarget'
+export { DragOrigin } from './components/DragAndDrop/DragOrigin'
 
 // Tissue (2)
 export { Navigation } from './components/Navigation/Navigation'

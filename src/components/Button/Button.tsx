@@ -33,7 +33,8 @@ export interface ButtonProps {
   square?: boolean,
   circle?: boolean,
   expandVertical?: boolean,
-  compact?: boolean
+  compact?: boolean,
+  children?: React.ReactNode
 }
 
 export const Button: FC<ButtonProps> = React.memo(({ 
@@ -62,7 +63,8 @@ export const Button: FC<ButtonProps> = React.memo(({
   square,
   circle,
   expandVertical,
-  compact
+  compact,
+  children
 }: ButtonProps) => {
 
   const Link: any = useContext(LinkContext) || IntLink;
@@ -119,12 +121,15 @@ export const Button: FC<ButtonProps> = React.memo(({
             : null
         }
         {
-          text 
+          text || children 
             ? 
               <S.Text 
                 hero={hero}
                 icon={icon}
               >
+                {
+                  children
+                }
                 {
                   text
                 }
@@ -320,6 +325,7 @@ const S = {
   Text: React.memo(styled.div<TextProps>`
     font-size: ${props => props.hero ? 'var(--F_Font_Size_Title)' : 'var(--F_Font_Size)'};
     display: flex;
+    flex-shrink: 0;
   `),
   Button: React.memo(styled.button.attrs({
     type: 'submit',
