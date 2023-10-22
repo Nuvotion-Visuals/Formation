@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { ComponentStory, ComponentMeta } from '@storybook/react'
+import { Meta, ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { Select } from '../../internal'
+import { Select } from '../../internal' 
 
 export default {
   title: 'Input/Select',
@@ -10,42 +10,46 @@ export default {
 
 
 const Template: ComponentStory<typeof Select> = args => {
-  const [value, set_value] = useState<string>('')
-  return <Select 
-    {...args} 
-    value={value} 
-    onChange={newValue => set_value(newValue)} 
-  />
+  const [value, setValue] = useState('option1')
+  return (
+    <Select {...args} value={value} onChange={val => setValue(val) }/>
+  )
 }
 
-export const Label = Template.bind({})
-Label.args = {
-  icon: 'chevron-down',
-  iconPrefix: 'fas',
-  options: ['JavaScript', 'HTML', 'CSS', 'C#', 'TypeScript', 'Python', 'Java'],
-  label: 'Prefered language'
+export const Default = Template.bind({})
+Default.args = {
+  value: 'option1',
+  options: [
+    { label: 'Option 1', value: 'option1' },
+    { label: 'Option 2', value: 'option2' },
+    { label: 'Option 3', value: 'option3' }
+  ],
+  onChange: (val) => console.log('Changed value:', val),
+  compact: true
 }
 
-export const NoLabel = Template.bind({})
-NoLabel.args = {
-  iconPrefix: 'fas',
-  options: ['JavaScript', 'HTML', 'CSS']
+export const SecondaryIcon = Template.bind({})
+SecondaryIcon.args = {
+  value: 'option1',
+  options: [
+    { label: 'Option 1', value: 'option1' },
+    { label: 'Option 2', value: 'option2' },
+    { label: 'Option 3', value: 'option3' }
+  ],
+  onChange: (val) => console.log('Changed value:', val),
+  compact: true,
+  secondaryIcon: 'chevron-down'
 }
 
-export const CustomIcon = Template.bind({})
-CustomIcon.args = {
-  label: 'Size',
-  iconPrefix: 'fas',
-  icon: 'users',
-  options: ['1', '2', '3', '4'],
-  maxWidth: '6rem'
+export const AllowDirectEntry = Template.bind({})
+AllowDirectEntry.args = {
+  value: 'option2',
+  options: [
+    { label: 'Option 1', value: 'option1' },
+    { label: 'Option 2', value: 'option2' },
+    { label: 'Option 3', value: 'option3' }
+  ],
+  onChange: (val) => console.log('Changed value:', val),
+  compact: true,
+  allowDirectEntry: true
 }
-
-export const HideOutline = Template.bind({})
-HideOutline.args = {
-  iconPrefix: 'fas',
-  options: ['JavaScript', 'HTML', 'CSS'],
-  hideOutline: true,
-  placeholder: 'Language'
-}
-

@@ -163,6 +163,7 @@ export const TextInput = React.memo(({
         type={type ? type : 'text'}
         locked={locked}
         focused={focused}
+        disabled={disabled}
         onChange={(event : React.ChangeEvent<HTMLInputElement>)  => {
           if (onChangeEvent) {
             onChangeEvent(event)

@@ -9,7 +9,8 @@ interface Props extends ButtonProps {
   items: ItemProps[]
   onOpen?: (open: boolean) => void
   maxWidth?: string,
-  searchPlaceholder?: string
+  searchPlaceholder?: string,
+  children?: React.ReactNode
 }
 
 export const Dropdown = React.memo((props: Props) => {
@@ -170,17 +171,19 @@ export const Dropdown = React.memo((props: Props) => {
 
   return (
     <>
-      <S.Options ref={myRef} expand={props.expand}>
-        <S.IconContainer 
-          onClick={(e) => {
-            e.stopPropagation()
-            setOpen(!open)}
-          }
-          maxWidth={props.maxWidth}
-          expand={props.expand}
-        >
-          <Button {...props} />
-        </S.IconContainer>
+      <S.Options 
+        ref={myRef} 
+        expand={props.expand} 
+        onClick={(e) => {
+          e.stopPropagation()
+          setOpen(!open)}
+        }
+      >
+        {
+          props.children
+            ? props.children
+            : <Button {...props} />
+        }
       </S.Options>
       {
         portalContainer.current && ReactDOM.createPortal(
@@ -259,15 +262,6 @@ const S = {
     &:hover {
       background: var(--F_Surface);
     }
-  `,
-  IconContainer: styled.div<{
-    maxWidth?: string,
-    expand?: boolean
-  }>`
-    position: relative;
-    color: var(--F_Font_Color);
-    max-width: ${props => props.maxWidth ? props.maxWidth : 'auto'};
-    width: ${props => props.expand ? '100%' : 'auto'};
   `,
   Dropdown: styled.div<{
     maxWidth?: string
