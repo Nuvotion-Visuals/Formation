@@ -68,6 +68,7 @@ export { FileUpload } from './components/FileUpload/FileUpload'
 export { FileDrop } from './components/DragAndDrop/FileDrop'
 export { DropTarget } from './components/DragAndDrop/DropTarget'
 export { DragOrigin } from './components/DragAndDrop/DragOrigin'
+export { FileBrowser } from './components/FileBrowser/FileBrowser'
 
 import { Link } from './components/Link/Link'
 let linkComponent = Link as any
@@ -122,3 +123,5 @@ export { pickIndexFromArray, hashString } from './utils/pickIndexFromArray'
 export { generateUUID } from './utils/generateUUID'
 export { scrollToElementById } from './utils/scrollToElementById'
 export { getAlphabetLetter } from './utils/getAlphabetLetter'
+export { generateThumbnail } from './utils/generateThumbnail'
+export { blobURLToFile } from './utils/blobURLToFile'

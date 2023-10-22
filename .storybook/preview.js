@@ -62,7 +62,8 @@ library.add(
   fas.faSort, fas.faArrowUp, fas.faArrowDown, fas.faThumbTack,
   fas.faCircle, fas.faCircleDot, fas.faGlobe, fas.faLink,
   fas.faArrowRight, fas.faPaperPlane, fas.faCaretDown, fas.faCaretRight,
-  fas.faHashtag, fas.faCaretUp, fas.faCloudUpload, fas.faUpload
+  fas.faHashtag, fas.faCaretUp, fas.faCloudUpload, fas.faUpload,
+  fas.faFolder
 )
 
 export const parameters = {

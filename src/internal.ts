@@ -29,6 +29,8 @@ export { pickIndexFromArray, hashString } from './utils/pickIndexFromArray'
 export { generateUUID } from './utils/generateUUID'
 export { scrollToElementById } from './utils/scrollToElementById'
 export { getAlphabetLetter } from './utils/getAlphabetLetter'
+export { generateThumbnail } from './utils/generateThumbnail'
+export { blobURLToFile } from './utils/blobURLToFile'
 
 // hooks
 export { useBreakpoint } from './hooks/useBreakpoint'
@@ -119,6 +121,7 @@ export { Timeline } from './components/Timeline/Timeline'
 export { ExpandableList } from './components/ListEditor/ExpandableList'
 export { DateAndTimePicker } from './components/DateAndTimePicker/DateAndTimePicker'
 export { NumberSlider } from './components/Sliders/NumberSlider'
+export { FileBrowser } from './components/FileBrowser/FileBrowser'
 
 import React from 'react'
 
