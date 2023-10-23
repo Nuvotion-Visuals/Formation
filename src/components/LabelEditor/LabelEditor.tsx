@@ -32,64 +32,58 @@ export const LabelEditor = ({
   const [internalValue, set_internalValue] = useState(value)
 
   return (<S.CreateLabel>
-    <Box pb={.5}>
       <Label
         label={internalValue.name ? internalValue.name : 'Label preview'}
         labelColor={internalValue.labelColor}
         title={internalValue.description}
       />
-    
-      <Spacer />
-    </Box>
   
     <Gap>
       <TextInput 
         value={internalValue.name} 
         onChange={newValue => set_internalValue({...internalValue, name: newValue})}
         label={'Label Name'}
+        hero
       />
-      <Break />
       <TextInput 
         value={internalValue.description} 
         onChange={newValue => set_internalValue({...internalValue, description: newValue})}
         label={'Description'}
+        hero
       />
-      <Break />
       <LabelColorPicker
         label='Color'
         value={internalValue.labelColor}
         onChange={newValue => set_internalValue({...internalValue, labelColor: newValue})}
         options={labelColors}
       />
-      <Box mt={.125} width='100%'>
-        <Gap>
-          <Button
-            text='Save'
-            onClick={() => {
-              onClose()
-              onChange(internalValue)
-            }}
-            disabled={internalValue.name === ''}
-          />
-          <Button
-            text='Cancel'
-            secondary={true}
-            onClick={onClose}
-          />
-          <Spacer />
-          {
-            onDelete
-              ? <Button
-                  text='Delete'
-                  icon='trash-alt'
-                  iconPrefix='fas'
-                  secondary={true}
-                  onClick={onClose}
-                />
-              : null
-          }
-        </Gap>
-      </Box>
+      <Gap>
+        <Button
+          text='Save'
+          onClick={() => {
+            onClose()
+            onChange(internalValue)
+          }}
+          disabled={internalValue.name === ''}
+        />
+        <Button
+          text='Cancel'
+          secondary={true}
+          onClick={onClose}
+        />
+        <Spacer />
+        {
+          onDelete
+            ? <Button
+                text='Delete'
+                icon='trash-alt'
+                iconPrefix='fas'
+                secondary={true}
+                onClick={onClose}
+              />
+            : null
+        }
+      </Gap>
     </Gap>
     
     
@@ -98,6 +92,7 @@ export const LabelEditor = ({
 
 const S = {
   CreateLabel: styled.div`
+    width: 100%;
     display: flex;
     flex-wrap: wrap;
     gap: .5rem;

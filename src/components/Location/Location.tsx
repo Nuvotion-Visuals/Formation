@@ -276,6 +276,7 @@ export const Location = ({
       iconPrefix={iconPrefix}
       label={label}
       autoFocus={autoFocus}
+      hero
     />
     
     <S.Map id='map' hide={hideMap || !!alwaysHideMap}></S.Map>

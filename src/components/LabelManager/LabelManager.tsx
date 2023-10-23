@@ -32,6 +32,7 @@ export const LabelManager = ({ value, onChange }: Props) => {
         icon='plus'
         iconPrefix='fas'
         onClick={() => set_editingIndex(-1)}
+        compact
       />
     </Box>
   
@@ -59,7 +60,7 @@ export const LabelManager = ({ value, onChange }: Props) => {
     {
       value.map(({ name, description, labelColor }, index) =>
       <>
-        <Box p={.75}>
+        <Box p={.5}>
           <Gap autoWidth={true}>
           {
             editingIndex === index
@@ -93,11 +94,11 @@ export const LabelManager = ({ value, onChange }: Props) => {
           </Gap>
 
           <Spacer />
-          <S.Absolute>
             <Dropdown
               {...{
                 icon: 'ellipsis-vertical',
                 iconPrefix: 'fas',
+                minimalIcon: true,
                 minimal: true,
                 circle: true,
                 items: [
@@ -114,8 +115,6 @@ export const LabelManager = ({ value, onChange }: Props) => {
                 ]
               }}
             />
-          </S.Absolute>
-          
         </Box>
         <LineBreak />
       </>)

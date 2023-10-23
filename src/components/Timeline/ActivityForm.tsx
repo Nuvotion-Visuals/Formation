@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 
 import { ActivityType, areaIdType } from './Timeline'
 
-import { Box, Button, DateAndTimePicker, Select, TextInput, LabelColorPicker } from '../../internal'
+import { Box, Button, DateAndTimePicker, Select, TextInput, LabelColorPicker, Gap } from '../../internal'
 
 
 import { DateTimeFormatter, LocalDate, ZonedDateTime, ZoneId } from '@js-joda/core'
@@ -208,27 +208,25 @@ export const ActivityForm = ({ activity, areas, onChange }: Props) => {
   
   return (
     <S.Container>
-        <Box mb={2}>
-          <TextInput 
-            value={title !== undefined ? title : ''} 
-            onChange={(newValue) => set_title(newValue)} 
-            label={'Title'} 
-          />
-        </Box>
-        <DateAndTimePicker
-          iconPrefix='fas'
-          onChange={result => {set_dateTimeValue(result)}}
-          value={dateTimeValue}
-          isMultiDay={false}
-        />
-        <Box mt={2} mb={4}>
-          <Select
-            options={selectionList.map(selection => ({ label: selection, value: selection }))}
-            value={area !== undefined ? area : areas[0].area}
-            onChange={(newValue: string) => set_area(newValue)}
-            iconPrefix='fas'
-          />
-      </Box>
+      <Gap>
+      <TextInput 
+        value={title !== undefined ? title : ''} 
+        onChange={(newValue) => set_title(newValue)} 
+        label={'Title'} 
+        hero
+      />
+      <DateAndTimePicker
+        iconPrefix='fas'
+        onChange={result => {set_dateTimeValue(result)}}
+        value={dateTimeValue}
+        isMultiDay={false}
+      />
+      <Select
+        options={selectionList.map(selection => ({ label: selection, value: selection }))}
+        value={area !== undefined ? area : areas[0].area}
+        onChange={(newValue: string) => set_area(newValue)}
+        iconPrefix='fas'
+      />
       <LabelColorPicker
         options={[
           'red',
@@ -247,24 +245,21 @@ export const ActivityForm = ({ activity, areas, onChange }: Props) => {
         value={labelColor !== undefined ? labelColor : 'gray'}
         onChange={newValue => set_areaColor(newValue)}
       />
-      <Box mb={.5}>
-        <Button
-          text='Save'
-          primary={true}
-          expand={true}
-          onClick={(e: React.MouseEvent) => onClick(e)}
-        />
-      </Box>
-      <Box>
-        <Button
-          text='Remove'
-          name={'remove'}
-          primary={false}
-          expand={true}
-          secondary
-          onClick={(e: React.MouseEvent) => onClick(e)}
-        />
-      </Box>
+      <Button
+        text='Save'
+        primary={true}
+        expand={true}
+        onClick={(e: React.MouseEvent) => onClick(e)}
+      />
+      <Button
+        text='Remove'
+        name={'remove'}
+        primary={false}
+        expand={true}
+        secondary
+        onClick={(e: React.MouseEvent) => onClick(e)}
+      />
+      </Gap>
     </S.Container>
   )
 }

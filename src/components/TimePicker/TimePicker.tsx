@@ -196,6 +196,7 @@ export const TimePicker = ({
         onBlur={() => set_preventFocus(isTouchCapable())}
         forceFocus={isOpen}
         autoFocus={autoFocus}
+        hero
       />
 
       {

@@ -56,13 +56,15 @@ const Template: ComponentStory<typeof List> = args => {
         label='Name'
         onChange={newValue => set_newItemName(newValue)}
         onEnter={newItemName !== '' ? add : undefined}
+        hero
       />
       <Button
-        text='Add'
         icon='plus'
         iconPrefix='fas'
+        circle
         onClick={add}
         disabled={newItemName === ''}
+        hero
       />
       
       </Gap>

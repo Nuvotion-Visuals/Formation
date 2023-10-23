@@ -26,6 +26,3 @@ export const Default = Template.bind({})
 Default.args = {
 
 }
-Default.parameters = {
-  layout: 'fullscreen'
-}

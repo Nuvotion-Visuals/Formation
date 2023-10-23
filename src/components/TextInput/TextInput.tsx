@@ -13,6 +13,7 @@ export type TextInputProps = {
   error?: string,
   disabled?: boolean,
   compact?: boolean,
+  hero?: boolean,
   success?: boolean,
   type?: string,
   id?: string,
@@ -46,6 +47,7 @@ export const TextInput = React.memo(({
   success, 
   disabled, 
   compact,
+  hero,
   type, 
   onChange,
   id,
@@ -112,22 +114,19 @@ export const TextInput = React.memo(({
       forceFocus={forceFocus}
       hideOutline={hideOutline}
       dropdownOpen={dropdownOpen}
+      hero={hero}
     >
       <S.ErrorIconContainer>
         
         {
           labelColor &&
-            <S.IconContainer 
-              error={false}
-            >
-              <Box ml={-.125}>
-                <LabelColorCircle
-                  labelColor={labelColor}
-                  ref={null}
-                  onClick={() => {}}
-                />
-              </Box>
-              </S.IconContainer> 
+            <Box mr={.25}>
+              <LabelColorCircle
+                labelColor={labelColor}
+                ref={null}
+                onClick={() => {}}
+              />
+            </Box>
         }
     
         {
@@ -146,6 +145,7 @@ export const TextInput = React.memo(({
         name={name}
         value={value}
         compact={compact}
+        hero={hero || label}
         preventFocus={preventFocus}
         placeholder={placeholder}
         onKeyDown={onEnter 
@@ -220,7 +220,7 @@ export const TextInput = React.memo(({
         hasIcon={icon !== undefined || labelColor !== undefined} 
         shrink={value !== '' || focused}
         disableAnimation={value !== '' && !focused}
-        hide={label === undefined || compact}
+        hide={label === undefined || !hero}
       >
         {
           label
@@ -281,6 +281,7 @@ const S = {
     disabled?: boolean,
     success?: boolean,
     compact?: boolean,
+    hero?: boolean,
     forceFocus?: boolean,
     hideOutline?: boolean,
     dropdownOpen?: boolean
@@ -290,7 +291,10 @@ const S = {
     align-items: center;
     padding: 0 1rem;
     width: calc(100% - 2rem);
-    height: ${props => props.compact ? 'var(--F_Input_Height)' : 'var(--F_Input_Height_Hero)'};
+    height: ${props => 
+      props.hero
+        ? 'var(--F_Input_Height_Hero)'
+        : props.compact ? 'var(--F_Input_Height_Compact)' : 'var(--F_Input_Height)'};
     line-height: 0;
     border-radius: .75rem;
     border-radius: ${props => props.dropdownOpen ? '.75rem .75rem 0 0' : '.75rem'};

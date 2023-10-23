@@ -96,6 +96,7 @@ export const LabelColorPicker = ({
         preventFocus={preventFocus}
         onBlur={() => set_preventFocus(isTouchCapable())}
         labelColor={value as any}
+        hero
       />
 
       {

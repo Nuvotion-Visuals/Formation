@@ -20,11 +20,26 @@ const Template: ComponentStory<typeof TextInput> = args => {
 
 export const Regular = Template.bind({})
 Regular.args = {
+  placeholder: 'First name',
+}
+
+export const Hero = Template.bind({})
+Hero.args = {
   label: 'First name',
+  hero: true
 }
 
 export const Email = Template.bind({})
 Email.args = {
+  placeholder: 'Email address',
+  icon: 'envelope',
+  iconPrefix: 'fas',
+  type: 'email',
+}
+
+export const HeroEmail = Template.bind({})
+HeroEmail.args = {
+  hero: true,
   label: 'Email address',
   icon: 'envelope',
   iconPrefix: 'fas',
@@ -33,16 +48,15 @@ Email.args = {
 
 export const Phone = Template.bind({})
 Phone.args = {
-  label: 'Phone number',
+  placeholder: 'Phone number',
   icon: 'phone',
   iconPrefix: 'fas',
   type: 'tel',
 }
 
-
 export const Error = Template.bind({})
 Error.args = {
-  label: 'Email address',
+  placeholder: 'Email address',
   icon: 'envelope',
   error: 'Error: Please use a valid email',
   iconPrefix: 'fas'
@@ -50,7 +64,7 @@ Error.args = {
 
 export const Success = Template.bind({})
 Success.args = {
-  label: 'Email address',
+  placeholder: 'Email address',
   icon: 'envelope',
   success: true,
   iconPrefix: 'fas'
@@ -58,7 +72,7 @@ Success.args = {
 
 export const Hint = Template.bind({})
 Hint.args = {
-  label: 'Email address',
+  placeholder: 'Email address',
   icon: 'envelope',
   iconPrefix: 'fas',
   hint: 'Your email address is never shared with third parties.'
@@ -71,16 +85,15 @@ NoLabel.args = {
 
 export const Compact = Template.bind({})
 Compact.args = {
-  label: 'Search',
+  placeholder: 'Search',
   icon: 'search',
   compact: true,
   iconPrefix: 'fas',
-  placeholder: 'Search'
 }
 
 export const AutoFocus = Template.bind({})
 AutoFocus.args = {
-  label: 'First name',
+  placeholder: 'First name',
   autoFocus: true
 }
 

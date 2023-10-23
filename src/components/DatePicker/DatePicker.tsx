@@ -317,6 +317,7 @@ export const DatePicker = ({
         onBlur={() => set_preventFocus(isTouchCapable())}
         onClick={() => set_isOpen(!isOpen)}
         forceFocus={isOpen}
+        hero
       />
 
       {

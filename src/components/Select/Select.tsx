@@ -30,11 +30,11 @@ export const Select = ({
     }
   }, [value, options])
 
-  useEffect(() => {
+  const updateMaxWidth = () => {
     if (selectContainerRef.current) {
       setMaxWidth(`${selectContainerRef.current.offsetWidth}px`)
     }
-  }, [])
+  }
 
   useEffect(() => {
     const matchingOption = options.find(option => option.label === labelValue)
@@ -68,6 +68,7 @@ export const Select = ({
           key: option.value
         }))}
         maxWidth={maxWidth}
+        onOpen={() => updateMaxWidth()}
       >
         <TextInput
           value={labelValue}

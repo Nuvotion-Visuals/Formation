@@ -3,7 +3,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react'
 
 import { ExpandableLists } from './ExpandableLists'
 
-import { TextInput, Box, LineBreak, Button, Gap, Label, Select } from '../../internal'
+import { TextInput, Box, LineBreak, Button, Gap, Label, Select, NumberInput } from '../../internal'
 
 export default {
   title: 'Items/ExpandableLists',
@@ -92,14 +92,19 @@ const Template: ComponentStory<typeof ExpandableLists> = args => {
         label='Position Name'
         onChange={newValue => set_newItemName(newValue)}
         onEnter={newItemName !== '' ? add : undefined}
+        hero
       />
       <Select
         label='Count'
-        options={new Array(50).fill(0).map((item, i) => String(i + 1))}
+        options={new Array(50).fill(0).map((item, i) => ({
+          label: String(i + 1),
+          value: String(i + 1)
+        }))}
         value={String(count)}
         onChange={newValue => set_count(Number(newValue))}
         icon='users'
         iconPrefix='fas'
+        hero
       />
       <Button
         icon='plus'

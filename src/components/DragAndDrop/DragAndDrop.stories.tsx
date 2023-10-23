@@ -138,7 +138,7 @@ const Template: ComponentStory<typeof DragOrigin> = () => {
                   compact 
                   placeholder='Add new To Do'
                 />
-                <Button onClick={addTask} icon='plus' iconPrefix='fas' />
+                <Button onClick={addTask} icon='plus' iconPrefix='fas' compact disabled={newTask === ''} />
               </Gap>
             </Box>
             

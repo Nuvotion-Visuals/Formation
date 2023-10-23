@@ -166,7 +166,7 @@ export const DateAndTimePicker = ({
 
       
 
-      <Box pt={.5} width='100%'>
+      <Box  width='100%'>
         {
           isMultiDay == undefined
             ?   <></>
