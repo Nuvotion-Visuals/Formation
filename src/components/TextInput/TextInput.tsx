@@ -38,7 +38,8 @@ export type TextInputProps = {
   buttons?: ButtonProps[],
   canClear?: boolean,
   onClear?: () => void,
-  dropdownOpen?: boolean
+  dropdownOpen?: boolean,
+  backgroundColor?: string
 }
 
 export const TextInput = React.memo(({ 
@@ -72,7 +73,8 @@ export const TextInput = React.memo(({
   buttons,
   canClear,
   onClear,
-  dropdownOpen
+  dropdownOpen,
+  backgroundColor
 }: TextInputProps) => {
   // @ts-ignore
   const autoFocusRef = useCallback(el => el && autoFocus ? el.focus() : null, [])
@@ -115,6 +117,7 @@ export const TextInput = React.memo(({
       hideOutline={hideOutline}
       dropdownOpen={dropdownOpen}
       hero={hero}
+      backgroundColor={backgroundColor}
     >
       <S.ErrorIconContainer>
         
@@ -284,13 +287,15 @@ const S = {
     hero?: boolean,
     forceFocus?: boolean,
     hideOutline?: boolean,
-    dropdownOpen?: boolean
+    dropdownOpen?: boolean,
+    backgroundColor?: string
   }>`
     position: relative;
     display: flex;
     align-items: center;
     padding: 0 1rem;
-    width: calc(100% - 2rem);
+    padding: ${props => props.compact ? '0 .75rem' : '0 1rem'};
+    width: ${props => props.compact ? 'calc(100% - 1.5rem)' : 'calc(100% - 2rem)'};
     height: ${props => 
       props.hero
         ? 'var(--F_Input_Height_Hero)'
@@ -298,6 +303,7 @@ const S = {
     line-height: 0;
     border-radius: .75rem;
     border-radius: ${props => props.dropdownOpen ? '.75rem .75rem 0 0' : '.75rem'};
+    background: ${props => props.backgroundColor ? props.backgroundColor : 'none'};
     box-shadow: ${props => 
       props.hideOutline
         ? 'none'

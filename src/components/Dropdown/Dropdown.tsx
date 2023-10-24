@@ -10,7 +10,10 @@ interface Props extends ButtonProps {
   onOpen?: (open: boolean) => void
   maxWidth?: string,
   searchPlaceholder?: string,
-  children?: React.ReactNode
+  children?: React.ReactNode,
+  isSelect?: boolean,
+  disableSearch?: boolean,
+  backgroundColor?: string
 }
 
 export const Dropdown = React.memo((props: Props) => {
@@ -159,7 +162,7 @@ export const Dropdown = React.memo((props: Props) => {
 
   const [search, set_search] = useState('')
 
-  const enableSearch = props.items.length > 10
+  const enableSearch = (props.items.length > 10) && !props.disableSearch
 
   const filteredItems = enableSearch
     ? props.items.filter(itemProps => 
@@ -191,10 +194,12 @@ export const Dropdown = React.memo((props: Props) => {
             ref={dropdownRef} 
             style={{ visibility: 'hidden' }}
             maxWidth={props.maxWidth}
+            isSelect={props.isSelect}
+            backgroundColor={props.backgroundColor}
           >
             {
               enableSearch &&
-                <S.Sticky>
+                <S.Sticky backgroundColor={props.backgroundColor}>
                   <TextInput
                     value={search}
                     onChange={val => set_search(val)}
@@ -203,6 +208,7 @@ export const Dropdown = React.memo((props: Props) => {
                     compact
                     placeholder={props.searchPlaceholder ? props.searchPlaceholder : 'Search...'}
                     autoFocus
+                    backgroundColor='var(--F_Background)'
                   />
                 </S.Sticky>
             }
@@ -264,18 +270,28 @@ const S = {
     }
   `,
   Dropdown: styled.div<{
-    maxWidth?: string
+    maxWidth?: string,
+    isSelect?: boolean,
+    backgroundColor?: string
   }>`
     position: fixed;
     z-index: 1000;
-    background: var(--F_Surface);
-    box-shadow: var(--F_Outline_Outset);
+    background: ${props => props.backgroundColor ? props.backgroundColor : 'var(--F_Background)'};
+    box-shadow: var(--F_Outline_Outset_Focus);
     border-radius: .375rem;
     overflow: hidden;
+    margin-left: ${props => props.isSelect ? '-1px' : '0'};
     user-select: none;
-    width: ${props => props.maxWidth ? props.maxWidth : '110px'};
+    width: ${props => 
+      props.maxWidth 
+        ? props.isSelect
+          ? `calc(${props.maxWidth} - 2px)` 
+          : props.maxWidth
+        : '110px'
+    };
     max-height: 400px;  // Add max-height
     overflow-y: auto;   // Add overflow-y
+    border-radius: ${props => props.isSelect ? '0 0 .375rem .375rem' : '.375rem'};
   `,
   DropdownOption: styled.div<{
     onClick: Function | null
@@ -311,11 +327,13 @@ const S = {
     font-size: var(--F_Font_Size);
     display: flex;
   `,
-  Sticky: styled.div`
+  Sticky: styled.div<{
+    backgroundColor?: string
+  }>`
     position: sticky;
     top: 0;
     z-index: 1;
-    background: var(--F_Surface);
+    background: ${props => props.backgroundColor ? props.backgroundColor : 'var(--F_Background)'};
     padding: .25rem;
   `
 }

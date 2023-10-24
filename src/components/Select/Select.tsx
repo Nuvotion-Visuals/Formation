@@ -9,7 +9,8 @@ interface Props extends TextInputProps {
     value: string
   }[],
   onChange: (val: string) => void,
-  allowDirectEntry?: boolean
+  allowDirectEntry?: boolean,
+  backgroundColor?: string
 }
 
 export const Select = ({
@@ -17,11 +18,13 @@ export const Select = ({
   options,
   onChange,
   allowDirectEntry,
+  backgroundColor,
   ...props
 }: Props) => {
   const [labelValue, setLabelValue] = useState(value)
   const [maxWidth, setMaxWidth] = useState<string | undefined>('100%')
   const selectContainerRef = useRef<HTMLDivElement>(null)
+  const [isOpen, setIsOpen] = useState(false)
 
   useEffect(() => {
     const matchingOption = options.find(option => option.value === value)
@@ -60,7 +63,9 @@ export const Select = ({
     <S.Select ref={selectContainerRef}>
       <Dropdown
         items={options.map(option => ({
-          text: option.label,
+          text: props.compact ? option.label : undefined,
+          title: props.compact ? undefined : option.label,
+          active: value === option.value,
           onClick: () => {
             setLabelValue(option.label)
             onChange(option.value)
@@ -68,12 +73,19 @@ export const Select = ({
           key: option.value
         }))}
         maxWidth={maxWidth}
-        onOpen={() => updateMaxWidth()}
+        onOpen={(isOpen) => {
+          updateMaxWidth()
+          setIsOpen(isOpen)
+        }}
+        isSelect
+        backgroundColor={backgroundColor}
       >
         <TextInput
           value={labelValue}
           onChange={handleInputChange}
           {...props}
+          dropdownOpen={isOpen}
+          backgroundColor={backgroundColor}
         />
       </Dropdown>
     </S.Select>

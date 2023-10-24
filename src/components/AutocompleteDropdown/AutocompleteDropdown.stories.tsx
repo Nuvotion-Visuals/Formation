@@ -38,6 +38,9 @@ const Template: ComponentStory<typeof AutocompleteDropdown> = args => {
     set_suggestions(newSuggestions.map(suggestion => ({
       value: suggestion,
       text: suggestion,
+      icon: 'search',
+      indent: true,
+      iconPrefix: 'fas',
       src: 'https://app.lexi.studio/image/prompt/wireframe%20tall%20mountain%20made%20of%20node%20wireframes%20glowing'
     })))
   }, [])
@@ -55,5 +58,6 @@ const Template: ComponentStory<typeof AutocompleteDropdown> = args => {
 export const Search = Template.bind({})
 Search.args = {
   placeholder: 'Search',
-  icon: 'search'
+  icon: 'search',
+  iconPrefix: 'fas'
 }

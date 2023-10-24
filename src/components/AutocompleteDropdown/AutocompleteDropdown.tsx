@@ -1,137 +1,77 @@
+import React, { useState, useEffect, useRef } from 'react'
+import { Dropdown, TextInput, TextInputProps, ItemProps } from '../../internal'
 import styled from 'styled-components'
-import React, { useEffect, useRef, useState } from 'react'
-import { Item, ItemProps, TextInputProps, isTouchCapable } from '../../internal'
-import { useOnClickOutside } from '../../internal'
-import { useScrollTo } from '../../internal'
-import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
-import { TextInput } from '../../internal'
-
-const Dropdown = React.memo(({ 
-  value,
-  onChange,
-  onClose,
-  items,
-  hasIcon,
-  maxWidth
-} : {
-  value: string,
-  onChange: (arg0: string) => void,
-  onClose: () => void,
-  items: ItemProps[],
-  hasIcon: boolean,
-  maxWidth?: string
-}) => {
-
-  const scrollContainerRef = useRef<HTMLDivElement | null>(null)
-  const scrollToRef = useRef<HTMLDivElement | null>(null)
-
-  useOnClickOutside(scrollContainerRef, () => {
-    onClose()
-  })
-
-  const { set_scrollTo } = useScrollTo(scrollContainerRef, scrollToRef);
-
-  useEffect(() => {
-    set_scrollTo(true)
-  }, [])
-
-  return <S.DropdownDropdown 
-    ref={scrollContainerRef} 
-    hasIcon={hasIcon}
-    maxWidth={maxWidth}
-  >
-    {
-      items.map(item =>
-        <S.Item 
-          key={item.value}
-          ref={value === item.value ? scrollToRef : null}
-        >
-          <Item
-            {...item}
-            onClick={(e) => {
-              e.stopPropagation()
-              e.preventDefault()
-              if (item.onClick) {
-                item.onClick(e)
-              }
-              onChange(item.value)
-              onClose()
-            }}
-            indent
-          />
-        </S.Item>  
-      )
-    }
-  </S.DropdownDropdown>
-})
 
 interface Props extends TextInputProps {
-  onChange: (arg0: string) => void,
-  error?: string,
+  value: string,
   items: ItemProps[],
-  maxWidth?: string,
+  onChange: (val: string) => void,
+  allowCustomEntry?: boolean,
+  maxWidth?: string
 }
 
-export const AutocompleteDropdown = React.memo((props: Props) => {
-
-  const {
-    value,
-    onChange,
-    label,
-    error,
-    items,
-    icon,
-    iconPrefix,
-    maxWidth,
-    placeholder,
-    compact
-  } = props
-
-  const [isOpen, set_isOpen] = useState(false)
-  const [displayValue, set_displayValue] = useState(value)
+export const AutocompleteDropdown = ({
+  value,
+  items,
+  onChange,
+  ...props
+}: Props) => {
+  const [displayValue, setDisplayValue] = useState(value)
+  const [maxWidth, setMaxWidth] = useState<string | undefined>('100%')
+  const autoCompleteContainerRef = useRef<HTMLDivElement>(null)
+  const [isOpen, setIsOpen] = useState(false)
 
   useEffect(() => {
-    set_displayValue(value)
+    setDisplayValue(value)
   }, [value])
 
-  return (
-    <S.AutocompleteDropdown 
-      onClick={() => {
-        if (!isOpen) {
-          set_isOpen(true)
-        }
-      }}
-      maxWidth={maxWidth}
-    >
-      <TextInput
-       {
-          ...props
-        }
-        value={displayValue}
-        onChange={value => onChange(value)}
-        error={error}
-        forceFocus={isOpen}
-        placeholder={placeholder}
-        compact={compact}
-        dropdownOpen={isOpen && items.length !== 0}
-        canClear={value !== ''}
-      />
+  const updateMaxWidth = () => {
+    if (autoCompleteContainerRef.current) {
+      setMaxWidth(`${autoCompleteContainerRef.current.offsetWidth}px`)
+    }
+  }
 
-      {
-        isOpen && items.length
-          ? <Dropdown
-              onChange={newValue => onChange(newValue)}
-              value={value}
-              onClose={() => set_isOpen(false)}
-              items={items}
-              hasIcon={iconPrefix !== undefined}
-              maxWidth={maxWidth}
-            />
-        : null
-      }
+  const handleInputChange = (inputValue: string) => {
+    setDisplayValue(inputValue)
+    const matchingItem = items.find(item => item.value === inputValue)
+    if (matchingItem) {
+      onChange(matchingItem.value)
+    }
+    else {
+      onChange(inputValue)
+    }
+  }
+
+  return (
+    <S.AutocompleteDropdown ref={autoCompleteContainerRef}>
+      <Dropdown
+        items={items.map(item => ({
+          ...item,
+          onClick: () => {
+            setDisplayValue(item.value)
+            onChange(item.value)
+          },
+          key: item.value
+        }))}
+        maxWidth={maxWidth}
+        onOpen={(isOpen) => {
+          updateMaxWidth()
+          setIsOpen(isOpen)
+        }}
+        disableSearch
+        isSelect
+      >
+        <TextInput
+          value={displayValue}
+          onChange={handleInputChange}
+          {...props}
+          dropdownOpen={isOpen}
+        />
+      </Dropdown>
     </S.AutocompleteDropdown>
   )
-})
+}
+
 
 const S = {
   AutocompleteDropdown: styled.div<{

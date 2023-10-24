@@ -42,7 +42,6 @@ SecondaryIcon.args = {
     { label: 'Option 3', value: 'option3' }
   ],
   onChange: (val) => console.log('Changed value:', val),
-  compact: true,
   secondaryIcon: 'chevron-down'
 }
 

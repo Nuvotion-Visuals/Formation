@@ -243,6 +243,7 @@ SearchableDropdownWithImages.args = {
   text: 'Normal',
   disableCenter: true,
   maxWidth: '200px',
+  backgroundColor: 'var(--F_Surface)',
   items: blendModes.map(bl => ({
     text: bl.name,
     prefix: (bl.name && !bl.name.includes('Modes')) ? <img src={`/blendPreviews/${bl.name}.jpg`} style={{ width: '60px', minWidth: '60px' }} /> : undefined,
