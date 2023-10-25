@@ -1,3 +1,4 @@
+import { IconPrefix } from '@fortawesome/fontawesome-common-types'
 import { Button, Icon, NumberSlider } from '../../internal'
 import React, {
   useRef,
@@ -12,7 +13,8 @@ type CustomVideoPlayerProps = {
   src: string
   autoplay?: boolean
   loop?: boolean,
-  name?: string
+  name?: string,
+  iconPrefix?: IconPrefix
 }
 
 export interface CustomVideoPlayerRef {
@@ -21,7 +23,7 @@ export interface CustomVideoPlayerRef {
 }
 
 export const VideoPlayer = React.memo(forwardRef<CustomVideoPlayerRef, CustomVideoPlayerProps>(
-  ({ src, autoplay, loop, name }, ref) => {
+  ({ src, autoplay, loop, name, iconPrefix }, ref) => {
     const videoRef = useRef<HTMLVideoElement>(null)
     const [isPlaying, setIsPlaying] = useState(false)
     const [volume, setVolume] = useState(1)
@@ -226,7 +228,7 @@ export const VideoPlayer = React.memo(forwardRef<CustomVideoPlayerRef, CustomVid
           showIcon && <S.PlayPauseIcon ref={iconRef} key={animationKey}>
           <Icon
             icon={isPlaying ? 'play' : 'pause'}
-            iconPrefix='fas'
+            iconPrefix={iconPrefix ? iconPrefix : 'fas'}
             size={'2x'}
           />
         </S.PlayPauseIcon>
@@ -235,7 +237,7 @@ export const VideoPlayer = React.memo(forwardRef<CustomVideoPlayerRef, CustomVid
         <S.Controls>
           <Button
             icon={isPlaying ? 'pause' : 'play'}
-            iconPrefix='fas'
+            iconPrefix={iconPrefix ? iconPrefix : 'fas'}
             onClick={togglePlayPause}
             minimal
           />
@@ -262,7 +264,7 @@ export const VideoPlayer = React.memo(forwardRef<CustomVideoPlayerRef, CustomVid
 
           <Button
             icon={isMuted ? 'volume-mute' : 'volume-high'}
-            iconPrefix='fas'
+            iconPrefix={iconPrefix ? iconPrefix : 'fas'}
             onClick={toggleMute}
             minimal
           />
@@ -281,7 +283,7 @@ export const VideoPlayer = React.memo(forwardRef<CustomVideoPlayerRef, CustomVid
 
           <Button
             icon='download'
-            iconPrefix='fas'
+            iconPrefix={iconPrefix ? iconPrefix : 'fas'}
             minimal
             onClick={handleDownload}
           />
@@ -289,7 +291,7 @@ export const VideoPlayer = React.memo(forwardRef<CustomVideoPlayerRef, CustomVid
           <S.Emphasize emphasize={!!isRepeatOne}>
             <Button
               icon={'repeat'}
-              iconPrefix='fas'
+              iconPrefix={iconPrefix ? iconPrefix : 'fas'}
               onClick={toggleRepeatOne}
               minimal
             />
@@ -297,7 +299,7 @@ export const VideoPlayer = React.memo(forwardRef<CustomVideoPlayerRef, CustomVid
 
           <Button
             icon='expand'
-            iconPrefix='fas'
+            iconPrefix={iconPrefix ? iconPrefix : 'fas'}
             onClick={toggleFullScreen}
             minimal
           />

@@ -1,3 +1,4 @@
+import { IconPrefix } from '@fortawesome/fontawesome-common-types'
 import { Button, NumberSlider } from '../../internal'
 
 import React, {
@@ -12,7 +13,8 @@ import styled from 'styled-components'
 
 type CustomAudioPlayerProps = {
   src: string,
-  name?: string
+  name?: string,
+  iconPrefix?: IconPrefix
 }
 
 export interface CustomAudioPlayerRef {
@@ -21,7 +23,7 @@ export interface CustomAudioPlayerRef {
 }
 
 export const AudioPlayer = React.memo(forwardRef<CustomAudioPlayerRef, CustomAudioPlayerProps>(
-  ({ src, name }, ref) => {
+  ({ src, name, iconPrefix }, ref) => {
     const audioRef = useRef<HTMLAudioElement>(null)
     const [isPlaying, setIsPlaying] = useState(false)
     const [volume, setVolume] = useState(1)
@@ -177,7 +179,7 @@ export const AudioPlayer = React.memo(forwardRef<CustomAudioPlayerRef, CustomAud
         />
         <Button
           icon={isPlaying ? 'pause' : 'play'}
-          iconPrefix='fas'
+          iconPrefix={iconPrefix ? iconPrefix : 'fas'}
           onClick={togglePlayPause}
           minimal
         />
@@ -204,7 +206,7 @@ export const AudioPlayer = React.memo(forwardRef<CustomAudioPlayerRef, CustomAud
        
         <Button
           icon={isMuted ? 'volume-mute' : 'volume-high'}
-          iconPrefix='fas'
+          iconPrefix={iconPrefix ? iconPrefix : 'fas'}
           onClick={toggleMute}
           minimal
         />
@@ -223,7 +225,7 @@ export const AudioPlayer = React.memo(forwardRef<CustomAudioPlayerRef, CustomAud
        
         <Button
           icon='download'
-          iconPrefix='fas'
+          iconPrefix={iconPrefix ? iconPrefix : 'fas'}
           minimal
           onClick={handleDownload}
         />
