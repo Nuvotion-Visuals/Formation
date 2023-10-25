@@ -63,8 +63,7 @@ export const Select = ({
     <S.Select ref={selectContainerRef}>
       <Dropdown
         items={options.map(option => ({
-          text: props.compact ? option.label : undefined,
-          title: props.compact ? undefined : option.label,
+          text: option.label,
           active: value === option.value,
           onClick: () => {
             setLabelValue(option.label)
