@@ -1,5 +1,5 @@
-import { Box, NumberSlider } from '../../internal'
-import React, { useRef, useState } from 'react'
+import { Box, Button, Gap, NumberSlider } from '../../internal'
+import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 
 interface TrackData {
@@ -116,6 +116,7 @@ const Tk = {
     display: flex;
     align-items: center;
     position: absolute;
+    cursor: grab;
   `,
   DragHandle: styled.div`
     width: 24px;
@@ -216,19 +217,79 @@ export const Timeline = ({ }: TimelineProps) => {
     }
   ])
 
+  const [history, setHistory] = useState([trackData])
+  const [pointer, setPointer] = useState(0)
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null)
+
+  const debounceUpdateHistory = (newData: TrackData[]) => {
+    if (timeoutRef.current !== null) {
+      clearTimeout(timeoutRef.current)
+    }
+    timeoutRef.current = setTimeout(() => {
+      setHistory(prev => {
+        const newHistory = prev.slice(0, pointer + 1)
+        newHistory.push(newData)
+        return newHistory
+      })
+      setPointer(prev => prev + 1)
+    }, 300)
+  }
+
+  const undo = () => {
+    if (pointer > 0) {
+      setPointer(prev => {
+        const newPointer = prev - 1
+        setTrackData(history[newPointer])
+        return newPointer
+      })
+    }
+  }
+
+  const redo = () => {
+    if (pointer < history.length - 1) {
+      setPointer(prev => {
+        const newPointer = prev + 1
+        setTrackData(history[newPointer])
+        return newPointer
+      })
+    }
+  }
+
+  useEffect(() => {
+    if (pointer === history.length - 1 || pointer === -1) {
+      debounceUpdateHistory(trackData)
+    }
+  }, [trackData])
+
   return (<T.Timeline>
     <T.Top>
-      <Box width={8}>
-        <NumberSlider
-          value={scale}
-          onChange={val => setScale(val)}
-          precise
-          min={1}
-          max={100}
+      <Gap>
+        <Box width={8}>
+          <NumberSlider
+            value={scale}
+            onChange={val => setScale(val)}
+            precise
+            min={1}
+            max={100}
+          />
+        </Box>
+        <Button
+          icon='undo'
+          iconPrefix='fas'
+          minimal
+          compact
+          onClick={undo}
         />
-      </Box>
+        <Button
+          icon='redo'
+          iconPrefix='fas'
+          minimal
+          compact
+          onClick={redo}
+        />
+      </Gap>
     </T.Top>
-    <TimeRuler />
+    <TimeRuler totalFrames={totalFrames} frameRate={frameRate} />
     <T.Layers>
       <Layer 
         trackData={trackData} 
@@ -263,42 +324,40 @@ const T = {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 interface TimeRulerProps {
-  
+  frameRate: number
+  totalFrames: number
 }
-export const TimeRuler = ({  }: TimeRulerProps) => {
+
+const framesToTime = (frames: number, frameRate: number) => {
+  const totalSeconds = frames / frameRate
+  const hours = Math.floor(totalSeconds / 3600)
+  const minutes = Math.floor((totalSeconds - (hours * 3600)) / 60)
+  const seconds = Math.floor(totalSeconds - (hours * 3600) - (minutes * 60))
+
+  return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
+}
+
+export const TimeRuler: React.FC<TimeRulerProps> = ({ frameRate, totalFrames }) => {
   return (
     <Tr.TimeRuler>
-
+      {Array.from({ length: 7 }, (_, i) => i * 15).map(percentage => {
+        const frames = Math.floor((percentage / 100) * totalFrames)
+        const time = framesToTime(frames, frameRate)
+        return (
+          <Tr.TimeMark key={time} style={{ left: `${percentage}%` }}>
+            <Tr.Line />
+            <Tr.TimeLabel>{time}</Tr.TimeLabel>
+          </Tr.TimeMark>
+        )
+      })}
     </Tr.TimeRuler>
   )
 }
 
 const Tr = {
-    TimeRuler: styled.div`
+  TimeRuler: styled.div`
+    position: relative;
     width: 100%;
     height: calc(var(--F_Input_Height) / 2);
     background: var(--F_Surface_0);
@@ -307,7 +366,24 @@ const Tr = {
       var(--F_Surface),
       var(--F_Surface) 1px,
       transparent 1px,
-      transparent 10px
+      transparent calc(100% / 200)
     );
+  `,
+  TimeMark: styled.div`
+    position: absolute;
+    bottom: 0;
+    height: 100%;
+  `,
+  Line: styled.div`
+    position: absolute;
+    width: 1px;
+    height: var(--F_Input_Height);
+    background-color: var(--F_Font_Color_Label);
+  `,
+  TimeLabel: styled.div`
+    position: absolute;
+    bottom: .125rem;
+    padding-left: .25rem;
+    color: var(--F_Font_Color_Label);
   `
 }
