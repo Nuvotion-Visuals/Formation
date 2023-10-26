@@ -261,6 +261,61 @@ export const Timeline = ({ }: TimelineProps) => {
     }
   }, [trackData])
 
+  const [playheadPosition, setPlayheadPosition] = useState<number>(0)
+  const [isPlaying, setIsPlaying] = useState<boolean>(false)
+  const animationFrameId = useRef<number | null>(null)
+  const lastFrameTime = useRef<number>(Date.now())
+  
+  const handlePlayPause = () => {
+    setIsPlaying(!isPlaying)
+  }
+
+  const movePlayhead = () => {
+    const currentTime = Date.now()
+    const elapsed = currentTime - lastFrameTime.current
+
+    if (elapsed > (1000 / frameRate)) {
+      setPlayheadPosition(prev => prev + 1)
+      lastFrameTime.current = currentTime - (elapsed % (1000 / frameRate))
+    }
+
+    animationFrameId.current = requestAnimationFrame(movePlayhead)
+  }
+
+  useEffect(() => {
+    if (isPlaying) {
+      animationFrameId.current = requestAnimationFrame(movePlayhead)
+    } else {
+      if (animationFrameId.current !== null) {
+        cancelAnimationFrame(animationFrameId.current)
+      }
+    }
+    
+    return () => {
+      if (animationFrameId.current !== null) {
+        cancelAnimationFrame(animationFrameId.current)
+      }
+    }
+  }, [isPlaying])
+
+  const skipForward = () => {
+    // Find the closest next offset.
+    const nextOffsets = trackData.map(track => track.offset).filter(offset => offset > playheadPosition)
+    if (nextOffsets.length === 0) return
+
+    const closestNextOffset = Math.min(...nextOffsets)
+    setPlayheadPosition(closestNextOffset)
+  }
+
+  const skipBack = () => {
+    // Find the closest previous offset.
+    const prevOffsets = trackData.map(track => track.offset).filter(offset => offset < playheadPosition)
+    if (prevOffsets.length === 0) return
+
+    const closestPrevOffset = Math.max(...prevOffsets)
+    setPlayheadPosition(closestPrevOffset)
+  }
+
   return (<T.Timeline>
     <T.Top>
       <Gap>
@@ -287,24 +342,49 @@ export const Timeline = ({ }: TimelineProps) => {
           compact
           onClick={redo}
         />
+         <Button
+          icon={'fast-backward'}
+          iconPrefix='fas'
+          minimal
+          compact
+          onClick={skipBack}
+        />
+        <Button
+          icon={isPlaying ? 'pause' : 'play'}
+          iconPrefix='fas'
+          minimal
+          compact
+          onClick={handlePlayPause}
+        />
+         <Button
+          icon={'fast-forward'}
+          iconPrefix='fas'
+          minimal
+          compact
+          onClick={skipForward}
+        />
+      {/* {playheadPosition} */}
       </Gap>
     </T.Top>
-    <TimeRuler totalFrames={totalFrames} frameRate={frameRate} />
-    <T.Layers>
-      <Layer 
-        trackData={trackData} 
-        totalFrames={totalFrames}
-        scale={scale} 
-        onTrackChange={newTrackData => {
-          const targetTrackIndex = trackData.findIndex(track => track.id === newTrackData.id)
-          setTrackData(trackData.map(((track, index) => 
-            index === targetTrackIndex
-              ? newTrackData
-              : track
-          )))
-        }}
-      />
-    </T.Layers>
+    <T.TimelineContent>
+      <T.Playhead position={(playheadPosition / totalFrames) * 100} />
+      <TimeRuler totalFrames={totalFrames} frameRate={frameRate} />
+      <T.Layers>
+        <Layer 
+          trackData={trackData} 
+          totalFrames={totalFrames}
+          scale={scale} 
+          onTrackChange={newTrackData => {
+            const targetTrackIndex = trackData.findIndex(track => track.id === newTrackData.id)
+            setTrackData(trackData.map(((track, index) => 
+              index === targetTrackIndex
+                ? newTrackData
+                : track
+            )))
+          }}
+        />
+      </T.Layers>
+    </T.TimelineContent>
   </T.Timeline>)
 }
 
@@ -317,6 +397,21 @@ const T = {
     width: 100%;
     height: var(--F_Input_Height_Compact);
     padding: .5rem 0;
+  `,
+  TimelineContent: styled.div`
+    width: 100%;
+    position: relative;
+  `,
+  Playhead: styled.div<{
+    position: number
+  }>`
+    width: 3px;
+    height: 100%;
+    background: var(--F_Primary);
+    position: absolute;
+    left: ${props => `${props.position}%`};
+    top: 0;
+    z-index: 1;
   `,
   Layers: styled.div`
     width: 100%;  
