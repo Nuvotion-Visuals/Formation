@@ -46,17 +46,23 @@ export const Track = ({ trackData, width, offset, onTrackChange }: TrackProps) =
   }
 
   const onMouseMove = (event: MouseEventReact) => {
-    if (isDragging) {
-      const delta = event.clientX - (initialMouseX || 0)
+    if (isDragging && trackRef.current) {
+      const actualWidth = trackRef.current.clientWidth
+      const totalWidth = trackData.out - trackData.in // Removed the offset from the total width
+      const scale = actualWidth / totalWidth
+  
+      let delta = (event.clientX - (initialMouseX || 0)) / scale
+      delta = Math.round(delta)
+  
       let updatedTrack = { ...trackData }
-
+  
       switch (isDragging) {
         case 'in': {
           updatedTrack.in = Math.min(
             Math.max(0, initialValue.in + delta),
             updatedTrack.out
           )
-          updatedTrack.offset = initialValue.offset + delta
+          updatedTrack.offset = Math.max(0, initialValue.offset + delta)
           break
         }
         case 'out': {
@@ -67,14 +73,16 @@ export const Track = ({ trackData, width, offset, onTrackChange }: TrackProps) =
           break
         }
         case 'offset': {
-          updatedTrack.offset = initialValue.offset + delta
+          updatedTrack.offset = Math.max(0, initialValue.offset + delta)
           break
         }
       }
-
+  
       onTrackChange(updatedTrack)
     }
   }
+  
+  
 
   const onMouseLeave = () => {
     setIsDragging(null)
@@ -93,8 +101,7 @@ export const Track = ({ trackData, width, offset, onTrackChange }: TrackProps) =
         <Box ml={.75}>
           { trackData.name }-
           { trackData.in }-
-          { trackData.out }=
-          {width}
+          { trackData.out }
         </Box>
       </Tk.DragHandleInner>
       <Tk.DragHandle onMouseDown={(e: MouseEventReact) => onMouseDown(e, 'out')} />
