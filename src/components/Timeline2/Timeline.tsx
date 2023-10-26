@@ -1,6 +1,7 @@
-import { Box, Button, Gap, NumberSlider } from '../../internal'
+import { Box, Button, FileUpload, Gap, LoadingSpinner, NumberSlider, generateThumbnail, generateVideoThumbnails } from '../../internal'
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
+import { getVideoInfo } from './getVideoInfo'
 
 interface TrackData {
   id: string,
@@ -9,7 +10,8 @@ interface TrackData {
   rate: number,
   offset: number,
   in: number,
-  out: number
+  out: number,
+  previews: string[]
 }
 
 interface TrackProps {
@@ -95,24 +97,35 @@ export const Track = ({ trackData, width, offset, onTrackChange }: TrackProps) =
       onMouseUp={onMouseUp}
       onMouseMove={onMouseMove}
       onMouseLeave={onMouseLeave}
+      isDragging={!!isDragging}
     >
       <Tk.DragHandle onMouseDown={(e: MouseEventReact) => onMouseDown(e, 'in')} />
       <Tk.DragHandleInner onMouseDown={(e: MouseEventReact) => onMouseDown(e, 'offset')}>
-        <Box ml={.75}>
-          { trackData.name }-
-          { trackData.in }-
-          { trackData.out }
-        </Box>
+        {/* <Box ml={-.5}>
+          { trackData.name }
+        </Box> */}
+        {
+          trackData.previews.map(preview =>
+            <img src={preview} style={{height: '100%'}} />
+          )
+        }
       </Tk.DragHandleInner>
       <Tk.DragHandle onMouseDown={(e: MouseEventReact) => onMouseDown(e, 'out')} />
     </Tk.Track>
   )
 }
 
+interface TrackCompProps {
+  isDragging: boolean
+}
 const Tk = {
-  Track: styled.div`
-    height: 100%;
+  Track: styled.div<TrackCompProps>`
+    height: calc(100% - .25rem);
     box-shadow: var(--F_Outline);
+    box-shadow: ${props => props.isDragging ? 'var(--F_Outline_Primary)' : 'var(--F_Outline)'};
+    background: var(--F_Surface);
+    padding: .125rem 0;
+    border-radius: .25rem;
     display: flex;
     align-items: center;
     position: absolute;
@@ -124,22 +137,25 @@ const Tk = {
 
     cursor: ew-resize;
     position: absolute;
+    z-index: 1;
     top: 0;
     &:first-child {
       left: 0;
-      border-right: 1px dashed var(--F_Surface_2);
+      /* border-right: 2px dashed var(--F_Surface_2); */
     }
     &:last-child {
       right: 0;
-      border-left: 1px dashed var(--F_Surface_2);
+      /* border-left: 2px dashed var(--F_Surface_2); */
     }
   `,
   DragHandleInner: styled.div`
-    width: calc(100% - 48px);
-    margin-left: 24px;
+    position: absolute;
+    width: 100%;
     height: 100%;
     display: flex;
     align-items: center;
+    overflow: hidden;
+    left: 0;
   `
 }
 
@@ -178,7 +194,7 @@ const L = {
   Layer: styled.div`
     width: 100%;
     height: var(--F_Input_Height);
-    background: var(--F_Surface);
+    background: var(--F_Surface_0);
     overflow-x: auto;
     display: flex;
     position: relative;
@@ -196,25 +212,25 @@ export const Timeline = ({ }: TimelineProps) => {
 
   const [scale, setScale] = useState(50)
 
-  const [trackData, setTrackData] = useState([
-    {
-      id: '1',
-      name: 'Clip 1.mp4',
-      originalFrames: 500,
-      rate: 30,
-      in: 0,
-      out: 500,
-      offset: 0
-    },
-    {
-      id: '2',
-      name: 'Clip 2.mp4',
-      originalFrames: 300,
-      rate: 30,
-      in: 0,
-      out: 300,
-      offset: 500
-    }
+  const [trackData, setTrackData] = useState<TrackData[]>([
+    // {
+    //   id: '1',
+    //   name: 'Clip 1.mp4',
+    //   originalFrames: 500,
+    //   rate: 30,
+    //   in: 0,
+    //   out: 500,
+    //   offset: 0
+    // },
+    // {
+    //   id: '2',
+    //   name: 'Clip 2.mp4',
+    //   originalFrames: 300,
+    //   rate: 30,
+    //   in: 0,
+    //   out: 300,
+    //   offset: 500
+    // }
   ])
 
   const [history, setHistory] = useState([trackData])
@@ -316,76 +332,171 @@ export const Timeline = ({ }: TimelineProps) => {
     setPlayheadPosition(closestPrevOffset)
   }
 
+  const [snap, setSnap] = useState(false)
+  const toggleSnap = () => setSnap(!snap)
+
+  const handleUpload = async (files: File[]) => {
+    if (files?.[0]) {
+      const file = files?.[0]
+      if (file) {
+        setLoading(true)
+        const canvasEl = document.createElement('canvas')
+        const {
+          frameCount,
+          frameRate,
+          fileName,
+          dimensions,
+          fileSize,
+          duration
+        } = await getVideoInfo(file, canvasEl)
+    
+        // Add new track data
+        setTrackData(prev => [
+          ...prev,
+          {
+            id: '1',
+            name: fileName,
+            originalFrames: frameCount,
+            rate: frameRate,
+            in: 0,
+            out: frameCount,
+            offset: 0,
+            previews: []
+          }
+        ])
+    
+        setFrameRate(frameRate)
+
+        setLoading(false)
+
+        // Generate thumbnails
+        const thumbnails = await generateVideoThumbnails(
+          file,
+          90,
+          [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100],
+          true
+        )
+        const sortedThumbnails = thumbnails.sort((a, b) => a.timestamp - b.timestamp)
+        const sortedUrls = sortedThumbnails.map(thumb => thumb.image)
+    
+        // Update the 'previews' field in the trackData with the sortedUrls
+        // @ts-ignore
+        setTrackData(prev => {
+          const lastIdx = prev.length - 1
+          if (lastIdx >= 0) {
+            const updatedItem = {
+              ...prev[lastIdx],
+              previews: sortedUrls
+            }
+            return [...prev.slice(0, lastIdx), updatedItem]
+          }
+          return prev
+        })
+
+      }
+    }
+  }
+
+   const [loading, setLoading] = useState(false)
+
   return (<T.Timeline>
-    <T.Top>
-      <Gap>
-        <Box width={8}>
-          <NumberSlider
-            value={scale}
-            onChange={val => setScale(val)}
-            precise
-            min={1}
-            max={100}
-          />
-        </Box>
-        <Button
-          icon='undo'
-          iconPrefix='fas'
-          minimal
-          compact
-          onClick={undo}
-        />
-        <Button
-          icon='redo'
-          iconPrefix='fas'
-          minimal
-          compact
-          onClick={redo}
-        />
-         <Button
-          icon={'fast-backward'}
-          iconPrefix='fas'
-          minimal
-          compact
-          onClick={skipBack}
-        />
-        <Button
-          icon={isPlaying ? 'pause' : 'play'}
-          iconPrefix='fas'
-          minimal
-          compact
-          onClick={handlePlayPause}
-        />
-         <Button
-          icon={'fast-forward'}
-          iconPrefix='fas'
-          minimal
-          compact
-          onClick={skipForward}
-        />
-      {/* {playheadPosition} */}
-      </Gap>
-    </T.Top>
-    <T.TimelineContent>
-      <T.Playhead position={(playheadPosition / totalFrames) * 100} />
-      <TimeRuler totalFrames={totalFrames} frameRate={frameRate} />
-      <T.Layers>
-        <Layer 
-          trackData={trackData} 
-          totalFrames={totalFrames}
-          scale={scale} 
-          onTrackChange={newTrackData => {
-            const targetTrackIndex = trackData.findIndex(track => track.id === newTrackData.id)
-            setTrackData(trackData.map(((track, index) => 
-              index === targetTrackIndex
-                ? newTrackData
-                : track
-            )))
-          }}
-        />
-      </T.Layers>
-    </T.TimelineContent>
+     {
+        trackData.length > 0 || loading
+          ? <>
+              <T.Top>
+                <Gap>
+                  <Box width={8}>
+                    <NumberSlider
+                      value={scale}
+                      onChange={val => setScale(val)}
+                      precise
+                      min={1}
+                      max={100}
+                    />
+                  </Box>
+                  <Button
+                    icon='undo'
+                    iconPrefix='fas'
+                    minimal
+                    compact
+                    onClick={undo}
+                  />
+                  <Button
+                    icon='redo'
+                    iconPrefix='fas'
+                    minimal
+                    compact
+                    onClick={redo}
+                  />
+                  <Button
+                    icon='magnet'
+                    iconPrefix='fas'
+                    minimal
+                    compact
+                    onClick={toggleSnap}
+                  />
+                  <Button
+                    icon={'fast-backward'}
+                    iconPrefix='fas'
+                    minimal
+                    compact
+                    onClick={skipBack}
+                  />
+                  <Button
+                    icon={isPlaying ? 'pause' : 'play'}
+                    iconPrefix='fas'
+                    minimal
+                    compact
+                    onClick={handlePlayPause}
+                  />
+                  <Button
+                    icon={'fast-forward'}
+                    iconPrefix='fas'
+                    minimal
+                    compact
+                    onClick={skipForward}
+                  />
+                </Gap>
+              </T.Top>
+              <T.TimelineContent>
+                <T.Playhead position={(playheadPosition / totalFrames) * 100} />
+                <TimeRuler totalFrames={totalFrames} frameRate={frameRate} />
+                <T.Layers>
+                  {
+                    loading && <LoadingSpinner />
+                  }
+                  <Layer 
+                    trackData={trackData} 
+                    totalFrames={totalFrames}
+                    scale={scale} 
+                    onTrackChange={newTrackData => {
+                      const targetTrackIndex = trackData.findIndex(track => track.id === newTrackData.id)
+                      setTrackData(trackData.map(((track, index) => 
+                        index === targetTrackIndex
+                          ? newTrackData
+                          : track
+                      )))
+                    }}
+                  />
+                </T.Layers>
+            </T.TimelineContent> 
+            </>
+          : <FileUpload
+              onFileChange={async (files) => {
+                handleUpload(files)
+              }}                
+              accept='video/mp4'
+              icon='clapperboard'
+              dragMessage='Drag and drop a video'
+              browseMessage='Choose a video'
+              iconPrefix='fas'
+            />
+      }
   </T.Timeline>)
+}
+
+interface TPlayheadProps {
+  position: number
 }
 
 const T = {
@@ -402,9 +513,7 @@ const T = {
     width: 100%;
     position: relative;
   `,
-  Playhead: styled.div<{
-    position: number
-  }>`
+  Playhead: styled.div<TPlayheadProps>`
     width: 3px;
     height: 100%;
     background: var(--F_Primary);
@@ -415,6 +524,11 @@ const T = {
   `,
   Layers: styled.div`
     width: 100%;  
+    background: var(--F_Surface_0);
+    display: flex;
+    flex-wrap: wrap;
+    gap: .125rem;
+    padding: .25rem 0;
   `
 }
 

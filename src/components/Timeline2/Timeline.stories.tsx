@@ -20,3 +20,6 @@ Default.args = {
   label: 'Time',
   iconPrefix: 'fas'
 }
+Default.parameters = {
+  layout: 'fullscreen'
+}
