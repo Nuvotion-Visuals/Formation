@@ -12,8 +12,9 @@ interface TrackData {
   out: number
 }
 
-interface Props {
+interface TrackProps {
   width: number,
+  offset: number,
   trackData: TrackData,
   onTrackChange: (newTrackData: TrackData) => void
 }
@@ -24,19 +25,20 @@ interface MouseEventReact extends React.MouseEvent {
 
 interface InitialValue {
   in: number,
-  out: number
+  out: number,
+  offset: number
 }
 
-export const Track = ({ trackData, width, onTrackChange }: Props) => {
-  const [isDragging, setIsDragging] = useState<'in' | 'out' | null>(null)
+export const Track = ({ trackData, width, offset, onTrackChange }: TrackProps) => {
+  const [isDragging, setIsDragging] = useState<'in' | 'out' | 'offset' | null>(null)
   const [initialMouseX, setInitialMouseX] = useState<number | null>(null)
-  const [initialValue, setInitialValue] = useState<InitialValue>({ in: 0, out: 0 })
+  const [initialValue, setInitialValue] = useState<InitialValue>({ in: 0, out: 0, offset: 0 })
   const trackRef = useRef<HTMLDivElement>(null)
 
-  const onMouseDown = (event: MouseEventReact, which: 'in' | 'out') => {
+  const onMouseDown = (event: MouseEventReact, which: 'in' | 'out' | 'offset') => {
     setIsDragging(which)
     setInitialMouseX(event.clientX)
-    setInitialValue({ in: trackData.in, out: trackData.out })
+    setInitialValue({ in: trackData.in, out: trackData.out, offset: trackData.offset })
   }
 
   const onMouseUp = () => {
@@ -46,20 +48,30 @@ export const Track = ({ trackData, width, onTrackChange }: Props) => {
   const onMouseMove = (event: MouseEventReact) => {
     if (isDragging) {
       const delta = event.clientX - (initialMouseX || 0)
-      
       let updatedTrack = { ...trackData }
 
-      if (isDragging === 'in') {
-        updatedTrack.in = Math.min(
-          Math.max(0, initialValue.in + delta),
-          updatedTrack.out
-        )
-      } else {
-        updatedTrack.out = Math.max(
-          Math.min(initialValue.out + delta, trackData.originalFrames),
-          updatedTrack.in
-        )
+      switch (isDragging) {
+        case 'in': {
+          updatedTrack.in = Math.min(
+            Math.max(0, initialValue.in + delta),
+            updatedTrack.out
+          )
+          updatedTrack.offset = initialValue.offset + delta
+          break
+        }
+        case 'out': {
+          updatedTrack.out = Math.max(
+            Math.min(initialValue.out + delta, trackData.originalFrames),
+            updatedTrack.in
+          )
+          break
+        }
+        case 'offset': {
+          updatedTrack.offset = initialValue.offset + delta
+          break
+        }
       }
+
       onTrackChange(updatedTrack)
     }
   }
@@ -71,23 +83,24 @@ export const Track = ({ trackData, width, onTrackChange }: Props) => {
   return (
     <Tk.Track 
       ref={trackRef}
-      style={{ width: `${width}%` }}
+      style={{ width: `${width}%`, left: `${offset}%`, top: '0' }}
       onMouseUp={onMouseUp}
       onMouseMove={onMouseMove}
       onMouseLeave={onMouseLeave}
     >
       <Tk.DragHandle onMouseDown={(e: MouseEventReact) => onMouseDown(e, 'in')} />
-      <Box ml={.75}>
-        { trackData.name }-
-        { trackData.in }-
-        { trackData.out }=
-        {width}
-      </Box>
+      <Tk.DragHandleInner onMouseDown={(e: MouseEventReact) => onMouseDown(e, 'offset')}>
+        <Box ml={.75}>
+          { trackData.name }-
+          { trackData.in }-
+          { trackData.out }=
+          {width}
+        </Box>
+      </Tk.DragHandleInner>
       <Tk.DragHandle onMouseDown={(e: MouseEventReact) => onMouseDown(e, 'out')} />
     </Tk.Track>
   )
 }
-
 
 const Tk = {
   Track: styled.div`
@@ -95,29 +108,36 @@ const Tk = {
     box-shadow: var(--F_Outline);
     display: flex;
     align-items: center;
-    position: relative;
+    position: absolute;
   `,
   DragHandle: styled.div`
     width: 24px;
     height: 100%;
-    box-shadow: var(--F_Outline);
 
     cursor: ew-resize;
     position: absolute;
     top: 0;
     &:first-child {
       left: 0;
+      border-right: 1px dashed var(--F_Surface_2);
     }
     &:last-child {
       right: 0;
+      border-left: 1px dashed var(--F_Surface_2);
     }
+  `,
+  DragHandleInner: styled.div`
+    width: calc(100% - 48px);
+    margin-left: 24px;
+    height: 100%;
+    display: flex;
+    align-items: center;
   `
 }
 
 
 interface LayerProps {
   scale: number,
-  projectRate: number,
   trackData: TrackData[],
   totalFrames: number,
   onTrackChange: (newTrackData: TrackData) => void
@@ -134,7 +154,12 @@ export const Layer = ({
     <L.Layer>
       {
         trackData.map(track =>
-          <Track width={((track.out - track.in) / totalFrames) * 100} trackData={track} onTrackChange={onTrackChange}/>
+          <Track 
+            width={((track.out - track.in) / totalFrames) * 100} 
+            offset={(track.offset / totalFrames) * 100}
+            trackData={track} 
+            onTrackChange={onTrackChange}
+          />
         )
       }
     </L.Layer>
@@ -148,6 +173,7 @@ const L = {
     background: var(--F_Surface);
     overflow-x: auto;
     display: flex;
+    position: relative;
   `
 }
 
@@ -157,7 +183,7 @@ interface TimelineProps {
 }
 
 export const Timeline = ({ }: TimelineProps) => {
-  const projectRate = 30
+  const [frameRate, setFrameRate] = useState(30)
   const [totalFrames, setTotalFrames] = useState(1000)
 
   const [scale, setScale] = useState(50)
@@ -201,7 +227,6 @@ export const Timeline = ({ }: TimelineProps) => {
         trackData={trackData} 
         totalFrames={totalFrames}
         scale={scale} 
-        projectRate={projectRate}
         onTrackChange={newTrackData => {
           const targetTrackIndex = trackData.findIndex(track => track.id === newTrackData.id)
           setTrackData(trackData.map(((track, index) => 
