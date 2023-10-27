@@ -1,9 +1,5 @@
-interface VideoConfig {
-  codedWidth: number,
-  codedHeight: number
-}
-
 interface VideoProcessingResult {
+  videoElement: HTMLVideoElement,
   fileName: string,
   dimensions: { width: number, height: number },
   fileSize: number,
@@ -14,7 +10,7 @@ const loadVideo = async (file: File): Promise<HTMLVideoElement> => {
   return new Promise((resolve, reject) => {
     try {
       const video = document.createElement('video')
-      video.preload = 'metadata'
+      // video.preload = 'metadata'
   
       video.onloadedmetadata = function() {
         resolve(this as HTMLVideoElement)
@@ -35,7 +31,7 @@ const loadVideo = async (file: File): Promise<HTMLVideoElement> => {
 export async function getVideoInfo(file: File): Promise<VideoProcessingResult> {
   const video = await loadVideo(file)
   const videoDuration = video.duration
-  URL.revokeObjectURL(video.src) // Cleanup
+  // URL.revokeObjectURL(video.src) // Cleanup
 
   const dimensions: { width: number, height: number } = {
     width: video.videoWidth,
@@ -46,6 +42,7 @@ export async function getVideoInfo(file: File): Promise<VideoProcessingResult> {
   const fileSize = file.size
 
   return {
+    videoElement: video,
     fileName,
     dimensions,
     fileSize,

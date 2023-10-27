@@ -1,4 +1,4 @@
-import { Box, Button, FileUpload, Gap, NumberSlider, generateThumbnail, generateVideoThumbnails } from '../../internal'
+import { Box, Button, FileUpload, Gap, NumberSlider, generateThumbnail, generateVideoThumbnails, generateUUID, AspectRatio, FileDrop } from '../../internal'
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { getVideoInfo } from './getVideoInfo'
@@ -10,14 +10,18 @@ interface TrackData {
   offset: number,
   in: number,
   out: number,
-  previews: string[]
+  previews: string[],
+  videoElement: HTMLVideoElement
 }
 
+// -----> TRACK <------
 interface TrackProps {
   width: number,
   offset: number,
   trackData: TrackData,
-  onTrackChange: (newTrackData: TrackData) => void
+  onTrackChange: (newTrackData: TrackData) => void,
+  onClick: (id: string) => void,
+  selected?: boolean
 }
 
 interface MouseEventReact extends React.MouseEvent {
@@ -30,7 +34,14 @@ interface InitialValue {
   offset: number
 }
 
-export const Track = ({ trackData, width, offset, onTrackChange }: TrackProps) => {
+export const Track = ({ 
+  trackData, 
+  width, 
+  offset, 
+  onTrackChange,
+  onClick,
+  selected
+}: TrackProps) => {
   const [isDragging, setIsDragging] = useState<'in' | 'out' | 'offset' | null>(null)
   const [initialMouseX, setInitialMouseX] = useState<number | null>(null)
   const [initialValue, setInitialValue] = useState<InitialValue>({ in: 0, out: 0, offset: 0 })
@@ -49,7 +60,7 @@ export const Track = ({ trackData, width, offset, onTrackChange }: TrackProps) =
   const onMouseMove = (event: MouseEventReact) => {
     if (isDragging && trackRef.current) {
       const actualWidth = trackRef.current.clientWidth
-      const totalWidth = trackData.out - trackData.in // Removed the offset from the total width
+      const totalWidth = trackData.out - trackData.in
       const scale = actualWidth / totalWidth
   
       let delta = (event.clientX - (initialMouseX || 0)) / scale
@@ -82,8 +93,6 @@ export const Track = ({ trackData, width, offset, onTrackChange }: TrackProps) =
       onTrackChange(updatedTrack)
     }
   }
-  
-  
 
   const onMouseLeave = () => {
     setIsDragging(null)
@@ -96,13 +105,11 @@ export const Track = ({ trackData, width, offset, onTrackChange }: TrackProps) =
       onMouseUp={onMouseUp}
       onMouseMove={onMouseMove}
       onMouseLeave={onMouseLeave}
-      isDragging={!!isDragging}
+      isDragging={!!isDragging || !!selected}
+      onClick={() => onClick(trackData.id)}
     >
       <Tk.DragHandle onMouseDown={(e: MouseEventReact) => onMouseDown(e, 'in')} />
       <Tk.DragHandleInner onMouseDown={(e: MouseEventReact) => onMouseDown(e, 'offset')}>
-        {/* <Box ml={-.5}>
-          { trackData.name }
-        </Box> */}
         {
           trackData.previews.map(preview =>
             <img src={preview} style={{height: '100%'}} draggable="false" />
@@ -142,11 +149,9 @@ const Tk = {
     top: 0;
     &:first-child {
       left: 0;
-      /* border-right: 2px dashed var(--F_Surface_2); */
     }
     &:last-child {
       right: 0;
-      /* border-left: 2px dashed var(--F_Surface_2); */
     }
   `,
   DragHandleInner: styled.div`
@@ -159,25 +164,27 @@ const Tk = {
     overflow: hidden;
     left: 0;
     user-select: none;
-
   `
 }
 
-
+// -----> LAYER <------
 interface LayerProps {
   scale: number,
   trackData: TrackData[],
   totalDuration: number,
-  onTrackChange: (newTrackData: TrackData) => void
+  onTrackChange: (newTrackData: TrackData) => void,
+  onClick: (id: string) => void,
+  selectedTrack?: string
 }
 
 export const Layer = ({ 
   scale, 
   trackData, 
   onTrackChange, 
-  totalDuration
+  totalDuration,
+  onClick,
+  selectedTrack
 }: LayerProps) => {
-
   return (
     <L.Layer>
       {
@@ -187,6 +194,8 @@ export const Layer = ({
             offset={(track.offset / totalDuration) * 100}
             trackData={track} 
             onTrackChange={onTrackChange}
+            onClick={onClick}
+            selected={track.id === selectedTrack}
           />
         )
       }
@@ -205,16 +214,33 @@ const L = {
   `
 }
 
-
+// -----> TIMELINE <------
 interface TimelineProps {
   
 }
 
-export const Timeline = ({ }: TimelineProps) => {
-  // const [frameRate, setFrameRate] = useState(30)
-  const [totalDuration, setTotalDuration] = useState(20000)
+interface TrackData {
+  id: string,
+  name: string,
+  originalDuration: number,
+  offset: number,
+  in: number,
+  out: number,
+  previews: string[],
+  videoElement: HTMLVideoElement
+}
 
+
+export const Timeline = ({ }: TimelineProps) => {
+  const [originalTotalDuration, setOriginalTotalDuration] = useState(20000)
+  const [totalDuration, setTotalDuration] = useState(originalTotalDuration)
   const [scale, setScale] = useState(50)
+
+  const [selectedTrack, setSelectedTrack] = useState('')
+
+  useEffect(() => {
+    setTotalDuration(originalTotalDuration * (scale / 50))
+  }, [scale, originalTotalDuration])
 
   const [trackData, setTrackData] = useState<TrackData[]>([])
 
@@ -263,7 +289,7 @@ export const Timeline = ({ }: TimelineProps) => {
   }, [trackData])
 
   const [playheadPosition, setPlayheadPosition] = useState<number>(0)
-  const [playheadTime, setPlayheadTime] = useState<string>('00:00:000')
+  const [playheadTime, setPlayheadTime] = useState<string>('00:00:00')
   const [isPlaying, setIsPlaying] = useState<boolean>(false)
   const animationFrameId = useRef<number | null>(null)
   const lastFrameTime = useRef<number>(Date.now())
@@ -278,22 +304,71 @@ export const Timeline = ({ }: TimelineProps) => {
   const handlePlayPause = () => {
     setIsPlaying(!isPlaying)
     if (!isPlaying) {
-      // Update the last frame time based on the current playhead position
       lastFrameTime.current = Date.now() - (playheadPosition / 100) * totalDuration
     }
+  }
+
+  const videoStarted = useRef(false)
+
+  const startDrawing = async (videoElement: HTMLVideoElement, startTime: number) => {
+    videoStarted.current = true
+    videoElement.currentTime = startTime / 1000
+    await videoElement.play()
+  
+    const onFrame = (now: DOMHighResTimeStamp, metadata: any) => {
+      if (canvasRef.current) {
+        const ctx = canvasRef.current.getContext('2d')
+        if (ctx) {
+          ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height)
+          ctx.drawImage(videoElement, 0, 0, canvasRef.current.width, canvasRef.current.height)
+        }
+      }
+  
+      if (videoStarted.current) {
+        videoElement.requestVideoFrameCallback(onFrame)
+      }
+    }
+  
+    videoElement.requestVideoFrameCallback(onFrame)
+  }
+  
+
+  const stopDrawing = () => {
+
   }
 
   const movePlayhead = () => {
     const currentTime = Date.now()
     const elapsed = currentTime - lastFrameTime.current
     const elapsedPercentage = (elapsed / totalDuration) * 100
+
+    // Determine the active track based on playhead position
+    const activeTrack = trackData.find(track => {
+      const trackInPercentage = (track.offset + track.in) / totalDuration * 100
+      const trackOutPercentage = (track.offset + track.out) / totalDuration * 100
+      return elapsedPercentage >= trackInPercentage && elapsedPercentage <= trackOutPercentage
+    })
+
+    if (activeTrack) {
+      // Calculate the time to playback of the active track
+      const playbackTime = elapsed - activeTrack.offset
+      if (!videoStarted.current) {
+        startDrawing(activeTrack.videoElement, playbackTime)
+      }
+      // console.log(`Active Track: ${activeTrack.name}, Playback Time: ${formatTime(playbackTime)}`)
+      
+      
+      // Optional: Update the video element's currentTime
+      // activeTrack.videoElement.currentTime = playbackTime / 1000
+    }
+
+
     const maxOutValue = trackData.reduce((max, track) => {
       return Math.max(max, track.offset + track.out)
     }, 0)
     const maxOutValuePercentage = (maxOutValue / totalDuration) * 100
   
     if (elapsedPercentage >= maxOutValuePercentage) {
-      // Pause if it reaches or exceeds maxOutValue
       setIsPlaying(false)
       setPlayheadPosition(maxOutValuePercentage)
       setPlayheadTime(formatTime(maxOutValue))
@@ -308,7 +383,6 @@ export const Timeline = ({ }: TimelineProps) => {
       setPlayheadTime(formatTime(elapsed))
     } 
     else if (elapsedPercentage > 100) {
-      // Stop the animation if it goes beyond the total duration
       setPlayheadPosition(100)
       setPlayheadTime(formatTime(totalDuration))
       if (animationFrameId.current !== null) {
@@ -323,7 +397,8 @@ export const Timeline = ({ }: TimelineProps) => {
   useEffect(() => {
     if (isPlaying) {
       animationFrameId.current = requestAnimationFrame(movePlayhead)
-    } else {
+    } 
+    else {
       if (animationFrameId.current !== null) {
         cancelAnimationFrame(animationFrameId.current)
       }
@@ -336,51 +411,50 @@ export const Timeline = ({ }: TimelineProps) => {
     }
   }, [isPlaying])
 
-  const skipForward = () => {
-    // Convert track offsets to percentage of totalDuration for comparison
+  const skipForward = async () => {
     const nextOffsets = trackData.map(track => (track.offset / totalDuration) * 100).filter(offset => offset > playheadPosition)
     if (nextOffsets.length === 0) return
   
     const closestNextOffset = Math.min(...nextOffsets)
     setPlayheadPosition(closestNextOffset)
   
-    // Update lastFrameTime with the new position
-    lastFrameTime.current = Date.now() - (closestNextOffset / 100) * totalDuration
+    const newTime = (closestNextOffset / 100) * totalDuration
+    setPlayheadTime(formatTime(newTime))
+  
+    lastFrameTime.current = Date.now() - newTime
   }
   
-  const skipBack = () => {
-    // Convert track offsets to percentage of totalDuration for comparison
+  const skipBack = async () => {
     const prevOffsets = trackData.map(track => (track.offset / totalDuration) * 100).filter(offset => offset < playheadPosition)
     if (prevOffsets.length === 0) return
   
     const closestPrevOffset = Math.max(...prevOffsets)
     setPlayheadPosition(closestPrevOffset)
   
-    // Update lastFrameTime with the new position
-    lastFrameTime.current = Date.now() - (closestPrevOffset / 100) * totalDuration
+    const newTime = (closestPrevOffset / 100) * totalDuration
+    setPlayheadTime(formatTime(newTime))
+  
+    lastFrameTime.current = Date.now() - newTime
   }
-  
-  
 
   const [snap, setSnap] = useState(false)
   const toggleSnap = () => setSnap(!snap)
 
   const handleUpload = async (files: File[]) => {
-    if (files?.[0]) {
-      const file = files?.[0]
-      if (file) {
+    if (files) {
+      files.forEach(async (file) => {
         setLoading(true)
         const {
           fileName,
           dimensions,
           fileSize,
-          duration
+          duration,
+          videoElement
         } = await getVideoInfo(file)
 
         const durationMs = duration * 1000
-        const id = fileName
-    
-        // Add new track data
+        const id = generateUUID()
+
         setTrackData(prev => {
           const maxOutValue = prev.reduce((max, track) => {
             return Math.max(max, track.offset + track.out)
@@ -391,29 +465,27 @@ export const Timeline = ({ }: TimelineProps) => {
             {
               id,
               name: fileName,
-              // originalFrames: frameCount,
               originalDuration: durationMs,
               in: 0, 
               out: durationMs,
               offset: maxOutValue,
-              previews: []
+              previews: [],
+              videoElement
             }
           ]
         })
-    
+
         setLoading(false)
 
-        // Generate thumbnails
         const thumbnails = await generateVideoThumbnails(
           file,
           90,
-          [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100],
+          [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
           true
         )
         const sortedThumbnails = thumbnails.sort((a, b) => a.timestamp - b.timestamp)
         const sortedUrls = sortedThumbnails.map(thumb => thumb.image)
     
-        // Update the 'previews' field in the trackData with the sortedUrls
         // @ts-ignore
         setTrackData(prev => {
           return prev.map(track => {
@@ -426,17 +498,24 @@ export const Timeline = ({ }: TimelineProps) => {
             return track
           })
         })
-
-      }
+      })
     }
   }
 
    const [loading, setLoading] = useState(false)
 
+   const canvasRef = useRef<HTMLCanvasElement>(null)
+
+   const [videos, setVideos] = useState([])
+
   return (<T.Timeline>
      {
         trackData.length > 0 || loading
           ? <>
+              <T.Player>
+                <T.Canvas ref={canvasRef} width={1920} height={1080} />
+              </T.Player>
+              <T.Controls>
               <T.Top>
                 <Gap>
                   <Box width={8}>
@@ -493,40 +572,49 @@ export const Timeline = ({ }: TimelineProps) => {
                   {
                     playheadTime
                   }
+                  <Box width={8}>
+                    <FileUpload
+                      onFileChange={async (files) => {
+                        handleUpload(files)
+                      }}                
+                      accept='video/mp4'
+                      minimal
+                      buttonProps={{
+                        icon: 'plus',
+                        iconPrefix: 'fas',
+                        text:'Add media',
+                        compact: true
+                      }}
+                      multiple
+                    />
+                  </Box>
                  
                 </Gap>
               </T.Top>
               <T.TimelineContent>
-                <T.Playhead position={playheadPosition} />
-                <TimeRuler totalDuration={totalDuration} />
-                <T.Layers>
-                  <Layer 
-                    trackData={trackData} 
-                    totalDuration={totalDuration}
-                    scale={scale} 
-                    onTrackChange={newTrackData => {
-                      const targetTrackIndex = trackData.findIndex(track => track.id === newTrackData.id)
-                      setTrackData(trackData.map(((track, index) => 
-                        index === targetTrackIndex
-                          ? newTrackData
-                          : track
-                      )))
-                    }}
-                  />
-                </T.Layers>
+                <FileDrop onFileDrop={handleUpload}>
+                  <T.Playhead position={playheadPosition} />
+                  <TimeRuler totalDuration={totalDuration} />
+                  <T.Layers>
+                    <Layer 
+                      trackData={trackData} 
+                      totalDuration={totalDuration}
+                      scale={scale} 
+                      onTrackChange={newTrackData => {
+                        const targetTrackIndex = trackData.findIndex(track => track.id === newTrackData.id)
+                        setTrackData(trackData.map(((track, index) => 
+                          index === targetTrackIndex
+                            ? newTrackData
+                            : track
+                        )))
+                      }}
+                      selectedTrack={selectedTrack}
+                      onClick={(newSelectedTrack) => setSelectedTrack(newSelectedTrack)}
+                    />
+                  </T.Layers>
+                </FileDrop>
             </T.TimelineContent> 
-            <FileUpload
-                    onFileChange={async (files) => {
-                      handleUpload(files)
-                    }}                
-                    accept='video/mp4'
-                    minimal
-                    buttonProps={{
-                      icon: 'plus',
-                      iconPrefix: 'fas',
-                      text:'Add media'
-                    }}
-                  />
+            </T.Controls>
             </>
           : <FileUpload
               onFileChange={async (files) => {
@@ -537,6 +625,7 @@ export const Timeline = ({ }: TimelineProps) => {
               dragMessage='Drag and drop a video'
               browseMessage='Choose a video'
               iconPrefix='fas'
+              multiple
             />
       }
     
@@ -550,12 +639,28 @@ interface TPlayheadProps {
 const T = {
   Timeline: styled.div`
     width: 100%;  
+    height: 100%;
     user-select: none;
+  `,
+  Player: styled.div`
+    width: 100%;
+    height: calc(100% - 6.5rem);
+    background: black;
+  `,
+  Controls: styled.div`
+    width: 100%;
+    height: 6.5rem;
+    background: var(--F_Surface);
+  `,
+  Canvas: styled.canvas`
+    width: 100%;
+    max-height: 100%;
+    background: black;
   `,
   Top: styled.div`
     width: 100%;
     height: var(--F_Input_Height_Compact);
-    padding: .5rem 0;
+    padding: .25rem 0;
   `,
   TimelineContent: styled.div`
     width: 100%;
@@ -580,6 +685,7 @@ const T = {
   `
 }
 
+// -----> TIME RULER <------
 interface TimeRulerProps {
   totalDuration: number
 }
