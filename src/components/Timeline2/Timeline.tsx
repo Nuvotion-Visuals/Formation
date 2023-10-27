@@ -1,4 +1,4 @@
-import { Box, Button, FileUpload, Gap, NumberSlider, generateThumbnail, generateVideoThumbnails, generateUUID, AspectRatio, FileDrop } from '../../internal'
+import { Box, Button, FileUpload, Gap, NumberSlider, generateThumbnail, generateVideoThumbnails, generateUUID, AspectRatio, FileDrop, Spacer, TextInput } from '../../internal'
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { getVideoInfo } from './getVideoInfo'
@@ -126,12 +126,11 @@ interface TrackCompProps {
 }
 const Tk = {
   Track: styled.div<TrackCompProps>`
-    height: calc(100% - .25rem);
+    height: 100%;
     box-shadow: var(--F_Outline);
     box-shadow: ${props => props.isDragging ? 'inset 0 0 0 2px var(--F_Primary_Variant)' : 'inset 0 0 0 2px var(--F_Surface_2)'};
     z-index: ${props => props.isDragging ? '1' : '0'};
     background: var(--F_Surface);
-    padding: .125rem 0;
     overflow: hidden;
     border-radius: .25rem;
     display: flex;
@@ -206,11 +205,51 @@ export const Layer = ({
 const L = {
   Layer: styled.div`
     width: 100%;
-    height: var(--F_Input_Height);
+    height: 50px;
+    margin: .5rem 0;
     background: var(--F_Surface_0);
     overflow-x: auto;
     display: flex;
     position: relative;
+  `
+}
+
+
+interface PlayheadProps {
+  
+}
+
+export const Playhead = React.memo(({ }: PlayheadProps) => {
+  return (<Ph.PlayheadContainer>
+    <Ph.PlayheadTop />
+    <Ph.Line />
+  </Ph.PlayheadContainer>)
+})
+
+const Ph = {
+  PlayheadContainer: styled.div`
+    margin-left: -1px;
+    width: 3px;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    position: relative;
+  `,
+  PlayheadTop: styled.div`
+    width: 3px;
+    height: 3px;
+    border-left: .5rem solid transparent;
+    border-right: .5rem solid transparent;
+    
+    border-top: 10px solid var(--F_Primary_Variant);
+  `,
+  Line: styled.div`
+    position: absolute;
+    top: 0;
+    width: 3px;
+    height: 100%;
+    background: var(--F_Primary_Variant);
   `
 }
 
@@ -282,10 +321,19 @@ export const Timeline = ({ }: TimelineProps) => {
     }
   }
 
+  const [maxOutValue, setMaxOutValue] = useState(0)
+
   useEffect(() => {
     if (pointer === history.length - 1 || pointer === -1) {
       debounceUpdateHistory(trackData)
     }
+    if (trackData.length) {
+       setMaxOutValue(trackData.reduce((max, track) => {
+      const trackDuration = track.out - track.in // Actual "rendered" duration of the track
+      return Math.max(max, track.offset + trackDuration)
+    }, 0))
+    }
+   
   }, [trackData])
 
   const [playheadPosition, setPlayheadPosition] = useState<number>(0)
@@ -303,6 +351,7 @@ export const Timeline = ({ }: TimelineProps) => {
 
   const handlePlayPause = () => {
     setIsPlaying(!isPlaying)
+    videoStarted.current = false
     if (!isPlaying) {
       lastFrameTime.current = Date.now() - (playheadPosition / 100) * totalDuration
     }
@@ -310,12 +359,17 @@ export const Timeline = ({ }: TimelineProps) => {
 
   const videoStarted = useRef(false)
 
-  const startDrawing = async (videoElement: HTMLVideoElement, startTime: number) => {
+  const startDrawing = (videoElement: HTMLVideoElement, startTime: number, endTime: number) => {
+    console.log(startTime, endTime)
     videoStarted.current = true
     videoElement.currentTime = startTime / 1000
-    await videoElement.play()
+    videoElement.play()
   
     const onFrame = (now: DOMHighResTimeStamp, metadata: any) => {
+      if (videoElement.currentTime  >= endTime / 1000) {
+        videoStarted.current = false
+      }
+  
       if (canvasRef.current) {
         const ctx = canvasRef.current.getContext('2d')
         if (ctx) {
@@ -328,50 +382,41 @@ export const Timeline = ({ }: TimelineProps) => {
         videoElement.requestVideoFrameCallback(onFrame)
       }
     }
-  
+
     videoElement.requestVideoFrameCallback(onFrame)
   }
   
-
-  const stopDrawing = () => {
-
-  }
-
   const movePlayhead = () => {
     const currentTime = Date.now()
     const elapsed = currentTime - lastFrameTime.current
     const elapsedPercentage = (elapsed / totalDuration) * 100
-
+  
     // Determine the active track based on playhead position
     const activeTrack = trackData.find(track => {
-      const trackInPercentage = (track.offset + track.in) / totalDuration * 100
-      const trackOutPercentage = (track.offset + track.out) / totalDuration * 100
-      return elapsedPercentage >= trackInPercentage && elapsedPercentage <= trackOutPercentage
+      const trackDuration = track.out - track.in
+      const trackStart = track.offset
+      const trackEnd = track.offset + trackDuration
+  
+      const trackStartPercentage = (trackStart / totalDuration) * 100
+      const trackEndPercentage = (trackEnd / totalDuration) * 100
+  
+      return elapsedPercentage >= trackStartPercentage && elapsedPercentage <= trackEndPercentage
     })
-
+  
     if (activeTrack) {
       // Calculate the time to playback of the active track
-      const playbackTime = elapsed - activeTrack.offset
       if (!videoStarted.current) {
-        startDrawing(activeTrack.videoElement, playbackTime)
+        startDrawing(activeTrack.videoElement, activeTrack.in, activeTrack.out)
       }
-      // console.log(`Active Track: ${activeTrack.name}, Playback Time: ${formatTime(playbackTime)}`)
-      
-      
-      // Optional: Update the video element's currentTime
-      // activeTrack.videoElement.currentTime = playbackTime / 1000
     }
-
-
-    const maxOutValue = trackData.reduce((max, track) => {
-      return Math.max(max, track.offset + track.out)
-    }, 0)
-    const maxOutValuePercentage = (maxOutValue / totalDuration) * 100
   
-    if (elapsedPercentage >= maxOutValuePercentage) {
+    const maxOutValue = trackData.reduce((max, track) => {
+      const trackDuration = track.out - track.in // Actual "rendered" duration of the track
+      return Math.max(max, track.offset + trackDuration)
+    }, 0)
+  
+    if (elapsed >= maxOutValue) {
       setIsPlaying(false)
-      setPlayheadPosition(maxOutValuePercentage)
-      setPlayheadTime(formatTime(maxOutValue))
       if (animationFrameId.current !== null) {
         cancelAnimationFrame(animationFrameId.current)
       }
@@ -392,6 +437,7 @@ export const Timeline = ({ }: TimelineProps) => {
   
     animationFrameId.current = requestAnimationFrame(movePlayhead)
   }
+  
   
 
   useEffect(() => {
@@ -417,6 +463,8 @@ export const Timeline = ({ }: TimelineProps) => {
   
     const closestNextOffset = Math.min(...nextOffsets)
     setPlayheadPosition(closestNextOffset)
+    videoStarted.current = false
+
   
     const newTime = (closestNextOffset / 100) * totalDuration
     setPlayheadTime(formatTime(newTime))
@@ -433,6 +481,7 @@ export const Timeline = ({ }: TimelineProps) => {
   
     const newTime = (closestPrevOffset / 100) * totalDuration
     setPlayheadTime(formatTime(newTime))
+    videoStarted.current = false
   
     lastFrameTime.current = Date.now() - newTime
   }
@@ -456,8 +505,9 @@ export const Timeline = ({ }: TimelineProps) => {
         const id = generateUUID()
 
         setTrackData(prev => {
-          const maxOutValue = prev.reduce((max, track) => {
-            return Math.max(max, track.offset + track.out)
+          const maxOutValue = trackData.reduce((max, track) => {
+            const trackDuration = track.out - track.in // Actual "rendered" duration of the track
+            return Math.max(max, track.offset + trackDuration)
           }, 0)
         
           return [
@@ -508,25 +558,44 @@ export const Timeline = ({ }: TimelineProps) => {
 
    const [videos, setVideos] = useState([])
 
+   useEffect(() => {
+    if (!isPlaying) {
+      trackData.forEach((track) => {
+        track.videoElement.pause()
+      })
+    }
+   }, [isPlaying])
+
+   const [projectName, setProjectName] = useState('')
+
   return (<T.Timeline>
      {
         trackData.length > 0 || loading
           ? <>
+              <T.Taskbar>
+                <Box width={10}>
+                  <TextInput
+                    value={projectName}
+                    onChange={val => setProjectName(val)}
+                    compact
+                    placeholder='Untitled project'
+                    secondaryIcon='edit'
+                  />
+                </Box>
+                <Spacer />
+                <Button
+                  compact
+                  text='Export Project'
+                  icon='arrow-up-from-bracket'
+                  iconPrefix='fas'
+                />
+              </T.Taskbar>
               <T.Player>
                 <T.Canvas ref={canvasRef} width={1920} height={1080} />
               </T.Player>
               <T.Controls>
               <T.Top>
                 <Gap>
-                  <Box width={8}>
-                    <NumberSlider
-                      value={scale}
-                      onChange={val => setScale(val)}
-                      precise
-                      min={1}
-                      max={100}
-                    />
-                  </Box>
                   <Button
                     icon='undo'
                     iconPrefix='fas'
@@ -541,13 +610,8 @@ export const Timeline = ({ }: TimelineProps) => {
                     compact
                     onClick={redo}
                   />
-                  <Button
-                    icon='magnet'
-                    iconPrefix='fas'
-                    minimal
-                    compact
-                    onClick={toggleSnap}
-                  />
+                  <Spacer />
+
                   <Button
                     icon={'fast-backward'}
                     iconPrefix='fas'
@@ -558,8 +622,7 @@ export const Timeline = ({ }: TimelineProps) => {
                   <Button
                     icon={isPlaying ? 'pause' : 'play'}
                     iconPrefix='fas'
-                    minimal
-                    compact
+                    circle
                     onClick={handlePlayPause}
                   />
                   <Button
@@ -569,9 +632,28 @@ export const Timeline = ({ }: TimelineProps) => {
                     compact
                     onClick={skipForward}
                   />
-                  {
-                    playheadTime
-                  }
+
+                  <T.CurrentTime>{ playheadTime }</T.CurrentTime> ∕ <T.TotalTime>{ formatTime(maxOutValue) }</T.TotalTime>
+                 
+                  <Spacer />
+                  
+                  <Button
+                    icon='magnet'
+                    iconPrefix='fas'
+                    minimal
+                    compact
+                    onClick={toggleSnap}
+                  />
+                  <Box width={8}>
+                    <NumberSlider
+                      value={scale}
+                      onChange={val => setScale(val)}
+                      precise
+                      min={1}
+                      max={100}
+                      hideNumberInput
+                    />
+                  </Box>
                   <Box width={8}>
                     <FileUpload
                       onFileChange={async (files) => {
@@ -580,10 +662,11 @@ export const Timeline = ({ }: TimelineProps) => {
                       accept='video/mp4'
                       minimal
                       buttonProps={{
-                        icon: 'plus',
+                        icon: 'photo-video',
                         iconPrefix: 'fas',
                         text:'Add media',
-                        compact: true
+                        compact: true,
+                        minimal: true
                       }}
                       multiple
                     />
@@ -593,7 +676,9 @@ export const Timeline = ({ }: TimelineProps) => {
               </T.Top>
               <T.TimelineContent>
                 <FileDrop onFileDrop={handleUpload}>
-                  <T.Playhead position={playheadPosition} />
+                  <T.PlayheadPositon  position={playheadPosition}>
+                    <Playhead />
+                  </T.PlayheadPositon>
                   <TimeRuler totalDuration={totalDuration} />
                   <T.Layers>
                     <Layer 
@@ -642,15 +727,22 @@ const T = {
     height: 100%;
     user-select: none;
   `,
+  Taskbar: styled.div`
+    width: calc(100% - 2rem);
+    padding: 0 1rem;
+    display: flex;
+    align-items: center;
+    height: var(--F_Input_Height);
+  `,
   Player: styled.div`
     width: 100%;
-    height: calc(100% - 6.5rem);
+    height: calc(calc(100% - 8rem) - var(--F_Input_Height));
     background: black;
   `,
   Controls: styled.div`
     width: 100%;
     height: 6.5rem;
-    background: var(--F_Surface);
+    background: var(--F_Background);
   `,
   Canvas: styled.canvas`
     width: 100%;
@@ -658,18 +750,31 @@ const T = {
     background: black;
   `,
   Top: styled.div`
-    width: 100%;
-    height: var(--F_Input_Height_Compact);
-    padding: .25rem 0;
+    width: calc(100% - 2rem);
+    padding: .25rem 1rem;
+    height: var(--F_Input_Height);
+    border-top: 1px solid var(--F_Surface);
+    display: flex;
+    align-items: center;
+  `,
+  CurrentTime: styled.div`
+    width: 56px;
+    text-align: center;
+    font-size: var(--F_Font_Size_Label);
+    font-weight: 600;
+  `,
+  TotalTime: styled.div`
+    width: 55px;
+    text-align: center;
+    font-size: var(--F_Font_Size_Label);
+    color: var(--F_Font_Color_Disabled);
   `,
   TimelineContent: styled.div`
     width: 100%;
     position: relative;
   `,
-  Playhead: styled.div<TPlayheadProps>`
-    width: 3px;
+  PlayheadPositon: styled.div<TPlayheadProps>`
     height: 100%;
-    background: var(--F_Primary);
     position: absolute;
     left: ${props => `${props.position}%`};
     top: 0;
@@ -677,11 +782,9 @@ const T = {
   `,
   Layers: styled.div`
     width: 100%;  
-    background: var(--F_Surface_0);
     display: flex;
     flex-wrap: wrap;
     gap: .125rem;
-    padding: .25rem 0;
   `
 }
 
@@ -721,11 +824,10 @@ const Tr = {
     position: relative;
     width: 100%;
     height: calc(var(--F_Input_Height) / 2);
-    background: var(--F_Surface_0);
     background-image: repeating-linear-gradient(
       to right,
-      var(--F_Surface),
-      var(--F_Surface) 1px,
+      var(--F_Surface_0),
+      var(--F_Surface_0) 1px,
       transparent 1px,
       transparent calc(100% / 200)
     );
@@ -737,14 +839,15 @@ const Tr = {
   `,
   Line: styled.div`
     position: absolute;
-    width: 1px;
+    width: 2px;
     height: var(--F_Input_Height);
-    background-color: var(--F_Font_Color_Label);
+    background-color: var(--F_Surface_1);
   `,
   TimeLabel: styled.div`
     position: absolute;
-    bottom: .125rem;
+    bottom: 0;
     padding-left: .25rem;
     color: var(--F_Font_Color_Label);
+    font-size: var(--F_Font_Size_Label);
   `
 }
