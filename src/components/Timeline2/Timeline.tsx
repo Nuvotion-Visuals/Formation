@@ -353,10 +353,10 @@ export const Timeline = ({ }: TimelineProps) => {
       debounceUpdateHistory(trackData)
     }
     if (trackData.length) {
-       setMaxOutValue(trackData.reduce((max, track) => {
-      const trackDuration = track.out - track.in // Actual "rendered" duration of the track
-      return Math.max(max, track.offset + trackDuration)
-    }, 0))
+      setMaxOutValue(trackData.reduce((max, track) => {
+        const trackDuration = track.out - track.in // Actual "rendered" duration of the track
+        return Math.max(max, track.offset + trackDuration)
+      }, 0))
     }
     console.log(trackData)
   }, [trackData])
@@ -383,26 +383,54 @@ export const Timeline = ({ }: TimelineProps) => {
   }
 
   const videoStarted = useRef(false)
+  const trackPlaying = useRef('')
+  const lastActiveVideoElement = useRef<HTMLVideoElement | null>(null)
 
   const startDrawing = (videoElement: HTMLVideoElement, startTime: number, endTime: number) => {
-    console.log(startTime, endTime)
+    lastActiveVideoElement.current = videoElement
+
     videoStarted.current = true
+    trackPlaying.current = videoElement.id
     videoElement.currentTime = startTime / 1000
     videoElement.play()
   
-    const onFrame = (now: DOMHighResTimeStamp, metadata: any) => {
-      if (videoElement.currentTime  >= endTime / 1000) {
+    const onFrame = async (now: DOMHighResTimeStamp, metadata: any) => {
+      if (videoElement.currentTime >= endTime / 1000) {
         videoStarted.current = false
       }
-  
+    
       if (canvasRef.current) {
         const ctx = canvasRef.current.getContext('2d')
         if (ctx) {
           ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height)
-          ctx.drawImage(videoElement, 0, 0, canvasRef.current.width, canvasRef.current.height)
+          
+          const videoWidth = videoElement.videoWidth
+          const videoHeight = videoElement.videoHeight
+          const videoAspectRatio = videoWidth / videoHeight
+    
+          const canvasWidth = canvasRef.current.width
+          const canvasHeight = canvasRef.current.height
+          const canvasAspectRatio = canvasWidth / canvasHeight
+    
+          let drawWidth, drawHeight, offsetX, offsetY
+    
+          if (canvasAspectRatio > videoAspectRatio) {
+            drawHeight = canvasHeight
+            drawWidth = canvasHeight * videoAspectRatio
+            offsetX = (canvasWidth - drawWidth) / 2
+            offsetY = 0
+          }
+          else {
+            drawWidth = canvasWidth
+            drawHeight = canvasWidth / videoAspectRatio
+            offsetX = 0
+            offsetY = (canvasHeight - drawHeight) / 2
+          }
+    
+          ctx.drawImage(videoElement, offsetX, offsetY, drawWidth, drawHeight)
         }
       }
-  
+    
       if (videoStarted.current) {
         videoElement.requestVideoFrameCallback(onFrame)
       }
@@ -410,7 +438,7 @@ export const Timeline = ({ }: TimelineProps) => {
 
     videoElement.requestVideoFrameCallback(onFrame)
   }
-  
+
   const movePlayhead = () => {
     const currentTime = Date.now()
     const elapsed = currentTime - lastFrameTime.current
@@ -433,13 +461,21 @@ export const Timeline = ({ }: TimelineProps) => {
       if (!videoStarted.current) {
         startDrawing(activeTrack.videoElement, activeTrack.in, activeTrack.out)
       }
+      if (trackPlaying.current !== activeTrack.id) {
+        lastActiveVideoElement.current?.pause()
+        startDrawing(activeTrack.videoElement, activeTrack.in, activeTrack.out)
+      }
     }
-  
-    const maxOutValue = trackData.reduce((max, track) => {
-      const trackDuration = track.out - track.in // Actual "rendered" duration of the track
-      return Math.max(max, track.offset + trackDuration)
-    }, 0)
-  
+    else {
+      if (canvasRef.current) {
+        const ctx = canvasRef.current.getContext('2d')
+        if (ctx) {
+          ctx.fillStyle = 'black'
+          ctx.fillRect(0, 0, canvasRef.current.width, canvasRef.current.height)
+        }
+      }
+    }
+    
     if (elapsed >= maxOutValue) {
       setIsPlaying(false)
       if (animationFrameId.current !== null) {
@@ -535,11 +571,6 @@ export const Timeline = ({ }: TimelineProps) => {
 
         // @ts-ignore
         setTrackData(prev => {
-          const maxOutValue = trackData.reduce((max, track) => {
-            const trackDuration = track.out - track.in // Actual "rendered" duration of the track
-            return Math.max(max, track.offset + trackDuration)
-          }, 0)
-        
           return [
             ...prev,
             {
@@ -586,8 +617,6 @@ export const Timeline = ({ }: TimelineProps) => {
    const [loading, setLoading] = useState(false)
 
    const canvasRef = useRef<HTMLCanvasElement>(null)
-
-   const [videos, setVideos] = useState([])
 
    useEffect(() => {
     if (!isPlaying) {
@@ -743,11 +772,6 @@ export const Timeline = ({ }: TimelineProps) => {
                           cloned.id = id
                           document.body.appendChild(cloned)
                           setTrackData(prev => {
-                            const maxOutValue = trackData.reduce((max, track) => {
-                              const trackDuration = track.out - track.in // Actual "rendered" duration of the track
-                              return Math.max(max, track.offset + trackDuration)
-                            }, 0)
-                          
                             return [
                               ...prev,
                               {
