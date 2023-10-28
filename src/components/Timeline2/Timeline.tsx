@@ -1,7 +1,24 @@
-import { Box, Button, FileUpload, Gap, NumberSlider, generateThumbnail, generateVideoThumbnails, generateUUID, AspectRatio, FileDrop, Spacer, TextInput } from '../../internal'
+import { 
+  Box, 
+  Button, 
+  FileUpload, 
+  Gap, 
+  NumberSlider, 
+  generateThumbnail, 
+  generateVideoThumbnails, 
+  generateUUID, 
+  AspectRatio, 
+  FileDrop, 
+  Spacer, 
+  TextInput, 
+  Grid, 
+  DragOrigin,
+  DropTarget
+} from '../../internal'
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { getVideoInfo } from './getVideoInfo'
+import { VideoPreview } from './VideoPreview'
 
 interface TrackData {
   id: string,
@@ -11,7 +28,8 @@ interface TrackData {
   in: number,
   out: number,
   previews: string[],
-  videoElement: HTMLVideoElement
+  videoElement: HTMLVideoElement,
+  videoUrl: string
 }
 
 // -----> TRACK <------
@@ -34,10 +52,10 @@ interface InitialValue {
   offset: number
 }
 
-export const Track = ({ 
-  trackData, 
-  width, 
-  offset, 
+export const Track = ({
+  trackData,
+  width,
+  offset,
   onTrackChange,
   onClick,
   selected
@@ -49,6 +67,7 @@ export const Track = ({
 
   const onMouseDown = (event: MouseEventReact, which: 'in' | 'out' | 'offset') => {
     setIsDragging(which)
+    onClick(trackData.id)
     setInitialMouseX(event.clientX)
     setInitialValue({ in: trackData.in, out: trackData.out, offset: trackData.offset })
   }
@@ -94,17 +113,22 @@ export const Track = ({
     }
   }
 
-  const onMouseLeave = () => {
-    setIsDragging(null)
-  }
+  useEffect(() => {
+    if (isDragging) {
+      document.addEventListener('mouseup', onMouseUp)
+      document.addEventListener('mousemove', onMouseMove as any)
+    }
+
+    return () => {
+      document.removeEventListener('mouseup', onMouseUp)
+      document.removeEventListener('mousemove', onMouseMove as any)
+    }
+  }, [isDragging, initialMouseX, initialValue, trackData])
 
   return (
     <Tk.Track 
       ref={trackRef}
       style={{ width: `${width}%`, left: `${offset}%`, top: '0' }}
-      onMouseUp={onMouseUp}
-      onMouseMove={onMouseMove}
-      onMouseLeave={onMouseLeave}
       isDragging={!!isDragging || !!selected}
       onClick={() => onClick(trackData.id)}
     >
@@ -120,6 +144,7 @@ export const Track = ({
     </Tk.Track>
   )
 }
+
 
 interface TrackCompProps {
   isDragging: boolean
@@ -333,7 +358,7 @@ export const Timeline = ({ }: TimelineProps) => {
       return Math.max(max, track.offset + trackDuration)
     }, 0))
     }
-   
+    console.log(trackData)
   }, [trackData])
 
   const [playheadPosition, setPlayheadPosition] = useState<number>(0)
@@ -498,12 +523,17 @@ export const Timeline = ({ }: TimelineProps) => {
           dimensions,
           fileSize,
           duration,
-          videoElement
+          videoElement,
+          videoUrl
         } = await getVideoInfo(file)
 
         const durationMs = duration * 1000
         const id = generateUUID()
+        videoElement.id = id
+        document.body.appendChild(videoElement)
+        videoElement.style.display = 'none'
 
+        // @ts-ignore
         setTrackData(prev => {
           const maxOutValue = trackData.reduce((max, track) => {
             const trackDuration = track.out - track.in // Actual "rendered" duration of the track
@@ -520,7 +550,8 @@ export const Timeline = ({ }: TimelineProps) => {
               out: durationMs,
               offset: maxOutValue,
               previews: [],
-              videoElement
+              videoElement,
+              videoUrl
             }
           ]
         })
@@ -572,29 +603,67 @@ export const Timeline = ({ }: TimelineProps) => {
      {
         trackData.length > 0 || loading
           ? <>
-              <T.Taskbar>
-                <Box width={10}>
-                  <TextInput
-                    value={projectName}
-                    onChange={val => setProjectName(val)}
-                    compact
-                    placeholder='Untitled project'
-                    secondaryIcon='edit'
-                  />
-                </Box>
+              <T.Taskbar>    
                 <Spacer />
-                <Button
-                  compact
-                  text='Export Project'
-                  icon='arrow-up-from-bracket'
-                  iconPrefix='fas'
-                />
+                <Gap autoWidth>
+                  <Box width={10}>
+                    <TextInput
+                      value={projectName}
+                      onChange={val => setProjectName(val)}
+                      compact
+                      placeholder='Untitled project'
+                      secondaryIcon='edit'
+                    />
+                  </Box>
+                  <Button
+                    compact
+                    text='Export Project'
+                    icon='arrow-up-from-bracket'
+                    iconPrefix='fas'
+                  />
+                </Gap>
               </T.Taskbar>
-              <T.Player>
-                <T.Canvas ref={canvasRef} width={1920} height={1080} />
-              </T.Player>
-              <T.Controls>
               <T.Top>
+                <T.Left>
+                  <FileDrop onFileDrop={files => handleUpload(files)}>
+
+                  <Box px={.5} width='calc(100% - 1rem)'>
+                    <FileUpload
+                      onFileChange={async (files) => {
+                        handleUpload(files)
+                      }}                
+                      accept='video/mp4'
+                      icon='photo-video'
+                      dragMessage='Drag and drop media'
+                      browseMessage='Add media'
+                      iconPrefix='fas'
+                      multiple
+                    />
+                  </Box>
+               
+                    <Box px={.5} mt={.5} width='calc(100% - 1rem)'>
+                      <Grid maxWidth={6} gap={.25}>
+                        {
+                          trackData.map(track =>
+                            <DragOrigin data={{origin: 'media', track}}>
+                              <VideoPreview
+                                text={`${track.name.slice(0, 10)}...`}
+                                imageUrl={track.previews[0]}
+                                videoUrl={track.videoUrl}
+                                onClick={() => {}}
+                                active={false}
+                              />
+                            </DragOrigin>
+                          )
+                        }
+                      </Grid>
+                    </Box>
+                  </FileDrop>
+                </T.Left>
+                <T.Canvas ref={canvasRef} width={1920} height={1080} />
+              </T.Top>
+              <T.Controls>
+              <T.Bottom>
                 <Gap>
                   <Button
                     icon='undo'
@@ -654,26 +723,8 @@ export const Timeline = ({ }: TimelineProps) => {
                       hideNumberInput
                     />
                   </Box>
-                  <Box width={8}>
-                    <FileUpload
-                      onFileChange={async (files) => {
-                        handleUpload(files)
-                      }}                
-                      accept='video/mp4'
-                      minimal
-                      buttonProps={{
-                        icon: 'photo-video',
-                        iconPrefix: 'fas',
-                        text:'Add media',
-                        compact: true,
-                        minimal: true
-                      }}
-                      multiple
-                    />
-                  </Box>
-                 
                 </Gap>
-              </T.Top>
+              </T.Bottom>
               <T.TimelineContent>
                 <FileDrop onFileDrop={handleUpload}>
                   <T.PlayheadPositon  position={playheadPosition}>
@@ -681,21 +732,52 @@ export const Timeline = ({ }: TimelineProps) => {
                   </T.PlayheadPositon>
                   <TimeRuler totalDuration={totalDuration} />
                   <T.Layers>
-                    <Layer 
-                      trackData={trackData} 
-                      totalDuration={totalDuration}
-                      scale={scale} 
-                      onTrackChange={newTrackData => {
-                        const targetTrackIndex = trackData.findIndex(track => track.id === newTrackData.id)
-                        setTrackData(trackData.map(((track, index) => 
-                          index === targetTrackIndex
-                            ? newTrackData
-                            : track
-                        )))
+                    <DropTarget 
+                      acceptedOrigins={['media']} 
+                      onDrop={data => {
+
+                        const originalElement = document.getElementById(data.track.id)
+                        if (originalElement) {
+                          const id = generateUUID()
+                          const cloned = originalElement.cloneNode() as HTMLElement
+                          cloned.id = id
+                          document.body.appendChild(cloned)
+                          setTrackData(prev => {
+                            const maxOutValue = trackData.reduce((max, track) => {
+                              const trackDuration = track.out - track.in // Actual "rendered" duration of the track
+                              return Math.max(max, track.offset + trackDuration)
+                            }, 0)
+                          
+                            return [
+                              ...prev,
+                              {
+                                ...data.track,
+                                id,
+                                in: 0, 
+                                offset: maxOutValue,
+                                videoElement: cloned
+                              }
+                            ]
+                          })
+                        }
                       }}
-                      selectedTrack={selectedTrack}
-                      onClick={(newSelectedTrack) => setSelectedTrack(newSelectedTrack)}
-                    />
+                    >
+                      <Layer 
+                        trackData={trackData} 
+                        totalDuration={totalDuration}
+                        scale={scale} 
+                        onTrackChange={newTrackData => {
+                          const targetTrackIndex = trackData.findIndex(track => track.id === newTrackData.id)
+                          setTrackData(trackData.map(((track, index) => 
+                            index === targetTrackIndex
+                              ? newTrackData
+                              : track
+                          )))
+                        }}
+                        selectedTrack={selectedTrack}
+                        onClick={(newSelectedTrack) => setSelectedTrack(newSelectedTrack)}
+                      />
+                    </DropTarget>
                   </T.Layers>
                 </FileDrop>
             </T.TimelineContent> 
@@ -706,9 +788,9 @@ export const Timeline = ({ }: TimelineProps) => {
                 handleUpload(files)
               }}                
               accept='video/mp4'
-              icon='clapperboard'
-              dragMessage='Drag and drop a video'
-              browseMessage='Choose a video'
+              icon='photo-video'
+              dragMessage='Drag and drop media'
+              browseMessage='Add media'
               iconPrefix='fas'
               multiple
             />
@@ -728,16 +810,22 @@ const T = {
     user-select: none;
   `,
   Taskbar: styled.div`
-    width: calc(100% - 2rem);
-    padding: 0 1rem;
+    width: calc(100% - 1rem);
+    padding: 0 .5rem;
     display: flex;
     align-items: center;
     height: var(--F_Input_Height);
   `,
-  Player: styled.div`
+  Top: styled.div`
+    display: flex;
     width: 100%;
-    height: calc(calc(100% - 8rem) - var(--F_Input_Height));
-    background: black;
+    height: calc(calc(calc(100% - 8rem) - var(--F_Input_Height)) - 1px);
+    background: var(--F_Background);
+  `,
+  Left: styled.div`
+    width: 30rem;
+    height: 100%;
+    border-right:  1px solid var(--F_Surface);
   `,
   Controls: styled.div`
     width: 100%;
@@ -749,7 +837,7 @@ const T = {
     max-height: 100%;
     background: black;
   `,
-  Top: styled.div`
+  Bottom: styled.div`
     width: calc(100% - 2rem);
     padding: .25rem 1rem;
     height: var(--F_Input_Height);
@@ -762,6 +850,7 @@ const T = {
     text-align: center;
     font-size: var(--F_Font_Size_Label);
     font-weight: 600;
+    margin-left: .5rem;
   `,
   TotalTime: styled.div`
     width: 55px;

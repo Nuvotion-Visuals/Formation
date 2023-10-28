@@ -3,7 +3,8 @@ interface VideoProcessingResult {
   fileName: string,
   dimensions: { width: number, height: number },
   fileSize: number,
-  duration: number
+  duration: number,
+  videoUrl: string
 }
 
 const loadVideo = async (file: File): Promise<HTMLVideoElement> => {
@@ -46,6 +47,7 @@ export async function getVideoInfo(file: File): Promise<VideoProcessingResult> {
     fileName,
     dimensions,
     fileSize,
-    duration: videoDuration
+    duration: videoDuration,
+    videoUrl: video.src
   }
 }
