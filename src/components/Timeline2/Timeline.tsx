@@ -62,50 +62,47 @@ export const Track = ({
   selected
 }: TrackProps) => {
   const [isDragging, setIsDragging] = useState<'in' | 'out' | 'offset' | null>(null)
-  const [initialMouseX, setInitialMouseX] = useState<number | null>(null)
+  const [initialCoordinate, setInitialCoordinate] = useState<number | null>(null)
   const [initialValue, setInitialValue] = useState<InitialValue>({ in: 0, out: 0, offset: 0 })
   const trackRef = useRef<HTMLDivElement>(null)
 
-  const onMouseDown = (event: MouseEventReact, which: 'in' | 'out' | 'offset') => {
+  const handleStart = (coordinate: number, which: 'in' | 'out' | 'offset') => {
     setIsDragging(which)
     onClick(trackData.id)
-    setInitialMouseX(event.clientX)
+    setInitialCoordinate(coordinate)
     setInitialValue({ in: trackData.in, out: trackData.out, offset: trackData.offset })
   }
 
-  const onMouseUp = () => {
+  const handleEnd = () => {
     setIsDragging(null)
   }
 
-  const onMouseMove = (event: MouseEventReact) => {
+  const handleMove = (coordinate: number) => {
     if (isDragging && trackRef.current) {
       const actualWidth = trackRef.current.clientWidth
       const totalWidth = trackData.out - trackData.in
       const scale = actualWidth / totalWidth
   
-      let delta = (event.clientX - (initialMouseX || 0)) / scale
+      let delta = (coordinate - (initialCoordinate || 0)) / scale
       delta = Math.round(delta)
   
       let updatedTrack = { ...trackData }
   
       switch (isDragging) {
-        case 'in': {
+        case 'in':
           updatedTrack.in = trackData.type === 'image'
             ? initialValue.in + delta
             : Math.min(Math.max(0, initialValue.in + delta), updatedTrack.out)
           updatedTrack.offset = Math.max(0, initialValue.offset + delta)
           break
-        }
-        case 'out': {
+        case 'out':
           updatedTrack.out = trackData.type === 'image'
             ? initialValue.out + delta
             : Math.max(Math.min(initialValue.out + delta, trackData.originalDuration), updatedTrack.in)
           break
-        }
-        case 'offset': {
+        case 'offset':
           updatedTrack.offset = Math.max(0, initialValue.offset + delta)
           break
-        }
       }
   
       onTrackChange(updatedTrack)
@@ -113,17 +110,23 @@ export const Track = ({
   }
 
   useEffect(() => {
+    const mouseMoveHandler = (e: MouseEvent) => handleMove(e.clientX)
+    const touchMoveHandler = (e: TouchEvent) => handleMove(e.touches[0].clientX)
+
     if (isDragging) {
-      document.addEventListener('mouseup', onMouseUp)
-      document.addEventListener('mousemove', onMouseMove as any)
+      document.addEventListener('mouseup', handleEnd)
+      document.addEventListener('mousemove', mouseMoveHandler)
+      document.addEventListener('touchend', handleEnd)
+      document.addEventListener('touchmove', touchMoveHandler)
     }
 
     return () => {
-      document.removeEventListener('mouseup', onMouseUp)
-      document.removeEventListener('mousemove', onMouseMove as any)
+      document.removeEventListener('mouseup', handleEnd)
+      document.removeEventListener('mousemove', mouseMoveHandler)
+      document.removeEventListener('touchend', handleEnd)
+      document.removeEventListener('touchmove', touchMoveHandler)
     }
-  }, [isDragging, initialMouseX, initialValue, trackData])
-
+  }, [isDragging, initialCoordinate, initialValue, trackData])
   return (
     <Tk.Track 
       ref={trackRef}
@@ -131,15 +134,24 @@ export const Track = ({
       isDragging={!!isDragging || !!selected}
       onClick={() => onClick(trackData.id)}
     >
-      <Tk.DragHandle onMouseDown={(e: MouseEventReact) => onMouseDown(e, 'in')} />
-      <Tk.DragHandleInner onMouseDown={(e: MouseEventReact) => onMouseDown(e, 'offset')}>
+      <Tk.DragHandle 
+        onMouseDown={(e: MouseEventReact) => handleStart(e.clientX, 'in')} 
+        onTouchStart={(e: React.TouchEvent) => handleStart(e.touches[0].clientX, 'in')}
+      />
+      <Tk.DragHandleInner 
+        onMouseDown={(e: MouseEventReact) => handleStart(e.clientX, 'offset')}
+        onTouchStart={(e: React.TouchEvent) => handleStart(e.touches[0].clientX, 'offset')}
+      >
         {
           trackData.previews.map(preview =>
             <img src={preview} style={{height: '100%'}} draggable="false" />
           )
         }
       </Tk.DragHandleInner>
-      <Tk.DragHandle onMouseDown={(e: MouseEventReact) => onMouseDown(e, 'out')} />
+      <Tk.DragHandle 
+        onMouseDown={(e: MouseEventReact) => handleStart(e.clientX, 'out')}
+        onTouchStart={(e: React.TouchEvent) => handleStart(e.touches[0].clientX, 'out')}
+      />
     </Tk.Track>
   )
 }
@@ -357,7 +369,6 @@ export const Timeline = ({ }: TimelineProps) => {
         return Math.max(max, track.offset + trackDuration)
       }, 0))
     }
-    console.log(trackData)
   }, [trackData])
 
   const [playheadPosition, setPlayheadPosition] = useState<number>(0)
