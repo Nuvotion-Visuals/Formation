@@ -1,10 +1,10 @@
 interface VideoProcessingResult {
-  videoElement: HTMLVideoElement,
+  element: HTMLVideoElement,
   fileName: string,
   dimensions: { width: number, height: number },
   fileSize: number,
   duration: number,
-  videoUrl: string
+  url: string
 }
 
 const loadVideo = async (file: File): Promise<HTMLVideoElement> => {
@@ -43,11 +43,61 @@ export async function getVideoInfo(file: File): Promise<VideoProcessingResult> {
   const fileSize = file.size
 
   return {
-    videoElement: video,
+    element: video,
     fileName,
     dimensions,
     fileSize,
     duration: videoDuration,
-    videoUrl: video.src
+    url: video.src
+  }
+}
+
+
+interface ImageProcessingResult {
+  element: HTMLImageElement,
+  fileName: string,
+  dimensions: { width: number, height: number },
+  fileSize: number,
+  url: string
+}
+
+const loadImage = async (file: File): Promise<HTMLImageElement> => {
+  return new Promise((resolve, reject) => {
+    try {
+      const image = new Image()
+
+      image.onload = function() {
+        resolve(this as HTMLImageElement)
+      }
+
+      image.onerror = function() {
+        reject("Invalid image. Please select an image file.")
+      }
+
+      image.src = window.URL.createObjectURL(file)
+    }
+    catch (e) {
+      reject(e)
+    }
+  })
+}
+
+export async function getImageInfo(file: File): Promise<ImageProcessingResult> {
+  const image = await loadImage(file)
+
+  const dimensions = {
+    width: image.width,
+    height: image.height
+  }
+
+  const fileName = file.name
+  const fileSize = file.size
+
+  return {
+    element: image,
+    fileName,
+    dimensions,
+    fileSize,
+    url: image.src
   }
 }

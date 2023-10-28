@@ -17,7 +17,7 @@ import {
 } from '../../internal'
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
-import { getVideoInfo } from './getVideoInfo'
+import { getImageInfo, getVideoInfo } from './getMediaInfo'
 import { VideoPreview } from './VideoPreview'
 
 interface TrackData {
@@ -28,8 +28,9 @@ interface TrackData {
   in: number,
   out: number,
   previews: string[],
-  videoElement: HTMLVideoElement,
-  videoUrl: string
+  element: HTMLVideoElement,
+  url: string,
+  type: 'image' | 'video'
 }
 
 // -----> TRACK <------
@@ -89,18 +90,16 @@ export const Track = ({
   
       switch (isDragging) {
         case 'in': {
-          updatedTrack.in = Math.min(
-            Math.max(0, initialValue.in + delta),
-            updatedTrack.out
-          )
+          updatedTrack.in = trackData.type === 'image'
+            ? initialValue.in + delta
+            : Math.min(Math.max(0, initialValue.in + delta), updatedTrack.out)
           updatedTrack.offset = Math.max(0, initialValue.offset + delta)
           break
         }
         case 'out': {
-          updatedTrack.out = Math.max(
-            Math.min(initialValue.out + delta, trackData.originalDuration),
-            updatedTrack.in
-          )
+          updatedTrack.out = trackData.type === 'image'
+            ? initialValue.out + delta
+            : Math.max(Math.min(initialValue.out + delta, trackData.originalDuration), updatedTrack.in)
           break
         }
         case 'offset': {
@@ -291,7 +290,7 @@ interface TrackData {
   in: number,
   out: number,
   previews: string[],
-  videoElement: HTMLVideoElement
+  element: HTMLVideoElement
 }
 
 
@@ -386,16 +385,16 @@ export const Timeline = ({ }: TimelineProps) => {
   const trackPlaying = useRef('')
   const lastActiveVideoElement = useRef<HTMLVideoElement | null>(null)
 
-  const startDrawing = (videoElement: HTMLVideoElement, startTime: number, endTime: number) => {
-    lastActiveVideoElement.current = videoElement
+  const startDrawing = (element: HTMLVideoElement, startTime: number, endTime: number) => {
+    lastActiveVideoElement.current = element
 
     videoStarted.current = true
-    trackPlaying.current = videoElement.id
-    videoElement.currentTime = startTime / 1000
-    videoElement.play()
+    trackPlaying.current = element.id
+    element.currentTime = startTime / 1000
+    element.play()
   
     const onFrame = async (now: DOMHighResTimeStamp, metadata: any) => {
-      if (videoElement.currentTime >= endTime / 1000) {
+      if (element.currentTime >= endTime / 1000) {
         videoStarted.current = false
       }
     
@@ -404,8 +403,8 @@ export const Timeline = ({ }: TimelineProps) => {
         if (ctx) {
           ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height)
           
-          const videoWidth = videoElement.videoWidth
-          const videoHeight = videoElement.videoHeight
+          const videoWidth = element.videoWidth
+          const videoHeight = element.videoHeight
           const videoAspectRatio = videoWidth / videoHeight
     
           const canvasWidth = canvasRef.current.width
@@ -427,16 +426,50 @@ export const Timeline = ({ }: TimelineProps) => {
             offsetY = (canvasHeight - drawHeight) / 2
           }
     
-          ctx.drawImage(videoElement, offsetX, offsetY, drawWidth, drawHeight)
+          ctx.drawImage(element, offsetX, offsetY, drawWidth, drawHeight)
         }
       }
     
       if (videoStarted.current) {
-        videoElement.requestVideoFrameCallback(onFrame)
+        element.requestVideoFrameCallback(onFrame)
       }
     }
 
-    videoElement.requestVideoFrameCallback(onFrame)
+    element.requestVideoFrameCallback(onFrame)
+  }
+
+  const drawImage = async (imageElement: HTMLImageElement) => {
+    if (canvasRef.current) {
+      const ctx = canvasRef.current.getContext('2d')
+      if (ctx) {
+        ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height)
+  
+        const imageWidth = imageElement.width
+        const imageHeight = imageElement.height
+        const imageAspectRatio = imageWidth / imageHeight
+  
+        const canvasWidth = canvasRef.current.width
+        const canvasHeight = canvasRef.current.height
+        const canvasAspectRatio = canvasWidth / canvasHeight
+  
+        let drawWidth, drawHeight, offsetX, offsetY
+  
+        if (canvasAspectRatio > imageAspectRatio) {
+          drawHeight = canvasHeight
+          drawWidth = canvasHeight * imageAspectRatio
+          offsetX = (canvasWidth - drawWidth) / 2
+          offsetY = 0
+        }
+        else {
+          drawWidth = canvasWidth
+          drawHeight = canvasWidth / imageAspectRatio
+          offsetX = 0
+          offsetY = (canvasHeight - drawHeight) / 2
+        }
+  
+        ctx.drawImage(imageElement, offsetX, offsetY, drawWidth, drawHeight)
+      }
+    }
   }
 
   const movePlayhead = () => {
@@ -458,12 +491,19 @@ export const Timeline = ({ }: TimelineProps) => {
   
     if (activeTrack) {
       // Calculate the time to playback of the active track
-      if (!videoStarted.current) {
-        startDrawing(activeTrack.videoElement, activeTrack.in, activeTrack.out)
-      }
-      if (trackPlaying.current !== activeTrack.id) {
+      if (activeTrack.type == 'image') {
+        // @ts-ignore
+        drawImage(activeTrack.element)
         lastActiveVideoElement.current?.pause()
-        startDrawing(activeTrack.videoElement, activeTrack.in, activeTrack.out)
+      }
+      else {
+        if (!videoStarted.current) {
+          startDrawing(activeTrack.element, activeTrack.in, activeTrack.out)
+        }
+        if (trackPlaying.current !== activeTrack.id) {
+          lastActiveVideoElement.current?.pause()
+          startDrawing(activeTrack.element, activeTrack.in, activeTrack.out)
+        }
       }
     }
     else {
@@ -554,65 +594,103 @@ export const Timeline = ({ }: TimelineProps) => {
     if (files) {
       files.forEach(async (file) => {
         setLoading(true)
-        const {
-          fileName,
-          dimensions,
-          fileSize,
-          duration,
-          videoElement,
-          videoUrl
-        } = await getVideoInfo(file)
-
-        const durationMs = duration * 1000
+        const mimeType = file.type
         const id = generateUUID()
-        videoElement.id = id
-        document.body.appendChild(videoElement)
-        videoElement.style.display = 'none'
-
-        // @ts-ignore
-        setTrackData(prev => {
-          return [
-            ...prev,
-            {
-              id,
-              name: fileName,
-              originalDuration: durationMs,
-              in: 0, 
-              out: durationMs,
-              offset: maxOutValue,
-              previews: [],
-              videoElement,
-              videoUrl
-            }
-          ]
-        })
-
-        setLoading(false)
-
-        const thumbnails = await generateVideoThumbnails(
-          file,
-          90,
-          [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
-          true
-        )
-        const sortedThumbnails = thumbnails.sort((a, b) => a.timestamp - b.timestamp)
-        const sortedUrls = sortedThumbnails.map(thumb => thumb.image)
-    
-        // @ts-ignore
-        setTrackData(prev => {
-          return prev.map(track => {
-            if (track.id === id) {
-              return {
-                ...track,
-                previews: sortedUrls
+  
+        if (mimeType.startsWith('video')) {
+          // Your existing video handling logic
+          const {
+            fileName,
+            dimensions,
+            fileSize,
+            duration,
+            element,
+            url
+          } = await getVideoInfo(file)
+  
+          const durationMs = duration * 1000
+          element.id = id
+          document.body.appendChild(element)
+          element.style.display = 'none'
+          
+          // @ts-ignore
+          setTrackData(prev => {
+            return [
+              ...prev,
+              {
+                id,
+                type: 'video',
+                name: fileName,
+                originalDuration: durationMs,
+                in: 0,
+                out: durationMs,
+                offset: maxOutValue,
+                previews: [],
+                element,
+                url
               }
-            }
-            return track
+            ]
           })
-        })
+  
+          setLoading(false)
+          
+          const thumbnails = await generateVideoThumbnails(
+            file,
+            90,
+            [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
+            true
+          )
+          const sortedThumbnails = thumbnails.sort((a, b) => a.timestamp - b.timestamp)
+          const sortedUrls = sortedThumbnails.map(thumb => thumb.image)
+  
+          // @ts-ignore
+          setTrackData(prev => {
+            return prev.map(track => {
+              if (track.id === id) {
+                return {
+                  ...track,
+                  previews: sortedUrls
+                }
+              }
+              return track
+            })
+          })
+        }
+        else if (mimeType.startsWith('image')) {
+          const {
+            fileName,
+            dimensions,
+            fileSize,
+            element,
+            url
+          } = await getImageInfo(file)
+          element.id = id
+          document.body.appendChild(element)
+          element.style.display = 'none'
+          
+          // @ts-ignore
+          setTrackData(prev => {
+            return [
+              ...prev,
+              {
+                id,
+                type: 'image',
+                name: fileName,
+                originalDuration: 1000,
+                in: 0,
+                out: 1000,
+                offset: maxOutValue,
+                previews: [url],
+                element,
+                url
+              }
+            ]
+          })
+        }
       })
     }
   }
+  
 
    const [loading, setLoading] = useState(false)
 
@@ -621,7 +699,9 @@ export const Timeline = ({ }: TimelineProps) => {
    useEffect(() => {
     if (!isPlaying) {
       trackData.forEach((track) => {
-        track.videoElement.pause()
+        if (track.type === 'video') {
+          track.element.pause()
+        }
       })
     }
    }, [isPlaying])
@@ -661,7 +741,7 @@ export const Timeline = ({ }: TimelineProps) => {
                       onFileChange={async (files) => {
                         handleUpload(files)
                       }}                
-                      accept='video/mp4'
+                      accept='video/mp4,video/webm,image/png,image/jpeg,image/bmp,image/avif,image/webp'
                       icon='photo-video'
                       dragMessage='Drag and drop media'
                       browseMessage='Add media'
@@ -678,7 +758,7 @@ export const Timeline = ({ }: TimelineProps) => {
                               <VideoPreview
                                 text={`${track.name.slice(0, 10)}...`}
                                 imageUrl={track.previews[0]}
-                                videoUrl={track.videoUrl}
+                                videoUrl={track.url}
                                 onClick={() => {}}
                                 active={false}
                               />
@@ -764,8 +844,9 @@ export const Timeline = ({ }: TimelineProps) => {
                     <DropTarget 
                       acceptedOrigins={['media']} 
                       onDrop={data => {
-
+                        console.log(data)
                         const originalElement = document.getElementById(data.track.id)
+                        console.log(originalElement)
                         if (originalElement) {
                           const id = generateUUID()
                           const cloned = originalElement.cloneNode() as HTMLElement
@@ -777,9 +858,8 @@ export const Timeline = ({ }: TimelineProps) => {
                               {
                                 ...data.track,
                                 id,
-                                in: 0, 
                                 offset: maxOutValue,
-                                videoElement: cloned
+                                element: cloned
                               }
                             ]
                           })
@@ -811,7 +891,7 @@ export const Timeline = ({ }: TimelineProps) => {
               onFileChange={async (files) => {
                 handleUpload(files)
               }}                
-              accept='video/mp4'
+              accept='video/mp4,video/webm,image/png,image/jpeg,image/bmp,image/avif,image/webp'
               icon='photo-video'
               dragMessage='Drag and drop media'
               browseMessage='Add media'
