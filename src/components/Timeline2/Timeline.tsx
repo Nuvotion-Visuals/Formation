@@ -20,7 +20,7 @@ import styled from 'styled-components'
 import { getImageInfo, getVideoInfo } from './getMediaInfo'
 import { VideoPreview } from './VideoPreview'
 
-interface TrackData {
+interface ClipData {
   id: string,
   name: string,
   originalDuration: number,
@@ -33,12 +33,12 @@ interface TrackData {
   type: 'image' | 'video'
 }
 
-// -----> TRACK <------
-interface TrackProps {
+// -----> CLIP <------
+interface ClipProps {
   width: number,
   offset: number,
-  trackData: TrackData,
-  onTrackChange: (newTrackData: TrackData, type: 'in' | 'out' | 'offset') => void,
+  clipData: ClipData,
+  onClipChange: (newClipData: ClipData, type: 'in' | 'out' | 'offset') => void,
   onClick: (id: string) => void,
   selected?: boolean
 }
@@ -53,24 +53,24 @@ interface InitialValue {
   offset: number
 }
 
-export const Track = ({
-  trackData,
+export const Clip = ({
+  clipData,
   width,
   offset,
-  onTrackChange,
+  onClipChange,
   onClick,
   selected
-}: TrackProps) => {
+}: ClipProps) => {
   const [isDragging, setIsDragging] = useState<'in' | 'out' | 'offset' | null>(null)
   const [initialCoordinate, setInitialCoordinate] = useState<number | null>(null)
   const [initialValue, setInitialValue] = useState<InitialValue>({ in: 0, out: 0, offset: 0 })
-  const trackRef = useRef<HTMLDivElement>(null)
+  const clipRef = useRef<HTMLDivElement>(null)
 
   const handleStart = (coordinate: number, which: 'in' | 'out' | 'offset') => {
     setIsDragging(which)
-    onClick(trackData.id)
+    onClick(clipData.id)
     setInitialCoordinate(coordinate)
-    setInitialValue({ in: trackData.in, out: trackData.out, offset: trackData.offset })
+    setInitialValue({ in: clipData.in, out: clipData.out, offset: clipData.offset })
   }
 
   const handleEnd = () => {
@@ -78,34 +78,34 @@ export const Track = ({
   }
 
   const handleMove = (coordinate: number) => {
-    if (isDragging && trackRef.current) {
-      const actualWidth = trackRef.current.clientWidth
-      const totalWidth = trackData.out - trackData.in
+    if (isDragging && clipRef.current) {
+      const actualWidth = clipRef.current.clientWidth
+      const totalWidth = clipData.out - clipData.in
       const scale = actualWidth / totalWidth
   
       let delta = (coordinate - (initialCoordinate || 0)) / scale
       delta = Math.round(delta)
   
-      let updatedTrack = { ...trackData }
+      let updatedClip = { ...clipData }
   
       switch (isDragging) {
         case 'in':
-          updatedTrack.in = trackData.type === 'image'
+          updatedClip.in = clipData.type === 'image'
             ? initialValue.in + delta
-            : Math.min(Math.max(0, initialValue.in + delta), updatedTrack.out)
-          updatedTrack.offset = Math.max(0, initialValue.offset + delta)
+            : Math.min(Math.max(0, initialValue.in + delta), updatedClip.out)
+          updatedClip.offset = Math.max(0, initialValue.offset + delta)
           break
         case 'out':
-          updatedTrack.out = trackData.type === 'image'
+          updatedClip.out = clipData.type === 'image'
             ? initialValue.out + delta
-            : Math.max(Math.min(initialValue.out + delta, trackData.originalDuration), updatedTrack.in)
+            : Math.max(Math.min(initialValue.out + delta, clipData.originalDuration), updatedClip.in)
           break
         case 'offset':
-          updatedTrack.offset = Math.max(0, initialValue.offset + delta)
+          updatedClip.offset = Math.max(0, initialValue.offset + delta)
           break
       }
   
-      onTrackChange(updatedTrack, isDragging)
+      onClipChange(updatedClip, isDragging)
     }
   }
 
@@ -126,13 +126,13 @@ export const Track = ({
       document.removeEventListener('touchend', handleEnd)
       document.removeEventListener('touchmove', touchMoveHandler)
     }
-  }, [isDragging, initialCoordinate, initialValue, trackData])
+  }, [isDragging, initialCoordinate, initialValue, clipData])
   return (
-    <Tk.Track 
-      ref={trackRef}
+    <Tk.Clip 
+      ref={clipRef}
       style={{ width: `${width}%`, left: `${offset}%`, top: '0' }}
       isDragging={!!isDragging || !!selected}
-      onClick={() => onClick(trackData.id)}
+      onClick={() => onClick(clipData.id)}
     >
       <Tk.DragHandle 
         onMouseDown={(e: MouseEventReact) => handleStart(e.clientX, 'in')} 
@@ -143,7 +143,7 @@ export const Track = ({
         onTouchStart={(e: React.TouchEvent) => handleStart(e.touches[0].clientX, 'offset')}
       >
         {
-          trackData.previews.map(preview =>
+          clipData.previews.map(preview =>
             <img src={preview} style={{height: '100%'}} draggable="false" />
           )
         }
@@ -152,16 +152,16 @@ export const Track = ({
         onMouseDown={(e: MouseEventReact) => handleStart(e.clientX, 'out')}
         onTouchStart={(e: React.TouchEvent) => handleStart(e.touches[0].clientX, 'out')}
       />
-    </Tk.Track>
+    </Tk.Clip>
   )
 }
 
 
-interface TrackCompProps {
+interface ClipCompProps {
   isDragging: boolean
 }
 const Tk = {
-  Track: styled.div<TrackCompProps>`
+  Clip: styled.div<ClipCompProps>`
     height: 100%;
     box-shadow: var(--F_Outline);
     box-shadow: ${props => props.isDragging ? 'inset 0 0 0 2px var(--F_Primary_Variant)' : 'inset 0 0 0 2px var(--F_Surface_2)'};
@@ -202,44 +202,44 @@ const Tk = {
   `
 }
 
-// -----> LAYER <------
-interface LayerProps {
+// -----> TRACK <------
+interface TrackProps {
   scale: number,
-  trackData: TrackData[],
+  clipData: ClipData[],
   totalDuration: number,
-  onTrackChange: (newTrackData: TrackData, type: 'in' | 'out' | 'offset') => void,
+  onClipChange: (newClipData: ClipData, type: 'in' | 'out' | 'offset') => void,
   onClick: (id: string) => void,
-  selectedTrack?: string
+  selectedClip?: string
 }
 
-export const Layer = ({ 
+export const Track = ({ 
   scale, 
-  trackData, 
-  onTrackChange, 
+  clipData, 
+  onClipChange, 
   totalDuration,
   onClick,
-  selectedTrack
-}: LayerProps) => {
+  selectedClip
+}: TrackProps) => {
   return (
-    <L.Layer>
+    <L.Track>
       {
-        trackData.map(track =>
-          <Track 
-            width={((track.out - track.in) / totalDuration) * 100} 
-            offset={(track.offset / totalDuration) * 100}
-            trackData={track} 
-            onTrackChange={onTrackChange}
+        clipData.map(clip =>
+          <Clip 
+            width={((clip.out - clip.in) / totalDuration) * 100} 
+            offset={(clip.offset / totalDuration) * 100}
+            clipData={clip} 
+            onClipChange={onClipChange}
             onClick={onClick}
-            selected={track.id === selectedTrack}
+            selected={clip.id === selectedClip}
           />
         )
       }
-    </L.Layer>
+    </L.Track>
   )
 }
 
 const L = {
-  Layer: styled.div`
+  Track: styled.div`
     width: 100%;
     height: 50px;
     margin: .5rem 0;
@@ -294,7 +294,7 @@ interface TimelineProps {
   
 }
 
-interface TrackData {
+interface ClipData {
   id: string,
   name: string,
   originalDuration: number,
@@ -311,19 +311,19 @@ export const Timeline = ({ }: TimelineProps) => {
   const [totalDuration, setTotalDuration] = useState(originalTotalDuration)
   const [scale, setScale] = useState(50)
 
-  const [selectedTrack, setSelectedTrack] = useState('')
+  const [selectedClip, setSelectedClip] = useState('')
 
   useEffect(() => {
     setTotalDuration(originalTotalDuration * (scale / 50))
   }, [scale, originalTotalDuration])
 
-  const [trackData, setTrackData] = useState<TrackData[]>([])
+  const [clipData, setClipData] = useState<ClipData[]>([])
 
-  const [history, setHistory] = useState([trackData])
+  const [history, setHistory] = useState([clipData])
   const [pointer, setPointer] = useState(0)
   const timeoutRef = useRef<NodeJS.Timeout | null>(null)
 
-  const debounceUpdateHistory = (newData: TrackData[]) => {
+  const debounceUpdateHistory = (newData: ClipData[]) => {
     if (timeoutRef.current !== null) {
       clearTimeout(timeoutRef.current)
     }
@@ -341,7 +341,7 @@ export const Timeline = ({ }: TimelineProps) => {
     if (pointer > 0) {
       setPointer(prev => {
         const newPointer = prev - 1
-        setTrackData(history[newPointer])
+        setClipData(history[newPointer])
         return newPointer
       })
     }
@@ -351,7 +351,7 @@ export const Timeline = ({ }: TimelineProps) => {
     if (pointer < history.length - 1) {
       setPointer(prev => {
         const newPointer = prev + 1
-        setTrackData(history[newPointer])
+        setClipData(history[newPointer])
         return newPointer
       })
     }
@@ -361,15 +361,15 @@ export const Timeline = ({ }: TimelineProps) => {
 
   useEffect(() => {
     if (pointer === history.length - 1 || pointer === -1) {
-      debounceUpdateHistory(trackData)
+      debounceUpdateHistory(clipData)
     }
-    if (trackData.length) {
-      setMaxOutValue(trackData.reduce((max, track) => {
-        const trackDuration = track.out - track.in // Actual "rendered" duration of the track
-        return Math.max(max, track.offset + trackDuration)
+    if (clipData.length) {
+      setMaxOutValue(clipData.reduce((max, clip) => {
+        const clipDuration = clip.out - clip.in // Actual "rendered" duration of the clip
+        return Math.max(max, clip.offset + clipDuration)
       }, 0))
     }
-  }, [trackData])
+  }, [clipData])
 
   const [playheadPosition, setPlayheadPosition] = useState<number>(0)
   const [playheadTime, setPlayheadTime] = useState<number>(0)
@@ -399,14 +399,14 @@ export const Timeline = ({ }: TimelineProps) => {
   }
 
   const videoStarted = useRef(false)
-  const trackPlaying = useRef('')
+  const clipPlaying = useRef('')
   const lastActiveVideoElement = useRef<HTMLVideoElement | null>(null)
 
   const startDrawing = (element: HTMLVideoElement, startTime: number, endTime: number) => {
     lastActiveVideoElement.current = element
 
     videoStarted.current = true
-    trackPlaying.current = element.id
+    clipPlaying.current = element.id
     element.currentTime = startTime / 1000
     element.play()
   
@@ -494,32 +494,32 @@ export const Timeline = ({ }: TimelineProps) => {
     const elapsed = currentTime - lastFrameTime.current
     const elapsedPercentage = (elapsed / totalDuration) * 100
   
-    // Determine the active track based on playhead position
-    const activeTrack = trackData.find(track => {
-      const trackDuration = track.out - track.in
-      const trackStart = track.offset
-      const trackEnd = track.offset + trackDuration
+    // Determine the active clip based on playhead position
+    const activeClip = clipData.find(clip => {
+      const clipDuration = clip.out - clip.in
+      const clipStart = clip.offset
+      const clipEnd = clip.offset + clipDuration
   
-      const trackStartPercentage = (trackStart / totalDuration) * 100
-      const trackEndPercentage = (trackEnd / totalDuration) * 100
+      const clipStartPercentage = (clipStart / totalDuration) * 100
+      const clipEndPercentage = (clipEnd / totalDuration) * 100
   
-      return elapsedPercentage >= trackStartPercentage && elapsedPercentage <= trackEndPercentage
+      return elapsedPercentage >= clipStartPercentage && elapsedPercentage <= clipEndPercentage
     })
   
-    if (activeTrack) {
-      // Calculate the time to playback of the active track
-      if (activeTrack.type == 'image') {
+    if (activeClip) {
+      // Calculate the time to playback of the active clip
+      if (activeClip.type == 'image') {
         // @ts-ignore
-        drawImage(activeTrack.element)
+        drawImage(activeClip.element)
         lastActiveVideoElement.current?.pause()
       }
       else {
         if (!videoStarted.current) {
-          startDrawing(activeTrack.element, activeTrack.in, activeTrack.out)
+          startDrawing(activeClip.element, activeClip.in, activeClip.out)
         }
-        if (trackPlaying.current !== activeTrack.id) {
+        if (clipPlaying.current !== activeClip.id) {
           lastActiveVideoElement.current?.pause()
-          startDrawing(activeTrack.element, activeTrack.in, activeTrack.out)
+          startDrawing(activeClip.element, activeClip.in, activeClip.out)
         }
       }
     }
@@ -581,7 +581,7 @@ export const Timeline = ({ }: TimelineProps) => {
   }, [isPlaying])
 
   const skipForward = async () => {
-    const nextOffsets = trackData.map(track => (track.offset / totalDuration) * 100).filter(offset => offset > playheadPosition)
+    const nextOffsets = clipData.map(clip => (clip.offset / totalDuration) * 100).filter(offset => offset > playheadPosition)
     if (nextOffsets.length === 0) return
   
     const closestNextOffset = Math.min(...nextOffsets)
@@ -596,7 +596,7 @@ export const Timeline = ({ }: TimelineProps) => {
   }
   
   const skipBack = async () => {
-    const prevOffsets = trackData.map(track => (track.offset / totalDuration) * 100).filter(offset => offset < playheadPosition)
+    const prevOffsets = clipData.map(clip => (clip.offset / totalDuration) * 100).filter(offset => offset < playheadPosition)
     if (prevOffsets.length === 0) return
   
     const closestPrevOffset = Math.max(...prevOffsets)
@@ -637,7 +637,7 @@ export const Timeline = ({ }: TimelineProps) => {
           element.style.display = 'none'
           
           // @ts-ignore
-          setTrackData(prev => {
+          setClipData(prev => {
             return [
               ...prev,
               {
@@ -667,15 +667,15 @@ export const Timeline = ({ }: TimelineProps) => {
           const sortedUrls = sortedThumbnails.map(thumb => thumb.image)
   
           // @ts-ignore
-          setTrackData(prev => {
-            return prev.map(track => {
-              if (track.id === id) {
+          setClipData(prev => {
+            return prev.map(clip => {
+              if (clip.id === id) {
                 return {
-                  ...track,
+                  ...clip,
                   previews: sortedUrls
                 }
               }
-              return track
+              return clip
             })
           })
         }
@@ -692,7 +692,7 @@ export const Timeline = ({ }: TimelineProps) => {
           element.style.display = 'none'
           
           // @ts-ignore
-          setTrackData(prev => {
+          setClipData(prev => {
             return [
               ...prev,
               {
@@ -721,9 +721,9 @@ export const Timeline = ({ }: TimelineProps) => {
 
    useEffect(() => {
     if (!isPlaying) {
-      trackData.forEach((track) => {
-        if (track.type === 'video') {
-          track.element.pause()
+      clipData.forEach((clip) => {
+        if (clip.type === 'video') {
+          clip.element.pause()
         }
       })
     }
@@ -772,12 +772,12 @@ export const Timeline = ({ }: TimelineProps) => {
             <Box px={.5} mt={.5} width='calc(100% - 1rem)'>
               <Grid maxWidth={6} gap={.25}>
                 {
-                  trackData.map(track =>
-                    <DragOrigin data={{origin: 'media', track}}>
+                  clipData.map(clip =>
+                    <DragOrigin data={{origin: 'media', clip}}>
                       <VideoPreview
-                        text={`${track.name.slice(0, 10)}...`}
-                        imageUrl={track.previews[0]}
-                        videoUrl={track.url}
+                        text={`${clip.name.slice(0, 10)}...`}
+                        imageUrl={clip.previews[0]}
+                        videoUrl={clip.url}
                         onClick={() => {}}
                         active={false}
                       />
@@ -872,23 +872,23 @@ export const Timeline = ({ }: TimelineProps) => {
               <Playhead />
             </T.PlayheadPositon>
             <TimeRuler totalDuration={totalDuration} />
-            <T.Layers>
+            <T.Tracks>
               <DropTarget 
                 acceptedOrigins={['media']} 
                 onDrop={data => {
                   console.log(data)
-                  const originalElement = document.getElementById(data.track.id)
+                  const originalElement = document.getElementById(data.clip.id)
                   console.log(originalElement)
                   if (originalElement) {
                     const id = generateUUID()
                     const cloned = originalElement.cloneNode() as HTMLElement
                     cloned.id = id
                     document.body.appendChild(cloned)
-                    setTrackData(prev => {
+                    setClipData(prev => {
                       return [
                         ...prev,
                         {
-                          ...data.track,
+                          ...data.clip,
                           id,
                           offset: maxOutValue,
                           element: cloned
@@ -898,88 +898,88 @@ export const Timeline = ({ }: TimelineProps) => {
                   }
                 }}
               >
-              <Layer 
-                  trackData={trackData} 
+              <Track 
+                  clipData={clipData} 
                   totalDuration={totalDuration}
                   scale={scale} 
-                  onTrackChange={async (newTrackData, dragType) => {
+                  onClipChange={async (newClipData, dragType) => {
                     if (snap) {
-                      let closestTrackStart: TrackData | null = null
-                      let closestTrackEnd: TrackData | null = null
+                      let closestClipStart: ClipData | null = null
+                      let closestClipEnd: ClipData | null = null
                       let minDistanceStart = Infinity
                       let minDistanceEnd = Infinity
                   
-                      const newStart = newTrackData.offset
-                      const newEnd = newTrackData.offset + (newTrackData.out - newTrackData.in)
+                      const newStart = newClipData.offset
+                      const newEnd = newClipData.offset + (newClipData.out - newClipData.in)
                   
-                      for (const track of trackData) {
-                        if (track.id === newTrackData.id) continue
+                      for (const clip of clipData) {
+                        if (clip.id === newClipData.id) continue
                   
-                        const trackStart = track.offset
-                        const trackEnd = track.offset + (track.out - track.in)
+                        const clipStart = clip.offset
+                        const clipEnd = clip.offset + (clip.out - clip.in)
                   
-                        const distanceToClosestStart = Math.abs(newStart - trackEnd)
-                        const distanceToClosestEnd = Math.abs(newEnd - trackStart)
+                        const distanceToClosestStart = Math.abs(newStart - clipEnd)
+                        const distanceToClosestEnd = Math.abs(newEnd - clipStart)
                   
                         if (distanceToClosestStart < snapRange && distanceToClosestStart < minDistanceStart) {
-                          closestTrackStart = track
+                          closestClipStart = clip
                           minDistanceStart = distanceToClosestStart
                         }
                   
                         if (distanceToClosestEnd < snapRange && distanceToClosestEnd < minDistanceEnd) {
-                          closestTrackEnd = track
+                          closestClipEnd = clip
                           minDistanceEnd = distanceToClosestEnd
                         }
                       }
                   
-                      if (dragType === 'in' && closestTrackStart) {
-                        const snappedStart = closestTrackStart.offset + (closestTrackStart.out - closestTrackStart.in)
-                        const delta = snappedStart - newTrackData.offset
-                        const newIn = newTrackData.in + delta
-                        const newOut = newTrackData.out
+                      if (dragType === 'in' && closestClipStart) {
+                        const snappedStart = closestClipStart.offset + (closestClipStart.out - closestClipStart.in)
+                        const delta = snappedStart - newClipData.offset
+                        const newIn = newClipData.in + delta
+                        const newOut = newClipData.out
                         
-                        if (newTrackData.type !== 'video' || newOut - newIn <= newTrackData.originalDuration) {
-                          newTrackData.in = newIn
-                          newTrackData.offset = snappedStart
+                        if (newClipData.type !== 'video' || newOut - newIn <= newClipData.originalDuration) {
+                          newClipData.in = newIn
+                          newClipData.offset = snappedStart
                         }
                       }
                       
                   
-                      if (dragType === 'out' && closestTrackEnd) {
-                        const snappedEnd = closestTrackEnd.offset
-                        const newOut = newTrackData.in + (snappedEnd - newTrackData.offset)
+                      if (dragType === 'out' && closestClipEnd) {
+                        const snappedEnd = closestClipEnd.offset
+                        const newOut = newClipData.in + (snappedEnd - newClipData.offset)
                   
-                        if (newTrackData.type !== 'video' || newOut <= newTrackData.originalDuration) {
-                          newTrackData.out = newOut
+                        if (newClipData.type !== 'video' || newOut <= newClipData.originalDuration) {
+                          newClipData.out = newOut
                         }
                       }
                   
                       if (dragType === 'offset') {
-                        if (closestTrackStart) {
-                          const snappedStart = closestTrackStart.offset + (closestTrackStart.out - closestTrackStart.in)
-                          newTrackData.offset = snappedStart
+                        if (closestClipStart) {
+                          const snappedStart = closestClipStart.offset + (closestClipStart.out - closestClipStart.in)
+                          newClipData.offset = snappedStart
                         }
                   
-                        if (closestTrackEnd) {
-                          const snappedEnd = closestTrackEnd.offset
-                          newTrackData.offset = snappedEnd - (newTrackData.out - newTrackData.in)
+                        if (closestClipEnd) {
+                          const snappedEnd = closestClipEnd.offset
+                          newClipData.offset = snappedEnd - (newClipData.out - newClipData.in)
                         }
                       }
                     }
                   
-                    const targetTrackIndex = trackData.findIndex(track => track.id === newTrackData.id)
-                    setTrackData(prevTrackData => prevTrackData.map((track, index) => 
-                      index === targetTrackIndex
-                        ? newTrackData
-                        : track
+                    const targetClipIndex = clipData.findIndex(clip => clip.id === newClipData.id)
+                    setClipData(prevClipData => prevClipData.map((clip, index) => 
+                      index === targetClipIndex
+                        ? newClipData
+                        : clip
                     ))
                   }}
                   
-                  selectedTrack={selectedTrack}
-                  onClick={(newSelectedTrack) => setSelectedTrack(newSelectedTrack)}
+                  selectedClip={selectedClip}
+                  onClick={(newSelectedClip) => setSelectedClip(newSelectedClip)}
                 />
               </DropTarget>
-            </T.Layers>
+            </T.Tracks>
           </FileDrop>
       </T.TimelineContent> 
     </T.Controls>
@@ -1065,7 +1065,7 @@ const T = {
     top: 0;
     z-index: 2;
   `,
-  Layers: styled.div`
+  Tracks: styled.div`
     width: 100%;  
     display: flex;
     flex-wrap: wrap;
