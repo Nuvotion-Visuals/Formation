@@ -65,7 +65,8 @@ library.add(
   fas.faFolder, fas.faPlay, fas.faPause, fas.faVolumeMute, fas.faVolumeHigh,
   fas.faExpand, fas.faRepeat, fas.faSearch, fas.faUndo, fas.faRedo,
   fas.faFastBackward, fas.faFastForward, fas.faMagnet, fas.faClapperboard,
-  fas.faPhotoVideo, fas.faArrowUpFromBracket, fas.faArrowsLeftRightToLine
+  fas.faPhotoVideo, fas.faArrowUpFromBracket, fas.faArrowsLeftRightToLine,
+  fas.faMagnifyingGlassMinus, fas.faMagnifyingGlassPlus
 )
 
 export const parameters = {

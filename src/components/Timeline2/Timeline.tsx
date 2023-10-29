@@ -19,6 +19,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { getImageInfo, getVideoInfo } from './getMediaInfo'
 import { VideoPreview } from './VideoPreview'
+import { ZoomSlider } from '../Sliders/ZoomSlider'
 
 interface ClipData {
   id: string,
@@ -848,33 +849,44 @@ export const Timeline = ({ }: TimelineProps) => {
             <T.CurrentTime>{ formatTime(playheadTime) }</T.CurrentTime> ∕ <T.TotalTime>{ formatTime(maxOutValue) }</T.TotalTime>
           
             <Spacer />
+
+            <Gap autoWidth>
+              <Box mr={.5}>
+                <Gap autoWidth>
+                  <Button
+                    icon='arrows-left-right-to-line'
+                    iconPrefix='fas'
+                    minimal
+                    compact
+                    onClick={toggleRipple}
+                    off={!ripple}
+                  />
+                  <Button
+                    icon='magnet'
+                    iconPrefix='fas'
+                    minimal
+                    compact
+                    onClick={toggleSnap}
+                    off={!snap}
+                  />
+                </Gap>
+              </Box>
             
-            <Button
-              icon='arrows-left-right-to-line'
-              iconPrefix='fas'
-              minimal
-              compact
-              onClick={toggleRipple}
-              off={!ripple}
-            />
-            <Button
-              icon='magnet'
-              iconPrefix='fas'
-              minimal
-              compact
-              onClick={toggleSnap}
-              off={!snap}
-            />
-            <Box width={8}>
-              <NumberSlider
-                value={scale}
-                onChange={val => setScale(val)}
-                precise
-                min={1}
-                max={100}
-                hideNumberInput
+              <Box width={9}>
+                <ZoomSlider
+                  value={scale}
+                  onChange={val => setScale(val)}
+                  min={1}
+                  max={100}
+                />
+              </Box>
+              <Button
+                text='Fit'
+                compact
+                minimal
+                onClick={() => setTotalDuration(maxOutValue)}
               />
-            </Box>
+            </Gap>
           </Gap>
         </T.Bottom>
         <T.TimelineContent>
@@ -909,7 +921,7 @@ export const Timeline = ({ }: TimelineProps) => {
                   }
                 }}
               >
-              <Track 
+                <Track 
                   clipData={clipData} 
                   totalDuration={totalDuration}
                   scale={scale} 
@@ -979,7 +991,7 @@ export const Timeline = ({ }: TimelineProps) => {
                     }
                   
                     const targetClipIndex = clipData.findIndex(clip => clip.id === newClipData.id)
-  
+
                     let updatedClipData = [...clipData]
                     updatedClipData[targetClipIndex] = newClipData
                   
