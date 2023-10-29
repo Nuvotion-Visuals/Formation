@@ -38,7 +38,7 @@ interface TrackProps {
   width: number,
   offset: number,
   trackData: TrackData,
-  onTrackChange: (newTrackData: TrackData) => void,
+  onTrackChange: (newTrackData: TrackData, type: 'in' | 'out' | 'offset') => void,
   onClick: (id: string) => void,
   selected?: boolean
 }
@@ -105,7 +105,7 @@ export const Track = ({
           break
       }
   
-      onTrackChange(updatedTrack)
+      onTrackChange(updatedTrack, isDragging)
     }
   }
 
@@ -207,7 +207,7 @@ interface LayerProps {
   scale: number,
   trackData: TrackData[],
   totalDuration: number,
-  onTrackChange: (newTrackData: TrackData) => void,
+  onTrackChange: (newTrackData: TrackData, type: 'in' | 'out' | 'offset') => void,
   onClick: (id: string) => void,
   selectedTrack?: string
 }
@@ -609,7 +609,8 @@ export const Timeline = ({ }: TimelineProps) => {
     lastFrameTime.current = Date.now() - newTime
   }
 
-  const [snap, setSnap] = useState(false)
+  const [snap, setSnap] = useState(true)
+  const [snapRange, setSnapRange] = useState(250)
   const toggleSnap = () => setSnap(!snap)
 
   const handleUpload = async (files: File[]) => {
@@ -731,262 +732,257 @@ export const Timeline = ({ }: TimelineProps) => {
    const [projectName, setProjectName] = useState('')
 
   return (<T.Timeline>
-     {
-        trackData.length > 0 || loading
-          ? <>
-              <T.Taskbar>    
-                <Spacer />
-                <Gap autoWidth>
-                  <Box width={10}>
-                    <TextInput
-                      value={projectName}
-                      onChange={val => setProjectName(val)}
-                      compact
-                      placeholder='Untitled project'
-                      secondaryIcon='edit'
-                    />
-                  </Box>
-                  <Button
-                    compact
-                    text='Export Project'
-                    icon='arrow-up-from-bracket'
-                    iconPrefix='fas'
-                  />
-                </Gap>
-              </T.Taskbar>
-              <T.Top>
-                <T.Left>
-                  <FileDrop onFileDrop={files => handleUpload(files)}>
-
-                  <Box px={.5} width='calc(100% - 1rem)'>
-                    <FileUpload
-                      onFileChange={async (files) => {
-                        handleUpload(files)
-                      }}                
-                      accept='video/mp4,video/webm,image/png,image/jpeg,image/bmp,image/avif,image/webp'
-                      icon='photo-video'
-                      dragMessage='Drag and drop media'
-                      browseMessage='Add media'
-                      iconPrefix='fas'
-                      multiple
-                    />
-                  </Box>
-               
-                    <Box px={.5} mt={.5} width='calc(100% - 1rem)'>
-                      <Grid maxWidth={6} gap={.25}>
-                        {
-                          trackData.map(track =>
-                            <DragOrigin data={{origin: 'media', track}}>
-                              <VideoPreview
-                                text={`${track.name.slice(0, 10)}...`}
-                                imageUrl={track.previews[0]}
-                                videoUrl={track.url}
-                                onClick={() => {}}
-                                active={false}
-                              />
-                            </DragOrigin>
-                          )
-                        }
-                      </Grid>
-                    </Box>
-                  </FileDrop>
-                </T.Left>
-                <T.Center>
-                  <AspectRatio ratio={16/9}>
-                    <T.Canvas ref={canvasRef} width={1920} height={1080} />
-                  </AspectRatio>
-                </T.Center>
-                <T.Right>
-                  {selectedTrack}
-                </T.Right>
-              </T.Top>
-              <T.Controls>
-              <T.Bottom>
-                <Gap>
-                  <Button
-                    icon='undo'
-                    iconPrefix='fas'
-                    minimal
-                    compact
-                    onClick={undo}
-                  />
-                  <Button
-                    icon='redo'
-                    iconPrefix='fas'
-                    minimal
-                    compact
-                    onClick={redo}
-                  />
-                  <Spacer />
-
-                  <Button
-                    icon={'fast-backward'}
-                    iconPrefix='fas'
-                    minimal
-                    compact
-                    onClick={skipBack}
-                  />
-                  <Button
-                    icon={isPlaying ? 'pause' : 'play'}
-                    iconPrefix='fas'
-                    circle
-                    onClick={handlePlayPause}
-                  />
-                  <Button
-                    icon={'fast-forward'}
-                    iconPrefix='fas'
-                    minimal
-                    compact
-                    onClick={skipForward}
-                  />
-                  <Button
-                    icon={'repeat'}
-                    iconPrefix='fas'
-                    minimal
-                    compact
-                    off={!loop}
-                    onClick={() => setLoop(!loop)}
-                  />
-
-                  <T.CurrentTime>{ formatTime(playheadTime) }</T.CurrentTime> ∕ <T.TotalTime>{ formatTime(maxOutValue) }</T.TotalTime>
-                 
-                  <Spacer />
-                  
-                  <Button
-                    icon='magnet'
-                    iconPrefix='fas'
-                    minimal
-                    compact
-                    onClick={toggleSnap}
-                  />
-                  <Box width={8}>
-                    <NumberSlider
-                      value={scale}
-                      onChange={val => setScale(val)}
-                      precise
-                      min={1}
-                      max={100}
-                      hideNumberInput
-                    />
-                  </Box>
-                </Gap>
-              </T.Bottom>
-              <T.TimelineContent>
-                <FileDrop onFileDrop={handleUpload}>
-                  <T.PlayheadPositon  position={playheadPosition}>
-                    <Playhead />
-                  </T.PlayheadPositon>
-                  <TimeRuler totalDuration={totalDuration} />
-                  <T.Layers>
-                    <DropTarget 
-                      acceptedOrigins={['media']} 
-                      onDrop={data => {
-                        console.log(data)
-                        const originalElement = document.getElementById(data.track.id)
-                        console.log(originalElement)
-                        if (originalElement) {
-                          const id = generateUUID()
-                          const cloned = originalElement.cloneNode() as HTMLElement
-                          cloned.id = id
-                          document.body.appendChild(cloned)
-                          setTrackData(prev => {
-                            return [
-                              ...prev,
-                              {
-                                ...data.track,
-                                id,
-                                offset: maxOutValue,
-                                element: cloned
-                              }
-                            ]
-                          })
-                        }
-                      }}
-                    >
-                     <Layer 
-                        trackData={trackData} 
-                        totalDuration={totalDuration}
-                        scale={scale} 
-                        onTrackChange={async (newTrackData) => {
-                          const SNAP_ZONE = 500  // 500 ms
-                          let closestTrackStart: TrackData | null = null
-                          let closestTrackEnd: TrackData | null = null
-                          let minDistanceStart = Infinity
-                          let minDistanceEnd = Infinity
-                        
-                          // New calculated measurements for the dragged track
-                          const newStart = newTrackData.offset
-                          const newEnd = newTrackData.offset + (newTrackData.out - newTrackData.in)
-                        
-                          for (const track of trackData) {
-                            if (track.id === newTrackData.id) continue
-                        
-                            // Calculated measurements for the iterated track
-                            const trackStart = track.offset
-                            const trackEnd = track.offset + (track.out - track.in)
-                        
-                            const distanceToClosestStart = Math.abs(newStart - trackEnd)
-                            const distanceToClosestEnd = Math.abs(newEnd - trackStart)
-                        
-                            if (distanceToClosestStart < SNAP_ZONE && distanceToClosestStart < minDistanceStart) {
-                              closestTrackStart = track
-                              minDistanceStart = distanceToClosestStart
-                            }
-                        
-                            if (distanceToClosestEnd < SNAP_ZONE && distanceToClosestEnd < minDistanceEnd) {
-                              closestTrackEnd = track
-                              minDistanceEnd = distanceToClosestEnd
-                            }
-                          }
-                        
-                          // Determine if the dragged track is at the end
-                          const isLastTrack = trackData.findIndex(track => track.id === newTrackData.id) === trackData.length - 1
-                        
-                          // Snap logic
-                          if (closestTrackStart) {
-                            const snappedStart = closestTrackStart.offset + (closestTrackStart.out - closestTrackStart.in)
-                            newTrackData.offset = snappedStart
-                          }
-                        
-                          if (closestTrackEnd && isLastTrack) {
-                            const snappedEnd = closestTrackEnd.offset - (newTrackData.out - newTrackData.in)
-                            newTrackData.out = newTrackData.in + (snappedEnd - newTrackData.offset)
-                          } else if (closestTrackEnd) {
-                            const snappedEnd = closestTrackEnd.offset
-                            newTrackData.offset = snappedEnd - (newTrackData.out - newTrackData.in)
-                          }
-                        
-                          const targetTrackIndex = trackData.findIndex(track => track.id === newTrackData.id)
-                          setTrackData(prevTrackData => prevTrackData.map((track, index) => 
-                            index === targetTrackIndex
-                              ? newTrackData
-                              : track
-                          ))
-                        }}
-                        
-                        selectedTrack={selectedTrack}
-                        onClick={(newSelectedTrack) => setSelectedTrack(newSelectedTrack)}
-                      />
-
-                    </DropTarget>
-                  </T.Layers>
-                </FileDrop>
-            </T.TimelineContent> 
-            </T.Controls>
-            </>
-          : <FileUpload
-              onFileChange={async (files) => {
-                handleUpload(files)
-              }}                
-              accept='video/mp4,video/webm,image/png,image/jpeg,image/bmp,image/avif,image/webp'
-              icon='photo-video'
-              dragMessage='Drag and drop media'
-              browseMessage='Add media'
-              iconPrefix='fas'
-              multiple
+  
+      <T.Taskbar>    
+        <Spacer />
+        <Gap autoWidth>
+          <Box width={10}>
+            <TextInput
+              value={projectName}
+              onChange={val => setProjectName(val)}
+              compact
+              placeholder='Untitled project'
+              secondaryIcon='edit'
             />
-      }
-    
+          </Box>
+          <Button
+            compact
+            text='Export Project'
+            icon='arrow-up-from-bracket'
+            iconPrefix='fas'
+          />
+        </Gap>
+      </T.Taskbar>
+      <T.Top>
+        <T.Left>
+          <FileDrop onFileDrop={files => handleUpload(files)}>
+            <Box px={.5} width='calc(100% - 1rem)'>
+              <FileUpload
+                onFileChange={async (files) => {
+                  handleUpload(files)
+                }}                
+                accept='video/mp4,video/webm,image/png,image/jpeg,image/bmp,image/avif,image/webp'
+                icon='photo-video'
+                dragMessage='Drag and drop media'
+                browseMessage='Add media'
+                iconPrefix='fas'
+                multiple
+              />
+            </Box>
+            <Box px={.5} mt={.5} width='calc(100% - 1rem)'>
+              <Grid maxWidth={6} gap={.25}>
+                {
+                  trackData.map(track =>
+                    <DragOrigin data={{origin: 'media', track}}>
+                      <VideoPreview
+                        text={`${track.name.slice(0, 10)}...`}
+                        imageUrl={track.previews[0]}
+                        videoUrl={track.url}
+                        onClick={() => {}}
+                        active={false}
+                      />
+                    </DragOrigin>
+                  )
+                }
+              </Grid>
+            </Box>
+          </FileDrop>
+        </T.Left>
+        <T.Center>
+          <AspectRatio ratio={16/9}>
+            <T.Canvas ref={canvasRef} width={1920} height={1080} />
+          </AspectRatio>
+        </T.Center>
+      </T.Top>
+      <T.Controls>
+        <T.Bottom>
+          <Gap>
+            <Button
+              icon='undo'
+              iconPrefix='fas'
+              minimal
+              compact
+              onClick={undo}
+            />
+            <Button
+              icon='redo'
+              iconPrefix='fas'
+              minimal
+              compact
+              onClick={redo}
+            />
+            <Spacer />
+
+            <Button
+              icon={'fast-backward'}
+              iconPrefix='fas'
+              minimal
+              compact
+              onClick={skipBack}
+            />
+            <Button
+              icon={isPlaying ? 'pause' : 'play'}
+              iconPrefix='fas'
+              circle
+              onClick={handlePlayPause}
+            />
+            <Button
+              icon={'fast-forward'}
+              iconPrefix='fas'
+              minimal
+              compact
+              onClick={skipForward}
+            />
+            <Button
+              icon={'repeat'}
+              iconPrefix='fas'
+              minimal
+              compact
+              off={!loop}
+              onClick={() => setLoop(!loop)}
+            />
+
+            <T.CurrentTime>{ formatTime(playheadTime) }</T.CurrentTime> ∕ <T.TotalTime>{ formatTime(maxOutValue) }</T.TotalTime>
+          
+            <Spacer />
+            
+            <Button
+              icon='magnet'
+              iconPrefix='fas'
+              minimal
+              compact
+              onClick={toggleSnap}
+              off={!snap}
+            />
+            <Box width={8}>
+              <NumberSlider
+                value={scale}
+                onChange={val => setScale(val)}
+                precise
+                min={1}
+                max={100}
+                hideNumberInput
+              />
+            </Box>
+          </Gap>
+        </T.Bottom>
+        <T.TimelineContent>
+          <FileDrop onFileDrop={handleUpload}>
+            <T.PlayheadPositon  position={playheadPosition}>
+              <Playhead />
+            </T.PlayheadPositon>
+            <TimeRuler totalDuration={totalDuration} />
+            <T.Layers>
+              <DropTarget 
+                acceptedOrigins={['media']} 
+                onDrop={data => {
+                  console.log(data)
+                  const originalElement = document.getElementById(data.track.id)
+                  console.log(originalElement)
+                  if (originalElement) {
+                    const id = generateUUID()
+                    const cloned = originalElement.cloneNode() as HTMLElement
+                    cloned.id = id
+                    document.body.appendChild(cloned)
+                    setTrackData(prev => {
+                      return [
+                        ...prev,
+                        {
+                          ...data.track,
+                          id,
+                          offset: maxOutValue,
+                          element: cloned
+                        }
+                      ]
+                    })
+                  }
+                }}
+              >
+              <Layer 
+                  trackData={trackData} 
+                  totalDuration={totalDuration}
+                  scale={scale} 
+                  onTrackChange={async (newTrackData, dragType) => {
+                    if (snap) {
+                      let closestTrackStart: TrackData | null = null
+                      let closestTrackEnd: TrackData | null = null
+                      let minDistanceStart = Infinity
+                      let minDistanceEnd = Infinity
+                  
+                      const newStart = newTrackData.offset
+                      const newEnd = newTrackData.offset + (newTrackData.out - newTrackData.in)
+                  
+                      for (const track of trackData) {
+                        if (track.id === newTrackData.id) continue
+                  
+                        const trackStart = track.offset
+                        const trackEnd = track.offset + (track.out - track.in)
+                  
+                        const distanceToClosestStart = Math.abs(newStart - trackEnd)
+                        const distanceToClosestEnd = Math.abs(newEnd - trackStart)
+                  
+                        if (distanceToClosestStart < snapRange && distanceToClosestStart < minDistanceStart) {
+                          closestTrackStart = track
+                          minDistanceStart = distanceToClosestStart
+                        }
+                  
+                        if (distanceToClosestEnd < snapRange && distanceToClosestEnd < minDistanceEnd) {
+                          closestTrackEnd = track
+                          minDistanceEnd = distanceToClosestEnd
+                        }
+                      }
+                  
+                      if (dragType === 'in' && closestTrackStart) {
+                        const snappedStart = closestTrackStart.offset + (closestTrackStart.out - closestTrackStart.in)
+                        const delta = snappedStart - newTrackData.offset
+                        const newIn = newTrackData.in + delta
+                        const newOut = newTrackData.out
+                        
+                        if (newTrackData.type !== 'video' || newOut - newIn <= newTrackData.originalDuration) {
+                          newTrackData.in = newIn
+                          newTrackData.offset = snappedStart
+                        }
+                      }
+                      
+                  
+                      if (dragType === 'out' && closestTrackEnd) {
+                        const snappedEnd = closestTrackEnd.offset
+                        const newOut = newTrackData.in + (snappedEnd - newTrackData.offset)
+                  
+                        if (newTrackData.type !== 'video' || newOut <= newTrackData.originalDuration) {
+                          newTrackData.out = newOut
+                        }
+                      }
+                  
+                      if (dragType === 'offset') {
+                        if (closestTrackStart) {
+                          const snappedStart = closestTrackStart.offset + (closestTrackStart.out - closestTrackStart.in)
+                          newTrackData.offset = snappedStart
+                        }
+                  
+                        if (closestTrackEnd) {
+                          const snappedEnd = closestTrackEnd.offset
+                          newTrackData.offset = snappedEnd - (newTrackData.out - newTrackData.in)
+                        }
+                      }
+                    }
+                  
+                    const targetTrackIndex = trackData.findIndex(track => track.id === newTrackData.id)
+                    setTrackData(prevTrackData => prevTrackData.map((track, index) => 
+                      index === targetTrackIndex
+                        ? newTrackData
+                        : track
+                    ))
+                  }}
+                  
+                  selectedTrack={selectedTrack}
+                  onClick={(newSelectedTrack) => setSelectedTrack(newSelectedTrack)}
+                />
+              </DropTarget>
+            </T.Layers>
+          </FileDrop>
+      </T.TimelineContent> 
+    </T.Controls>
   </T.Timeline>)
 }
 
@@ -1014,24 +1010,18 @@ const T = {
     background: var(--F_Background);
   `,
   Left: styled.div`
-    width: 15rem;
-    min-width: 15rem;
+    width: 25rem;
+    min-width: 25rem;
     height: 100%;
     border-right:  1px solid var(--F_Surface);
   `,
   Center: styled.div`
-    width: calc(calc(100% - 30rem) - 2px);
+    width: calc(calc(100% - 25rem) - 1px);
     height: 100%;
     display: flex;
     align-items: center;
     overflow: hidden;
     background: black;
-  `,
-  Right: styled.div`
-    width: 15rem;
-    min-width: 15rem;
-    height: 100%;
-    border-left:  1px solid var(--F_Surface);
   `,
   Controls: styled.div`
     width: 100%;
