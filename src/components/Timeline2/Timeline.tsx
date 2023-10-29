@@ -613,6 +613,9 @@ export const Timeline = ({ }: TimelineProps) => {
   const [snapRange, setSnapRange] = useState(250)
   const toggleSnap = () => setSnap(!snap)
 
+  const [ripple, setRipple] = useState(true)
+  const toggleRipple = () => setRipple(!ripple)
+
   const handleUpload = async (files: File[]) => {
     if (files) {
       files.forEach(async (file) => {
@@ -847,6 +850,14 @@ export const Timeline = ({ }: TimelineProps) => {
             <Spacer />
             
             <Button
+              icon='arrows-left-right-to-line'
+              iconPrefix='fas'
+              minimal
+              compact
+              onClick={toggleRipple}
+              off={!ripple}
+            />
+            <Button
               icon='magnet'
               iconPrefix='fas'
               minimal
@@ -968,11 +979,32 @@ export const Timeline = ({ }: TimelineProps) => {
                     }
                   
                     const targetClipIndex = clipData.findIndex(clip => clip.id === newClipData.id)
-                    setClipData(prevClipData => prevClipData.map((clip, index) => 
-                      index === targetClipIndex
-                        ? newClipData
-                        : clip
-                    ))
+  
+                    let updatedClipData = [...clipData]
+                    updatedClipData[targetClipIndex] = newClipData
+                  
+                    if (ripple) {
+                      let delta = 0
+                      if (dragType === 'offset') {
+                        delta = newClipData.offset - clipData[targetClipIndex].offset
+                        for (let i = targetClipIndex + 1; i < updatedClipData.length; i++) {
+                          updatedClipData[i] = {
+                            ...updatedClipData[i],
+                            offset: updatedClipData[i].offset + delta
+                          }
+                        }
+                      } else if (dragType === 'out') {
+                        delta = newClipData.out - clipData[targetClipIndex].out
+                        for (let i = targetClipIndex + 1; i < updatedClipData.length; i++) {
+                          updatedClipData[i] = {
+                            ...updatedClipData[i],
+                            offset: updatedClipData[i].offset + delta
+                          }
+                        }
+                      }
+                    }
+                  
+                    setClipData(updatedClipData)
                   }}
                   
                   selectedClip={selectedClip}
