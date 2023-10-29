@@ -12,6 +12,7 @@ export const DragOrigin: FC<DragOriginProps> = ({ children, data }) => {
   const touchOffsetRef = useRef<{ x: number, y: number }>({ x: 0, y: 0 })
 
   const createDragPreview = (e: TouchEvent) => {
+    e.preventDefault()
     const rect = (dragOriginRef.current as HTMLElement).getBoundingClientRect()
 
     if (!dragPreviewRef.current) {
@@ -33,6 +34,7 @@ export const DragOrigin: FC<DragOriginProps> = ({ children, data }) => {
   }
 
   const updateDragPreviewPosition = (e: TouchEvent) => {
+    e.preventDefault()
     if (dragPreviewRef.current) {
       const touch = e.touches[0]
 
@@ -49,6 +51,7 @@ export const DragOrigin: FC<DragOriginProps> = ({ children, data }) => {
   }
 
   const handleTouchStart = (e: React.TouchEvent) => {
+    e.preventDefault()
     createDragPreview(e.nativeEvent);
     (window as any).dragOrigin = data.origin
     window.addEventListener('touchmove', updateDragPreviewPosition, { passive: true })
@@ -64,6 +67,7 @@ export const DragOrigin: FC<DragOriginProps> = ({ children, data }) => {
   }
 
   const handleDragStart = (e: React.DragEvent) => {
+    e.preventDefault()
     e.dataTransfer.setData('customData', JSON.stringify(data));
     (window as any).dragOrigin = data.origin
   }
@@ -98,5 +102,9 @@ const S = {
   DragOrigin: styled.div`
     width: 100%;
     display: flex;
+    touch-action: none;
+    * {
+      touch-action: none;
+    }
   `
 }

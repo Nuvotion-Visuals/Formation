@@ -113,7 +113,10 @@ export const Clip = ({
 
   useEffect(() => {
     const mouseMoveHandler = (e: MouseEvent) => handleMove(e.clientX)
-    const touchMoveHandler = (e: TouchEvent) => handleMove(e.touches[0].clientX)
+    const touchMoveHandler = (e: TouchEvent) => {
+      e.preventDefault()
+      handleMove(e.touches[0].clientX)
+    }
 
     if (isDragging) {
       document.addEventListener('mouseup', handleEnd)
@@ -135,14 +138,21 @@ export const Clip = ({
       style={{ width: `${width}%`, left: `${offset}%`, top: '0' }}
       isDragging={!!isDragging || !!selected}
       onClick={() => onClick(clipData.id)}
+      background={clipData.type === 'image' ? clipData.url : undefined}
     >
       <Tk.DragHandle 
         onMouseDown={(e: MouseEventReact) => handleStart(e.clientX, 'in')} 
-        onTouchStart={(e: React.TouchEvent) => handleStart(e.touches[0].clientX, 'in')}
+        onTouchStart={(e: React.TouchEvent) => {
+          e.preventDefault()
+          handleStart(e.touches[0].clientX, 'in')
+        }}
       />
       <Tk.DragHandleInner 
         onMouseDown={(e: MouseEventReact) => handleStart(e.clientX, 'offset')}
-        onTouchStart={(e: React.TouchEvent) => handleStart(e.touches[0].clientX, 'offset')}
+        onTouchStart={(e: React.TouchEvent) => {
+          e.preventDefault()
+          handleStart(e.touches[0].clientX, 'offset')
+        }}
       >
         {
           clipData.previews.map(preview =>
@@ -152,7 +162,10 @@ export const Clip = ({
       </Tk.DragHandleInner>
       <Tk.DragHandle 
         onMouseDown={(e: MouseEventReact) => handleStart(e.clientX, 'out')}
-        onTouchStart={(e: React.TouchEvent) => handleStart(e.touches[0].clientX, 'out')}
+        onTouchStart={(e: React.TouchEvent) => {
+          e.preventDefault()
+          handleStart(e.touches[0].clientX, 'out')
+        }}
       />
     </Tk.Clip>
   )
@@ -160,7 +173,8 @@ export const Clip = ({
 
 
 interface ClipCompProps {
-  isDragging: boolean
+  isDragging: boolean,
+  background?: string
 }
 const Tk = {
   Clip: styled.div<ClipCompProps>`
@@ -169,12 +183,19 @@ const Tk = {
     box-shadow: ${props => props.isDragging ? 'inset 0 0 0 2px var(--F_Primary_Variant)' : 'inset 0 0 0 2px var(--F_Surface_2)'};
     z-index: ${props => props.isDragging ? '1' : '0'};
     background: var(--F_Surface);
+    background-image: ${props => props.background ? `url(${props.background})` : 'none'};
+    background-repeat: ${props => props.background ? 'repeat-x' : 'none'};
+    background-size: ${props => props.background ? 'auto 100%' : 'none'};
     overflow: hidden;
     border-radius: .25rem;
     display: flex;
     align-items: center;
     position: absolute;
     cursor: grab;
+    touch-action: none;
+    * {
+    touch-action: none;
+    }
   `,
   DragHandle: styled.div`
     width: 24px;
