@@ -27,16 +27,12 @@ Regular.args = {
   tabs: [
     {
       name: 'Scene',
-      icon: 'folder'
     },
     {
       name: 'Layer',
-      icon: 'paper-plane'
     },
     {
       name: 'Add',
-      icon: 'plus',
-      iconPrefix: 'fas'
     }
   ]
 }

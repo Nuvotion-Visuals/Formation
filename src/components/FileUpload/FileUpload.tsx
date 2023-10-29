@@ -71,7 +71,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
   return (
     <S.FileUpload onClick={triggerFileInput}>
       <FileDrop onFileDrop={handleFileDrop}>
-        <Box width='100%' py={2}>
+        <Box width='100%' py={1.75}>
           <Gap gap={.75}>
             <Box width={'100%'}>
               <Icon
@@ -124,13 +124,13 @@ const S = {
     cursor: pointer;
   `,
   Message: styled.div`
-    font-size: var(--F_Font_Size_Title);
+    font-size: var(--F_Font_Size);
     color: var(--F_Font_Color);
     width: 100%;
     text-align: center;
   `,
   SubMessage: styled.div`
-   font-size: var(--F_Font_Size);
+   font-size: var(--F_Font_Size_Label);
     color: var(--F_Font_Color_Disabled);
    width: 100%;
    text-align: center;

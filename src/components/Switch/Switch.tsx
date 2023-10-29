@@ -3,77 +3,59 @@ import React from 'react'
 
 interface Props {
   value?: boolean,
-  handleSwitch?: Function,
-  small?: boolean,
-  disabled?: boolean,
+  onChange: Function,
+  disabled?: boolean
 }
 
-export const Switch = ({ value, handleSwitch, small, disabled }: Props) => {
-    
+export const Switch = ({ value, onChange, disabled }: Props) => {
   return (
-        <S.Container>
-          <S.Input
-            checked={value}
-            type="checkbox"
-          />
-          <S.Label
-            onClick={
-              disabled
-                ? () => {}
-                : handleSwitch
-                  ? () => handleSwitch()
-                  : () => {}}
-            value={value ? value : false}
-            small={small !== undefined ? small : false}
-          >
-            <S.Span
-              value={value ? value : false}
-              small={small !== undefined ? small : false}
-            />
-          </S.Label>
-        </S.Container>
-      );
-};
-  
+    <S.Switch>
+      <input
+        hidden
+        disabled={disabled}
+        checked={value}
+        type="checkbox"
+      />
+      <S.Container
+        onClick={() => disabled ? null : onChange(!value)}
+        value={value ? value : false}
+      >
+        <S.Dot
+          value={value ? value : false}
+        />
+      </S.Container>
+    </S.Switch>
+  )
+}
+
 const S = {
-  Container: styled.div<{}>`
+  Switch: styled.div`
+    cursor: pointer;
   `,
-  Input: styled.input<{}>`
-    height: 0;
-    width: 0;
-    visibility: hidden;
-  `,
-  Label: styled.label<{
+  Container: styled.div<{
     value: boolean,
-    onClick: Function,
-    small: boolean
+    onClick: Function
   }>`
     display: flex;
-    width: ${props => props.small ? '2.75rem' : '3.75rem'};
-    height: ${props => props.small ? '1.75rem' : '2.25rem'};
-    background: ${props => props.value ? `var(--F_Font_Color_Success)` : `var(--F_Font_Color_Disabled)`};
+    align-items: center;
+    width: 2.75rem;
+    height: var(--F_Input_Height_Compact);
+    background: ${props => props.value ? `var(--F_Font_Color_Success)` : `var(--F_Surface_1)`};
     border-radius: 1.25rem;
     position: relative;
-    transition: background-color .5s;
+    &:hover {
+      background: ${props => props.value ? `var(--F_Font_Color_Success)` : `var(--F_Surface_2)`};
+    }
   `,
-  Span: styled.span<{
-    value: boolean,
-    small: boolean
+  Dot: styled.span<{
+    value: boolean
   }>`
     position: absolute;
-    top: ${props => props.small ? '.325rem' : '0.375rem'};
-    transform: ${props => props.value
-                            ? props.small
-                              ? `translateX(1.25rem)`
-                              : `translateX(1.8rem)`
-                            : props.small
-                              ? `translateX(0.4rem)`
-                              : `translateX(0.45rem)`
-                              };
-    width: ${props => props.small ? '1.1rem' : '1.5rem'};
-    height: ${props => props.small ? '1.1rem' : '1.5rem'};
+    left: ${props => props.value ? `1.35rem` : `.25rem`};
+    width: 1.1rem;
+    height: 1.1rem;
     border-radius: 50%;
     transition: 0.2s;
-    background: #fff;
+    background: var(--F_Font_Color);
   `
 }

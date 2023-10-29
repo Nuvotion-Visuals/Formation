@@ -57,6 +57,7 @@ export const TimeZone = ({
       icon='globe'
       iconPrefix='fas'
       label={'Time zone'}
+      hero
       options={
         minimalTimeZoneSet.map(timeZone => ({
           label: timeZone.label,

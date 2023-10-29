@@ -16,7 +16,7 @@ export const decorators = [
     }
     body {
       background-color: var(--F_Background);
-
+      font-family: "Segoe UI", sans-serif;
     }
     `
   

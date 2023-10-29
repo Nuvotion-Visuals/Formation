@@ -14,7 +14,10 @@
     "declarationDir": "types",
     "emitDeclarationOnly": true,
     "allowSyntheticDefaultImports": true,
-    "baseUrl": "./src"
+    "baseUrl": "./src",
+    "paths": {
+      "react": [ "./node_modules/@types/react" ]
+    }
   },
   "exclude": [
     "**/*.stories.tsx"

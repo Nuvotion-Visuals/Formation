@@ -79,6 +79,7 @@ export const Tags = ({
                     onClick={() => tag !== undefined && toggleTagActive(tag.name)}
                     secondary={!activeTags.includes(tag.name)}
                     labelColor={tag.labelColor}
+                    compact
                   />
               </S.ButtonContainer>
               :<></>)
@@ -90,7 +91,7 @@ export const Tags = ({
       {
         showLeft
           ? <S.Overlay_L onClick={() => scroll('left')}>
-              <Icon icon='chevron-circle-left' iconPrefix='fas' size={'2x'} />
+              <Icon icon='chevron-circle-left' iconPrefix='fas' size={'lg'} />
             </S.Overlay_L>
           : null
       }
@@ -98,7 +99,7 @@ export const Tags = ({
       {
         showRight
           ? <S.Overlay onClick={() => scroll('right')}>
-              <Icon icon='chevron-circle-right' iconPrefix='fas' size={'2x'}  />
+              <Icon icon='chevron-circle-right' iconPrefix='fas' size={'lg'}  />
             </S.Overlay>
           : null
       }

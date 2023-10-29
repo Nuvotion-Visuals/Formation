@@ -47,10 +47,8 @@ export const Tabs = React.memo(({
                 ? onClick(e)
                 : null
             }} 
-            expand={true}
             secondary={name !== localActiveTab}
             tab={true}
-
           /> 
         )
       }
