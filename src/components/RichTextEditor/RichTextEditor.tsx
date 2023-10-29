@@ -4,10 +4,7 @@ import styled from 'styled-components'
 import { Box, LoadingSpinner, Button, ButtonProps } from '../../internal'
 
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
-// import "quill-emoji/dist/quill-emoji.css";
 const LazyReactQuill = typeof window === 'object' ? require('react-quill') : () => false;
-
-import hljs from 'highlight.js'
 
 const { Quill } = LazyReactQuill
 
@@ -70,24 +67,6 @@ const BubbleTheme = Quill.import('themes/bubble');
 }
   Quill.register('themes/bubble', ExtendBubbleTheme);
 
-  // Dynamically import quill-emoji
-  // @ts-ignore
-  import('quill-emoji').then(Emoji => {
-    Quill.register("modules/emoji", Emoji.default);
-  }).catch(error => {
-    console.error('Failed to load quill-emoji', error);
-  });
-
-  // @ts-ignore
-  import('quill-emoji').then(Emoji => {
-    const Inline = Quill.import("blots/inline");
-    class HighlightBlot extends Inline {}
-    HighlightBlot.blotName = "highlight";
-    HighlightBlot.tagName = "mark";
-    Quill.register(HighlightBlot);
-  }).catch(error => {
-    console.error('Failed to load quill-emoji', error);
-  });
 }
 
 const applyHighlight = (quill: any, textToHighlight: string) => {
@@ -128,7 +107,7 @@ export const RichTextEditor = ({
   autoFocus,
   readOnly,
   children,
-  highlightedPart
+  highlightedPart,
 } : Props) => {
   const quillRef = React.useRef(null)
 
@@ -184,18 +163,11 @@ export const RichTextEditor = ({
         { indent: "-1" }, { indent: "+1" },
         'image', 'video',
         'clean',
-        "emoji",
       ],
       handlers: {
         'image': imageHandler
       }
-    },
-    syntax: {
-      highlight: (text: string) => hljs.highlightAuto(text).value
-    },
-    "emoji-toolbar": true,
-    "emoji-textarea": false,
-    "emoji-shortname": true,
+    }
   }), [])
 
   useEffect(() => {
