@@ -138,6 +138,7 @@ export const TextInput = React.memo(({
                 icon={icon} 
                 iconPrefix={iconPrefix}
                 fixedWidth
+                size={compact ? '1x' : 'lg'}
               />
         }
       </S.ErrorIconContainer>
@@ -202,6 +203,7 @@ export const TextInput = React.memo(({
               icon={secondaryIcon} 
               iconPrefix={iconPrefix}
               fixedWidth
+              size={compact ? '1x' : 'lg'}
             />
           </S.SecondaryIconContainer>
       }

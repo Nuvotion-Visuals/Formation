@@ -13,7 +13,8 @@ import {
   TextInput, 
   Grid, 
   DragOrigin,
-  DropTarget
+  DropTarget,
+  Icon
 } from '../../internal'
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
@@ -248,6 +249,93 @@ const L = {
     overflow-x: auto;
     display: flex;
     position: relative;
+  `
+}
+
+
+interface SidebarProps {
+  
+}
+
+export const Sidebar = ({ }: SidebarProps) => {
+  return (<Sb.Sidebar>
+    <Sb.Tab active={true}>
+      <Sb.Center>
+        <Icon
+          icon='photo-video'
+          size={'lg'}
+        />
+        <Sb.Label>Media</Sb.Label>
+      </Sb.Center>
+    </Sb.Tab>
+    <Sb.Tab active={false}>
+      <Sb.Center>
+        <Icon
+          icon='clapperboard'
+          size={'lg'}
+        />
+        <Sb.Label>Clip</Sb.Label>
+      </Sb.Center>
+    </Sb.Tab>
+    <Sb.Tab active={false}>
+      <Sb.Center>
+        <Icon
+          icon='cog'
+          size={'lg'}
+        />
+        <Sb.Label>Settings</Sb.Label>
+      </Sb.Center>
+    </Sb.Tab>
+    <Sb.VSpacer />
+  </Sb.Sidebar>)
+}
+
+interface TabProps {
+  active: boolean
+}
+
+const Sb = {
+  Sidebar: styled.div`
+    width: 4rem;
+    padding: .25rem;
+    padding-top: 0;
+    height: calc(100% - .25rem);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    border-right: 1px solid var(--F_Surface);
+    gap: .25rem;
+  `,
+  Tab: styled.div<TabProps>`
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    background: var(--F_Surface);
+    background: ${props => props.active ? 'var(--F_Surface)' : 'none'};
+    border-radius: var(--F_Tile_Radius);
+    cursor: pointer;
+    * {
+      color: var(--F_Font_Color);
+    }
+  `,
+  Center: styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    gap: .3125rem;
+    align-items: center;
+    justify-content: center;
+  `,  
+  Label: styled.div`
+    width: 100%;
+    text-align: center;
+    font-size: var(--F_Font_Size_Small);
+  `,
+  VSpacer: styled.div`
+    width: 1px;
+    height: 100%;
   `
 }
 
@@ -614,7 +702,7 @@ export const Timeline = ({ }: TimelineProps) => {
   const [snapRange, setSnapRange] = useState(250)
   const toggleSnap = () => setSnap(!snap)
 
-  const [ripple, setRipple] = useState(true)
+  const [ripple, setRipple] = useState(false)
   const toggleRipple = () => setRipple(!ripple)
 
   const handleUpload = async (files: File[]) => {
@@ -758,6 +846,9 @@ export const Timeline = ({ }: TimelineProps) => {
         </Gap>
       </T.Taskbar>
       <T.Top>
+        <Sidebar
+
+        />
         <T.Left>
           <FileDrop onFileDrop={files => handleUpload(files)}>
             <Box px={.5} width='calc(100% - 1rem)'>
@@ -801,20 +892,31 @@ export const Timeline = ({ }: TimelineProps) => {
       <T.Controls>
         <T.Bottom>
           <Gap>
-            <Button
-              icon='undo'
-              iconPrefix='fas'
-              minimal
-              compact
-              onClick={undo}
-            />
-            <Button
-              icon='redo'
-              iconPrefix='fas'
-              minimal
-              compact
-              onClick={redo}
-            />
+            <Box>
+              <Button
+                icon='undo'
+                iconPrefix='fas'
+                minimal
+                compact
+                onClick={undo}
+              />
+              <Button
+                icon='redo'
+                iconPrefix='fas'
+                minimal
+                compact
+                onClick={redo}
+              />
+              <Button
+                icon='scissors'
+                text='Split'
+                iconPrefix='fas'
+                minimal
+                compact
+                onClick={redo}
+              />
+            </Box>
+
             <Spacer />
 
             <Button
@@ -850,7 +952,7 @@ export const Timeline = ({ }: TimelineProps) => {
           
             <Spacer />
 
-            <Gap autoWidth>
+            <Gap autoWidth gap={.25}>
               <Box mr={.5}>
                 <Gap autoWidth>
                   <Button
@@ -1038,6 +1140,7 @@ const T = {
   Timeline: styled.div`
     width: 100%;  
     height: 100%;
+    overflow: hidden;
     user-select: none;
   `,
   Taskbar: styled.div`
@@ -1060,7 +1163,7 @@ const T = {
     border-right:  1px solid var(--F_Surface);
   `,
   Center: styled.div`
-    width: calc(calc(100% - 25rem) - 1px);
+    width: calc(calc(100% - calc(25rem - 4.5rem)) - 2px);
     height: 100%;
     display: flex;
     align-items: center;
@@ -1091,12 +1194,14 @@ const T = {
     font-size: var(--F_Font_Size_Label);
     font-weight: 600;
     margin-left: .5rem;
+    line-height: 0;
   `,
   TotalTime: styled.div`
     width: 55px;
     text-align: center;
     font-size: var(--F_Font_Size_Label);
     color: var(--F_Font_Color_Disabled);
+    line-height: 0;
   `,
   TimelineContent: styled.div`
     width: 100%;

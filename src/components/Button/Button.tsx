@@ -107,7 +107,7 @@ export const Button: FC<ButtonProps> = React.memo(({
                 size={
                   hero 
                     ? ('xl' as SizeProp) // type coersion needed until FA SizeProp defintion is fixed to include "xl"
-                    : minimalIcon
+                    : minimalIcon || compact
                       ? '1x'
                       : 'lg'
                   } 
@@ -128,6 +128,7 @@ export const Button: FC<ButtonProps> = React.memo(({
               <S.Text 
                 hero={hero}
                 icon={icon}
+                compact={compact}
               >
                 {
                   children
@@ -178,7 +179,8 @@ interface ContainerProps {
 
 interface TextProps {
   hero?: boolean,
-  icon?: string
+  icon?: string,
+  compact?: boolean
 }
 
 const calculateWidth = (props: ContainerProps) => {
@@ -328,7 +330,13 @@ const S = {
     }
   `),
   Text: React.memo(styled.div<TextProps>`
-    font-size: ${props => props.hero ? 'var(--F_Font_Size_Title)' : 'var(--F_Font_Size)'};
+    font-size: ${props => 
+      props.hero 
+        ? 'var(--F_Font_Size_Title)' 
+        : props.compact
+          ? 'var(--F_Font_Size_Label)'
+          : 'var(--F_Font_Size)'
+    };
     display: flex;
     flex-shrink: 0;
   `),
