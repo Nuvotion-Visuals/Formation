@@ -138,7 +138,7 @@ export const TextInput = React.memo(({
                 icon={icon} 
                 iconPrefix={iconPrefix}
                 fixedWidth
-                size={compact ? '1x' : 'lg'}
+                size={!hero ? '1x' : 'lg'}
               />
         }
       </S.ErrorIconContainer>
@@ -296,7 +296,7 @@ const S = {
     display: flex;
     align-items: center;
     padding: 0 1rem;
-    padding: ${props => props.compact ? '0 .75rem' : '0 1rem'};
+    padding: ${props => props.compact ? '0 .5rem' : '0 .75rem'};
     width: ${props => props.compact ? 'calc(100% - 1.5rem)' : 'calc(100% - 2rem)'};
     height: ${props => 
       props.hero
@@ -367,14 +367,19 @@ const S = {
     width: 100%;
     height: 100%;
     position: relative;
-    font-size: var(--F_Font_Size_Title);
     font-size: ${props => props.compact ? 'var(--F_Font_Size)' : 'var(--F_Font_Size_Large)'};
     height: ${props => props.compact ? '1.5rem' : '1.5rem'};
     background: none;
     vertical-align: center;
     line-height: 1em;
     border: none;
-    margin-left: ${props => props.hasIcon ? '.5rem' : '0'};
+    margin-left: ${props => 
+      props.hasIcon 
+        ? props.compact
+          ? '.25rem'
+          : '.5rem' 
+        : '.25rem'
+    };
     padding: 0;
     outline: none;
     -webkit-appearance: none;
