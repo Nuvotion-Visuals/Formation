@@ -372,8 +372,9 @@ export const Timeline = ({ }: TimelineProps) => {
   }, [trackData])
 
   const [playheadPosition, setPlayheadPosition] = useState<number>(0)
-  const [playheadTime, setPlayheadTime] = useState<string>('00:00:00')
+  const [playheadTime, setPlayheadTime] = useState<number>(0)
   const [isPlaying, setIsPlaying] = useState<boolean>(false)
+  const [loop, setLoop] = useState(false)
   const animationFrameId = useRef<number | null>(null)
   const lastFrameTime = useRef<number>(Date.now())
   
@@ -388,7 +389,12 @@ export const Timeline = ({ }: TimelineProps) => {
     setIsPlaying(!isPlaying)
     videoStarted.current = false
     if (!isPlaying) {
-      lastFrameTime.current = Date.now() - (playheadPosition / 100) * totalDuration
+      const currentPlayheadTime = (playheadPosition / 100) * totalDuration
+      if (Math.abs(maxOutValue - currentPlayheadTime) <= 100) {
+        lastFrameTime.current = Date.now()
+      } else {
+        lastFrameTime.current = Date.now() - currentPlayheadTime
+      }
     }
   }
 
@@ -528,20 +534,25 @@ export const Timeline = ({ }: TimelineProps) => {
     }
     
     if (elapsed >= maxOutValue) {
-      setIsPlaying(false)
-      if (animationFrameId.current !== null) {
-        cancelAnimationFrame(animationFrameId.current)
+      if (loop) {
+        lastFrameTime.current = currentTime
       }
-      return
+      else {
+        setIsPlaying(false)
+        if (animationFrameId.current !== null) {
+          cancelAnimationFrame(animationFrameId.current)
+        }
+        return
+      }
     }
   
     if (elapsedPercentage >= 0 && elapsedPercentage <= 100) {
       setPlayheadPosition(elapsedPercentage)
-      setPlayheadTime(formatTime(elapsed))
+      setPlayheadTime(elapsed)
     } 
     else if (elapsedPercentage > 100) {
       setPlayheadPosition(100)
-      setPlayheadTime(formatTime(totalDuration))
+      setPlayheadTime(totalDuration)
       if (animationFrameId.current !== null) {
         cancelAnimationFrame(animationFrameId.current)
       }
@@ -579,7 +590,7 @@ export const Timeline = ({ }: TimelineProps) => {
 
   
     const newTime = (closestNextOffset / 100) * totalDuration
-    setPlayheadTime(formatTime(newTime))
+    setPlayheadTime(newTime)
   
     lastFrameTime.current = Date.now() - newTime
   }
@@ -592,7 +603,7 @@ export const Timeline = ({ }: TimelineProps) => {
     setPlayheadPosition(closestPrevOffset)
   
     const newTime = (closestPrevOffset / 100) * totalDuration
-    setPlayheadTime(formatTime(newTime))
+    setPlayheadTime(newTime)
     videoStarted.current = false
   
     lastFrameTime.current = Date.now() - newTime
@@ -780,7 +791,14 @@ export const Timeline = ({ }: TimelineProps) => {
                     </Box>
                   </FileDrop>
                 </T.Left>
-                <T.Canvas ref={canvasRef} width={1920} height={1080} />
+                <T.Center>
+                  <AspectRatio ratio={16/9}>
+                    <T.Canvas ref={canvasRef} width={1920} height={1080} />
+                  </AspectRatio>
+                </T.Center>
+                <T.Right>
+                  {selectedTrack}
+                </T.Right>
               </T.Top>
               <T.Controls>
               <T.Bottom>
@@ -821,8 +839,16 @@ export const Timeline = ({ }: TimelineProps) => {
                     compact
                     onClick={skipForward}
                   />
+                  <Button
+                    icon={'repeat'}
+                    iconPrefix='fas'
+                    minimal
+                    compact
+                    off={!loop}
+                    onClick={() => setLoop(!loop)}
+                  />
 
-                  <T.CurrentTime>{ playheadTime }</T.CurrentTime> ∕ <T.TotalTime>{ formatTime(maxOutValue) }</T.TotalTime>
+                  <T.CurrentTime>{ formatTime(playheadTime) }</T.CurrentTime> ∕ <T.TotalTime>{ formatTime(maxOutValue) }</T.TotalTime>
                  
                   <Spacer />
                   
@@ -877,21 +903,71 @@ export const Timeline = ({ }: TimelineProps) => {
                         }
                       }}
                     >
-                      <Layer 
+                     <Layer 
                         trackData={trackData} 
                         totalDuration={totalDuration}
                         scale={scale} 
-                        onTrackChange={newTrackData => {
+                        onTrackChange={async (newTrackData) => {
+                          const SNAP_ZONE = 500  // 500 ms
+                          let closestTrackStart: TrackData | null = null
+                          let closestTrackEnd: TrackData | null = null
+                          let minDistanceStart = Infinity
+                          let minDistanceEnd = Infinity
+                        
+                          // New calculated measurements for the dragged track
+                          const newStart = newTrackData.offset
+                          const newEnd = newTrackData.offset + (newTrackData.out - newTrackData.in)
+                        
+                          for (const track of trackData) {
+                            if (track.id === newTrackData.id) continue
+                        
+                            // Calculated measurements for the iterated track
+                            const trackStart = track.offset
+                            const trackEnd = track.offset + (track.out - track.in)
+                        
+                            const distanceToClosestStart = Math.abs(newStart - trackEnd)
+                            const distanceToClosestEnd = Math.abs(newEnd - trackStart)
+                        
+                            if (distanceToClosestStart < SNAP_ZONE && distanceToClosestStart < minDistanceStart) {
+                              closestTrackStart = track
+                              minDistanceStart = distanceToClosestStart
+                            }
+                        
+                            if (distanceToClosestEnd < SNAP_ZONE && distanceToClosestEnd < minDistanceEnd) {
+                              closestTrackEnd = track
+                              minDistanceEnd = distanceToClosestEnd
+                            }
+                          }
+                        
+                          // Determine if the dragged track is at the end
+                          const isLastTrack = trackData.findIndex(track => track.id === newTrackData.id) === trackData.length - 1
+                        
+                          // Snap logic
+                          if (closestTrackStart) {
+                            const snappedStart = closestTrackStart.offset + (closestTrackStart.out - closestTrackStart.in)
+                            newTrackData.offset = snappedStart
+                          }
+                        
+                          if (closestTrackEnd && isLastTrack) {
+                            const snappedEnd = closestTrackEnd.offset - (newTrackData.out - newTrackData.in)
+                            newTrackData.out = newTrackData.in + (snappedEnd - newTrackData.offset)
+                          } else if (closestTrackEnd) {
+                            const snappedEnd = closestTrackEnd.offset
+                            newTrackData.offset = snappedEnd - (newTrackData.out - newTrackData.in)
+                          }
+                        
                           const targetTrackIndex = trackData.findIndex(track => track.id === newTrackData.id)
-                          setTrackData(trackData.map(((track, index) => 
+                          setTrackData(prevTrackData => prevTrackData.map((track, index) => 
                             index === targetTrackIndex
                               ? newTrackData
                               : track
-                          )))
+                          ))
                         }}
+                        
                         selectedTrack={selectedTrack}
                         onClick={(newSelectedTrack) => setSelectedTrack(newSelectedTrack)}
                       />
+
                     </DropTarget>
                   </T.Layers>
                 </FileDrop>
@@ -938,9 +1014,24 @@ const T = {
     background: var(--F_Background);
   `,
   Left: styled.div`
-    width: 30rem;
+    width: 15rem;
+    min-width: 15rem;
     height: 100%;
     border-right:  1px solid var(--F_Surface);
+  `,
+  Center: styled.div`
+    width: calc(calc(100% - 30rem) - 2px);
+    height: 100%;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background: black;
+  `,
+  Right: styled.div`
+    width: 15rem;
+    min-width: 15rem;
+    height: 100%;
+    border-left:  1px solid var(--F_Surface);
   `,
   Controls: styled.div`
     width: 100%;
@@ -949,8 +1040,8 @@ const T = {
   `,
   Canvas: styled.canvas`
     width: 100%;
+    height: 100%;
     max-height: 100%;
-    background: black;
   `,
   Bottom: styled.div`
     width: calc(100% - 2rem);

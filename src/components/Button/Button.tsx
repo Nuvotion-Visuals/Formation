@@ -34,7 +34,8 @@ export interface ButtonProps {
   circle?: boolean,
   expandVertical?: boolean,
   compact?: boolean,
-  children?: React.ReactNode
+  children?: React.ReactNode,
+  off?: boolean
 }
 
 export const Button: FC<ButtonProps> = React.memo(({ 
@@ -64,7 +65,8 @@ export const Button: FC<ButtonProps> = React.memo(({
   circle,
   expandVertical,
   compact,
-  children
+  children,
+  off
 }: ButtonProps) => {
 
   const Link: any = useContext(LinkContext) || IntLink;
@@ -149,6 +151,7 @@ export const Button: FC<ButtonProps> = React.memo(({
       expandVertical={expandVertical}
       minimalIcon={minimalIcon}
       compact={compact}
+      off={off}
     >
       {
         href 
@@ -169,7 +172,8 @@ interface ContainerProps {
   hero?: boolean,
   expandVertical?: boolean,
   minimalIcon?: boolean,
-  compact?: boolean
+  compact?: boolean,
+  off?: boolean
 }
 
 interface TextProps {
@@ -316,6 +320,7 @@ const S = {
     height: ${props => calculateHeight(props)};
     max-width: ${props => calculateWidth(props)};
     width: ${props => calculateWidth(props)};
+    opacity: ${props => props.off ? '.5' : '1'};
     display: flex;
     align-items: center;
     a {

@@ -19,7 +19,6 @@ export const decorators = [
 
     }
     `
-
   
     return <>
       <style>{styleContent}</style>
