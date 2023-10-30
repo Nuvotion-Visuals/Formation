@@ -25,6 +25,8 @@ interface Props {
   minHeight?: number | string,
   hide?: boolean,
   wrap?: boolean,
+  expand?: boolean,
+  expandVertical?: boolean,
 }
 
 export const Box = React.memo((props : Props) => {
@@ -38,29 +40,21 @@ export const Box = React.memo((props : Props) => {
 })
 
 const calculateMargin = (props : Props) => {
-  if (props.m) {
-    return `${props.m}rem`
-  }
-  if (props.my) {
-    return `${props.my}rem 0`
-  }
-  if (props.mx) {
-    return `0 ${props.mx}rem`
-  }
-  return `${props.mt ? `${props.mt}rem` : '0'} ${props.mr ? `${props.mr}rem` : '0'} ${props.mb ? `${props.mb}rem` : '0'} ${props.ml ? `${props.ml}rem` : '0'}`
+  let mt = props.mt ?? props.my ?? props.m ?? 0
+  let mr = props.mr ?? props.mx ?? props.m ?? 0
+  let mb = props.mb ?? props.my ?? props.m ?? 0
+  let ml = props.ml ?? props.mx ?? props.m ?? 0
+
+  return `${mt}rem ${mr}rem ${mb}rem ${ml}rem`
 }
 
 const calculatePadding = (props : Props) => {
-  if (props.p) {
-    return `${props.p}rem`
-  }
-  if (props.py) {
-    return `${props.py}rem 0`
-  }
-  if (props.px) {
-    return `0 ${props.px}rem`
-  }
-  return `${props.pt ? `${props.pt}rem` : '0'} ${props.pr ? `${props.pr}rem` : '0'} ${props.pb ? `${props.pb}rem` : '0'} ${props.pl ? `${props.pl}rem` : '0'}`
+  let pt = props.pt ?? props.py ?? props.p ?? 0
+  let pr = props.pr ?? props.px ?? props.p ?? 0
+  let pb = props.pb ?? props.py ?? props.p ?? 0
+  let pl = props.pl ?? props.px ?? props.p ?? 0
+
+  return `${pt}rem ${pr}rem ${pb}rem ${pl}rem`
 }
 
 const S = {
@@ -70,10 +64,10 @@ const S = {
     align-items: center;
     margin: ${props => calculateMargin(props)};
     padding: ${props => calculatePadding(props)};
-    width: ${props => typeof props.width === 'string' ? props.width : `${props.width}rem`};
+    width: ${props => props.expand ? `calc(100% - ${calculatePadding(props)})` : (typeof props.width === 'string' ? props.width : `${props.width}rem`)};
     max-width: ${props => typeof props.maxWidth === 'string' ? props.maxWidth : `${props.maxWidth}rem`};
     min-width: ${props => typeof props.minWidth === 'string' ? props.minWidth : `${props.minWidth}rem`};
-    height: ${props => typeof props.height === 'string' ? props.height : `${props.height}rem`};
+    height: ${props => props.expandVertical ? `calc(100% - ${calculatePadding(props)})` : (typeof props.height === 'string' ? props.height : `${props.height}rem`)};
     max-height: ${props => typeof props.maxHeight === 'string' ? props.maxHeight : `${props.maxHeight}rem`};
     min-height: ${props => typeof props.minHeight === 'string' ? props.minHeight : `${props.minHeight}rem`};
     flex-wrap: ${props => props.wrap ? 'wrap' : 'auto'};
