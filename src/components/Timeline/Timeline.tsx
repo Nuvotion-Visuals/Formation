@@ -499,7 +499,7 @@ export const Timeline = ({ }: TimelineProps) => {
   }, [clipData])
 
   const [playheadPosition, setPlayheadPosition] = useState<number>(0)
-  const [playheadTime, setPlayheadTime] = useState<number>(0)
+  const playheadTime = useRef(0)
   const [isPlaying, setIsPlaying] = useState<boolean>(false)
   const [loop, setLoop] = useState(false)
   const animationFrameId = useRef<number | null>(null)
@@ -533,6 +533,7 @@ export const Timeline = ({ }: TimelineProps) => {
   const lastActiveVideoElement = useRef<HTMLVideoElement | null>(null)
 
   const startDrawing = (element: HTMLVideoElement, startTime: number, endTime: number) => {
+    console.log(startTime)
     lastActiveVideoElement.current = element
 
     videoStarted.current = true
@@ -679,7 +680,7 @@ export const Timeline = ({ }: TimelineProps) => {
     })
   
     if (activeClip) {
-      const relativeTimeWithinClip = (playheadTime - activeClip.offset) + activeClip.in
+      const relativeTimeWithinClip = (playheadTime.current - activeClip.offset) + activeClip.in
   
       if (activeClip.type == 'image') {
         drawImage(activeClip.element as HTMLImageElement)
@@ -719,11 +720,11 @@ export const Timeline = ({ }: TimelineProps) => {
   
     if (elapsedPercentage >= 0 && elapsedPercentage <= 100) {
       setPlayheadPosition(elapsedPercentage)
-      setPlayheadTime(elapsed)
+      playheadTime.current = elapsed
     } 
     else if (elapsedPercentage > 100) {
       setPlayheadPosition(100)
-      setPlayheadTime(totalDuration)
+      playheadTime.current = totalDuration
       if (animationFrameId.current !== null) {
         cancelAnimationFrame(animationFrameId.current)
       }
@@ -749,33 +750,37 @@ export const Timeline = ({ }: TimelineProps) => {
     }
   }, [isPlaying])
 
-  useEffect(() => {
-    if (!isPlaying) {
-      const intersectingClip = clipData.find(clip => {
-        const clipDuration = clip.out - clip.in
-        const clipStart = clip.offset
-        const clipEnd = clip.offset + clipDuration
-        
-        const clipStartPercentage = (clipStart / totalDuration) * 100
-        const clipEndPercentage = (clipEnd / totalDuration) * 100
-        
-        return playheadPosition >= clipStartPercentage && playheadPosition <= clipEndPercentage
-      })
+  const drawPreview = (playheadTime: number, playheadPosition: number) => {
+    const intersectingClip = clipData.find(clip => {
+      const clipDuration = clip.out - clip.in
+      const clipStart = clip.offset
+      const clipEnd = clip.offset + clipDuration
       
-      if (intersectingClip) {
-        const relativeTimeWithinClip = (playheadTime - intersectingClip.offset) + intersectingClip.in
-  
-        if (intersectingClip.type === 'image') {
-          drawImage(intersectingClip.element as HTMLImageElement)
-        } 
-        else if (intersectingClip.type === 'video') {
-          (async () => {
-            await drawVideoAtTime(intersectingClip.element as HTMLVideoElement, relativeTimeWithinClip)
-          })()
-        }
+      const clipStartPercentage = (clipStart / totalDuration) * 100
+      const clipEndPercentage = (clipEnd / totalDuration) * 100
+      
+      return playheadPosition >= clipStartPercentage && playheadPosition <= clipEndPercentage
+    })
+    
+    if (intersectingClip) {
+      const relativeTimeWithinClip = (playheadTime - intersectingClip.offset) + intersectingClip.in
+
+      if (intersectingClip.type === 'image') {
+        drawImage(intersectingClip.element as HTMLImageElement)
+      } 
+      else if (intersectingClip.type === 'video') {
+        (async () => {
+          await drawVideoAtTime(intersectingClip.element as HTMLVideoElement, relativeTimeWithinClip)
+        })()
       }
     }
-  }, [playheadPosition, playheadTime, isPlaying, clipData.length])
+  }
+
+  useEffect(() => {
+    if (!isPlaying) {
+      drawPreview(playheadTime.current, playheadPosition)
+    }
+  }, [playheadPosition, playheadTime.current, isPlaying, clipData.length])
 
   const skipForward = async () => {
     const nextOffsets = clipData.map(clip => (clip.offset / totalDuration) * 100).filter(offset => offset > playheadPosition)
@@ -787,7 +792,7 @@ export const Timeline = ({ }: TimelineProps) => {
 
   
     const newTime = (closestNextOffset / 100) * totalDuration 
-    setPlayheadTime(newTime)
+    playheadTime.current = newTime
   
     lastFrameTime.current = Date.now() - newTime
   }
@@ -803,7 +808,7 @@ export const Timeline = ({ }: TimelineProps) => {
     setPlayheadPosition(closestPrevOffset)
     
     const newTime = (closestPrevOffset / 100) * totalDuration
-    setPlayheadTime(newTime)
+    playheadTime.current = newTime
     videoStarted.current = false
     
     lastFrameTime.current = Date.now() - newTime
@@ -1082,7 +1087,7 @@ export const Timeline = ({ }: TimelineProps) => {
   
       setPlayheadPosition(newPosition)
       const newTime = (totalDuration * newPosition) / 100
-      setPlayheadTime(newTime)
+      playheadTime.current = newTime
     }
   }
   
@@ -1121,6 +1126,53 @@ export const Timeline = ({ }: TimelineProps) => {
       document.removeEventListener('touchmove', touchMoveHandler)
     }
   }, [isPlayheadDragging, initialPlayheadCoordinate, initialPlayheadPosition, playheadContainerRef.current, totalDuration])
+
+  const onSplit = async () => {
+    const intersectingClipIndex = clipData.findIndex(clip => {
+      const clipDuration = clip.out - clip.in
+      const clipStart = clip.offset
+      const clipEnd = clip.offset + clipDuration
+      
+      const clipStartPercentage = (clipStart / totalDuration) * 100
+      const clipEndPercentage = (clipEnd / totalDuration) * 100
+      
+      return playheadPosition >= clipStartPercentage && playheadPosition <= clipEndPercentage
+    })
+  
+    if (intersectingClipIndex !== -1) {
+      const intersectingClip = clipData[intersectingClipIndex]
+      const relativeTimeWithinClip = (playheadTime.current - intersectingClip.offset) + intersectingClip.in
+  
+      if (relativeTimeWithinClip > intersectingClip.in && relativeTimeWithinClip < intersectingClip.out) {
+        const originalElement = document.getElementById(intersectingClip.id)
+        if (originalElement) {
+          const newID = generateUUID()
+          const clonedElement = originalElement.cloneNode(true) as HTMLElement
+          clonedElement.id = newID
+          document.body.appendChild(clonedElement)
+  
+          const newClip1: ClipData = {
+            ...intersectingClip,
+            out: relativeTimeWithinClip
+          }
+  
+          const newClip2: ClipData = {
+            ...intersectingClip,
+            id: newID,
+            in: relativeTimeWithinClip,
+            offset: intersectingClip.offset + (relativeTimeWithinClip - intersectingClip.in),
+            // @ts-ignore
+            element: clonedElement
+          }
+  
+          const newClipData = [...clipData]
+          newClipData.splice(intersectingClipIndex, 1, newClip1, newClip2)
+          setClipData(newClipData)
+        }
+      }
+    }
+  }
+  
 
   return (<T.Timeline>
       <T.Taskbar>    
@@ -1181,7 +1233,7 @@ export const Timeline = ({ }: TimelineProps) => {
                 iconPrefix='fas'
                 minimal
                 compact
-                onClick={redo}
+                onClick={onSplit}
               />
             </Box>
 
@@ -1216,7 +1268,7 @@ export const Timeline = ({ }: TimelineProps) => {
               onClick={() => setLoop(!loop)}
             />
 
-            <T.CurrentTime>{ formatTime(playheadTime) }</T.CurrentTime> ∕ <T.TotalTime>{ formatTime(maxOutValue) }</T.TotalTime>
+            <T.CurrentTime>{ formatTime(playheadTime.current) }</T.CurrentTime> ∕ <T.TotalTime>{ formatTime(maxOutValue) }</T.TotalTime>
           
             <Spacer />
 
@@ -1339,8 +1391,8 @@ export const Timeline = ({ }: TimelineProps) => {
                       }
                     
                       // Check if playhead time is closer
-                      const distanceToPlayheadStart = Math.abs(newStart - playheadTime)
-                      const distanceToPlayheadEnd = Math.abs(newEnd - playheadTime)
+                      const distanceToPlayheadStart = Math.abs(newStart - playheadTime.current)
+                      const distanceToPlayheadEnd = Math.abs(newEnd - playheadTime.current)
                     
                       if (distanceToPlayheadStart < snapRange && distanceToPlayheadStart < minDistanceStart) {
                         closestClipStart = null // Playhead is closer, so reset closestClipStart
@@ -1356,7 +1408,7 @@ export const Timeline = ({ }: TimelineProps) => {
                       if (dragType === 'in' && minDistanceStart !== Infinity) {
                         const snappedStart = closestClipStart
                           ? closestClipStart.offset + (closestClipStart.out - closestClipStart.in)
-                          : playheadTime
+                          : playheadTime.current
                         const delta = snappedStart - newClipData.offset
                         const newIn = newClipData.in + delta
                         const newOut = newClipData.out
@@ -1370,7 +1422,7 @@ export const Timeline = ({ }: TimelineProps) => {
                       if (dragType === 'out' && minDistanceEnd !== Infinity) {
                         const snappedEnd = closestClipEnd
                           ? closestClipEnd.offset
-                          : playheadTime
+                          : playheadTime.current
                         const newOut = newClipData.in + (snappedEnd - newClipData.offset)
                     
                         if (newClipData.type !== 'video' || newOut <= newClipData.originalDuration) {
@@ -1382,14 +1434,14 @@ export const Timeline = ({ }: TimelineProps) => {
                         if (minDistanceStart !== Infinity) {
                           const snappedStart = closestClipStart
                             ? closestClipStart.offset + (closestClipStart.out - closestClipStart.in)
-                            : playheadTime
+                            : playheadTime.current
                           newClipData.offset = snappedStart
                         }
                     
                         if (minDistanceEnd !== Infinity) {
                           const snappedEnd = closestClipEnd
                             ? closestClipEnd.offset
-                            : playheadTime
+                            : playheadTime.current
                           newClipData.offset = snappedEnd - (newClipData.out - newClipData.in)
                         }
                       }
@@ -1418,6 +1470,22 @@ export const Timeline = ({ }: TimelineProps) => {
                             offset: updatedClipData[i].offset + delta
                           }
                         }
+                      }
+                    }
+
+                    const targetClipData = updatedClipData[targetClipIndex]
+
+                    
+                    switch (dragType) {
+                      case 'in': {
+                        const currentTime = targetClipData.offset
+                        drawPreview(currentTime, (currentTime / totalDuration) * 100)
+                        break
+                      }
+                      case 'out': {
+                        const currentTime = targetClipData.offset + (targetClipData.out - targetClipData.in)
+                        drawPreview(currentTime, (currentTime / totalDuration) * 100)
+                        break
                       }
                     }
                   
