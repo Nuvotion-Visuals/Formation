@@ -775,7 +775,7 @@ export const Timeline = ({ }: TimelineProps) => {
         }
       }
     }
-  }, [playheadPosition, playheadTime, isPlaying])
+  }, [playheadPosition, playheadTime, isPlaying, clipData.length])
 
   const skipForward = async () => {
     const nextOffsets = clipData.map(clip => (clip.offset / totalDuration) * 100).filter(offset => offset > playheadPosition)
@@ -1125,23 +1125,21 @@ export const Timeline = ({ }: TimelineProps) => {
   return (<T.Timeline>
       <T.Taskbar>    
         <Spacer />
-        <Gap autoWidth>
-          <Box width={10}>
-            <TextInput
-              value={projectName}
-              onChange={val => setProjectName(val)}
-              compact
-              placeholder='Untitled project'
-              secondaryIcon='edit'
-            />
-          </Box>
-          <Button
+        <Box width={12}>
+          <TextInput
+            value={projectName}
+            onChange={val => setProjectName(val)}
             compact
-            text='Export Project'
-            icon='arrow-up-from-bracket'
-            iconPrefix='fas'
+            placeholder='Untitled project'
+            secondaryIcon='edit'
           />
-        </Gap>
+        </Box>
+        <Button
+          compact
+          text='Export Project'
+          icon='arrow-up-from-bracket'
+          iconPrefix='fas'
+        />
       </T.Taskbar>
       <T.Top>
         <Sidebar
