@@ -988,62 +988,68 @@ export const Timeline = ({ }: TimelineProps) => {
     }
    }
 
-  const [isPlayheadDragging, setIsPlayheadDragging] = useState<boolean>(false)
-  const [initialPlayheadCoordinate, setInitialPlayheadCoordinate] = useState<number | null>(null)
-  const [initialPlayheadPosition, setInitialPlayheadPosition] = useState(0)
-
-  const handlePlayheadStart = (coordinate: number) => {
-    setIsPlayheadDragging(true)
-    setInitialPlayheadCoordinate(coordinate)
-    setInitialPlayheadPosition(playheadPosition)
-  }
-  const handlePlayheadEnd = () => {
-    setIsPlayheadDragging(false)
-  }
-  const playheadContainerRef = useRef<HTMLDivElement>(null)
-  const handlePlayheadMove = (coordinate: number) => {
-    if (isPlayheadDragging && playheadContainerRef.current) {
+   const [isPlayheadDragging, setIsPlayheadDragging] = useState(false)
+   const [initialPlayheadCoordinate, setInitialPlayheadCoordinate] = useState<number | null>(null)
+   const [initialPlayheadPosition, setInitialPlayheadPosition] = useState(0)
+   const playheadContainerRef = useRef<HTMLDivElement>(null)
+   
+   const calculateNewPositions = (coordinate: number, isStart: boolean = false) => {
+    if (playheadContainerRef.current) {
       const actualWidth = playheadContainerRef.current.clientWidth
       const scale = 100 / actualWidth
       
       let delta = (coordinate - (initialPlayheadCoordinate || 0)) * scale
-      let updatedPlayheadPosition = initialPlayheadPosition + delta
-      updatedPlayheadPosition = Math.min(Math.max(0, updatedPlayheadPosition), 100)
+      let newPosition = initialPlayheadPosition + delta
+      newPosition = Math.min(Math.max(0, newPosition), 100)
       
-      setPlayheadPosition(updatedPlayheadPosition)
-      
-      // Update the playheadTime based on the new playhead position
-      const updatedPlayheadTime = (totalDuration * updatedPlayheadPosition) / 100
-      setPlayheadTime(updatedPlayheadTime)
+      // If this is the start of the drag, update the initial coordinate and position
+      if (isStart) {
+        setInitialPlayheadCoordinate(coordinate)
+        setInitialPlayheadPosition(newPosition)
+      }
+  
+      setPlayheadPosition(newPosition)
+      const newTime = (totalDuration * newPosition) / 100
+      setPlayheadTime(newTime)
     }
   }
   
+  const handlePlayheadStart = (coordinate: number) => {
+    setIsPlayheadDragging(true)
+    calculateNewPositions(coordinate, true)
+  }
   
+  const handleTimeRulerStart = (coordinate: number) => {
+    setIsPlayheadDragging(true)
+    calculateNewPositions(coordinate, true)
+  }
   
-
+  const handleDragEnd = () => {
+    setIsPlayheadDragging(false)
+  }
+  
   useEffect(() => {
-    const mousePlayheadMoveHandler = (e: MouseEvent) => handlePlayheadMove(e.clientX)
-    const touchPlayheadMoveHandler = (e: TouchEvent) => {
+    const mouseMoveHandler = (e: MouseEvent) => calculateNewPositions(e.clientX)
+    const touchMoveHandler = (e: TouchEvent) => {
       e.preventDefault()
-      handlePlayheadMove(e.touches[0].clientX)
+      calculateNewPositions(e.touches[0].clientX)
     }
   
     if (isPlayheadDragging) {
-      document.addEventListener('mouseup', handlePlayheadEnd)
-      document.addEventListener('mousemove', mousePlayheadMoveHandler)
-      document.addEventListener('touchend', handlePlayheadEnd)
-      document.addEventListener('touchmove', touchPlayheadMoveHandler)
+      document.addEventListener('mouseup', handleDragEnd)
+      document.addEventListener('mousemove', mouseMoveHandler)
+      document.addEventListener('touchend', handleDragEnd)
+      document.addEventListener('touchmove', touchMoveHandler)
     }
   
     return () => {
-      document.removeEventListener('mouseup', handlePlayheadEnd)
-      document.removeEventListener('mousemove', mousePlayheadMoveHandler)
-      document.removeEventListener('touchend', handlePlayheadEnd)
-      document.removeEventListener('touchmove', touchPlayheadMoveHandler)
+      document.removeEventListener('mouseup', handleDragEnd)
+      document.removeEventListener('mousemove', mouseMoveHandler)
+      document.removeEventListener('touchend', handleDragEnd)
+      document.removeEventListener('touchmove', touchMoveHandler)
     }
-  }, [isPlayheadDragging, initialPlayheadCoordinate, playheadPosition, totalDuration])
+  }, [isPlayheadDragging, initialPlayheadCoordinate, initialPlayheadPosition, playheadContainerRef.current, totalDuration])
   
-
   return (<T.Timeline>
       <T.Taskbar>    
         <Spacer />
@@ -1195,7 +1201,15 @@ export const Timeline = ({ }: TimelineProps) => {
           >
             <Playhead />
           </T.PlayheadPosition>
-            <TimeRuler totalDuration={totalDuration} />
+          <TimeRuler
+            totalDuration={totalDuration}
+            onMouseDown={(e: React.MouseEvent) => handleTimeRulerStart(e.clientX)}
+            onTouchStart={(e: React.TouchEvent) => {
+              e.preventDefault()
+              handleTimeRulerStart(e.touches[0].clientX)
+            }}
+          />
+
             <T.Tracks>
               <DropTarget 
                 acceptedOrigins={['media']} 
@@ -1450,6 +1464,8 @@ const T = {
 // -----> TIME RULER <------
 interface TimeRulerProps {
   totalDuration: number
+  onMouseDown: (e: React.MouseEvent) => void
+  onTouchStart: (e: React.TouchEvent) => void
 }
 
 const millisecondsToTime = (milliseconds: number) => {
@@ -1461,9 +1477,9 @@ const millisecondsToTime = (milliseconds: number) => {
   return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`
 }
 
-export const TimeRuler: React.FC<TimeRulerProps> = ({ totalDuration }) => {
+export const TimeRuler: React.FC<TimeRulerProps> = ({ totalDuration, ...props }) => {
   return (
-    <Tr.TimeRuler>
+    <Tr.TimeRuler {...props}>
       {Array.from({ length: 7 }, (_, i) => i * 15).map(percentage => {
         const duration = Math.floor((percentage / 100) * totalDuration)
         const time = millisecondsToTime(duration)
