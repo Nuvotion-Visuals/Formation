@@ -23,3 +23,9 @@ export const Default = Template.bind({})
 Default.args = {
   value: '#9F0500'
 }
+
+export const HidePresets = Template.bind({})
+HidePresets.args = {
+  value: '#9F0500',
+  hidePresets: true
+}

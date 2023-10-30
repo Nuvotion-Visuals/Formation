@@ -134,6 +134,7 @@
     "lodash.xor": "^4.5.0",
     "marked": "^4.0.19",
     "rc-util": "^5.37.0",
+    "react-colorful": "^5.6.1",
     "react-div-100vh": "^0.7.0",
     "react-easy-crop": "^4.6.3",
     "react-html-parser": "^2.0.2",
@@ -146,6 +147,7 @@
     "showdown": "^2.1.0",
     "thumbo": "^1.0.8",
     "turndown": "^7.1.1",
+    "use-eye-dropper": "^1.6.0",
     "uuid": "^9.0.0"
   },
   "peerDependencies": {

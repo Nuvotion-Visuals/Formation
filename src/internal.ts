@@ -81,6 +81,7 @@ export { RichTextEditor } from './components/RichTextEditor/RichTextEditor'
 export { Steps } from './components/Steps/Steps'
 export { Checkboxes } from './components/Checkboxes/Checkboxes'
 export { DropCorners } from './components/DragAndDrop/DropCorners'
+export { GroupRadius } from './components/GroupRadius/GroupRadius'
 
 // Molecules (1)
 export { ArticlePreview } from './components/ArticlePreview/ArticlePreview'

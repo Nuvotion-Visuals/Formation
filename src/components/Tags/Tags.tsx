@@ -131,7 +131,7 @@ const S = {
   `,
   ButtonContainer: styled.div`
     display: flex;
-    margin-right: 8px;
+    margin-right: .5rem;
     flex: 0 0 auto;
   `,
   Overlay: styled.div`
