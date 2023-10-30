@@ -2,7 +2,7 @@ import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 import React, { forwardRef, useContext, useMemo } from 'react'
 import styled from 'styled-components'
 
-import { Box, Break, Spacer, getLabelColor, LabelColor, Link as IntLink } from '../../internal'
+import { Box, Break, Spacer, getLabelColor, LabelColor, Link as IntLink, LineBreak } from '../../internal'
 import { SpaceIcon } from '../NavSpaces/SpaceIcon'
 
 import { 
@@ -36,7 +36,8 @@ export interface ItemProps {
   indent?: boolean,
   pageTitle?: string,
   newTab?: boolean,
-  value?: any
+  value?: any,
+  breakText?: boolean
 }
 
 export const Item = forwardRef<HTMLDivElement, ItemProps>(({
@@ -62,13 +63,14 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(({
   indent,
   pageTitle,
   newTab,
+  breakText,
   value,
-  prefix
+  prefix,
 }: ItemProps, ref): JSX.Element => {
   const Link: any = useContext(LinkContext) || IntLink;
 
   const renderItem = () => (
-    <Box width='100%'>
+    <Box width='100%' maxWidth={'100%'}>
       {
         indent
           ? <S.Indent active={active} />
@@ -126,6 +128,10 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(({
         
         {
           text && <S.Text active={active}>{ text }</S.Text>
+        }
+
+        {
+          breakText && <Break />
         }
 
         {
@@ -220,6 +226,7 @@ const S = {
   Flex: React.memo(styled.div<{
     minimal?: boolean
   }>`
+    max-width: 100%;
     display: flex;
     flex-wrap: wrap;
     gap: .2rem;
@@ -262,8 +269,10 @@ const S = {
     padding: 0 .5rem;
     color: var(--F_Font_Color);
     font-weight: ${props => props.active ? '400' : '400'};
-    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
     line-height: 1.33;
+    
   `),
   Subtitle: React.memo(styled.div<{
     active?: boolean

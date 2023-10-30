@@ -14,13 +14,16 @@ import {
   Grid, 
   DragOrigin,
   DropTarget,
-  Icon
+  Icon,
+  Item,
+  Dropdown
 } from '../../internal'
 import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 import { getImageInfo, getVideoInfo } from './getMediaInfo'
 import { VideoPreview } from './VideoPreview'
 import { ZoomSlider } from '../Sliders/ZoomSlider'
+import { IconProp } from '@fortawesome/fontawesome-svg-core'
 
 interface ClipData {
   id: string,
@@ -30,7 +33,8 @@ interface ClipData {
   in: number,
   out: number,
   previews: string[],
-  element: HTMLVideoElement,
+  dimensions: { width: number, height: number },
+  element: HTMLVideoElement | HTMLImageElement,
   url: string,
   type: 'image' | 'video'
 }
@@ -275,40 +279,50 @@ const L = {
 
 
 interface SidebarProps {
-  
+  value: string
+  onChange: (val: string) => void
 }
 
-export const Sidebar = ({ }: SidebarProps) => {
-  return (<Sb.Sidebar>
-    <Sb.Tab active={true}>
-      <Sb.Center>
-        <Icon
-          icon='photo-video'
-          size={'lg'}
-        />
-        <Sb.Label>Media</Sb.Label>
-      </Sb.Center>
-    </Sb.Tab>
-    <Sb.Tab active={false}>
-      <Sb.Center>
-        <Icon
-          icon='clapperboard'
-          size={'lg'}
-        />
-        <Sb.Label>Clip</Sb.Label>
-      </Sb.Center>
-    </Sb.Tab>
-    <Sb.Tab active={false}>
-      <Sb.Center>
-        <Icon
-          icon='cog'
-          size={'lg'}
-        />
-        <Sb.Label>Settings</Sb.Label>
-      </Sb.Center>
-    </Sb.Tab>
-    <Sb.VSpacer />
-  </Sb.Sidebar>)
+export const Sidebar = ({ value, onChange }: SidebarProps) => {
+  const tabs = [
+    {
+      icon: 'photo-video',
+      label: 'Media'
+    },
+    {
+      icon: 'clapperboard',
+      label: 'Clip'
+    },
+    {
+      icon: 'cog',
+      label: 'Settings'
+    }
+  ]
+
+  const handleTabClick = (tabLabel: string) => {
+    onChange(tabLabel)
+  }
+
+  return (
+    <Sb.Sidebar>
+      {tabs.map((tab, index) => (
+        <Sb.Tab 
+          key={index}
+          active={value === tab.label}
+          onClick={() => handleTabClick(tab.label)}
+        >
+          <Sb.Center>
+            <Icon
+              icon={tab.icon as IconProp}
+              size={'lg'}
+            />
+            <Sb.Label>{tab.label}</Sb.Label>
+          </Sb.Center>
+        </Sb.Tab>
+      ))}
+      <Sb.VSpacer />
+    </Sb.Sidebar>
+  )
 }
 
 interface TabProps {
@@ -412,7 +426,7 @@ interface ClipData {
   in: number,
   out: number,
   previews: string[],
-  element: HTMLVideoElement
+  element: HTMLVideoElement | HTMLImageElement
 }
 
 
@@ -428,6 +442,8 @@ export const Timeline = ({ }: TimelineProps) => {
   }, [scale, originalTotalDuration])
 
   const [clipData, setClipData] = useState<ClipData[]>([])
+
+  const [tab, setTab] = useState<'Media' | 'Clip' | 'Settings'>('Media')
 
   const [history, setHistory] = useState([clipData])
   const [pointer, setPointer] = useState(0)
@@ -625,11 +641,11 @@ export const Timeline = ({ }: TimelineProps) => {
       }
       else {
         if (!videoStarted.current) {
-          startDrawing(activeClip.element, activeClip.in, activeClip.out)
+          startDrawing(activeClip.element as HTMLVideoElement, activeClip.in, activeClip.out)
         }
         if (clipPlaying.current !== activeClip.id) {
           lastActiveVideoElement.current?.pause()
-          startDrawing(activeClip.element, activeClip.in, activeClip.out)
+          startDrawing(activeClip.element as HTMLVideoElement, activeClip.in, activeClip.out)
         }
       }
     }
@@ -670,8 +686,6 @@ export const Timeline = ({ }: TimelineProps) => {
   
     animationFrameId.current = requestAnimationFrame(movePlayhead)
   }
-  
-  
 
   useEffect(() => {
     if (isPlaying) {
@@ -728,19 +742,28 @@ export const Timeline = ({ }: TimelineProps) => {
 
   const handleUpload = async (files: File[]) => {
     if (files) {
-      files.forEach(async (file) => {
-        setLoading(true)
+      setLoading(true)
+      let accumulatedMaxOutValue = 0
+      let newClipData = [...clipData]
+  
+      for (const file of files) {
         const mimeType = file.type
         const id = generateUUID()
   
+        // Use the locally calculated accumulatedMaxOutValue
+        accumulatedMaxOutValue = newClipData.reduce((max, clip) => {
+          const clipDuration = clip.out - clip.in
+          return Math.max(max, clip.offset + clipDuration)
+        }, 0)
+  
+        const offset = accumulatedMaxOutValue
+  
         if (mimeType.startsWith('video')) {
-          // Your existing video handling logic
           const {
             fileName,
-            dimensions,
-            fileSize,
             duration,
             element,
+            dimensions,
             url
           } = await getVideoInfo(file)
   
@@ -748,85 +771,77 @@ export const Timeline = ({ }: TimelineProps) => {
           element.id = id
           document.body.appendChild(element)
           element.style.display = 'none'
-          
-          // @ts-ignore
-          setClipData(prev => {
-            return [
-              ...prev,
-              {
-                id,
-                type: 'video',
-                name: fileName,
-                originalDuration: durationMs,
-                in: 0,
-                out: durationMs,
-                offset: maxOutValue,
-                previews: [],
-                element,
-                url
-              }
-            ]
+  
+          newClipData.push({
+            id,
+            type: 'video',
+            name: fileName,
+            originalDuration: durationMs,
+            in: 0,
+            dimensions,
+            out: durationMs,
+            offset,
+            previews: [],
+            element,
+            url
           })
   
-          setLoading(false)
-          
-          const thumbnails = await generateVideoThumbnails(
+          // Run this part asynchronously
+          generateVideoThumbnails(
             file,
             90,
             [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
             true
-          )
-          const sortedThumbnails = thumbnails.sort((a, b) => a.timestamp - b.timestamp)
-          const sortedUrls = sortedThumbnails.map(thumb => thumb.image)
+          ).then(thumbnails => {
+            const sortedThumbnails = thumbnails.sort((a, b) => a.timestamp - b.timestamp)
+            const sortedUrls = sortedThumbnails.map(thumb => thumb.image) as string[]
   
-          // @ts-ignore
-          setClipData(prev => {
-            return prev.map(clip => {
-              if (clip.id === id) {
-                return {
-                  ...clip,
-                  previews: sortedUrls
+            setClipData(prev => {
+              return prev.map(clip => {
+                if (clip.id === id) {
+                  return {
+                    ...clip,
+                    previews: sortedUrls
+                  }
                 }
-              }
-              return clip
+                return clip
+              })
             })
           })
         }
         else if (mimeType.startsWith('image')) {
           const {
             fileName,
-            dimensions,
-            fileSize,
             element,
-            url
+            url,
+            dimensions
           } = await getImageInfo(file)
+  
           element.id = id
           document.body.appendChild(element)
           element.style.display = 'none'
-          
-          // @ts-ignore
-          setClipData(prev => {
-            return [
-              ...prev,
-              {
-                id,
-                type: 'image',
-                name: fileName,
-                originalDuration: 1000,
-                in: 0,
-                out: 1000,
-                offset: maxOutValue,
-                previews: [url],
-                element,
-                url
-              }
-            ]
+  
+          newClipData.push({
+            id,
+            type: 'image',
+            name: fileName,
+            originalDuration: 1000,
+            in: 0,
+            out: 1000,
+            offset,
+            dimensions,
+            previews: [url],
+            element,
+            url
           })
         }
-      })
+      }
+  
+      // Update state with newClipData after loop finishes
+      setClipData(newClipData)
+      setLoading(false)
     }
   }
-  
 
    const [loading, setLoading] = useState(false)
 
@@ -836,16 +851,140 @@ export const Timeline = ({ }: TimelineProps) => {
     if (!isPlaying) {
       clipData.forEach((clip) => {
         if (clip.type === 'video') {
-          clip.element.pause()
+          (clip.element as HTMLVideoElement).pause()
         }
       })
     }
    }, [isPlaying])
 
    const [projectName, setProjectName] = useState('')
+   const [mediaZoom, setMediaZoom] = useState(6)
+   const [mediaMode, setMediaMode] = useState<'grid' | 'list'>('grid')
+   const [mediaSearch, setMediaSearch] = useState('')
+
+   const renderMenu = () => {
+    switch (tab) {
+      case 'Clip':
+        return 
+      case 'Media': {
+        const minimal = clipData.length > 0
+        return <>
+          <FileDrop onFileDrop={files => handleUpload(files)}>
+            <Box px={.5} width='calc(100% - 1rem)'>
+              <FileUpload
+                onFileChange={async (files) => {
+                  handleUpload(files)
+                }}                
+                accept='video/mp4,video/webm,image/png,image/jpeg,image/bmp,image/avif,image/webp'
+                icon='photo-video'
+                dragMessage='Drag and drop media'
+                browseMessage='Add media'
+                iconPrefix='fas'
+                multiple
+                minimal={minimal}
+                buttonProps={
+                  minimal
+                    ? {
+                        expand: true,
+                        text: 'Add media',
+                        icon: 'photo-video',
+                        iconPrefix: 'fas'
+                      }
+                    : undefined
+                }
+              />
+            </Box>
+            <Box px={.5} width='calc(100% - 1rem)' hide={!minimal}>
+              <TextInput
+                compact
+                icon='search'
+                value={mediaSearch}
+                onChange={val => setMediaSearch(val)}
+                hideOutline
+                canClear={mediaSearch !== ''}
+              />
+              <Box minWidth={9}>
+              <ZoomSlider
+                min={3}
+                max={20}
+                value={mediaZoom}
+                onChange={val => setMediaZoom(val)}
+              />
+              </Box>
+              
+              <Button
+                minimal
+                icon='grip'
+                iconPrefix='fas'
+                off={mediaMode !== 'grid'}
+                onClick={() => setMediaMode('grid')}
+              />
+               <Button
+                minimal
+                icon='list'
+                iconPrefix='fas'
+                off={mediaMode !== 'list'}
+                onClick={() => setMediaMode('list')}
+              />
+            </Box>
+            <Box px={.5} width='calc(100% - 1rem)'>
+              {
+                mediaMode === 'grid'
+                  ?  <Grid maxWidth={mediaMode === 'grid' ? mediaZoom : 100} gap={.25}>
+                      {
+                        clipData.filter(clip => clip.name.toLowerCase().includes(mediaSearch)).map(clip =>
+                          <DragOrigin data={{origin: 'media', clip}}>
+                            <VideoPreview
+                              text={`${clip.name.slice(0, 10)}...`}
+                              imageUrl={clip.previews[0]}
+                              videoUrl={clip.url}
+                              onClick={() => {}}
+                              active={false}
+                            />
+                          </DragOrigin>
+                        )
+                      }
+                    </Grid>
+                  : <Gap>
+                   {
+                      clipData.filter(clip => clip.name.toLowerCase().includes(mediaSearch)).map(clip =>
+                        <DragOrigin data={{origin: 'media', clip}}>
+                          <Item
+                            text={clip.name}
+                            subtitle={`${clip.type} - ${clip.dimensions.width}x${clip.dimensions.height}`}
+                            src={clip.previews[0]}
+                            children={<Dropdown
+                              icon='ellipsis-v'
+                              iconPrefix='fas'
+                              compact
+                              minimal
+                              items={[
+                                {
+                                  icon: 'trash-alt',
+                                  iconPrefix: 'fas',
+                                  text: 'Remove',
+                                }
+                              ]}
+                            />}
+                            breakText
+                          />
+                        </DragOrigin>
+                      )
+                    }
+                  </Gap>
+                }
+            </Box>
+          </FileDrop>
+        </>
+        }
+      case 'Settings':
+        return <>
+
+        </>
+    }
+   }
 
   return (<T.Timeline>
-  
       <T.Taskbar>    
         <Spacer />
         <Gap autoWidth>
@@ -868,41 +1007,13 @@ export const Timeline = ({ }: TimelineProps) => {
       </T.Taskbar>
       <T.Top>
         <Sidebar
-
+          value={tab}
+          onChange={val => setTab(val as any)}
         />
         <T.Left>
-          <FileDrop onFileDrop={files => handleUpload(files)}>
-            <Box px={.5} width='calc(100% - 1rem)'>
-              <FileUpload
-                onFileChange={async (files) => {
-                  handleUpload(files)
-                }}                
-                accept='video/mp4,video/webm,image/png,image/jpeg,image/bmp,image/avif,image/webp'
-                icon='photo-video'
-                dragMessage='Drag and drop media'
-                browseMessage='Add media'
-                iconPrefix='fas'
-                multiple
-              />
-            </Box>
-            <Box px={.5} mt={.5} width='calc(100% - 1rem)'>
-              <Grid maxWidth={6} gap={.25}>
-                {
-                  clipData.map(clip =>
-                    <DragOrigin data={{origin: 'media', clip}}>
-                      <VideoPreview
-                        text={`${clip.name.slice(0, 10)}...`}
-                        imageUrl={clip.previews[0]}
-                        videoUrl={clip.url}
-                        onClick={() => {}}
-                        active={false}
-                      />
-                    </DragOrigin>
-                  )
-                }
-              </Grid>
-            </Box>
-          </FileDrop>
+          {
+            renderMenu()
+          }
         </T.Left>
         <T.Center>
           <AspectRatio ratio={16/9}>
@@ -1180,6 +1291,7 @@ const T = {
   Left: styled.div`
     width: 25rem;
     min-width: 25rem;
+    overflow-x: hidden;
     height: 100%;
     border-right:  1px solid var(--F_Surface);
   `,
