@@ -388,13 +388,14 @@ export const Playhead = React.memo(({ }: PlayheadProps) => {
 
 const Ph = {
   PlayheadContainer: styled.div`
-    margin-left: -1px;
-    width: 3px;
+    margin-left: -7px;
+    width: 1rem;
     height: 100%;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     position: relative;
+    cursor: ew-resize;
   `,
   PlayheadTop: styled.div`
     width: 3px;
@@ -721,17 +722,21 @@ export const Timeline = ({ }: TimelineProps) => {
   
   const skipBack = async () => {
     const prevOffsets = clipData.map(clip => (clip.offset / totalDuration) * 100).filter(offset => offset < playheadPosition)
-    if (prevOffsets.length === 0) return
-  
-    const closestPrevOffset = Math.max(...prevOffsets)
+    
+    let closestPrevOffset = 0
+    if (prevOffsets.length > 0) {
+      closestPrevOffset = Math.max(...prevOffsets)
+    }
+    
     setPlayheadPosition(closestPrevOffset)
-  
+    
     const newTime = (closestPrevOffset / 100) * totalDuration
     setPlayheadTime(newTime)
     videoStarted.current = false
-  
+    
     lastFrameTime.current = Date.now() - newTime
   }
+  
 
   const [snap, setSnap] = useState(true)
   const [snapRange, setSnapRange] = useState(250)
@@ -984,6 +989,58 @@ export const Timeline = ({ }: TimelineProps) => {
     }
    }
 
+  const [isPlayheadDragging, setIsPlayheadDragging] = useState<boolean>(false)
+  const [initialPlayheadCoordinate, setInitialPlayheadCoordinate] = useState<number | null>(null)
+  const [initialPlayheadPosition, setInitialPlayheadPosition] = useState(0)
+
+  const handlePlayheadStart = (coordinate: number) => {
+    setIsPlayheadDragging(true)
+    setInitialPlayheadCoordinate(coordinate)
+    setInitialPlayheadPosition(playheadPosition)
+  }
+  const handlePlayheadEnd = () => {
+    setIsPlayheadDragging(false)
+  }
+  const playheadContainerRef = useRef<HTMLDivElement>(null)
+  const handlePlayheadMove = (coordinate: number) => {
+    if (isPlayheadDragging && playheadContainerRef.current) {
+      const actualWidth = playheadContainerRef.current.clientWidth
+      const scale = 100 / actualWidth
+      
+      let delta = (coordinate - (initialPlayheadCoordinate || 0)) * scale
+    
+      let updatedPlayheadPosition = initialPlayheadPosition + delta
+      updatedPlayheadPosition = Math.min(Math.max(0, updatedPlayheadPosition), 100)
+      
+      setPlayheadPosition(updatedPlayheadPosition)
+    }
+  }
+  
+  
+
+  useEffect(() => {
+    const mousePlayheadMoveHandler = (e: MouseEvent) => handlePlayheadMove(e.clientX)
+    const touchPlayheadMoveHandler = (e: TouchEvent) => {
+      e.preventDefault()
+      handlePlayheadMove(e.touches[0].clientX)
+    }
+  
+    if (isPlayheadDragging) {
+      document.addEventListener('mouseup', handlePlayheadEnd)
+      document.addEventListener('mousemove', mousePlayheadMoveHandler)
+      document.addEventListener('touchend', handlePlayheadEnd)
+      document.addEventListener('touchmove', touchPlayheadMoveHandler)
+    }
+  
+    return () => {
+      document.removeEventListener('mouseup', handlePlayheadEnd)
+      document.removeEventListener('mousemove', mousePlayheadMoveHandler)
+      document.removeEventListener('touchend', handlePlayheadEnd)
+      document.removeEventListener('touchmove', touchPlayheadMoveHandler)
+    }
+  }, [isPlayheadDragging, initialPlayheadCoordinate, playheadPosition, totalDuration])
+  
+
   return (<T.Timeline>
       <T.Taskbar>    
         <Spacer />
@@ -1123,11 +1180,18 @@ export const Timeline = ({ }: TimelineProps) => {
             </Gap>
           </Gap>
         </T.Bottom>
-        <T.TimelineContent>
+        <T.TimelineContent ref={playheadContainerRef}>
           <FileDrop onFileDrop={handleUpload}>
-            <T.PlayheadPositon  position={playheadPosition}>
-              <Playhead />
-            </T.PlayheadPositon>
+          <T.PlayheadPosition
+            position={playheadPosition}
+            onMouseDown={(e: MouseEventReact) => handlePlayheadStart(e.clientX)}
+            onTouchStart={(e: React.TouchEvent) => {
+              e.preventDefault()
+              handlePlayheadStart(e.touches[0].clientX)
+            }}
+          >
+            <Playhead />
+          </T.PlayheadPosition>
             <TimeRuler totalDuration={totalDuration} />
             <T.Tracks>
               <DropTarget 
@@ -1266,7 +1330,10 @@ export const Timeline = ({ }: TimelineProps) => {
 
 interface TPlayheadProps {
   position: number
+  onMouseDown?: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
+  onTouchStart?: (e: React.TouchEvent<HTMLDivElement>) => void
 }
+
 
 const T = {
   Timeline: styled.div`
@@ -1340,7 +1407,7 @@ const T = {
     width: 100%;
     position: relative;
   `,
-  PlayheadPositon: styled.div<TPlayheadProps>`
+  PlayheadPosition: styled.div<TPlayheadProps>`
     height: 100%;
     position: absolute;
     left: ${props => `${props.position}%`};
