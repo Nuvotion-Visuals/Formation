@@ -736,7 +736,6 @@ export const Timeline = ({ }: TimelineProps) => {
     
     lastFrameTime.current = Date.now() - newTime
   }
-  
 
   const [snap, setSnap] = useState(true)
   const [snapRange, setSnapRange] = useState(250)
@@ -1008,13 +1007,17 @@ export const Timeline = ({ }: TimelineProps) => {
       const scale = 100 / actualWidth
       
       let delta = (coordinate - (initialPlayheadCoordinate || 0)) * scale
-    
       let updatedPlayheadPosition = initialPlayheadPosition + delta
       updatedPlayheadPosition = Math.min(Math.max(0, updatedPlayheadPosition), 100)
       
       setPlayheadPosition(updatedPlayheadPosition)
+      
+      // Update the playheadTime based on the new playhead position
+      const updatedPlayheadTime = (totalDuration * updatedPlayheadPosition) / 100
+      setPlayheadTime(updatedPlayheadTime)
     }
   }
+  
   
   
 
@@ -1229,65 +1232,87 @@ export const Timeline = ({ }: TimelineProps) => {
                       let closestClipEnd: ClipData | null = null
                       let minDistanceStart = Infinity
                       let minDistanceEnd = Infinity
-                  
+                    
                       const newStart = newClipData.offset
                       const newEnd = newClipData.offset + (newClipData.out - newClipData.in)
-                  
+                    
                       for (const clip of clipData) {
                         if (clip.id === newClipData.id) continue
-                  
+                    
                         const clipStart = clip.offset
                         const clipEnd = clip.offset + (clip.out - clip.in)
-                  
+                    
                         const distanceToClosestStart = Math.abs(newStart - clipEnd)
                         const distanceToClosestEnd = Math.abs(newEnd - clipStart)
-                  
+                    
                         if (distanceToClosestStart < snapRange && distanceToClosestStart < minDistanceStart) {
                           closestClipStart = clip
                           minDistanceStart = distanceToClosestStart
                         }
-                  
+                    
                         if (distanceToClosestEnd < snapRange && distanceToClosestEnd < minDistanceEnd) {
                           closestClipEnd = clip
                           minDistanceEnd = distanceToClosestEnd
                         }
                       }
-                  
-                      if (dragType === 'in' && closestClipStart) {
-                        const snappedStart = closestClipStart.offset + (closestClipStart.out - closestClipStart.in)
+                    
+                      // Check if playhead time is closer
+                      const distanceToPlayheadStart = Math.abs(newStart - playheadTime)
+                      const distanceToPlayheadEnd = Math.abs(newEnd - playheadTime)
+                    
+                      if (distanceToPlayheadStart < snapRange && distanceToPlayheadStart < minDistanceStart) {
+                        closestClipStart = null // Playhead is closer, so reset closestClipStart
+                        minDistanceStart = distanceToPlayheadStart
+                      }
+                    
+                      if (distanceToPlayheadEnd < snapRange && distanceToPlayheadEnd < minDistanceEnd) {
+                        closestClipEnd = null // Playhead is closer, so reset closestClipEnd
+                        minDistanceEnd = distanceToPlayheadEnd
+                      }
+                    
+                      // Apply snapping
+                      if (dragType === 'in' && minDistanceStart !== Infinity) {
+                        const snappedStart = closestClipStart
+                          ? closestClipStart.offset + (closestClipStart.out - closestClipStart.in)
+                          : playheadTime
                         const delta = snappedStart - newClipData.offset
                         const newIn = newClipData.in + delta
                         const newOut = newClipData.out
-                        
+                    
                         if (newClipData.type !== 'video' || newOut - newIn <= newClipData.originalDuration) {
                           newClipData.in = newIn
                           newClipData.offset = snappedStart
                         }
                       }
-                      
-                  
-                      if (dragType === 'out' && closestClipEnd) {
-                        const snappedEnd = closestClipEnd.offset
+                    
+                      if (dragType === 'out' && minDistanceEnd !== Infinity) {
+                        const snappedEnd = closestClipEnd
+                          ? closestClipEnd.offset
+                          : playheadTime
                         const newOut = newClipData.in + (snappedEnd - newClipData.offset)
-                  
+                    
                         if (newClipData.type !== 'video' || newOut <= newClipData.originalDuration) {
                           newClipData.out = newOut
                         }
                       }
-                  
+                    
                       if (dragType === 'offset') {
-                        if (closestClipStart) {
-                          const snappedStart = closestClipStart.offset + (closestClipStart.out - closestClipStart.in)
+                        if (minDistanceStart !== Infinity) {
+                          const snappedStart = closestClipStart
+                            ? closestClipStart.offset + (closestClipStart.out - closestClipStart.in)
+                            : playheadTime
                           newClipData.offset = snappedStart
                         }
-                  
-                        if (closestClipEnd) {
-                          const snappedEnd = closestClipEnd.offset
+                    
+                        if (minDistanceEnd !== Infinity) {
+                          const snappedEnd = closestClipEnd
+                            ? closestClipEnd.offset
+                            : playheadTime
                           newClipData.offset = snappedEnd - (newClipData.out - newClipData.in)
                         }
                       }
                     }
-                  
+                    
                     const targetClipIndex = clipData.findIndex(clip => clip.id === newClipData.id)
 
                     let updatedClipData = [...clipData]
