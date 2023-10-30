@@ -435,6 +435,7 @@ export const Timeline = ({ }: TimelineProps) => {
   const [originalTotalDuration, setOriginalTotalDuration] = useState(20000)
   const [totalDuration, setTotalDuration] = useState(originalTotalDuration)
   const [scale, setScale] = useState(50)
+  const [frameRate, setFrameRate] = useState(30)
 
   const [selectedClip, setSelectedClip] = useState('')
 
@@ -533,7 +534,6 @@ export const Timeline = ({ }: TimelineProps) => {
   const lastActiveVideoElement = useRef<HTMLVideoElement | null>(null)
 
   const startDrawing = (element: HTMLVideoElement, startTime: number, endTime: number) => {
-    console.log(startTime)
     lastActiveVideoElement.current = element
 
     videoStarted.current = true
@@ -814,6 +814,33 @@ export const Timeline = ({ }: TimelineProps) => {
     lastFrameTime.current = Date.now() - newTime
   }
 
+  const frameBackward = async () => {
+    const newTime = playheadTime.current - 1000 / frameRate
+    if (newTime < 0) {
+      playheadTime.current = 0
+    } 
+    else {
+      playheadTime.current = newTime
+    }
+  
+    const newOffset = (playheadTime.current / totalDuration) * 100
+    setPlayheadPosition(newOffset)
+    videoStarted.current = false
+  
+    lastFrameTime.current = Date.now() - playheadTime.current
+  }
+  
+  const frameForward = async () => {
+    const newTime = playheadTime.current + 1000 / frameRate
+    playheadTime.current = newTime
+  
+    const newOffset = (newTime / totalDuration) * 100
+    setPlayheadPosition(newOffset)
+    videoStarted.current = false
+  
+    lastFrameTime.current = Date.now() - newTime
+  }
+  
   const [snap, setSnap] = useState(true)
   const [snapRange, setSnapRange] = useState(250)
   const toggleSnap = () => setSnap(!snap)
@@ -1172,6 +1199,27 @@ export const Timeline = ({ }: TimelineProps) => {
       }
     }
   }
+
+  const screenshot = async () => {
+    const canvas = canvasRef.current
+    if (!canvas) {
+      console.error('Canvas reference not found.')
+      return
+    }
+    const dataURL = canvas.toDataURL('image/png')
+    
+    const blob = await (await fetch(dataURL)).blob()
+    const file = new File([blob], 'screenshot.png', { type: 'image/png' })
+    
+    const a = document.createElement('a')
+    const url = URL.createObjectURL(file)
+    a.href = url
+    a.download = 'screenshot.png'
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+  }
   
 
   return (<T.Timeline>
@@ -1247,10 +1295,24 @@ export const Timeline = ({ }: TimelineProps) => {
               onClick={skipBack}
             />
             <Button
+              icon={'angle-left'}
+              iconPrefix='fas'
+              minimal
+              compact
+              onClick={frameBackward}
+            />
+            <Button
               icon={isPlaying ? 'pause' : 'play'}
               iconPrefix='fas'
               circle
               onClick={handlePlayPause}
+            />
+            <Button
+              icon={'angle-right'}
+              iconPrefix='fas'
+              minimal
+              compact
+              onClick={frameForward}
             />
             <Button
               icon={'fast-forward'}
@@ -1267,9 +1329,17 @@ export const Timeline = ({ }: TimelineProps) => {
               off={!loop}
               onClick={() => setLoop(!loop)}
             />
+           
 
             <T.CurrentTime>{ formatTime(playheadTime.current) }</T.CurrentTime> ∕ <T.TotalTime>{ formatTime(maxOutValue) }</T.TotalTime>
           
+            <Button
+              icon={'camera'}
+              iconPrefix='fas'
+              minimal
+              compact
+              onClick={screenshot}
+            />
             <Spacer />
 
             <Gap autoWidth gap={.25}>

@@ -67,7 +67,9 @@ library.add(
   fas.faFastBackward, fas.faFastForward, fas.faMagnet, fas.faClapperboard,
   fas.faPhotoVideo, fas.faArrowUpFromBracket, fas.faArrowsLeftRightToLine,
   fas.faMagnifyingGlassMinus, fas.faMagnifyingGlassPlus, fas.faCog,
-  fas.faScissors, fas.faEyedropper, fas.faGrip, fas.faList, fas.faAddressCard
+  fas.faScissors, fas.faEyedropper, fas.faGrip, fas.faList, fas.faAddressCard,
+  fas.faCaretRight, fas.faCaretLeft, fas.faAngleLeft, fas.faAngleRight, 
+  fas.faAnglesLeft, fas.faAnglesRight, fas.faCamera
 )
 
 export const parameters = {
