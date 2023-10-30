@@ -517,6 +517,9 @@ export const Timeline = ({ }: TimelineProps) => {
     videoStarted.current = false
     if (!isPlaying) {
       const currentPlayheadTime = (playheadPosition / 100) * totalDuration
+      if (lastActiveVideoElement.current && videoStarted.current) {
+        lastActiveVideoElement.current.currentTime = currentPlayheadTime / 1000
+      }
       if (Math.abs(maxOutValue - currentPlayheadTime) <= 100) {
         lastFrameTime.current = Date.now()
       } else {
@@ -582,6 +585,49 @@ export const Timeline = ({ }: TimelineProps) => {
     element.requestVideoFrameCallback(onFrame)
   }
 
+  const drawVideoAtTime = (videoElement: HTMLVideoElement, timeWithinClip: number) => {
+    return new Promise<void>((resolve) => {
+      const handleSeeked = () => {
+        if (canvasRef.current) {
+          const ctx = canvasRef.current.getContext('2d')
+          if (ctx) {
+            ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height)
+    
+            const videoWidth = videoElement.videoWidth
+            const videoHeight = videoElement.videoHeight
+            const videoAspectRatio = videoWidth / videoHeight
+    
+            const canvasWidth = canvasRef.current.width
+            const canvasHeight = canvasRef.current.height
+            const canvasAspectRatio = canvasWidth / canvasHeight
+    
+            let drawWidth, drawHeight, offsetX, offsetY
+    
+            if (canvasAspectRatio > videoAspectRatio) {
+              drawHeight = canvasHeight
+              drawWidth = canvasHeight * videoAspectRatio
+              offsetX = (canvasWidth - drawWidth) / 2
+              offsetY = 0
+            } 
+            else {
+              drawWidth = canvasWidth
+              drawHeight = canvasWidth / videoAspectRatio
+              offsetX = 0
+              offsetY = (canvasHeight - drawHeight) / 2
+            }
+    
+            ctx.drawImage(videoElement, offsetX, offsetY, drawWidth, drawHeight)
+            videoElement.removeEventListener('seeked', handleSeeked)
+            resolve()
+          }
+        }
+      }
+  
+      videoElement.addEventListener('seeked', handleSeeked)
+      videoElement.currentTime = timeWithinClip / 1000
+    })
+  }
+  
   const drawImage = async (imageElement: HTMLImageElement) => {
     if (canvasRef.current) {
       const ctx = canvasRef.current.getContext('2d')
@@ -621,7 +667,6 @@ export const Timeline = ({ }: TimelineProps) => {
     const elapsed = currentTime - lastFrameTime.current
     const elapsedPercentage = (elapsed / totalDuration) * 100
   
-    // Determine the active clip based on playhead position
     const activeClip = clipData.find(clip => {
       const clipDuration = clip.out - clip.in
       const clipStart = clip.offset
@@ -634,19 +679,18 @@ export const Timeline = ({ }: TimelineProps) => {
     })
   
     if (activeClip) {
-      // Calculate the time to playback of the active clip
+      const relativeTimeWithinClip = (playheadTime - activeClip.offset) + activeClip.in
+  
       if (activeClip.type == 'image') {
-        // @ts-ignore
-        drawImage(activeClip.element)
+        drawImage(activeClip.element as HTMLImageElement)
         lastActiveVideoElement.current?.pause()
       }
       else {
-        if (!videoStarted.current) {
-          startDrawing(activeClip.element as HTMLVideoElement, activeClip.in, activeClip.out)
-        }
-        if (clipPlaying.current !== activeClip.id) {
+        if (!videoStarted.current || clipPlaying.current !== activeClip.id) {
+          videoStarted.current = true
           lastActiveVideoElement.current?.pause()
-          startDrawing(activeClip.element as HTMLVideoElement, activeClip.in, activeClip.out)
+          startDrawing(activeClip.element as HTMLVideoElement, relativeTimeWithinClip, activeClip.out)
+          clipPlaying.current = activeClip.id
         }
       }
     }
@@ -659,7 +703,7 @@ export const Timeline = ({ }: TimelineProps) => {
         }
       }
     }
-    
+  
     if (elapsed >= maxOutValue) {
       if (loop) {
         lastFrameTime.current = currentTime
@@ -705,6 +749,34 @@ export const Timeline = ({ }: TimelineProps) => {
     }
   }, [isPlaying])
 
+  useEffect(() => {
+    if (!isPlaying) {
+      const intersectingClip = clipData.find(clip => {
+        const clipDuration = clip.out - clip.in
+        const clipStart = clip.offset
+        const clipEnd = clip.offset + clipDuration
+        
+        const clipStartPercentage = (clipStart / totalDuration) * 100
+        const clipEndPercentage = (clipEnd / totalDuration) * 100
+        
+        return playheadPosition >= clipStartPercentage && playheadPosition <= clipEndPercentage
+      })
+      
+      if (intersectingClip) {
+        const relativeTimeWithinClip = (playheadTime - intersectingClip.offset) + intersectingClip.in
+  
+        if (intersectingClip.type === 'image') {
+          drawImage(intersectingClip.element as HTMLImageElement)
+        } 
+        else if (intersectingClip.type === 'video') {
+          (async () => {
+            await drawVideoAtTime(intersectingClip.element as HTMLVideoElement, relativeTimeWithinClip)
+          })()
+        }
+      }
+    }
+  }, [playheadPosition, playheadTime, isPlaying])
+
   const skipForward = async () => {
     const nextOffsets = clipData.map(clip => (clip.offset / totalDuration) * 100).filter(offset => offset > playheadPosition)
     if (nextOffsets.length === 0) return
@@ -714,7 +786,7 @@ export const Timeline = ({ }: TimelineProps) => {
     videoStarted.current = false
 
   
-    const newTime = (closestNextOffset / 100) * totalDuration
+    const newTime = (closestNextOffset / 100) * totalDuration 
     setPlayheadTime(newTime)
   
     lastFrameTime.current = Date.now() - newTime
@@ -1049,7 +1121,7 @@ export const Timeline = ({ }: TimelineProps) => {
       document.removeEventListener('touchmove', touchMoveHandler)
     }
   }, [isPlayheadDragging, initialPlayheadCoordinate, initialPlayheadPosition, playheadContainerRef.current, totalDuration])
-  
+
   return (<T.Timeline>
       <T.Taskbar>    
         <Spacer />
@@ -1214,9 +1286,7 @@ export const Timeline = ({ }: TimelineProps) => {
               <DropTarget 
                 acceptedOrigins={['media']} 
                 onDrop={data => {
-                  console.log(data)
                   const originalElement = document.getElementById(data.clip.id)
-                  console.log(originalElement)
                   if (originalElement) {
                     const id = generateUUID()
                     const cloned = originalElement.cloneNode() as HTMLElement
@@ -1283,7 +1353,7 @@ export const Timeline = ({ }: TimelineProps) => {
                         closestClipEnd = null // Playhead is closer, so reset closestClipEnd
                         minDistanceEnd = distanceToPlayheadEnd
                       }
-                    
+
                       // Apply snapping
                       if (dragType === 'in' && minDistanceStart !== Infinity) {
                         const snappedStart = closestClipStart
