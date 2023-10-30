@@ -8,9 +8,9 @@ var defaultConfig = {
     popoutWholeStack: false,
     blockedPopoutsThrowError: true,
     closePopoutsOnUnload: true,
-    showPopoutIcon: true,
-    showMaximiseIcon: true,
-    showCloseIcon: true,
+    showPopoutIcon: false,
+    showMaximiseIcon: false,
+    showCloseIcon: false,
     responsiveMode: 'onload',
     // Can be onload, always, or none.
     tabOverlapAllowance: 0,

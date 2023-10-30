@@ -62,7 +62,7 @@ Default.args = {
                 type: 'column',
                 content: [
                   {
-                    component: () => <PlaceholderContent />,
+                    component: () => <></>,
                     title: 'Playlist'
                   }, 
                 ]
@@ -73,15 +73,15 @@ Default.args = {
             type: 'row',
             content: [
               {
-                component: () => <PlaceholderContent />,
+                component: () => <></>,
                 title: 'Visuals'
               },
               {
-                component: () => <PlaceholderContent />,
+                component: () => <></>,
                 title: 'Effects'
               },
               {
-                component: () => <PlaceholderContent />,
+                component: () => <></>,
                 title: 'Sources'
               },
             ]
