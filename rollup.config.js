@@ -7,6 +7,8 @@ import autoExternal from 'rollup-plugin-auto-external'
 import postcss from 'rollup-plugin-postcss'
 import cleanup from 'rollup-plugin-cleanup'
 import { terser } from 'rollup-plugin-terser'
+import replace from '@rollup/plugin-replace'
+import copy from 'rollup-plugin-copy'
 
 const packageJson = require('./package.json')
 
@@ -39,6 +41,7 @@ export default [
       },
       resolve(),
       commonjs(),
+     
       typescript({ tsconfig: './tsconfig.json' }),
       postcss({
         include: '**/index.dark.css',
@@ -51,14 +54,25 @@ export default [
       visualizer(),
       autoExternal(),
       cleanup(),
-      terser()
+      terser(),
+      replace({
+        './src': './components/Docking/src',
+        delimiters: ['', '']
+      }),
+      copy({
+        targets: [
+          { src: 'src/components/Docking/src/*', dest: 'dist/esm/components/Docking/src' }
+        ]
+      }),
     ],
     inlineDynamicImports: false
   },
   {
     input: 'dist/esm/index.d.ts',
     output: [{ file: 'dist/index.d.ts', format: 'esm' }],
-    plugins: [dts()],
+    plugins: [
+      dts(),
+    ],
     external: [/\.css$/]
   },
   {

@@ -68,6 +68,8 @@ export { VideoPlayer } from './components/VideoPlayer/VideoPlayer'
 export { AudioPlayer } from './components/AudioPlayer/AudioPlayer'
 export { NumberInput } from './components/NumberInput/NumberInput'
 export { GroupRadius } from './components/GroupRadius/GroupRadius'
+export { ZoomSlider } from './components/Sliders/ZoomSlider'
+export { Docking } from './components/Docking/Docking'
 
 import { Link } from './components/Link/Link'
 let linkComponent = Link as any
@@ -124,3 +126,4 @@ export { getAlphabetLetter } from './utils/getAlphabetLetter'
 export { generateThumbnail } from './utils/generateThumbnail'
 export { generateVideoThumbnails } from './utils/generateThumbnail'
 export { blobURLToFile } from './utils/blobURLToFile'
+export { insertCSS } from './utils/insertCSS'

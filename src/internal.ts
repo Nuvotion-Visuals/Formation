@@ -31,6 +31,7 @@ export { getAlphabetLetter } from './utils/getAlphabetLetter'
 export { generateThumbnail } from './utils/generateThumbnail'
 export { generateVideoThumbnails } from './utils/generateThumbnail'
 export { blobURLToFile } from './utils/blobURLToFile'
+export { insertCSS } from './utils/insertCSS'
 
 // hooks
 export { useBreakpoint } from './hooks/useBreakpoint'
