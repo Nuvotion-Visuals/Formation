@@ -297,7 +297,7 @@ const S = {
     align-items: center;
     padding: 0 1rem;
     padding: ${props => props.compact ? '0 .5rem' : '0 .75rem'};
-    width: ${props => props.compact ? 'calc(100% - 1.5rem)' : 'calc(100% - 2rem)'};
+    width: ${props => props.compact ? 'calc(100% - 1rem)' : 'calc(100% - 1.5rem)'};
     height: ${props => 
       props.hero
         ? 'var(--F_Input_Height_Hero)'

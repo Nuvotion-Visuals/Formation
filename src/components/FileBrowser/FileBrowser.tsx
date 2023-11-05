@@ -1,8 +1,9 @@
 import React, { useState, useMemo, useCallback, useRef, useEffect } from 'react'
 import styled from 'styled-components'
 
-import { TextInput, Button, Icon, LoadingSpinner, Gap, Box, DragOrigin, generateThumbnail } from '../../internal'
+import { TextInput, Button, Icon, LoadingSpinner, Gap, Box, DragOrigin, generateThumbnail, Spacer } from '../../internal'
 import { Placeholders } from './Placeholders'
+import { IconPrefix } from '@fortawesome/fontawesome-common-types'
 
 const LazyThumbnail = ({ file, thumbnailCache }: { file: File, thumbnailCache: any}) => {
   const [src, setSrc] = useState<string | null>(null)
@@ -70,11 +71,19 @@ interface FolderStructureProps {
   selectedSourceName: string
   setPendingSourceToApply: Function // Define the correct type for this function
   setLayerSource: Function // Define the correct type for this function
-  handleFileClickProp: (name: string, file: File) => void
+  handleFileClickProp: (name: string, file: File) => void,
+  iconPrefix?: IconPrefix
   // Add other props here if needed
 }
 
-export const FileBrowser = ({ sourceNames, selectedSourceName, setPendingSourceToApply, setLayerSource, handleFileClickProp }: FolderStructureProps) => {
+export const FileBrowser = ({
+  sourceNames, 
+  selectedSourceName, 
+  setPendingSourceToApply, 
+  setLayerSource, 
+  handleFileClickProp,
+  iconPrefix
+}: FolderStructureProps) => {
   const [folderStructure, setFolderStructure] = useState<FolderEntry[]>([])
   const [collapsed, setCollapsed] = useState<boolean>(true)
   const [loading, setLoading] = useState<boolean>(false)
@@ -261,8 +270,8 @@ export const FileBrowser = ({ sourceNames, selectedSourceName, setPendingSourceT
             <>
               <S.Name onClick={() => handleCollapseExpand(entry.name)}>
                 <S.FolderButton>
-                  <Icon icon={entry.collapsed ? 'caret-right' : 'caret-down'} iconPrefix='fas' fixedWidth />
-                  <Icon icon={'folder'} iconPrefix='fas' fixedWidth />
+                  <Icon icon={entry.collapsed ? 'caret-right' : 'caret-down'} iconPrefix={iconPrefix ? iconPrefix : 'fas'} fixedWidth />
+                  <Icon icon={'folder'} iconPrefix={iconPrefix ? iconPrefix : 'fas'} fixedWidth />
                 </S.FolderButton>
                 {entry.name}/ ({countFilesAndFolders(entry.entries || []).folders} Folders,{' '}
                 {countFilesAndFolders(entry.entries || []).files} Files)
@@ -320,16 +329,17 @@ export const FileBrowser = ({ sourceNames, selectedSourceName, setPendingSourceT
   return (
     <S.SourceTree>
       <Gap>
-        <Gap disableWrap>
-         
+        <Box wrap width={'100%'}>
           {
             selectedFolderName ? <S.SelectedFolder>
               <div>/{selectedFolderName}</div>
-              <Gap autoWidth><Icon icon='folder' iconPrefix='fas' /><div>{totalCount.folders}</div></Gap>
-              <Gap autoWidth><Icon icon='image' iconPrefix='fas' /><div>{totalCount.files}</div></Gap>
+              <Gap autoWidth><Icon icon='folder' iconPrefix={iconPrefix ? iconPrefix : 'fas'} /><div>{totalCount.folders}</div></Gap>
+              <Gap autoWidth><Icon icon='image' iconPrefix={iconPrefix ? iconPrefix : 'fas'} /><div>{totalCount.files}</div></Gap>
               <Button
                 text={'Change Folder'}
                 onClick={handleSelectFolder}
+                compact
+                minimal
               />
             </S.SelectedFolder>
             : <S.Initial>
@@ -345,34 +355,37 @@ export const FileBrowser = ({ sourceNames, selectedSourceName, setPendingSourceT
                               handleSelectFolder()
                             }}
                             icon='folder'
-                            iconPrefix='fas'
-                            hero
-                            primary
+                            iconPrefix={iconPrefix ? iconPrefix : 'fas'}
                           />
                     }
                   </Box>
                 </Placeholders>
               </S.Initial>
           }
-        </Gap>
+          <Spacer />
+        </Box>
       
         {
           filteredStructure.length > 0 && <>
-            <Gap disableWrap>
+            <Box width={'100%'}>
               <TextInput
                 placeholder="Search"
                 compact
                 canClear={searchTerm !== ''}
                 value={searchTerm}
                 onChange={(value) => setSearchTerm(value)}
+                icon='search'
+                iconPrefix={iconPrefix ? iconPrefix : 'fas'}
               />
               <Button
                 text={collapsed ? 'Expand' : 'Collapse'}
                 icon={collapsed ? 'caret-down' : 'caret-right'}
-                iconPrefix='fas'
+                iconPrefix={iconPrefix ? iconPrefix : 'fas'}
                 onClick={handleCollapseExpandAll}
+                compact
+                minimal
               />
-            </Gap>
+            </Box>
           </>
         }
       </Gap>
@@ -406,8 +419,8 @@ const S = {
   `,
 
   SelectedFolder: styled.div`
-    font-size: var(--Font_Size);
-    color: var(--Font_Color);
+    font-size: var(--F_Font_Size_Label);
+    color: var(--F_Font_Color);
     display: flex;
     align-items: center;
     gap: 8px;
@@ -452,8 +465,8 @@ const S = {
   FolderName: styled.span`
     /* Add your styles for the folder name here */
     cursor: pointer;
-    font-size: var(--Font_Size);
-    color: var(--Font_Color);
+    font-size: var(--F_Font_Size_Label);
+    color: var(--F_Font_Color);
   `,
 
   FolderStructure: styled.ul`
@@ -464,16 +477,16 @@ const S = {
 
   LoadingText: styled.div`
     font-size: 12px;
-    color: var(--Font_Color_Disabled);
+    color: var(--F_Font_Color_Disabled);
     width: 100%;
     height: 100%;
     display: flex;
     align-items:center;
     justify-content: center;
-    box-shadow: var(--Outline);
-    font-size: var(--Font_Size);
-    color: var(--Font_Color);
-    border-radius: var(--Tile_Radius);
+    box-shadow: var(--F_Outline);
+    font-size: var(--F_Font_Size_Label);
+    color: var(--F_Font_Color);
+    border-radius: var(--F_Tile_Radius);
   `,
 
   Name: styled.div`
@@ -481,8 +494,8 @@ const S = {
     height: 24px;
     display: flex;
     align-items: center;
-    font-size: var(--Font_Size);
-    color: var(--Font_Color);
+    font-size: var(--F_Font_Size_Label);
+    color: var(--F_Font_Color);
   `,
 
   FileName: styled.div`
@@ -490,8 +503,8 @@ const S = {
     height: 48px;
     display: flex;
     align-items: center;
-    font-size: var(--Font_Size);
-    color: var(--Font_Color);
+    font-size: var(--F_Font_Size_Label);
+    color: var(--F_Font_Color);
   `,
 
   FileEntry: styled.li<{ level: number }>`
@@ -508,19 +521,19 @@ const S = {
 
   File: styled.div`
   &:hover {
-      background: var(--Surface_0);
+      background: var(--F_Surface_0);
     }
     &:active {
-      background: var(--Surface);
+      background: var(--F_Surface);
     }
   `,
 
   Selected: styled.div`
-    box-shadow: var(--Outline_Primary);
+    box-shadow: var(--F_Outline_Primary);
     position: absolute;
     width: 100%;
     height: 100%;
-    border-radius: var(--Tile_Radius);
+    border-radius: var(--F_Tile_Radius);
     top: 0;
     left: 0;
     pointer-events: none;

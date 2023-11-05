@@ -11,19 +11,21 @@ type Tab = {
   iconPrefix?: IconPrefix,
   onClick?: (e: React.MouseEvent) => void,
   prefix?: IconPrefix,
-  suffix?: string
+  suffix?: string,
 }
 
 type Props = {
   tabs: Tab[],
   onSetActiveTab: (arg0: string) => any,
-  initialActiveTab: string
+  initialActiveTab: string,
+  compact?: boolean
 }
 
 export const Tabs = React.memo(({ 
   tabs, 
   onSetActiveTab, 
-  initialActiveTab
+  initialActiveTab,
+  compact
 }: Props) => {
 
   const [localActiveTab, set_localActiveTab] = useState(initialActiveTab)
@@ -49,6 +51,7 @@ export const Tabs = React.memo(({
             }} 
             secondary={name !== localActiveTab}
             tab={true}
+            compact={compact}
           /> 
         )
       }

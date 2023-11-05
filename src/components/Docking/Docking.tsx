@@ -3,18 +3,21 @@ import styled from 'styled-components'
 import { LoadingSpinner, insertCSS } from '../../internal'
 
 interface Props {
-  config: any
+  config: any,
+  onLoaded: () => void
 }
 
 export const Docking = ({
-  config
+  config,
+  onLoaded
 }: Props) => {
   const [layoutManager, setLayoutManager] = useState({})
 
   const [content, set_content] = useState(<S.LoadingContainer><LoadingSpinner /></S.LoadingContainer>)
 
   useEffect(() => {
-    insertCSS(`
+    (async () => {
+      insertCSS(`
       .lm_root {
         position: relative;
       }
@@ -57,8 +60,8 @@ export const Docking = ({
         width: 100%;
         position: absolute;
         cursor: ns-resize;
-        height: 5px !important;
-        top: 0 !important;
+        height: .5rem !important;
+        top: -.25rem !important;
         
       }
       .lm_splitter.lm_horizontal {
@@ -69,8 +72,8 @@ export const Docking = ({
         height: 100%;
         position: absolute;
         cursor: ew-resize;
-        left: 0 !important;
-        width: 5px !important;
+        left: -.25rem !important;
+        width: .5rem !important;
       }
       .lm_header {
         overflow: visible;
@@ -107,6 +110,7 @@ export const Docking = ({
         position: absolute;
         width: 100%;
         height: 20px;
+        background: var(--F_Background);
       }
       .lm_header .lm_tab {
         cursor: pointer;
@@ -114,8 +118,8 @@ export const Docking = ({
         display: flex;
         align-items: center;
         height: 20px;
-        padding: 0px 14px 0px;
-        border-radius: var(--F_Tile_Radius) var(--F_Tile_Radius) 0 0;
+        padding-left: 12px;
+        padding-right: 8px;
         position: relative;
       }
       .lm_header .lm_tab i {
@@ -135,6 +139,7 @@ export const Docking = ({
         display: inline-block;
         overflow: hidden;
         text-overflow: ellipsis;
+        color: var(--F_Font_Color_Disabled);
       }
       .lm_header .lm_tab .lm_close_tab {
         width: 14px;
@@ -374,18 +379,15 @@ export const Docking = ({
       }
       
       .lm_goldenlayout {
-        background: #000000;
+        background: var(--F_Background);
       }
       .lm_content {
         background: var(--F_Background);
         border: 1px solid transparent;
-        border-radius: 0 var(--F_Tile_Radius) 0 0;
       }
       .lm_dragProxy .lm_content {
-        box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
       }
       .lm_dropTargetIndicator {
-        box-shadow: inset 0 0 30px #000000;
         outline: 1px dashed #cccccc;
       }
       .lm_dropTargetIndicator .lm_inner {
@@ -394,7 +396,7 @@ export const Docking = ({
       }
       .lm_splitter {
         background: #000000;
-        opacity: 0.001;
+        opacity: 1;
         transition: opacity 200ms ease;
       }
       .lm_splitter:hover,
@@ -409,7 +411,7 @@ export const Docking = ({
         font-family: Arial, sans-serif;
         font-size: 13px;
         color: var(--F_Font_Color_Disabled);
-        background: var(--F_Background_Alternating);
+        background: var(--F_Background);
         margin-right: 2px;
       
       }
@@ -428,6 +430,10 @@ export const Docking = ({
       }
       .lm_header .lm_tab.lm_active {
         border-bottom: none;
+      }
+      .lm_header .lm_tab.lm_active .lm_title {
+        border-bottom: none;
+        color: var(--F_Font_Color);
       }
       .lm_header .lm_tab.lm_active .lm_close_tab {
         opacity: 1;
@@ -514,7 +520,6 @@ export const Docking = ({
       }
     `);
 
-    (async () => {
       const { GoldenLayoutComponent } = require('./src')
       set_content(
         <GoldenLayoutComponent
@@ -524,6 +529,9 @@ export const Docking = ({
           onLayoutReady={setLayoutManager}
         />
       )
+      if (onLoaded) {
+        onLoaded()
+      }
     })()
   }, [])
 

@@ -36,3 +36,20 @@ Regular.args = {
     }
   ]
 }
+
+
+export const Compact = Template.bind({})
+Compact.args = {
+  tabs: [
+    {
+      name: 'Scene',
+    },
+    {
+      name: 'Layer',
+    },
+    {
+      name: 'Add',
+    }
+  ],
+  compact: true
+}
