@@ -35,6 +35,8 @@ export interface ButtonProps {
   expandVertical?: boolean,
   compact?: boolean,
   children?: React.ReactNode,
+  prefix?: React.ReactNode,
+  disableCenter?: boolean,
   off?: boolean
 }
 
@@ -65,13 +67,15 @@ export const Button: FC<ButtonProps> = React.memo(({
   circle,
   expandVertical,
   compact,
+  prefix,
+  disableCenter,
   children,
   off
 }: ButtonProps) => {
 
   const Link: any = useContext(LinkContext) || IntLink;
 
-  const impliedSquare = !text || circle || square
+  const impliedSquare = circle || square
 
   const renderButton = () => {
     return (
@@ -96,10 +100,15 @@ export const Button: FC<ButtonProps> = React.memo(({
         minimal={minimal}
         minimalIcon={minimalIcon}
         compact={compact}
+        disableCenter={disableCenter}
+        prefix={!!prefix}
       >
         {
+          prefix
+        }
+        {
           icon !== undefined
-            ? <S.IconContainer square={impliedSquare}>
+            ? <S.IconContainer square={impliedSquare} text={!!text}>
               <Icon 
                 iconPrefix={iconPrefix ? iconPrefix : 'far'} 
                 icon={icon}  
@@ -246,6 +255,9 @@ const calculatePadding = (props: ButtonProps) => {
     if (props.square) {
       return '0'
     }
+    else if (props.prefix) {
+      return '0 .75rem 0 0'
+    }
     else {
       return '0 .75rem'
     }
@@ -346,7 +358,7 @@ const S = {
   })<ButtonProps>`
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: ${props => props.prefix || props.disableCenter ? 'left' : 'center'};
     width: 100%;
     padding: ${props => calculatePadding(props)}; 
     background: ${props => calculateBackgroundColor(props)}; 
@@ -370,20 +382,13 @@ const S = {
     width: ${props => props.square && !props.hero
       ? '52px'
       : props.expand ? '100%' : 'auto'}; 
-    border-radius: ${props =>
-      props.hero && props.square
-        ? '100%'
-        : props.tab
-          ? '.5rem .5rem 0 0'
-          : '.5rem'
-    };
     box-shadow: ${props => props.secondary && !props.minimal ? 'var(--F_Outline)' : 'none'};
     border-radius: ${props => 
       props.circle
         ? '100%' 
         : props.tab 
-          ? '.5rem .5rem 0 0' 
-          : '.5rem'
+          ? 'var(--F_Input_Radius) var(--F_Input_Radius) 0 0' 
+          : 'var(--F_Input_Radius)'
     };
     animation: ${props => props.blink 
       ? css`${blink} 1s linear infinite` 
@@ -418,9 +423,10 @@ const S = {
     };
   `),
   IconContainer: React.memo(styled.div<{
-    square?: boolean
+    square?: boolean,
+    text?: boolean
   }>`
-    padding-right: ${props => props.square ? '0' : '.5rem'};
+    padding-right: ${props => props.text ? '.5rem' : '0'};
   `),
   LabelCircle: React.memo(styled.div<{
     labelColor: LabelColor

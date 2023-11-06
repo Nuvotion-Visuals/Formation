@@ -1,7 +1,8 @@
 import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { Button } from '../../internal'
+import { AspectRatio, Button } from '../../internal'
+import styled from 'styled-components'
 
 export default {
   title: 'Input/Button',
@@ -44,6 +45,29 @@ Compact.args = {
   compact: true
 }
 
+const S = {
+  SelectedTransitionPreview: styled.div<{src: string}>`
+    width: 100%;
+    width: 30px;
+    height: 100%;
+    background-image: url(${props => props.src});
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    margin-right: .5rem;
+
+  `,
+}
+
+export const Prefix = Template.bind({})
+Prefix.args = {
+  text: 'Download',
+  prefix: <S.SelectedTransitionPreview src='/blendPreviews/Difference.jpg' />,
+  compact: true
+}
+
+
+
 export const CompactSquare = Template.bind({})
 CompactSquare.args = {
   icon: 'download',
@@ -52,6 +76,12 @@ CompactSquare.args = {
   square: true
 }
 
+export const CompactIcon = Template.bind({})
+CompactIcon.args = {
+  icon: 'download',
+  iconPrefix: 'fas',
+  compact: true,
+}
 
 export const HeroPrimary = Template.bind({})
 HeroPrimary.args = {
