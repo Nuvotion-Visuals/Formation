@@ -55,7 +55,6 @@ const S = {
     background-position: center;
     background-size: cover;
     margin-right: .5rem;
-
   `,
 }
 
@@ -65,8 +64,6 @@ Prefix.args = {
   prefix: <S.SelectedTransitionPreview src='/blendPreviews/Difference.jpg' />,
   compact: true
 }
-
-
 
 export const CompactSquare = Template.bind({})
 CompactSquare.args = {

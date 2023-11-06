@@ -249,3 +249,68 @@ SearchableDropdownWithImages.args = {
     prefix: (bl.name && !bl.name.includes('Modes')) ? <img src={`/blendPreviews/${bl.name}.jpg`} style={{ width: '60px', minWidth: '60px' }} /> : undefined,
   }))
 }
+
+const S = {
+  SelectedTransitionPreview: styled.div<{src: string}>`
+    width: 100%;
+    width: 30px;
+    height: 100%;
+    background-image: url(${props => props.src});
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    margin-right: .5rem;
+  `,
+}
+
+
+export const Prefix = BlendDropdownTemplate.bind({})
+Prefix.args = {
+  text: 'Normal',
+  prefix: <S.SelectedTransitionPreview src='/blendPreviews/Difference.jpg' />,
+  maxWidth: '200px',
+  compact: true,
+  backgroundColor: 'var(--F_Surface)',
+  items: blendModes.map(bl => ({
+    text: bl.name,
+    prefix: (bl.name && !bl.name.includes('Modes')) ? <img src={`/blendPreviews/${bl.name}.jpg`} style={{ width: '60px', minWidth: '60px' }} /> : undefined,
+  }))
+}
+
+const LeftAlignTemplate: ComponentStory<typeof Dropdown> = args => 
+  <Box width={12}>
+    <Dropdown {...args} />
+    <Spacer />
+  </Box>
+
+export const LeftAlign = LeftAlignTemplate.bind({})
+LeftAlign.args = {
+  compact: true,
+  text: 'Dropdown',
+  expand: true,
+  disableCenter: true,
+  items: [
+    {
+      icon: 'heart',
+      text: 'Save',
+      onClick: () => {},
+      compact: true,
+      minimalIcon: true
+    },
+    {
+      icon: 'paper-plane',
+      text: 'Send',
+      onClick: () => {},
+      compact: true,
+      minimalIcon: true
+    },
+    {
+      icon: 'plus',
+      iconPrefix: 'fas',
+      text: 'Add',
+      onClick: () => {},
+      compact: true,
+      minimalIcon: true
+    }
+  ]
+}

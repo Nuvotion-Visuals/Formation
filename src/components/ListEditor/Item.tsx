@@ -37,7 +37,8 @@ export interface ItemProps {
   pageTitle?: string,
   newTab?: boolean,
   value?: any,
-  breakText?: boolean
+  breakText?: boolean,
+  compact?: boolean
 }
 
 export const Item = forwardRef<HTMLDivElement, ItemProps>(({
@@ -66,6 +67,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(({
   breakText,
   value,
   prefix,
+  compact
 }: ItemProps, ref): JSX.Element => {
   const Link: any = useContext(LinkContext) || IntLink;
 
@@ -160,6 +162,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(({
       emphasize={emphasize}
       showHover={onClick !== undefined || href !== undefined}
       pageTitle={pageTitle}
+      compact={compact}
     >
       {
         href !== undefined
@@ -179,11 +182,34 @@ const S = {
     active?: boolean,
     emphasize?: boolean,
     showHover?: boolean,
-    pageTitle?: string
+    pageTitle?: string,
+    compact?: boolean
   }>`
     width: calc(100% - .35rem);
-    height: ${props => props.pageTitle ? 'var(--F_Header_Height)' : 'auto'};
-    padding: ${props => props.pageTitle ? '0 .5rem' : '.175rem'};
+    height: ${props => 
+      props.compact
+        ? 'var(--F_Input_Height_Compact)'
+        : props.pageTitle 
+            ? 'var(--F_Header_Height)' 
+            : 'auto'
+    };
+    max-height: ${props => 
+      props.compact
+        ? 'var(--F_Input_Height_Compact)'
+        : 'auto'
+    };
+    overflow: ${props => 
+      props.compact
+        ? 'hidden'
+        : 'auto'
+    };
+    padding: ${props => 
+      props.pageTitle 
+        ? '0 .5rem' 
+        : props.compact
+          ? '0 .175rem'
+          : '.175rem'
+    };
     display: flex;
     align-items: center;
     position: relative;

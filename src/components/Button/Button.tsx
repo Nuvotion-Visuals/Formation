@@ -376,7 +376,6 @@ const S = {
     display: flex;
     flex: 0 0 100%;
     align-items: center;
-    justify-content: center;
     height: 100%;
     min-width: var(--F_Font_Size_Icon);
     width: ${props => props.square && !props.hero
