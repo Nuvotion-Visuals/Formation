@@ -216,7 +216,7 @@ const S = {
     cursor: ${props => props.showHover ? 'pointer' : 'auto'};
     background: ${props => 
       props.active 
-        ? 'var(--F_Surface_1)' 
+        ? 'var(--F_Surface_2)' 
         : props.emphasize
           ? 'var(--F_Emphasize)'
           : 'none'
@@ -225,10 +225,10 @@ const S = {
       background: ${props => 
         props.showHover
           ? props.active 
-              ? 'var(--F_Surface_1)' 
+              ? 'var(--F_Surface_2)' 
               : props.emphasize
                 ? 'var(--F_Emphasize_Hover)'
-                : 'var(--F_Surface_0)'
+                : 'var(--F_Surface_1)'
           : props.emphasize
             ? 'var(--F_Emphasize)'
             : 'none'
@@ -238,7 +238,7 @@ const S = {
       background: ${props => 
         props.showHover
           ? props.active 
-              ? 'var(--F_Surface_1)' 
+              ? 'var(--F_Surface_2)' 
               : props.emphasize
                 ? 'var(--F_Emphasize_Hover)'
                 : 'var(--F_Surface)'

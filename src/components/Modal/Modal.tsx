@@ -1,5 +1,5 @@
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 
 import { ModalTaskbar } from './ModalTaskbar'
@@ -32,6 +32,23 @@ export const Modal = ({
   footerContent,
   stepsContent
 }: Props) => {
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
+        onClose?.();
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isOpen, onClose]);
 
   const sizes = {
     'sm': 400,
@@ -39,13 +56,14 @@ export const Modal = ({
     'lg': 900,
     'tall': 1100,
     'xl': 1100
-  }
+  };
 
-  const hasSteps = stepsContent !== undefined
+  const hasSteps = stepsContent !== undefined;
 
   return (
     <S.ModalContainer show={isOpen}>
       <S.Modal 
+        ref={modalRef}
         width={sizes[size]} 
         size={size} 
         fullscreen={fullscreen}
@@ -64,25 +82,18 @@ export const Modal = ({
           footer={footerContent !== undefined}
           hasSteps={hasSteps}
         >
-          <S.ModalContent >
-            {
-              content
-            }
+          <S.ModalContent>
+            {content}
           </S.ModalContent>
         </S.Content>
 
-        {
-          footerContent && 
-            <S.Footer fullscreen={fullscreen} hasSteps={hasSteps}>
-              {
-                stepsContent
-              }
-              <S.FooterContent>
-                {
-                  footerContent
-                }
-              </S.FooterContent>
-            </S.Footer>
+        {footerContent && 
+          <S.Footer fullscreen={fullscreen} hasSteps={hasSteps}>
+            {stepsContent}
+            <S.FooterContent>
+              {footerContent}
+            </S.FooterContent>
+          </S.Footer>
         }
       </S.Modal>
     </S.ModalContainer>
@@ -125,7 +136,7 @@ const S = {
     height: ${props => 
       props.fullscreen 
         ? '100%'
-        : 'calc(500px * var(--F_Zoom))'
+        : 'calc(700px * var(--F_Zoom))'
     };
 
     max-width: ${props => props.fullscreen ? '100%' : 'calc(90vw * var(--F_Zoom))'};
@@ -145,7 +156,7 @@ const S = {
           ?` calc(100% - calc(calc(var(--F_Header_Height) * 2) + ${props.hasSteps ? '2.325' : '2'}rem))`
           : `calc(100% - calc(calc(var(--F_Header_Height) * 2) + ${props.hasSteps ? '2.5' : '2'}rem))`
         : '100%'};
-    padding: .75rem;
+    padding: .5rem;
     padding-top: 0;
     overflow-y: auto;
   `,
@@ -163,10 +174,10 @@ const S = {
   }>`
     display: flex;
     flex-wrap: wrap;
-    width: calc(100% - 1.5rem);
-    padding: .75rem;
-    padding-top: ${props => props.hasSteps ? '0' : '.75rem'};
-    gap: .75rem;
+    width: calc(100% - 1rem);
+    padding: .5rem;
+    padding-top: ${props => props.hasSteps ? '0' : '.5rem'};
+    gap: .5rem;
     align-items: flex-start;
   `,
   ModalContent: styled.div`

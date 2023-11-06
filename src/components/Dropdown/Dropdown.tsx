@@ -13,7 +13,6 @@ interface Props extends ButtonProps {
   children?: React.ReactNode,
   isSelect?: boolean,
   disableSearch?: boolean,
-  backgroundColor?: string
 }
 
 export const Dropdown = React.memo((props: Props) => {
@@ -195,11 +194,10 @@ export const Dropdown = React.memo((props: Props) => {
             style={{ visibility: 'hidden' }}
             maxWidth={props.maxWidth}
             isSelect={props.isSelect}
-            backgroundColor={props.backgroundColor}
           >
             {
               enableSearch &&
-                <S.Sticky backgroundColor={props.backgroundColor}>
+                <S.Sticky>
                   <TextInput
                     value={search}
                     onChange={val => set_search(val)}
@@ -276,7 +274,7 @@ const S = {
   }>`
     position: fixed;
     z-index: 1000;
-    background: ${props => props.backgroundColor ? props.backgroundColor : 'var(--F_Background)'};
+    background: var(--F_Surface);
     box-shadow: var(--F_Outline_Outset_Focus);
     border-radius: .375rem;
     overflow: hidden;
@@ -333,7 +331,7 @@ const S = {
     position: sticky;
     top: 0;
     z-index: 1;
-    background: ${props => props.backgroundColor ? props.backgroundColor : 'var(--F_Background)'};
+    background: var(--F_Surface);
     padding: .25rem;
   `
 }

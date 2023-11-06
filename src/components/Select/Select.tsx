@@ -10,7 +10,6 @@ interface Props extends TextInputProps {
   }[],
   onChange: (val: string) => void,
   allowDirectEntry?: boolean,
-  backgroundColor?: string
 }
 
 export const Select = ({
@@ -18,7 +17,6 @@ export const Select = ({
   options,
   onChange,
   allowDirectEntry,
-  backgroundColor,
   ...props
 }: Props) => {
   const [labelValue, setLabelValue] = useState(value)
@@ -77,14 +75,12 @@ export const Select = ({
           setIsOpen(isOpen)
         }}
         isSelect
-        backgroundColor={backgroundColor}
       >
         <TextInput
           value={labelValue}
           onChange={handleInputChange}
           {...props}
           dropdownOpen={isOpen}
-          backgroundColor={backgroundColor}
         />
       </Dropdown>
     </S.Select>

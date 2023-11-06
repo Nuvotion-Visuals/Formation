@@ -48,6 +48,7 @@ export const ModalTaskbar = ({
             title='Close'
             icon='times' 
             iconPrefix={iconPrefix}
+            square
           />
       }
     </S_ModalTaskbar>
@@ -62,8 +63,8 @@ const S_ModalTaskbar = styled.div<{
   align-items: center;
   color: var(--F_Font_Color);
   overflow: hidden;
-  width: calc(100% - 1.5rem);
-  padding: .75rem;
+  width: calc(100% - 1rem);
+  padding: .5rem;
 `
 
 const S_Center = styled.div`
