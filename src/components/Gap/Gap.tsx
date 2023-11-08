@@ -5,19 +5,22 @@ interface Props {
   children: React.ReactNode,
   autoWidth?: boolean,
   disableWrap?: boolean,
-  gap?: number | string
+  gap?: number | string,
+  center?: boolean
 }
 
 export const Gap = React.memo(({ 
   children, 
   autoWidth, 
   disableWrap,
-  gap 
+  gap,
+  center
 }: Props) => 
   <S.Gap 
     autoWidth={autoWidth} 
     disableWrap={disableWrap}
     gap={gap}
+    center={center}
   >
     { 
       children 
@@ -28,7 +31,8 @@ export const Gap = React.memo(({
 interface GapProps {
   autoWidth?: boolean,
   disableWrap?: boolean,
-  gap?: number | string
+  gap?: number | string,
+  center?: boolean
 }
 
 const S = {
@@ -36,6 +40,7 @@ const S = {
     width: ${props => props.autoWidth ? 'auto' : '100%'};
     display: flex;
     align-items: center;
+    justify-content: ${props => props.center ? 'center' : 'left'};
     flex-wrap: ${props => props.disableWrap ? 'none' : 'wrap'};
     gap: 8px;
     gap: ${props => 

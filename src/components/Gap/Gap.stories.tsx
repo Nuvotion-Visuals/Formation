@@ -2,7 +2,7 @@ import React from 'react'
 
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { Button } from '../../internal'
+import { Box, Button } from '../../internal'
 import { Gap } from '../../internal'
 
 export default {
@@ -29,3 +29,20 @@ LargerGap.args = {
   gap: 1
 }
 
+const TemplateWithBox: ComponentStory<typeof Gap> = args => 
+  <Box width={30}>
+    <Gap {...args}>
+      <Button text='Click me' />
+      <Button text='Click me' />
+      <Button text='Click me' />
+      <Button text='Click me' />
+      <Button text='Click me' />
+      <Button text='Click me' />
+      <Button text='Click me' />
+    </Gap>
+  </Box>
+
+export const Center = TemplateWithBox.bind({})
+Center.args = {
+  center: true
+}
