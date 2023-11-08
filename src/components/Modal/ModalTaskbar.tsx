@@ -64,7 +64,7 @@ const S_ModalTaskbar = styled.div<{
   width: 100%;
   height: var(--F_Input_Height_Compact);
   min-height: var(--F_Input_Height_Compact);
-  background: ${props => props.solid ? 'var(--F_Surface)' : 'none'};
+  background: ${props => props.solid ? 'var(--F_Surface_0)' : 'none'};
 `
 
 const S_Center = styled.div`
@@ -83,5 +83,4 @@ const S_Text = styled.span`
   display: flex;
   align-items: center;
   font-size: var(--F_Font_Size_Title);
-  font-weight: 600;
 `
