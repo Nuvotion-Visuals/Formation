@@ -178,3 +178,14 @@ Group.args = {
 Group.parameters = {
   layout: 'fullscreen'
 }
+
+export const DisablePadding = Template.bind({})
+DisablePadding.args = {
+  subtitle: 'Test',
+  iconPrefix: 'fas',
+  minimalIcon: true,
+  disablePadding: true
+}
+DisablePadding.parameters = {
+  layout: 'fullscreen'
+}

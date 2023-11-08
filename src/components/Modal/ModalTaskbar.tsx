@@ -63,6 +63,7 @@ const S_ModalTaskbar = styled.div<{
   overflow: hidden;
   width: 100%;
   height: var(--F_Input_Height_Compact);
+  min-height: var(--F_Input_Height_Compact);
   background: ${props => props.solid ? 'var(--F_Surface)' : 'none'};
 `
 

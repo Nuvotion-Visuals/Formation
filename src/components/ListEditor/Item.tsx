@@ -37,8 +37,9 @@ export interface ItemProps {
   pageTitle?: string,
   newTab?: boolean,
   value?: any,
-  breakText?: boolean,
-  compact?: boolean
+  disableBreak?: boolean,
+  compact?: boolean,
+  disablePadding?: boolean
 }
 
 export const Item = forwardRef<HTMLDivElement, ItemProps>(({
@@ -64,10 +65,11 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(({
   indent,
   pageTitle,
   newTab,
-  breakText,
+  disableBreak,
   value,
   prefix,
-  compact
+  compact,
+  disablePadding
 }: ItemProps, ref): JSX.Element => {
   const Link: any = useContext(LinkContext) || IntLink;
 
@@ -79,31 +81,36 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(({
           : null
       }
       {
-        spaceIcon && <SpaceIcon
-          src={src}
-          onClick={onClick}
-          date={date}
-          href={href}
-          name={title ? title : '?'}
-          icon={icon}
-          iconPrefix={iconPrefix}
-          active={active}
-          labelColor={labelColor}
-        />
+        spaceIcon && 
+          <Box mr={disablePadding ? 0 : -.25}>
+            <SpaceIcon
+              src={src}
+              onClick={onClick}
+              date={date}
+              href={href}
+              name={title ? title : '?'}
+              icon={icon}
+              iconPrefix={iconPrefix}
+              active={active}
+              labelColor={labelColor}
+            />
+          </Box>
       }
       
       {
         (name || icon || src) && !spaceIcon
-          ? <S.AvatarContainer active={active}>
-              <Avatar
-                name={name ? getInitials(name) : '?'}
-                labelColor={labelColor}
-                icon={icon}
-                iconPrefix={iconPrefix}
-                minimalIcon={minimalIcon}
-                src={src}
-              />
-            </S.AvatarContainer>
+          ? <Box mr={disablePadding ? 0 : -.25}>
+              <S.AvatarContainer active={active}>
+                <Avatar
+                  name={name ? getInitials(name) : '?'}
+                  labelColor={labelColor}
+                  icon={icon}
+                  iconPrefix={iconPrefix}
+                  minimalIcon={minimalIcon}
+                  src={src}
+                />
+              </S.AvatarContainer>
+            </Box> 
           : null
       }
 
@@ -113,31 +120,47 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(({
 
       <S.Flex minimal={minimalIcon}>
         {
-          name && <S.Text active={active}>{ name }</S.Text>
+          name && <S.Text active={active} disablePadding={disablePadding}>{ name }</S.Text>
         }
 
         {
-          label && <S.Text active={active}>{ label }</S.Text>
+          !disableBreak && <Break />
         }
 
         {
-          pageTitle && <S.PageTitle active={active}>{ pageTitle }</S.PageTitle>
+          label && <S.Text active={active} disablePadding={disablePadding}>{ label }</S.Text>
         }
 
         {
-          title && <S.Title active={active}>{ title }</S.Title>
+          !disableBreak && <Break />
+        }
+
+        {
+          pageTitle && <S.PageTitle active={active} disablePadding={disablePadding}>{ pageTitle }</S.PageTitle>
+        }
+
+        {
+          !disableBreak && <Break />
+        }
+
+        {
+          title && <S.Title active={active} disablePadding={disablePadding}>{ title }</S.Title>
+        }
+
+        {
+          !disableBreak && <Break />
         }
         
         {
-          text && <S.Text active={active}>{ text }</S.Text>
+          text && <S.Text active={active} disablePadding={disablePadding}>{ text }</S.Text>
         }
 
         {
-          breakText && <Break />
+          !disableBreak && <Break />
         }
 
         {
-          subtitle && <S.Subtitle active={active}>{ subtitle }</S.Subtitle>
+          subtitle && <S.Subtitle active={active} disablePadding={disablePadding}>{ subtitle }</S.Subtitle>
         }
 
         {
@@ -163,6 +186,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(({
       showHover={onClick !== undefined || href !== undefined}
       pageTitle={pageTitle}
       compact={compact}
+      disablePadding={disablePadding}
     >
       {
         href !== undefined
@@ -183,7 +207,8 @@ const S = {
     emphasize?: boolean,
     showHover?: boolean,
     pageTitle?: string,
-    compact?: boolean
+    compact?: boolean,
+    disablePadding?: boolean
   }>`
     width: calc(100% - .35rem);
     height: ${props => 
@@ -204,11 +229,13 @@ const S = {
         : 'auto'
     };
     padding: ${props => 
-      props.pageTitle 
-        ? '0 .5rem' 
-        : props.compact
-          ? '0 .175rem'
-          : '.175rem'
+      props.disablePadding
+        ? '0'
+        : props.pageTitle 
+          ? '0 .5rem' 
+          : props.compact
+            ? '0 .175rem'
+            : '.175rem'
     };
     display: flex;
     align-items: center;
@@ -255,8 +282,6 @@ const S = {
     max-width: 100%;
     display: flex;
     flex-wrap: wrap;
-    gap: .2rem;
-    margin-left: ${props => props.minimal ? '-0.5rem' : '0'};
   `),
   AvatarContainer: React.memo(styled.div<{
     active?: boolean
@@ -269,14 +294,15 @@ const S = {
     }
   `),
   Text: React.memo(styled.div<{
-    active?: boolean
+    active?: boolean,
+    disablePadding?: boolean
   }>`
     display: flex;
     align-items: center;
     font-size: var(--F_Font_Size);
     color: var(--F_Font_Color);
     line-height: 1.33;
-    padding: 0 .5rem;
+    padding: ${props => props.disablePadding ? '0' : '0 .5rem'};
     font-weight: ${props => props.active ? '400' : '400'};
   `),
   Absolute: React.memo(styled.div`
@@ -288,11 +314,12 @@ const S = {
     align-items: center;
   `),
   Title: React.memo(styled.div<{
-    active?: boolean
+    active?: boolean,
+    disablePadding?: boolean
   }>`
     font-size: var(--F_Font_Size_Title);
     color: var(--F_Font_Color);
-    padding: 0 .5rem;
+    padding: ${props => props.disablePadding ? '0' : '0 .5rem'};
     color: var(--F_Font_Color);
     font-weight: ${props => props.active ? '400' : '400'};
     max-width: 100%;
@@ -301,20 +328,22 @@ const S = {
     
   `),
   Subtitle: React.memo(styled.div<{
-    active?: boolean
+    active?: boolean,
+    disablePadding?: boolean
   }>`
     font-size: var(--F_Font_Size_Label);
     color: ${props => props.active ? 'var(--F_Font_Color)' : 'var(--F_Font_Color_Label)'};
-    padding: 0 .5rem;
+    padding: ${props => props.disablePadding ? '0' : '0 .5rem'};
     line-height: 1.33;
   `),
   PageTitle: React.memo(styled.div<{
-    active?: boolean
+    active?: boolean,
+    disablePadding?: boolean
   }>`
     font-size: var(--F_Font_Size_Title);
     color: var(--F_Font_Color);
     font-weight: 600;
-    padding: 0 .5rem;
+    padding: ${props => props.disablePadding ? '0' : '0 .5rem'};
     line-height: 1.33;
   `),
   DropdownSpacer: React.memo(styled.div<{
