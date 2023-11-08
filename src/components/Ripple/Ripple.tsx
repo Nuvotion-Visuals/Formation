@@ -1,73 +1,83 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 
 export const Ripple = () => {
-  useEffect(() => {
-    document.body.appendChild(Object.assign(document.createElement('style'), 
-      {
-        textContent: `
-          .animate {
-            animation: ripple-mo .5s cubic-bezier(.32,.83,.7,.88);
-          }
-          @keyframes ripple-mo {
-            0% {
-              transform: scale(0);
-              opacity: 1;
-            }
-          
-            20% {
-              transform: scale(4);
-              opacity: .7;
-            }
-          
-            100% {
-              transform: scale(6);
-              opacity: 0;
-            }
-          }
-        `
-      }
-    ))
+  const rippleContainerRef = useRef<HTMLDivElement>(null)
 
-    const drawRipple = (e : MouseEvent) => {
-      const node = document.querySelector('.ripple')
-      const newNode = node?.cloneNode(true)
-      if (newNode) {
-        try {
-          (newNode as HTMLElement).classList.add('animate');
-          (newNode as HTMLElement).style.left = `calc(${e.clientX - 5}px * var(--F_Zoom_Scale))`;
-          (newNode as HTMLElement).style.top = `calc(${e.clientY - 5}px * var(--F_Zoom_Scale))`;
-          (newNode as HTMLElement).style.pointerEvents = 'none'
-          node?.parentNode?.replaceChild(newNode, node)
+  useEffect(() => {
+    const styleElement = document.createElement('style')
+    styleElement.textContent = `
+      .animate {
+        animation: ripple-mo .5s cubic-bezier(.32,.83,.7,.88);
+      }
+      @keyframes ripple-mo {
+        0% {
+          transform: scale(0);
+          opacity: 1;
         }
-        catch(e) {
-          console.log(e)
+        20% {
+          transform: scale(1);
+          opacity: .7;
         }
+        100% {
+          transform: scale(1.2);
+          opacity: 0;
+        }
+      }
+    `
+    document.head.appendChild(styleElement)
+
+    const drawRipple = (e: any) => {
+      const rippleContainer = rippleContainerRef.current
+      if (rippleContainer) {
+        const newRipple = document.createElement('div')
+        newRipple.className = 'ripple animate'
+        const rippleSize = 26 // Size of the ripple
+        const x = e.clientX - rippleSize / 2
+        const y = e.clientY - rippleSize / 2
+        newRipple.style.width = `${rippleSize}px`
+        newRipple.style.height = `${rippleSize}px`
+        newRipple.style.left = `${x}px`
+        newRipple.style.top = `${y}px`
+        rippleContainer.appendChild(newRipple)
+
+        setTimeout(() => {
+          newRipple.remove()
+        }, 500)
       }
     }
 
     window.addEventListener('mousedown', drawRipple)
 
     return () => {
-      document.removeEventListener('mousedown', drawRipple)
+      window.removeEventListener('mousedown', drawRipple)
+      document.head.removeChild(styleElement)
     }
   }, [])
 
   return (
-    <S.Ripple className='ripple'></S.Ripple>
+    <S.RippleContainer ref={rippleContainerRef} />
   )
 }
 
 const S = {
-  Ripple: styled.div`
-    width: .5rem;
-    height: .5rem;
-    opacity: 0;
-    transform: scale(0);
-    background: rgba(255,255,255,0.5);
-    border-radius: 50%;
+  RippleContainer: styled.div`
     position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
     z-index: 999;
+    overflow: hidden;
     pointer-events: none;
+
+    .ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.5);
+      transform: scale(0);
+      opacity: 0;
+      pointer-events: none;
+    }
   `
 }

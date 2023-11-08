@@ -1,22 +1,19 @@
-import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 
 import { ModalTaskbar } from './ModalTaskbar'
+import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 
 interface Props {
-  title: string,
+  title?: string,
   icon?: IconName,
   iconPrefix?: IconPrefix,
   content: React.ReactNode,
-  size: 'sm' | 'md' | 'lg' | 'tall' | 'xl',
   fullscreen?: boolean,
   isOpen: boolean,
   onClose?: () => void,
-  onBack?: () => void,
   back?: boolean,
-  footerContent?: React.ReactNode,
-  stepsContent?: React.ReactNode
+  solid?: boolean
 }
 
 export const Modal = ({ 
@@ -24,48 +21,33 @@ export const Modal = ({
   icon,
   iconPrefix,
   content,
-  size,
   fullscreen,
   isOpen,
   onClose,
-  onBack,
-  footerContent,
-  stepsContent
+  solid
 }: Props) => {
-  const modalRef = useRef<HTMLDivElement>(null);
+  const modalRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-        onClose?.();
+        onClose?.()
       }
-    };
+    }
 
     if (isOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('mousedown', handleClickOutside)
     }
 
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [isOpen, onClose]);
-
-  const sizes = {
-    'sm': 400,
-    'md': 500,
-    'lg': 900,
-    'tall': 1100,
-    'xl': 1100
-  };
-
-  const hasSteps = stepsContent !== undefined;
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [isOpen, onClose])
 
   return (
     <S.ModalContainer show={isOpen}>
       <S.Modal 
         ref={modalRef}
-        width={sizes[size]} 
-        size={size} 
         fullscreen={fullscreen}
         id='F_Modal'
       >
@@ -74,27 +56,17 @@ export const Modal = ({
           icon={icon} 
           iconPrefix={iconPrefix}
           onClose={onClose}
-          onBack={onBack}
+          solid={solid}
         />
 
         <S.Content 
           fullscreen={fullscreen}
-          footer={footerContent !== undefined}
-          hasSteps={hasSteps}
+          solid={solid}
         >
           <S.ModalContent>
             {content}
           </S.ModalContent>
         </S.Content>
-
-        {footerContent && 
-          <S.Footer fullscreen={fullscreen} hasSteps={hasSteps}>
-            {stepsContent}
-            <S.FooterContent>
-              {footerContent}
-            </S.FooterContent>
-          </S.Footer>
-        }
       </S.Modal>
     </S.ModalContainer>
   )
@@ -108,85 +80,46 @@ const S = {
     z-index: 1000;
     top: 0;
     left: 0;
-    backdrop-filter: var(--F_Blur);
     width: 100%;
     height: 100%;
-    display: flex;
+    display: ${props => props.show ? 'flex' : 'none'};
     align-items: center;
     justify-content: center;
     background: var(--F_Backdrop_Light);
-    display: ${props => props.show ? 'flex' : 'none'};
   `,
   Modal: styled.div<{
-    width: number,
-    size: string,
     fullscreen?: boolean
   }>`
     box-shadow: ${props => props.fullscreen ? 'none' : 'var(--F_Outline_Outset)'};
     background: var(--F_Background);
     overflow: hidden;
     border-radius: ${props => props.fullscreen ? '0' : '.5rem'};
-    width: ${props => props.width + 'px'};
-    min-height: ${props => props.size === 'tall' ? 'calc(95vh * var(--F_Zoom))' : 'none'};
-    width: ${props => 
-      props.fullscreen 
-        ? '100%'
-        : `calc(${props.width + 'px'} * var(--F_Zoom))`
-    };
-    height: ${props => 
-      props.fullscreen 
-        ? '100%'
-        : 'calc(700px * var(--F_Zoom))'
-    };
-
-    max-width: ${props => props.fullscreen ? '100%' : 'calc(90vw * var(--F_Zoom))'};
-    max-height: ${props => props.fullscreen ? '100%' : 'calc(95vh * var(--F_Zoom))'};
+    width: ${props => props.fullscreen ? '100%' : 'auto'};
+    height: ${props => props.fullscreen ? '100vh' : 'auto'};
+    max-width: ${props => props.fullscreen ? '100%' : '90vw'};
+    max-height: ${props => props.fullscreen ? '100%' : '95vh'};
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
   `,
   Content: styled.div<{
     fullscreen?: boolean,
     footer?: boolean,
-    hasSteps?: boolean
+    hasSteps?: boolean,
+    solid?: boolean,
   }>`
     display: flex;
-    flex-wrap: wrap;
-    height: 100%;
-    height: ${props => 
-      props.footer 
-        ? props.fullscreen
-          ?` calc(100% - calc(calc(var(--F_Header_Height) * 2) + ${props.hasSteps ? '2.325' : '2'}rem))`
-          : `calc(100% - calc(calc(var(--F_Header_Height) * 2) + ${props.hasSteps ? '2.5' : '2'}rem))`
-        : '100%'};
-    padding: .5rem;
-    padding-top: 0;
+    flex: 1;
+    flex-direction: column;
     overflow-y: auto;
-  `,
-  FooterContent: styled.div<{
-    fullscreen?: boolean,
-    hasSteps?: boolean
-  }>`
-    display: flex;
-    width: 100%;
-    align-items: flex-start;
-  `,
-  Footer: styled.div<{
-    fullscreen?: boolean,
-    hasSteps?: boolean
-  }>`
-    display: flex;
-    flex-wrap: wrap;
-    width: calc(100% - 1rem);
     padding: .5rem;
-    padding-top: ${props => props.hasSteps ? '0' : '.5rem'};
-    gap: .5rem;
-    align-items: flex-start;
+    padding-top: ${props => props.solid ? '.5rem' : '0'};
   `,
   ModalContent: styled.div`
     color: var(--F_Font_Color);
     position: relative;
     width: 100%;
     display: flex;
-    flex-wrap: wrap;
     justify-content: center;
-
   `
 }

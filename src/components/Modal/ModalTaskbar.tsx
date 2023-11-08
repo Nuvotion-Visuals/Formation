@@ -2,15 +2,15 @@ import styled from 'styled-components'
 
 import React from 'react'
 
-import { Icon, Spacer, Button } from '../../internal'
+import { Icon, Spacer, Button, Box } from '../../internal'
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 
 interface Props {
   icon?: IconName,
   iconPrefix?: IconPrefix,
-  title: string,
+  title?: string,
   onClose?: () => void,
-  onBack?: () => void,
+  solid?: boolean
 }
 
 export const ModalTaskbar = ({
@@ -18,53 +18,52 @@ export const ModalTaskbar = ({
   iconPrefix,
   title, 
   onClose,
-  onBack,
+  solid
 } : Props) => {
   return (
-    <S_ModalTaskbar>
+    <S_ModalTaskbar solid={solid}>
       {
-        onBack &&
-          <Button
-            onClick={onBack} 
-            title='Back'
-            icon='chevron-left' 
-            iconPrefix={iconPrefix}
-          />
+        title &&
+          <S_Center>
+            {
+              icon !== undefined  
+                ? <Icon icon={icon} iconPrefix={iconPrefix} />
+                : <></>
+            }
+            
+            <S_Text>{title}</S_Text>
+          </S_Center>
       }
-      <S_Center>
-        {
-          icon !== undefined  
-            ? <Icon icon={icon} iconPrefix={iconPrefix} />
-            : <></>
-        }
-        
-        <S_Text>{title}</S_Text>
-      </S_Center>
       <Spacer />
-      {
-        onClose &&
-          <Button
-            onClick={onClose} 
-            title='Close'
-            icon='times' 
-            iconPrefix={iconPrefix}
-            square
-          />
-      }
+      <Box mr={-0.25}>
+        {
+          onClose &&
+            <Button
+              onClick={onClose} 
+              title='Close'
+              icon='times' 
+              iconPrefix={iconPrefix || 'fas'}
+              minimal
+              square
+            />
+        }
+      </Box>
     </S_ModalTaskbar>
   )
 }
 
 const S_ModalTaskbar = styled.div<{
-  fullscreen?: boolean
+  fullscreen?: boolean,
+  solid?: boolean
 }>`
   position: relative;
   display: flex;
   align-items: center;
   color: var(--F_Font_Color);
   overflow: hidden;
-  width: calc(100% - 1rem);
-  padding: .5rem;
+  width: 100%;
+  height: var(--F_Input_Height_Compact);
+  background: ${props => props.solid ? 'var(--F_Surface)' : 'none'};
 `
 
 const S_Center = styled.div`
@@ -84,6 +83,4 @@ const S_Text = styled.span`
   align-items: center;
   font-size: var(--F_Font_Size_Title);
   font-weight: 600;
-  line-height: 1em;
-  
 `
