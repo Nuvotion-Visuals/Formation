@@ -51,6 +51,7 @@ It’s easy to picture how a less saturated version of a color would look like, 
 
   --F_Backdrop: rgba(0, 0, 0, .7);
   --F_Backdrop_Light: rgba(0, 0, 0, 0.4);
+  --F_Blur: blur(5px);
 
   --F_Gradient_To_Background: linear-gradient(to bottom, var(--F_Background_Light), var(--F_Background)); 
 

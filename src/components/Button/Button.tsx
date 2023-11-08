@@ -37,7 +37,8 @@ export interface ButtonProps {
   children?: React.ReactNode,
   prefix?: React.ReactNode,
   disableCenter?: boolean,
-  off?: boolean
+  off?: boolean,
+  invertTab?: boolean
 }
 
 export const Button: FC<ButtonProps> = React.memo(({ 
@@ -70,7 +71,8 @@ export const Button: FC<ButtonProps> = React.memo(({
   prefix,
   disableCenter,
   children,
-  off
+  off,
+  invertTab
 }: ButtonProps) => {
 
   const Link: any = useContext(LinkContext) || IntLink;
@@ -102,6 +104,7 @@ export const Button: FC<ButtonProps> = React.memo(({
         compact={compact}
         disableCenter={disableCenter}
         prefix={!!prefix}
+        invertTab={invertTab}
       >
         {
           prefix
@@ -325,6 +328,21 @@ const calculateActiveBackgroundColor = (props: ButtonProps) => {
   
 }
 
+const calculateBorderRadius = (props: ButtonProps): string => {
+  if (props.circle) {
+    return '100%'
+  } 
+  else if (props.tab) {
+    return 'var(--F_Input_Radius) var(--F_Input_Radius) 0 0'
+  } 
+  else if (props.invertTab) {
+    return '0 0 var(--F_Input_Radius) var(--F_Input_Radius)'
+  } 
+  else {
+    return 'var(--F_Input_Radius)'
+  }
+}
+
 const S = {
   Container: React.memo(styled.div<ContainerProps>`
     cursor: ${props => props.disabled ? 'not-allowed' : 'pointer'}; 
@@ -362,6 +380,7 @@ const S = {
     width: 100%;
     padding: ${props => calculatePadding(props)}; 
     background: ${props => calculateBackgroundColor(props)}; 
+    border-radius: ${props => calculateBorderRadius(props)}; 
     letter-spacing: var(--F_Letter_Spacing);
     border: none;
     position: relative;
@@ -382,13 +401,7 @@ const S = {
       ? '52px'
       : props.expand ? '100%' : 'auto'}; 
     box-shadow: ${props => props.secondary && !props.minimal ? 'var(--F_Outline)' : 'none'};
-    border-radius: ${props => 
-      props.circle
-        ? '100%' 
-        : props.tab 
-          ? 'var(--F_Input_Radius) var(--F_Input_Radius) 0 0' 
-          : 'var(--F_Input_Radius)'
-    };
+    
     animation: ${props => props.blink 
       ? css`${blink} 1s linear infinite` 
       : props.singleBlink

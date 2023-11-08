@@ -45,6 +45,24 @@ Compact.args = {
   compact: true
 }
 
+export const Tab = Template.bind({})
+Tab.args = {
+  text: 'Download',
+  icon: 'download',
+  iconPrefix: 'fas',
+  compact: true,
+  tab: true
+}
+
+export const InvertTab = Template.bind({})
+InvertTab.args = {
+  text: 'Download',
+  icon: 'download',
+  iconPrefix: 'fas',
+  compact: true,
+  invertTab: true
+}
+
 const S = {
   SelectedTransitionPreview: styled.div<{src: string}>`
     width: 100%;

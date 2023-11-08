@@ -1074,7 +1074,6 @@ export const Timeline = ({ }: TimelineProps) => {
                                 }
                               ]}
                             />}
-                            breakText
                           />
                         </DragOrigin>
                       )
