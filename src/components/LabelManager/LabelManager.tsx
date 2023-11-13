@@ -20,6 +20,21 @@ interface Props {
   onChange: (labels: LabelType[]) => void
 }
 
+/**
+ * `LabelManager` is a component that provides a user interface for managing a list of labels. It allows users to create new labels,
+ * edit existing ones, and view a summary of the labels. Each label can be edited in place with an inline `LabelEditor`.
+ *
+ * @component
+ * @param {LabelType[]} value - An array of label objects to be managed.
+ * @param {function} onChange - Callback function to be called with the updated array of label objects when changes are made.
+ *
+ * @example
+ * // Example usage of LabelManager for managing a list of labels
+ * <LabelManager
+ *   value={labelsArray}
+ *   onChange={updatedLabels => console.log(updatedLabels)}
+ * />
+ */
 export const LabelManager = ({ value, onChange }: Props) => {
   const [editingIndex, set_editingIndex] = useState<number | null>(null)
 

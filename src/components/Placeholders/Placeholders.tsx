@@ -5,6 +5,24 @@ interface Props {
   message?: string
 }
 
+/**
+ * This component is designed to act as a placeholder or loading state in a user interface.
+ * It visually indicates that content is in the process of loading, with an optional message displayed at the top.
+ *
+ * The component displays up to 12 placeholder items, each consisting of a circle and a line. 
+ * The circle and line emulate an icon and text respectively, creating a skeleton version of the content that is loading.
+ *
+ * @component
+ * @param {string} [message] - Optional message that is displayed at the top of the placeholder items.
+ *
+ * @example
+ * // Placeholder without any message
+ * <Placeholders />
+ *
+ * @example
+ * // Placeholder with a message
+ * <Placeholders message="Items are loading..." />
+ */
 export const Placeholders = ({ message }: Props) => {
   return (
     <S_Placeholders>

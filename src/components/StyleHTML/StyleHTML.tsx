@@ -5,7 +5,29 @@ interface Props {
   children: React.ReactNode
 }
 
-
+/**
+ * StyleHTML component is used style HTML content in accordance with the design system.
+ * It styles h1-h6 headings, paragraphs (p), links (a), lists (ul, ol), preformatted text (pre),
+ * blockquote, images, figures, tables etc. It also includes styles for subscripts and superscripts.
+ * 
+ * The styling includes text styles, margin, padding, colors, background colors, overflow behaviors, etc.
+ *
+ * @param {React.ReactNode} children - The HTML content to be styled.
+ *
+ *
+ * @example
+ * return (
+ *  <div>
+ *    <StyleHTML>
+ *      {
+ *        //Your HTML content
+ *      }
+ *    </StyleHTML>
+ *  </div>
+ * )
+ * 
+ * @component
+ */
 export const StyleHTML = ({ children }: Props) => {
   return (<S.StyleHTML>
       {

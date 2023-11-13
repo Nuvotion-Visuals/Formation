@@ -11,6 +11,35 @@ interface Props {
   onReorder?: (newValue: ExpandableListProps[]) => void
 }
 
+/**
+ * `ExpandableLists` is a component that renders a collection of expandable lists. Each list can be expanded or collapsed, and optionally, the lists can be reordered.
+ *
+ * @component
+ * @param {ExpandableListProps[]} value - An array of properties for each expandable list.
+ * @param {function} onExpand - Callback function that is called when a list item is expanded. It receives the index of the expanded item.
+ * @param {function} [onReorder] - Optional callback function for reordering the list items. If provided, it enables reordering functionality.
+ *
+ * @example
+ * // Basic usage with expand functionality
+ * <ExpandableLists
+ *   value={[
+ *     { title: 'List 1', content: ['Item 1', 'Item 2'], expanded: false },
+ *     { title: 'List 2', content: ['Item 3', 'Item 4'], expanded: false }
+ *   ]}
+ *   onExpand={(index) => console.log('Expanded list at index:', index)}
+ * />
+ *
+ * @example
+ * // Usage with expand and reorder functionality
+ * <ExpandableLists
+ *   value={[
+ *     { title: 'List 1', content: ['Item 1', 'Item 2'], expanded: false },
+ *     { title: 'List 2', content: ['Item 3', 'Item 4'], expanded: false }
+ *   ]}
+ *   onExpand={(index) => console.log('Expanded list at index:', index)}
+ *   onReorder={(newOrder) => console.log('New order:', newOrder)}
+ * />
+ */
 export const ExpandableLists = ({
   value,
   onExpand,

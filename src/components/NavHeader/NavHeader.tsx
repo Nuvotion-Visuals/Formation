@@ -5,6 +5,21 @@ interface Props {
   children: React.ReactNode
 }
 
+/**
+ * A fixed navigation header component for a web page. It typically contains child elements such as a logo, navigation links, or other content.
+ *
+ * @component
+ * @param {Object} props - The props for the NavHeader component.
+ * @param {React.ReactNode} props.children - The child elements to be displayed within the navigation header.
+ *
+ * @example
+ * return (
+ *   <NavHeader>
+ *     <Logo />
+ *     <NavigationLinks />
+ *   </NavHeader>
+ * )
+ */
 export const NavHeader = React.memo(({ 
   children
 } : Props) => {

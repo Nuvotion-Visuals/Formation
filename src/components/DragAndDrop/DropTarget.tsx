@@ -8,6 +8,25 @@ type DropTargetProps = {
   children: React.ReactNode
 }
 
+/**
+ * `DropTarget` is a container that can receive draggable items. It works with the `DragOrigin` component to handle the drop part of a drag-and-drop operation.
+ * You can specify which origins are accepted, making it versatile for different types of draggable content. When an item is dropped onto the target,
+ * the `onDrop` callback is executed with the item's data, allowing you to define how the application should respond to the drop event.
+ *
+ * @component
+ * @param {function} onDrop - The function to call when a draggable item is dropped onto this target. It receives the item's data as its parameter.
+ * @param {string[]} acceptedOrigins - An array of origins that this drop target accepts. Only items from these origins will trigger the drop event.
+ * @param {React.ReactNode} children - The components to be rendered inside the drop target area.
+ *
+ * @example
+ * // A drop target that accepts items from 'list-item' origin
+ * <DropTarget
+ *   onDrop={handleItemDrop}
+ *   acceptedOrigins={['list-item']}
+ * >
+ *   <div>Drop items here</div>
+ * </DropTarget>
+ */
 export const DropTarget: FC<DropTargetProps> = ({ onDrop, acceptedOrigins, children }) => {
   const [isOver, setIsOver] = useState(false)
   const dropTargetRef = useRef<HTMLDivElement | null>(null)

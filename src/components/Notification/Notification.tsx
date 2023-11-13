@@ -12,6 +12,43 @@ interface Props {
   iconPrefix: IconPrefix
 }
 
+/**
+ * A notification component that displays a message with an icon, typically used for conveying different types of messages (e.g., success, error, warning, info).
+ *
+ * @component
+ * @param {Object} props - The props for the Notification component.
+ * @param {string} props.type - The type of notification ('success', 'error', 'warning', or 'info').
+ * @param {React.ReactNode} props.children - The content of the notification, which can include text or other React elements.
+ * @param {boolean} [props.disableAnimation] - A flag to disable the notification animation.
+ * @param {IconPrefix} props.iconPrefix - The icon prefix (e.g., 'fas', 'far', 'fab') for Font Awesome icons.
+ *
+ * @returns {JSX.Element} The rendered Notification component.
+ *
+ * @example
+ * // Example 1: Success Notification
+ * <Notification type="success" iconPrefix="fas">
+ *   Your changes have been saved successfully.
+ * </Notification>
+ *
+ * @example
+ * // Example 2: Error Notification
+ * <Notification type="error" iconPrefix="fas">
+ *   An error occurred while processing your request.
+ * </Notification>
+ *
+ * @example
+ * // Example 3: Warning Notification
+ * <Notification type="warning" iconPrefix="fas">
+ *   Please review the information before submitting.
+ * </Notification>
+ *
+ * @example
+ * // Example 4: Info Notification
+ * <Notification type="info" iconPrefix="fas">
+ *   This is an informational message for the user.
+ * </Notification>
+ */
+
 export const Notification = ({
   type,
   children,

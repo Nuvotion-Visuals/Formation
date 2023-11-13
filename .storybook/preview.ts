@@ -56,8 +56,8 @@ const preview: Preview = {
         base: 'dark',
 
         // UI
-        appBg: 'hsl(0, 0%, 10%)',
-        appContentBg: 'hsl(0, 0%, 10%)',
+        appBg: 'hsl(0, 0%, 7%)',
+        appContentBg: 'hsl(0, 0%, 7%)',
         appBorderColor: 'hsl(0, 0%, 34%)',
         appBorderRadius: 0,
       

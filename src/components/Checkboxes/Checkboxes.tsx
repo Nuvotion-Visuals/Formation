@@ -11,6 +11,30 @@ interface Props extends ItemProps {
   minimal?: boolean
 } 
 
+/**
+ * `Checkboxes` is a component that renders a list of checkbox options. Each checkbox can be individually selected or deselected, 
+ * and the overall state of selected options is managed via the `onChange` callback. The component can also be styled minimally.
+ *
+ * @component
+ * @param {ItemProps[]} options - An array of objects representing each checkbox option.
+ * @param {string[]} value - An array of strings representing the currently selected values.
+ * @param {function} onChange - Callback function that is invoked when the selection changes, with the new selection array as an argument.
+ * @param {string} [label] - A label for the checkbox group.
+ * @param {IconName} [icon] - An icon to be displayed next to the label.
+ * @param {IconPrefix} [iconPrefix] - The prefix to be used for the FontAwesome icons.
+ * @param {boolean} [minimal] - If true, renders the checkboxes without any additional styling or line breaks.
+ *
+ * @example
+ * // Checkboxes with pre-selected values and a callback to handle changes
+ * <Checkboxes
+ *   options={[
+ *     { label: 'Option 1', value: 'opt1' },
+ *     { label: 'Option 2', value: 'opt2' }
+ *   ]}
+ *   value={['opt1']}
+ *   onChange={newValues => console.log(newValues)}
+ * />
+ */
 export const Checkboxes = (props : Props) => {
   const { options, value, onChange, label, icon, iconPrefix, minimal } = props
 

@@ -6,6 +6,18 @@ interface Props {
   src: string
 }
 
+/**
+ * A component that displays a navigation logo, typically used in the navigation header.
+ *
+ * @component
+ * @param {Object} props - The props for the NavLogo component.
+ * @param {string} props.src - The source URL of the logo image to be displayed.
+ *
+ * @example
+ * return (
+ *   <NavLogo src="/logo.png" />
+ * )
+ */
 export const NavLogo = ({ src }: Props) => {
   const Link: any = useContext(LinkContext) || IntLink;
   

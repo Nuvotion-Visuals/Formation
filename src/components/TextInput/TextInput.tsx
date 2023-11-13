@@ -42,6 +42,58 @@ export type TextInputProps = {
   backgroundColor?: string
 }
 
+/**
+ * A Text Input component for user input. It provides various customization and interactive features.
+ * Besides being a simple text input, it can show an icon, label, error message, hint and secondary icon. It also supports 
+ * compact and hero layouts. The component can indicate its interaction states like focus and disabled.
+ * Buttons can also be attached to the input, and clear function is provided.
+ *
+ * @param {string} [name] - Specify a name for the input field.
+ * @param {string} [label] - Specify a label for the input field.
+ * @param {string} [error] - Specify an error message to display under the input field.
+ * @param {boolean} [disabled] - Set to true to disable user interaction and make the field visually appear as disabled.
+ * @param {boolean} [compact] - Set true to make the input field compact. Default: false.
+ * @param {boolean} [hero] - Set true to adjust padding and line height to make the input field larger. Default: false.
+ * @param {string} [type] - Specify the type of input field. Default: 'text'.
+ * @param {Function} [onChange] - Callback function that will be called with the current value of the input field when it changes.
+ * @param {string} [id] - Specify a unique id if needed.
+ * @param {string} value - The current value of the input field.
+ * @param {boolean} [autoFocus] - If true, the input field will be automatically focused when the page loads. Default: false.
+ * @param {IconName} [icon] - Name of an icon from the FontAwesome library to be displayed in the input field. Default: none.
+ * @param {IconPrefix} [iconPrefix] - Prefix of an icon from the FontAwesome library, e.g., 'fas', 'far', etc. Default: none.
+ * @param {string} [hint] - Specify a hint to be shown under the input field. Default: none.
+ * @param {Function} [onClick] - Click event handler for the input field.
+ * @param {boolean} [preventFocus] - If true, prevents auto-focus on the input field. Default: false.
+ * @param {Function} [onBlur] - Blur event handler for the input field.
+ * @param {React.Ref} [ref] - React ref to control the input field.
+ * @param {LabelColor} [labelColor] - Customize the color of the label.
+ * @param {Function} [onEnter] - Callback to be invoked when the Enter key is pressed in the input field.
+ * @param {string} [name] - Name for the input element.
+ * @param {Function} [onChangeEvent] - Event handler to be invoked when the input field changes.
+ * @param {string} [placeholder] - Text to be shown as placeholder in the input field.
+ * @param {boolean} [forceFocus] - If true, force focus state on the input field.
+ * @param {boolean} [hideOutline] - If true, hide the focus outline. Default: false.
+ * @param {IconName} [secondaryIcon] - Name of a secondary icon from the FontAwesome library to be displayed in the input field.
+ * @param {Function} [secondaryOnClick] - Click event handler for the secondary icon in the input field. Default: none.
+ * @param {ButtonProps[]} [buttons] - Array of ButtonProps objects. Default: none
+ * @param {boolean} [canClear] - If true shows a "clear" button that clears the text input value. Default: false.
+ * @param {Function} [onClear] - Callback to be invoked when the clear button is clicked.
+ * @param {boolean} [dropdownOpen] - If true indicate the input field is linked to an open drop-down list.
+ * @param {string} [backgroundColor] - Use to change the background color of the input field.
+ *
+ * @example
+ * return (
+ *  <TextInput 
+ *    label="Name"
+ *    placeholder="Your name here..."
+ *    onChange={(val) => console.log(val)}
+ *    buttons={[{name: "Submit"}]}
+ *    value={""}
+ *  />
+ * )
+ * 
+ * @component
+ */
 export const TextInput = React.memo(({ 
   label, 
   error, 

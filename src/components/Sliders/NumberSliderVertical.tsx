@@ -9,9 +9,33 @@ interface Props {
   step?: number
   title?: string
   onChange: (value: number) => void
-  onMaxValueReached?: () => void // Optional callback when the max value is reached by user interaction
 }
 
+/**
+ * A vertical variant of the NumberSlider component. It provides a slider that operates 
+ * from a minimum to a maximum value, which are specified by the 'min' and 'max' props. 
+ * The 'onChange' callback is used to propagate the new value of the slider back to the parent component.
+ *
+ * @param {number} value - The current numeric value of the slider
+ * @param {number} min - The minimum value for the slider
+ * @param {number} max - The maximum value for the slider 
+ * @param {number} [step] - The specific increment/decrement interval for the slider's value
+ * @param {string} [title] - The title associated with the component
+ * @param {Function} onChange - The function to be called when the slider value change
+ *
+ * @example
+ * return (
+ *  <NumberSliderVertical 
+ *    min={0}
+ *    max={100}
+ *    value={50}
+ *    onChange={(value) => console.log(value)}
+ *    title="My Slider"
+ *  />
+ * )
+ * 
+ * @component
+ */
 export const NumberSliderVertical: React.FC<Props> = memo(({ 
   value, 
   min, 

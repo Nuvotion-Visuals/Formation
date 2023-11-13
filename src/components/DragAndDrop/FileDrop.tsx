@@ -8,6 +8,28 @@ interface Props {
   single?: boolean
 }
 
+/**
+ * `FileDrop` is a component that provides a drop zone for file uploads. Users can drag and drop files onto the area to upload them.
+ * It visually responds to dragging files over it by displaying corners indicating it's an active drop zone. The component can handle single
+ * or multiple file uploads depending on the `single` prop.
+ *
+ * @component
+ * @param {function} onFileDrop - Callback function that is called when files are dropped onto the area. Receives an array of `File` objects.
+ * @param {ReactNode} children - Elements to be rendered inside the drop zone.
+ * @param {boolean} [single] - If set to true, the drop zone will only accept a single file.
+ *
+ * @example
+ * // FileDrop for a single file upload
+ * <FileDrop onFileDrop={(files) => handleFile(files[0])} single>
+ *   <p>Drag and drop your file here or click to select a file to upload.</p>
+ * </FileDrop>
+ *
+ * @example
+ * // FileDrop for multiple file uploads
+ * <FileDrop onFileDrop={(files) => handleFiles(files)}>
+ *   <p>Drag and drop your files here or click to select files to upload.</p>
+ * </FileDrop>
+ */
 export const FileDrop: React.FC<Props> = ({ onFileDrop, single, children }) => {
   const [isHovering, setIsHovering] = useState(false)
 

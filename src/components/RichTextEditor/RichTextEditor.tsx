@@ -97,6 +97,41 @@ interface Props {
   highlightedPart?: string;
 }
 
+/**
+ * The `RichTextEditor` component allows users to create rich text input with various formatting options including image uploading and more. Users can style their input extensively. The editor also provides functionality to highlight a customizable portion of the text. It comes with an adjustable editor box allowing you to set its height as needed. This component offers flexibility as it can include other React child components which will be placed adjacent to the editor.
+ *
+ * Additionally, it manages a read-only mode, as specified by the 'readOnly' prop. On the client-side, `window` object verification is performed, meaning the component only works in the browser, and not on the server.
+ *
+ * @component
+ *
+ * @param {IconName} [icon] - Refers to the name of the Font Awesome icon to be displayed next to the label.
+ * @param {IconPrefix} [iconPrefix='fas'] - Represents the prefix of the Font Awesome icon to be used alongside the label.
+ * @param {string} [placeholder] - Sets the placeholder text to show when there is no value.
+ * @param {string} value - Acts as the current value of the input field.
+ * @param {function(string): void} onChange - Specifies the function to be executed upon changing the value of the input field.
+ * @param {string} [height='auto'] - Defines the height of the editor box as per necessity.
+ * @param {boolean} [outset=false] - If set to true, an outline is added around the component.
+ * @param {function(string): void} onEnter - Specifies the function to be executed upon pressing the Enter key (without Shift).
+ * @param {boolean} [readOnly=false] - If set to true, the input field is disabled, effectively making the text read-only.
+ * @param {React.ReactNode} [children] - The child nodes that you want to display beside the editor.
+ * @param {boolean} [autoFocus=false] - If set to true, the input field is automatically focused upon page load.
+ * @param {string} [highlightedPart] - A portion of the text to be highlighted after being rendered.
+ *
+ * @example
+ * <RichTextEditor 
+ *   value="Enter your text here."
+ *   onChange={(val) => console.log(val)}
+ * />
+ *
+ * @example
+ * <RichTextEditor 
+ *   placeholder="Start typing here."
+ *   value="Editing rich text is easy with RichTextEditor."
+ *   onChange={(val) => console.log(val)}
+ *   height="400px"
+ *   autoFocus
+ * />
+ */
 export const RichTextEditor = ({ 
   placeholder,
   value,

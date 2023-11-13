@@ -7,6 +7,23 @@ export interface Props extends FontAwesomeIconProps {
   iconPrefix?: IconPrefix | undefined
 }
 
+/**
+ * `Icon` is a component that renders a Font Awesome icon. It extends all the properties of the FontAwesomeIcon component
+ * and allows specifying an icon prefix for different icon styles. This component is used for adding icons to the UI with 
+ * consistent styling across the application.
+ *
+ * @component
+ * @param {IconPrefix} [iconPrefix] - The prefix to choose the style of the icon, such as 'fas' for solid icons or 'far' for regular icons.
+ * @param {FontAwesomeIconProps} rest - Any other properties supported by FontAwesomeIcon can be passed through to this component.
+ *
+ * @example
+ * // Icon with a specific prefix and additional FontAwesomeIconProps
+ * <Icon iconPrefix="fas" icon="user" size="lg" />
+ *
+ * @example
+ * // Icon with default prefix
+ * <Icon icon="coffee" />
+ */
 export const Icon = React.memo((props: Props) => {
   const { iconPrefix, icon, ...rest } = props
 

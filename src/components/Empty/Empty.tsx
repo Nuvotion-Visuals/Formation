@@ -5,6 +5,20 @@ interface Props {
   children?: React.ReactNode
 }
 
+/**
+ * `Empty` is a simple component that displays its children within a styled container. 
+ * The styling provides a subtle background pattern, often used to indicate an empty or neutral state.
+ * This component can be used to present messages or content in areas that are awaiting user interaction or data.
+ *
+ * @component
+ * @param {React.ReactNode} [children] - The content to be displayed within the empty state container.
+ *
+ * @example
+ * // Use Empty to display a message when a list is empty
+ * <Empty>
+ *   <p>No items found.</p>
+ * </Empty>
+ */
 export const Empty = ({ children }: Props) => {
   return (
     <S.Empty>

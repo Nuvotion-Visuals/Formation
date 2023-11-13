@@ -18,6 +18,41 @@ interface Props {
   hue?: boolean
 }
 
+/**
+ * A component that combines a numeric input with a slider for adjusting the values.
+ * It provides diverse customization controls including precision slider, opacity, colored and 
+ * hue control for a more detailed UX.
+ *
+ * The 'NumberSlider' operates from a minimum to a maximum value, which are specified by the 'min' and 'max' props. 
+ * The 'onChange' callback is used to propagate the new value of the slider back to the parent component.
+ * 'onMaxValueReached' adds an extra callback which gets triggered when the current value reaches the maximum value (useful for special UI/UX effects).
+ *
+ * @param {number} value - The current numeric value of the slider
+ * @param {number} min - The minimum value for the slider
+ * @param {number} max - The maximum value for the slider 
+ * @param {number} [step] - The specific increment/decrement interval for the slider's value
+ * @param {boolean} [hideNumberInput] - Whether to hide the numeric input field and only show the slider
+ * @param {Function} [onMaxValueReached] - Callback to be invoked when  the max value is reached
+ * @param {boolean} [center] - Apply a different visual style to the slider (Precise slider)
+ * @param {boolean} [precise] - Alter styles of slider to precise version (smaller, more exact)
+ * @param {boolean} [opacity] - Apply an opacity layer to the slider
+ * @param {string} [color] - Alter the color of the slider, options: 'red', 'blue', 'green'
+ * @param {boolean} [hue] - Apply a hue gradient to the slider
+ * @param {Function} onChange - The function to be called when the slider value change
+ *
+ * @example
+ * return (
+ *  <NumberSlider 
+ *    min={0}
+ *    max={100}
+ *    value={50}
+ *    onChange={(value) => console.log(value)}
+ *    color="red"
+ *  />
+ * )
+ * 
+ * @component
+ */
 export const NumberSlider: React.FC<Props> = memo(({ 
   value, 
   min, 

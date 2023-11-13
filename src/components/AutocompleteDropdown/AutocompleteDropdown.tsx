@@ -10,6 +10,28 @@ interface Props extends TextInputProps {
   maxWidth?: string
 }
 
+/**
+ * `AutocompleteDropdown` is a combination of a text input and a dropdown list. It allows the user to type a value, 
+ * providing suggestions based on the `items` prop, and optionally allows custom entries if `allowCustomEntry` is true.
+ *
+ * @component
+ * @param {string} value - The current value of the autocomplete input.
+ * @param {ItemProps[]} items - An array of items to display as dropdown options.
+ * @param {function} onChange - Callback function that is called with the new value when it changes.
+ * @param {boolean} [allowCustomEntry] - If true, allows users to enter custom values not present in the items list.
+ * @param {string} [maxWidth] - The maximum width that the dropdown can have.
+ * @param {...TextInputProps} props - Props spread onto the TextInput component.
+ *
+ * @example
+ * // Autocomplete dropdown with predefined items and a custom entry allowed
+ * <AutocompleteDropdown
+ *   value={selectedValue}
+ *   items={[{ value: 'Item 1' }, { value: 'Item 2' }]}
+ *   onChange={handleChange}
+ *   allowCustomEntry={true}
+ * />
+ */
+
 export const AutocompleteDropdown = ({
   value,
   items,

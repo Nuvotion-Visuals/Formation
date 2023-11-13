@@ -13,6 +13,28 @@ interface Props {
   solid?: boolean
 }
 
+/**
+ * A taskbar component typically used within the `Modal` component. It displays an optional title, an optional icon, and a close button.
+ *
+ * @component
+ * @param {Object} props - The props for the ModalTaskbar component.
+ * @param {IconName} [props.icon] - The icon to display next to the title.
+ * @param {IconPrefix} [props.iconPrefix] - The prefix for the icon to determine its style (e.g., 'fas', 'far').
+ * @param {string} [props.title] - The title to display in the taskbar.
+ * @param {function} [props.onClose] - The function to call when the close button is clicked.
+ * @param {boolean} [props.solid=false] - When set to true, gives the taskbar a solid background.
+ *
+ * @example
+ * return (
+ *   <ModalTaskbar
+ *     icon="user"
+ *     iconPrefix="fas"
+ *     title="User Profile"
+ *     onClose={() => handleCloseModal()}
+ *     solid={true}
+ *   />
+ * )
+ */
 export const ModalTaskbar = ({
   icon, 
   iconPrefix,

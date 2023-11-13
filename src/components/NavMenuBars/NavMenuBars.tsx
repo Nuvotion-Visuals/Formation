@@ -7,6 +7,18 @@ interface Props {
   onClick: () => void
 }
 
+/**
+ * A component that displays menu bars for navigation.
+ *
+ * @component
+ * @param {Object} props - The props for the NavMenuBars component.
+ * @param {Function} props.onClick - A callback function to be called when the menu bars are clicked.
+ *
+ * @example
+ * return (
+ *   <NavMenuBars onClick={handleMenuClick} />
+ * )
+ */
 export const NavMenuBars = ({ onClick }: Props) => {
   return (
     <S_NavMenuBars onClick={onClick}>

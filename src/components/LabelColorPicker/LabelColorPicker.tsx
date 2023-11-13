@@ -60,6 +60,30 @@ interface Props {
   iconPrefix?: IconPrefix
 }
 
+/**
+ * `LabelColorPicker` is a form component that allows users to select a label color from a dropdown. 
+ * It combines a text input for direct manipulation with a dropdown for visual selection of colors.
+ *
+ * @component
+ * @param {string} value - The currently selected color value.
+ * @param {string} [label] - The label text for the color picker.
+ * @param {function} onChange - Callback function invoked when a color is selected or input value is changed.
+ * @param {string} [error] - Error message to display if the color selection is invalid.
+ * @param {LabelColorType[]} options - An array of color options for the user to select from.
+ * @param {IconName} [icon] - Optional icon displayed in the text input.
+ * @param {IconPrefix} [iconPrefix] - Optional prefix for the icon, determining its style.
+ *
+ * @example
+ * // LabelColorPicker with pre-defined color options
+ * <LabelColorPicker
+ *   value={selectedColor}
+ *   onChange={newColor => setSelectedColor(newColor)}
+ *   label="Label Color"
+ *   options={['red', 'green', 'blue']}
+ *   icon="palette"
+ *   iconPrefix="fas"
+ * />
+ */
 export const LabelColorPicker = ({
   value,
   onChange,

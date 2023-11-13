@@ -6,6 +6,21 @@ type DragOriginProps = {
   children: React.ReactNode
 }
 
+/**
+ * `DragOrigin` is a component that wraps around any element to enable it for drag-and-drop operations within the application.
+ * It works alongside the `DropTarget` component to transfer data, allowing users to visually drag an element and drop it onto a target.
+ * The component handles the creation and removal of a draggable preview and ensures that the data is packaged for the drop operation.
+ *
+ * @component
+ * @param {any} data - The data associated with the draggable element. This is the information that will be transferred to the drop target.
+ * @param {React.ReactNode} children - The child elements that are to be made draggable.
+ *
+ * @example
+ * // Wrapping a component to make it draggable, with associated data to be used when dropped on a DropTarget
+ * <DragOrigin data={{ itemID: '123', content: 'Draggable Item' }}>
+ *   <YourComponent />
+ * </DragOrigin>
+ */
 export const DragOrigin: FC<DragOriginProps> = ({ children, data }) => {
   const dragOriginRef = useRef<HTMLDivElement | null>(null)
   const dragPreviewRef = useRef<HTMLElement | null>(null)

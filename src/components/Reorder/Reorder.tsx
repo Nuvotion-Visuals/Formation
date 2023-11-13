@@ -16,6 +16,36 @@ interface Props {
   holdTime?: number
 }
 
+/**
+ * This component facilitates reordering of its children by clicking and dragging to various positions. 
+ * The child components, provided in an order, can be dynamically rearranged within the layout. 
+ * It leverages the 'react-reorder' library to provide this functionality.
+ * The intended use is in conjunction with the 'reorderItems' function included in this component library's utilities.
+ *
+ * @component
+ * @param {string} reorderId - An unique identifier for the reorder group.
+ * @param {React.ReactNode[]} children - Elements to be reordered.
+ * @param {function(event: any, previousIndex: number, nextIndex: number, fromId: string, toId: string): void} onChange - Callback to be executed when an element is reordered.
+ * @param {boolean} [fullWidth=false] - Defines whether children should span the full width of their parent. The default behaviour will apply if not set.
+ * @param {number} [maxItemWidth=Infinity] - Specifies the maximum width for a child element during the reordering process.
+ * @param {number} [gap=0] - Represents the gap in relative units between child elements in the reordering block.
+ * @param {boolean} [disabled=false] - If true, the reordering functionality is deactivated.
+ * @param {React.ReactNode} [placeholder] - Serves as a placeholder display in the area a child node was extracted from during reordering.
+ * @param {number} [holdTime=150] - The minimum hold time in milliseconds before initiating dragging.
+ *
+ * @example
+ * // An illustration of a basic reorderable list:
+ * <Reorder 
+ *   reorderId="reorder"
+ *   onChange={(event, previousIndex, nextIndex) => setItems(oldItems => [...reorderItems(oldItems, previousIndex, nextIndex)])}
+ * >
+ *   {
+ *     items.map((item, index) => 
+ *       <div key={index}>{item}</div>
+ *     )
+ *   }
+ * </Reorder>
+ */
 export const Reorder = React.memo(({ 
   children, 
   onChange,

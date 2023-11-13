@@ -10,6 +10,18 @@ interface ColorItemProps {
   onChange: (color: string) => void,
 }
 
+/**
+ * `ColorItem` represents an individual color swatch in the color picker.
+ * It is clickable and can indicate active selection.
+ *
+ * @component
+ * @param {string} color - The hex code of the color this item represents.
+ * @param {boolean} isActive - Indicates if this color is currently active/selected.
+ * @param {function} onChange - Callback invoked with the new color when this item is clicked.
+ *
+ * @example
+ * // ColorItem within ColorPicker, not directly used
+ */
 const ColorItem: React.FC<ColorItemProps> = React.memo(({ color, isActive, onChange }) => (
   <S.Color
     key={color}
@@ -28,6 +40,15 @@ interface EyeDropperProps {
   onClick: () => void
 }
 
+/**
+ * `EyeDropper` is a component that triggers an eye-dropper tool to pick a color from the screen.
+ *
+ * @component
+ * @param {function} onClick - Callback to invoke when the eye-dropper icon is clicked.
+ *
+ * @example
+ * // EyeDropper within ColorPicker, not directly used
+ */
 const EyeDropper: React.FC<EyeDropperProps> = React.memo(({ onClick }) => (
   <S.EyeDropper onClick={onClick}>
     <Icon icon='eye-dropper' />
@@ -40,6 +61,19 @@ interface ColorPickerProps {
   hidePresets?: boolean
 }
 
+/**
+ * `ColorPicker` is a comprehensive color selection component allowing users to pick colors from a palette,
+ * input hex values, or use an eye-dropper tool to select a color from their screen.
+ *
+ * @component
+ * @param {string} value - The currently selected color value in hex format.
+ * @param {function} onChange - Callback to invoke when a color is selected or input is changed.
+ * @param {boolean} [hidePresets] - If true, hides the preset color options.
+ *
+ * @example
+ * // ColorPicker with a callback function to handle color changes
+ * <ColorPicker value="#ffffff" onChange={newColor => console.log(newColor)} />
+ */
 export const ColorPicker: React.FC<ColorPickerProps> = ({ value, onChange, hidePresets }) => {
   const { open, isSupported } = useEyeDropper()
   const [_, setError] = useState<null | Error>(null)

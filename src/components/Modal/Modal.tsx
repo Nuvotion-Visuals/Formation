@@ -16,6 +16,34 @@ interface Props {
   solid?: boolean
 }
 
+/**
+ * A modal component that displays content in an overlay that covers the entire screen or part of it.
+ * It includes a modal taskbar that can have a title, icon, and a close function.
+ *
+ * @component
+ * @param {Object} props - The props for the Modal component.
+ * @param {string} [props.title] - The title to display in the modal taskbar.
+ * @param {IconName} [props.icon] - The icon to display next to the title in the modal taskbar.
+ * @param {IconPrefix} [props.iconPrefix] - The prefix for the icon to determine its style (e.g., 'fas', 'far').
+ * @param {React.ReactNode} props.content - The content to be rendered inside the modal.
+ * @param {boolean} [props.fullscreen=false] - Determines if the modal should be fullscreen or not.
+ * @param {boolean} props.isOpen - Controls whether the modal is open or closed.
+ * @param {function} [props.onClose] - The function to call when the modal is requested to be closed, e.g., when the overlay is clicked.
+ * @param {boolean} [props.solid=false] - When set to true, gives the modal content a solid background.
+ *
+ * @example
+ * return (
+ *   <Modal
+ *     title="My Modal"
+ *     icon="user"
+ *     iconPrefix="fas"
+ *     content={<div>Modal Content</div>}
+ *     fullscreen={true}
+ *     isOpen={modalIsOpen}
+ *     onClose={() => setModalIsOpen(false)}
+ *   />
+ * )
+ */
 export const Modal = ({ 
   title,
   icon,

@@ -22,6 +22,23 @@ export interface CustomAudioPlayerRef {
   pause: () => Promise<void>
 }
 
+/**
+ * `AudioPlayer` is a custom, stylable audio player component with play, pause, volume control,
+ * and track progress capabilities. It can be controlled programmatically via exposed ref methods
+ * and it also provides an option to download the audio file.
+ *
+ * @component
+ * @param {string} src - The source URL of the audio file to be played.
+ * @param {string} [name] - An optional name for the audio file, used for the download functionality.
+ * @param {IconPrefix} [iconPrefix] - Optional prefix for the FontAwesome icons used in the player.
+ * 
+ * @example
+ * // An instance of AudioPlayer with a sample audio file
+ * <AudioPlayer src="path/to/audio.mp3" name="Sample Audio" iconPrefix="fas" />
+ *
+ * @forwardRef
+ * @typedef {Object} CustomAudioPlayerRef - Exposes the control methods `play`, `pause`, and `addEventListener`.
+ */
 export const AudioPlayer = React.memo(forwardRef<CustomAudioPlayerRef, CustomAudioPlayerProps>(
   ({ src, name, iconPrefix }, ref) => {
     const audioRef = useRef<HTMLAudioElement>(null)

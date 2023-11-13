@@ -6,6 +6,27 @@ interface Props {
   chat?: boolean
 }
 
+/**
+ * `LoadingSpinner` is a component that renders an animated loading spinner graphic. It can be styled to different sizes
+ * and used in different contexts, such as a chat loader or a general page/content loading indicator.
+ *
+ * @component
+ * @param {Object} props - Props for the `LoadingSpinner` component.
+ * @param {boolean} [props.small=false] - If true, renders a smaller version of the loading spinner.
+ * @param {boolean} [props.chat=false] - If true, renders a chat-specific loading spinner.
+ *
+ * @example
+ * // Basic usage for a general loading spinner.
+ * <LoadingSpinner />
+ *
+ * @example
+ * // For a smaller spinner.
+ * <LoadingSpinner small />
+ *
+ * @example
+ * // For a chat loading spinner.
+ * <LoadingSpinner chat />
+ */
 export const LoadingSpinner = React.memo(({
   small,
   chat

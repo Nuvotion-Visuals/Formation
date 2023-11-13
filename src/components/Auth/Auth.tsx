@@ -7,6 +7,23 @@ interface Props {
   logoSrc: string
 }
 
+/**
+ * `Auth` is a layout component designed to provide a structured and styled authentication interface.
+ * It features a side panel for branding or additional content, a central area for authentication forms
+ * or information, and accepts a logo and title.
+ *
+ * @component
+ * @param {string} title - The title or heading to display in the authentication section.
+ * @param {React.ReactNode} children - The elements to be displayed as the main content, typically forms or informational text.
+ * @param {string} logoSrc - The source URL for the logo to be displayed in the center of the authentication section.
+ *
+ * @example
+ * // An authentication page with a custom logo and form as children
+ * <Auth title="Sign In" logoSrc="/path/to/logo.png">
+ *   <SignInForm />
+ * </Auth>
+ */
+
 export const Auth = ({ 
   title, 
   children, 

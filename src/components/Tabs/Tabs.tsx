@@ -21,6 +21,32 @@ type Props = {
   compact?: boolean
 }
 
+/**
+ * The `Tabs` component displays sections of content which offer an efficient way to direct the user's attention and keep longer pages more organized.
+ * The component is designed to receive an array of tab objects; each with it's own unique properties e.g., a functioning button and more.
+ * This component also provides a 'handleActiveTab' callback function where the parent component can have a notice about current active tab.
+ * Tab active states are managed and updated locally and synced back to the parent component.
+ *
+ * @param {Array} tabs - An array of tabs. Each tab object can include a "name" (string), "icon" (IconName), "iconPrefix" (string), "onClick" (function), "prefix" (string), and "suffix" (string)
+ * @param {string} initialActiveTab - The tab that is active on initial load of the component.
+ * @param {Function} onSetActiveTab - A function that handles setting the currently active tab. Returns the name of the active tab when a tab is clicked.
+ * @param {boolean} compact - Defines whether the compact variation of this component should be used. Default: false.
+ *
+ * @example
+ * return (
+ *  <Tabs 
+ *    tabs={[
+ *      {name:'Tab1', icon:'home', iconPrefix:'fas', onClick:()=>console.log('home clicked')}, 
+ *      {name:'Tab2', icon:'bell', iconPrefix:'fas'}
+ *    ]}
+ *    initialActiveTab='Tab1'
+ *    onSetActiveTab={(tab) => console.log(tab)}
+ *    compact
+ *  />
+ * )
+ * 
+ * @component
+ */
 export const Tabs = React.memo(({ 
   tabs, 
   onSetActiveTab, 

@@ -28,6 +28,51 @@ interface Props {
   active?: boolean
 }
 
+/**
+ * A sidebar component that includes navigation links and can be toggled open and closed.
+ * The sidebar supports various types of contents such as links, click handlers, spacers and titles.
+ * 
+ * Each navigation item (entry in the 'navs' prop array) could be one of four types:
+ * - nav: A link that navigates the user to a new page when clicked. It can optionally have an icon.
+ * - clickNav: Similar to 'nav', but instead of navigating, it calls an onClick function when clicked.
+ * - spacer: A separator line used for better visual separation between navigation items.
+ * - title: A non-clickable text, used as a section title for a group of related navigation items.
+ * 
+ * @param {boolean} open - Determines if the sidebar is open or closed.
+ * @param {Array<Object>} navs - An array of objects, each represents a possible type of navigation link as described above.
+ * @param {Function} onClose - A function that will be executed when the sidebar should be closed.
+ *
+ * @component
+ * @example
+ * const navs = [
+ *   {
+ *     type: 'nav',
+ *     href: '/some-url',
+ *     name: 'Some URL',
+ *     icon: 'link',
+ *   },
+ *   {
+ *     type: 'clickNav',
+ *     name: 'A Clickable Nav',
+ *     onClick: () => { console.log('Clicked!'); },
+ *     icon: 'mouse-pointer',
+ *     active: true, // will show this nav item as active (highlighted)
+ *   },
+ *   { type: 'spacer' },
+ *   {
+ *     type: 'title',
+ *     title: 'A Section Title',
+ *   },
+ * ];
+ * 
+ * const handleClose = () => {
+ *   console.log('Sidebar is closing.');
+ * };
+ *  
+ * return (
+ *  <Sidebar open onClose={handleClose} navs={navs} />
+ * );
+ */
 export const Sidebar = ({ onClose, open, navs, active }: Props) => {
   const Link: any = useContext(LinkContext) || IntLink;
 

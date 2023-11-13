@@ -10,6 +10,25 @@ interface Props {
   centerLabel?: boolean,
 }
 
+/**
+ * This is a Progress Bar component showcasing the completion status of a process. A gradient coloring option can wholly change the color as the progress varies. Optionally, a label can be added to numerically display the current progress, and can be centered if needed. The bar's height can also be adjusted.
+ *
+ * @component
+ * @param {number} maximum - Total quantum of the process that the progress bar signifies.
+ * @param {number} value - Current progression of the process.
+ * @param {boolean} [small=false] - If set true, results in a reduced height of the progress bar.
+ * @param {boolean} [gradient=false] - If set true, the progress bar's color shifts according to its progression.
+ * @param {boolean} [showLabel=false] - When true, a label demonstrating current and maximum progress is displayed above the progress bar.
+ * @param {boolean} [centerLabel=false] - When true, the label is oriented at the center. Only applicable if showLabel is true.
+ *
+ * @example
+ * // A standard Progress component
+ * <Progress maximum={100} value={45} />
+ *
+ * @example
+ * // A Progress component using every optional property
+ * <Progress maximum={100} value={45} small={true} gradient={true} showLabel={true} centerLabel={true} />
+ */
 export const Progress = ({  maximum, value, small, gradient, showLabel, centerLabel }: Props) => {
   
   const [gradientColor, setGradientColor] = useState<string>('')

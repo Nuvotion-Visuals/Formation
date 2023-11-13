@@ -15,6 +15,30 @@ interface Props {
   precise?: boolean
 }
 
+/**
+ * The NumberRange component provides a slider for number inputs within a given range.
+ * This slider represents two numeric values within the range that can be adjusted separately.
+ * The 'onChange' callback is used to propagate the new value of the slider back to the parent component when the slider is moved manually.
+ *
+ * @param {number[]} value - The current numerical values of the slider
+ * @param {number} min - The minimum value for the slider
+ * @param {number} max - The maximum value for the slider 
+ * @param {Function} onChange - The function to be called when the slider value changes
+ * @param {boolean} [hideNumberInput=false] - Boolean that defines if the display of the numerical input boxes should be hidden
+ * @param {boolean} [precise=false] - Boolean that defines if the slider handles should be smaller for more precise inputs
+ *
+ * @example
+ * return (
+ *  <NumberRange
+ *    min={0}
+ *    max={100}
+ *    value={[10,90]}
+ *    onChange={(value) => console.log(value)}
+ *  />
+ * )
+ * 
+ * @component
+ */
 export const NumberRange = React.memo(({ 
   value, 
   min, 

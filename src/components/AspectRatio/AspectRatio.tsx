@@ -10,6 +10,28 @@ export interface Props {
   borderRadius?: number | string
 }
 
+/**
+ * `AspectRatio` is a container component that enforces a specific aspect ratio for its content.
+ * It's useful for responsive designs and is customizable with a background image or color.
+ * It can also optionally round the corners and cover the background.
+ *
+ * @component
+ * @param {React.ReactNode} children - The content to display inside the aspect ratio box.
+ * @param {number} ratio - The aspect ratio value represented as width/height.
+ * @param {string} [backgroundSrc] - Optional background image source URL.
+ * @param {string} [backgroundColor] - Optional background color.
+ * @param {boolean} [coverBackground] - Determines if the background should be covered or contained.
+ * @param {number|string} [borderRadius] - Optional border radius; can be a number (interpreted as rem) or a string (with units).
+ *
+ * @example
+ * // To create a 16:9 aspect ratio container with a background image
+ * <AspectRatio ratio={16/9} backgroundSrc="path/to/image.jpg" coverBackground />
+ *
+ * @example
+ * // To create a 4:3 aspect ratio container with a solid background color and rounded corners
+ * <AspectRatio ratio={4/3} backgroundColor="#000" borderRadius="0.5rem" />
+ */
+
 export const AspectRatio = ({ 
   children, 
   ratio, 

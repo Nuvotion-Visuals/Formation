@@ -41,6 +41,54 @@ export interface ButtonProps {
   invertTab?: boolean
 }
 
+/**
+ * `Button` is a versatile component that can display a button with optional icons, text, and various styles.
+ * It can act as a standard button, a submission button, or a link if provided with an `href`.
+ * The button's look can be customized with different visual props like `hero`, `primary`, `minimal`, and others.
+ * Additionally, it can handle click events and can be disabled.
+ *
+ * @component
+ * @param {string} [href] - The URL where the button should link to if it's acting as a link.
+ * @param {boolean} [hero] - If true, gives the button a prominent style.
+ * @param {string} [name] - Name attribute for the button.
+ * @param {IconName} [icon] - FontAwesome icon name for the icon to be displayed in the button.
+ * @param {function} [onClick] - Click event handler.
+ * @param {boolean} [primary] - If true, applies the primary button styling.
+ * @param {string} [text] - Text to be displayed inside the button.
+ * @param {boolean} [blink] - If true, applies a blinking animation.
+ * @param {boolean} [rotate] - If true, the icon will rotate 90 degrees.
+ * @param {string} [title] - Title attribute for the button, visible on hover as tooltip.
+ * @param {boolean} [disabled] - If true, the button will be disabled.
+ * @param {boolean} [expand] - If true, the button will expand to fill its container's width.
+ * @param {boolean} [submit] - If true, the button acts as a submit button.
+ * @param {string} [id] - The id attribute for the button.
+ * @param {IconPrefix} [iconPrefix] - FontAwesome icon prefix.
+ * @param {boolean} [minimalIcon] - If true, the button only shows an icon.
+ * @param {boolean} [secondary] - If true, applies secondary button styling.
+ * @param {LabelColor} [labelColor] - Color label for the button, influences the button's styling.
+ * @param {boolean} [singleBlink] - If true, the button blinks only once.
+ * @param {boolean} [tab] - If true, the button behaves as a tab for navigation purposes.
+ * @param {boolean} [newTab] - If true and `href` is provided, the link opens in a new tab.
+ * @param {boolean} [square] - If true, the button has a square shape.
+ * @param {boolean} [circle] - If true, the button has a circular shape.
+ * @param {boolean} [expandVertical] - If true, the button will expand to fill its container's height.
+ * @param {boolean} [compact] - If true, the button has a compact style with less padding.
+ * @param {React.ReactNode} [children] - Content to be rendered inside the button.
+ * @param {React.ReactNode} [prefix] - Content to be rendered as a prefix inside the button.
+ * @param {boolean} [disableCenter] - If true, the content inside the button will not be centered.
+ * @param {boolean} [off] - If true, the button will be visually turned off.
+ * @param {boolean} [invertTab] - If true, the button's tab behavior will be inverted.
+ *
+ * @example
+ * // A primary button with an icon and text
+ * <Button icon="user" primary onClick={handleClick}>
+ *   Click Me
+ * </Button>
+ *
+ * @example
+ * // A minimal icon button
+ * <Button icon="coffee" minimalIcon />
+ */
 export const Button: FC<ButtonProps> = React.memo(({ 
   hero, 
   name, 

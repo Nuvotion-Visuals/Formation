@@ -93,6 +93,18 @@ const isWeekend = (date : Date) => {
   return weekday === 0 || weekday === 6
 }
 
+/**
+ * `Day` represents an individual day cell in the calendar.
+ *
+ * @component
+ * @param {Date} day - The date object for this day.
+ * @param {number} month - The current month being displayed.
+ * @param {Date} selected - The currently selected date.
+ * @param {function} onChange - Callback invoked with the new date when the day is clicked.
+ *
+ * @example
+ * // Individual day cell usage within the Weeks component, not directly used.
+ */
 const Day = ({ 
   day, 
   month, 
@@ -118,6 +130,18 @@ const Day = ({
   )
 }
 
+/**
+ * `Week` renders a row of days, representing a week.
+ *
+ * @component
+ * @param {Date} weekStart - The start date of the week to be rendered.
+ * @param {Date} selected - The currently selected date.
+ * @param {number} month - The current month being displayed.
+ * @param {function} onChange - Callback invoked when a day is selected within the week.
+ *
+ * @example
+ * // Week row usage within the Weeks component, not directly used.
+ */
 const Week = ({ 
   weekStart, 
   selected, 
@@ -143,6 +167,18 @@ const Week = ({
     }
   </>
 
+/**
+ * `Weeks` builds and renders all the week rows for the current month.
+ *
+ * @component
+ * @param {Date} date - The reference date to build the month's weeks from.
+ * @param {number} month - The current month being displayed.
+ * @param {Date} selected - The currently selected date.
+ * @param {function} onChange - Callback invoked when a day is selected.
+ *
+ * @example
+ * // Weeks usage within the Calendar component, not directly used.
+ */
 const Weeks = ({ 
   date, 
   month, 
@@ -168,6 +204,19 @@ const Weeks = ({
     }
   </S.Weeks>
 
+/**
+ * `Calendar` is a full calendar view allowing users to pick a date. It includes navigation to change months
+ * and highlights the selected date.
+ *
+ * @component
+ * @param {Date} value - The currently selected date.
+ * @param {function} onMonthChange - Callback invoked when the month is changed.
+ * @param {function} onChange - Callback invoked when a date is selected.
+ * @param {function} onClose - Callback invoked when the calendar should be closed.
+ *
+ * @example
+ * // Calendar usage within the DatePicker component, not directly used.
+ */
 const Calendar = ({ 
   value,
   onMonthChange, 
@@ -259,6 +308,25 @@ interface Props {
   iconPrefix?: IconPrefix
 }
 
+/**
+ * `DatePicker` is a component that allows users to select a date. It provides an input field to type a date 
+ * and a calendar view for a more visual date selection. The component ensures the selected date is valid and provides feedback.
+ *
+ * @component
+ * @param {Date|null} value - The currently selected date.
+ * @param {string} [label] - The label for the date picker input.
+ * @param {function} onChange - Callback invoked when a date is selected or input value changes.
+ * @param {string} [error] - Error message to display when the input date is invalid.
+ * @param {IconPrefix} [iconPrefix] - FontAwesome icon prefix used for the calendar icon.
+ *
+ * @example
+ * // DatePicker with label and change handling
+ * <DatePicker
+ *   value={new Date()}
+ *   label="Select Date"
+ *   onChange={newDate => console.log(newDate)}
+ * />
+ */
 export const DatePicker = ({
   value,
   onChange,

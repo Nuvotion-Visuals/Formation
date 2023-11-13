@@ -5,6 +5,21 @@ interface Props {
   light?: boolean
 }
 
+/**
+ * `LineBreak` is a simple component that renders a horizontal line, often used as a visual separator between sections of content.
+ * It can be styled to be lighter or darker depending on the `light` prop.
+ *
+ * @component
+ * @param {boolean} [light=false] - If true, the line break will have a lighter color, suitable for subtle separation.
+ *
+ * @example
+ * // Default darker line break
+ * <LineBreak />
+ *
+ * @example
+ * // Lighter line break for subtle separation
+ * <LineBreak light />
+ */
 export const LineBreak = React.memo(({ light } : Props) => <S.Break light={light}/>)
 
 const S = {

@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import README from '!raw-loader!../../../README.md'
 
 import { Navigation, ParseHTML, StyleHTML, Page } from '../../internal'
 
@@ -15,9 +14,7 @@ const Template: ComponentStory<typeof Navigation> = (args) => {
 
   return (<Navigation {...args} open={open} onSetOpen={isOpen => set_open(isOpen)}>
     <Page>
-      <StyleHTML>
-        <ParseHTML markdown={String(README)} />
-      </StyleHTML>
+      
     </Page>
   </Navigation>)
 

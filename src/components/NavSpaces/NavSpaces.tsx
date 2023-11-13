@@ -39,6 +39,49 @@ interface Props {
   sidebarWidth?: string
 }
 
+/**
+ * A navigation component that includes swipeable pages, sidebar, and content.
+ *
+ * @component
+ * @param {Object} props - The props for the NavSpaces component.
+ * @param {number} props.activeSwipeIndex - The active index of the swipeable pages.
+ * @param {Function} props.onSwipe - A callback function to handle swiping between pages.
+ * @param {React.ReactNode} props.firstPage - The content of the first page.
+ * @param {React.ReactNode} props.secondPage - The content of the second page.
+ * @param {React.ReactNode} props.thirdPage - The content of the third page.
+ * @param {Space[]} props.spaces - An array of space objects.
+ * @param {number} props.activeSpaceIndex - The active index of the spaces.
+ * @param {Function} props.onSetActiveSpacesIndex - A callback function to set the active space index.
+ * @param {Object[]} props.navsPrimary - An array of primary navigation items.
+ * @param {Object[]} [props.navsSecondary] - An optional array of secondary navigation items.
+ * @param {Object[]} props.channels - An array of channel objects.
+ * @param {Object[]} props.dropdownOptions - An array of dropdown options.
+ * @param {boolean} [props.hideSpaceName] - A flag to hide the space name.
+ * @param {boolean} [props.disableTablet] - A flag to disable tablet view.
+ * @param {string} [props.sidebarWidth] - The width of the sidebar.
+ *
+ * @returns {JSX.Element} The rendered NavSpaces component.
+ *
+ * @example
+ * // Example usage:
+ * <NavSpaces
+ *   activeSwipeIndex={activeIndex}
+ *   onSwipe={handleSwipe}
+ *   firstPage={<FirstPage />}
+ *   secondPage={<SecondPage />}
+ *   thirdPage={<ThirdPage />}
+ *   spaces={spaceData}
+ *   activeSpaceIndex={activeSpaceIndex}
+ *   onSetActiveSpacesIndex={handleSetActiveSpaceIndex}
+ *   navsPrimary={primaryNavItems}
+ *   navsSecondary={secondaryNavItems}
+ *   channels={channelData}
+ *   dropdownOptions={dropdownOptions}
+ *   hideSpaceName={true}
+ *   disableTablet={false}
+ *   sidebarWidth="320px"
+ * />
+ */
 export const NavSpaces = React.memo(({ 
   activeSwipeIndex, 
   onSwipe,

@@ -15,6 +15,19 @@ interface Props {
   open: boolean,
   onSetOpen: (isOpen: boolean) => void
 }
+/**
+ * A navigation component that includes a sidebar, header, and content.
+ *
+ * @component
+ * @param {Object} props - The props for the Navigation component.
+ * @param {Navs} props.navs - An array of navigation items to display in the sidebar.
+ * @param {string} props.navLogoSrc - The source URL of the navigation logo.
+ * @param {React.ReactNode} props.children - The content to be displayed in the main content area.
+ * @param {React.ReactNode} props.navChildren - Additional elements to be displayed in the header.
+ * @param {boolean} props.open - A boolean indicating whether the sidebar is open.
+ * @param {Function} props.onSetOpen - A callback function to toggle the sidebar open/close.
+ *
+ */
 
 export const Navigation = ({ 
   navs, 
