@@ -1,8 +1,6 @@
 import React from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import README from '!raw-loader!../../../README.md'
-
 import { ParseHTML, StyleHTML } from '../../internal'
 
 export default {
@@ -16,7 +14,10 @@ const Template: ComponentStory<typeof ParseHTML> = (args) => <StyleHTML>
 
 export const Markdown = Template.bind({})
 Markdown.args = {
-  markdown: README
+  markdown: `
+    # Header
+        
+  `
 }
 
 export const HTML = Template.bind({})

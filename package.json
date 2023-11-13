@@ -52,7 +52,8 @@
     "storybook-build": "yarn build-storybook",
     "kill": "kill $(lsof -t -i:6006)",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "build-clean": "rm yarn.lock && rm -rf node_modules && yarn build-storybook"
   },
   "author": "AVsync.LIVE LLC",
   "license": "MIT",
