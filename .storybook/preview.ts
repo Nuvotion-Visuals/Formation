@@ -1,12 +1,12 @@
 import type { Preview } from "@storybook/react";
-
 import '../src/index.dark.css'
-
+import { create } from '@storybook/theming/create'
 // fontawesome
 import '@fortawesome/fontawesome-svg-core/styles.css'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import * as far from '@fortawesome/free-regular-svg-icons'
 import * as fas from '@fortawesome/free-solid-svg-icons'
+
 library.add(
   // regular
   far.faHeart, far.faPaperPlane, far.faCheckSquare, far.faSquare,
@@ -50,6 +50,36 @@ const preview: Preview = {
         color: /(background|color)$/i,
         date: /Date$/i,
       },
+    },
+    docs: {
+      theme: create({
+        base: 'dark',
+
+        // UI
+        appBg: 'hsl(0, 0%, 10%)',
+        appContentBg: 'hsl(0, 0%, 10%)',
+        appBorderColor: 'hsl(0, 0%, 34%)',
+        appBorderRadius: 0,
+      
+        // Typography
+        fontBase: '"Segoe UI", sans-serif',
+        fontCode: 'monospace',
+      
+        // Text colors
+        textColor: 'rgba(255,255,255,0.9)',
+        textInverseColor: 'rgba(255,255,255,0.1)',
+      
+        // Toolbar default and active colors
+        barTextColor: 'rgba(255,255,255,0.9)',
+        barSelectedColor: 'hsl(0, 0%, 90%)',
+        barBg: 'hsl(0, 0%, 10%)',
+      
+        // Form colors
+        inputBg: 'hsl(0, 0%, 10%)',
+        inputBorder: 'hsl(0, 0%, 24%)',
+        inputTextColor: 'rgba(255,255,255,0.9)',
+        inputBorderRadius: 4,
+      })
     },
   },
 };

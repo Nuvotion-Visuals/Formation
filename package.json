@@ -47,7 +47,7 @@
     "rollup": "rm -rf dist && cross-env NODE_ENV=production rollup -c",
     "package": "yarn rollup && npm pack",
     "test": "jest",
-    "dev": "start-storybook -p 6006",
+    "dev": "yarn run storybook -p 6006",
     "kill-linux": "kill $(lsof -t -i:6006)",
     "storybook-build": "build-storybook",
     "kill": "kill $(lsof -t -i:6006)",

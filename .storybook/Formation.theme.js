@@ -15,7 +15,7 @@ export default create({
   appBorderRadius: 0,
 
   // Typography
-  fontBase: '"Open Sans", sans-serif',
+  fontBase: '"Segoe UI", sans-serif',
   fontCode: 'monospace',
 
   // Text colors
@@ -34,7 +34,7 @@ export default create({
   inputBorderRadius: 4,
 
   brandTitle: 'Formation',
-  brandUrl: 'https://avsync-live.github.io/formation',
+  brandUrl: '/',
   brandImage: logo,
   brandTarget: '_self',
 })
