@@ -9,24 +9,28 @@ export default {
 } as ComponentMeta<typeof Article>;
 
 const Template: ComponentStory<typeof Article> = args => {
-  const [markdownContent, setMarkdownContent] = useState('');
+  const [markdownString, setMarkdownString] = useState('');
 
   useEffect(() => {
-    import('../../../README.md').then(res => {
-      // @ts-ignore
-      const url = res.default as string;
-      fetch(url)
-        .then(response => response.text())
-        .then(text => {
-          // Convert Markdown to HTML and update state
-          setMarkdownContent(markdownToHTML(text));
-        });
-    });
+    async function fetchReadme() {
+      try {
+        const response = await fetch('README.md');
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const text = await response.text();
+        setMarkdownString(text)
+      } catch (error) {
+        console.error('Error fetching README:', error);
+      }
+    }
+
+    fetchReadme();
   }, []);
 
   return (
     <Page>
-      <Article {...args} value={markdownContent} />
+      <Article {...args} markdownString={markdownString} />
     </Page>
   );
 };

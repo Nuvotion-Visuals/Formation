@@ -111,27 +111,31 @@ const S = {
     ul, ol {
       box-sizing: border-box;
       padding-left: 24px;
-      margin: 10px 0 0 0;
-      margin-block-start: 1em;
-      margin-block-end: 1em;
-      margin-inline-start: 0px;
-      margin-inline-end: 0px;
-      padding-inline-start: 40px;
-      font-size: 16px;
-      line-height: 1.5rem;
+      margin: 0; /* ensure there are no extra margins on the list itself */
+      padding-inline-start: 40px; /* adjust padding for the start of list */
+      font-size: 16px; /* keep the font size as is */
       overflow-wrap: break-word;
       white-space: pre-wrap;
+      line-height: 1.5;
+      margin-top: -.25em;
     }
 
-    ol {
-      li {
-        list-style-type: decimal; 
-      }
+    ol li {
+      list-style-type: decimal; 
+      display: list-item;
+      margin-block-start: 0.25em; /* reduced margin at the start of the list item */
+      margin-block-end: 0.25em; /* reduced margin at the end of the list item */
+      /* line-height: 1; */
+    }
+
+    ul li,
+    ol li {
+      display: list-item;
+      list-style-type: disc; /* disc style for unordered lists, which can be overridden by ordered lists */
     }
 
     li {
-      display: list-item;
-      list-style-type: disc;
+      margin-bottom: -1em;
     }
 
     pre {
@@ -140,7 +144,7 @@ const S = {
       margin-top: 10px;
       font-size: var(--F_Font_Size);
       background: var(--F_Surface_0);
-      padding: 1rem;
+      padding: 0 .5rem;
       border-radius: .5rem;
       
     }

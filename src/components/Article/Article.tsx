@@ -1,24 +1,38 @@
 import React from 'react'
 
-import { RichTextEditor } from '../../internal'
+import { StyleHTML, markdownToHTML } from '../../internal'
 
 interface Props {
-  value: string
+  markdownString?: string,
+  htmlString?: string,
+  children?: React.ReactNode
 }
 
 /**
- * `Article` is a component that renders a `RichTextEditor` in read-only mode. 
- * This is typically used to display rich text content such as articles or formatted text inputs.
+ * `Article` is a component designed for displaying content in web applications, 
+ * commonly used for rendering rich text content fetched from a CMS API. 
+ * It accepts either a Markdown string, which it converts to HTML, or a raw HTML string. 
+ * Additionally, it can render children components directly, allowing for flexible content composition.
+ * This makes it suitable for articles, blogs, or other formatted text displays.
  *
  * @component
- * @param {string} value - The rich text content to be displayed by the `RichTextEditor`.
- *
- * @example
- * // To display an article with formatted text content
- * <Article value="<p>This is an <strong>example</strong> article content.</p>" />
+ * @param {string} [markdownString] - Optional Markdown string to be converted and displayed.
+ * @param {string} [htmlString] - Optional raw HTML string to be displayed.
+ * @param {React.ReactNode} [children] - Optional children to be rendered directly within the component.
  */
-export const Article = ({ value }: Props) => {
+export const Article = ({ markdownString, htmlString, children }: Props) => {
   return (
-    <RichTextEditor value={value} readOnly />
+    <StyleHTML>
+      <div 
+        dangerouslySetInnerHTML={{
+          __html: htmlString
+            ? htmlString
+            : markdownString
+              ? markdownToHTML(markdownString)
+              : ''
+        }}
+      />
+      {children}
+    </StyleHTML>
   )
 }
