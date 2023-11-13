@@ -1,8 +1,8 @@
-import { create } from '@storybook/theming'
+import { create } from '@storybook/theming/create'
 
 import logo from '../logo-white.svg'
 
-export const FormationTheme = create({
+export default create({
   base: 'dark',
 
   colorPrimary: 'hsl(0, 0%, 50%)',
@@ -15,7 +15,7 @@ export const FormationTheme = create({
   appBorderRadius: 0,
 
   // Typography
-  fontBase: '"Open Sans", sans-serif',
+  fontBase: '"Segoe UI", sans-serif',
   fontCode: 'monospace',
 
   // Text colors
@@ -34,7 +34,7 @@ export const FormationTheme = create({
   inputBorderRadius: 4,
 
   brandTitle: 'Formation',
-  brandUrl: 'https://avsync-live.github.io/formation',
+  brandUrl: '/',
   brandImage: logo,
   brandTarget: '_self',
 })

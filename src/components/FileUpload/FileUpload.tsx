@@ -15,6 +15,33 @@ interface FileUploadProps extends React.InputHTMLAttributes<HTMLInputElement> {
   buttonProps?: ButtonProps
 }
 
+/**
+ * `FileUpload` is a component that provides a user-friendly interface for uploading files either by dragging and dropping or by browsing files via a dialog. It features customizable messages and button properties, and it can be styled minimally.
+ *
+ * @component
+ * @param {function} [onFileChange] - Callback function that is called when files are selected or dropped. It receives an array of `File` objects.
+ * @param {React.ReactNode} [children] - Optional children to be rendered inside the drop area.
+ * @param {IconName} [icon] - Optional FontAwesome icon name for display.
+ * @param {IconPrefix} [iconPrefix] - Optional FontAwesome icon prefix.
+ * @param {string} [dragMessage] - Message displayed for the drag area, defaults to 'Drag files to upload'.
+ * @param {string} [browseMessage] - Message displayed on the browse files button, defaults to 'Browse files'.
+ * @param {boolean} [minimal] - If true, renders the button without the default layout and messages.
+ * @param {ButtonProps} [buttonProps] - Optional properties to pass to the button component.
+ * @param {React.InputHTMLAttributes<HTMLInputElement>} rest - Any remaining HTML input attributes.
+ *
+ * @example
+ * // Basic file upload with default messages
+ * <FileUpload onFileChange={(files) => console.log(files)} />
+ *
+ * @example
+ * // Minimal file upload with a custom icon
+ * <FileUpload 
+ *   minimal 
+ *   icon="file-upload" 
+ *   onFileChange={(files) => console.log(files)} 
+ *   buttonProps={{ text: 'Upload' }}
+ * />
+ */
 export const FileUpload: React.FC<FileUploadProps> = ({ 
   onFileChange, 
   icon,

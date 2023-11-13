@@ -12,6 +12,32 @@ interface Props extends TextInputProps {
   allowDirectEntry?: boolean,
 }
 
+/**
+ * Select allows users to choose one value from a list. When a user clicks the Select, a dropdown list appears, and users can choose one option from that list. The dropdown list closes after a selection has been made.
+ * 
+ * It also features an optional 'allowDirectEntry' attribute that allows users to type an entry directly into the Select field instead of choosing from the dropdown. If a typed entry matches an option from the dropdown list, it will select that option; if it doesn't, the typed entry will be used as the Select field value.
+ *
+ * @param {string} value - The current selected value from the dropdown.
+ * @param {Array.<{ label: string, value: string }>} options - The list of options that appear in the dropdown.
+ * @param {Function} onChange - A callback function that fires when the selected value changes. 
+ * @param {boolean} [allowDirectEntry=false] - A flag to decide whether a user can type an entry directly into the Select field.  
+ *
+ * @component
+ * @example
+ * 
+ *  const options = [
+ *     { label: 'Option 1', value: '1' },
+ *     { label: 'Option 2', value: '2' }
+ *  ]
+ * 
+ *  const getValue= val => {
+ *    console.log(val);
+ *  }
+ *  
+ *  return (
+ *    <Select value="1" options={options} onChange={getValue} allowDirectEntry />
+ *  )
+ */
 export const Select = ({
   value,
   options,

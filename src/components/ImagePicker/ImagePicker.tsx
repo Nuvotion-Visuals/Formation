@@ -109,6 +109,36 @@ interface Props {
   placeholderRatio?: number
 }
 
+/**
+ * `ImagePicker` is a component that allows users to select and crop images. It provides functionality for uploading new images,
+ * editing them via cropping and rotation, and displaying the current selection. It can be used as a standalone image selection input
+ * or integrated with forms for profile pictures, galleries, and more.
+ *
+ * @component
+ * @param {function} onChange - Callback function invoked with the new image source after cropping.
+ * @param {string} value - The current image source URL, to be displayed and edited.
+ * @param {string} [label='image'] - Label for the image picker, used in buttons and placeholders.
+ * @param {number} [ratio=1] - The aspect ratio for the cropping area.
+ * @param {boolean} [circle] - If true, the cropping area will be circular, ideal for profile pictures.
+ * @param {boolean} [hero] - Indicates if the component should use a large display style.
+ * @param {IconName} [icon] - FontAwesome icon name for the upload button.
+ * @param {IconPrefix} iconPrefix - FontAwesome icon prefix, determines the style of the icon.
+ * @param {boolean} [showPlaceholder] - If true, shows a placeholder when no image is selected.
+ * @param {number} [placeholderRatio] - Aspect ratio for the placeholder if no image is provided.
+ *
+ * @example
+ * // ImagePicker for profile picture selection
+ * <ImagePicker
+ *   label="profile picture"
+ *   value={currentImageSrc}
+ *   onChange={newImageSrc => setImage(newImageSrc)}
+ *   ratio={1}
+ *   circle
+ *   hero
+ *   icon="user"
+ *   iconPrefix="fas"
+ * />
+ */
 export const ImagePicker = ({
   onChange,
   value,

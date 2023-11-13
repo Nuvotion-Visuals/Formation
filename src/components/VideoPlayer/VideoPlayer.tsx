@@ -22,6 +22,24 @@ export interface CustomVideoPlayerRef {
   pause: () => Promise<void>
 }
 
+/**
+ * A Video Player that supports a variety of controls including play, pause, mute, volume control, time slider, repeat one, expand to full screen, and downloading the video.
+ *
+ * @param {string} src - The source URL of the video.
+ * @param {boolean} autoplay - Flag to autoplay the video once it's loaded.
+ * @param {boolean} loop - Flag to loop the video when it ends.
+ * @param {string} name - The name for the downloaded video file.
+ * @param {IconPrefix} iconPrefix - The prefix for the icons used in the video player controls.
+ *
+ * @function
+ * @inner
+ * @returns {CustomVideoPlayerRef}
+ *
+ * Implementing components should use a React ref to interact with this component. The exposed `play` and `pause` methods control video playback programatically.
+ *
+ * The `getVideoDimensions` method returns an object with the dimensions of the video, while the `onMetadataLoaded` method adds a callback function which is called when the video's metadata is loaded.
+ *
+ */
 export const VideoPlayer = React.memo(forwardRef<CustomVideoPlayerRef, CustomVideoPlayerProps>(
   ({ src, autoplay, loop, name, iconPrefix }, ref) => {
     const videoRef = useRef<HTMLVideoElement>(null)

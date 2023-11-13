@@ -42,6 +42,46 @@ export interface ItemProps {
   disablePadding?: boolean
 }
 
+/**
+ * `Item` is a flexible component that can represent a list item or an interactive element. It supports various configurations such as avatars, icons, labels, and custom content, and can be used as a navigation item or interactive list element.
+ *
+ * @component
+ * @param {string} [name] - The main text or name to be displayed in the item.
+ * @param {function} [onClick] - The click event handler for the item.
+ * @param {IconName} [icon] - The FontAwesome icon name to display.
+ * @param {IconPrefix} [iconPrefix] - The FontAwesome icon prefix, defaults to 'fas'.
+ * @param {boolean} [minimalIcon] - Determines if the icon should be rendered in a minimal style.
+ * @param {string} [src] - The image source URL, if the item includes an avatar or image.
+ * @param {string} [text] - Additional text to be displayed alongside the name.
+ * @param {LabelColor} [labelColor] - The label color type for styling the text or icon.
+ * @param {string} [label] - A label to be displayed, usually in a styled badge or tag.
+ * @param {string} [subtitle] - A secondary text, displayed below or after the name.
+ * @param {string} [dateString] - A formatted date string to display, if relevant.
+ * @param {Date} [date] - A Date object, used when the item includes date information.
+ * @param {boolean} [small] - If true, the item will be styled in a smaller size.
+ * @param {string} [href] - The URL to be used for navigation if the item is a link.
+ * @param {boolean} [active] - If true, the item will be styled to indicate it is currently active or selected.
+ * @param {boolean} [spaceIcon] - If true, a space icon will be used in place of the regular avatar or image.
+ * @param {React.ReactNode} [prefix] - Custom content to be displayed before the main text.
+ * @param {React.ReactNode} [children] - Custom content or additional components to render within the item.
+ * @param {React.ReactNode} [content] - Main content to be rendered inside the item.
+ * @param {boolean} [emphasize] - If true, the item will be styled to stand out, usually for emphasis or priority.
+ * @param {boolean} [indent] - If true, the item will include an indentation, often used in nested lists.
+ * @param {string} [pageTitle] - A title to be displayed prominently, often used for page headers or section titles.
+ * @param {boolean} [newTab] - If true and the item is a link, clicking it will open the href in a new tab.
+ * @param {boolean} [disableBreak] - If true, line breaks will be suppressed, keeping the content on one line.
+ * @param {boolean} [compact] - If true, the item will have a more compact layout with less padding and spacing.
+ * @param {boolean} [disablePadding] - If true, the item will not have padding applied to its container.
+ * @returns {JSX.Element} - The rendered component.
+ *
+ * @example
+ * // Basic item with text and an icon
+ * <Item name="Item Name" icon="user" />
+ *
+ * @example
+ * // Item as a clickable link with a subtitle and custom prefix content
+ * <Item href="/profile" name="Profile" subtitle="View your profile" prefix={<CustomIcon />} />
+ */
 export const Item = forwardRef<HTMLDivElement, ItemProps>(({
   name,
   label,

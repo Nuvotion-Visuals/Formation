@@ -76,6 +76,30 @@ interface FolderStructureProps {
   // Add other props here if needed
 }
 
+/**
+ * `FileBrowser` is a component that presents a navigable directory tree, allowing users to browse and select files.
+ * It supports expanding and collapsing folders, searching within the structure, and performing actions on file selection.
+ * It also integrates with a drag-and-drop system for file operations, and can display thumbnails for visual file types.
+ *
+ * @component
+ * @param {string[]} sourceNames - An array of source names that may correspond to already loaded or initialized files.
+ * @param {string} selectedSourceName - The currently selected source name used for highlighting in the UI.
+ * @param {function} setPendingSourceToApply - A callback to set a source as pending to be applied.
+ * @param {function} setLayerSource - A callback to set the source for a particular layer.
+ * @param {function} handleFileClickProp - A function called when a file entry is clicked, with the name and File object as parameters.
+ * @param {IconPrefix} [iconPrefix] - Optional prefix for the FontAwesome icons used within the component.
+ *
+ * @example
+ * // FileBrowser with source selection and file click handling
+ * <FileBrowser
+ *   sourceNames={['source1.mp4', 'source2.jpg']}
+ *   selectedSourceName="source2.jpg"
+ *   setPendingSourceToApply={(source) => console.log(`Pending source: ${source}`)}
+ *   setLayerSource={(layerInfo) => console.log(`Layer source set: ${layerInfo}`)}
+ *   handleFileClickProp={(name, file) => console.log(`File clicked: ${name}`, file)}
+ *   iconPrefix="fas"
+ * />
+ */
 export const FileBrowser = ({
   sourceNames, 
   selectedSourceName, 

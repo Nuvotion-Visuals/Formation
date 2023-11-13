@@ -94,6 +94,27 @@ interface Props {
   autoFocus?: boolean
 }
 
+/**
+ * A component that integrates with Google Maps Places API to provide an address search functionality.
+ * It allows the user to search for a place, view it on a map, and returns the selected place data.
+ * The map view can be toggled to show or hide based on the component's state or props.
+ * 
+ * The component initializes the map and the places autocomplete input when the relevant Google Maps
+ * scripts have loaded. When a user selects a location, the component updates its state and triggers
+ * a callback to lift the state up to the parent component, allowing for a controlled component pattern.
+ *
+ * @component
+ * @example
+ * return (
+ *   <Location 
+ *     value={currentLocationData}
+ *     onChange={handleLocationChange}
+ *     iconPrefix="fas"
+ *     label="Address"
+ *     autoFocus={true}
+ *   />
+ * )
+ */
 export const Location = ({ 
   value,
   onChange,

@@ -4,16 +4,39 @@ import { LoadingSpinner, insertCSS } from '../../internal'
 
 interface Props {
   config: any,
-  onLoaded: () => void
 }
 
+/**
+ * `Docking` is a component that enables dynamic and responsive arrangement of panels within an application interface.
+ * It allows users to organize their workspace with resizable and movable panels. The `config` object defines the initial state
+ * and structure of these panels, dictating how they should be displayed and interacted with upon initialization.
+ *
+ * @component
+ * @param {object} config - The configuration object defining the initial state and layout of the panels.
+ *
+ * @example
+ * // Docking component with a configuration for panel layout
+ * const panelConfig = {
+ *   content: [{
+ *     type: 'row',
+ *     content:[{
+ *       type: 'component',
+ *       componentName: 'exampleComponent',
+ *       title: 'Panel Title',
+ *       isClosable: true,
+ *       componentState: { label: 'Panel Content' }
+ *     }]
+ *   }]
+ * };
+ *
+ * <Docking config={panelConfig} />
+ */
 export const Docking = ({
   config,
-  onLoaded
 }: Props) => {
   const [layoutManager, setLayoutManager] = useState({})
 
-  const [content, set_content] = useState(<S.LoadingContainer><LoadingSpinner /></S.LoadingContainer>)
+  const [content, set_content] = useState(<></>)
 
   useEffect(() => {
     (async () => {
@@ -529,9 +552,6 @@ export const Docking = ({
           onLayoutReady={setLayoutManager}
         />
       )
-      if (onLoaded) {
-        onLoaded()
-      }
     })()
   }, [])
 

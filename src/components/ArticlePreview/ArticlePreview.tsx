@@ -11,6 +11,25 @@ interface Props {
   href: string
 }
 
+/**
+ * `ArticlePreview` is a component for showcasing article highlights such as title, a summary, 
+ * and an optional image. It's designed to be used as a clickable item that redirects to the full article.
+ *
+ * @component
+ * @param {string} title - The title of the article to be displayed.
+ * @param {string} [previewSrc] - The source URL for the preview image of the article.
+ * @param {string} summary - A brief summary or excerpt of the article content.
+ * @param {string} href - The URL that the article preview links to, usually the full article page.
+ *
+ * @example
+ * // An article preview with an image, title, and summary that links to the full article
+ * <ArticlePreview
+ *   title="Exploring the great outdoors"
+ *   previewSrc="/images/outdoors.jpg"
+ *   summary="Discover the joy of outdoor activities..."
+ *   href="/articles/outdoor-activities"
+ * />
+ */
 export const ArticlePreview = ({
   title,
   previewSrc,

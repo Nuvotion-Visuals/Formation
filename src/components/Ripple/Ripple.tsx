@@ -1,6 +1,18 @@
 import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 
+/**
+ * The `Ripple` component creates a visual ripple effect extending out from the input point on mouse click. 
+ * The ripple animation is designed to mimic the effect of dropping a pebble into a still pool of water, with concentric circles radiating outwards. 
+ * The component creates the ripple effect by dynamically adding and removing div elements with the appropriate styling.
+ * 
+ * This component creates the ripple effect globally; anywhere you click on the screen (where the component is included), the ripple effect takes place.
+ *
+ * @component
+ *
+ * @example
+ * <Ripple />
+ */
 export const Ripple = () => {
   const rippleContainerRef = useRef<HTMLDivElement>(null)
 

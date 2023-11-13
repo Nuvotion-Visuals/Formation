@@ -12,6 +12,31 @@ interface Props {
   minimalIcon?: boolean
 }
 
+/**
+ * `Avatar` is a component that displays a user's avatar. It can show an image, an icon, or the user's initials. 
+ * The avatar's appearance can be customized with various options, such as the icon size and label color.
+ *
+ * @component
+ * @param {string} [name] - The name of the user, used to generate initials if no image source is provided.
+ * @param {string} [src] - The image source URL to display in the avatar.
+ * @param {IconName} [icon] - The name of the FontAwesome icon to display in the avatar.
+ * @param {IconPrefix} [iconPrefix] - The prefix for the FontAwesome icon set to be used.
+ * @param {LabelColor} [labelColor] - The color label for the avatar background, can influence icon color as well.
+ * @param {boolean} [minimalIcon] - If true, a smaller icon size is used.
+ *
+ * @example
+ * // Avatar with user's initials
+ * <Avatar name="Jane Doe" />
+ *
+ * @example
+ * // Avatar with FontAwesome icon
+ * <Avatar icon="user" iconPrefix="fas" minimalIcon />
+ *
+ * @example
+ * // Avatar with an image source
+ * <Avatar src="/path/to/image.jpg" />
+ */
+
 export const Avatar = ({ 
   name,
   src,

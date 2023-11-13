@@ -11,6 +11,42 @@ interface Props extends ItemProps {
   minimal?: boolean
 } 
 
+/**
+ * This component displays a Radio input field that allows the user to choose one option from many.
+ * Each option displays as an Item component that can be customized with its own props. The options themselves
+ * are passed in as an array of objects, each object representing one option and defining the properties of its corresponding Item.
+ * By passing the 'minimal' prop, the look of the components can be simplified.
+ *
+ * @component
+ * @param {ItemProps} props - Includes label, icon, and iconPrefix. Defines the properties of the Item.
+ * @param {ItemProps[]} options - An array of objects, each one representing one radio option and defining the properties of the corresponding Item.
+ * @param {string} value - The current selected value.
+ * @param {function(string): void} onChange - Function to be executed when an option is selected.
+ * @param {boolean} [minimal= false] - If true, simplifies the look of the component.
+ *
+ * @example
+ * // Basic usage of Radio component with options
+ * <Radio
+ *   options={[
+ *     { value: 'One', label: 'One'},
+ *     { value: 'Two', label: 'Two'}
+ *   ]}
+ *   value='One'
+ *   onChange={(val) => console.log(val)}
+ * />
+ *
+ * @example
+ * // Radio component with minimal appearance and customized options
+ * <Radio
+ *   options={[
+ *     { value: 'One', label: 'One', icon: 'circle'},
+ *     { value: 'Two', label: 'Two', icon: 'circle'}
+ *   ]}
+ *   value='One'
+ *   onChange={(val) => console.log(val)}
+ *   minimal
+ * />
+ */
 export const Radio = (props : Props) => {
   const { options, value, onChange, label, icon, iconPrefix, minimal } = props
 

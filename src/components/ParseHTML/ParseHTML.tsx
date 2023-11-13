@@ -11,6 +11,27 @@ interface Props {
   markdown?: string
 }
 
+/**
+ * This component is designed to parse and sanitize any provided HTML or Markdown strings and display the parsed content correctly on the page.
+ * 
+ * It uses several libraries to perform these actions:
+ * - 'marked' to parse the markdown string into HTML.
+ * - 'showdown' to convert the markdown to HTML.
+ * - 'DOM Purify' to sanitize the final HTML to prevent any malicious code from running.
+ * - 'React HTML Parser' to convert the HTML string into React components so they can be rendered on the page.
+ * 
+ * @component
+ * @param {string} [html] - HTML string to be sanitized and displayed.
+ * @param {string} [markdown] - Markdown string to be converted to HTML, sanitized and displayed.
+ *
+ * @example
+ * // Display provided HTML string
+ * <ParseHTML html="<h1>This is some HTML</h1>" />
+ *
+ * @example
+ * // Display provided markdown string
+ * <ParseHTML markdown="# This is some markdown" />
+ */
 export const ParseHTML = React.memo(({
   markdown,
   html

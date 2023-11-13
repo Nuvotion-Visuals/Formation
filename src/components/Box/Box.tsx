@@ -29,6 +29,44 @@ interface Props {
   expandVertical?: boolean,
 }
 
+/**
+ * `Box` is a highly customizable container component that provides a way to apply spacing,
+ * sizing, and flexibility to its children. It supports margins, padding, width, height, and visibility
+ * properties, along with the ability to expand to fill its container's width and/or height.
+ *
+ * @component
+ * @param {number} [m] - Margin on all sides (in rem).
+ * @param {number} [mb] - Margin bottom (in rem).
+ * @param {number} [mt] - Margin top (in rem).
+ * @param {number} [mr] - Margin right (in rem).
+ * @param {number} [ml] - Margin left (in rem).
+ * @param {number} [mx] - Horizontal margin (applied to both left and right) (in rem).
+ * @param {number} [my] - Vertical margin (applied to both top and bottom) (in rem).
+ * @param {number} [p] - Padding on all sides (in rem).
+ * @param {number} [pb] - Padding bottom (in rem).
+ * @param {number} [pt] - Padding top (in rem).
+ * @param {number} [pr] - Padding right (in rem).
+ * @param {number} [pl] - Padding left (in rem).
+ * @param {number} [px] - Horizontal padding (applied to both left and right) (in rem).
+ * @param {number} [py] - Vertical padding (applied to both top and bottom) (in rem).
+ * @param {React.ReactNode} [children] - The content to be rendered inside the Box.
+ * @param {number|string} [width] - The width of the Box (in rem or any CSS unit).
+ * @param {number|string} [maxWidth] - The maximum width of the Box (in rem or any CSS unit).
+ * @param {number|string} [minWidth] - The minimum width of the Box (in rem or any CSS unit).
+ * @param {number|string} [height] - The height of the Box (in rem or any CSS unit).
+ * @param {number|string} [maxHeight] - The maximum height of the Box (in rem or any CSS unit).
+ * @param {number|string} [minHeight] - The minimum height of the Box (in rem or any CSS unit).
+ * @param {boolean} [hide] - If true, the Box will not be displayed.
+ * @param {boolean} [wrap] - If true, allows the children to wrap within the Box.
+ * @param {boolean} [expand] - If true, the Box will expand to fill the width of its container, minus any defined padding.
+ * @param {boolean} [expandVertical] - If true, the Box will expand to fill the height of its container, minus any defined padding.
+ *
+ * @example
+ * // Box with specific padding and margins, containing text
+ * <Box p={2} mt={1} mb={1}>
+ *   Sample text inside the box.
+ * </Box>
+ */
 export const Box = React.memo((props : Props) => {
   return (
     <S.Box { ...props }>

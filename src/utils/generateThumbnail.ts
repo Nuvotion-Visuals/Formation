@@ -66,6 +66,24 @@ const generateVideoThumbnail = (file: File, callback: (image: string) => void, m
   video.play();
 };
 
+/**
+ * @async
+ * @function generateVideoThumbnails
+ *
+ * A helper function to generate a series of video thumbnails at specified timestamps. Thumbnails are captured as video frames at the specified points in the video.
+ * 
+ * @param {File} file - The video file for which thumbnails are to be generated.
+ * @param {number} [maxDimension = 256] - The maximum dimension to which the video frames should be resized.
+ * @param {number[]} [timestamps = [0, 20, 40, 60, 80, 100]] - An array of points (represented in percentage of total video duration) at which to capture video frames.
+ * @param {boolean} [useObjectUrl = false] - If true, returns the captured frames as object URLs; if false, returns as data URLs.
+ *
+ * @throws {Error} If there's an error in fetching the video data or manipulating DOM for video frame capture.
+ * @returns {Promise<{image: string | Blob, timestamp: number}[]>} A promise that resolves to an array of objects containing the generated thumbnail (as a base64 encoded string or object URL, depending on useObjectUrl) and the corresponding timestamp.
+ *
+ * @example
+ * const vidFile = new File([...], "sample.mp4");
+ * generateVideoThumbnails(vidFile, 128, [0, 25, 50, 75, 100]).then(thumbnails => { console.log(thumbnails); });
+ */
 export const generateVideoThumbnails = async (
   file: File,
   maxDimension = 256,
@@ -126,6 +144,22 @@ export const generateVideoThumbnails = async (
 }
 
 
+/**
+ * @function generateThumbnail
+ * 
+ * A helper function to generate thumbnail for a media file (image or video). It detects the file type and internally calls the appropriate function to generate the thumbnail.
+ * 
+ * @param {File} file - The media file for which thumbnail is to be generated.
+ * @param {Function} callback - The callback to execute when thumbnail generation is complete. The generated thumbnail (as a base64 encoded string) will be passed as argument to the callback.
+ * @param {number} [maxDimension = 256] - The maximum dimension to which the image should be resized. This is applicable to both images and video frames.
+ * 
+ * @throws {Error} If there's an error in fetching the image data or manipulating DOM for video thumbnail generation.
+ *
+ * @example
+ * const imgFile = new File([...], "sample.png");
+ * generateThumbnail(imgFile, result => console.log(`Thumbnail data: ${result}`));  // Logs base64 encoded thumbnail data
+ * generateThumbnail(imgFile, result => { document.getElementById("thumbnail").src = result; });  // Sets thumbnail as source for an <img> element
+ */
 
 export const generateThumbnail = (file: File, callback: (image: string) => void, maxDimension = 256) => {
   const type = file.type.split('/')[0];

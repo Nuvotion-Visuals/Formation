@@ -29,6 +29,36 @@ interface Props {
   isMultiDay?: boolean
 }
 
+/**
+ * `DateAndTimePicker` allows users to pick dates and times for scheduling events. 
+ * It can be configured to support multi-day events and provides an interface to add or remove days.
+ * The component also includes an option to specify time zones.
+ *
+ * @component
+ * @param {DatesAndTimes} value - An array of objects that holds the date, start time, end time, and time zone information.
+ * @param {function} onChange - Callback that is called when there's a change in any date or time value.
+ * @param {IconPrefix} [iconPrefix] - Prefix for the FontAwesome icons used within the component.
+ * @param {boolean} [isMultiDay] - If true, the component allows adding multiple dates to the event.
+ *
+ * @example
+ * // Single day DateAndTimePicker with change handling
+ * <DateAndTimePicker
+ *   value={[{ date: '2023-01-01', startTime: '10:00 AM', endTime: '11:00 AM', timeZone: 'GMT' }]}
+ *   onChange={newDates => console.log(newDates)}
+ * />
+ *
+ * @example
+ * // Multi-day DateAndTimePicker with change handling
+ * <DateAndTimePicker
+ *   value={[
+ *     { date: '2023-01-01', startTime: '10:00 AM', endTime: '11:00 AM', timeZone: 'GMT' },
+ *     { date: '2023-01-02', startTime: '10:00 AM', endTime: '11:00 AM', timeZone: 'GMT' }
+ *   ]}
+ *   onChange={newDates => console.log(newDates)}
+ *   isMultiDay
+ * />
+ */
+
 export const DateAndTimePicker = ({ 
   value,
   onChange,

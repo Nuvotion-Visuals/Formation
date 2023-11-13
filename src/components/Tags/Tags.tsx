@@ -13,6 +13,33 @@ type TagsType = {
   noPadding?: boolean
 }
 
+/**
+ * The `Tags` component renders a list of tags that user can select by clicking on them. The state of selected tags reportedly
+ * synced back to the parent component, enabling parent to manage the result of users' interaction with the tags.
+ * 
+ * The component also offers scrolling functionality for presenting tags when there's inadequate space to display all at once.
+ * The arrow icons appear on the sides when the tags overflow the container, allowing the user to scroll left and right.
+ *
+ * @param {Object[]} allTags - An array of tag objects. Each tag object should include properties for button customization, e.g., "name", "primary", "labelColor", etc.
+ * See the Button component for a full list of customizable properties.
+ * @param {string[]} initialActiveTags -Initial value for active tags. Ideally, it should be an array of tag names from the allTags props.
+ * @param {Function} onChange - Callback function to update the active tags in parent state. Returns the array of active tag names.
+ * @param {boolean} noPadding - Set to true to remove default padding around the component. Default: none.
+ *
+ * @example
+ * return (
+ *  <Tags 
+ *    allTags={[
+ *      { name:'Tag1' }, 
+ *      { name:'Tag2', labelColor:'blue' }
+ *    ]}
+ *    initialActiveTags={['Tag1']}
+ *    onChange={(tags) => console.log(tags)}
+ *  />
+ * )
+ * 
+ * @component
+ */
 export const Tags = ({ 
   allTags, 
   initialActiveTags, 

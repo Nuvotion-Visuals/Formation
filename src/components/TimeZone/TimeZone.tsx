@@ -46,6 +46,16 @@ interface Props {
   value: string | undefined
 }
 
+/**
+ * A TimeZone component which provides an input field with a dropdown for selecting a timezone.
+ * It displays the selected timezone in GMT offset and city format. Users can also type in the timezone.
+ * The component updates the timezone to the parent component with an onChange callback.
+ *
+ * @param {string} value - The current value of the timezone input field.
+ * @param {Function} onChange - Callback function that will be called with the current value of the timezone input field when it changes.
+ * 
+ * @component
+ */
 export const TimeZone = ({
   onChange,
   value

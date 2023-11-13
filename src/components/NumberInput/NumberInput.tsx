@@ -13,6 +13,29 @@ interface Props {
   iconPrefix?: IconPrefix
 }
 
+/**
+ * This is a number input field component with increment and decrement functionality.
+ * The component's value can be manipulated in three ways:
+ *   1. Manually entering the value into the number field.
+ *   2. Clicking on or holding down the caret up or down icons to increment or decrement the value.
+ *   3. Clicking on the number field and dragging up or down to increase or decrease the value.
+ * 
+ * @component
+ * @param {number} value - The current value of the input field.
+ * @param {number} [step=0.1] - The amount the value should be incremented or decremented by. Defaults to 0.1.
+ * @param {function(number): void} onChange - Function to be executed when the input field's value changes.
+ * @param {number} [min] - The minimum value that the input field can hold. This is optional.
+ * @param {number} [max] - The maximum value that the input field can hold. This is optional.
+ * @param {IconPrefix} [iconPrefix='fas'] - The prefix for the FontAwesome icons used for the increment and decrement buttons. Defaults to 'fas' (solid).
+ * 
+ * @example
+ * // Using default step = 0.1, min = undefined, max = undefined, iconPrefix = 'fas'
+ * <NumberInput value={3.4} onChange={newValue => console.log(newValue)} />
+ * 
+ * @example
+ * // Using step = 0.5, min = 0, max = 10, iconPrefix = 'far' (regular)
+ * <NumberInput value={3.4} step={0.5} min={0} max={10} onChange={newValue => console.log(newValue)} iconPrefix='far' />
+ */
 export const NumberInput = ({ value, step = 0.1, onChange, min, max, iconPrefix = 'fas' }: Props) => {
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [isIncrementing, setIsIncrementing] = useState<boolean>(false);

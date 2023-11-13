@@ -7,6 +7,24 @@ interface Props {
   disabled?: boolean
 }
 
+/**
+ * Switch component is a simple boolean switch component which toggles between active (true) and inactive (false) states.
+ * The component receives a value prop which it uses to determine its initial state and onChange handler to update 
+ * the state.The Switch component includes an "enabled" and "disabled" state.
+ *
+ * @param {boolean} value - The current state of the switch.
+ * @param {Function} onChange - Function to be executed when the switch is toggled.
+ * @param {boolean} disabled - Defines whether the switch is interactable or not. Default: false.
+ *
+ * @example
+ * return (
+ *  <div>
+ *    <Switch value={isTrue} onChange={setIsTrue} />
+ *  </div>
+ * )
+ * 
+ * @component
+ */
 export const Switch = ({ value, onChange, disabled }: Props) => {
   return (
     <S.Switch>

@@ -150,6 +150,23 @@ interface Props {
   autoFocus?: boolean
 }
 
+/**
+ * A TimePicker component for time input selection. The input field displays the selected time and has an optional dropdown
+ * menu for quick time selection. It also returns the selected time to the parent component with an onChange callback. The 
+ * dropdown automatically scrolls to the selected time, or the current time if no time is selected. Users can also input the 
+ * time directly in https://en.wikipedia.org/wiki/12-hour_clock format.
+ *
+ * @param {string} value - The current value of the time input field.
+ * @param {string} comparisonStartTime - If a start time is provided, the time difference between the start time and each 
+ * dropdown time will be displayed next to the corresponding dropdown time.
+ * @param {Function} onChange - Callback function that will be called with the current value of the time input field when it changes.
+ * @param {string} [label] - Specify a label for the input field. Default: 'Time'.
+ * @param {string} [error] - Specify an error message to display under the input field.
+ * @param {IconPrefix} [iconPrefix] - Prefix of an icon from the FontAwesome library, e.g., 'fas', 'far', etc. Default: none.
+ * @param {boolean} [autoFocus] - If true, the input field will be automatically focused when the page loads. Default: false.
+ * 
+ * @component
+ */
 export const TimePicker = ({
   value,
   comparisonStartTime,

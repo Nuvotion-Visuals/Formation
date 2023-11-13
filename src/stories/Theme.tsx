@@ -8,6 +8,20 @@ interface Props {
   
 }
 
+/**
+ * Component for displaying the CSS variables used for theming in the storybook. This is used to illustrate the different ways the look and feel of Formation components can be customized. 
+ * 
+ * These variables are used in the Formation component library to adjust the colours, fonts and other visual settings of the components. They are attached to the `:root` pseudo-selector, 
+ * which is effectively setting them on the document object. Because of this, they will be available globally across all Formation components.
+ * 
+ * Note: The various CSS variables displayed and their current values, are retrieved from the document object itself — using `getComputedStyle(document.documentElement).getPropertyValue(variableName)`.
+ * 
+ * @component
+ * @example
+ * return <Theme />
+ * 
+ * @see {@link https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties|CSS Custom Properties (Variables)}
+ */
 export const Theme = ({  }: Props) => {
   const colors = [
     '--F_Primary',

@@ -1,5 +1,15 @@
 import styled from 'styled-components'
 
+/**
+ * `DropCorners` is a styled component that renders visual cues in the corners of a drop zone.
+ * It is typically used in conjunction with the `FileDrop` component to indicate that the drop zone is active
+ * when the user is dragging files over it. It does not handle any functionality itself, serving purely as a UI enhancement.
+ *
+ * @component
+ *
+ * @example
+ * // Usage within the FileDrop component to provide visual feedback
+ */
 export const DropCorners = styled.div`
   position: absolute;
   right: 0;

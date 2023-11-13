@@ -11,6 +11,7 @@ export type LabelColor =
   'teal' | 
   'gray' |
   'none'
+
 export const labelColors : LabelColor[] = [
   'red', 
   'orange', 
@@ -30,6 +31,21 @@ export type LabelType = {
   description: string,
   labelColor: LabelColor
 }
+/**
+ * @function getLabelColor
+ * 
+ * This function take `LabelColor` type as a parameter and returns the corresponding color property from a predefined list.
+ * This method is used to dynamically fetch the css variable values for label colors.
+ * LabelColor is a type with possible options: 'red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'purple', 'pink', 'cyan', 'teal', 'gray'.
+ * 
+ * @param {LabelColor} labelColor - The label color parameter passed to get corresponding CSS variable value.
+ * 
+ * @returns {string} The value of the corresponding CSS variable for the label color.
+ * 
+ * @example
+ * const labelColor = 'blue'
+ * const blueColor = getLabelColor(labelColor)  // Gives 'var(--F_Label_Color_Blue)'
+ */
 export const getLabelColor = (labelColor: LabelColor): string => {
   switch(labelColor) {
     case 'red':

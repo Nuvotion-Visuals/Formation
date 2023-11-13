@@ -13,6 +13,21 @@ interface BadgeProps {
   invisible: boolean,
 }
 
+/**
+ * `Badge` is a UI component used to display a small badge on top of another element. It's often used to show a count of items, notifications, or status.
+ * It can be made invisible if the count is 0 or set to a specific number otherwise, with an animation for the change in visibility.
+ *
+ * @component
+ * @param {LabelColor} labelColor - The predefined color for the badge background, fetched from a label color utility.
+ * @param {number} count - The numerical value to be displayed in the badge. If the count is 0, the badge is invisible. If over 99, it displays '99+'.
+ * @param {React.ReactNode} children - The content over which the badge is to be displayed.
+ *
+ * @example
+ * // Badge with a count, displaying over an icon
+ * <Badge labelColor="primary" count={5}>
+ *   <Icon name="bell" />
+ * </Badge>
+ */
 export const Badge = ({ labelColor, count, children }: Props) => {
   const [isInvisible, setIsInvisible] = useState<boolean>(true)
 

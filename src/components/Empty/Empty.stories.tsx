@@ -12,9 +12,7 @@ export default {
 
 const Template: ComponentStory<typeof Empty> = args => 
 <AspectRatio ratio={16/9}>
-  <Empty {...args}>
-
-  </Empty>
+  <Empty {...args} />
 </AspectRatio>
   
 

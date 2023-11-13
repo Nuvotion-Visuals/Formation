@@ -1,5 +1,22 @@
 import { useEffect, RefObject } from 'react'
 
+/**
+ * Hook that alerts clicks outside of the passed ref.
+ * @function
+ * @param {React.RefObject} ref - React ref object that refers to the element to be monitored for clicks outside of it.
+ * @param {function} handler - Event handler to be invoked when a click outside of the ref's element is detected.
+ * @returns {void}
+ * @example
+ * ```js
+ *   const node = useRef();
+ *   useOnClickOutside(node, () => set_menuOpen(false));
+ *   return <div ref={node}>...</div>;
+ * ```
+ * @see {@link https://reactjs.org/docs/hooks-reference.html#useref|React.useRef}
+ * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/Document/addEventListener|document.addEventListener}
+ * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/Document/removeEventListener|document.removeEventListener}
+ * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/Element/contains|element.contains}
+ */
 export const  useOnClickOutside = (
   ref: RefObject<any>, 
   handler: (event : MouseEvent | TouchEvent) => void

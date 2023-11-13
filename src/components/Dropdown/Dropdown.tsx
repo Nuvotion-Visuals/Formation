@@ -15,6 +15,33 @@ interface Props extends ButtonProps {
   disableSearch?: boolean,
 }
 
+/**
+ * `Dropdown` is a flexible UI component that renders a dropdown list. It can display a list of selectable items, 
+ * support a search function for filtering options, and provide a custom appearance by rendering children elements.
+ * The dropdown expands based on user interaction and closes when an item is selected or when clicked outside of the list.
+ *
+ * @component
+ * @param {ItemProps[]} items - An array of objects defining the list items and their actions.
+ * @param {function} [onOpen] - Optional callback triggered when the dropdown is opened or closed.
+ * @param {string} [maxWidth] - Optional maximum width of the dropdown.
+ * @param {string} [searchPlaceholder] - Optional placeholder text for the search input field.
+ * @param {React.ReactNode} [children] - Optional elements to be rendered instead of the default dropdown appearance.
+ * @param {boolean} [isSelect] - Determines if the dropdown should behave as a select element.
+ * @param {boolean} [disableSearch] - If true, the search functionality is disabled regardless of the number of items.
+ *
+ * @example
+ * // Dropdown with custom button and a list of options
+ * <Dropdown 
+ *   items={[
+ *     { label: 'Option 1', value: '1' },
+ *     { label: 'Option 2', value: '2' }
+ *   ]}
+ *   onOpen={open => console.log(`Dropdown is ${open ? 'open' : 'closed'}`)}
+ * >
+ *   <Button text="Select an option" />
+ * </Dropdown>
+ */
+
 export const Dropdown = React.memo((props: Props) => {
   const items = props.items
   const [open, setOpen] = useState(false)
