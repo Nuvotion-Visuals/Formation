@@ -1,8 +1,8 @@
-import { create } from '@storybook/theming'
+import { create } from '@storybook/theming/create'
 
 import logo from '../logo-white.svg'
 
-export const FormationTheme = create({
+export default create({
   base: 'dark',
 
   colorPrimary: 'hsl(0, 0%, 50%)',

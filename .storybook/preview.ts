@@ -1,36 +1,6 @@
-import light from '!!style-loader?injectType=lazyStyleTag!css-loader!../src/index.light.css'
-import dark from '!!style-loader?injectType=lazyStyleTag!css-loader!../src/index.dark.css'
+import type { Preview } from "@storybook/react";
 
-import cssVariablesTheme from '@etchteam/storybook-addon-css-variables-theme'
-
-export const decorators = [
-  cssVariablesTheme,
-  (story, context) => {
-    // const defaultBackgroundColorKey = context?.parameters?.backgrounds?.default
-    // const defaultBackgroundColor = context?.parameters?.backgrounds?.values?.find(v => v.name === defaultBackgroundColorKey)?.value
-    // const currentBackgroundColor = context?.globals?.backgrounds?.value ?? defaultBackgroundColor
-  
-    const styleContent = `
-    .docs-story {
-      background-color: var(--F_Background);
-    }
-    body {
-      background-color: var(--F_Background);
-      font-family: "Segoe UI", sans-serif;
-    }
-    `
-  
-    return <>
-      <style>{styleContent}</style>
-      <>{story(context)}</>
-    </>
-  }
-];
-
-import { addDecorator } from '@storybook/react';
-import { withPerformance } from 'storybook-addon-performance';
-
-addDecorator(withPerformance);
+import '../src/index.dark.css'
 
 // fontawesome
 import '@fortawesome/fontawesome-svg-core/styles.css'
@@ -72,19 +42,16 @@ library.add(
   fas.faAnglesLeft, fas.faAnglesRight, fas.faCamera
 )
 
-export const parameters = {
-  actions: { argTypesRegex: "^on[A-Z].*" },
-  controls: {
-    matchers: {
-      color: /(background|color)$/i,
-      date: /Date$/,
+const preview: Preview = {
+  parameters: {
+    actions: { argTypesRegex: "^on[A-Z].*" },
+    controls: {
+      matchers: {
+        color: /(background|color)$/i,
+        date: /Date$/i,
+      },
     },
   },
-  cssVariables: {
-    files: {
-      'Light Theme': light,
-      'Dark Theme': dark,
-    },
-    defaultTheme: 'Light Theme'
-  }
-}
+};
+
+export default preview;

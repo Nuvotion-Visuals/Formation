@@ -11,6 +11,7 @@ export type LabelColor =
   'teal' | 
   'gray' |
   'none'
+
 export const labelColors : LabelColor[] = [
   'red', 
   'orange', 

@@ -1,7 +1,6 @@
-import { addons } from '@storybook/addons'
-import { themes } from '@storybook/theming'
-import { FormationTheme } from './Formation.theme'
+import { addons } from '@storybook/manager-api';
+import FormationTheme from './Formation.theme';
 
 addons.setConfig({
   theme: FormationTheme,
-})
+});
