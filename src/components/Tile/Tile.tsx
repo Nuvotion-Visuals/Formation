@@ -5,6 +5,7 @@ import styled, { css } from 'styled-components'
 interface Props {
   onClick?: (e: React.MouseEvent) => void,
   disabled?: boolean,
+  active?: boolean,
   header: ItemProps,
   content: AspectRatioProps,
   footers?: ItemProps[],
@@ -22,6 +23,7 @@ interface Props {
  * a specific aspect ratio.
  * 
  * @param {function} [onClick] - Optional click event handler for the tile.
+ * @param {boolean} [active] - If true, the tile is visually highlighted in the theme's primary color.
  * @param {boolean} [disabled] - If true, the tile is visually and functionally disabled.
  * @param {ItemProps} header - Properties for configuring the header `Item` component.
  * @param {AspectRatioProps} content - Properties for configuring the content area with a specific aspect ratio.
@@ -42,6 +44,7 @@ interface Props {
 
 export const Tile = ({
   onClick,
+  active,
   disabled,
   header,
   content,
@@ -50,6 +53,7 @@ export const Tile = ({
   return (
     <S.Tile 
       onClick={onClick ? onClick : undefined} 
+      active={active}
       disabled={disabled}
       canClick={!!onClick}
     >
@@ -73,32 +77,33 @@ export const Tile = ({
 
 const S = {
   Tile: styled.div<{
+    active?: boolean,
     disabled?: boolean,
     canClick?: boolean
   }>`
-    width: 100%;
-    border-radius: var(--F_Tile_Radius);
-    overflow: hidden;
-    background: var(--F_Surface);
-    cursor: ${props => props.disabled 
-      ? 'not-allowed' 
-      : props.canClick
-        ? 'pointer'
-        : 'auto'
-    };
+   width: 100%;
+  border-radius: var(--F_Tile_Radius);
+  overflow: hidden;
+  background: ${props => props.active ? 'var(--F_Primary)' : 'var(--F_Surface)'};
+  cursor: ${props => props.disabled 
+    ? 'not-allowed' 
+    : props.canClick 
+      ? 'pointer' 
+      : 'auto'};
 
-    ${props => props.canClick && css`
-      cursor: pointer;
-      &:hover {
-        background: var(--F_Surface_1);
-      }
-      &:active {
-        background: var(--F_Surface_2);
-      }
-      * {
-        cursor: pointer;
-      }
-    `}
+  ${props => props.canClick 
+    ? `
+        &:hover {
+          background: ${props.active ? 'var(--F_Primary_Hover)' : 'var(--F_Surface_1)'};
+        }
+        &:active {
+          background: ${props.active ? 'var(--F_Primary_Variant)' : 'var(--F_Surface_2)'};
+        }
+        * {
+          cursor: pointer;
+        }
+      ` 
+    : ''};
   `,
   FooterWrapper: styled.div`
     width: 100%;

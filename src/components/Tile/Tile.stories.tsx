@@ -129,3 +129,16 @@ LongTitle.args = {
     backgroundSrc: `/blendPreviews/Difference.jpg`
   }
 }
+
+export const Active = Template.bind({})
+Active.args = {
+  onClick: () => alert('clicked'),
+  active: true,
+  header: {
+    text: 'Difference',
+    compact: true
+  },
+  content: {
+    backgroundSrc: `/blendPreviews/Difference.jpg`
+  }
+}
