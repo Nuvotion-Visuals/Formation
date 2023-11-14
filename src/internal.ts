@@ -133,6 +133,7 @@ export { VideoPlayer } from './components/VideoPlayer/VideoPlayer'
 export { AudioPlayer } from './components/AudioPlayer/AudioPlayer'
 export { Tile } from './components/Tile/Tile'
 export { Fit } from './components/Fit/Fit'
+export { TileGridPlaceholder } from './components/TileGridPlaceholder/TileGridPlaceholder'
 
 import React from 'react'
 

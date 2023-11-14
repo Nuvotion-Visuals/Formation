@@ -19,9 +19,3 @@ export const Small= Template.bind({})
 Small.args = {
   small: true
 }
-
-export const Chat= Template.bind({})
-Chat.args = {
-  small: true,
-  chat: true
-}
