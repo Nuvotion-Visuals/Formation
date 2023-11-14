@@ -47,15 +47,16 @@ const S = {
     max-width: 6rem;
     color: ${props => props.emphasize ? 'var(--F_Font_Color)' : 'var(--F_Font_Color_Label)'};
     border-right: 1px solid var(--F_Background);
-    padding: 2px 0;
     padding-right: 2px;
   `,
 
   Right: styled.div`
-    width: calc(100% - calc(6rem + 4px));
+    width: calc(100% - calc(6rem + 10px));
     display: flex;
     flex-wrap: wrap;
     gap: 4px;
+    padding: 2px 0;
+    padding-left: 4px;
   `,
 
   Label: styled.div`

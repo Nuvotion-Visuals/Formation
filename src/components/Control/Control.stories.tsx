@@ -56,13 +56,6 @@ Multiple.args = {
       min={0}
       max={100}
     />
-    <Button
-      icon='sync'
-      iconPrefix='fas'
-      minimal
-      compact
-      off
-      square
-    />
+  
   </Gap>
 }

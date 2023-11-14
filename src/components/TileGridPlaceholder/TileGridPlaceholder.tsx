@@ -6,7 +6,7 @@ import React from 'react'
 interface Props {
   loading?: boolean,
   noResultsMessage: string,
-  children: React.ReactNode,
+  children?: React.ReactNode,
   maxWidth: number,
   backgroundColor?: string,
   disableRounded?: boolean,
