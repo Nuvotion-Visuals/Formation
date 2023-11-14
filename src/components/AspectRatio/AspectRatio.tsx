@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-export interface Props {
+export type AspectRatioProps = {
   children?: React.ReactNode,
   ratio: number,
   backgroundSrc?: string,
@@ -39,7 +39,7 @@ export const AspectRatio = ({
   backgroundColor,
   coverBackground,
   borderRadius
-} : Props) => {
+} : AspectRatioProps) => {
   return (
     <S.AspectRatio 
       ratio={`${100 / ratio}%`} 
@@ -61,19 +61,13 @@ export const AspectRatio = ({
   )
 }
 
-interface AspectRatioProps {
-  ratio: string,
-  src?: string,
-  backgroundColor?: string,
-  borderRadius?: string | number
-}
-
-interface BackgroundProps {
-  coverBackground?: boolean
-}
-
 const S = {
-  AspectRatio: styled.div<AspectRatioProps>`
+  AspectRatio: styled.div<{
+    ratio: string,
+    src?: string,
+    backgroundColor?: string,
+    borderRadius?: string | number
+  }>`
     width: 100%;
     padding-top: 56.25%;
     padding-top: ${props => props.ratio};
@@ -97,7 +91,9 @@ const S = {
     width: 100%;
     height: 100%;
   `,
-  Background: styled.img<BackgroundProps>`
+  Background: styled.img<{
+    coverBackground?: boolean
+  }>`
     position: absolute;
     object-fit: ${props => props.coverBackground ? 'cover' : 'contain'};
     top: 0;

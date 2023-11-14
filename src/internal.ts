@@ -45,6 +45,8 @@ export { usePrevious } from './hooks/usePrevious'
 
 // Atoms (0)
 export { AspectRatio } from './components/AspectRatio/AspectRatio'
+import type { AspectRatioProps } from './components/AspectRatio/AspectRatio'
+export { AspectRatioProps }
 export { Auth } from './components/Auth/Auth'
 export { Badge } from './components/Badge/Badge'
 export { Box } from './components/Box/Box'
@@ -129,6 +131,7 @@ export { NumberSliderVertical } from './components/Sliders/NumberSliderVertical'
 export { FileBrowser } from './components/FileBrowser/FileBrowser'
 export { VideoPlayer } from './components/VideoPlayer/VideoPlayer'
 export { AudioPlayer } from './components/AudioPlayer/AudioPlayer'
+export { Tile } from './components/Tile/Tile'
 
 import React from 'react'
 

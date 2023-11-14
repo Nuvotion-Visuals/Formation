@@ -71,6 +71,7 @@ export { NumberInput } from './components/NumberInput/NumberInput'
 export { GroupRadius } from './components/GroupRadius/GroupRadius'
 export { ZoomSlider } from './components/Sliders/ZoomSlider'
 export { Docking } from './components/Docking/Docking'
+export { Tile } from './components/Tile/Tile'
 
 import { Link } from './components/Link/Link'
 let linkComponent = Link as any
