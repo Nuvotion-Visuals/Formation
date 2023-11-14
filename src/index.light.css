@@ -177,9 +177,11 @@ It’s easy to picture how a less saturated version of a color would look like, 
 }
 
 html, body {
-  font-family: "Segoe UI", sans-serif;
   background: var(--F_Background);
   color: var(--F_Font_Color);
+}
+* {
+  font-family: "Segoe UI", sans-serif;
 }
 
 *:focus {
