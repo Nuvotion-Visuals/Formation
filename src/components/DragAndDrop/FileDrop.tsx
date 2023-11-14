@@ -5,7 +5,8 @@ import { DropCorners } from '../../internal'
 interface Props {
   onFileDrop: (files: File[]) => void
   children: ReactNode,
-  single?: boolean
+  single?: boolean,
+  expandVertical?: boolean
 }
 
 /**
@@ -17,6 +18,7 @@ interface Props {
  * @param {function} onFileDrop - Callback function that is called when files are dropped onto the area. Receives an array of `File` objects.
  * @param {ReactNode} children - Elements to be rendered inside the drop zone.
  * @param {boolean} [single] - If set to true, the drop zone will only accept a single file.
+ * @param {boolean} [expandVertical] - Fill the vertical space of the container.
  *
  * @example
  * // FileDrop for a single file upload
@@ -30,7 +32,12 @@ interface Props {
  *   <p>Drag and drop your files here or click to select files to upload.</p>
  * </FileDrop>
  */
-export const FileDrop: React.FC<Props> = ({ onFileDrop, single, children }) => {
+export const FileDrop: React.FC<Props> = ({ 
+  onFileDrop, 
+  single, 
+  children,
+  expandVertical
+}) => {
   const [isHovering, setIsHovering] = useState(false)
 
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
@@ -63,6 +70,7 @@ export const FileDrop: React.FC<Props> = ({ onFileDrop, single, children }) => {
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
       isHovering={isHovering}
+      expandVertical={expandVertical}
     >
       {
         isHovering && <DropCorners />
@@ -73,14 +81,17 @@ export const FileDrop: React.FC<Props> = ({ onFileDrop, single, children }) => {
 }
 
 const S = {
-  FileDrop: styled.div<{ isHovering: boolean }>`
+  FileDrop: styled.div<{ 
+    isHovering: boolean,
+    expandVertical?: boolean
+  }>`
     display: flex;
     flex-wrap: wrap;
     position: relative;
     align-items: start;
     flex-direction: column;
     width: 100%;
-    height: 100%;
+    height: ${props => props.expandVertical ? '100%' : 'auto'};
     justify-content: flex-start;
     background: ${props => props.isHovering ? 'var(--Hover)' : 'none'};
   `

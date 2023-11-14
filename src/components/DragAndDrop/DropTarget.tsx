@@ -18,7 +18,7 @@ type DropTargetProps = {
  * @param {function} onDrop - The function to call when a draggable item is dropped onto this target. It receives the item's data as its parameter.
  * @param {string[]} acceptedOrigins - An array of origins that this drop target accepts. Only items from these origins will trigger the drop event.
  * @param {React.ReactNode} children - The components to be rendered inside the drop target area.
- * @param {boolean} expandVertical - Fill the vertical space of the container.
+ * @param {boolean} [expandVertical] - Fill the vertical space of the container.
  *
  * @example
  * // A drop target that accepts items from 'list-item' origin
