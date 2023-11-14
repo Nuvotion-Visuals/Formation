@@ -116,3 +116,16 @@ BlendMode.args = {
     backgroundSrc: `/blendPreviews/Difference.jpg`
   }
 }
+
+export const LongTitle = Template.bind({})
+LongTitle.args = {
+  onClick: () => alert('clicked'),
+  header: {
+    text: 'The Name of this is Difference',
+    compact: true,
+    disableTextWrap: true
+  },
+  content: {
+    backgroundSrc: `/blendPreviews/Difference.jpg`
+  }
+}

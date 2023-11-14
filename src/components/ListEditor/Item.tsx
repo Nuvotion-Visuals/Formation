@@ -1,6 +1,6 @@
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 import React, { forwardRef, useContext, useMemo } from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import { Box, Break, Spacer, getLabelColor, LabelColor, Link as IntLink, LineBreak } from '../../internal'
 import { SpaceIcon } from '../NavSpaces/SpaceIcon'
@@ -40,7 +40,8 @@ export type ItemProps = {
   disableBreak?: boolean,
   compact?: boolean,
   disablePadding?: boolean,
-  index?: number
+  index?: number,
+  disableTextWrap?: boolean
 }
 
 /**
@@ -74,6 +75,7 @@ export type ItemProps = {
  * @param {boolean} [compact] - If true, the item will have a more compact layout with less padding and spacing.
  * @param {boolean} [disablePadding] - If true, the item will not have padding applied to its container.
  * @param {number} [index] - The index of the Item, to be used to help distingish Items in an ordered list.
+ * @param {boolean} [disableTextWrap] - Disable text wrap for all text in the Item.
  * @returns {JSX.Element} - The rendered component.
  *
  * @example
@@ -112,7 +114,8 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(({
   prefix,
   compact,
   disablePadding,
-  index
+  index,
+  disableTextWrap
 }: ItemProps, ref): JSX.Element => {
   const Link: any = useContext(LinkContext) || IntLink;
 
@@ -167,7 +170,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(({
 
       <S.Flex minimal={minimalIcon}>
         {
-          name && <S.Text active={active} disablePadding={disablePadding}>{ name }</S.Text>
+          name && <S.Text active={active} disablePadding={disablePadding} disableTextWrap={disableTextWrap}>{ name }</S.Text>
         }
 
         {
@@ -175,7 +178,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(({
         }
 
         {
-          label && <S.Text active={active} disablePadding={disablePadding}>{ label }</S.Text>
+          label && <S.Text active={active} disablePadding={disablePadding} disableTextWrap={disableTextWrap}>{ label }</S.Text>
         }
 
         {
@@ -183,7 +186,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(({
         }
 
         {
-          pageTitle && <S.PageTitle active={active} disablePadding={disablePadding}>{ pageTitle }</S.PageTitle>
+          pageTitle && <S.PageTitle active={active} disablePadding={disablePadding} disableTextWrap={disableTextWrap}>{ pageTitle }</S.PageTitle>
         }
 
         {
@@ -191,7 +194,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(({
         }
 
         {
-          title && <S.Title active={active} disablePadding={disablePadding}>{ title }</S.Title>
+          title && <S.Title active={active} disablePadding={disablePadding} disableTextWrap={disableTextWrap}>{ title }</S.Title>
         }
 
         {
@@ -199,7 +202,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(({
         }
         
         {
-          text && <S.Text active={active} disablePadding={disablePadding}>{ text }</S.Text>
+          text && <S.Text active={active} disablePadding={disablePadding} disableTextWrap={disableTextWrap}>{ text }</S.Text>
         }
 
         {
@@ -207,7 +210,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(({
         }
 
         {
-          subtitle && <S.Subtitle active={active} disablePadding={disablePadding}>{ subtitle }</S.Subtitle>
+          subtitle && <S.Subtitle active={active} disablePadding={disablePadding} disableTextWrap={disableTextWrap}>{ subtitle }</S.Subtitle>
         }
 
         {
@@ -351,7 +354,8 @@ const S = {
   `),
   Text: React.memo(styled.div<{
     active?: boolean,
-    disablePadding?: boolean
+    disablePadding?: boolean,
+    disableTextWrap?: boolean
   }>`
     display: flex;
     align-items: center;
@@ -360,6 +364,10 @@ const S = {
     line-height: 1.33;
     padding: ${props => props.disablePadding ? '0' : '0 .5rem'};
     font-weight: ${props => props.active ? '400' : '400'};
+    ${props => props.disableTextWrap && css`
+      overflow: hidden;
+      white-space: nowrap;
+    `}
   `),
   Absolute: React.memo(styled.div`
     position: absolute;
@@ -371,7 +379,8 @@ const S = {
   `),
   Title: React.memo(styled.div<{
     active?: boolean,
-    disablePadding?: boolean
+    disablePadding?: boolean,
+    disableTextWrap?: boolean
   }>`
     font-size: var(--F_Font_Size_Title);
     color: var(--F_Font_Color);
@@ -381,26 +390,39 @@ const S = {
     max-width: 100%;
     overflow: hidden;
     line-height: 1.33;
-    
+    ${props => props.disableTextWrap && css`
+      overflow: hidden;
+      white-space: nowrap;
+    `}
   `),
   Subtitle: React.memo(styled.div<{
     active?: boolean,
-    disablePadding?: boolean
+    disablePadding?: boolean,
+    disableTextWrap?: boolean
   }>`
     font-size: var(--F_Font_Size_Label);
     color: ${props => props.active ? 'var(--F_Font_Color)' : 'var(--F_Font_Color_Label)'};
     padding: ${props => props.disablePadding ? '0' : '0 .5rem'};
     line-height: 1.33;
+    ${props => props.disableTextWrap && css`
+      overflow: hidden;
+      white-space: nowrap;
+    `}
   `),
   PageTitle: React.memo(styled.div<{
     active?: boolean,
-    disablePadding?: boolean
+    disablePadding?: boolean,
+    disableTextWrap?: boolean
   }>`
     font-size: var(--F_Font_Size_Title);
     color: var(--F_Font_Color);
     font-weight: 600;
     padding: ${props => props.disablePadding ? '0' : '0 .5rem'};
     line-height: 1.33;
+    ${props => props.disableTextWrap && css`
+      overflow: hidden;
+      white-space: nowrap;
+    `}
   `),
   DropdownSpacer: React.memo(styled.div<{
     spaces: number

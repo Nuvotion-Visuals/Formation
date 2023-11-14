@@ -7,7 +7,7 @@ interface Props {
   disabled?: boolean,
   header: ItemProps,
   content: AspectRatioProps,
-  footers: ItemProps[],
+  footers?: ItemProps[],
 }
 
 /**
@@ -25,7 +25,7 @@ interface Props {
  * @param {boolean} [disabled] - If true, the tile is visually and functionally disabled.
  * @param {ItemProps} header - Properties for configuring the header `Item` component.
  * @param {AspectRatioProps} content - Properties for configuring the content area with a specific aspect ratio.
- * @param {ItemProps[]} footers - Array of properties for configuring each footer `Item` component.
+ * @param {ItemProps[]} [footers] - Array of properties for configuring each footer `Item` component.
  *
  * @example
  * // To create a tile with a header, an image content with a 16:9 aspect ratio, and two footer items
@@ -56,7 +56,7 @@ export const Tile = ({
       <Item {...header} />
       <AspectRatio {...content} />
       {
-        footers?.length > 0 &&
+        footers &&
           <S.Footers>
             {
               footers.map(footer =>
@@ -76,6 +76,7 @@ const S = {
     disabled?: boolean,
     canClick?: boolean
   }>`
+    width: 100%;
     border-radius: var(--F_Tile_Radius);
     overflow: hidden;
     background: var(--F_Surface);
