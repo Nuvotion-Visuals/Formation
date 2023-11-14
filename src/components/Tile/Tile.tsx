@@ -9,6 +9,7 @@ interface Props {
   header: ItemProps,
   content: AspectRatioProps,
   footers?: ItemProps[],
+  title?: string
 }
 
 /**
@@ -25,6 +26,7 @@ interface Props {
  * @param {function} [onClick] - Optional click event handler for the tile.
  * @param {boolean} [active] - If true, the tile is visually highlighted in the theme's primary color.
  * @param {boolean} [disabled] - If true, the tile is visually and functionally disabled.
+ * @param {string} [title] - The title attribute specifies extra information about the Tile. It can be shown as a tooltip text when the mouse moves over the element.
  * @param {ItemProps} header - Properties for configuring the header `Item` component.
  * @param {AspectRatioProps} content - Properties for configuring the content area with a specific aspect ratio.
  * @param {ItemProps[]} [footers] - Array of properties for configuring each footer `Item` component.
@@ -48,7 +50,8 @@ export const Tile = ({
   disabled,
   header,
   content,
-  footers
+  footers,
+  title
 }: Props) => {
   return (
     <S.Tile 
@@ -56,6 +59,7 @@ export const Tile = ({
       active={active}
       disabled={disabled}
       canClick={!!onClick}
+      title={title}
     >
       <Item {...header} />
       <AspectRatio {...content} />
