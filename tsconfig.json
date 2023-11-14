@@ -2,7 +2,7 @@
   "compilerOptions": {
     "strict": true,
     "sourceMap": true,
-    "target": "es5",
+    "target": "ESNext",
     "module": "ESNext",
     "esModuleInterop": true,
     "moduleResolution": "node",

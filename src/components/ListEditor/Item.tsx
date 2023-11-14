@@ -11,7 +11,7 @@ import {
   LinkContext
 } from '../../internal'
 
-export interface ItemProps {
+export type ItemProps = {
   name?: string,
   onClick?: (e: React.MouseEvent) => void,
   icon?: IconName,

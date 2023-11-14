@@ -4,7 +4,7 @@
 [GitHub Repository](https://github.com/AVsync-LIVE/formation) |
 [NPM Package](https://www.npmjs.com/package/@avsync.live/formation)
 
-Formation is a component library powered by [React](https://reactjs.org/docs/getting-started.html), 
+Formation is a comprehensive component library powered by [React](https://reactjs.org/docs/getting-started.html), 
 [Styled Components](https://styled-components.com/docs) and [CSS variables](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties) for creating apps and websites that demand responsive, unifed cross-platform experiences. It uses [Vite](https://vitejs.dev/) for fast [HMR](https://vitejs.dev/guide/features.html#hot-module-replacement) in development, and [Rollup](https://rollupjs.org/) for efficient production bundling.
 
  - Customize colors, sizing, and typography using CSS variables

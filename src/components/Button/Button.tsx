@@ -7,7 +7,7 @@ import { SizeProp } from '@fortawesome/fontawesome-svg-core' // type coersion ne
 import { Icon, LabelColor, getLabelColor, LinkContext, Link as IntLink } from '../../internal'
 
 
-export interface ButtonProps {
+export type ButtonProps = {
   href?: string,
   hero?: boolean,
   name?: string,

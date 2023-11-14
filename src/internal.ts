@@ -5,24 +5,8 @@ export { isTouchCapable } from './utils/isTouchCapable'
 export { getTimezone } from './utils/getTimezone'
 export { reorderItems } from './utils/reorderItems'
 export { labelColors, getLabelColor } from './utils/labels'
-export type LabelColor = 
-  'red' | 
-  'orange' | 
-  'yellow' |
-  'green' |
-  'blue' | 
-  'indigo' | 
-  'purple' |
-  'pink' |
-  'cyan' | 
-  'teal' | 
-  'gray' |
-  'none'
-  export type LabelType = {
-    name: string,
-    description: string,
-    labelColor: LabelColor
-  }
+import type { LabelColor, LabelType } from '../dist'
+export { LabelColor, LabelType}
 export { getColorFromGuid } from './utils/getColorFromGuid'
 export { getInitials } from './utils/getInitials'
 export { capitalizeFirstLetter } from './utils/capitalizeFirstLetter'
@@ -59,38 +43,6 @@ export { useIsScrolledToBottom } from './hooks/useIsScrolledToBottom'
 export { useScrollVisible } from './hooks/useScrollVisible'
 export { usePrevious } from './hooks/usePrevious'
 
-// types
-export interface ItemProps {
-  name?: string,
-  onClick?: (e: React.MouseEvent) => void,
-  icon?: IconName,
-  iconPrefix?: IconPrefix,
-  minimalIcon?: boolean,
-  src?: string,
-  text?: string,
-  labelColor?: any,
-  label?: string,
-  subtitle?: string,
-  dateString?: string,
-  title?: string,
-  date?: Date,
-  small?: boolean,
-  href?: string,
-  active?: boolean,
-  spaceIcon?: boolean,
-  prefix?: React.ReactNode,
-  children?: React.ReactNode,
-  content?: React.ReactNode,
-  emphasize?: boolean,
-  indent?: boolean,
-  pageTitle?: string,
-  newTab?: boolean,
-  value?: any,
-  disableBreak?: boolean,
-  compact?: boolean,
-  disablePadding?: boolean
-}
-
 // Atoms (0)
 export { AspectRatio } from './components/AspectRatio/AspectRatio'
 export { Auth } from './components/Auth/Auth'
@@ -102,9 +54,8 @@ export { Empty } from './components/Empty/Empty'
 export { Gap } from './components/Gap/Gap'
 export { Grid } from './components/Grid/Grid'
 export { Icon } from './components/Icon/Icon'
-export interface Props extends FontAwesomeIconProps {
-  iconPrefix?: IconPrefix | undefined
-}
+import type { IconProps } from './components/Icon/Icon'
+export { IconProps }
 export { Label } from './components/Label/Label'
 export { LineBreak } from './components/LineBreak/LineBreak'
 export { LoadingSpinner } from './components/LoadingSpinner/LoadingSpinner'
@@ -137,96 +88,22 @@ export { Article } from './components/Article/Article'
 export { SearchSortFilter } from './components/SearchSortFilter/SearchSortFilter'
 export { Radio } from './components/Radio/Radio'
 export { Button } from './components/Button/Button'
-export interface ButtonProps {
-  href?: string,
-  hero?: boolean,
-  name?: string,
-  icon?: IconName,
-  onClick?: (e: React.MouseEvent) => void,
-  primary?: boolean,
-  text?: string,
-  blink?: boolean,
-  rotate?: boolean,
-  title?: string,
-  disabled?: boolean,
-  expand?: boolean,
-  submit?: boolean,
-  minimal?: boolean,
-  id?: string,
-  iconPrefix?: IconPrefix,
-  minimalIcon?: boolean,
-  secondary?: boolean,
-  labelColor?: LabelColor,
-  singleBlink? : boolean,
-  tab? : boolean,
-  newTab?: boolean,
-  square?: boolean,
-  circle?: boolean,
-  expandVertical?: boolean,
-  compact?: boolean,
-  children?: React.ReactNode,
-  prefix?: React.ReactNode,
-  disableCenter?: boolean,
-  off?: boolean,
-  invertTab?: boolean
-}
+import type { ButtonProps } from './components/Button/Button'
+export { ButtonProps}
 export { Notification } from './components/Notification/Notification'
 export { TextInput } from './components/TextInput/TextInput'
-export type TextInputProps = {
-  name?: string,
-  label?: string,
-  error?: string,
-  disabled?: boolean,
-  compact?: boolean,
-  hero?: boolean,
-  success?: boolean,
-  type?: string,
-  id?: string,
-  onChange?: (value: string) => void,
-  value: string,
-  autoFocus?: boolean,
-  icon?: IconName,
-  iconPrefix?: IconPrefix
-  hint?: string,
-  onClick?: (e: React.MouseEvent) => void,
-  preventFocus?: boolean,
-  onBlur?: () => void,
-  ref?: any,
-  labelColor?: LabelColor,
-  onEnter?: () => void,
-  onChangeEvent?: (e: any) => void,
-  placeholder?: string,
-  forceFocus?: boolean,
-  hideOutline?: boolean,
-  secondaryIcon?: IconName,
-  secondaryOnClick?: (e: React.MouseEvent) => void,
-  buttons?: ButtonProps[],
-  canClear?: boolean,
-  onClear?: () => void,
-  dropdownOpen?: boolean,
-  backgroundColor?: string
-}
+import type { TextInputProps } from './components/TextInput/TextInput'
+export { TextInputProps }
 export { Dropdown } from './components/Dropdown/Dropdown'
 export { Sidebar } from './components/Sidebar/Sidebar'
-interface NavProps {
-  type?: string,
-  href?: string,
-  title?: string,
-  icon?: IconName,
-  iconPrefix?: IconPrefix,
-  name?: string,
-  toolTipTitle?: string,
-  active?: boolean,
-  newTab?: boolean,
-  onClick?: (e: React.MouseEvent) => void,
-  children?: React.ReactNode
-}
-
-export type Navs = NavProps[]
+import type { Navs } from './components/Sidebar/Sidebar'
+export { Navs }
 export { Select } from './components/Select/Select'
 export { Switch } from './components/Switch/Switch'
 export { LabelColorPicker } from './components/LabelColorPicker/LabelColorPicker'
 export { Item } from './components/ListEditor/Item'
+import type { ItemProps } from './components/ListEditor/Item'
+export { ItemProps }
 export { AutocompleteDropdown } from './components/AutocompleteDropdown/AutocompleteDropdown'
 export { NumberInput } from './components/NumberInput/NumberInput'
 export { FileUpload } from './components/FileUpload/FileUpload'

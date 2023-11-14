@@ -3,8 +3,8 @@ import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 import React from 'react'
 import styled from 'styled-components'
 
-export interface Props extends FontAwesomeIconProps {
-  iconPrefix?: IconPrefix | undefined
+export type IconProps = FontAwesomeIconProps & {
+  iconPrefix?: IconPrefix
 }
 
 /**
@@ -24,7 +24,7 @@ export interface Props extends FontAwesomeIconProps {
  * // Icon with default prefix
  * <Icon icon="coffee" />
  */
-export const Icon = React.memo((props: Props) => {
+export const Icon = React.memo((props: IconProps) => {
   const { iconPrefix, icon, ...rest } = props
 
   return (
