@@ -5,7 +5,8 @@ import { DropCorners } from '../../internal'
 type DropTargetProps = {
   onDrop: (data: any) => void,
   acceptedOrigins: string[],
-  children: React.ReactNode
+  children: React.ReactNode,
+  expandVertical?: boolean
 }
 
 /**
@@ -17,6 +18,7 @@ type DropTargetProps = {
  * @param {function} onDrop - The function to call when a draggable item is dropped onto this target. It receives the item's data as its parameter.
  * @param {string[]} acceptedOrigins - An array of origins that this drop target accepts. Only items from these origins will trigger the drop event.
  * @param {React.ReactNode} children - The components to be rendered inside the drop target area.
+ * @param {boolean} expandVertical - Fill the vertical space of the container.
  *
  * @example
  * // A drop target that accepts items from 'list-item' origin
@@ -27,7 +29,12 @@ type DropTargetProps = {
  *   <div>Drop items here</div>
  * </DropTarget>
  */
-export const DropTarget: FC<DropTargetProps> = ({ onDrop, acceptedOrigins, children }) => {
+export const DropTarget: FC<DropTargetProps> = ({ 
+  onDrop, 
+  acceptedOrigins, 
+  children,
+  expandVertical
+}) => {
   const [isOver, setIsOver] = useState(false)
   const dropTargetRef = useRef<HTMLDivElement | null>(null)
 
@@ -112,6 +119,7 @@ export const DropTarget: FC<DropTargetProps> = ({ onDrop, acceptedOrigins, child
       onDrop={handleDrop}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
+      expandVertical={expandVertical}
     >
       {isOver && <DropCorners />}
       {children}
@@ -122,9 +130,11 @@ export const DropTarget: FC<DropTargetProps> = ({ onDrop, acceptedOrigins, child
 export default memo(DropTarget)
 
 const S = {
-  DropTarget: styled.div`
+  DropTarget: styled.div<{
+    expandVertical?: boolean
+  }>`
     position: relative;
     width: 100%;
-    height: 100%;
+    height: ${props => props.expandVertical ? '100%' : 'auto'};
   `
 }

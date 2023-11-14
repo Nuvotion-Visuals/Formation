@@ -38,7 +38,8 @@ export type ButtonProps = {
   prefix?: React.ReactNode,
   disableCenter?: boolean,
   off?: boolean,
-  invertTab?: boolean
+  invertTab?: boolean,
+  disablePadding?: boolean
 }
 
 /**
@@ -78,6 +79,7 @@ export type ButtonProps = {
  * @param {boolean} [disableCenter] - If true, the content inside the button will not be centered.
  * @param {boolean} [off] - If true, the button will be visually turned off.
  * @param {boolean} [invertTab] - If true, the button's tab behavior will be inverted.
+ * @param {boolean} [disablePadding] - If true, disables horizontal padding, ideal for use in compact layouts in conjunction with the Fit component.
  *
  * @example
  * // A primary button with an icon and text
@@ -120,7 +122,8 @@ export const Button: FC<ButtonProps> = React.memo(({
   disableCenter,
   children,
   off,
-  invertTab
+  invertTab,
+  disablePadding
 }: ButtonProps) => {
 
   const Link: any = useContext(LinkContext) || IntLink;
@@ -153,6 +156,7 @@ export const Button: FC<ButtonProps> = React.memo(({
         disableCenter={disableCenter}
         prefix={!!prefix}
         invertTab={invertTab}
+        disablePadding={disablePadding}
       >
         {
           prefix
@@ -234,7 +238,8 @@ interface ContainerProps {
   expandVertical?: boolean,
   minimalIcon?: boolean,
   compact?: boolean,
-  off?: boolean
+  off?: boolean,
+  disablePadding?: boolean
 }
 
 interface TextProps {
@@ -303,7 +308,7 @@ const calculateHeight = (props: ContainerProps) => {
 
 const calculatePadding = (props: ButtonProps) => {
   if (props.compact) {
-    if (props.square) {
+    if (props.square || props.disablePadding) {
       return '0'
     }
     else if (props.prefix) {

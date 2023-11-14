@@ -39,7 +39,8 @@ library.add(
   fas.faMagnifyingGlassMinus, fas.faMagnifyingGlassPlus, fas.faCog,
   fas.faScissors, fas.faEyedropper, fas.faGrip, fas.faList, fas.faAddressCard,
   fas.faCaretRight, fas.faCaretLeft, fas.faAngleLeft, fas.faAngleRight, 
-  fas.faAnglesLeft, fas.faAnglesRight, fas.faCamera
+  fas.faAnglesLeft, fas.faAnglesRight, fas.faCamera, fas.faSquareCheck,
+  fas.faRepeat, fas.faCopy
 )
 
 const preview: Preview = {

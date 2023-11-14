@@ -46,7 +46,7 @@
   "scripts": {
     "rollup": "rm -rf dist && cross-env NODE_ENV=production rollup -c",
     "package": "yarn rollup && npm pack",
-    "dev": "yarn run storybook -p 6006",
+    "dev": "storybook dev -p 6006",
     "build": "cp README.md .storybook/public/ && storybook build",
     "build-clean": "rm yarn.lock && rm -rf node_modules && yarn && yarn build"
   },

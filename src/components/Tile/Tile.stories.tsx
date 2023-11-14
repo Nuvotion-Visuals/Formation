@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { Grid, Tile } from '../../internal'
+import { Button, Dropdown, Fit, Grid, GroupRadius, Tile } from '../../internal'
 
 export default {
   title: 'Items/Tile',
@@ -10,11 +10,99 @@ export default {
 } as ComponentMeta<typeof Tile>
 
 const Template: ComponentStory<typeof Tile> = args => {
-  return <Grid maxWidth={10}>
+  return <Grid maxWidth={8}>
     <Tile
       {...args}
     />
   </Grid>
+}
+
+export const Scene = Template.bind({})
+Scene.args = {
+  onClick: () => alert('clicked'),
+  header: {
+    text: 'Scene 1',
+    compact: true,
+    index: 30,
+    iconPrefix: 'fas',
+    disablePadding: true,
+    children: <Dropdown
+      icon='ellipsis-v'
+      iconPrefix='fas'
+      square
+      minimal
+      compact
+      items={[
+        {
+          text: 'Properties',
+          icon: 'ellipsis-v',
+          compact: true,
+        },
+        {
+          text: 'Duplicate',
+          icon: 'copy',
+          compact: true
+        },
+        {
+          text: 'Rename',
+          icon: 'edit',
+          compact: true
+        },
+        {
+          text: 'Delete',
+          icon: 'trash-alt',
+          compact: true
+        },
+      ]}
+    />
+  },
+  content: {
+    backgroundSrc: `/blendPreviews/Difference.jpg`
+  },
+  footers: [
+    {
+      disablePadding: true,
+      children: <Fit disableRadius>
+        <Button
+          icon='square-check'
+          iconPrefix='fas'
+          compact
+          disablePadding
+        />
+        <Button
+          text='A'
+          iconPrefix='fas'
+          compact
+          disablePadding
+        />
+        <Button
+          text='B'
+          iconPrefix='fas'
+          compact
+          disablePadding
+        />
+        <Button
+          icon='repeat'
+          iconPrefix='fas'
+          compact
+          disablePadding
+        />
+      </Fit>
+    },
+    {
+      disablePadding: true,
+      children: <Fit disableRadius>
+        <Button
+          icon='share'
+          iconPrefix='fas'
+          compact
+          text='Transition'
+          disableCenter
+          expand
+        />
+      </Fit>
+    }
+  ]
 }
 
 export const BlendMode = Template.bind({})

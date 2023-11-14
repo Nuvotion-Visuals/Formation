@@ -39,7 +39,8 @@ export type ItemProps = {
   value?: any,
   disableBreak?: boolean,
   compact?: boolean,
-  disablePadding?: boolean
+  disablePadding?: boolean,
+  index?: number
 }
 
 /**
@@ -72,6 +73,7 @@ export type ItemProps = {
  * @param {boolean} [disableBreak] - If true, line breaks will be suppressed, keeping the content on one line.
  * @param {boolean} [compact] - If true, the item will have a more compact layout with less padding and spacing.
  * @param {boolean} [disablePadding] - If true, the item will not have padding applied to its container.
+ * @param {number} [index] - The index of the Item, to be used to help distingish Items in an ordered list.
  * @returns {JSX.Element} - The rendered component.
  *
  * @example
@@ -109,7 +111,8 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(({
   value,
   prefix,
   compact,
-  disablePadding
+  disablePadding,
+  index
 }: ItemProps, ref): JSX.Element => {
   const Link: any = useContext(LinkContext) || IntLink;
 
@@ -135,6 +138,10 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(({
               labelColor={labelColor}
             />
           </Box>
+      }
+
+      {
+        index !== undefined && <S.Index>{`${index + 1}`}</S.Index>
       }
       
       {
@@ -250,7 +257,24 @@ const S = {
     compact?: boolean,
     disablePadding?: boolean
   }>`
-    width: calc(100% - .35rem);
+     width: ${props => 
+      props.disablePadding
+        ? '100%'
+        : props.pageTitle
+          ? 'calc(100% - 1rem)'
+          : props.compact
+            ? 'calc(100% - 0.35rem)'
+            : 'calc(100% - 0.35rem)'
+    };
+    padding: ${props => 
+      props.disablePadding
+        ? '0'
+        : props.pageTitle 
+          ? '0 .5rem' 
+          : props.compact
+            ? '0 .175rem'
+            : '.175rem'
+    };
     height: ${props => 
       props.compact
         ? 'var(--F_Input_Height_Compact)'
@@ -268,15 +292,7 @@ const S = {
         ? 'hidden'
         : 'auto'
     };
-    padding: ${props => 
-      props.disablePadding
-        ? '0'
-        : props.pageTitle 
-          ? '0 .5rem' 
-          : props.compact
-            ? '0 .175rem'
-            : '.175rem'
-    };
+   
     display: flex;
     align-items: center;
     position: relative;
@@ -402,5 +418,12 @@ const S = {
   Container: React.memo(styled.div`
     display: flex;
     width: 100%;
-  `)
+  `),
+  Index: styled.div`
+    font-size: var(--F_Font_Size_Label);
+    font-family: monospace;
+    color: var(--F_Font_Color);
+    padding: 0 .375rem;
+    font-weight: 600;
+  `
 }
