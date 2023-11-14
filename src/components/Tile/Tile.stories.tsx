@@ -141,6 +141,6 @@ Active.args = {
     compact: true
   },
   content: {
-    backgroundSrc: `/blendPreviews/Difference.jpg`
+    backgroundSrc: `/blendPreviews/Screen.jpg`
   }
 }

@@ -59,21 +59,45 @@ It’s easy to picture how a less saturated version of a color would look like, 
 
   /* Outlines */
   /* Outlines use box shadows so as to not take up space in the document */
-  --F_Outline: inset 0 0 0 1px hsl(0, 0%, 60%);
-  --F_Outline_Hover: inset 0 0 0 1px hsl(0, 0%, 40%);
-  --F_Outline_Focus: inset 0 0 0 1px hsl(0, 0%, 20%);
+  --F_Outline: inset 0 0 0 1px hsl(0, 0%, 30%);
+  --F_Outline_Hover: inset 0 0 0 1px hsl(0, 0%, 50%);
+  --F_Outline_Focus: inset 0 0 0 1px hsl(0, 0%,70%);
   --F_Outline_Primary: inset 0 0 0 1px var(--F_Primary);
+  --F_Outline_Primary_Hover: inset 0 0 0 1px var(--F_Primary_Hover);
+  --F_Outline_Primary_Variant: inset 0 0 0 1px var(--F_Primary_Variant);
   --F_Outline_Error: inset 0 0 0 1px var(--F_Font_Color_Error);
   --F_Outline_Disabled: inset 0 0 0 1px var(--F_Font_Color_Disabled);
   --F_Outline_Success: inset 0 0 0 1px var(--F_Font_Color_Success);
 
-  --F_Outline_Outset: 0 0 0 1px hsl(0, 0%, 60%);
-  --F_Outline_Outset_Hover: 0 0 0 1px hsl(0, 0%, 40%);
-  --F_Outline_Outset_Focus: 0 0 0 1px hsl(0, 0%, 20%);
+  --F_Outline_Thick: inset 0 0 0 3px hsl(0, 0%, 30%);
+  --F_Outline_Hover_Thick: inset 0 0 0 3px hsl(0, 0%, 50%);
+  --F_Outline_Focus_Thick: inset 0 0 0 3px hsl(0, 0%, 70%);
+  --F_Outline_Primary_Hover_Thick: inset 0 0 0 3px var(--F_Primary_Hover);
+  --F_Outline_Primary_Thick: inset 0 0 0 3px var(--F_Primary);
+  --F_Outline_Primary_Variant_Thick: inset 0 0 0 3px var(--F_Primary_Variant);
+  --F_Outline_Error_Thick: inset 0 0 0 3px var(--F_Font_Color_Error);
+  --F_Outline_Disabled_Thick: inset 0 0 0 3px var(--F_Font_Color_Disabled);
+  --F_Outline_Success_Thick: inset 0 0 0 3px var(--F_Font_Color_Success);
+
+  --F_Outline_Outset: 0 0 0 1px hsl(0, 0%, 30%);
+  --F_Outline_Outset_Hover: 0 0 0 1px hsl(0, 0%, 50%);
+  --F_Outline_Outset_Focus: 0 0 0 1px hsl(0, 0%, 70%);
   --F_Outline_Outset_Primary: 0 0 0 1px var(--F_Primary);
+  --F_Outline_Outset_Primary_Hover: 0 0 0 1px var(--F_Primary_Hover);
+  --F_Outline_Outset_Primary_Variant: 0 0 0 1px var(--F_Primary_Variant);
   --F_Outline_Outset_Error: 0 0 0 1px var(--F_Font_Color_Error);
   --F_Outline_Outset_Disabled: 0 0 0 1px var(--F_Font_Color_Disabled);
   --F_Outline_Outset_Success: 0 0 0 1px var(--F_Font_Color_Success);
+
+  --F_Outline_Outset_Thick: 0 0 0 3px hsl(0, 0%, 30%);
+  --F_Outline_Outset_Hover_Thick: 0 0 0 3px hsl(0, 0%, 50%);
+  --F_Outline_Outset_Focus_Thick: 0 0 0 3px hsl(0, 0%, 70%);
+  --F_Outline_Outset_Primary_Thick: 0 0 0 3px var(--F_Primary);
+  --F_Outline_Outset_Primary_Hover_Thick: 0 0 0 3px var(--F_Primary_Hover);
+  --F_Outline_Outset_Primary_Variant_Thick: 0 0 0 3px var(--F_Primary_Variant);
+  --F_Outline_Outset_Error_Thick: 0 0 0 3px var(--F_Font_Color_Error);
+  --F_Outline_Outset_Disabled_Thick: 0 0 0 3px var(--F_Font_Color_Disabled);
+  --F_Outline_Outset_Success_Thick: 0 0 0 3px var(--F_Font_Color_Success);
 
   --F_Gradient_To_Left: linear-gradient(to left, hsla(0, 0%, 100%, 0) 0%, hsla(0, 0%, 100%,.8) 20%, hsla(0, 0%, 100%,1) 100%);
   --F_Gradient_To_Right:  linear-gradient(to right, hsla(0, 0%, 100%, 0) 0%, hsla(0, 0%, 100%,.8) 20%, hsla(0, 0%, 100%,1) 100%);

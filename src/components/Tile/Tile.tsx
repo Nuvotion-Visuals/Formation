@@ -75,6 +75,7 @@ export const Tile = ({
             }
           </S.Footers>
       }
+      <S.Selected active={active} />
     </S.Tile>
   )
 }
@@ -88,6 +89,7 @@ const S = {
    width: 100%;
     border-radius: var(--F_Tile_Radius);
     overflow: hidden;
+    position: relative;
     background: ${props => props.active ? 'var(--F_Primary)' : 'var(--F_Surface)'};
     cursor: ${props => props.disabled 
       ? 'not-allowed' 
@@ -109,6 +111,16 @@ const S = {
         ` 
       : ''
     };
+     &:hover {
+        span {
+          box-shadow: ${props => props.active ? 'var(--F_Outline_Primary_Hover_Thick) !important' : 'none'};
+        }
+      }
+      &:active {
+        span {
+          box-shadow: ${props => props.active ? 'var(--F_Outline_Primary_Variant_Thick) !important' : 'none'};
+        }
+      }
   `,
   FooterWrapper: styled.div`
     width: 100%;
@@ -120,5 +132,18 @@ const S = {
     display: flex;
     flex-wrap: wrap;
     gap: 1px;
-  `
+  `,
+  Selected: styled.span<{
+    active?: boolean
+  }>`
+    box-shadow: ${props => props.active ? 'var(--F_Outline_Primary_Thick)' : 'none'};
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: var(--F_Tile_Radius);
+    top: 0;
+    left: 0;
+    z-index: 1;
+    pointer-events: none;
+  `,
 }
