@@ -86,28 +86,29 @@ const S = {
     canClick?: boolean
   }>`
    width: 100%;
-  border-radius: var(--F_Tile_Radius);
-  overflow: hidden;
-  background: ${props => props.active ? 'var(--F_Primary)' : 'var(--F_Surface)'};
-  cursor: ${props => props.disabled 
-    ? 'not-allowed' 
-    : props.canClick 
-      ? 'pointer' 
-      : 'auto'};
+    border-radius: var(--F_Tile_Radius);
+    overflow: hidden;
+    background: ${props => props.active ? 'var(--F_Primary)' : 'var(--F_Surface)'};
+    cursor: ${props => props.disabled 
+      ? 'not-allowed' 
+      : props.canClick 
+        ? 'pointer' 
+        : 'auto'};
 
-  ${props => props.canClick 
-    ? `
-        &:hover {
-          background: ${props.active ? 'var(--F_Primary_Hover)' : 'var(--F_Surface_1)'};
-        }
-        &:active {
-          background: ${props.active ? 'var(--F_Primary_Variant)' : 'var(--F_Surface_2)'};
-        }
-        * {
-          cursor: pointer;
-        }
-      ` 
-    : ''};
+    ${props => props.canClick 
+      ? `
+          &:hover {
+            background: ${props.active ? 'var(--F_Primary_Hover)' : 'var(--F_Surface_1)'};
+          }
+          &:active {
+            background: ${props.active ? 'var(--F_Primary_Variant)' : 'var(--F_Surface_2)'};
+          }
+          * {
+            cursor: pointer;
+          }
+        ` 
+      : ''
+    };
   `,
   FooterWrapper: styled.div`
     width: 100%;

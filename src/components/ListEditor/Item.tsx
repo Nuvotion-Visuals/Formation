@@ -41,7 +41,8 @@ export type ItemProps = {
   compact?: boolean,
   disablePadding?: boolean,
   index?: number,
-  disableTextWrap?: boolean
+  disableTextWrap?: boolean,
+  absoluteRightChildren?: boolean
 }
 
 /**
@@ -115,7 +116,8 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(({
   compact,
   disablePadding,
   index,
-  disableTextWrap
+  disableTextWrap,
+  absoluteRightChildren
 }: ItemProps, ref): JSX.Element => {
   const Link: any = useContext(LinkContext) || IntLink;
 
@@ -222,7 +224,13 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(({
 
       {
         children
-          ? children
+          ? absoluteRightChildren
+            ? <S.AbsoluteRight>
+                {
+                  children
+                }
+              </S.AbsoluteRight>
+            : children
           : null
       }
     </Box>
@@ -447,5 +455,14 @@ const S = {
     color: var(--F_Font_Color);
     padding: 0 .375rem;
     font-weight: 600;
+    flex-shrink: 0;
+  `,
+  AbsoluteRight: styled.div`
+    position: absolute;
+    z-index: 1;
+    right: 0;
+    top: 0;
+    height: 100%;
+    align-items: center;
   `
 }

@@ -21,16 +21,19 @@ export const Scene = Template.bind({})
 Scene.args = {
   onClick: () => alert('clicked'),
   header: {
-    text: 'Scene 1',
+    text: 'Long Scene Name',
+    disableTextWrap: true,
+    absoluteRightChildren: true,
     compact: true,
     index: 30,
+    indent: true,
     iconPrefix: 'fas',
     disablePadding: true,
     children: <Dropdown
       icon='ellipsis-v'
       iconPrefix='fas'
+      disableBorderRadius
       square
-      minimal
       compact
       items={[
         {

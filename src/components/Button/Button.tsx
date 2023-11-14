@@ -39,7 +39,8 @@ export type ButtonProps = {
   disableCenter?: boolean,
   off?: boolean,
   invertTab?: boolean,
-  disablePadding?: boolean
+  disablePadding?: boolean,
+  disableBorderRadius?: boolean
 }
 
 /**
@@ -72,6 +73,7 @@ export type ButtonProps = {
  * @param {boolean} [newTab] - If true and `href` is provided, the link opens in a new tab.
  * @param {boolean} [square] - If true, the button has a square shape.
  * @param {boolean} [circle] - If true, the button has a circular shape.
+ * @param {boolean} [disableBorderRadius] - If true, sets the border radius to 0.
  * @param {boolean} [expandVertical] - If true, the button will expand to fill its container's height.
  * @param {boolean} [compact] - If true, the button has a compact style with less padding.
  * @param {React.ReactNode} [children] - Content to be rendered inside the button.
@@ -123,7 +125,8 @@ export const Button: FC<ButtonProps> = React.memo(({
   children,
   off,
   invertTab,
-  disablePadding
+  disablePadding,
+  disableBorderRadius
 }: ButtonProps) => {
 
   const Link: any = useContext(LinkContext) || IntLink;
@@ -157,6 +160,7 @@ export const Button: FC<ButtonProps> = React.memo(({
         prefix={!!prefix}
         invertTab={invertTab}
         disablePadding={disablePadding}
+        disableBorderRadius={disableBorderRadius}
       >
         {
           prefix
@@ -239,7 +243,8 @@ interface ContainerProps {
   minimalIcon?: boolean,
   compact?: boolean,
   off?: boolean,
-  disablePadding?: boolean
+  disablePadding?: boolean,
+  disableBorderRadius?: boolean
 }
 
 interface TextProps {
@@ -382,7 +387,10 @@ const calculateActiveBackgroundColor = (props: ButtonProps) => {
 }
 
 const calculateBorderRadius = (props: ButtonProps): string => {
-  if (props.circle) {
+  if (props.disableBorderRadius) {
+    return '0'
+  }
+  else if (props.circle) {
     return '100%'
   } 
   else if (props.tab) {
