@@ -75,6 +75,7 @@ export { Tile } from './components/Tile/Tile'
 export { Fit } from './components/Fit/Fit'
 export { TileGridPlaceholder } from './components/TileGridPlaceholder/TileGridPlaceholder'
 export { TitleEditor } from './components/TitleEditor/TitleEditor'
+export { ProgressTimer } from './components/ProgressTimer/ProgressTimer'
 
 import { Link } from './components/Link/Link'
 let linkComponent = Link as any
