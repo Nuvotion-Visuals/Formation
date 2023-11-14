@@ -5,7 +5,7 @@ export { isTouchCapable } from './utils/isTouchCapable'
 export { getTimezone } from './utils/getTimezone'
 export { reorderItems } from './utils/reorderItems'
 export { labelColors, getLabelColor } from './utils/labels'
-import type { LabelColor, LabelType } from '../dist'
+import type { LabelColor, LabelType } from './utils/labels'
 export { LabelColor, LabelType}
 export { getColorFromGuid } from './utils/getColorFromGuid'
 export { getInitials } from './utils/getInitials'

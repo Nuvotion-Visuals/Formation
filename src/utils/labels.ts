@@ -46,7 +46,7 @@ export type LabelType = {
  * const labelColor = 'blue'
  * const blueColor = getLabelColor(labelColor)  // Gives 'var(--F_Label_Color_Blue)'
  */
-export const getLabelColor = (labelColor: LabelColor): string => {
+export const getLabelColor = (labelColor: LabelColor | string): string => {
   switch(labelColor) {
     case 'red':
       return 'var(--F_Label_Color_Red)'
