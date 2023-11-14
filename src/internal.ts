@@ -113,6 +113,7 @@ export { FileDrop } from './components/DragAndDrop/FileDrop'
 export { DropTarget } from './components/DragAndDrop/DropTarget'
 export { DragOrigin } from './components/DragAndDrop/DragOrigin'
 export { ProgressTimer } from './components/ProgressTimer/ProgressTimer'
+export { Control } from './components/Control/Control'
 
 // Tissue (2)
 export { Navigation } from './components/Navigation/Navigation'

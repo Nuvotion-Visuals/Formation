@@ -40,7 +40,7 @@ library.add(
   fas.faScissors, fas.faEyedropper, fas.faGrip, fas.faList, fas.faAddressCard,
   fas.faCaretRight, fas.faCaretLeft, fas.faAngleLeft, fas.faAngleRight, 
   fas.faAnglesLeft, fas.faAnglesRight, fas.faCamera, fas.faSquareCheck,
-  fas.faRepeat, fas.faCopy
+  fas.faRepeat, fas.faCopy, fas.faSync
 )
 
 const preview: Preview = {
