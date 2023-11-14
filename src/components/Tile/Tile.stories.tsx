@@ -21,12 +21,11 @@ export const Scene = Template.bind({})
 Scene.args = {
   onClick: () => alert('clicked'),
   header: {
-    text: 'Long Scene Name',
+    text: 'Scene Name Long',
     disableTextWrap: true,
     absoluteRightChildren: true,
     compact: true,
-    index: 30,
-    indent: true,
+    index:33,
     iconPrefix: 'fas',
     disablePadding: true,
     children: <Dropdown

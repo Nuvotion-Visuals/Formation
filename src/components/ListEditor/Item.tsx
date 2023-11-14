@@ -170,7 +170,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(({
         prefix
       }
 
-      <S.Flex minimal={minimalIcon}>
+      <S.Flex minimal={minimalIcon} indent={index !== undefined}>
         {
           name && <S.Text active={active} disablePadding={disablePadding} disableTextWrap={disableTextWrap}>{ name }</S.Text>
         }
@@ -344,11 +344,14 @@ const S = {
     }
   `),
   Flex: React.memo(styled.div<{
-    minimal?: boolean
+    minimal?: boolean,
+    indent?: boolean
   }>`
     max-width: 100%;
     display: flex;
     flex-wrap: wrap;
+    position: relative;
+    left: ${props => props.indent ? '1.55rem' : 'auto'};
   `),
   AvatarContainer: React.memo(styled.div<{
     active?: boolean
@@ -453,9 +456,12 @@ const S = {
     font-size: var(--F_Font_Size_Label);
     font-family: monospace;
     color: var(--F_Font_Color);
-    padding: 0 .375rem;
     font-weight: 600;
-    flex-shrink: 0;
+    position: absolute;
+    width: 1rem;
+    min-width: .75rem;
+    text-align: center;
+    left: .3rem;
   `,
   AbsoluteRight: styled.div`
     position: absolute;
