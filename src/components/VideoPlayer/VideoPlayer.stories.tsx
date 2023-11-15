@@ -2,7 +2,7 @@ import React from 'react'
 
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { VideoPlayer } from '../../internal'
+import { AspectRatio, VideoPlayer } from '../../internal'
 
 export default {
   title: 'Players/VideoPlayer',
@@ -31,4 +31,17 @@ Loop.args = {
   autoplay: true,
   loop: true,
   name: 'datamosh'
+}
+
+
+const ExpandVerticalTemplate: ComponentStory<typeof VideoPlayer> = args => 
+  <AspectRatio ratio={21/9}>
+    <VideoPlayer {...args} />
+  </AspectRatio>
+
+export const ExpandVertical = ExpandVerticalTemplate.bind({})
+ExpandVertical.args = {
+  src: '/video/datamosh.mp4',
+  name: 'datamosh',
+  expandVertical: true
 }

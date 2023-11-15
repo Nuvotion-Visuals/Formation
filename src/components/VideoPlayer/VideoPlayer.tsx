@@ -14,7 +14,8 @@ type CustomVideoPlayerProps = {
   autoplay?: boolean
   loop?: boolean,
   name?: string,
-  iconPrefix?: IconPrefix
+  iconPrefix?: IconPrefix,
+  expandVertical?: boolean
 }
 
 export interface CustomVideoPlayerRef {
@@ -26,10 +27,11 @@ export interface CustomVideoPlayerRef {
  * A Video Player that supports a variety of controls including play, pause, mute, volume control, time slider, repeat one, expand to full screen, and downloading the video.
  *
  * @param {string} src - The source URL of the video.
- * @param {boolean} autoplay - Flag to autoplay the video once it's loaded.
- * @param {boolean} loop - Flag to loop the video when it ends.
- * @param {string} name - The name for the downloaded video file.
- * @param {IconPrefix} iconPrefix - The prefix for the icons used in the video player controls.
+ * @param {boolean} [autoplay] - Flag to autoplay the video once it's loaded.
+ * @param {boolean} [loop] - Flag to loop the video when it ends.
+ * @param {string} [name] - The name for the downloaded video file.
+ * @param {IconPrefix} [iconPrefix] - The prefix for the icons used in the video player controls.
+ * @param {IconPrefix} [expandVertical] - Fills the container's height instead of width.
  *
  * @function
  * @inner
@@ -41,7 +43,14 @@ export interface CustomVideoPlayerRef {
  *
  */
 export const VideoPlayer = React.memo(forwardRef<CustomVideoPlayerRef, CustomVideoPlayerProps>(
-  ({ src, autoplay, loop, name, iconPrefix }, ref) => {
+  ({ 
+    src, 
+    autoplay, 
+    loop, 
+    name, 
+    iconPrefix,
+    expandVertical
+  }, ref) => {
     const videoRef = useRef<HTMLVideoElement>(null)
     const [isPlaying, setIsPlaying] = useState(false)
     const [volume, setVolume] = useState(1)
@@ -229,19 +238,22 @@ export const VideoPlayer = React.memo(forwardRef<CustomVideoPlayerRef, CustomVid
     }
 
     return (
-      <S.VideoPlayer disabled={disabled}>
-        <S.Video
-          ref={videoRef}
-          src={src}
-          loop={isRepeatOne} 
-          onEnded={handleOnEnded}
-          onDurationChange={handleDurationChange}
-          onClick={() => {
-            togglePlayPause()
-            setAnimationKey(prevKey => prevKey + 1)
-            setShowIcon(true)
-          }}
-        />
+      <S.VideoPlayer disabled={disabled} expandVertical={expandVertical}>
+        <S.VideoContainer showBackground={expandVertical}>
+          <S.Video
+            ref={videoRef}
+            src={src}
+            loop={isRepeatOne} 
+            onEnded={handleOnEnded}
+            onDurationChange={handleDurationChange}
+            onClick={() => {
+              togglePlayPause()
+              setAnimationKey(prevKey => prevKey + 1)
+              setShowIcon(true)
+            }}
+          />
+        </S.VideoContainer>
+
         {
           showIcon && <S.PlayPauseIcon ref={iconRef} key={animationKey}>
           <Icon
@@ -258,6 +270,7 @@ export const VideoPlayer = React.memo(forwardRef<CustomVideoPlayerRef, CustomVid
             iconPrefix={iconPrefix ? iconPrefix : 'fas'}
             onClick={togglePlayPause}
             minimal
+            square
           />
 
           <S.Time>
@@ -285,6 +298,7 @@ export const VideoPlayer = React.memo(forwardRef<CustomVideoPlayerRef, CustomVid
             iconPrefix={iconPrefix ? iconPrefix : 'fas'}
             onClick={toggleMute}
             minimal
+            square
           />
 
           <S.Volume>
@@ -304,6 +318,7 @@ export const VideoPlayer = React.memo(forwardRef<CustomVideoPlayerRef, CustomVid
             iconPrefix={iconPrefix ? iconPrefix : 'fas'}
             minimal
             onClick={handleDownload}
+            square
           />
 
           <S.Emphasize emphasize={!!isRepeatOne}>
@@ -312,6 +327,7 @@ export const VideoPlayer = React.memo(forwardRef<CustomVideoPlayerRef, CustomVid
               iconPrefix={iconPrefix ? iconPrefix : 'fas'}
               onClick={toggleRepeatOne}
               minimal
+              square
             />
           </S.Emphasize>
 
@@ -320,6 +336,7 @@ export const VideoPlayer = React.memo(forwardRef<CustomVideoPlayerRef, CustomVid
             iconPrefix={iconPrefix ? iconPrefix : 'fas'}
             onClick={toggleFullScreen}
             minimal
+            square
           />
         </S.Controls>
       </S.VideoPlayer>
@@ -346,10 +363,14 @@ const iconAnimation = keyframes`
 `
 
 const S = {
-  VideoPlayer: styled.div<{ disabled?: boolean }>`
+  VideoPlayer: styled.div<{ 
+    disabled?: boolean,
+    expandVertical?: boolean
+  }>`
     display: flex;
     flex-wrap: wrap;
-    width: 100%;
+    width: ${props => props.expandVertical ? 'auto' : '100%'};
+    height: ${props => props.expandVertical ? '100%' : 'auto'};
     align-items: center;
     position: relative;
     cursor: ${props => props.disabled ? 'not-allowed' : 'auto'};
@@ -381,9 +402,16 @@ const S = {
   Volume: styled.div`
     width: 6rem;
   `,
-  Video: styled.video`
+   VideoContainer: styled.div<{
+    showBackground?: boolean
+   }>`
+    height: calc(100% - var(--F_Input_Height));
     width: 100%;
-
+    background: ${props => props.showBackground ? 'black' : 'none'};
+  `,
+  Video: styled.video`
+    height: 100%;
+    width: 100%;
   `,
   Emphasize: styled.div<{ emphasize: boolean }>`
     opacity: ${props => props.emphasize ? '1' : '.3'};
