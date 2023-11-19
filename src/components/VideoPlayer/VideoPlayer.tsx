@@ -239,7 +239,7 @@ export const VideoPlayer = React.memo(forwardRef<CustomVideoPlayerRef, CustomVid
 
     return (
       <S.VideoPlayer disabled={disabled} expandVertical={expandVertical}>
-        <S.VideoContainer showBackground={expandVertical}>
+        <S.VideoContainer>
           <S.Video
             ref={videoRef}
             src={src}
@@ -402,12 +402,9 @@ const S = {
   Volume: styled.div`
     width: 6rem;
   `,
-   VideoContainer: styled.div<{
-    showBackground?: boolean
-   }>`
+   VideoContainer: styled.div`
     height: calc(100% - var(--F_Input_Height));
     width: 100%;
-    background: ${props => props.showBackground ? 'black' : 'none'};
   `,
   Video: styled.video`
     height: 100%;

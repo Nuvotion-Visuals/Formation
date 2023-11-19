@@ -81,6 +81,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
           {...buttonProps}
           onClick={e => {
             e.stopPropagation()
+            e.preventDefault()
             triggerFileInput()
           }} 
         />
