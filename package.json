@@ -4,14 +4,13 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
   },
-  "version": "1.0.14",
+  "version": "1.0.15",
   "description": "Formation is a comprehensive component library powered by React, Styled Components, and CSS variables for creating apps and websites that demand responsive, unified cross-platform experiences.",
   "resolutions": {
     "string-width": "^4",
     "jackspeak": "^2",
     "strip-ansi": "^6"
   },
-  "type": "module",
   "keywords": [
     "react",
     "styled-components",
@@ -45,6 +44,7 @@
   ],
   "scripts": {
     "rollup": "rm -rf dist && cross-env NODE_ENV=production rollup -c",
+    "version-patch": "npm version patch && git push",
     "package": "yarn rollup && npm pack",
     "dev": "storybook dev -p 6006",
     "build": "cp README.md .storybook/public/ && storybook build",
