@@ -20,7 +20,6 @@ export type ButtonProps = {
   title?: string,
   disabled?: boolean,
   expand?: boolean,
-  submit?: boolean,
   minimal?: boolean,
   id?: string,
   iconPrefix?: IconPrefix,
@@ -40,7 +39,8 @@ export type ButtonProps = {
   off?: boolean,
   invertTab?: boolean,
   disablePadding?: boolean,
-  disableBorderRadius?: boolean
+  disableBorderRadius?: boolean,
+  type?: string
 }
 
 /**
@@ -62,7 +62,6 @@ export type ButtonProps = {
  * @param {string} [title] - Title attribute for the button, visible on hover as tooltip.
  * @param {boolean} [disabled] - If true, the button will be disabled.
  * @param {boolean} [expand] - If true, the button will expand to fill its container's width.
- * @param {boolean} [submit] - If true, the button acts as a submit button.
  * @param {string} [id] - The id attribute for the button.
  * @param {IconPrefix} [iconPrefix] - FontAwesome icon prefix.
  * @param {boolean} [minimalIcon] - If true, the button only shows an icon.
@@ -82,6 +81,7 @@ export type ButtonProps = {
  * @param {boolean} [off] - If true, the button will be visually turned off.
  * @param {boolean} [invertTab] - If true, the button's tab behavior will be inverted.
  * @param {boolean} [disablePadding] - If true, disables horizontal padding, ideal for use in compact layouts in conjunction with the Fit component.
+ * @param {string} [type] - Type of the Button.
  *
  * @example
  * // A primary button with an icon and text
@@ -106,7 +106,6 @@ export const Button: FC<ButtonProps> = React.memo(({
   disabled,
   href,
   expand,
-  submit,
   id,
   iconPrefix,
   minimalIcon,
@@ -126,7 +125,8 @@ export const Button: FC<ButtonProps> = React.memo(({
   off,
   invertTab,
   disablePadding,
-  disableBorderRadius
+  disableBorderRadius,
+  type
 }: ButtonProps) => {
 
   const Link: any = useContext(LinkContext) || IntLink;
@@ -145,7 +145,6 @@ export const Button: FC<ButtonProps> = React.memo(({
         disabled={disabled}
         hero={hero}
         expand={expand}
-        type={submit ? 'submit' : undefined}
         id={id}
         secondary={(secondary && !primary) || minimal}
         singleBlink={singleBlink}
@@ -161,6 +160,7 @@ export const Button: FC<ButtonProps> = React.memo(({
         invertTab={invertTab}
         disablePadding={disablePadding}
         disableBorderRadius={disableBorderRadius}
+        type={type ? type : undefined}
       >
         {
           prefix
