@@ -18,9 +18,6 @@ jobs:
           node-version: '16'
           registry-url: 'https://registry.npmjs.org/'
 
-      - name: Install Dependencies
-        run: yarn install
-
       - name: Build Project
         run: yarn build-clean
 
@@ -45,16 +42,13 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
       
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
+      - name: Extract Version and Create Release
+        run: |
+          VERSION=$(jq -r '.version' package.json)
+          echo "Creating Release for Version $VERSION"
+          gh release create "v$VERSION" --repo ${{ github.repository }} --title "Release v$VERSION"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          draft: false
-          prerelease: false
 
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
