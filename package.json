@@ -1,6 +1,6 @@
 {
   "name": "@avsync.live/formation",
-  "homepage": "https://formation-ui.netlify.app",
+  "homepage": "https://formation.avsync.live",
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
   },

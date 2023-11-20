@@ -1,6 +1,6 @@
 # Formation
 
-[Storybook](https://formation-ui.netlify.app) |
+[Storybook](https://formation.avsync.live) |
 [GitHub Repository](https://github.com/AVsync-LIVE/formation) |
 [NPM Package](https://www.npmjs.com/package/@avsync.live/formation)
 
@@ -8,7 +8,7 @@ Formation is a comprehensive component library powered by [React](https://reactj
 [Styled Components](https://styled-components.com/docs) and [CSS variables](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties) for creating apps and websites that demand responsive, unifed cross-platform experiences. It uses [Vite](https://vitejs.dev/) for fast [HMR](https://vitejs.dev/guide/features.html#hot-module-replacement) in development, and [Rollup](https://rollupjs.org/) for efficient production bundling.
 
  - Customize colors, sizing, and typography using CSS variables
- - Living documentation and development enviroment provided by [Storybook v7](https://formation-ui.netlify.app) 
+ - Living documentation and development enviroment provided by [Storybook v7](https://formation.avsync.live) 
  - Save time with essential hooks and utilities included
 
 In conjunction with the example projects, you can use Formation as a minimalistic framework for building cross-platform applications with declarative Typescript.
@@ -104,7 +104,7 @@ You can then overwrite these variables in your global style sheet to change the 
 }
 ```
 
-[View all customiziable CSS variables](https://formation-ui.netlify.app/?path=/story/theme--theme)
+[View all customiziable CSS variables](https://formation.avsync.live/?path=/story/theme--theme)
 
 
 ## Icons
