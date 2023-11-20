@@ -26,7 +26,11 @@ jobs:
 
       - name: Find Package File
         id: find-package
-        run: echo "::set-output name=package_file::$(ls *.tgz)"
+        run: |
+          PKG_FILE=$(ls *.tgz)
+          echo "::set-output name=package_file::$PKG_FILE"
+          PKG_NAME=$(echo "$PKG_FILE" | sed 's/\.tgz//')
+          echo "::set-output name=package_name::$PKG_NAME"
 
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/pages-action@1
@@ -41,14 +45,17 @@ jobs:
         run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
-      
-      - name: Extract Version and Create Release
-        run: |
-          VERSION=$(jq -r '.version' package.json)
-          echo "Creating Release for Version $VERSION"
-          gh release create "v$VERSION" --repo ${{ github.repository }} --title "Release v$VERSION"
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.find-package.outputs.package_name }}
+          release_name: Release ${{ steps.find-package.outputs.package_name }}
+          draft: false
+          prerelease: false
 
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
@@ -58,4 +65,4 @@ jobs:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ${{ steps.find-package.outputs.package_file }}
           asset_name: ${{ steps.find-package.outputs.package_file }}
-          asset_content_type: application/octet-stream
+          asset_content_type: application/gzip
