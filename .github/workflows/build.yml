@@ -22,7 +22,7 @@ jobs:
         run: yarn install
 
       - name: Build Project
-        run: yarn build
+        run: yarn build-clean
 
       - name: Package Project
         run: yarn package
