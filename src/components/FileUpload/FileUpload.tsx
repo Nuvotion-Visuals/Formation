@@ -79,11 +79,9 @@ export const FileUpload: React.FC<FileUploadProps> = ({
       <FileDrop onFileDrop={handleFileDrop}>
         <Button
           {...buttonProps}
-          onClick={(e) => {
+          onClick={e => {
+            e.stopPropagation()
             triggerFileInput()
-            if (buttonProps?.onClick) {
-              buttonProps.onClick(e)
-            }
           }} 
         />
         <input
