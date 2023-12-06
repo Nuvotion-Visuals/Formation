@@ -160,9 +160,10 @@ export const Docking = ({
       }
       .lm_header .lm_tab .lm_title {
         display: inline-block;
-        overflow: hidden;
+        overflow: visible;
         text-overflow: ellipsis;
         color: var(--F_Font_Color_Disabled);
+        padding-bottom: 2px;
       }
       .lm_header .lm_tab .lm_close_tab {
         width: 14px;
@@ -541,7 +542,7 @@ export const Docking = ({
       .lm_popin:hover .lm_icon {
         opacity: 1;
       }
-    `);
+    `)
 
       const { GoldenLayoutComponent } = require('./src')
       set_content(
@@ -561,7 +562,7 @@ export const Docking = ({
         content
       }
     </S.DockingContainer>
-  );
+  )
 }
 
 const S = {
