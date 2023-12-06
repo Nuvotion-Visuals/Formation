@@ -232,6 +232,7 @@ const BlendDropdownTemplate: ComponentStory<typeof Dropdown> = (initialArgs: any
         }))}
         text={activeBlend}
         searchPlaceholder='Search Blend Modes...'
+        maxWidth='15rem'
       />
       <Spacer />
     </Box>

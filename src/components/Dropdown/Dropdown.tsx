@@ -1,11 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import ReactDOM from 'react-dom'
 import styled from 'styled-components'
 import { Item, ItemProps } from '../../internal'
 import { Button, ButtonProps } from '../../internal'
 import { TextInput } from '../../internal'
 
-interface Props extends ButtonProps {
+export interface DropdownProps extends ButtonProps {
   items: ItemProps[]
   onOpen?: (open: boolean) => void
   maxWidth?: string,
@@ -13,6 +13,10 @@ interface Props extends ButtonProps {
   children?: React.ReactNode,
   isSelect?: boolean,
   disableSearch?: boolean,
+  xPosition?: number, // New prop for x coordinate
+  yPosition?: number, // New prop for y coordinate
+  externalOpen?: boolean // 
+  hideTriggerButton?: boolean
 }
 
 /**
@@ -42,7 +46,7 @@ interface Props extends ButtonProps {
  * </Dropdown>
  */
 
-export const Dropdown = React.memo((props: Props) => {
+export const Dropdown = React.memo((props: DropdownProps) => {
   const items = props.items
   const [open, setOpen] = useState(false)
   const myRef = useRef<HTMLDivElement>(null)
@@ -198,22 +202,51 @@ export const Dropdown = React.memo((props: Props) => {
 
   const searchRef = useRef<HTMLInputElement>(null)
 
+  const { xPosition, yPosition, externalOpen } = props
+
+
+
+  useEffect(() => {
+    // Toggle visibility based on externalOpen prop
+    if (externalOpen !== undefined) {
+      setOpen(externalOpen)
+    }
+  }, [externalOpen])
+
+  useLayoutEffect(() => {
+    const dropdownElement = dropdownRef.current;
+    if (dropdownElement) {
+      // Position dropdown based on provided coordinates
+      if (props.xPosition !== undefined && props.yPosition !== undefined) {
+        dropdownElement.style.left = `${props.xPosition}px`;
+        dropdownElement.style.top = `${props.yPosition}px`;
+      }
+    }
+  }, [props.xPosition, props.yPosition, open]);
+
+  const handleMouseDown = useCallback((event: React.MouseEvent) => {
+    event.stopPropagation();
+  }, []);
+
   return (
     <>
-      <S.Options 
-        ref={myRef} 
-        expand={props.expand} 
-        onClick={(e) => {
-          e.stopPropagation()
-          setOpen(!open)}
-        }
-      >
-        {
-          props.children
-            ? props.children
-            : <Button {...props} />
-        }
-      </S.Options>
+      {
+        !props.hideTriggerButton && 
+          <S.Options
+            ref={myRef}
+            expand={props.expand}
+            onClick={(e) => {
+              e.stopPropagation()
+              setOpen(!open)
+            }}
+          >
+            {
+              props.children 
+                ? props.children 
+                : <Button {...props} />
+            }
+          </S.Options>
+      }
       {
         portalContainer.current && ReactDOM.createPortal(
           <S.Dropdown 
@@ -221,6 +254,7 @@ export const Dropdown = React.memo((props: Props) => {
             style={{ visibility: 'hidden' }}
             maxWidth={props.maxWidth}
             isSelect={props.isSelect}
+            onMouseDown={handleMouseDown}
           >
             {
               enableSearch &&
@@ -238,22 +272,30 @@ export const Dropdown = React.memo((props: Props) => {
                 </S.Sticky>
             }
             
-            {filteredItems.map((itemProps, index) => (
-              <Item
-                ref={el => itemRefs.current[index] = el}
-                key={index}
-                {...itemProps}
-                onClick={(e) => {
-                  if (itemProps.onClick) {
-                    itemProps.onClick(e)
-                  }
-                  setOpen(false)
-                  if (itemRefs.current[index]) {
-                    itemRefs.current[index]!.scrollIntoView({ behavior: 'auto' }) // Instant scroll
-                  }
-                }}
-            />
-            ))}
+            {
+              filteredItems.map((itemProps, index) => (
+                <S.DropdownOption>
+                  <Item
+                    ref={el => itemRefs.current[index] = el}
+                    key={index}
+                    {...itemProps}
+                    onClick={
+                      itemProps.onClick
+                        ? (e) => {
+                            if (itemProps.onClick) {
+                              itemProps.onClick(e)
+                            }
+                            setOpen(false)
+                            if (itemRefs.current[index]) {
+                              itemRefs.current[index]!.scrollIntoView({ behavior: 'auto' })
+                            }
+                          } 
+                        : undefined
+                    }
+                  />
+                </S.DropdownOption>
+              ))
+            }
           </S.Dropdown>,
           portalContainer.current
         )
@@ -297,12 +339,11 @@ const S = {
   Dropdown: styled.div<{
     maxWidth?: string,
     isSelect?: boolean,
-    backgroundColor?: string
+    backgroundColor?: string,
   }>`
     position: fixed;
     z-index: 1000;
     background: var(--F_Surface);
-    box-shadow: var(--F_Outline_Outset_Focus);
     border-radius: .375rem;
     overflow: hidden;
     margin-left: ${props => props.isSelect ? '-1px' : '0'};
@@ -314,32 +355,15 @@ const S = {
           : props.maxWidth
         : '110px'
     };
-    max-height: 400px;  // Add max-height
-    overflow-y: auto;   // Add overflow-y
+    max-height: 400px;
+    overflow-y: auto;
     border-radius: ${props => props.isSelect ? '0 0 .375rem .375rem' : '.375rem'};
+    padding: .25rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 6px 15px rgba(0, 0, 0, 0.3), var(--F_Outline);
   `,
-  DropdownOption: styled.div<{
-    onClick: Function | null
-  }>`
-    display: flex;
-    align-items: center;
-    height: var(--F_Input_Height);
-    padding: 0 .5rem;
-
-    cursor: pointer;
-    * {
-      color: var(--F_Font_Color);
-    }
-
-    &:hover {
-      background: var(--F_Surface_1);
-      * {
-        color: var(--F_Font_Color)
-      }
-    }
-    &:active {
-      background: var(--F_Surface_2);
-    }
+  DropdownOption: styled.div`
+    border-radius: var(--F_Tile_Radius);
+    overflow: hidden;
   `,
   IconSpacer: styled.div`
     width: 1.5rem;
@@ -356,9 +380,11 @@ const S = {
     backgroundColor?: string
   }>`
     position: sticky;
-    top: 0;
+    top: -.22rem;
     z-index: 1;
     background: var(--F_Surface);
-    padding: .25rem;
+    padding: .25rem 0;
+    margin-top: -.25rem;
+    border-top: 1px solid var(--F_Surface_1);
   `
 }

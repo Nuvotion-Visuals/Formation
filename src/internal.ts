@@ -97,6 +97,9 @@ export { TextInput } from './components/TextInput/TextInput'
 import type { TextInputProps } from './components/TextInput/TextInput'
 export { TextInputProps }
 export { Dropdown } from './components/Dropdown/Dropdown'
+import type { DropdownProps } from './components/Dropdown/Dropdown'
+export { DropdownProps}
+export { ContextMenu } from './components/ContextMenu/ContextMenu'
 export { Sidebar } from './components/Sidebar/Sidebar'
 import type { Navs } from './components/Sidebar/Sidebar'
 export { Navs }
