@@ -1,13 +1,15 @@
 import React, { FC, useState, useRef, useCallback, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import { Dropdown, DropdownProps } from '../../internal'
+import styled from 'styled-components'
 
 interface ContextMenuProps {
   dropdownProps: DropdownProps,
+  disabled?: boolean,
   children: React.ReactNode
 }
 
-export const ContextMenu: FC<ContextMenuProps> = ({ children, dropdownProps }) => {
+export const ContextMenu: FC<ContextMenuProps> = ({ children, dropdownProps, disabled }) => {
   const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 })
   const [isOpen, setIsOpen] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
@@ -15,10 +17,12 @@ export const ContextMenu: FC<ContextMenuProps> = ({ children, dropdownProps }) =
   const holdTimer = useRef<NodeJS.Timeout>()
 
   const openMenu = useCallback((x: number, y: number) => {
-    setMenuPosition({ x, y })
-    setIsOpen(false)
-    setTimeout(() => setIsOpen(true), 0)
-  }, [])
+    if(!disabled) {   // Check if disabled before opening
+      setMenuPosition({ x, y })
+      setIsOpen(false)
+      setTimeout(() => setIsOpen(true), 0)
+    }
+  }, [disabled])
 
   const handleContextMenu = useCallback((event: React.MouseEvent) => {
     event.preventDefault()
@@ -73,7 +77,7 @@ export const ContextMenu: FC<ContextMenuProps> = ({ children, dropdownProps }) =
   }, [openMenu])
 
   return (
-    <div 
+    <S.ContextMenu 
       ref={containerRef}
       onContextMenu={handleContextMenu}
     >
@@ -99,6 +103,13 @@ export const ContextMenu: FC<ContextMenuProps> = ({ children, dropdownProps }) =
           document.body
         )
       }
-    </div>
+    </S.ContextMenu>
   )
+}
+
+const S = {
+  ContextMenu: styled.div`
+    width: 100%;
+    height: 100%;
+  `
 }
