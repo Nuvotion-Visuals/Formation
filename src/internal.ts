@@ -117,6 +117,7 @@ export { DropTarget } from './components/DragAndDrop/DropTarget'
 export { DragOrigin } from './components/DragAndDrop/DragOrigin'
 export { ProgressTimer } from './components/ProgressTimer/ProgressTimer'
 export { Control } from './components/Control/Control'
+export { MultiSelect } from './components/MultiSelect/MultiSelect'
 
 // Tissue (2)
 export { Navigation } from './components/Navigation/Navigation'

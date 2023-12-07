@@ -152,6 +152,7 @@ export const MultiSelect = ({
       onMouseUp={handleMouseUp}
     >
       <ContextMenu
+        disabled={selectedIndices.length < 2}
         dropdownProps={{
           ...menuOptions,
           items: menuOptions.items.map(item => ({
@@ -181,6 +182,7 @@ export const MultiSelect = ({
           }
         </Gap>
       </ContextMenu>
+
       {
         isDragging && (
           <S.SelectionBox
@@ -207,11 +209,6 @@ const S = {
     width: 100%;
   `,
   SelectionBox: styled.div<{ top: string; left: string; width: string; height: string }>`
-    border: 2px dashed #007bff;
-    background-color: rgba(0, 123, 255, 0.2);
-    position: absolute;
-    pointer-events: none;
-    z-index: 10;
     border: 2px dashed #007bff;
     background-color: rgba(0, 123, 255, 0.2);
     position: absolute;
