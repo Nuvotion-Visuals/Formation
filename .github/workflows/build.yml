@@ -18,8 +18,14 @@ jobs:
           node-version: '20.5.0'
           registry-url: 'https://registry.npmjs.org/'
 
+      - name: Set yarn version
+        run: yarn set version stable
+
+      - name: Install dependencies
+        run: yarn
+
       - name: Build Project
-        run: yarn build-clean
+        run: yarn build
 
       - name: Package Project
         run: yarn package
