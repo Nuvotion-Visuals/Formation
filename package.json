@@ -4,7 +4,7 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
   },
-  "version": "1.0.34",
+  "version": "1.0.35",
   "description": "Formation is a comprehensive component library powered by React, Styled Components, and CSS variables for creating apps and websites that demand responsive, unified cross-platform experiences.",
   "resolutions": {
     "string-width": "^4",
@@ -63,16 +63,16 @@
     "@rollup/plugin-node-resolve": "^13.3.0",
     "@rollup/plugin-replace": "^5.0.5",
     "@rollup/plugin-typescript": "^8.3.0",
-    "@storybook/addon-essentials": "7.6.3",
-    "@storybook/addon-interactions": "7.6.3",
-    "@storybook/addon-links": "7.6.3",
+    "@storybook/addon-essentials": "7.6.4",
+    "@storybook/addon-interactions": "7.6.4",
+    "@storybook/addon-links": "7.6.4",
     "@storybook/addon-onboarding": "1.0.9",
-    "@storybook/blocks": "7.6.3",
-    "@storybook/manager-api": "^7.6.3",
-    "@storybook/react": "7.6.3",
-    "@storybook/react-vite": "7.6.3",
+    "@storybook/blocks": "7.6.4",
+    "@storybook/manager-api": "^7.6.4",
+    "@storybook/react": "7.6.4",
+    "@storybook/react-vite": "7.6.4",
     "@storybook/testing-library": "0.2.2",
-    "@storybook/theming": "^7.6.3",
+    "@storybook/theming": "^7.6.4",
     "@testing-library/react": "^13.3.0",
     "@types/jest": "^28.1.6",
     "@types/lodash.union": "^4.6.7",
@@ -111,7 +111,7 @@
     "rollup-plugin-visualizer": "^5.7.1",
     "sass": "^1.43.5",
     "sass-loader": "^12.3.0",
-    "storybook": "7.6.3",
+    "storybook": "7.6.4",
     "style-loader": "2.0.0",
     "styled-components": "^5.3.5",
     "typescript": "^4.7.4",
@@ -124,7 +124,7 @@
   ],
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@etchteam/storybook-addon-css-variables-theme": "^1.5.1",
+    "@etchteam/storybook-addon-css-variables-theme": "^1.6.0",
     "@fortawesome/fontawesome-common-types": "^6.1.2",
     "@fortawesome/fontawesome-free": "^6.1.2",
     "@fortawesome/fontawesome-svg-core": "^6.1.2",
@@ -137,6 +137,7 @@
     "lodash.union": "^4.6.0",
     "lodash.xor": "^4.5.0",
     "marked": "^4.0.19",
+    "qr-code-styling": "^1.6.0-rc.1",
     "rc-util": "^5.37.0",
     "react-colorful": "^5.6.1",
     "react-div-100vh": "^0.7.0",
@@ -160,5 +161,6 @@
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "styled-components": "^5.3.5"
-  }
+  },
+  "packageManager": "yarn@4.0.2"
 }

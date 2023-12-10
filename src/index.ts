@@ -81,6 +81,7 @@ export { TitleEditor } from './components/TitleEditor/TitleEditor'
 export { ProgressTimer } from './components/ProgressTimer/ProgressTimer'
 export { Control } from './components/Control/Control'
 export { MultiSelect } from './components/MultiSelect/MultiSelect'
+export { QRCode } from './components/QRCode/QRCode'
 
 import { Link } from './components/Link/Link'
 let linkComponent = Link as any
