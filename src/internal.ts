@@ -84,6 +84,7 @@ export { Checkboxes } from './components/Checkboxes/Checkboxes'
 export { DropCorners } from './components/DragAndDrop/DropCorners'
 export { GroupRadius } from './components/GroupRadius/GroupRadius'
 export { QRCode } from './components/QRCode/QRCode'
+export { Small } from './components/Small/Small'
 
 // Molecules (1)
 export { ArticlePreview } from './components/ArticlePreview/ArticlePreview'

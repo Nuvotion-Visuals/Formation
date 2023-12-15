@@ -82,6 +82,7 @@ export { ProgressTimer } from './components/ProgressTimer/ProgressTimer'
 export { Control } from './components/Control/Control'
 export { MultiSelect } from './components/MultiSelect/MultiSelect'
 export { QRCode } from './components/QRCode/QRCode'
+export { Small } from './components/Small/Small'
 
 import { Link } from './components/Link/Link'
 let linkComponent = Link as any

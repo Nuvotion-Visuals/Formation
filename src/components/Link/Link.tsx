@@ -63,5 +63,6 @@ export const Link = React.memo(({
 const S = {
   Link: React.memo(styled.a`
     text-decoration: none;
+    cursor: pointer;
   `)
 }

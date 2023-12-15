@@ -69,7 +69,8 @@ export const UsernamePassword = Template.bind({})
 UsernamePassword.args = {
   title: 'Login',
   logoSrc: 'logo-icon-color.png',
-  children: <UsernamePasswordTemplate />
+  children: <UsernamePasswordTemplate />,
+  height: '100vh'
 }
 UsernamePassword.parameters = {
   layout: 'fullscreen'
@@ -79,7 +80,8 @@ export const Passwordless = Template.bind({})
 Passwordless.args = {
   title: 'Login',
   logoSrc: 'logo-icon-color.png',
-  children: <PasswordlessTemplate />
+  children: <PasswordlessTemplate />,
+  height: '100vh'
 }
 Passwordless.parameters = {
   layout: 'fullscreen'
