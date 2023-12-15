@@ -39,7 +39,8 @@ export type TextInputProps = {
   canClear?: boolean,
   onClear?: () => void,
   dropdownOpen?: boolean,
-  backgroundColor?: string
+  backgroundColor?: string,
+  autoCapitalize?: string
 }
 
 /**
@@ -80,6 +81,7 @@ export type TextInputProps = {
  * @param {Function} [onClear] - Callback to be invoked when the clear button is clicked.
  * @param {boolean} [dropdownOpen] - If true indicate the input field is linked to an open drop-down list.
  * @param {string} [backgroundColor] - Use to change the background color of the input field.
+ * @param {string} [autoCapitalize] - Specify the automatic capitalization policy for the input field.
  *
  * @example
  * return (
@@ -126,7 +128,8 @@ export const TextInput = React.memo(({
   canClear,
   onClear,
   dropdownOpen,
-  backgroundColor
+  backgroundColor,
+  autoCapitalize
 }: TextInputProps) => {
   // @ts-ignore
   const autoFocusRef = useCallback(el => el && autoFocus ? el.focus() : null, [])
@@ -246,6 +249,7 @@ export const TextInput = React.memo(({
             onBlur()
           }
         }}
+        autoCapitalize={autoCapitalize}
       />
 
       {
