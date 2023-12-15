@@ -1,6 +1,4 @@
 import React, { useEffect, useRef } from 'react'
-import QRCodeStyling, { Options } from 'qr-code-styling'
-
 /**
  * The `QRCode` component generates and displays a customizable QR code. It's particularly useful in applications
  * where QR codes are required for sharing links, embedding information, or for identification purposes, such as in 
@@ -19,11 +17,13 @@ import QRCodeStyling, { Options } from 'qr-code-styling'
  * // To create a QR code with a custom color scheme and a logo
  * <QRCode data="https://example.com" width={200} height={200} dotsOptions={{ color: '#000' }} image="path/to/logo.png" />
  */
-export const QRCode: React.FC<Options> = (props) => {
+export const QRCode: React.FC<any> = (props) => {
   const qrContainerRef = useRef<HTMLDivElement>(null)
-  const qrCodeRef = useRef<QRCodeStyling | null>(null)
+  const qrCodeRef = useRef<any>(null)
 
   useEffect(() => {
+    // Dynamically import QRCodeStyling
+    const QRCodeStyling = require('qr-code-styling')
     qrCodeRef.current = new QRCodeStyling(props)
 
     if (qrContainerRef.current) {
