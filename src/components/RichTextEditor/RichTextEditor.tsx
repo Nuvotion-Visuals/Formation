@@ -1,7 +1,7 @@
 import React, { useState, useEffect, FC, useMemo, useRef } from 'react'
 import styled from 'styled-components'
-import './quill.css'
-import { StyleHTML } from '../../internal'
+import { StyleHTML, insertCSS } from '../../internal'
+import { quillStyles } from './quillStyles'
 
 interface RichTextEditorProps {
   value: string
@@ -18,6 +18,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
   const quillRef = useRef(null)
 
   useEffect(() => {
+    insertCSS(quillStyles)
     import('react-quill').then(() => {
       setLoaded(true)
     })

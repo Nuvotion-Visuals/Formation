@@ -1,3 +1,4 @@
+export const quillStyles = `
 .quill {
   position: relative;
 }
@@ -547,3 +548,4 @@
   background: var(--F_Background);
   border-bottom: 1px solid var(--F_Surface);
 }
+`
