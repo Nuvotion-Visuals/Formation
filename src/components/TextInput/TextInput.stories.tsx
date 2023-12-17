@@ -132,3 +132,11 @@ Ask.args = {
   ]
 }
 
+export const Number = Template.bind({})
+Number.args = {
+  hero: true,
+  icon: 'lock',
+  iconPrefix: 'fas',
+  type: 'number',
+  label: 'Security code',
+}

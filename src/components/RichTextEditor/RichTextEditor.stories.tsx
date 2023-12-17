@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { RichTextEditor, Box, Button, TextInput } from '../../internal'
+import { RichTextEditor, Box, Button, TextInput, StyleHTML } from '../../internal'
+import styled from 'styled-components'
 
 
 export default {
@@ -13,55 +14,30 @@ export default {
 const Template: ComponentStory<typeof RichTextEditor> = args => {
   const [value, set_value] = useState('')
 
-  const [hightlight, set_highlight] = useState('')
-
   return (<>
-    <TextInput 
-      icon='search'
-      iconPrefix='fas'
-      compact
-      placeholder='Find'
-      hideOutline
-      value={hightlight}
-      onChange={val => set_highlight(val)}
-    />
-    <RichTextEditor {...args} value={value} onChange={newValue => set_value(newValue)} />
-    
-    <Box width='100%' py={.5} />
-   
-    <RichTextEditor value={value} readOnly highlightedPart={hightlight} />
+    <S.Container>
+      <RichTextEditor {...args} value={value} onChange={newValue => set_value(newValue)} />
+    </S.Container>
   </>
   )
 }
 
 export const Regular = Template.bind({})
 Regular.args = {
-
+  px: 1
+}
+Regular.parameters = {
+  layout: 'fullscreen'
 }
 
-export const Autofocus = Template.bind({})
-Autofocus.args = {
-  autoFocus: true
-}
-export const Outset = Template.bind({})
-Outset.args = {
-  outset: true,
-  onEnter: () => alert('Enter')
-}
-
-export const FixedHeight = Template.bind({})
-FixedHeight.args = {
-  placeholder: 'Ask me a question',
-  height: '600px'
-}
-
-export const Buttons = Template.bind({})
-Buttons.args = {
-  placeholder: 'Ask me a question',
-  height: '300px',
-  children: <Button 
-    icon='paper-plane'
-    iconPrefix='fas'
-    minimal
-  />
+const S = {
+  Container: styled.div`
+    height: 100vh;
+    width: 100%;
+    position: relative;
+    overflow: auto;
+    display: flex;
+    justify-content: center;
+    
+  `
 }

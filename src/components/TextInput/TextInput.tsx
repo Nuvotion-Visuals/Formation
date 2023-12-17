@@ -446,6 +446,17 @@ const S = {
     &::placeholder {
       color: var(--F_Font_Color_Disabled);
     }
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    /* Firefox */
+    &[type=number] {
+      -moz-appearance: textfield;
+    }
   `),
   Label: React.memo(styled.label<{
     locked: boolean,

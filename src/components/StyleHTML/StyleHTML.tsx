@@ -42,7 +42,6 @@ const S = {
   StyleHTML: styled.div`
     font-size: 16px;
     line-height: 1.5em;
-    padding-bottom: 1rem;
     color: var(--F_Font_Color);
     width: 100%;
     overflow-x: hidden;
@@ -117,7 +116,7 @@ const S = {
       overflow-wrap: break-word;
       white-space: pre-wrap;
       line-height: 1.5;
-      margin-top: -.25em;
+      margin-top: .75rem;
     }
 
     ol li {
@@ -128,17 +127,20 @@ const S = {
       /* line-height: 1; */
     }
 
-    ul li,
-    ol li {
+    ul li {
       display: list-item;
       list-style-type: disc; /* disc style for unordered lists, which can be overridden by ordered lists */
+      margin-block-start: 0.25em; /* reduced margin at the start of the list item */
+      margin-block-end: 0.25em; 
     }
 
-    li {
-      margin-bottom: -1em;
+    ol li {
+      display: list-item;
+      margin-block-start: 0.25em; /* reduced margin at the start of the list item */
+      margin-block-end: 0.25em; 
     }
 
-    pre {
+    pre, code {
       max-width: calc(100% - 2rem);
       overflow: auto;
       margin-top: 10px;
@@ -146,6 +148,7 @@ const S = {
       background: var(--F_Surface_0);
       padding: 0 .5rem;
       border-radius: .5rem;
+      font-family: monospace !important;
       
     }
 
@@ -163,9 +166,15 @@ const S = {
     img {
       padding: 0;
       margin-top: 10px;
-      width: 100%;
-      object-fit: cover;
-      object-position: center;
+      max-width: 100%;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    iframe {
+      margin-top: 10px;
+      max-width: 100%;
     }
 
     figure {

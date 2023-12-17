@@ -8,7 +8,7 @@ interface Props {
   href?: string,
   newTab?: boolean,
   center?: boolean,
-  underline?: boolean
+  underline?: boolean,
 }
 
 export const Small = ({ 
