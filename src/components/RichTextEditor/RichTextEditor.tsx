@@ -251,6 +251,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
       <ReactQuill
         ref={quillRef}
         value={value}
+        defaultValue={value}
         onChange={onChange}
         clipboard={{
           matchVisual: false
