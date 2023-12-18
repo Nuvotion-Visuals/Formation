@@ -14,7 +14,6 @@ interface RichTextEditorProps {
   px?: number,
   outline?: boolean
 }
-insertCSS(quillStyles)
 export const RichTextEditor: FC<RichTextEditorProps> = ({
   value,
   onChange,
@@ -27,7 +26,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
   const [headerValue, setHeaderValue] = useState('normal')
 
   useEffect(() => {
-    
+    insertCSS(quillStyles)
     import('react-quill').then(() => {
       setLoaded(true)
     })
