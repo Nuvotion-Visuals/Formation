@@ -7,18 +7,21 @@ import {
   insertCSS,
 } from '../../internal'
 import { quillStyles } from './quillStyles'
+import { IconPrefix } from '@fortawesome/fontawesome-common-types'
 
 interface RichTextEditorProps {
   value: string
   onChange: (value: string) => void
   px?: number,
-  outline?: boolean
+  outline?: boolean,
+  iconPrefix?: IconPrefix
 }
 export const RichTextEditor: FC<RichTextEditorProps> = ({
   value,
   onChange,
   px,
-  outline
+  outline,
+  iconPrefix
 }) => {
   const [loaded, setLoaded] = useState(false)
   const quillRef = useRef(null)
@@ -48,18 +51,18 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
         <option value='4'>H4</option>
         <option value='normal'>Normal</option>
       </S.Select>
-      <Button icon={'bold'} iconPrefix='fas' onClick={handlers.handleBold} compact minimal square title='Bold' />
-      <Button icon={'italic'} iconPrefix='fas' onClick={handlers.handleItalic} compact minimal square title='Italic' />
-      <Button icon={'underline'} iconPrefix='fas' onClick={handlers.handleUnderline} compact minimal square title='Underline' />
-      <Button icon={'list-ol'} iconPrefix='fas' onClick={handlers.handleListOrdered} compact minimal square title='Ordered List' />
-      <Button icon={'list-ul'} iconPrefix='fas' onClick={handlers.handleListBullet} compact minimal square title='Unordered List' />
-      <Button icon={'link'} iconPrefix='fas' onClick={handlers.handleLink} compact minimal square title='Insert Link' />
-      <Button icon={'image'} iconPrefix='fas' onClick={handlers.handleImage} compact minimal square title='Insert Image' />
-      <Button icon={'clapperboard'} iconPrefix='fas' onClick={handlers.handleVideo} compact minimal square title='Insert Video' />
-      <Button icon={'code'} iconPrefix='fas' onClick={handlers.handleIframe} compact minimal square title='Insert Iframe' />
-      <Button icon={'terminal'} iconPrefix='fas' onClick={handlers.handleCode} compact minimal square title='Code Block' />
-      <Button icon={'quote-right'} iconPrefix='fas' onClick={handlers.handleBlockquote} compact minimal square title='Blockquote' />
-      <Button icon={'eraser'} iconPrefix='fas' onClick={handlers.handleClean} compact minimal square title='Clear Formatting' />
+      <Button icon={'bold'} iconPrefix={iconPrefix ? iconPrefix : 'fas'} onClick={handlers.handleBold} compact minimal square title='Bold' />
+      <Button icon={'italic'} iconPrefix={iconPrefix ? iconPrefix : 'fas'} onClick={handlers.handleItalic} compact minimal square title='Italic' />
+      <Button icon={'underline'} iconPrefix={iconPrefix ? iconPrefix : 'fas'} onClick={handlers.handleUnderline} compact minimal square title='Underline' />
+      <Button icon={'list-ol'} iconPrefix={iconPrefix ? iconPrefix : 'fas'} onClick={handlers.handleListOrdered} compact minimal square title='Ordered List' />
+      <Button icon={'list-ul'} iconPrefix={iconPrefix ? iconPrefix : 'fas'} onClick={handlers.handleListBullet} compact minimal square title='Unordered List' />
+      <Button icon={'link'} iconPrefix={iconPrefix ? iconPrefix : 'fas'} onClick={handlers.handleLink} compact minimal square title='Insert Link' />
+      <Button icon={'image'} iconPrefix={iconPrefix ? iconPrefix : 'fas'} onClick={handlers.handleImage} compact minimal square title='Insert Image' />
+      <Button icon={'clapperboard'} iconPrefix={iconPrefix ? iconPrefix : 'fas'} onClick={handlers.handleVideo} compact minimal square title='Insert Video' />
+      <Button icon={'code'} iconPrefix={iconPrefix ? iconPrefix : 'fas'} onClick={handlers.handleIframe} compact minimal square title='Insert Iframe' />
+      <Button icon={'terminal'} iconPrefix={iconPrefix ? iconPrefix : 'fas'} onClick={handlers.handleCode} compact minimal square title='Code Block' />
+      <Button icon={'quote-right'} iconPrefix={iconPrefix ? iconPrefix : 'fas'} onClick={handlers.handleBlockquote} compact minimal square title='Blockquote' />
+      <Button icon={'eraser'} iconPrefix={iconPrefix ? iconPrefix : 'fas'} onClick={handlers.handleClean} compact minimal square title='Clear Formatting' />
       </Gap>
     </S.Toolbar>
   )
