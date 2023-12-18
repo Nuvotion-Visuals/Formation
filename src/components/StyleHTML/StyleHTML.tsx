@@ -155,7 +155,7 @@ const S = {
     blockquote {
       margin-top: 10px;
       background: var(--F_Surface_0);
-      padding: 1rem;
+      padding: .5rem;
       color: var(--F_Font_Color_Label);
       border-left: .5rem solid var(--F_Surface_2);
       * {

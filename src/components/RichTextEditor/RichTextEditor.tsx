@@ -1,6 +1,11 @@
 import React, { useState, useEffect, FC, useRef } from 'react'
 import styled from 'styled-components'
-import { Button, Gap, StyleHTML, insertCSS } from '../../internal'
+import { 
+  Button, 
+  Gap, 
+  StyleHTML, 
+  insertCSS,
+} from '../../internal'
 import { quillStyles } from './quillStyles'
 
 interface RichTextEditorProps {
@@ -36,6 +41,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
         onChange={handlers.handleHeaders} 
         value={headerValue}
         onClick={e => e.stopPropagation()}
+        title='Format'
       >
         <option value='1'>H1</option>
         <option value='2'>H2</option>
@@ -43,18 +49,18 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
         <option value='4'>H4</option>
         <option value='normal'>Normal</option>
       </S.Select>
-      <Button icon={'bold'} iconPrefix='fas' onClick={handlers.handleBold} compact minimal square />
-      <Button icon={'italic'} iconPrefix='fas' onClick={handlers.handleItalic} compact minimal square />
-      <Button icon={'underline'} iconPrefix='fas' onClick={handlers.handleUnderline} compact minimal square />
-      <Button icon={'list-ol'} iconPrefix='fas' onClick={handlers.handleListOrdered} compact minimal square />
-      <Button icon={'list-ul'} iconPrefix='fas' onClick={handlers.handleListBullet} compact minimal square />
-      <Button icon={'link'} iconPrefix='fas' onClick={handlers.handleLink} compact minimal square />
-      <Button icon={'image'} iconPrefix='fas' onClick={handlers.handleImage} compact minimal square />
-      <Button icon={'video'} iconPrefix='fas' onClick={handlers.handleVideo} compact minimal square />
-      <Button icon={'code'} iconPrefix='fas' onClick={handlers.handleIframe} compact minimal square />
-      <Button icon={'terminal'} iconPrefix='fas' onClick={handlers.handleCode} compact minimal square />
-      <Button icon={'quote-right'} iconPrefix='fas' onClick={handlers.handleBlockquote} compact minimal square />
-      <Button icon={'eraser'} iconPrefix='fas' onClick={handlers.handleClean} compact minimal square />
+      <Button icon={'bold'} iconPrefix='fas' onClick={handlers.handleBold} compact minimal square title='Bold' />
+      <Button icon={'italic'} iconPrefix='fas' onClick={handlers.handleItalic} compact minimal square title='Italic' />
+      <Button icon={'underline'} iconPrefix='fas' onClick={handlers.handleUnderline} compact minimal square title='Underline' />
+      <Button icon={'list-ol'} iconPrefix='fas' onClick={handlers.handleListOrdered} compact minimal square title='Ordered List' />
+      <Button icon={'list-ul'} iconPrefix='fas' onClick={handlers.handleListBullet} compact minimal square title='Unordered List' />
+      <Button icon={'link'} iconPrefix='fas' onClick={handlers.handleLink} compact minimal square title='Insert Link' />
+      <Button icon={'image'} iconPrefix='fas' onClick={handlers.handleImage} compact minimal square title='Insert Image' />
+      <Button icon={'clapperboard'} iconPrefix='fas' onClick={handlers.handleVideo} compact minimal square title='Insert Video' />
+      <Button icon={'code'} iconPrefix='fas' onClick={handlers.handleIframe} compact minimal square title='Insert Iframe' />
+      <Button icon={'terminal'} iconPrefix='fas' onClick={handlers.handleCode} compact minimal square title='Code Block' />
+      <Button icon={'quote-right'} iconPrefix='fas' onClick={handlers.handleBlockquote} compact minimal square title='Blockquote' />
+      <Button icon={'eraser'} iconPrefix='fas' onClick={handlers.handleClean} compact minimal square title='Clear Formatting' />
       </Gap>
     </S.Toolbar>
   )
@@ -74,11 +80,13 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
     },
     handleListOrdered: () => {
       const quill = (quillRef.current as any).getEditor()
-      quill.format('list', 'ordered')
+      const format = quill.getFormat()
+      quill.format('list', format.list === 'ordered' ? false : 'ordered')
     },
     handleListBullet: () => {
       const quill = (quillRef.current as any).getEditor()
-      quill.format('list', 'bullet')
+      const format = quill.getFormat()
+      quill.format('list', format.list === 'bullet' ? false : 'bullet')
     },
     handleLink: () => {
       const quill = (quillRef.current as any).getEditor()
@@ -217,8 +225,9 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
     },
     handleBlockquote: () => {
       const quill = (quillRef.current as any).getEditor()
-      quill.format('blockquote', true)
-    }
+      const format = quill.getFormat()
+      quill.format('blockquote', format.blockquote ? false : true)
+    },
   }
 
   const focus = () => {
@@ -241,6 +250,9 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
         ref={quillRef}
         value={value}
         onChange={onChange}
+        clipboard={{
+          matchVisual: false
+        }}
         modules={{
           toolbar: '#custom-toolbar'
         }}
