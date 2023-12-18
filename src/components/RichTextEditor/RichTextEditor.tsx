@@ -252,12 +252,12 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
         ref={quillRef}
         value={value}
         defaultValue={value}
-        onChange={(val : string) => onChange(val.replace('<p><br></p>', ''))}
-        clipboard={{
-          matchVisual: false
-        }}
+        onChange={onChange}
         modules={{
-          toolbar: '#custom-toolbar'
+          toolbar: '#custom-toolbar',
+          clipboard: {
+            matchVisual: false
+          }
         }}
       />
       </StyleHTML>
@@ -302,7 +302,7 @@ const S = {
     `}
   `,
   Toolbar: styled.div`
-    width: calc(100% - 1.5rem);
+    width: 100%;
     border-bottom: 1px solid var(--F_Surface_2);
     padding: 0 .75rem;
   `,
