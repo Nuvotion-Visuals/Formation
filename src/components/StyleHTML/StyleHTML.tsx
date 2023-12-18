@@ -102,6 +102,10 @@ const S = {
       letter-spacing: -0.005em;
     }
 
+    strong, u, em {
+      color: var(--F_Font_Color_Label);
+    }
+
     a {
       color: var(--F_Font_Color_Link);
       text-decoration: none;

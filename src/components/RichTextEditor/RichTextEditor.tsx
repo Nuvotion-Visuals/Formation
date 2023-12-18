@@ -252,7 +252,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
         ref={quillRef}
         value={value}
         defaultValue={value}
-        onChange={onChange}
+        onChange={(val : string) => onChange(val.replace('<p><br></p>', ''))}
         clipboard={{
           matchVisual: false
         }}
