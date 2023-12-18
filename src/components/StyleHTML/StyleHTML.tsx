@@ -235,7 +235,7 @@ const S = {
     tr:last-child td:first-child { border-radius: 0 0 0 .5rem; }
     tr:last-child td:last-child { border-radius: 0 0 .5rem 0; }
 
-    button {
+    /* button {
       height: var(--F_Input_Height);
       background: var(--F_Primary);
       padding: 0 1rem;
@@ -252,7 +252,7 @@ const S = {
         background: var(--F_Primary_Variant);
 
       }
-    }
+    } */
 
     mark {
       background: var(--F_Primary);

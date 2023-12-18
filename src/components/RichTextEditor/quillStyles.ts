@@ -470,12 +470,6 @@ overflow-y: hidden;
   padding: .25rem .75rem;
   white-space: nowrap;
   border-radius: .5rem;
-  margin-left: 1px;
-}
-.ql-snow .ql-tooltip::before {
-  content: "Visit URL:";
-  line-height: 26px;
-  margin-right: 8px;
 }
 .ql-snow .ql-tooltip input[type=text] {
   display: none;
@@ -536,18 +530,11 @@ overflow-y: hidden;
 }
 
 .quill {
-  height: 100%;
+  height: calc(100% - 25px);
   overflow: auto;
 }
 
 .ql-container {
   position: relative; /* or absolute/fixed as per your layout */
-}
-.ql-toolbar {
-  position: sticky;
-  top: 0;
-  z-index: 1000; /* To ensure it stays above other content */
-  background: var(--F_Background);
-  border-bottom: 1px solid var(--F_Surface);
 }
 `
