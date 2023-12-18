@@ -6,13 +6,15 @@ import { quillStyles } from './quillStyles'
 interface RichTextEditorProps {
   value: string
   onChange: (value: string) => void
-  px?: number
+  px?: number,
+  outline?: boolean
 }
 
 export const RichTextEditor: FC<RichTextEditorProps> = ({
   value,
   onChange,
-  px
+  px,
+  outline
 }) => {
   const [loaded, setLoaded] = useState(false)
   const quillRef = useRef(null)
@@ -107,7 +109,10 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
 
   const ReactQuill = require('react-quill')
   return (
-    <S.RichTextEditor px={px || 0}>
+    <S.RichTextEditor 
+      px={px || 0}
+      outline={outline}
+    >
       <StyleHTML>
       <ReactQuill
         ref={quillRef}
@@ -122,16 +127,36 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
 
 const S = {
   RichTextEditor: styled.div<{
-    px: number
+    px: number,
+    outline?: boolean
   }>`
     position: relative;
     display: flex;
     width: 100%;
+    border-radius: .75rem;
+    box-shadow: ${props => props.outline ? 'var(--F_Outline)' : 'none'};
     .ql-editor {
       padding: ${props => `0 ${props.px}rem !important`};
     }
     .ql-toolbar {
       padding: ${props => `0 ${props.px}rem !important`};
+      margin: 1px;
+      margin-top: 0;
+      border-radius: ${props => props.outline ? '.75rem .75rem 0 0' : '0'};
+    }
+    &:hover {
+      box-shadow: var(--F_Outline_Hover);
+
+      .ql-toolbar {
+        border-top: 1px solid var(--F_Surface_3);
+      }
+    }
+    &:active, &:focus-within {
+      box-shadow: var(--F_Outline_Focus);
+
+      .ql-toolbar {
+        border-top: 1px solid var(--F_Surface_4);
+      }
     }
   `
 }

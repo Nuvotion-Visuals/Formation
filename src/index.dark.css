@@ -19,6 +19,8 @@ It’s easy to picture how a less saturated version of a color would look like, 
   --F_Surface: hsl(0, 0%, 16%);
   --F_Surface_1: hsl(0, 0%, 25%); /* hover */
   --F_Surface_2: hsl(0, 0%, 34%); /* active */
+  --F_Surface_3: hsl(0, 0%,50%);
+  --F_Surface_4: hsl(0, 0%,70%);
 
   --F_Tile_Radius: 4px;
   --F_Input_Radius: 6px;
@@ -60,9 +62,9 @@ It’s easy to picture how a less saturated version of a color would look like, 
 
   /* Outlines */
   /* Outlines use box shadows so as to not take up space in the document */
-  --F_Outline: inset 0 0 0 1px hsl(0, 0%, 30%);
-  --F_Outline_Hover: inset 0 0 0 1px hsl(0, 0%, 50%);
-  --F_Outline_Focus: inset 0 0 0 1px hsl(0, 0%,70%);
+  --F_Outline: inset 0 0 0 1px var(--F_Surface_2);
+  --F_Outline_Hover: inset 0 0 0 1px var(--F_Surface_3);
+  --F_Outline_Focus: inset 0 0 0 1px var(--F_Surface_4);
   --F_Outline_Primary: inset 0 0 0 1px var(--F_Primary);
   --F_Outline_Primary_Hover: inset 0 0 0 1px var(--F_Primary_Hover);
   --F_Outline_Primary_Variant: inset 0 0 0 1px var(--F_Primary_Variant);
@@ -70,9 +72,9 @@ It’s easy to picture how a less saturated version of a color would look like, 
   --F_Outline_Disabled: inset 0 0 0 1px var(--F_Font_Color_Disabled);
   --F_Outline_Success: inset 0 0 0 1px var(--F_Font_Color_Success);
 
-  --F_Outline_Thick: inset 0 0 0 3px hsl(0, 0%, 30%);
-  --F_Outline_Hover_Thick: inset 0 0 0 3px hsl(0, 0%, 50%);
-  --F_Outline_Focus_Thick: inset 0 0 0 3px hsl(0, 0%, 70%);
+  --F_Outline_Thick: inset 0 0 0 3px var(--F_Surface_2);
+  --F_Outline_Hover_Thick: inset 0 0 0 3px var(--F_Surface_3);
+  --F_Outline_Focus_Thick: inset 0 0 0 3px var(--F_Surface_4);
   --F_Outline_Primary_Hover_Thick: inset 0 0 0 3px var(--F_Primary_Hover);
   --F_Outline_Primary_Thick: inset 0 0 0 3px var(--F_Primary);
   --F_Outline_Primary_Variant_Thick: inset 0 0 0 3px var(--F_Primary_Variant);
@@ -80,9 +82,9 @@ It’s easy to picture how a less saturated version of a color would look like, 
   --F_Outline_Disabled_Thick: inset 0 0 0 3px var(--F_Font_Color_Disabled);
   --F_Outline_Success_Thick: inset 0 0 0 3px var(--F_Font_Color_Success);
 
-  --F_Outline_Outset: 0 0 0 1px hsl(0, 0%, 30%);
-  --F_Outline_Outset_Hover: 0 0 0 1px hsl(0, 0%, 50%);
-  --F_Outline_Outset_Focus: 0 0 0 1px hsl(0, 0%, 70%);
+  --F_Outline_Outset: 0 0 0 1px var(--F_Surface_2);
+  --F_Outline_Outset_Hover: 0 0 0 1px var(--F_Surface_3);
+  --F_Outline_Outset_Focus: 0 0 0 1px var(--F_Surface_4);
   --F_Outline_Outset_Primary: 0 0 0 1px var(--F_Primary);
   --F_Outline_Outset_Primary_Hover: 0 0 0 1px var(--F_Primary_Hover);
   --F_Outline_Outset_Primary_Variant: 0 0 0 1px var(--F_Primary_Variant);
@@ -90,9 +92,9 @@ It’s easy to picture how a less saturated version of a color would look like, 
   --F_Outline_Outset_Disabled: 0 0 0 1px var(--F_Font_Color_Disabled);
   --F_Outline_Outset_Success: 0 0 0 1px var(--F_Font_Color_Success);
 
-  --F_Outline_Outset_Thick: 0 0 0 3px hsl(0, 0%, 30%);
-  --F_Outline_Outset_Hover_Thick: 0 0 0 3px hsl(0, 0%, 50%);
-  --F_Outline_Outset_Focus_Thick: 0 0 0 3px hsl(0, 0%, 70%);
+  --F_Outline_Outset_Thick: 0 0 0 3px var(--F_Surface_2);
+  --F_Outline_Outset_Hover_Thick: 0 0 0 3px var(--F_Surface_3);
+  --F_Outline_Outset_Focus_Thick: 0 0 0 3px var(--F_Surface_4);
   --F_Outline_Outset_Primary_Thick: 0 0 0 3px var(--F_Primary);
   --F_Outline_Outset_Primary_Hover_Thick: 0 0 0 3px var(--F_Primary_Hover);
   --F_Outline_Outset_Primary_Variant_Thick: 0 0 0 3px var(--F_Primary_Variant);

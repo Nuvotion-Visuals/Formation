@@ -267,5 +267,9 @@ const S = {
       vertical-align: super;
       font-size: smaller;
     }
+
+    p, li {
+      color: var(--F_Font_Color_Label);
+    }
   `
 }

@@ -5,7 +5,6 @@ export const quillStyles = `
 .ql-container {
   box-sizing: border-box;
   font-size: var(--F_Font_Size);
-  height: 100%;
   margin: 0px;
   position: relative;
 }
@@ -18,7 +17,7 @@ export const quillStyles = `
 .ql-clipboard {
   left: -100000px;
   height: 1px;
-  overflow-y: hidden;
+overflow-y: hidden;
   position: absolute;
   top: 50%;
 }
@@ -35,6 +34,8 @@ export const quillStyles = `
   text-align: left;
   white-space: pre-wrap;
   word-wrap: break-word;
+  margin-top: -8px;
+  margin-bottom: 6px;
 }
 
 .ql-snow.ql-toolbar:after,
@@ -440,6 +441,7 @@ export const quillStyles = `
   box-sizing: border-box;
   display: flex;
   align-items: center;
+  border-top: 1px solid var(--F_Surface_1);
 }
 .ql-toolbar.ql-snow .ql-formats {
   margin-right: 15px;

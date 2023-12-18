@@ -85,6 +85,7 @@ export { DropCorners } from './components/DragAndDrop/DropCorners'
 export { GroupRadius } from './components/GroupRadius/GroupRadius'
 export { QRCode } from './components/QRCode/QRCode'
 export { Small } from './components/Small/Small'
+export { TextArea } from './components/TextArea/TextArea'
 
 // Molecules (1)
 export { ArticlePreview } from './components/ArticlePreview/ArticlePreview'
