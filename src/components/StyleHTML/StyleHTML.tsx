@@ -52,31 +52,31 @@ const S = {
     h1 {
       margin: 1rem 0 0 0;
       font-size: 2.714em;
-      font-weight: 600;
+      font-weight: 800;
       line-height: 1.166;
     }
 
     h2 {
-      font-size: 1.43em;
-      font-weight: 600;
+      font-size: 2em;
+      font-weight: 800;
       line-height: 1.2;
       text-transform: none;
       margin: 30px 0 0 0;
     }
 
     h3 {
-      font-size: 1.142em;
-      font-weight: 600;
-      line-height: 1.5;
+      font-size: 1.442em;
+      font-weight: 800;
+      line-height: 1.2;
       letter-spacing: -0.006em;
-      margin-top: 2em;
+      margin-top: 1.3em;
       margin-bottom: 0px;
     }
 
     h4 {
-      font-size: 1em;
+      font-size: 1.2em;
       line-height: 1.428;
-      margin-top: 10px;
+      margin-top: 1.3em;
     }
 
     h5 {
@@ -171,6 +171,7 @@ const S = {
       padding: 0;
       margin-top: 10px;
       max-width: 100%;
+      height: auto;
       display: block;
       margin-left: auto;
       margin-right: auto;
@@ -212,13 +213,13 @@ const S = {
     td, th {
       border-left: solid var(--F_Surface_1) 1px;
       padding: 5px;
-      padding: .75rem;
+      padding: .5rem;
     }
 
     th {
       border-top: none;
       background: var(--F_Surface_0);
-      padding: 1rem;
+      padding: .5rem;
     }
 
     td {
