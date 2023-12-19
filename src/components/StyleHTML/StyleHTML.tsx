@@ -74,8 +74,10 @@ const S = {
     }
 
     h4 {
-      font-size: 1.2em;
-      line-height: 1.428;
+      font-weight: 800;
+      font-size: 1.1em;
+      line-height: 1.2;
+
       margin-top: 1.3em;
     }
 
