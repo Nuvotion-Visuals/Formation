@@ -302,7 +302,7 @@ const S = {
     `}
   `,
   Toolbar: styled.div`
-    width: 100%;
+    width: calc(100% - 1.5rem);
     border-bottom: 1px solid var(--F_Surface_2);
     padding: 0 .75rem;
   `,
