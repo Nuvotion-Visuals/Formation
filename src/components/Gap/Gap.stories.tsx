@@ -46,3 +46,16 @@ export const Center = TemplateWithBox.bind({})
 Center.args = {
   center: true
 }
+
+const TemplateAsList: ComponentStory<typeof Gap> = args => 
+  <Gap {...args} tag='ul'>
+    <li><Button text='Click me' /></li>
+    <li><Button text='Click me' /></li>
+    <li><Button text='Click me' /></li>
+    <li><Button text='Click me' /></li>
+  </Gap>
+
+export const AsUnorderedList = TemplateAsList.bind({})
+AsUnorderedList.args = {
+  gap: '1rem'
+}

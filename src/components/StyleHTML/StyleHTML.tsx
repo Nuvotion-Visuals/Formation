@@ -44,7 +44,6 @@ const S = {
     line-height: 1.5em;
     color: var(--F_Font_Color);
     width: 100%;
-    overflow-x: hidden;
     * {
       color: var(--F_Font_Color);
     }

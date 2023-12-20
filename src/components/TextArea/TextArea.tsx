@@ -46,7 +46,7 @@ export const S = {
     box-shadow: var(--F_Outline);
     padding: .5rem 0.75rem;
     width: 100%;
-    height: 1.25rem;
+    height: var(--F_Input_Height);
     border: none;
     outline: none;
     overflow-y: auto;

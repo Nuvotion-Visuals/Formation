@@ -6,7 +6,8 @@ interface Props {
   autoWidth?: boolean,
   disableWrap?: boolean,
   gap?: number | string,
-  center?: boolean
+  center?: boolean,
+  tag?: keyof JSX.IntrinsicElements;
 }
 
 /**
@@ -18,6 +19,7 @@ interface Props {
  * @param {boolean} [disableWrap] - If true, disables wrapping of child elements, otherwise children will wrap to the next line.
  * @param {number|string} [gap] - The size of the gap between child elements, either as a number (in rem) or a string with any CSS unit.
  * @param {boolean} [center] - If true, the child elements are centered within the container, otherwise they align to the left.
+ * @param {keyof JSX.IntrinsicElements} [tag='div'] - The HTML tag type to be used for the Gap container, allowing for semantic HTML structure customization.
  *
  * @example
  * // Gap with automatic width and custom gap size
@@ -39,9 +41,11 @@ export const Gap = React.memo(({
   autoWidth, 
   disableWrap,
   gap,
-  center
+  center,
+  tag = 'div'
 }: Props) => 
   <S.Gap 
+    as={tag}
     autoWidth={autoWidth} 
     disableWrap={disableWrap}
     gap={gap}

@@ -32,7 +32,7 @@ export const NavHeader = React.memo(({
 })
 
 const S = {
-  NavHeader: styled.div`
+  NavHeader: styled.nav`
     width: 100%;
     display: flex;
     align-items: center;

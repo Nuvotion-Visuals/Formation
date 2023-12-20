@@ -23,3 +23,8 @@ export const Regular = Template.bind({})
 Regular.args = {
 
 }
+
+export const WithCustomTag = Template.bind({})
+WithCustomTag.args = {
+  tag: 'section'
+}

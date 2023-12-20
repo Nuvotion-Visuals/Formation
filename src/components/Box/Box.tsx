@@ -27,6 +27,7 @@ interface Props {
   wrap?: boolean,
   expand?: boolean,
   expandVertical?: boolean,
+  tag?: keyof JSX.IntrinsicElements
 }
 
 /**
@@ -60,6 +61,7 @@ interface Props {
  * @param {boolean} [wrap] - If true, allows the children to wrap within the Box.
  * @param {boolean} [expand] - If true, the Box will expand to fill the width of its container, minus any defined padding.
  * @param {boolean} [expandVertical] - If true, the Box will expand to fill the height of its container, minus any defined padding.
+ * @param {keyof JSX.IntrinsicElements} [tag='div'] - The HTML tag type to be used for the Box container, enhancing flexibility for semantic HTML structure.
  *
  * @example
  * // Box with specific padding and margins, containing text
@@ -67,15 +69,11 @@ interface Props {
  *   Sample text inside the box.
  * </Box>
  */
-export const Box = React.memo((props : Props) => {
-  return (
-    <S.Box { ...props }>
-      {
-        props.children
-      }
-    </S.Box>
-  )
-})
+export const Box = React.memo(({ tag = 'div', ...props }: Props) => (
+  <S.Box as={tag} {...props}>
+    { props.children }
+  </S.Box>
+))
 
 const calculateMargin = (props : Props) => {
   let mt = props.mt ?? props.my ?? props.m ?? 0
