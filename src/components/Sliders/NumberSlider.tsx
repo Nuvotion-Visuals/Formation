@@ -13,14 +13,13 @@ interface Props {
   onMaxValueReached?: () => void // Optional callback when the max value is reached by user interaction
   center?: boolean,
   precise?: boolean,
-  opacity?: boolean,
   color?: 'red' | 'green' | 'blue',
-  hue?: boolean
+  type?: 'opacity' | 'color' | 'hue'
 }
 
 /**
  * A component that combines a numeric input with a slider for adjusting the values.
- * It provides diverse customization controls including precision slider, opacity, colored and 
+ * It provides diverse customization controls including precision slider, isOpacity, colored and 
  * hue control for a more detailed UX.
  *
  * The 'NumberSlider' operates from a minimum to a maximum value, which are specified by the 'min' and 'max' props. 
@@ -35,9 +34,8 @@ interface Props {
  * @param {Function} [onMaxValueReached] - Callback to be invoked when  the max value is reached
  * @param {boolean} [center] - Apply a different visual style to the slider (Precise slider)
  * @param {boolean} [precise] - Alter styles of slider to precise version (smaller, more exact)
- * @param {boolean} [opacity] - Apply an opacity layer to the slider
  * @param {string} [color] - Alter the color of the slider, options: 'red', 'blue', 'green'
- * @param {boolean} [hue] - Apply a hue gradient to the slider
+ * @param {string} [type] - Type of the slider, either opacity, color, or hue
  * @param {Function} onChange - The function to be called when the slider value change
  *
  * @example
@@ -63,9 +61,8 @@ export const NumberSlider: React.FC<Props> = memo(({
   onMaxValueReached, 
   center, 
   precise,
-  opacity,
+  type,
   color,
-  hue
 }) => {
   const handleAfterChange = (value: number) => {
     if (value === max && onMaxValueReached) {
@@ -74,7 +71,7 @@ export const NumberSlider: React.FC<Props> = memo(({
   }
 
   return (
-    <S.Container center={center} precise={precise} opacity={opacity} color={color} hue={hue}>
+    <S.Container center={center} precise={precise} type={type} color={color}>
       <S.RangeSliderContainer>
         {
           !hideNumberInput && 
@@ -105,9 +102,9 @@ export const NumberSlider: React.FC<Props> = memo(({
 const S = {
   Container: styled.div<{
     precise?: boolean,
-    hue?: boolean,
+    type?: 'opacity' | 'color' | 'hue',
     center?: boolean,
-    opacity?: boolean
+    
   }>`
     color: var(--F_Font_Color);
     position: relative;
@@ -122,7 +119,7 @@ const S = {
       margin: ${props => props.precise ? '0 3px' : '0 8px'};
     }
     .rc-slider-track {
-      background: ${props => props.hue ? 'none' : props.center ? 'var(--F_none)' : 'var(--F_Surface)'};
+      background: ${props => props.type === 'hue' ? 'none' : props.center ? 'var(--F_none)' : 'var(--F_Surface)'};
     }
     .rc-slider-handle {
       width: ${props => props.precise ? '6px' : '16px'};
@@ -130,16 +127,16 @@ const S = {
       background: ${props => 
         props.color 
           ? props.color 
-          : props.hue
+          : props.type === 'hue'
             ? 'none'
             : 'var(--F_Primary_Variant)'
       };
-      box-shadow: ${props => props.hue ? 'inset 0 0 0 1px black' : 'none'};
+      box-shadow: ${props => props.type === 'hue' ? 'inset 0 0 0 1px black' : 'none'};
     }
     .rc-slider-rail {
       background-position: 0px 0px, 5px 5px;
       background-size: 10px 10px;
-      background-image: ${props => props.opacity 
+      background-image: ${props => props.type === 'opacity'
         ? `
           linear-gradient(
             45deg, 
@@ -156,7 +153,7 @@ const S = {
         ` 
         : 'none'
       };
-      ${props => (props.opacity || props.hue) &&
+      ${props => (props.type === 'opacity' || props.type === 'hue') &&
       css`
         &::before {
           content: "";
@@ -166,7 +163,7 @@ const S = {
           right: 0;
           bottom: 0;
           background: ${
-            props.hue 
+            props.type === 'hue'
             ? `
               linear-gradient(
                 90deg, 

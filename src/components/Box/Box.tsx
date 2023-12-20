@@ -69,9 +69,9 @@ interface Props {
  *   Sample text inside the box.
  * </Box>
  */
-export const Box = React.memo(({ tag = 'div', ...props }: Props) => (
-  <S.Box as={tag} {...props}>
-    { props.children }
+export const Box = React.memo(({ tag = 'div', wrap, ...restProps }: Props) => (
+  <S.Box as={tag} wrap={wrap ? 'true' : 'false'} {...restProps}>
+    {restProps.children}
   </S.Box>
 ))
 

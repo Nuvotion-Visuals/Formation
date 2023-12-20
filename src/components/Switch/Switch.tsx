@@ -26,21 +26,26 @@ interface Props {
  * @component
  */
 export const Switch = ({ value, onChange, disabled }: Props) => {
+  const handleChange = () => {
+    if (!disabled) {
+      onChange(!value)
+    }
+  }
+
   return (
     <S.Switch>
       <input
         hidden
         disabled={disabled}
         checked={value}
+        onChange={handleChange} // Added onChange here
         type="checkbox"
       />
       <S.Container
-        onClick={() => disabled ? null : onChange(!value)}
-        value={value ? value : false}
+        onClick={handleChange} // Reused handleChange here
+        value={value ?? false}
       >
-        <S.Dot
-          value={value ? value : false}
-        />
+        <S.Dot value={value ?? false} />
       </S.Container>
     </S.Switch>
   )

@@ -274,10 +274,9 @@ export const Dropdown = React.memo((props: DropdownProps) => {
             
             {
               filteredItems.map((itemProps, index) => (
-                <S.DropdownOption>
+                <S.DropdownOption key={index}>
                   <Item
                     ref={el => itemRefs.current[index] = el}
-                    key={index}
                     {...itemProps}
                     onClick={
                       itemProps.onClick

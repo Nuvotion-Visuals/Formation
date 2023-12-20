@@ -38,16 +38,16 @@ Hue.args = {
   max: 100,
   value: 50,
   precise: true,
-  hue: true
+  type: 'hue'
 }
 
-export const Opacity = Template.bind({})
-Opacity.args = {
+export const opacity = Template.bind({})
+opacity.args = {
   min: 0,
   max: 100,
   value: 50,
   precise: true,
-  opacity: true
+  type: 'opacity'
 }
 
 export const Color = Template.bind({})

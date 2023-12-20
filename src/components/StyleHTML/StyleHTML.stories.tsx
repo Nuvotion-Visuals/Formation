@@ -74,21 +74,24 @@ BasicHTMLTags.args = {
 
 
     <table>
-      <tr>
-        <th>th element</th>
-        <th>inside tr element</th>
-        <th>inside table element</th>
-      </tr>
-      <tr>
-        <td>td element</td>
-        <td>td element</td>
-        <td>td element</td>
-      </tr>
-      <tr>
-        <td>td element</td>
-        <td>td element</td>
-        <td>td element</td>
-      </tr>
+      <tbody>
+        <tr>
+          <th>th element</th>
+          <th>inside tr element</th>
+          <th>inside table element</th>
+        </tr>
+        <tr>
+          <td>td element</td>
+          <td>td element</td>
+          <td>td element</td>
+        </tr>
+        <tr>
+          <td>td element</td>
+          <td>td element</td>
+          <td>td element</td>
+        </tr>
+      </tbody>
     </table>
+
   </>
 }

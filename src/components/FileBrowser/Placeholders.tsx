@@ -15,7 +15,7 @@ export const Placeholders = ({ children }: Props) => {
       </S.Absolute>
 
       {
-        new Array(12).fill(0).map(() => <S.Placeholder />
+        new Array(12).fill(0).map((_, index) => <S.Placeholder key={index} />
         )
       }
 
