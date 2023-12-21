@@ -121,6 +121,7 @@ export { DragOrigin } from './components/DragAndDrop/DragOrigin'
 export { ProgressTimer } from './components/ProgressTimer/ProgressTimer'
 export { Control } from './components/Control/Control'
 export { MultiSelect } from './components/MultiSelect/MultiSelect'
+export { Dialog, DialogProvider, useDialog } from './components/Dialog/Dialog'
 
 // Tissue (2)
 export { Navigation } from './components/Navigation/Navigation'

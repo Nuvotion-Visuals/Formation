@@ -3,7 +3,8 @@ import styled from 'styled-components'
 
 interface FitProps {
   children: React.ReactNode,
-  disableRadius?: boolean
+  disableRadius?: boolean,
+  gap?: number | string
 }
 
 /**
@@ -30,15 +31,15 @@ interface FitProps {
  *   <img src="image3.jpg" alt="Image 3"/>
  * </Fit>
  */
-export const Fit: React.FC<FitProps> = ({ children, disableRadius }) => {
+export const Fit: React.FC<FitProps> = ({ children, disableRadius, gap }) => {
+  const gapValue = typeof gap === 'number' ? `${gap}rem` : gap
+
   return (
-    <S.Fit disableRadius={disableRadius}>
+    <S.Fit disableRadius={disableRadius} gap={gapValue}>
       {
-        React.Children.map(children, child => (<>
-          {
-            child
-          }
-        </>))
+        React.Children.map(children, child => (
+          <>{child}</>
+        ))
       }
     </S.Fit>
   )
@@ -46,12 +47,14 @@ export const Fit: React.FC<FitProps> = ({ children, disableRadius }) => {
 
 const S = {
   Fit: styled.div<{
-    disableRadius?: boolean
+    disableRadius?: boolean,
+    gap?: string
   }>`
     display: flex;
     flex-wrap: nowrap;
     width: 100%;
     justify-content: space-between;
+    gap: ${props => props.gap || '0'};
     * {
       border-radius: ${props => props.disableRadius ? '0 !important' : 'auto'};
     }

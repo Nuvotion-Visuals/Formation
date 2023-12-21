@@ -84,6 +84,7 @@ export { MultiSelect } from './components/MultiSelect/MultiSelect'
 export { QRCode } from './components/QRCode/QRCode'
 export { Small } from './components/Small/Small'
 export { TextArea } from './components/TextArea/TextArea'
+export { Dialog, DialogProvider, useDialog } from './components/Dialog/Dialog'
 
 import { Link } from './components/Link/Link'
 let linkComponent = Link as any
