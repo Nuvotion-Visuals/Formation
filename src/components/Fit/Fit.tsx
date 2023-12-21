@@ -8,27 +8,28 @@ interface FitProps {
 }
 
 /**
- * `Fit` is a layout component that spaces its children equally to fill the container. 
- * It is ideal for scenarios where you need to display a row of elements such as icons, buttons, or cards, 
- * ensuring they are aligned and spaced consistently. The component provides an option to disable rounded corners on children elements.
+ * `Fit` is a layout component designed for evenly spacing and aligning children elements in a row. 
+ * This component is particularly useful when you need a consistent layout for elements like buttons, 
+ * icons, or cards. It offers flexibility in spacing and an option to control the border radius of child elements.
  *
  * @param {React.ReactNode} children - The elements to be displayed in a row.
- * @param {boolean} [disableRadius] - If true, disables the border-radius on child elements, making them have sharp corners.
+ * @param {boolean} [disableRadius=false] - When set to true, it disables the border-radius on child elements, giving them sharp corners.
+ * @param {number|string} [gap=0] - The space between each child element. Accepts a number (interpreted as rem) or a CSS size string.
  *
  * @example
- * // To display a row of three buttons evenly spaced and with rounded corners
- * <Fit>
+ * // To display a row of buttons with a specific gap and rounded corners
+ * <Fit gap={1.5}>
  *   <button>Button 1</button>
  *   <button>Button 2</button>
  *   <button>Button 3</button>
  * </Fit>
  *
  * @example
- * // To display a row of images without rounded corners
- * <Fit disableRadius>
- *   <img src="image1.jpg" alt="Image 1"/>
- *   <img src="image2.jpg" alt="Image 2"/>
- *   <img src="image3.jpg" alt="Image 3"/>
+ * // To display a row of icons with no gap and without rounded corners
+ * <Fit disableRadius gap="0px">
+ *   <Icon name="icon1" />
+ *   <Icon name="icon2" />
+ *   <Icon name="icon3" />
  * </Fit>
  */
 export const Fit: React.FC<FitProps> = ({ children, disableRadius, gap }) => {

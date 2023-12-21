@@ -30,6 +30,41 @@ interface DialogProviderProps {
   children: React.ReactNode
 }
 
+/**
+ * `Dialog` is a customizable dialog component for creating alert, confirm, and prompt dialogs.
+ * It provides an interactive way to display information and collect user input in a web application.
+ * This component supports three modes: 'alert' for simple messages, 'confirm' for yes/no decisions,
+ * and 'prompt' for user input. The dialog appears with an animation and can be configured with a
+ * message, placeholder text for prompts, and a callback function to handle user responses.
+ * 
+ * The dialog also features an outside click detection to provide a shaking effect, enhancing the
+ * user experience by drawing attention to the dialog when users click outside of it.
+ *
+ * @component
+ * @param {function} useDialog - Custom hook to manage dialog state and configuration.
+ * @param {function} useState - React useState hook for managing internal state.
+ * @param {function} useEffect - React useEffect hook for handling side effects.
+ * @param {function} useRef - React useRef hook for referencing DOM elements.
+ * 
+ * @example
+ * // To create and use a confirm dialog with a custom message and callback function
+ * const { showDialog, hideDialog } = useDialog();
+ * showDialog({
+ *   mode: 'confirm',
+ *   message: 'Are you sure?',
+ *   callback: (response) => console.log(`User response: ${response}`)
+ * });
+ *
+ * @example
+ * // To create and use a prompt dialog for user input
+ * const { showDialog } = useDialog();
+ * showDialog({
+ *   mode: 'prompt',
+ *   message: 'Enter your name:',
+ *   placeholder: 'Name',
+ *   callback: (input) => console.log(`User input: ${input}`)
+ * });
+ */
 export const DialogProvider: React.FC<DialogProviderProps> = ({ children }) => {
   const [dialogState, setDialogState] = useState<DialogContextType>({
     isOpen: false,

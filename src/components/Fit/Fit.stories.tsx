@@ -53,3 +53,23 @@ DisableRadius.args = {
     />
   </>
 }
+
+export const Gap = Template.bind({})
+Gap.args = {
+  disableRadius: true,
+  gap: .5,
+  children: <>
+    <Button
+      text='A'
+      compact
+    />
+     <Button
+      text='B'
+      compact
+    />
+     <Button
+      text='C'
+      compact
+    />
+  </>
+}

@@ -7,6 +7,25 @@ interface TextAreaProps extends React.ComponentPropsWithoutRef<'textarea'> {
   onChange: (value: string) => void
 }
 
+/**
+ * `TextArea` is a styled textarea component designed for capturing multiline text input.
+ * It automatically adjusts its height to accommodate the content, ensuring all text is visible without scrolling.
+ * This component is ideal for scenarios where user input can be lengthy, such as comments, descriptions, or messages.
+ * It inherits all standard textarea properties and extends them with a custom `onChange` handler for improved usability.
+ *
+ * @param {string} value - The text value of the textarea.
+ * @param {function} onChange - Callback function that is called when the text changes. It receives the updated text value as an argument.
+ * @param {React.ComponentPropsWithoutRef<'textarea'>} [rest] - Additional standard textarea properties.
+ *
+ * @example
+ * // To use TextArea in a form for collecting user comments
+ * <TextArea
+ *   value={comment}
+ *   onChange={setComment}
+ *   placeholder="Enter your comment here"
+ *   maxLength={200}
+ * />
+ */
 export const TextArea: FC<TextAreaProps> = ({
   value,
   onChange,
