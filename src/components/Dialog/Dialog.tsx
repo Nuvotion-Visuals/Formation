@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef, createContext, useContext, ReactNode } from 'react'
+import React, { useState, useEffect, useRef, createContext, useContext } from 'react'
 import styled, { css, keyframes } from 'styled-components'
-import { Gap, Button, TextInput, Box, Break, Fit } from '../../internal'
+import { Gap, Button, TextInput, Break, Fit } from '../../internal'
 
 import { dialogController } from './DialogController'
 
@@ -81,6 +81,45 @@ export const Dialog = () => {
       config.callback(value)
     }
   }
+
+  useEffect(() => {
+    const blurFocusableElements = () => {
+      const focusableElements = document.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')
+      focusableElements.forEach((element: any) => {
+        if (typeof element.blur === 'function') {
+          element.blur()
+        }
+      })
+    }
+
+    if (isOpen && config?.mode !== 'prompt') {
+      blurFocusableElements()
+    }
+  }, [isOpen, config])
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Enter' && isOpen && config?.mode !== 'prompt') {
+        event.preventDefault()
+        switch (config?.mode) {
+          case 'confirm':
+            handleClose(true)
+            break
+          case 'alert':
+            handleClose(null)
+            break
+          default:
+            break
+        }
+      }
+    }
+
+    document.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [isOpen, config, handleClose])
 
   const renderButtons = () => {
     switch (config?.mode) {
