@@ -146,6 +146,7 @@ export { Tile } from './components/Tile/Tile'
 export { Fit } from './components/Fit/Fit'
 export { TileGridPlaceholder } from './components/TileGridPlaceholder/TileGridPlaceholder'
 export { TitleEditor } from './components/TitleEditor/TitleEditor'
+export { Envelope } from './components/Envelope/Envelope'
 
 import React from 'react'
 
@@ -157,8 +158,6 @@ export const setLinkComponent = (newLinkComponent : React.ReactNode) => {
 }
 
 import { LinkContext, Linker } from './components/Linker/Linker'
-import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
-import { FontAwesomeIconProps } from '@fortawesome/react-fontawesome'
 
 export {
   LinkContext,
