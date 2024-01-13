@@ -70,7 +70,7 @@ interface Props {
  * </Box>
  */
 export const Box = React.memo(({ tag = 'div', wrap, ...restProps }: Props) => (
-  <S.Box as={tag} wrap={wrap ? 'true' : 'false'} {...restProps}>
+  <S.Box as={tag} wrap={wrap} {...restProps}>
     {restProps.children}
   </S.Box>
 ))
