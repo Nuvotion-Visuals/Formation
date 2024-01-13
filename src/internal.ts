@@ -34,6 +34,7 @@ export { generateThumbnail } from './utils/generateThumbnail'
 export { generateVideoThumbnails } from './utils/generateThumbnail'
 export { blobURLToFile } from './utils/blobURLToFile'
 export { insertCSS } from './utils/insertCSS'
+export { HTMLToPlaintext } from './utils/HTMLToPlaintext'
 
 // hooks
 export { useBreakpoint } from './hooks/useBreakpoint'

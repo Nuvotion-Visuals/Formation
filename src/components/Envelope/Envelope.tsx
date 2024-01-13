@@ -1,3 +1,4 @@
+import { Button } from '../../internal'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -7,7 +8,8 @@ interface Props {
 
 export const Envelope = ({ }: Props) => {
   return (<S.Envelope>
-    Envelope component goes here
+    <Button text='Click' />
+
   </S.Envelope>)
 }
 
