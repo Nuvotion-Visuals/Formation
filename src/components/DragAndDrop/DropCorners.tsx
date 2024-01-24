@@ -10,7 +10,7 @@ import styled from 'styled-components'
  * @example
  * // Usage within the FileDrop component to provide visual feedback
  */
-export const DropCorners = styled.div`
+export const DropCorners = styled.div<{ secondary?: boolean }>`
   position: absolute;
   right: 0;
   left: 0;
@@ -18,14 +18,14 @@ export const DropCorners = styled.div`
   bottom: 0;
   z-index: 99;
   background:
-    linear-gradient(to right, var(--F_Primary_Variant) .25rem, transparent .25rem) 0 0,
-    linear-gradient(to right, var(--F_Primary_Variant) .25rem, transparent .25rem) 0 100%,
-    linear-gradient(to left, var(--F_Primary_Variant) .25rem, transparent .25rem) 100% 0,
-    linear-gradient(to left, var(--F_Primary_Variant) .25rem, transparent .25rem) 100% 100%,
-    linear-gradient(to bottom, var(--F_Primary_Variant) .25rem, transparent .25rem) 0 0,
-    linear-gradient(to bottom, var(--F_Primary_Variant) .25rem, transparent .25rem) 100% 0,
-    linear-gradient(to top, var(--F_Primary_Variant) .25rem, transparent .25rem) 0 100%,
-    linear-gradient(to top, var(--F_Primary_Variant) .25rem, transparent .25rem) 100% 100%;
+    linear-gradient(to right, ${props => props.secondary ? 'var(--F_Font_Color)' : 'var(--F_Primary_Variant)'} .25rem, transparent .25rem) 0 0,
+    linear-gradient(to right, ${props => props.secondary ? 'var(--F_Font_Color)' : 'var(--F_Primary_Variant)'} .25rem, transparent .25rem) 0 100%,
+    linear-gradient(to left, ${props => props.secondary ? 'var(--F_Font_Color)' : 'var(--F_Primary_Variant)'} .25rem, transparent .25rem) 100% 0,
+    linear-gradient(to left, ${props => props.secondary ? 'var(--F_Font_Color)' : 'var(--F_Primary_Variant)'} .25rem, transparent .25rem) 100% 100%,
+    linear-gradient(to bottom, ${props => props.secondary ? 'var(--F_Font_Color)' : 'var(--F_Primary_Variant)'} .25rem, transparent .25rem) 0 0,
+    linear-gradient(to bottom, ${props => props.secondary ? 'var(--F_Font_Color)' : 'var(--F_Primary_Variant)'} .25rem, transparent .25rem) 100% 0,
+    linear-gradient(to top, ${props => props.secondary ? 'var(--F_Font_Color)' : 'var(--F_Primary_Variant)'} .25rem, transparent .25rem) 0 100%,
+    linear-gradient(to top, ${props => props.secondary ? 'var(--F_Font_Color)' : 'var(--F_Primary_Variant)'} .25rem, transparent .25rem) 100% 100%;
   background-repeat: no-repeat;
   background-size: 16px 16px;
   pointer-events: none;
