@@ -3,6 +3,7 @@ import React, { useCallback, useMemo, useRef, useState, ReactElement } from 'rea
 import { HexColorPicker, HexColorInput } from 'react-colorful'
 import { useOnClickOutside, Icon, GroupRadius } from '../../internal'
 import useEyeDropper from 'use-eye-dropper'
+import { IconPrefix } from '@fortawesome/fontawesome-common-types'
 
 interface ColorItemProps {
   color: string
@@ -38,6 +39,7 @@ const ColorItem: React.FC<ColorItemProps> = React.memo(({ color, isActive, onCha
 
 interface EyeDropperProps {
   onClick: () => void
+  iconPrefix: IconPrefix
 }
 
 /**
@@ -49,16 +51,17 @@ interface EyeDropperProps {
  * @example
  * // EyeDropper within ColorPicker, not directly used
  */
-const EyeDropper: React.FC<EyeDropperProps> = React.memo(({ onClick }) => (
+const EyeDropper: React.FC<EyeDropperProps> = React.memo(({ onClick, iconPrefix }) => (
   <S.EyeDropper onClick={onClick}>
-    <Icon icon='eye-dropper' />
+    <Icon icon='eye-dropper' iconPrefix={iconPrefix} />
   </S.EyeDropper>
 ))
 
 interface ColorPickerProps {
   value: string
   onChange: (color: string) => void,
-  hidePresets?: boolean
+  hidePresets?: boolean,
+  iconPrefix?: IconPrefix
 }
 
 /**
@@ -74,7 +77,7 @@ interface ColorPickerProps {
  * // ColorPicker with a callback function to handle color changes
  * <ColorPicker value="#ffffff" onChange={newColor => console.log(newColor)} />
  */
-export const ColorPicker: React.FC<ColorPickerProps> = ({ value, onChange, hidePresets }) => {
+export const ColorPicker: React.FC<ColorPickerProps> = ({ value, onChange, hidePresets, iconPrefix }) => {
   const { open, isSupported } = useEyeDropper()
   const [_, setError] = useState<null | Error>(null)
   
@@ -135,7 +138,7 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({ value, onChange, hideP
 
       {
         isEyeDropperSupported &&
-          <EyeDropper onClick={pickColor} />
+          <EyeDropper onClick={pickColor} iconPrefix={iconPrefix ? iconPrefix : 'fas'} />
       }
       {
         !hidePresets &&
