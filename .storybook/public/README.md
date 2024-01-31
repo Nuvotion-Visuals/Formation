@@ -111,7 +111,7 @@ You can then overwrite these variables in your global style sheet to change the 
 
 Formation uses [FontAwesome v6](https://fontawesome.com/v6/search?m=free), allowing for both pro and free icons to be used in components. 
 
-The following icons should be included in your project to ensure all components display correctly.
+The following icons should be included in your project to ensure all components display correctly. You can also use other style variants, just be sure to include your chosen style in component props, like `iconPrefix='fal'`.
 
 ```jsx
 // in your app's entrypoint (_app.tsx, App.js, etc)
@@ -120,7 +120,7 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import * as far from '@fortawesome/free-regular-svg-icons'
 import * as fas from '@fortawesome/free-solid-svg-icons'
 library.add(
-   // regular
+  // regular
   far.faHeart, far.faPaperPlane, far.faCheckSquare, far.faSquare,
   fas.faEnvelope, far.faTrashAlt, far.faBookmark, far.faCircle, far.faCircleDot,
 
@@ -151,7 +151,11 @@ library.add(
   fas.faMagnifyingGlassMinus, fas.faMagnifyingGlassPlus, fas.faCog,
   fas.faScissors, fas.faEyedropper, fas.faGrip, fas.faList, fas.faAddressCard,
   fas.faCaretRight, fas.faCaretLeft, fas.faAngleLeft, fas.faAngleRight, 
-  fas.faAnglesLeft, fas.faAnglesRight, fas.faCamera
+  fas.faAnglesLeft, fas.faAnglesRight, fas.faCamera, fas.faSquareCheck,
+  fas.faRepeat, fas.faCopy, fas.faSync,
+  fas.faBold, fas.faItalic, fas.faUnderline, fas.faListOl, fas.faListUl, fas.faLink,
+  fas.faImage, fas.faVideo, fas.faCode, fas.faEraser, fas.faFileVideo, fas.faFileCode,
+  fas.faTerminal, fas.faQuoteRight
 )
 
 ```
