@@ -53,3 +53,20 @@ Compact.args = {
   ],
   compact: true
 }
+
+export const Expand = Template.bind({})
+Expand.args = {
+  tabs: [
+    {
+      name: 'Scene',
+    },
+    {
+      name: 'Layer',
+    },
+    {
+      name: 'Add',
+    }
+  ],
+  compact: true,
+  expand: true
+}

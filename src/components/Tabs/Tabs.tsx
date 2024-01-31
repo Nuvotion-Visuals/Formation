@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 
-import { Button } from '../../internal'
+import { Button, Fit } from '../../internal'
 
 type Tab = {
   name: string,
@@ -18,7 +18,8 @@ type Props = {
   tabs: Tab[],
   onSetActiveTab: (arg0: string) => any,
   initialActiveTab: string,
-  compact?: boolean
+  compact?: boolean,
+  expand?: boolean
 }
 
 /**
@@ -31,6 +32,7 @@ type Props = {
  * @param {string} initialActiveTab - The tab that is active on initial load of the component.
  * @param {Function} onSetActiveTab - A function that handles setting the currently active tab. Returns the name of the active tab when a tab is clicked.
  * @param {boolean} compact - Defines whether the compact variation of this component should be used. Default: false.
+ * @param {boolean} expand - Defines whether the the component should expand to fill the full horizontal width.
  *
  * @example
  * return (
@@ -51,7 +53,8 @@ export const Tabs = React.memo(({
   tabs, 
   onSetActiveTab, 
   initialActiveTab,
-  compact
+  compact,
+  expand
 }: Props) => {
 
   const [localActiveTab, set_localActiveTab] = useState(initialActiveTab)
@@ -60,26 +63,36 @@ export const Tabs = React.memo(({
     onSetActiveTab(localActiveTab)
   }, [localActiveTab])
 
+  const Content = () => <>
+   {
+      tabs.map(({ name, icon, onClick, prefix, suffix, iconPrefix }) => 
+        <Button
+          key={name}
+          text={`${prefix ? prefix : ''}${name}${suffix ? suffix : ''}`} 
+          icon={icon} 
+          iconPrefix={iconPrefix}
+          onClick={(e) => {
+            set_localActiveTab(name)
+            onClick
+              ? onClick(e)
+              : null
+          }} 
+          secondary={name !== localActiveTab}
+          tab={true}
+          compact={compact}
+        /> 
+      )
+    }
+  </>
+
   return (
     <S.Tabs>
       {
-        tabs.map(({ name, icon, onClick, prefix, suffix, iconPrefix }) => 
-          <Button
-            key={name}
-            text={`${prefix ? prefix : ''}${name}${suffix ? suffix : ''}`} 
-            icon={icon} 
-            iconPrefix={iconPrefix}
-            onClick={(e) => {
-              set_localActiveTab(name)
-              onClick
-                ? onClick(e)
-                : null
-            }} 
-            secondary={name !== localActiveTab}
-            tab={true}
-            compact={compact}
-          /> 
-        )
+        expand
+          ? <Fit>
+              <Content />
+            </Fit>
+          : <Content />
       }
     </S.Tabs>
   )
