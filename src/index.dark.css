@@ -5,6 +5,7 @@ It’s easy to picture how a less saturated version of a color would look like, 
 :root {
   --F_Primary: hsl(4, 83%, 26%);
   --F_Primary_Hover: hsl(4, 83%, 32%);
+  --F_Primary_Active: hsl(4, 83%, 38%);
   --F_Primary_Hover_Subtle: rgba(192, 12, 0, 0.12);
   --F_Primary_Variant: hsl(4, 100%, 38%); /* More saturated, vibrant variant */
 

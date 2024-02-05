@@ -189,3 +189,23 @@ DisablePadding.args = {
 DisablePadding.parameters = {
   layout: 'fullscreen'
 }
+
+export const Active = Template.bind({})
+Active.args = {
+  text: 'Select',
+  active: true,
+  primary: true,
+  compact: true
+}
+Active.parameters = {
+  layout: 'fullscreen',
+}
+
+export const HideHover = Template.bind({})
+HideHover.args = {
+  label: 'Select',
+  hideHover: true
+}
+HideHover.parameters = {
+  layout: 'fullscreen'
+}

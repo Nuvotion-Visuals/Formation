@@ -32,7 +32,6 @@ export type ItemProps = {
   prefix?: React.ReactNode,
   children?: React.ReactNode,
   content?: React.ReactNode,
-  emphasize?: boolean,
   indent?: boolean,
   pageTitle?: string,
   newTab?: boolean,
@@ -42,7 +41,9 @@ export type ItemProps = {
   disablePadding?: boolean,
   index?: number,
   disableTextWrap?: boolean,
-  absoluteRightChildren?: boolean
+  absoluteRightChildren?: boolean,
+  primary?: boolean,
+  hideHover?: boolean
 }
 
 /**
@@ -68,7 +69,6 @@ export type ItemProps = {
  * @param {React.ReactNode} [prefix] - Custom content to be displayed before the main text.
  * @param {React.ReactNode} [children] - Custom content or additional components to render within the item.
  * @param {React.ReactNode} [content] - Main content to be rendered inside the item.
- * @param {boolean} [emphasize] - If true, the item will be styled to stand out, usually for emphasis or priority.
  * @param {boolean} [indent] - If true, the item will include an indentation, often used in nested lists.
  * @param {string} [pageTitle] - A title to be displayed prominently, often used for page headers or section titles.
  * @param {boolean} [newTab] - If true and the item is a link, clicking it will open the href in a new tab.
@@ -106,7 +106,6 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(({
   spaceIcon,
   children,
   content,
-  emphasize,
   indent,
   pageTitle,
   newTab,
@@ -118,6 +117,8 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(({
   index,
   disableTextWrap,
   absoluteRightChildren,
+  primary,
+  hideHover,
   ...props
 }: ItemProps, ref): JSX.Element => {
   const Link: any = useContext(LinkContext) || IntLink;
@@ -173,7 +174,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(({
 
       <S.Flex minimal={minimalIcon} indent={index !== undefined}>
         {
-          name && <S.Text active={active} disablePadding={disablePadding} disableTextWrap={disableTextWrap}>{ name }</S.Text>
+          name && <S.Text active={active} disablePadding={disablePadding} disableTextWrap={disableTextWrap} compact={compact}>{ name }</S.Text>
         }
 
         {
@@ -181,7 +182,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(({
         }
 
         {
-          label && <S.Text active={active} disablePadding={disablePadding} disableTextWrap={disableTextWrap}>{ label }</S.Text>
+          label && <S.Text active={active} disablePadding={disablePadding} disableTextWrap={disableTextWrap} compact={compact}>{ label }</S.Text>
         }
 
         {
@@ -189,7 +190,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(({
         }
 
         {
-          pageTitle && <S.PageTitle active={active} disablePadding={disablePadding} disableTextWrap={disableTextWrap}>{ pageTitle }</S.PageTitle>
+          pageTitle && <S.PageTitle active={active} disablePadding={disablePadding} disableTextWrap={disableTextWrap} compact={compact}>{ pageTitle }</S.PageTitle>
         }
 
         {
@@ -197,7 +198,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(({
         }
 
         {
-          title && <S.Title active={active} disablePadding={disablePadding} disableTextWrap={disableTextWrap}>{ title }</S.Title>
+          title && <S.Title active={active} disablePadding={disablePadding} disableTextWrap={disableTextWrap} compact={compact}>{ title }</S.Title>
         }
 
         {
@@ -205,7 +206,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(({
         }
         
         {
-          text && <S.Text active={active} disablePadding={disablePadding} disableTextWrap={disableTextWrap}>{ text }</S.Text>
+          text && <S.Text active={active} disablePadding={disablePadding} disableTextWrap={disableTextWrap} compact={compact}>{ text }</S.Text>
         }
 
         {
@@ -213,7 +214,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(({
         }
 
         {
-          subtitle && <S.Subtitle active={active} disablePadding={disablePadding} disableTextWrap={disableTextWrap}>{ subtitle }</S.Subtitle>
+          subtitle && <S.Subtitle active={active} disablePadding={disablePadding} disableTextWrap={disableTextWrap} compact={compact}>{ subtitle }</S.Subtitle>
         }
 
         {
@@ -238,14 +239,14 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(({
   )
 
   return (<S.Container ref={ref} {...props}>
-    <S.ListItem 
+    <S.Item 
       onClick={onClick} 
       active={active} 
-      emphasize={emphasize}
-      showHover={onClick !== undefined || href !== undefined}
+      showHover={(onClick !== undefined || href !== undefined) && !hideHover}
       pageTitle={pageTitle}
       compact={compact}
       disablePadding={disablePadding}
+      primary={primary}
     >
       {
         href !== undefined
@@ -256,18 +257,18 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(({
             </Link>
           : renderItem()
       }
-    </S.ListItem>
+    </S.Item>
   </S.Container>)
 })
 
 const S = {
-  ListItem: React.memo(styled.span<{
+  Item: React.memo(styled.span<{
     active?: boolean,
-    emphasize?: boolean,
     showHover?: boolean,
     pageTitle?: string,
     compact?: boolean,
-    disablePadding?: boolean
+    disablePadding?: boolean,
+    primary?: boolean
   }>`
      width: ${props => 
       props.disablePadding
@@ -310,35 +311,29 @@ const S = {
     position: relative;
     cursor: ${props => props.showHover ? 'pointer' : 'auto'};
     background: ${props => 
-      props.active 
-        ? 'var(--F_Surface_2)' 
-        : props.emphasize
-          ? 'var(--F_Emphasize)'
+      props.primary && props.active
+        ? 'var(--F_Primary)'
+        : props.active
+          ? 'var(--F_Surface_2)'
           : 'none'
     };
     &:hover {
-      background: ${props => 
-        props.showHover
-          ? props.active 
-              ? 'var(--F_Surface_2)' 
-              : props.emphasize
-                ? 'var(--F_Emphasize_Hover)'
-                : 'var(--F_Surface_1)'
-          : props.emphasize
-            ? 'var(--F_Emphasize)'
-            : 'none'
-      };
+      background: ${props =>
+        props.primary && props.active
+          ? 'var(--F_Primary_Hover)'
+          : props.showHover
+            ? props.active
+              ? 'var(--F_Surface_2)'
+              : 'var(--F_Surface_1)'
+            : 'none'};
     }
     &:active {
       background: ${props => 
-        props.showHover
-          ? props.active 
-              ? 'var(--F_Surface_2)' 
-              : props.emphasize
-                ? 'var(--F_Emphasize_Hover)'
-                : 'var(--F_Surface_1)'
-          : 'none'
-      };
+        props.primary && props.active
+          ? 'var(--F_Primary_Active)'
+          : props.showHover && props.active
+            ? 'var(--F_Surface_2)'
+            : 'none'};
     }
     a {
       width: 100%;
@@ -367,14 +362,21 @@ const S = {
   Text: React.memo(styled.div<{
     active?: boolean,
     disablePadding?: boolean,
-    disableTextWrap?: boolean
+    disableTextWrap?: boolean,
+    compact?: boolean
   }>`
     display: flex;
     align-items: center;
     font-size: var(--F_Font_Size);
     color: var(--F_Font_Color);
     line-height: 1.33;
-    padding: ${props => props.disablePadding ? '0' : '0 .5rem'};
+    padding: ${props => 
+      props.disablePadding 
+        ? '0' 
+        : props.compact
+          ? '0 .25rem'
+          : '0 .5rem'
+    };
     font-weight: ${props => props.active ? '400' : '400'};
     ${props => props.disableTextWrap && css`
       overflow: hidden;
@@ -392,11 +394,18 @@ const S = {
   Title: React.memo(styled.div<{
     active?: boolean,
     disablePadding?: boolean,
-    disableTextWrap?: boolean
+    disableTextWrap?: boolean,
+    compact?: boolean
   }>`
     font-size: var(--F_Font_Size_Title);
     color: var(--F_Font_Color);
-    padding: ${props => props.disablePadding ? '0' : '0 .5rem'};
+    padding: ${props => 
+      props.disablePadding 
+        ? '0' 
+        : props.compact
+          ? '0 .25rem'
+          : '0 .5rem'
+    };
     color: var(--F_Font_Color);
     font-weight: ${props => props.active ? '400' : '400'};
     max-width: 100%;
@@ -410,11 +419,18 @@ const S = {
   Subtitle: React.memo(styled.div<{
     active?: boolean,
     disablePadding?: boolean,
-    disableTextWrap?: boolean
+    disableTextWrap?: boolean,
+    compact?: boolean
   }>`
     font-size: var(--F_Font_Size_Label);
     color: ${props => props.active ? 'var(--F_Font_Color)' : 'var(--F_Font_Color_Label)'};
-    padding: ${props => props.disablePadding ? '0' : '0 .5rem'};
+    padding: ${props => 
+      props.disablePadding 
+        ? '0' 
+        : props.compact
+          ? '0 .25rem'
+          : '0 .5rem'
+    };
     line-height: 1.33;
     ${props => props.disableTextWrap && css`
       overflow: hidden;
@@ -424,12 +440,19 @@ const S = {
   PageTitle: React.memo(styled.div<{
     active?: boolean,
     disablePadding?: boolean,
-    disableTextWrap?: boolean
+    disableTextWrap?: boolean,
+    compact?: boolean
   }>`
     font-size: var(--F_Font_Size_Title);
     color: var(--F_Font_Color);
     font-weight: 600;
-    padding: ${props => props.disablePadding ? '0' : '0 .5rem'};
+    padding: ${props => 
+      props.disablePadding 
+        ? '0' 
+        : props.compact
+          ? '0 .25rem'
+          : '0 .5rem'
+    };
     line-height: 1.33;
     ${props => props.disableTextWrap && css`
       overflow: hidden;
