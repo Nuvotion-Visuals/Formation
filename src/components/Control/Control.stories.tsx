@@ -15,26 +15,30 @@ const Template: ComponentStory<typeof Control> = args =>
 export const Default = Template.bind({})
 Default.args = {
   label: 'Scale',
-  children: <NumberSlider
-    precise
-    value={50}
-    onChange={() => {}}
-    min={0}
-    max={100}
-  />
+  children: <Box width='calc(100% - .25rem)' pr={.25}>
+    <NumberSlider
+      precise
+      value={50}
+      onChange={() => {}}
+      min={0}
+      max={100}
+    />
+  </Box>
 }
 
 export const Emphasize = Template.bind({})
 Emphasize.args = {
   label: 'Scale',
   emphasize: true,
-  children: <NumberSlider
-    precise
-    value={50}
-    onChange={() => {}}
-    min={0}
-    max={100}
-  />
+  children: <Box width='calc(100% - .25rem)' pr={.25}>
+    <NumberSlider
+      precise
+      value={50}
+      onChange={() => {}}
+      min={0}
+      max={100}
+    />
+  </Box>
 }
 
 const MultiTemplate: ComponentStory<typeof Control> = args => 
@@ -48,7 +52,7 @@ const MultiTemplate: ComponentStory<typeof Control> = args =>
 export const Multiple = MultiTemplate.bind({})
 Multiple.args = {
   label: 'Scale',
-  children: <Gap gap={.125} disableWrap>
+  children: <Box width={'100%'}>
     <NumberSlider
       precise
       value={50}
@@ -56,6 +60,12 @@ Multiple.args = {
       min={0}
       max={100}
     />
-  
-  </Gap>
+    <Button
+      icon='sync'
+      iconPrefix='fas'
+      compact
+      square
+      minimal
+    />
+  </Box>
 }

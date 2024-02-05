@@ -51,7 +51,7 @@ const S = {
   `,
 
   Right: styled.div`
-    width: calc(100% - calc(6rem + 10px));
+    width: calc(100% - 6rem);
     display: flex;
     flex-wrap: wrap;
     gap: 4px;
