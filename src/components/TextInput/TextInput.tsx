@@ -43,6 +43,7 @@ export type TextInputProps = {
   autoCapitalize?: string,
   spellCheck?: boolean,
   autoCorrect?: boolean,
+  isDropdownAbove?: boolean
 }
 
 /**
@@ -133,7 +134,8 @@ export const TextInput = React.memo(({
   backgroundColor,
   autoCapitalize,
   spellCheck = true,
-  autoCorrect = true
+  autoCorrect = true,
+  isDropdownAbove
 }: TextInputProps) => {
   // @ts-ignore
   const autoFocusRef = useCallback(el => el && autoFocus ? el.focus() : null, [])
@@ -177,6 +179,7 @@ export const TextInput = React.memo(({
       dropdownOpen={dropdownOpen}
       hero={hero}
       backgroundColor={backgroundColor}
+      isDropdownAbove={isDropdownAbove}
     >
       <S.ErrorIconContainer>
         
@@ -352,7 +355,8 @@ const S = {
     forceFocus?: boolean,
     hideOutline?: boolean,
     dropdownOpen?: boolean,
-    backgroundColor?: string
+    backgroundColor?: string,
+    isDropdownAbove?: boolean
   }>`
     position: relative;
     display: flex;
@@ -366,7 +370,13 @@ const S = {
         : props.compact ? 'var(--F_Input_Height_Compact)' : 'var(--F_Input_Height)'};
     line-height: 0;
     border-radius: .75rem;
-    border-radius: ${props => props.dropdownOpen ? '.75rem .75rem 0 0' : '.75rem'};
+    border-radius: ${props => 
+      props.dropdownOpen 
+        ? props.isDropdownAbove
+          ? '0 0 .75rem .75rem' 
+          : '.75rem .75rem 0 0' 
+        : '.75rem'
+    };
     background: ${props => props.backgroundColor ? props.backgroundColor : 'none'};
     box-shadow: ${props => 
       props.hideOutline

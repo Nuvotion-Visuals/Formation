@@ -59,7 +59,7 @@ export const Select = ({
 
   const updateMaxWidth = () => {
     if (selectContainerRef.current) {
-      setMaxWidth(`${selectContainerRef.current.offsetWidth}px`)
+      setMaxWidth(`calc(${selectContainerRef.current.offsetWidth}px - 6px)`)
     }
   }
 
@@ -83,6 +83,8 @@ export const Select = ({
     }
   }
 
+  const [isDropdownAbove, setIsDropdownAbove] = useState(false)
+
   return (
     <S.Select ref={selectContainerRef}>
       <Dropdown
@@ -101,12 +103,14 @@ export const Select = ({
           setIsOpen(isOpen)
         }}
         isSelect
+        onIsDropdownAbove={val => setIsDropdownAbove(val)}
       >
         <TextInput
           value={labelValue}
           onChange={handleInputChange}
           {...props}
           dropdownOpen={isOpen}
+          isDropdownAbove={isDropdownAbove}
         />
       </Dropdown>
     </S.Select>

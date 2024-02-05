@@ -335,7 +335,7 @@ const S = {
               ? 'var(--F_Surface_2)' 
               : props.emphasize
                 ? 'var(--F_Emphasize_Hover)'
-                : 'var(--F_Surface)'
+                : 'var(--F_Surface_1)'
           : 'none'
       };
     }

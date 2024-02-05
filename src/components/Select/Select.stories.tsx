@@ -57,3 +57,16 @@ AllowDirectEntry.args = {
   compact: true,
   allowDirectEntry: true
 }
+
+export const FixedBottom = Template.bind({})
+FixedBottom.args = {
+  ...Default.args,
+  style: { position: 'fixed', bottom: 0, left: 0, right: 0 }
+}
+FixedBottom.decorators = [
+  Story => (
+    <div style={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - 2rem)', justifyContent: 'flex-end' }}>
+      {Story()}
+    </div>
+  )
+]

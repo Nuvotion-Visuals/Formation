@@ -16,7 +16,8 @@ export interface DropdownProps extends ButtonProps {
   xPosition?: number, // New prop for x coordinate
   yPosition?: number, // New prop for y coordinate
   externalOpen?: boolean // 
-  hideTriggerButton?: boolean
+  hideTriggerButton?: boolean,
+  onIsDropdownAbove?: (isDropdownAbove: boolean) => void
 }
 
 /**
@@ -58,12 +59,6 @@ export const Dropdown = React.memo((props: DropdownProps) => {
       portalContainer.current = document.createElement('div')
       document.body.appendChild(portalContainer.current)
     }
-
-    // return () => {
-    //   if (portalContainer.current) {
-    //     document.body.removeChild(portalContainer.current)
-    //   }
-    // }
   }, [])
 
   useEffect(() => {
@@ -85,6 +80,14 @@ export const Dropdown = React.memo((props: DropdownProps) => {
     }
   }, [myRef])
 
+  const [isDropdownAbove, setIsDropdownAbove] = useState(false)
+
+  useEffect(() => {
+    if (props.onIsDropdownAbove) {
+      props.onIsDropdownAbove(isDropdownAbove)
+    }
+  }, [isDropdownAbove])
+
   useEffect(() => {
     const dropdownElement = dropdownRef.current
     if (dropdownElement && myRef.current) {
@@ -96,15 +99,23 @@ export const Dropdown = React.memo((props: DropdownProps) => {
   
       // Reposition based on bottom screen edge
       if (rect.bottom + dropdownHeight > windowHeight) {
-        dropdownElement.style.top = `${rect.top - dropdownHeight}px`
-      } else {
-        dropdownElement.style.top = `${rect.bottom}px`
+        dropdownElement.style.top = props.isSelect 
+          ? `${rect.top - dropdownHeight + 1}px` 
+          : `${rect.top - dropdownHeight}px`
+        setIsDropdownAbove(true)
+      } 
+      else {
+        dropdownElement.style.top = dropdownElement.style.top = props.isSelect
+          ? `${rect.bottom - 1}px`
+          : `${rect.bottom}px`
+        setIsDropdownAbove(false)
       }
   
       // Reposition based on right screen edge
       if (rect.right + dropdownWidth > windowWidth) {
         dropdownElement.style.left = `${rect.left - dropdownWidth + rect.width}px`
-      } else {
+      } 
+      else {
         dropdownElement.style.left = `${rect.left}px`
       }
     }
@@ -152,9 +163,7 @@ export const Dropdown = React.memo((props: DropdownProps) => {
             const elementRect = element.getBoundingClientRect()
             const dropdownRect = dropdownElement.getBoundingClientRect()
   
-            const isOutOfView =
-              elementRect.bottom > dropdownRect.bottom ||
-              elementRect.top < dropdownRect.top
+            const isOutOfView = elementRect.bottom > dropdownRect.bottom || elementRect.top < dropdownRect.top
   
             if (isOutOfView) {
               element.scrollIntoView({ behavior: 'auto' })  // Instant scroll
@@ -202,9 +211,7 @@ export const Dropdown = React.memo((props: DropdownProps) => {
 
   const searchRef = useRef<HTMLInputElement>(null)
 
-  const { xPosition, yPosition, externalOpen } = props
-
-
+  const { externalOpen } = props
 
   useEffect(() => {
     // Toggle visibility based on externalOpen prop
@@ -214,19 +221,19 @@ export const Dropdown = React.memo((props: DropdownProps) => {
   }, [externalOpen])
 
   useLayoutEffect(() => {
-    const dropdownElement = dropdownRef.current;
+    const dropdownElement = dropdownRef.current
     if (dropdownElement) {
       // Position dropdown based on provided coordinates
       if (props.xPosition !== undefined && props.yPosition !== undefined) {
-        dropdownElement.style.left = `${props.xPosition}px`;
-        dropdownElement.style.top = `${props.yPosition}px`;
+        dropdownElement.style.left = `${props.xPosition}px`
+        dropdownElement.style.top = `${props.yPosition}px`
       }
     }
-  }, [props.xPosition, props.yPosition, open]);
+  }, [props.xPosition, props.yPosition, open])
 
   const handleMouseDown = useCallback((event: React.MouseEvent) => {
-    event.stopPropagation();
-  }, []);
+    event.stopPropagation()
+  }, [])
 
   return (
     <>
@@ -254,6 +261,7 @@ export const Dropdown = React.memo((props: DropdownProps) => {
             style={{ visibility: 'hidden' }}
             maxWidth={props.maxWidth}
             isSelect={props.isSelect}
+            isDropdownAbove={isDropdownAbove}
             onMouseDown={handleMouseDown}
           >
             {
@@ -338,6 +346,7 @@ const S = {
   Dropdown: styled.div<{
     maxWidth?: string,
     isSelect?: boolean,
+    isDropdownAbove?: boolean,
     backgroundColor?: string,
   }>`
     position: fixed;
@@ -345,7 +354,6 @@ const S = {
     background: var(--F_Surface);
     border-radius: .375rem;
     overflow: hidden;
-    margin-left: ${props => props.isSelect ? '-1px' : '0'};
     user-select: none;
     width: ${props => 
       props.maxWidth 
@@ -356,9 +364,15 @@ const S = {
     };
     max-height: 400px;
     overflow-y: auto;
-    border-radius: ${props => props.isSelect ? '0 0 .375rem .375rem' : '.375rem'};
+    border-radius: ${props => 
+      props.isSelect 
+        ? props.isDropdownAbove
+          ? '.375rem .375rem 0 0'
+          : '0 0 .375rem .375rem'
+        : '.375rem'
+      };
     padding: .25rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 6px 15px rgba(0, 0, 0, 0.3), var(--F_Outline);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 6px 15px rgba(0, 0, 0, 0.3), var(--F_Outline_Focus);
   `,
   DropdownOption: styled.div`
     border-radius: var(--F_Tile_Radius);
