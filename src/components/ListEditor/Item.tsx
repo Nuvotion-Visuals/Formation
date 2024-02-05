@@ -43,7 +43,8 @@ export type ItemProps = {
   disableTextWrap?: boolean,
   absoluteRightChildren?: boolean,
   primary?: boolean,
-  hideHover?: boolean
+  hideHover?: boolean,
+  tooltipTitle?: string
 }
 
 /**
@@ -119,6 +120,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(({
   absoluteRightChildren,
   primary,
   hideHover,
+  tooltipTitle,
   ...props
 }: ItemProps, ref): JSX.Element => {
   const Link: any = useContext(LinkContext) || IntLink;
@@ -247,6 +249,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(({
       compact={compact}
       disablePadding={disablePadding}
       primary={primary}
+      title={tooltipTitle}
     >
       {
         href !== undefined
