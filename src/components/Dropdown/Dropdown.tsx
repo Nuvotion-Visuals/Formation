@@ -398,6 +398,6 @@ const S = {
     background: var(--F_Surface);
     padding: .25rem 0;
     margin-top: -.25rem;
-    border-top: 1px solid var(--F_Surface_1);
+    border-top: 1px solid var(--F_Surface_3);
   `
 }
