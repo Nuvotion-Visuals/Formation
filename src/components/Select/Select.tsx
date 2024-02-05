@@ -95,7 +95,8 @@ export const Select = ({
             setLabelValue(option.label)
             onChange(option.value)
           },
-          key: option.value
+          key: option.value,
+          compact: props?.compact
         }))}
         maxWidth={maxWidth}
         onOpen={(isOpen) => {
