@@ -117,7 +117,8 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(({
   disablePadding,
   index,
   disableTextWrap,
-  absoluteRightChildren
+  absoluteRightChildren,
+  ...props
 }: ItemProps, ref): JSX.Element => {
   const Link: any = useContext(LinkContext) || IntLink;
 
@@ -236,7 +237,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(({
     </Box>
   )
 
-  return (<S.Container ref={ref}>
+  return (<S.Container ref={ref} {...props}>
     <S.ListItem 
       onClick={onClick} 
       active={active} 
