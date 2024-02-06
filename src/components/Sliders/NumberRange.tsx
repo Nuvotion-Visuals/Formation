@@ -13,6 +13,7 @@ interface Props {
   onChange: (value: number[]) => void;
   hideNumberInput?: boolean,
   precise?: boolean
+  step?: number
 }
 
 /**
@@ -45,7 +46,8 @@ export const NumberRange = React.memo(({
   max, 
   onChange,
   hideNumberInput,
-  precise
+  precise,
+  step
 }: Props) => {
   const handleChange = (newValue: number, index: number) => {
     const newSyncValue = [...value]
@@ -72,6 +74,7 @@ export const NumberRange = React.memo(({
             min={min} 
             max={max} 
             value={value} 
+            step={step}
             // @ts-ignore
             onChange={onChange} 
           />
