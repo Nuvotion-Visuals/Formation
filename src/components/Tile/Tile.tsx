@@ -6,7 +6,7 @@ interface Props {
   onClick?: (e: React.MouseEvent) => void,
   disabled?: boolean,
   active?: boolean,
-  header: ItemProps,
+  header?: ItemProps,
   content: AspectRatioProps,
   footers?: ItemProps[],
   title?: string
@@ -61,7 +61,9 @@ export const Tile = ({
       canClick={!!onClick}
       title={title}
     >
-      <Item {...header} />
+      {
+        header && <Item {...header} />
+      }
       <AspectRatio {...content} />
       {
         footers &&
