@@ -10,6 +10,7 @@ interface Props extends TextInputProps {
   }[],
   onChange: (val: string) => void,
   allowDirectEntry?: boolean,
+  disableCompactItems?: boolean
 }
 
 /**
@@ -43,6 +44,7 @@ export const Select = ({
   options,
   onChange,
   allowDirectEntry,
+  disableCompactItems,
   ...props
 }: Props) => {
   const [labelValue, setLabelValue] = useState(value)
@@ -96,7 +98,7 @@ export const Select = ({
             onChange(option.value)
           },
           key: option.value,
-          compact: props?.compact
+          compact: props?.compact && !disableCompactItems
         }))}
         maxWidth={maxWidth}
         onOpen={(isOpen) => {

@@ -44,7 +44,7 @@ export type ItemProps = {
   absoluteRightChildren?: boolean,
   primary?: boolean,
   hideHover?: boolean,
-  tooltipTitle?: string
+  tooltipTitle?: string,
 }
 
 /**
@@ -176,7 +176,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(({
 
       <S.Flex minimal={minimalIcon} indent={index !== undefined}>
         {
-          name && <S.Text active={active} disablePadding={disablePadding} disableTextWrap={disableTextWrap} compact={compact}>{ name }</S.Text>
+          name && <S.Text active={active} disablePadding={disablePadding} disableTextWrap={disableTextWrap} compact={compact || small}>{ name }</S.Text>
         }
 
         {
@@ -184,7 +184,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(({
         }
 
         {
-          label && <S.Text active={active} disablePadding={disablePadding} disableTextWrap={disableTextWrap} compact={compact}>{ label }</S.Text>
+          label && <S.Text active={active} disablePadding={disablePadding} disableTextWrap={disableTextWrap} compact={compact || small}>{ label }</S.Text>
         }
 
         {
@@ -192,7 +192,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(({
         }
 
         {
-          pageTitle && <S.PageTitle active={active} disablePadding={disablePadding} disableTextWrap={disableTextWrap} compact={compact}>{ pageTitle }</S.PageTitle>
+          pageTitle && <S.PageTitle active={active} disablePadding={disablePadding} disableTextWrap={disableTextWrap} compact={compact || small}>{ pageTitle }</S.PageTitle>
         }
 
         {
@@ -200,7 +200,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(({
         }
 
         {
-          title && <S.Title active={active} disablePadding={disablePadding} disableTextWrap={disableTextWrap} compact={compact}>{ title }</S.Title>
+          title && <S.Title active={active} disablePadding={disablePadding} disableTextWrap={disableTextWrap} compact={compact || small}>{ title }</S.Title>
         }
 
         {
@@ -208,7 +208,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(({
         }
         
         {
-          text && <S.Text active={active} disablePadding={disablePadding} disableTextWrap={disableTextWrap} compact={compact}>{ text }</S.Text>
+          text && <S.Text active={active} disablePadding={disablePadding} disableTextWrap={disableTextWrap} compact={compact || small}>{ text }</S.Text>
         }
 
         {
@@ -216,7 +216,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(({
         }
 
         {
-          subtitle && <S.Subtitle active={active} disablePadding={disablePadding} disableTextWrap={disableTextWrap} compact={compact}>{ subtitle }</S.Subtitle>
+          subtitle && <S.Subtitle active={active} disablePadding={disablePadding} disableTextWrap={disableTextWrap} compact={compact || small}>{ subtitle }</S.Subtitle>
         }
 
         {

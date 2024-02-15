@@ -40,6 +40,36 @@ Options.args = {
   ]
 }
 
+export const Compact = Template.bind({})
+Compact.args = {
+  icon: 'ellipsis-vertical',
+  iconPrefix: 'fas',
+  circle: true,
+  compact: true,
+  items: [
+    {
+      icon: 'heart',
+      text: 'Save',
+      onClick: () => {},
+      compact: true
+    },
+    {
+      icon: 'paper-plane',
+      text: 'Send',
+      onClick: () => {},
+      compact: true
+    },
+    {
+      icon: 'plus',
+      iconPrefix: 'fas',
+      text: 'Add',
+      onClick: () => {},
+      compact: true
+    }
+  ]
+}
+
+
 const StyledBox = styled(Box)<{ position: string }>`
   position: relative;
   width: 100%;

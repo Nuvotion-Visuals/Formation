@@ -33,6 +33,20 @@ Default.args = {
   compact: true
 }
 
+export const Compact = Template.bind({})
+Compact.args = {
+  value: 'monochromeCRT',
+  options: [
+    { label: 'Monochrome Cathode Ray Tube Display Technology', value: 'monochromeCRT' },
+    { label: 'Xenon Arc Lamp Digital Light Processing Display Technology', value: 'xenonArcLampDLP' },
+    { label: 'Liquid Crystal on Silicon High-Definition Display Technology', value: 'liquidCrystalOnSiliconHD' },
+    { label: 'OLED', value: 'oled'}
+  ],
+  onChange: (val) => console.log('Changed value:', val),
+  compact: true,
+  disableCompactItems: true
+}
+
 export const SecondaryIcon = Template.bind({})
 SecondaryIcon.args = {
   value: 'option1',
