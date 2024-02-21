@@ -35,6 +35,8 @@ export { generateVideoThumbnails } from './utils/generateThumbnail'
 export { blobURLToFile } from './utils/blobURLToFile'
 export { insertCSS } from './utils/insertCSS'
 export { HTMLToPlaintext } from './utils/HTMLToPlaintext'
+export { onScrollWheelClick } from './utils/onScrollWheelClick'
+export { emptyImgSrc } from './utils/emptyImgSrc'
 
 // hooks
 export { useBreakpoint } from './hooks/useBreakpoint'

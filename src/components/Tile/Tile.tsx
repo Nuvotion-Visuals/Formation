@@ -1,15 +1,14 @@
 import React from 'react'
 import { AspectRatio, AspectRatioProps, Empty, Item, ItemProps } from '../../internal'
-import styled, { css } from 'styled-components'
+import styled from 'styled-components'
 
-interface Props {
-  onClick?: (e: React.MouseEvent) => void,
-  disabled?: boolean,
-  active?: boolean,
-  header?: ItemProps,
-  content: AspectRatioProps,
-  footers?: ItemProps[],
-  title?: string
+interface Props extends React.HTMLAttributes<HTMLDivElement> {
+  onClick?: (e: React.MouseEvent) => void
+  disabled?: boolean
+  active?: boolean
+  header?: ItemProps
+  contentProps: AspectRatioProps
+  footers?: ItemProps[]
 }
 
 /**
@@ -49,9 +48,9 @@ export const Tile = ({
   active,
   disabled,
   header,
-  content,
+  contentProps,
   footers,
-  title
+  ...rest
 }: Props) => {
   return (
     <S.Tile 
@@ -59,12 +58,12 @@ export const Tile = ({
       active={active}
       disabled={disabled}
       canClick={!!onClick}
-      title={title}
+      {...rest}
     >
       {
         header && <Item {...header} />
       }
-      <AspectRatio {...content} />
+      <AspectRatio {...contentProps} />
       {
         footers &&
           <S.Footers>

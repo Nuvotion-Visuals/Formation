@@ -41,6 +41,7 @@ export type TextInputProps = {
   dropdownOpen?: boolean,
   backgroundColor?: string,
   autoCapitalize?: string,
+  autoComplete?: string,
   spellCheck?: boolean,
   autoCorrect?: boolean,
   isDropdownAbove?: boolean
@@ -135,7 +136,8 @@ export const TextInput = React.memo(({
   autoCapitalize,
   spellCheck = true,
   autoCorrect = true,
-  isDropdownAbove
+  isDropdownAbove,
+  autoComplete
 }: TextInputProps) => {
   // @ts-ignore
   const autoFocusRef = useCallback(el => el && autoFocus ? el.focus() : null, [])
@@ -258,6 +260,7 @@ export const TextInput = React.memo(({
         }}
         autoCapitalize={autoCapitalize}
         autoCorrect={autoCorrect}
+        autoComplete={autoComplete}
         spellCheck={spellCheck}
       />
 

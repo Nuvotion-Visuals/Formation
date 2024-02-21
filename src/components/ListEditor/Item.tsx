@@ -11,7 +11,7 @@ import {
   LinkContext
 } from '../../internal'
 
-export type ItemProps = {
+export type ItemProps = React.HTMLAttributes<HTMLDivElement> & {
   name?: string,
   onClick?: (e: React.MouseEvent) => void,
   icon?: IconName,
@@ -23,7 +23,7 @@ export type ItemProps = {
   label?: string,
   subtitle?: string,
   dateString?: string,
-  title?: string,
+  headingText?: string,
   date?: Date,
   small?: boolean,
   href?: string,
@@ -31,7 +31,7 @@ export type ItemProps = {
   spaceIcon?: boolean,
   prefix?: React.ReactNode,
   children?: React.ReactNode,
-  content?: React.ReactNode,
+  contentProps?: React.ReactNode,
   indent?: boolean,
   pageTitle?: string,
   newTab?: boolean,
@@ -44,11 +44,11 @@ export type ItemProps = {
   absoluteRightChildren?: boolean,
   primary?: boolean,
   hideHover?: boolean,
-  tooltipTitle?: string,
+  borderRadius?: number
 }
 
 /**
- * `Item` is a flexible component that can represent a list item or an interactive element. It supports various configurations such as avatars, icons, labels, and custom content, and can be used as a navigation item or interactive list element.
+ * `Item` is a flexible component that can represent a list item or an interactive element. It supports various configurations such as avatars, icons, labels, and custom contentProps, and can be used as a navigation item or interactive list element.
  *
  * @component
  * @param {string} [name] - The main text or name to be displayed in the item.
@@ -67,13 +67,13 @@ export type ItemProps = {
  * @param {string} [href] - The URL to be used for navigation if the item is a link.
  * @param {boolean} [active] - If true, the item will be styled to indicate it is currently active or selected.
  * @param {boolean} [spaceIcon] - If true, a space icon will be used in place of the regular avatar or image.
- * @param {React.ReactNode} [prefix] - Custom content to be displayed before the main text.
- * @param {React.ReactNode} [children] - Custom content or additional components to render within the item.
- * @param {React.ReactNode} [content] - Main content to be rendered inside the item.
+ * @param {React.ReactNode} [prefix] - Custom contentProps to be displayed before the main text.
+ * @param {React.ReactNode} [children] - Custom contentProps or additional components to render within the item.
+ * @param {React.ReactNode} [contentProps] - Main contentProps to be rendered inside the item.
  * @param {boolean} [indent] - If true, the item will include an indentation, often used in nested lists.
- * @param {string} [pageTitle] - A title to be displayed prominently, often used for page headers or section titles.
+ * @param {string} [pageTitle] - A headingText to be displayed prominently, often used for page headers or section titles.
  * @param {boolean} [newTab] - If true and the item is a link, clicking it will open the href in a new tab.
- * @param {boolean} [disableBreak] - If true, line breaks will be suppressed, keeping the content on one line.
+ * @param {boolean} [disableBreak] - If true, line breaks will be suppressed, keeping the contentProps on one line.
  * @param {boolean} [compact] - If true, the item will have a more compact layout with less padding and spacing.
  * @param {boolean} [disablePadding] - If true, the item will not have padding applied to its container.
  * @param {number} [index] - The index of the Item, to be used to help distingish Items in an ordered list.
@@ -85,7 +85,7 @@ export type ItemProps = {
  * <Item name="Item Name" icon="user" />
  *
  * @example
- * // Item as a clickable link with a subtitle and custom prefix content
+ * // Item as a clickable link with a subtitle and custom prefix contentProps
  * <Item href="/profile" name="Profile" subtitle="View your profile" prefix={<CustomIcon />} />
  */
 export const Item = forwardRef<HTMLDivElement, ItemProps>(({
@@ -99,14 +99,14 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(({
   src,
   text,
   labelColor,
-  title,
+  headingText,
   date,
   small,
   href,
   active,
   spaceIcon,
   children,
-  content,
+  contentProps,
   indent,
   pageTitle,
   newTab,
@@ -120,7 +120,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(({
   absoluteRightChildren,
   primary,
   hideHover,
-  tooltipTitle,
+  borderRadius,
   ...props
 }: ItemProps, ref): JSX.Element => {
   const Link: any = useContext(LinkContext) || IntLink;
@@ -140,7 +140,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(({
               onClick={onClick}
               date={date}
               href={href}
-              name={title ? title : '?'}
+              name={headingText ? headingText : '?'}
               icon={icon}
               iconPrefix={iconPrefix}
               active={active}
@@ -200,7 +200,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(({
         }
 
         {
-          title && <S.Title active={active} disablePadding={disablePadding} disableTextWrap={disableTextWrap} compact={compact || small}>{ title }</S.Title>
+          headingText && <S.Title active={active} disablePadding={disablePadding} disableTextWrap={disableTextWrap} compact={compact || small}>{ headingText }</S.Title>
         }
 
         {
@@ -220,7 +220,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(({
         }
 
         {
-          content && <>{ content }</>
+          contentProps && <>{ contentProps }</>
         }
       </S.Flex>
 
@@ -249,7 +249,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(({
       compact={compact}
       disablePadding={disablePadding}
       primary={primary}
-      title={tooltipTitle}
+      borderRadius={borderRadius}
     >
       {
         href !== undefined
@@ -266,12 +266,13 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(({
 
 const S = {
   Item: React.memo(styled.span<{
-    active?: boolean,
-    showHover?: boolean,
-    pageTitle?: string,
-    compact?: boolean,
-    disablePadding?: boolean,
+    active?: boolean
+    showHover?: boolean
+    pageTitle?: string
+    compact?: boolean
+    disablePadding?: boolean
     primary?: boolean
+    borderRadius?: number
   }>`
      width: ${props => 
       props.disablePadding
@@ -313,6 +314,7 @@ const S = {
     align-items: center;
     position: relative;
     cursor: ${props => props.showHover ? 'pointer' : 'auto'};
+    border-radius: ${props => props.borderRadius ? `${props.borderRadius}rem` : '0'};
     background: ${props => 
       props.primary && props.active
         ? 'var(--F_Primary)'

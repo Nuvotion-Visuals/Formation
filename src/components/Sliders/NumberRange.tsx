@@ -117,7 +117,7 @@ const S = {
     }
     .rc-slider-handle {
       width: ${props => props.precise ? '6px' : '16px'};
-      border-radius: ${props => props.precise ? '0' : 'var(--Tile_Radius)'};
+      border-radius: ${props => props.precise ? '0' : 'var(--F_Tile_Radius)'};
     }
   `,
 

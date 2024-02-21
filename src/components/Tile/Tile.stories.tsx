@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
@@ -58,7 +58,7 @@ Scene.args = {
       ]}
     />
   },
-  content: {
+  contentProps: {
     backgroundSrc: `/blendPreviews/Difference.jpg`
   },
   footers: [
@@ -114,7 +114,7 @@ BlendMode.args = {
     text: 'Difference',
     compact: true
   },
-  content: {
+  contentProps: {
     backgroundSrc: `/blendPreviews/Difference.jpg`
   }
 }
@@ -127,7 +127,7 @@ LongTitle.args = {
     compact: true,
     disableTextWrap: true
   },
-  content: {
+  contentProps: {
     backgroundSrc: `/blendPreviews/Difference.jpg`
   }
 }
@@ -140,7 +140,7 @@ Active.args = {
     text: 'Difference',
     compact: true
   },
-  content: {
+  contentProps: {
     backgroundSrc: `/blendPreviews/Screen.jpg`
   }
 }

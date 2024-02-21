@@ -209,3 +209,14 @@ HideHover.args = {
 HideHover.parameters = {
   layout: 'fullscreen'
 }
+
+export const BorderRadius = Template.bind({})
+BorderRadius.args = {
+  text: 'Select',
+  active: true,
+  primary: true,
+  borderRadius: .25
+}
+BorderRadius.parameters = {
+  layout: 'fullscreen',
+}
