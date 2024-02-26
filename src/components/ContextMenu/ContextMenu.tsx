@@ -26,6 +26,7 @@ export const ContextMenu: FC<ContextMenuProps> = ({ children, dropdownProps, dis
 
   const handleContextMenu = useCallback((event: React.MouseEvent) => {
     event.preventDefault()
+    event.stopPropagation()
     openMenu(event.clientX, event.clientY)
   }, [openMenu])
 
