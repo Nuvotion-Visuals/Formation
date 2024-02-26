@@ -1,6 +1,6 @@
 import React from 'react'
 import { AspectRatio, AspectRatioProps, Empty, Item, ItemProps } from '../../internal'
-import styled from 'styled-components'
+import styled, { css, keyframes } from 'styled-components'
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   onClick?: (e: React.MouseEvent) => void
@@ -9,6 +9,8 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
   header?: ItemProps
   contentProps: AspectRatioProps
   footers?: ItemProps[]
+  blink?: boolean
+  singleBlink?: boolean
 }
 
 /**
@@ -50,6 +52,8 @@ export const Tile = ({
   header,
   contentProps,
   footers,
+  blink,
+  singleBlink,
   ...rest
 }: Props) => {
   return (
@@ -58,6 +62,8 @@ export const Tile = ({
       active={active}
       disabled={disabled}
       canClick={!!onClick}
+      blink={blink}
+      singleBlink={singleBlink}
       {...rest}
     >
       {
@@ -76,28 +82,50 @@ export const Tile = ({
             }
           </S.Footers>
       }
-      <S.Selected active={active} />
+      <S.Selected 
+        active={active} 
+        blink={blink}
+        singleBlink={singleBlink}
+      />
     </S.Tile>
   )
 }
 
+const calculateBackgroundColor = (props: any) => {
+  if (props.active) {
+    return 'var(--F_Primary)';
+  }
+  if (props.blink) {
+    return 'var(--Hover_Single)';
+  }
+  return 'var(--F_Surface)';
+}
+
+
 const S = {
   Tile: styled.div<{
-    active?: boolean,
-    disabled?: boolean,
+    active?: boolean
+    disabled?: boolean
     canClick?: boolean
+    blink?: boolean
+    singleBlink?: boolean
   }>`
    width: 100%;
     border-radius: var(--F_Tile_Radius);
     overflow: hidden;
     position: relative;
-    background: ${props => props.active ? 'var(--F_Primary)' : 'var(--F_Surface)'};
+    background: ${props => calculateBackgroundColor(props)};
     cursor: ${props => props.disabled 
       ? 'not-allowed' 
       : props.canClick 
         ? 'pointer' 
         : 'auto'};
-
+    animation: ${props => props.blink 
+      ? css`${blink} 1s linear infinite` 
+      : props.singleBlink
+          ? css`${blink} 2s linear forwards` 
+          : 'none'
+    };
     ${props => props.canClick 
       ? `
           &:hover {
@@ -134,8 +162,10 @@ const S = {
     flex-wrap: wrap;
     gap: 1px;
   `,
-  Selected: styled.span<{
-    active?: boolean
+ Selected: styled.span<{
+    active?: boolean,
+    blink?: boolean,
+    singleBlink?: boolean
   }>`
     box-shadow: ${props => props.active ? 'var(--F_Outline_Primary_Thick)' : 'none'};
     position: absolute;
@@ -146,5 +176,38 @@ const S = {
     left: 0;
     z-index: 1;
     pointer-events: none;
-  `,
+    animation: ${props => 
+      props.active
+        ? props.blink 
+          ? css`${boxShadowBlink} 1s linear infinite` 
+          : props.singleBlink
+            ? css`${boxShadowBlink} 2s linear forwards` 
+            : 'none'
+        : 'none'
+    };
+  `
 }
+
+const blink = keyframes`
+  0% {
+    background: var(--F_Surface);
+  }
+  50% {
+    background: var(--F_Primary);
+  }
+  100% {
+    background: var(--F_Surface);
+  }
+`
+
+const boxShadowBlink = keyframes`
+  0% {
+    box-shadow: none;
+  }
+  50% {
+    box-shadow: var(--F_Outline_Primary_Thick);
+  }
+  100% {
+    box-shadow: none;
+  }
+`

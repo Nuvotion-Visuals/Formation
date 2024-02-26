@@ -144,3 +144,30 @@ Active.args = {
     backgroundSrc: `/blendPreviews/Screen.jpg`
   }
 }
+
+export const Blink = Template.bind({})
+Blink.args = {
+  onClick: () => alert('clicked'),
+  header: {
+    text: 'Difference',
+    compact: true
+  },
+  contentProps: {
+    backgroundSrc: `/blendPreviews/Screen.jpg`
+  },
+  blink: true
+}
+
+export const BlinkActive = Template.bind({})
+BlinkActive.args = {
+  onClick: () => alert('clicked'),
+  active: true,
+  header: {
+    text: 'Difference',
+    compact: true
+  },
+  contentProps: {
+    backgroundSrc: `/blendPreviews/Screen.jpg`
+  },
+  blink: true
+}
