@@ -37,6 +37,7 @@ export { insertCSS } from './utils/insertCSS'
 export { HTMLToPlaintext } from './utils/HTMLToPlaintext'
 export { onScrollWheelClick } from './utils/onScrollWheelClick'
 export { emptyImgSrc } from './utils/emptyImgSrc'
+export { timeout } from './utils/timeout'
 
 // hooks
 export { useBreakpoint } from './hooks/useBreakpoint'
