@@ -45,6 +45,7 @@ export type ItemProps = React.HTMLAttributes<HTMLDivElement> & {
   primary?: boolean,
   hideHover?: boolean,
   borderRadius?: number
+  surface: boolean
 }
 
 /**
@@ -121,6 +122,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(({
   primary,
   hideHover,
   borderRadius,
+  surface,
   ...props
 }: ItemProps, ref): JSX.Element => {
   const Link: any = useContext(LinkContext) || IntLink;
@@ -250,6 +252,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(({
       disablePadding={disablePadding}
       primary={primary}
       borderRadius={borderRadius}
+      surface={surface}
     >
       {
         href !== undefined
@@ -273,6 +276,7 @@ const S = {
     disablePadding?: boolean
     primary?: boolean
     borderRadius?: number
+    surface?: boolean
   }>`
      width: ${props => 
       props.disablePadding
@@ -309,7 +313,6 @@ const S = {
         ? 'hidden'
         : 'auto'
     };
-   
     display: flex;
     align-items: center;
     position: relative;
@@ -320,7 +323,9 @@ const S = {
         ? 'var(--F_Primary)'
         : props.active
           ? 'var(--F_Surface_2)'
-          : 'none'
+          : props.surface
+            ? 'var(--F_Surface)'
+            : 'none'
     };
     &:hover {
       background: ${props =>
@@ -338,7 +343,10 @@ const S = {
           ? 'var(--F_Primary_Active)'
           : props.showHover && props.active
             ? 'var(--F_Surface_2)'
-            : 'none'};
+            : props.surface
+              ? 'var(--F_Surface_2)'
+              : 'none'
+      };
     }
     a {
       width: 100%;

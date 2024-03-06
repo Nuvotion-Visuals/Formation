@@ -220,3 +220,13 @@ BorderRadius.args = {
 BorderRadius.parameters = {
   layout: 'fullscreen',
 }
+
+export const Surface = Template.bind({})
+Surface.args = {
+  text: 'Select',
+  onClick: () => {},
+  surface: true
+}
+Surface.parameters = {
+  layout: 'fullscreen',
+}
