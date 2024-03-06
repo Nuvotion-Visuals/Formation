@@ -45,7 +45,7 @@ export type ItemProps = React.HTMLAttributes<HTMLDivElement> & {
   primary?: boolean,
   hideHover?: boolean,
   borderRadius?: number
-  surface: boolean
+  surface?: boolean
 }
 
 /**
