@@ -88,6 +88,8 @@ export const Dropdown = React.memo((props: DropdownProps) => {
     }
   }, [isDropdownAbove])
 
+  const [autoFocus, setAutoFocus] = useState(false)
+
   useEffect(() => {
     const dropdownElement = dropdownRef.current
     if (dropdownElement && myRef.current) {
@@ -123,6 +125,8 @@ export const Dropdown = React.memo((props: DropdownProps) => {
     if (props.onOpen) {
       props.onOpen(open)
     }
+
+    setAutoFocus(open)
   }, [open])
   
   useEffect(() => {
@@ -184,16 +188,10 @@ export const Dropdown = React.memo((props: DropdownProps) => {
     }
   }, [items, open])
   
-
   useEffect(() => {
     const dropdownElement = dropdownRef.current
     if (dropdownElement) {
       dropdownElement.style.visibility = open ? 'visible' : 'hidden'
-    }
-    if (open && searchRef.current) {
-      setTimeout(() => {
-        searchRef.current?.focus()
-      }, 0)
     }
   }, [open])
 
@@ -208,8 +206,6 @@ export const Dropdown = React.memo((props: DropdownProps) => {
         (itemProps?.name || itemProps?.label || itemProps?.text)?.toLowerCase()?.includes(search?.toLowerCase())
       )
     : props.items
-
-  const searchRef = useRef<HTMLInputElement>(null)
 
   const { externalOpen } = props
 
@@ -270,12 +266,12 @@ export const Dropdown = React.memo((props: DropdownProps) => {
                   <TextInput
                     value={search}
                     onChange={val => set_search(val)}
-                    ref={searchRef}
                     canClear={search !== ''}
                     compact
                     placeholder={props.searchPlaceholder ? props.searchPlaceholder : 'Search...'}
-                    autoFocus
                     backgroundColor='var(--F_Background)'
+                    onClick={e => e.stopPropagation()}
+                    autoFocus={autoFocus}
                   />
                 </S.Sticky>
             }

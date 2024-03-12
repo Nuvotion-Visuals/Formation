@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import styled, { css, keyframes } from 'styled-components'
 
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
@@ -26,7 +26,6 @@ export type TextInputProps = {
   onClick?: (e: React.MouseEvent) => void,
   preventFocus?: boolean,
   onBlur?: () => void,
-  ref?: any,
   labelColor?: LabelColor,
   onEnter?: () => void,
   onChangeEvent?: (e: any) => void,
@@ -70,7 +69,6 @@ export type TextInputProps = {
  * @param {Function} [onClick] - Click event handler for the input field.
  * @param {boolean} [preventFocus] - If true, prevents auto-focus on the input field. Default: false.
  * @param {Function} [onBlur] - Blur event handler for the input field.
- * @param {React.Ref} [ref] - React ref to control the input field.
  * @param {LabelColor} [labelColor] - Customize the color of the label.
  * @param {Function} [onEnter] - Callback to be invoked when the Enter key is pressed in the input field.
  * @param {string} [name] - Name for the input element.
@@ -118,7 +116,6 @@ export const TextInput = React.memo(({
   onClick,
   preventFocus,
   onBlur,
-  ref,
   labelColor,
   onEnter,
   name,
@@ -137,10 +134,15 @@ export const TextInput = React.memo(({
   spellCheck = true,
   autoCorrect = true,
   isDropdownAbove,
-  autoComplete
+  autoComplete,
 }: TextInputProps) => {
-  // @ts-ignore
-  const autoFocusRef = useCallback(el => el && autoFocus ? el.focus() : null, [])
+  const autoFocusRef = useRef()
+
+  useEffect(() => {
+    if (autoFocus && autoFocusRef?.current) {
+      (autoFocusRef.current as HTMLInputElement).focus()
+    }
+  }, [autoFocus, autoFocusRef?.current])
 
   const [locked, setLocked] = useState(!!value)
   const [focused, setFocused] = useState(!!value)
@@ -164,13 +166,7 @@ export const TextInput = React.memo(({
     }
   }, [value])
 
-  return (<S.OutterContainer 
-    onClick={(e: React.MouseEvent) => {
-      if (onClick) {
-        onClick(e)
-      }
-    }
-  }>
+  return (<S.OutterContainer onClick={onClick}>
     <S.Container 
       error={error} 
       disabled={disabled} 
