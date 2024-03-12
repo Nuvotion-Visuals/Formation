@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { Item, ItemProps } from '../../internal'
 import { Button, ButtonProps } from '../../internal'
 import { TextInput } from '../../internal'
+import { IconPrefix } from '@fortawesome/fontawesome-common-types'
 
 export interface DropdownProps extends ButtonProps {
   items: ItemProps[]
@@ -18,6 +19,7 @@ export interface DropdownProps extends ButtonProps {
   externalOpen?: boolean // 
   hideTriggerButton?: boolean,
   onIsDropdownAbove?: (isDropdownAbove: boolean) => void
+  iconPrefix?: IconPrefix
 }
 
 /**
@@ -193,6 +195,9 @@ export const Dropdown = React.memo((props: DropdownProps) => {
     if (dropdownElement) {
       dropdownElement.style.visibility = open ? 'visible' : 'hidden'
     }
+    if (!open) {
+      set_search('')
+    }
   }, [open])
 
   const itemRefs = useRef<(HTMLDivElement | null)[]>([])
@@ -265,6 +270,7 @@ export const Dropdown = React.memo((props: DropdownProps) => {
                 <S.Sticky>
                   <TextInput
                     value={search}
+                    iconPrefix={props?.iconPrefix}
                     onChange={val => set_search(val)}
                     canClear={search !== ''}
                     compact
