@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import styled, { css } from 'styled-components'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 import { Dropdown } from './Dropdown'
@@ -23,18 +23,18 @@ Options.args = {
   items: [
     {
       icon: 'heart',
-      title: 'Save',
+      text: 'Save',
       onClick: () => {},
     },
     {
       icon: 'paper-plane',
-      title: 'Send',
+      text: 'Send',
       onClick: () => {}
     },
     {
       icon: 'plus',
       iconPrefix: 'fas',
-      title: 'Add',
+      text: 'Add',
       onClick: () => {}
     }
   ]

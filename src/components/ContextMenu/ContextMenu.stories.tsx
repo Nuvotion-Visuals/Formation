@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
-import { AspectRatio, Box, ContextMenu } from '../../internal'
+import { AspectRatio, Box, ContextMenu, Spacer } from '../../internal'
 import styled from 'styled-components'
 
 export default {
@@ -54,6 +54,112 @@ const Template: ComponentStory<typeof ContextMenu> = args => {
 
 export const Options = Template.bind({})
 Options.args = {
+}
+
+const OverflowXTemplate: ComponentStory<typeof ContextMenu> = args => {
+  const [color, setColor] = useState('var(--F_Surface)')
+
+  return (
+    <Box width='100%'>
+      <Spacer />
+      <Box width={12}>
+        <ContextMenu
+          {...args}
+          dropdownProps={{
+            ...args.dropdownProps,
+            maxWidth: '11rem',
+            items: [
+              {
+                text: 'Change Color to Red',
+                onClick: () => setColor('darkred'),
+                active: color === 'darkred',
+              },
+              {
+                text: 'Change Color to Green',
+                onClick: () => setColor('darkgreen'),
+                active: color === 'darkgreen',
+              },
+              {
+                text: 'Change Color to Blue',
+                onClick: () => setColor('darkblue'),
+                active: color === 'darkblue',
+              }
+            ]
+          }}
+        >
+          <Box width={12}>
+            <AspectRatio
+              ratio={16/9}
+              backgroundColor={color}
+              borderRadius={.5}
+            >
+              <S.Text>
+                Right click or tap and hold to open the color change menu
+              </S.Text>
+            </AspectRatio>
+          </Box>
+        </ContextMenu>
+      </Box>
+    </Box>
+  )
+}
+
+export const OverflowX = OverflowXTemplate.bind({})
+OverflowX.args = {
+}
+
+const OverflowYTemplate: ComponentStory<typeof ContextMenu> = args => {
+  const [color, setColor] = useState('var(--F_Surface)')
+
+  return (
+    <div style={{ position: 'fixed', bottom: '1rem', right: '1rem'}}>
+      <Box width='100%'>
+        <Spacer />
+        <Box width={12}>
+          <ContextMenu
+            {...args}
+            dropdownProps={{
+              ...args.dropdownProps,
+              maxWidth: '11rem',
+              items: [
+                {
+                  text: 'Change Color to Red',
+                  onClick: () => setColor('darkred'),
+                  active: color === 'darkred',
+                },
+                {
+                  text: 'Change Color to Green',
+                  onClick: () => setColor('darkgreen'),
+                  active: color === 'darkgreen',
+                },
+                {
+                  text: 'Change Color to Blue',
+                  onClick: () => setColor('darkblue'),
+                  active: color === 'darkblue',
+                }
+              ]
+            }}
+          >
+            <Box width={12}>
+              <AspectRatio
+                ratio={16/9}
+                backgroundColor={color}
+                borderRadius={.5}
+              >
+                <S.Text>
+                  Right click or tap and hold to open the color change menu
+                </S.Text>
+              </AspectRatio>
+            </Box>
+          </ContextMenu>
+        </Box>
+      </Box>
+    </div>
+  )
+}
+
+export const OverflowY = OverflowYTemplate.bind({})
+OverflowY.args = {
 }
 
 const NestedTemplate: ComponentStory<typeof ContextMenu> = args => {

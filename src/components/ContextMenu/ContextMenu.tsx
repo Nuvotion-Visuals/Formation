@@ -11,18 +11,32 @@ interface ContextMenuProps {
 
 export const ContextMenu: FC<ContextMenuProps> = ({ children, dropdownProps, disabled }) => {
   const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 })
+  const [clickPosition, setClickPosition] = useState({ x: 0, y: 0 })
+  const [dropdownDimensions, setDropdownDimensions] = useState({ width: 0, height: 0 })
+
   const [isOpen, setIsOpen] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
   const dropdownRef = useRef<HTMLDivElement>(null)
   const holdTimer = useRef<NodeJS.Timeout>()
 
   const openMenu = useCallback((x: number, y: number) => {
-    if(!disabled) {   // Check if disabled before opening
-      setMenuPosition({ x, y })
-      setIsOpen(false)
-      setTimeout(() => setIsOpen(true), 0)
+    if (!disabled) {
+      setClickPosition({ x, y })
+      setIsOpen(true)
     }
-  }, [disabled])
+  }, [disabled, dropdownDimensions])
+
+  useEffect(() => {
+    if (dropdownRef.current && isOpen) {
+      const { x, y } = clickPosition
+      const viewportWidth = window.innerWidth
+      const viewportHeight = window.innerHeight
+      const { width, height } = dropdownDimensions
+      const adjustedX = (x + width > viewportWidth) ? viewportWidth - (width + (viewportWidth - x)) : x
+      const adjustedY = (y + height > viewportHeight) ? viewportHeight - (height + (viewportHeight - y)) : y
+      setMenuPosition({ x: adjustedX, y: adjustedY })
+    }
+  }, [clickPosition, isOpen, dropdownDimensions])
 
   const handleContextMenu = useCallback((event: React.MouseEvent) => {
     event.preventDefault()
@@ -99,6 +113,7 @@ export const ContextMenu: FC<ContextMenuProps> = ({ children, dropdownProps, dis
               yPosition={menuPosition.y}
               externalOpen={isOpen}
               hideTriggerButton
+              onRenderedDimensions={setDropdownDimensions}
             />
           </div>,
           document.body

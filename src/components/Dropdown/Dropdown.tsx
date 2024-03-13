@@ -20,6 +20,7 @@ export interface DropdownProps extends ButtonProps {
   hideTriggerButton?: boolean,
   onIsDropdownAbove?: (isDropdownAbove: boolean) => void
   iconPrefix?: IconPrefix
+  onRenderedDimensions?: ({ width, height }: { width: number, height: number }) => void
 }
 
 /**
@@ -228,6 +229,12 @@ export const Dropdown = React.memo((props: DropdownProps) => {
       if (props.xPosition !== undefined && props.yPosition !== undefined) {
         dropdownElement.style.left = `${props.xPosition}px`
         dropdownElement.style.top = `${props.yPosition}px`
+
+        const dropdownHeight = dropdownElement.offsetHeight
+        const dropdownWidth = dropdownElement.offsetWidth
+        if (props.onRenderedDimensions) {
+          props.onRenderedDimensions({ width: dropdownWidth, height: dropdownHeight })
+        }
       }
     }
   }, [props.xPosition, props.yPosition, open])
