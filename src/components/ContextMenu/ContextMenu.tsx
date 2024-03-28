@@ -65,31 +65,51 @@ export const ContextMenu: FC<ContextMenuProps> = ({ children, dropdownProps, dis
 
   useEffect(() => {
     const element = containerRef.current
-
+    let initialTouchX: number | null = 0
+    let initialTouchY: number | null = 0
+  
     const handleTouchStart = (event: TouchEvent) => {
-      event.preventDefault()
-      const touchX = event.touches[0].clientX
-      const touchY = event.touches[0].clientY
-
+      if (isOpen) { // Assuming `isOpen` is a state variable that tracks the menu's visibility
+        event.stopPropagation() // Prevent touch events from reaching children
+        return
+      }
+  
+      initialTouchX = event.touches[0].clientX
+      initialTouchY = event.touches[0].clientY
       holdTimer.current = setTimeout(() => {
-        openMenu(touchX, touchY)
+        if (initialTouchX !== null && initialTouchY !== null)
+        openMenu(initialTouchX, initialTouchY)
       }, 300)
     }
-
-    const handleTouchEnd = () => {
-      if (holdTimer.current) {
+  
+    const handleTouchMove = (event: TouchEvent) => {
+      if (initialTouchX == null || initialTouchY == null) return
+      const moveX = event.touches[0].clientX
+      const moveY = event.touches[0].clientY
+      if (Math.abs(moveX - initialTouchX) > 30 || Math.abs(moveY - initialTouchY) > 30) {
         clearTimeout(holdTimer.current)
       }
     }
-
+  
+    const handleTouchEnd = (event: TouchEvent) => {
+      if (isOpen) {
+        event.stopPropagation() // Prevent touch end events from reaching children if menu is open
+      }
+      clearTimeout(holdTimer.current)
+      initialTouchX = null
+      initialTouchY = null
+    }
+  
     element?.addEventListener('touchstart', handleTouchStart, { passive: false })
+    element?.addEventListener('touchmove', handleTouchMove, { passive: false })
     element?.addEventListener('touchend', handleTouchEnd)
-
+  
     return () => {
       element?.removeEventListener('touchstart', handleTouchStart)
+      element?.removeEventListener('touchmove', handleTouchMove)
       element?.removeEventListener('touchend', handleTouchEnd)
     }
-  }, [openMenu])
+  }, [openMenu, isOpen])
 
   return (
     <S.ContextMenu 
