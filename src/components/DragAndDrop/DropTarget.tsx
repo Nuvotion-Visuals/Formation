@@ -75,6 +75,7 @@ export const DropTarget: FC<DropTargetProps> = ({
   }
 
   const handleDrop = async (e: React.DragEvent) => {
+    e.preventDefault()
     setIsOver(false)
     const data = e.dataTransfer.getData('customData')
     if (data) {
