@@ -53,7 +53,6 @@ export const FileDrop: React.FC<Props> = ({
   }
 
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault()
     setIsHovering(false)
 
     const fileList = e.dataTransfer.files
