@@ -30,6 +30,7 @@ __metadata:
     "@fortawesome/free-regular-svg-icons": "npm:^6.1.2"
     "@fortawesome/free-solid-svg-icons": "npm:^6.1.2"
     "@fortawesome/react-fontawesome": "npm:^0.2.0"
+    "@gsap/react": "npm:^2.1.0"
     "@mdx-js/react": "npm:^2.1.2"
     "@originjs/vite-plugin-commonjs": "npm:^1.0.3"
     "@rollup/plugin-commonjs": "npm:^21.0.1"
@@ -65,6 +66,7 @@ __metadata:
     cross-env: "npm:^7.0.3"
     css-loader: "npm:5.2.7"
     gh-pages: "npm:^4.0.0"
+    gsap: "npm:^3.12.5"
     html-webpack-plugin: "npm:^5.5.0"
     html2plaintext: "npm:^2.1.4"
     identity-obj-proxy: "npm:^3.0.0"
@@ -1988,6 +1990,16 @@ __metadata:
     "@fortawesome/fontawesome-svg-core": ~1 || ~6
     react: ">=16.3"
   checksum: 10c0/cf1bd3840dfe1b39d2d5ee92ac49ba3aabad95d05dd6374368a5a1e5f140c8e497d11599290cb70afc6c856bb3228628269199e9659ce8f3132692a2d1e464a5
+  languageName: node
+  linkType: hard
+
+"@gsap/react@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "@gsap/react@npm:2.1.0"
+  dependencies:
+    gsap: "npm:^3.12.4"
+    react: "npm:>=16"
+  checksum: 10c0/00ec2d2e312aae8ba56d323e373b70255e67b3825490c92087a18b02405711b31cfe7569e8c9eaf342b5b5c89e6716c6e16e1825ff751aa834c3ce9134f95b73
   languageName: node
   linkType: hard
 
@@ -8308,6 +8320,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"gsap@npm:^3.12.4, gsap@npm:^3.12.5":
+  version: 3.12.5
+  resolution: "gsap@npm:3.12.5"
+  checksum: 10c0/cb38e89bd577fc18c9cf77e4aeb83617603b1e0fa768fe8ca1acd836fd852936722e186a88c9cf6ece42e53407edd45324be2bfe35a41f424c5f2c2b33fd1a98
+  languageName: node
+  linkType: hard
+
 "gunzip-maybe@npm:^1.4.2":
   version: 1.4.2
   resolution: "gunzip-maybe@npm:1.4.2"
@@ -12595,7 +12614,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react@npm:^18.0.0":
+"react@npm:>=16, react@npm:^18.0.0":
   version: 18.2.0
   resolution: "react@npm:18.2.0"
   dependencies:

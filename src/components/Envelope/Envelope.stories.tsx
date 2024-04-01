@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
@@ -9,11 +9,21 @@ export default {
   component: Envelope,
 } as ComponentMeta<typeof Envelope>
 
-const Template: ComponentStory<typeof Envelope> = args => 
-  <Envelope {...args} />
+
+
+
+const Template: ComponentStory<typeof Envelope> = props => {
+  // todo
+  // partent give child these props
+  // duration
+  // customEase curve
+  // 
+
+  return <Envelope {...props} />
+}
   
 
 export const Default = Template.bind({})
-Default.args = {
+Default.props = {
 
 }
