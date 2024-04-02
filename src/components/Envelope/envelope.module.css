@@ -1,9 +1,5 @@
-:root {
-  --flip: scale(1,-1);
-}
-
 .graph {
-  transform: var(--flip);
+  transform: scale(1,-1);
   background-size: 40px 40px;
   background-image:
     linear-gradient(to right, rgb(68, 68, 68) 1px, transparent 1px),
@@ -17,7 +13,7 @@
 }
 
 .progress_wrap {
-  transform: var(--flip);
+  transform: scale(1,-1);
 }
 
 .progress_dot {
