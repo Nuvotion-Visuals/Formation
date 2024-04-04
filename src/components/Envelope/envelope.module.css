@@ -1,130 +1,147 @@
 :root {
-  --flip: scale(1,-1);
+	--flip: scale(1, -1);
+}
+.wrapper {
+	display: grid;
 }
 
 .graph {
-  transform: var(--flip);
-  background-size: 40px 40px;
-  background-image:
-    linear-gradient(to right, rgb(68, 68, 68) 1px, transparent 1px),
-    linear-gradient(to bottom, rgb(64, 64, 64) 1px, transparent 1px);
+	transform: var(--flip);
+	background-size: 40px 40px;
+	background-image: linear-gradient(
+			to right,
+			rgb(68, 68, 68) 1px,
+			transparent 1px
+		),
+		linear-gradient(to bottom, rgb(64, 64, 64) 1px, transparent 1px);
 }
 
 .graph polyline {
-  stroke-width: 2;
-  pointer-events: none;
-  visibility: visible;
+	stroke-width: 2;
+	pointer-events: none;
+	visibility: visible;
 }
 
 .progress_wrap {
-  transform: var(--flip);
+	transform: var(--flip);
 }
 
 .progress_dot {
-  fill: rgb(225, 233, 187);
+	fill: rgb(225, 233, 187);
 }
 
 .progress_track {
-  fill: rgb(79, 79, 94);
+	fill: rgb(79, 79, 94);
 }
 
 .line_graph {
-  background-color: #282828;
-  width: 20px;
-  height: auto;
-  position: relative;
+	background-color: #282828;
+	width: 20px;
+	height: auto;
+	position: relative;
 }
 
 .graph_bg {
-  fill: rgba(57, 68, 68, 0.208);
+	fill: rgba(57, 68, 68, 0.208);
 }
 
 .graph_path {
-  fill: none;
-  stroke: #666666;
-  stroke-width: 2px;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+	fill: none;
+	stroke: #666666;
+	stroke-width: 2px;
+	stroke-linecap: round;
+	stroke-linejoin: round;
 }
 
 .graph_path_reveal {
-  fill: none;
-  stroke: #F1F2F3;
-  stroke-width: 0.4px;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+	fill: none;
+	stroke: #f1f2f3;
+	stroke-width: 0.4px;
+	stroke-linecap: round;
+	stroke-linejoin: round;
 }
 
-.controls{
-  display: flex;
-  gap: 1em;
+.controls {
+	display: flex;
+	gap: 1em;
 }
 
 .slider {
-  display: grid;
+	display: grid;
 }
 
 .env {
-  display: flex;
-  gap: 1em;
-  width: 100%;
-  background: rgb(37, 40, 38);
+	display: flex;
+	gap: 1em;
+	width: 100%;
+	background: rgb(37, 40, 38);
 }
 
-[class*="point_"]  {
-  stroke: white;
-  stroke-width: 1px;
-  z-index: 3;
-  cursor: pointer;
+[class*="point_"] {
+	stroke: white;
+	stroke-width: 1px;
+	z-index: 3;
+	cursor: pointer;
 }
 
 .curve_point {
-  stroke: rgb(156, 177, 182);
-  stroke-width: 1px;
-  z-index: 3;
-  fill: transparent;
-  cursor: pointer;
+	stroke: rgb(156, 177, 182);
+	stroke-width: 1px;
+	z-index: 3;
+	fill: transparent;
+	cursor: pointer;
 }
 
 .curve_tangent {
-  stroke: rgba(156, 156, 156, 0.347);
+	stroke: rgba(156, 156, 156, 0.347);
 }
 
 .point_1 {
-  fill: rgb(131, 131, 255);
+	fill: rgb(131, 131, 255);
 }
 .point_2 {
-  fill: rgb(140, 235, 250);
+	fill: rgb(140, 235, 250);
 }
 
 .dot {
-  background-color: lime;
-  color: grey;
-  border-radius: 50%;
-  min-width: 2rem;
-  text-align: center;
-  width: fit-content
+	background-color: lime;
+	color: grey;
+	border-radius: 50%;
+	min-width: 2rem;
+	text-align: center;
+	width: fit-content;
 }
 
 .dot:not(:last-child):after {
-  content: '';
-  height: 1px;
-  background: lightcoral;
-  width: 50px;
-  position: absolute;
-  right: -50px;
-  top: 50%;
+	content: "";
+	height: 1px;
+	background: lightcoral;
+	width: 50px;
+	position: absolute;
+	right: -50px;
+	top: 50%;
 }
 
 .dot:not(:last-child):before {
-  content: '';
-  position: absolute;
-  width: 0;
-  height: 0;
-  top: 50%;
-  border-style: solid;
-  border-width: 7px 0 7px 20px;
-  border-color: transparent transparent transparent rgb(139, 113, 113);
-  right: -50px;
-  transform: translateY(-50%);
+	content: "";
+	position: absolute;
+	width: 0;
+	height: 0;
+	top: 50%;
+	border-style: solid;
+	border-width: 7px 0 7px 20px;
+	border-color: transparent transparent transparent rgb(139, 113, 113);
+	right: -50px;
+	transform: translateY(-50%);
+}
+
+.table th {
+	border: solid 1px grey;
+}
+
+.table thead {
+	border-bottom: solid 3px grey;
+}
+.table td {
+	padding-inline: 5px;
 }
