@@ -151,7 +151,7 @@ const Template: ComponentStory<typeof Docking> = () => {
     setContent(restoredContent)
   }
 
-  const togglePanel = (panelName: string) => {
+  const togglePanel = async (panelName: string) => {
     let newContent = [...content]
   
     const panelExists = (items: any[]): boolean => items.some(item => {
@@ -179,20 +179,33 @@ const Template: ComponentStory<typeof Docking> = () => {
       return acc
     }, [])
   
-    const addPanel = (): any[] => {
-      if (!newContent[0].content[1].content.find(item => item.type === 'stack')) {
-        newContent[0].content[1].content.push({
-          type: 'stack',
-          content: []
-        })
+    const findFinalStack = (content: any[]): any => {
+      let finalStack = null
+      for (const item of content) {
+        if (item.type === 'stack') {
+          finalStack = item
+        } else if (item.content && Array.isArray(item.content)) {
+          const nestedStack = findFinalStack(item.content)
+          if (nestedStack) {
+            finalStack = nestedStack
+          }
+        }
       }
-      const targetStack = newContent[0].content[1].content.find(item => item.type === 'stack')
-      if (targetStack) {
-        targetStack.content.push({
+      return finalStack
+    }
+  
+    const addPanel = (): any[] => {
+      const finalStack = findFinalStack(newContent)
+      if (finalStack) {
+        finalStack.content.push({
           component: panels[panelName],
           title: panelName,
           height: 100
         })
+      } 
+      else {
+        // Handle the case where there is no stack in the content
+        // For example, by creating a new stack or by choosing an alternative action
       }
       return newContent
     }
@@ -204,7 +217,7 @@ const Template: ComponentStory<typeof Docking> = () => {
       newContent = addPanel()
     }
   
-    setContent(newContent)
+    console.log(newContent)
   }
 
   return <S.Container>
@@ -252,12 +265,11 @@ const Template: ComponentStory<typeof Docking> = () => {
         items={panelNames.map(name => {
           const active = titles.includes(name)
           return ({
-            icon: active ? 'check' : 'square',
+            icon: active ? 'check' : 'times',
             iconPrefix: 'fas',
             text: name,
             onClick: () => {
               togglePanel(name)
-              // TODO: add or remove panel, using similar mechanism to restorePreset
             },
             compact: true
           })
@@ -285,6 +297,7 @@ const S = {
     align-items: center;
     gap: .5rem;
     border-bottom: 1px solid var(--F_Surface);
+    overflow: hidden;
   `,
   Container: styled.div`
     height: calc(calc(100vh - var(--F_Input_Height)) - 1px);
