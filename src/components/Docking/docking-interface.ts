@@ -19,6 +19,13 @@ export const setActivePanelByTitle = (layoutManager: any, title: string) => {
   }
 }
 
+export const getCurrentLayout = (layoutManager: any, ) => {
+  if (layoutManager?.root) {
+    const newState = layoutManager.toConfig()
+    return newState.content
+  }
+}
+
 export const getTitles = (content: any[]): string[] => {
   const titles: string[] = []
 

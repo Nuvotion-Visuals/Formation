@@ -1,9 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
 import { Docking } from './Docking'
-import { getTitles, setActivePanelByTitle } from './docking-interface'
+import { getCurrentLayout, getTitles, setActivePanelByTitle } from './docking-interface'
 import { Box, Button, Dropdown, GroupRadius, TextInput } from '../../internal'
 
 export default {
@@ -104,7 +104,7 @@ const Template: ComponentStory<typeof Docking> = () => {
     }
   ])
 
-  const [currentContent, setCurrentContent] = useState([])
+  const [currentContent, setCurrentContent] = useState<any>([])
 
   const [layoutManager, setLayoutManager] = useState<any>(null)
 
@@ -123,36 +123,36 @@ const Template: ComponentStory<typeof Docking> = () => {
 
   const presetNames = Object.keys(presets)
 
+  const restoreComponents = (items) => {
+    return items.map(item => {
+      if (item.component && panels[item.title]) {
+        return {
+          ...item,
+          component: panels[item.title],
+        }
+      }
+      if (item.content && Array.isArray(item.content)) {
+        return {
+          ...item,
+          content: restoreComponents(item.content)
+        }
+      }
+      return item
+    })
+  }
+
   const restorePreset = (presetName) => {
     const preset = presets[presetName]
     if (!preset) {
       console.error('Preset not found:', presetName)
       return
     }
-  
-    const restoreComponents = (items) => {
-      return items.map(item => {
-        if (item.component && panels[item.title]) {
-          return {
-            ...item,
-            component: panels[item.title],
-          }
-        }
-        if (item.content && Array.isArray(item.content)) {
-          return {
-            ...item,
-            content: restoreComponents(item.content)
-          }
-        }
-        return item
-      })
-    }
     const restoredContent = restoreComponents(preset)
     setContent(restoredContent)
   }
 
   const togglePanel = async (panelName: string) => {
-    let newContent = [...content]
+    let newContent = [...currentContent]
   
     const panelExists = (items: any[]): boolean => items.some(item => {
       if (item.title === panelName) {
@@ -198,9 +198,14 @@ const Template: ComponentStory<typeof Docking> = () => {
       const finalStack = findFinalStack(newContent)
       if (finalStack) {
         finalStack.content.push({
-          component: panels[panelName],
+          component: panels[panelName], 
           title: panelName,
-          height: 100
+          type: 'component',
+          componentName: 'lm-react-component',
+          isClosable: true,
+          reorderEnabled: true,
+          height: 100,
+          width: 100
         })
       } 
       else {
@@ -217,8 +222,15 @@ const Template: ComponentStory<typeof Docking> = () => {
       newContent = addPanel()
     }
   
-    console.log(newContent)
+    setContent(restoreComponents(newContent))
   }
+  
+  useEffect(() => {
+    if (layoutManager) {
+      const newContent = getCurrentLayout(layoutManager)
+      setCurrentContent(newContent)
+    }
+  }, [content, layoutManager])
 
   return <S.Container>
     <S.Header>
