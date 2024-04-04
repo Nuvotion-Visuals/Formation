@@ -192,7 +192,7 @@ Details.args = {
       label: 'Tickets',
       onClick: () => {},
       labelColor: 'none',
-      emphasize: true,
+      active: true,
       children: <>
         <Label label={'todo'} labelColor={'orange'}/>
       </>
