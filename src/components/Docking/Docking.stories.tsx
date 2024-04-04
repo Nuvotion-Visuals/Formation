@@ -11,7 +11,7 @@ export default {
   component: Docking,
 } as ComponentMeta<typeof Docking>
 
-const Template: ComponentStory<typeof Docking> = args => {
+const Template: ComponentStory<typeof Docking> = () => {
   const panels = {
     'Playlist': () => <></>,
     'Program': () => <></>,
@@ -22,7 +22,10 @@ const Template: ComponentStory<typeof Docking> = args => {
     'Transitions': () => <></>,
     'Scenes': () => <></>,
     'Shortcuts': () => <></>,
+    'Notes': () => <></>
   }
+
+  const panelNames = Object.keys(panels)
   
   const [content, setContent] = useState([
     {
@@ -122,7 +125,6 @@ const Template: ComponentStory<typeof Docking> = args => {
 
   const restorePreset = (presetName) => {
     const preset = presets[presetName]
-    console.log(preset)
     if (!preset) {
       console.error('Preset not found:', presetName)
       return
@@ -148,11 +150,65 @@ const Template: ComponentStory<typeof Docking> = args => {
     const restoredContent = restoreComponents(preset)
     setContent(restoredContent)
   }
+
+  const togglePanel = (panelName: string) => {
+    let newContent = [...content]
   
+    const panelExists = (items: any[]): boolean => items.some(item => {
+      if (item.title === panelName) {
+        return true
+      }
+      if (item.content && Array.isArray(item.content)) {
+        return panelExists(item.content)
+      }
+      return false
+    })
+  
+    const removePanel = (items: any[]): any[] => items.reduce((acc, item) => {
+      if (item.title === panelName) {
+        return acc
+      }
+      if (item.content && Array.isArray(item.content)) {
+        const filteredContent = removePanel(item.content)
+        if (item.type === 'stack' && filteredContent.length === 0) {
+          return acc
+        }
+        item = { ...item, content: filteredContent }
+      }
+      acc.push(item)
+      return acc
+    }, [])
+  
+    const addPanel = (): any[] => {
+      if (!newContent[0].content[1].content.find(item => item.type === 'stack')) {
+        newContent[0].content[1].content.push({
+          type: 'stack',
+          content: []
+        })
+      }
+      const targetStack = newContent[0].content[1].content.find(item => item.type === 'stack')
+      if (targetStack) {
+        targetStack.content.push({
+          component: panels[panelName],
+          title: panelName,
+          height: 100
+        })
+      }
+      return newContent
+    }
+  
+    if (panelExists(newContent)) {
+      newContent = removePanel(newContent)
+    } 
+    else {
+      newContent = addPanel()
+    }
+  
+    setContent(newContent)
+  }
 
   return <S.Container>
     <S.Header>
-      <GroupRadius>
       <Dropdown
         text='Focus panel'
         compact
@@ -162,22 +218,23 @@ const Template: ComponentStory<typeof Docking> = args => {
           compact: true
         }))}
       />
-      <Box width={8}>
-        <TextInput
-          value={presetName}
-          onChange={val => setPresetName(val)}
+      <GroupRadius>
+        <Box width={8}>
+          <TextInput
+            value={presetName}
+            onChange={val => setPresetName(val)}
+            compact
+          />
+        </Box>
+        <Button
+          text='Save preset'
           compact
+          onClick={() => {
+            addPreset(presetName, currentContent)
+            setPresetName('')
+          }}
         />
-      </Box>
-      <Button
-        text='Save preset'
-        compact
-        onClick={() => {
-          addPreset(presetName, currentContent)
-          console.log(currentContent)
-          setPresetName('')
-        }}
-      />
+      </GroupRadius>
       <Dropdown
         text='Load preset'
         compact
@@ -189,7 +246,23 @@ const Template: ComponentStory<typeof Docking> = args => {
           compact: true
         }))}
       />
-      </GroupRadius>
+      <Dropdown
+        text='Toggle'
+        compact
+        items={panelNames.map(name => {
+          const active = titles.includes(name)
+          return ({
+            icon: active ? 'check' : 'square',
+            iconPrefix: 'fas',
+            text: name,
+            onClick: () => {
+              togglePanel(name)
+              // TODO: add or remove panel, using similar mechanism to restorePreset
+            },
+            compact: true
+          })
+        })}
+      />
     </S.Header>
     <Docking
       config={{
@@ -197,7 +270,6 @@ const Template: ComponentStory<typeof Docking> = args => {
       }}
       onLayoutReady={newLayoutManager => setLayoutManager(newLayoutManager)}
       onChange={newContent => {
-        console.log(newContent)
         setCurrentContent(newContent)
       }}
     />
