@@ -24,7 +24,6 @@ const Template: ComponentStory<typeof Docking> = args => {
     'Shortcuts': () => <></>,
   }
   
-  // Define the content state using the panels object
   const [content, setContent] = useState([
     {
       type: 'column',
@@ -102,12 +101,54 @@ const Template: ComponentStory<typeof Docking> = args => {
     }
   ])
 
+  const [currentContent, setCurrentContent] = useState([])
+
   const [layoutManager, setLayoutManager] = useState<any>(null)
 
   const titles = getTitles(content)
 
-  const [prestName, setPresetName] = useState('')
-  const [presetNames, setPresetNames] = useState<string[]>([])
+  const [presetName, setPresetName] = useState('')
+  
+  const [presets, setPresets] = useState({})
+
+  const addPreset = (name, value) => {
+    setPresets(prevPresets => ({
+      ...prevPresets,
+      [name]: value
+    }))
+  }
+
+  const presetNames = Object.keys(presets)
+
+  const restorePreset = (presetName) => {
+    const preset = presets[presetName]
+    console.log(preset)
+    if (!preset) {
+      console.error('Preset not found:', presetName)
+      return
+    }
+  
+    const restoreComponents = (items) => {
+      return items.map(item => {
+        if (item.component && panels[item.title]) {
+          return {
+            ...item,
+            component: panels[item.title],
+          }
+        }
+        if (item.content && Array.isArray(item.content)) {
+          return {
+            ...item,
+            content: restoreComponents(item.content)
+          }
+        }
+        return item
+      })
+    }
+    const restoredContent = restoreComponents(preset)
+    setContent(restoredContent)
+  }
+  
 
   return <S.Container>
     <S.Header>
@@ -123,7 +164,7 @@ const Template: ComponentStory<typeof Docking> = args => {
       />
       <Box width={8}>
         <TextInput
-          value={prestName}
+          value={presetName}
           onChange={val => setPresetName(val)}
           compact
         />
@@ -132,7 +173,9 @@ const Template: ComponentStory<typeof Docking> = args => {
         text='Save preset'
         compact
         onClick={() => {
-         
+          addPreset(presetName, currentContent)
+          console.log(currentContent)
+          setPresetName('')
         }}
       />
       <Dropdown
@@ -141,7 +184,7 @@ const Template: ComponentStory<typeof Docking> = args => {
         items={presetNames.map(name => ({
           text: name,
           onClick: () => {
-
+            restorePreset(name)
           },
           compact: true
         }))}
@@ -153,6 +196,10 @@ const Template: ComponentStory<typeof Docking> = args => {
         content
       }}
       onLayoutReady={newLayoutManager => setLayoutManager(newLayoutManager)}
+      onChange={newContent => {
+        console.log(newContent)
+        setCurrentContent(newContent)
+      }}
     />
   </S.Container>
 }
