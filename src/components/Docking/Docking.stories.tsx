@@ -228,6 +228,7 @@ const S = {
   `,
   Container: styled.div`
     height: calc(calc(100vh - var(--F_Input_Height)) - 1px);
+    width: 100vw;
   `
 }
   

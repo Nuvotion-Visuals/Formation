@@ -51,6 +51,14 @@ export default [
         include: '**/index.light.css',
         extract: 'css/index.light.css'
       }),
+      postcss({
+        modules: true,
+        extensions: ['.css'],
+        use: ['sass'],
+        extract: false,
+        minimize: true,
+        sourceMap: true
+      }),
       visualizer(),
       autoExternal(),
       cleanup(),
