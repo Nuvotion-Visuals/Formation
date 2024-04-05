@@ -109,31 +109,32 @@ var Stack = /*#__PURE__*/function (_AbstractContentItem) {
     value: function _$init() {
       var i, initialItem;
       if (this.isInitialised === true) return;
-
+    
       AbstractContentItem.prototype._$init.call(this);
-
+    
       for (i = 0; i < this.contentItems.length; i++) {
         this.header.createTab(this.contentItems[i]);
-
         this.contentItems[i]._$hide();
       }
-
+    
       if (this.contentItems.length > 0) {
-        initialItem = this.contentItems[this.config.activeItemIndex || 0];
-
-        if (!initialItem) {
-          throw new Error("Configured activeItemIndex out of bounds");
+        var activeItemIndex = this.config.activeItemIndex || 0;
+        // Ensure the activeItemIndex is within bounds
+        if (activeItemIndex < 0 || activeItemIndex >= this.contentItems.length) {
+          console.warn("Configured activeItemIndex is out of bounds. Defaulting to the first item.");
+          activeItemIndex = 0;
         }
-
+        initialItem = this.contentItems[activeItemIndex];
         this.setActiveContentItem(initialItem);
       }
-
+    
       this._$validateClosability();
-
+    
       if (this.parent instanceof RowOrColumn) {
         this.parent._validateDocking();
       }
     }
+    
   }, {
     key: "setActiveContentItem",
     value: function setActiveContentItem(contentItem) {
