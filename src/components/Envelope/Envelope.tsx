@@ -81,11 +81,11 @@ const reducer = (state: EnvelopeState, action: Action) => {
 				direction: action.payload,
 			}
 
-		case "SET_DURATION":
-			return {
-				...state,
-				duration: action.payload,
-			}
+		// case "SET_DURATION":
+		// 	return {
+		// 		...state,
+		// 		duration: action.payload,
+		// 	}
 
 		case "RESET":
 			// return initState
@@ -107,18 +107,18 @@ const reducer = (state: EnvelopeState, action: Action) => {
 type Props = {
 	path: string
 	duration: number
-	onChange: (path: string) => string
+	onChange: (path: string) => void
 }
 
 export function Envelope({
 	path = "M0 0 Q0.25 0.25 0.5 0.5 T1 1",
-	duration = 5,
+	duration = 4,
 	onChange,
 }: Props) {
 	const initPoints = convertPathStringToPoints(path)
 
 	const initState: EnvelopeState = {
-		duration,
+		// duration,
 		graph: initGraph,
 		points: initPoints,
 		customEase: path,
@@ -221,7 +221,8 @@ export function Envelope({
 			mm.add("(min-width: 100px)", () => {
 				gsap.to(".line_path_reveal", {
 					width: state.graph.w,
-					duration: state.duration,
+					// duration: state.duration,
+					duration: duration,
 					repeat: -1,
 					ease: "none",
 					// reversed: true,
@@ -312,7 +313,13 @@ export function Envelope({
 		},
 		{
 			scope: graphRef,
-			dependencies: [state.customEase, state.points, state.duration],
+			dependencies: [
+				// state.customEase,
+				path,
+				state.points,
+				// state.duration
+				duration,
+			],
 			revertOnUpdate: true,
 		}
 	)
@@ -323,10 +330,12 @@ export function Envelope({
 
 			mm.add("(min-width: 100px)", () => {
 				gsap.registerPlugin(CustomEase)
-				CustomEase.create("custom", state.customEase)
+				// CustomEase.create("custom", state.customEase)
+				CustomEase.create("custom", path)
 
 				gsap.to(".progress_dot_parameter", {
-					duration: state.duration,
+					// duration: state.duration,
+					duration: duration,
 					y: state.graph.h,
 					repeat: -1,
 					ease: "custom",
@@ -334,7 +343,8 @@ export function Envelope({
 				})
 
 				gsap.to(".progress_dot_time", {
-					duration: state.duration,
+					// duration: state.duration,
+					duration: duration,
 					x: state.graph.w,
 					repeat: -1,
 					ease: "none",
@@ -346,7 +356,12 @@ export function Envelope({
 		},
 		{
 			scope: curveEditorRef,
-			dependencies: [state.customEase, state.duration],
+			dependencies: [
+				// state.customEase,
+				path,
+				// state.duration
+				duration,
+			],
 			revertOnUpdate: true,
 		}
 	)
@@ -767,7 +782,7 @@ function lerp(start: number, end: number, amt: number) {
 
 type EnvelopeState = {
 	direction: string
-	duration: number
+	// duration: number
 	customEase: string
 	graph: {
 		w: number
@@ -792,7 +807,7 @@ type CursorPoint = {
 type Action =
 	| { type: "RESET" }
 	| { type: "SET_POINTS"; payload: Point[] }
-	| { type: "SET_DURATION"; payload: number }
+	// | { type: "SET_DURATION"; payload: number }
 	| { type: "SET_DIRECTION"; payload: string }
 	| {
 			type: "SET_EASE"
