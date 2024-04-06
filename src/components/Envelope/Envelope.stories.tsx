@@ -9,8 +9,9 @@ export default {
 	title: "Input/Envelope",
 	component: Envelope,
 	argTypes: {
-		duration: { type: "number", defaultValue: 4 },
 		path: { type: "string", defaultValue: "M0 0 Q0.25 0.25 0.5 0.5 T1 1" },
+		// todo how to min max constrain this value -- https://storybook.js.org/docs/api/arg-types
+		duration: { type: "number", defaultValue: 4, min: 0.1, max: 60, step: 0.1 },
 		onChange: { action: "onChange" },
 	},
 } as ComponentMeta<typeof Envelope>
@@ -22,7 +23,12 @@ export default {
 // }
 
 const Template: ComponentStory<typeof Envelope> = (props) => {
-	return <Envelope {...props} />
+	const [path, setPath] = useState<string>(props.path)
+
+	const handlePathChange = (newPath: string) => {
+		setPath(newPath)
+	}
+	return <Envelope {...props} path={path} onChange={handlePathChange} />
 }
 
 export const Default = Template.bind({})

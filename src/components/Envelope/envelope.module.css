@@ -1,9 +1,41 @@
+:root {
+	--flip: scale(1, -1);
+}
+.wrapper {
+	display: grid;
+}
+
 .graph {
-  transform: scale(1,-1);
-  background-size: 40px 40px;
-  background-image:
-    linear-gradient(to right, rgb(68, 68, 68) 1px, transparent 1px),
-    linear-gradient(to bottom, rgb(64, 64, 64) 1px, transparent 1px);
+	transform: var(--flip);
+	background-size: 40px 40px;
+	background-image: linear-gradient(
+			to right,
+			rgb(68, 68, 68) 1px,
+			transparent 1px
+		),
+		linear-gradient(to bottom, rgb(64, 64, 64) 1px, transparent 1px);
+}
+
+.graph {
+	transform: scale(1, -1);
+	background-size: 40px 40px;
+	background-image: linear-gradient(
+			to right,
+			rgb(68, 68, 68) 1px,
+			transparent 1px
+		),
+		linear-gradient(to bottom, rgb(64, 64, 64) 1px, transparent 1px);
+}
+
+.graph {
+	transform: scale(1, -1);
+	background-size: 40px 40px;
+	background-image: linear-gradient(
+			to right,
+			rgb(68, 68, 68) 1px,
+			transparent 1px
+		),
+		linear-gradient(to bottom, rgb(64, 64, 64) 1px, transparent 1px);
 }
 
 .graph polyline {
@@ -13,7 +45,9 @@
 }
 
 .progress_wrap {
-  transform: scale(1,-1);
+	transform: var(--flip);
+	transform: scale(1, -1);
+	transform: scale(1, -1);
 }
 
 .progress_dot {
