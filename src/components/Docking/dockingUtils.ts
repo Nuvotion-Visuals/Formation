@@ -94,21 +94,21 @@ export const togglePanel = (currentContent: any, panelName: string) => {
   return newContent
 }
 
-export const getTitles = (content: any[]): string[] => {
-  const titles: string[] = []
+export const getPanelTitles = (content: any[]): string[] => {
+  const panelTitles: string[] = []
 
-  const extractTitles = (items: any[]) => {
+  const extractPanelTitles = (items: any[]) => {
     items.forEach(item => {
       if (item.title) {
-        titles.push(item.title)
+        panelTitles.push(item.title)
       }
       if (item.content && Array.isArray(item.content)) {
-        extractTitles(item.content)
+        extractPanelTitles(item.content)
       }
     })
   }
 
-  extractTitles(content)
-  return titles
+  extractPanelTitles(content)
+  return panelTitles
 }
 

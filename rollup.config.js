@@ -52,8 +52,6 @@ export default [
         extract: 'css/index.light.css'
       }),
       postcss({
-        // Process all .css files
-        // Enable modules for files ending in .module.css
         include: '**/envelope.module.css',
         modules: true,
       }),

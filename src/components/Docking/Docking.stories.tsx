@@ -2,9 +2,7 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { Docking } from './Docking'
-import { getCurrentLayout, getTitles, setActivePanelByTitle, togglePanel } from './docking-interface'
-import { Box, Button, Dropdown, GroupRadius, TextInput } from '../../internal'
+import { Box, Button, Dropdown, GroupRadius, TextInput, Docking, DockingUtils } from '../../internal'
 
 export default {
   title: 'Layout/Docking',
@@ -105,7 +103,7 @@ const Template: ComponentStory<typeof Docking> = () => {
   const [content, set_content] = useState(defaultContent)
   const [serializableContent, set_serializableContent] = useState<any>([])
   const [layoutManager, set_layoutManager] = useState<any>(null)
-  const activePanels = getTitles(content)
+  const activePanelTitles = DockingUtils.getPanelTitles(content)
 
   const restoreComponents = (items: any[]) => {
     return items.map(item => {
@@ -146,13 +144,13 @@ const Template: ComponentStory<typeof Docking> = () => {
   }
 
   const toggle = async (panelName: string) => {
-    const newContent = togglePanel(serializableContent, panelName)
+    const newContent = DockingUtils.togglePanel(serializableContent, panelName)
     set_content(restoreComponents(newContent))
   }
   
   useEffect(() => {
     if (layoutManager) {
-      const newContent = getCurrentLayout(layoutManager)
+      const newContent = DockingUtils.getCurrentLayout(layoutManager)
       set_serializableContent(newContent)
     }
   }, [content, layoutManager])
@@ -162,9 +160,9 @@ const Template: ComponentStory<typeof Docking> = () => {
       <Dropdown
         text='Focus panel'
         compact
-        items={activePanels.map(title => ({
+        items={activePanelTitles.map(title => ({
           text: title,
-          onClick: () => setActivePanelByTitle(layoutManager, title),
+          onClick: () => DockingUtils.setActivePanelByTitle(layoutManager, title),
           compact: true
         }))}
       />
@@ -196,7 +194,7 @@ const Template: ComponentStory<typeof Docking> = () => {
         text='Toggle'
         compact
         items={Object.keys(panels).map(name => {
-          const active = activePanels.includes(name)
+          const active = activePanelTitles.includes(name)
           return ({
             icon: active ? 'check' : 'times',
             iconPrefix: 'fas',
@@ -210,7 +208,9 @@ const Template: ComponentStory<typeof Docking> = () => {
     <Docking
       config={{ content }}
       onLayoutReady={newLayoutManager => set_layoutManager(newLayoutManager)}
-      onChange={newContent => set_serializableContent(newContent)}
+      onChange={newContent => {
+        set_serializableContent(newContent)
+      }}
     />
   </S.Container>
 }
