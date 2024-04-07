@@ -1,3 +1,5 @@
+import { cloneDeep } from 'lodash'
+
 export const setActivePanelByTitle = (layoutManager: any, title: string) => {
   const findContentItem = (items: any): any | null => {
     for (const item of items) {
@@ -27,7 +29,7 @@ export const getCurrentLayout = (layoutManager: any, ) => {
 }
 
 export const togglePanel = (currentContent: any, panelName: string) => {
-  let newContent = [...currentContent]
+  let newContent = cloneDeep(currentContent)
   const panelExists = (items: any[]): boolean => items.some(item => {
     if (item.title === panelName) {
       return true
