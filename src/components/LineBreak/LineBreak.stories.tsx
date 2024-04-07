@@ -28,5 +28,9 @@ Light.args = {
   light: true
 }
 
+export const Color = Template.bind({})
+Color.args = {
+  color: 'red'
+}
 
 

@@ -30,7 +30,7 @@ const S = {
     display: flex;
     border-bottom: ${props => 
       props.color
-        ? props.color
+        ? `1px solid ${props.color}` 
         : props.light 
           ? '1px solid var(--F_Surface_0)' 
           : '1px solid var(--F_Surface)'
