@@ -6,41 +6,41 @@ import { SizeProp } from '@fortawesome/fontawesome-svg-core' // type coersion ne
 
 import { Icon, LabelColor, getLabelColor, LinkContext, Link as IntLink } from '../../internal'
 
-
 export type ButtonProps = {
-  href?: string,
-  hero?: boolean,
-  name?: string,
-  icon?: IconName,
-  onClick?: (e: React.MouseEvent) => void,
-  primary?: boolean,
-  text?: string,
-  blink?: boolean,
-  rotate?: boolean,
-  title?: string,
-  disabled?: boolean,
-  expand?: boolean,
-  minimal?: boolean,
-  id?: string,
-  iconPrefix?: IconPrefix,
-  minimalIcon?: boolean,
-  secondary?: boolean,
-  labelColor?: LabelColor,
-  singleBlink? : boolean,
-  tab? : boolean,
-  newTab?: boolean,
-  square?: boolean,
-  circle?: boolean,
-  expandVertical?: boolean,
-  compact?: boolean,
-  children?: React.ReactNode,
-  prefix?: React.ReactNode,
-  disableCenter?: boolean,
-  off?: boolean,
-  invertTab?: boolean,
-  disablePadding?: boolean,
-  disableBorderRadius?: boolean,
+  href?: string
+  hero?: boolean
+  name?: string
+  icon?: IconName
+  onClick?: (e: React.MouseEvent) => void
+  primary?: boolean
+  text?: string
+  blink?: boolean
+  rotate?: boolean
+  title?: string
+  disabled?: boolean
+  expand?: boolean
+  minimal?: boolean
+  id?: string
+  iconPrefix?: IconPrefix
+  minimalIcon?: boolean
+  secondary?: boolean
+  labelColor?: LabelColor
+  singleBlink? : boolean
+  tab? : boolean
+  newTab?: boolean
+  square?: boolean
+  circle?: boolean
+  expandVertical?: boolean
+  compact?: boolean
+  children?: React.ReactNode
+  prefix?: React.ReactNode
+  disableCenter?: boolean
+  off?: boolean
+  invertTab?: boolean
+  disablePadding?: boolean
+  disableBorderRadius?: boolean
   type?: string
+  focused?: boolean
 }
 
 /**
@@ -126,7 +126,8 @@ export const Button: FC<ButtonProps> = React.memo(({
   invertTab,
   disablePadding,
   disableBorderRadius,
-  type
+  type,
+  focused
 }: ButtonProps) => {
 
   const Link: any = useContext(LinkContext) || IntLink;
@@ -161,6 +162,7 @@ export const Button: FC<ButtonProps> = React.memo(({
         disablePadding={disablePadding}
         disableBorderRadius={disableBorderRadius}
         type={type ? type : undefined}
+        focused={focused}
       >
         {
           prefix
@@ -351,6 +353,9 @@ const calculateBackgroundColor = (props: ButtonProps) => {
   if (props.blink) {
     return 'var(--Hover_Single)';
   }
+  if (props.focused) {
+    return 'var(--F_Surface_1)'
+  }
   if (props.secondary) {
     return 'none';
   }
@@ -364,9 +369,6 @@ const calculateHoverBackgroundColor = (props: ButtonProps) => {
   if (props.primary) {
     return `var(--F_Primary_Hover)`
   }
-  if (props.minimal) {
-    return 'none'
-  }
   else {
     return `var(--F_Surface_1)`
   }
@@ -379,11 +381,7 @@ const calculateActiveBackgroundColor = (props: ButtonProps) => {
   if (props.primary) {
     return `var(--F_Primary)`
   } 
-  if (props.minimal) {
-    return 'none'
-  }
   return 'var(--F_Surface_2)'
-  
 }
 
 const calculateBorderRadius = (props: ButtonProps): string => {

@@ -258,7 +258,10 @@ export const Dropdown = React.memo((props: DropdownProps) => {
             {
               props.children 
                 ? props.children 
-                : <Button {...props} />
+                : <Button 
+                    {...props} 
+                    focused={open}
+                  />
             }
           </S.Options>
       }

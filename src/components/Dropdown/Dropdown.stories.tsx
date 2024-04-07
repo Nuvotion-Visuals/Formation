@@ -40,6 +40,32 @@ Options.args = {
   ]
 }
 
+export const Minimal = Template.bind({})
+Minimal.args = {
+  icon: 'ellipsis-vertical',
+  iconPrefix: 'fas',
+  circle: true,
+  minimal: true,
+  items: [
+    {
+      icon: 'heart',
+      text: 'Save',
+      onClick: () => {},
+    },
+    {
+      icon: 'paper-plane',
+      text: 'Send',
+      onClick: () => {}
+    },
+    {
+      icon: 'plus',
+      iconPrefix: 'fas',
+      text: 'Add',
+      onClick: () => {}
+    }
+  ]
+}
+
 export const Compact = Template.bind({})
 Compact.args = {
   icon: 'ellipsis-vertical',
