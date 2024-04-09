@@ -21,10 +21,37 @@ export const setActivePanelByTitle = (layoutManager: any, title: string) => {
   }
 }
 
+const cleanComponentIds = (content: any): any => {
+  if (Array.isArray(content)) {
+    return content.map(item => cleanComponentIds(item))
+  }
+  else if (content.type === 'component') {
+    const underscoreIndex = content.component.indexOf('_')
+    if (underscoreIndex !== -1) {
+      return {
+        ...content,
+        component: content.component.substring(0, underscoreIndex)
+      }
+    }
+    else {
+      return content
+    }
+  }
+  else if (['stack', 'row', 'column'].includes(content.type)) {
+    return {
+      ...content,
+      content: cleanComponentIds(content.content)
+    }
+  }
+  else {
+    return content
+  }
+}
+
 export const getCurrentLayout = (layoutManager: any, ) => {
   if (layoutManager?.root) {
     const newState = layoutManager.toConfig()
-    return newState.content
+    return cleanComponentIds(newState.content)
   }
 }
 
