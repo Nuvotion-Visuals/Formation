@@ -1,23 +1,15 @@
-import { resourceUrlToDataUrl } from '../internal';
+import { resourceUrlToDataUrl } from '../internal'
 
 let Thumbo: any
 let Transfer: any
-let isThumboInitialized = false  // Flag to track whether Thumbo has been initialized
-
-// Function to initialize Thumbo if it hasn't been already and if in a browser environment
-const initializeThumbo = async () => {
-  if (typeof window !== 'undefined' && !isThumboInitialized) {
-    const ThumboLib = require('thumbo')
-    Thumbo = ThumboLib.default
-    Transfer = ThumboLib.Transfer
-    await Thumbo.init()
-    isThumboInitialized = true
-  }
+if (typeof window !== 'undefined') {
+  const ThumboLib = require('thumbo')
+  Thumbo = ThumboLib.default
+  Transfer = ThumboLib.Transfer
+  Thumbo.init()
 }
 
 const generateImageThumbnail = async (file: File, callback: (image: string) => void, maxDimension = 256) => {
-  await initializeThumbo()
-  
   const ext = file.type.split('/')[1]
 
   try {
