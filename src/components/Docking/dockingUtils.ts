@@ -141,3 +141,30 @@ export const getPanelTitles = (content: any[]): string[] => {
   return panelTitles
 }
 
+type LayoutItem = {
+  type: string
+  title?: string
+  content?: LayoutItem[]
+  activeItemIndex?: number
+}
+
+export const getVisiblePanels = (layout: LayoutItem[]): string[] => {
+  const titles: string[] = []
+
+  const traverse = (items: LayoutItem[]) => {
+    items.forEach(item => {
+      if (item.type === 'stack' && item.activeItemIndex !== undefined && item.content) {
+        const activeItem = item.content[item.activeItemIndex]
+        if (activeItem && 'title' in activeItem && activeItem.title) {
+          titles.push(activeItem.title)
+        }
+      }
+      if (item.content) {
+        traverse(item.content)
+      }
+    })
+  }
+
+  traverse(layout)
+  return titles
+}
