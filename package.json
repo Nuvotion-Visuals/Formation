@@ -4,7 +4,7 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
   },
-  "version": "1.0.99",
+  "version": "1.0.100",
   "description": "Formation is a comprehensive component library powered by React, Styled Components, and CSS variables for creating apps and websites that demand responsive, unified cross-platform experiences.",
   "resolutions": {
     "string-width": "^4",

@@ -1,9 +1,9 @@
-import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 import React from 'react'
 import styled from 'styled-components'
 
-import { Icon, Box, LineBreak, Gap, Item, ItemProps } from '../../internal'
+import { Box, LineBreak, Item, ItemProps } from '../../internal'
 
+// @ts-ignore
 interface Props extends ItemProps {
   options: ItemProps[],
   value: string,

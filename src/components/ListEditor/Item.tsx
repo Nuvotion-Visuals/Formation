@@ -29,9 +29,8 @@ export type ItemProps = React.HTMLAttributes<HTMLDivElement> & {
   href?: string,
   active?: boolean,
   spaceIcon?: boolean,
-  prefix?: React.ReactNode,
+  prefixChildren?: React.ReactNode,
   children?: React.ReactNode,
-  contentProps?: React.ReactNode,
   indent?: boolean,
   pageTitle?: string,
   newTab?: boolean,
@@ -68,9 +67,8 @@ export type ItemProps = React.HTMLAttributes<HTMLDivElement> & {
  * @param {string} [href] - The URL to be used for navigation if the item is a link.
  * @param {boolean} [active] - If true, the item will be styled to indicate it is currently active or selected.
  * @param {boolean} [spaceIcon] - If true, a space icon will be used in place of the regular avatar or image.
- * @param {React.ReactNode} [prefix] - Custom contentProps to be displayed before the main text.
+ * @param {React.ReactNode} [prefixChildren] - Children to be displayed before the main text.
  * @param {React.ReactNode} [children] - Custom contentProps or additional components to render within the item.
- * @param {React.ReactNode} [contentProps] - Main contentProps to be rendered inside the item.
  * @param {boolean} [indent] - If true, the item will include an indentation, often used in nested lists.
  * @param {string} [pageTitle] - A headingText to be displayed prominently, often used for page headers or section titles.
  * @param {boolean} [newTab] - If true and the item is a link, clicking it will open the href in a new tab.
@@ -107,13 +105,12 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(({
   active,
   spaceIcon,
   children,
-  contentProps,
   indent,
   pageTitle,
   newTab,
   disableBreak,
   value,
-  prefix,
+  prefixChildren,
   compact,
   disablePadding,
   index,
@@ -173,7 +170,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(({
       }
 
       {
-        prefix
+        prefixChildren
       }
 
       <S.Flex minimal={minimalIcon} indent={index !== undefined}>
@@ -220,12 +217,7 @@ export const Item = forwardRef<HTMLDivElement, ItemProps>(({
         {
           subtitle && <S.Subtitle active={active} disablePadding={disablePadding} disableTextWrap={disableTextWrap} compact={compact || small}>{ subtitle }</S.Subtitle>
         }
-
-        {
-          contentProps && <>{ contentProps }</>
-        }
       </S.Flex>
-
       <Spacer />
 
       {
