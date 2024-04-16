@@ -4,6 +4,7 @@ import React, {
 	type MouseEvent,
 	type DragEvent,
 	useEffect,
+	RefObject,
 } from "react"
 import gsap from "gsap"
 import Draggable from "gsap/dist/Draggable"
@@ -13,6 +14,7 @@ import { useGSAP } from "@gsap/react"
 import styles from "./envelope.module.css"
 
 // ? dimensions of the editor, hight doesn't like to go below 300ish
+// todo move this default to parent storybook wrapper
 const initGraph = {
 	w: 500,
 	h: 500,
@@ -48,65 +50,12 @@ const defaultPoints: Point[] = [
 	},
 ]
 
-// const defaultState: EnvelopeState = {
-// 	duration: 5,
-// 	graph: initGraph,
-// 	points: defaultPoints,
-// 	customEase: writeEaseCurve(defaultPoints, initGraph),
-// 	direction: writeDirectionCurve(defaultPoints, {
-// 		w: initGraph.w,
-// 		h: initGraph.h,
-// 	}),
-// 	// customEase: writeEaseCurve(initPoints, initGraph),
-// }
-
-const reducer = (state: EnvelopeState, action: Action) => {
-	switch (action.type) {
-		case "SET_POINTS":
-			//? points must already be sorted going into this action
-			// const sortedPoints = sortPoints(action.payload)
-			return {
-				...state,
-				points: action.payload,
-				direction: writeDirectionCurve(action.payload, {
-					w: initGraph.w,
-					h: initGraph.h,
-				}),
-				customEase: writeEaseCurve(action.payload, initGraph),
-			}
-
-		case "SET_DIRECTION":
-			return {
-				...state,
-				direction: action.payload,
-			}
-
-		// case "SET_DURATION":
-		// 	return {
-		// 		...state,
-		// 		duration: action.payload,
-		// 	}
-
-		case "RESET":
-			// return initState
-			throw new Error("how do i grab `initState` out of component?")
-
-		default:
-			return state
-	}
-}
-
-// TODO fn that reverse exports customEase to points
-// onChange = fn return the `customEase` for the parameter animation to use
-// x axis = comes from global context
-// y axis value (opacity, saturation, transform, etc)
-//// width = 100%
-// get client bounds (dynamic width, dynamically get width of component)
-// height = #px (comes from parent)
-
 type Props = {
 	path: string
 	duration: number
+	boundHeight: number
+	boundWidth: number
+	graphRef: RefObject<SVGSVGElement>
 	onChange: (path: string) => void
 }
 
@@ -114,31 +63,88 @@ export function Envelope({
 	path = "M0 0 Q0.25 0.25 0.5 0.5 T1 1",
 	duration = 4,
 	onChange,
+	boundHeight,
+	boundWidth,
+	graphRef,
 }: Props) {
-	const initPoints = convertPathStringToPoints(path)
+	const reducer = (state: EnvelopeState, action: Action) => {
+		switch (action.type) {
+			case "SET_POINTS":
+				//? points must already be sorted going into this action
+				// const sortedPoints = sortPoints(action.payload)
+				return {
+					...state,
+					points: action.payload,
+					direction: writeDirectionCurve(action.payload, {
+						h: boundHeight,
+						w: boundWidth,
+					}),
+					customEase: writeEaseCurve(action.payload, {
+						h: boundHeight,
+						w: boundWidth,
+					}),
+				}
+
+			case "SET_DIRECTION":
+				return {
+					...state,
+					direction: action.payload,
+				}
+
+			case "SET_WIDTH":
+				return {
+					...state,
+					graph: {
+						w: boundWidth,
+						h: action.payload,
+					},
+				}
+
+			// case "SET_DURATION":
+			// 	return {
+			// 		...state,
+			// 		duration: action.payload,
+			// 	}
+
+			case "RESET":
+				// return initState
+				throw new Error("how do i grab `initState` out of component?")
+
+			default:
+				return state
+		}
+	}
 
 	const initState: EnvelopeState = {
 		// duration,
-		graph: initGraph,
-		points: initPoints,
+		graph: { h: boundHeight, w: boundWidth },
+		points: convertPathStringToPoints(path, { h: boundHeight, w: boundWidth }),
 		customEase: path,
 		// customEase: writeEaseCurve(initPoints, initGraph),
-		direction: writeDirectionCurve(initPoints, {
-			w: initGraph.w,
-			h: initGraph.h,
-		}),
+		direction: writeDirectionCurve(
+			convertPathStringToPoints(path, { h: boundHeight, w: boundWidth }),
+			{
+				w: boundWidth,
+				h: boundHeight,
+			}
+		),
 	}
 
 	const [state, dispatch] = useReducer(reducer, initState)
-	const graphRef = useRef<SVGSVGElement>(null)
 	const curveEditorRef = useRef<HTMLDivElement>(null)
 	const linePathRef = useRef<SVGPathElement>(null)
 
-	// useEffect(() => {
-	// 	console.log(linePathRef.current?.getAttribute("d"))
+	useEffect(() => {
+		dispatch({
+			type: "SET_POINTS",
+			payload: convertPathStringToPoints(path, {
+				h: boundHeight,
+				w: boundWidth,
+			}),
+		})
 
-	// 	// return () =>
-	// }, [])
+		// return () =>
+	}, [path])
 
 	function getUpdatedPointsAndSort(
 		cursorPos: Draggable.Vars,
@@ -151,8 +157,8 @@ export function Envelope({
 		const y = (cursorPos.y + Math.abs(cursorPos.minY)) / boundH
 		// todo clamp x between neighboring point's x value
 		// todo if start or end point always make x = 0 || x = graph.w
-		const gx = Number(x * state.graph.w)
-		const gy = Number(y * state.graph.h)
+		const gx = Number(x * boundWidth)
+		const gy = Number(y * boundHeight)
 
 		const pointIndex = state.points.findIndex((p: Point) => p.id === point.id)
 		if (pointIndex === -1) return state.points
@@ -170,7 +176,7 @@ export function Envelope({
 						...thisPoint,
 						coordinates: [
 							// todo make this dynamic
-							initGraph.w,
+							boundWidth,
 							gy,
 						],
 					}
@@ -220,7 +226,7 @@ export function Envelope({
 
 			mm.add("(min-width: 100px)", () => {
 				gsap.to(".line_path_reveal", {
-					width: state.graph.w,
+					width: boundWidth,
 					// duration: state.duration,
 					duration: duration,
 					repeat: -1,
@@ -246,7 +252,7 @@ export function Envelope({
 							? "y"
 							: "x,y",
 					// TODO how to get points to sit on edge of graph instead of just inside. account for radius
-					// bounds: {top: 0, left: 0, width: state.graph.w + 10, height: state.graph.h + 10},
+					// bounds: {top: 0, left: 0, width: boundWidth + 10, height: boundHeight + 10},
 					//? update UI curve visually without effecting output easeCurve
 					onDrag: function () {
 						const pointIndex = state.points.findIndex((p) => p.id === point.id)
@@ -255,8 +261,8 @@ export function Envelope({
 						dispatch({
 							type: "SET_DIRECTION",
 							payload: writeDirectionCurve(updatedPoints, {
-								w: initGraph.w,
-								h: initGraph.h,
+								w: boundWidth,
+								h: boundHeight,
 							}),
 						})
 					},
@@ -265,7 +271,7 @@ export function Envelope({
 						const pointIndex = state.points.findIndex((p) => p.id === point.id)
 						if (pointIndex === -1) return
 						const updatedPoints = getUpdatedPointsAndSort(this, point, "point")
-						onChange(writeEaseCurve(updatedPoints, initGraph))
+						onChange(writeEaseCurve(updatedPoints, state.graph))
 						dispatch({ type: "SET_POINTS", payload: updatedPoints })
 					},
 				})
@@ -290,8 +296,8 @@ export function Envelope({
 						dispatch({
 							type: "SET_DIRECTION",
 							payload: writeDirectionCurve(updatedPoints, {
-								w: initGraph.w,
-								h: initGraph.h,
+								w: boundWidth,
+								h: boundHeight,
 							}),
 						})
 					},
@@ -303,7 +309,7 @@ export function Envelope({
 							point,
 							"point_curve"
 						)
-						onChange(writeEaseCurve(updatedPoints, initGraph))
+						onChange(writeEaseCurve(updatedPoints, state.graph))
 						dispatch({ type: "SET_POINTS", payload: updatedPoints })
 					},
 				})
@@ -314,8 +320,8 @@ export function Envelope({
 		{
 			scope: graphRef,
 			dependencies: [
-				// state.customEase,
-				path,
+				state.customEase,
+				// path,
 				state.points,
 				// state.duration
 				duration,
@@ -330,13 +336,13 @@ export function Envelope({
 
 			mm.add("(min-width: 100px)", () => {
 				gsap.registerPlugin(CustomEase)
-				// CustomEase.create("custom", state.customEase)
-				CustomEase.create("custom", path)
+				CustomEase.create("custom", state.customEase)
+				// CustomEase.create("custom", path)
 
 				gsap.to(".progress_dot_parameter", {
 					// duration: state.duration,
 					duration: duration,
-					y: state.graph.h,
+					y: boundHeight,
 					repeat: -1,
 					ease: "custom",
 					// reversed: true,
@@ -345,7 +351,7 @@ export function Envelope({
 				gsap.to(".progress_dot_time", {
 					// duration: state.duration,
 					duration: duration,
-					x: state.graph.w,
+					x: boundWidth,
 					repeat: -1,
 					ease: "none",
 					// reversed: true,
@@ -357,8 +363,8 @@ export function Envelope({
 		{
 			scope: curveEditorRef,
 			dependencies: [
-				// state.customEase,
-				path,
+				state.customEase,
+				// path,
 				// state.duration
 				duration,
 			],
@@ -415,7 +421,7 @@ export function Envelope({
 		const newAreaPoints = [...state.points, newPoint]
 
 		const sortedPoints2 = sortPoints(newAreaPoints)
-		onChange(writeEaseCurve(sortedPoints2, initGraph))
+		onChange(writeEaseCurve(sortedPoints2, state.graph))
 		dispatch({ type: "SET_POINTS", payload: sortedPoints2 })
 	}
 
@@ -428,7 +434,7 @@ export function Envelope({
 		if (newAreaPoints.length > 3) {
 			newAreaPoints.splice(index, 1)
 			const sortedPoints = sortPoints(newAreaPoints)
-			onChange(writeEaseCurve(sortedPoints, initGraph))
+			onChange(writeEaseCurve(sortedPoints, state.graph))
 			dispatch({ type: "SET_POINTS", payload: sortedPoints })
 		}
 	}
@@ -444,8 +450,9 @@ export function Envelope({
 						xmlns="http://www.w3.org/2000/svg"
 						x="0px"
 						y="0px"
-						height={state.graph.h}
-						width={state.graph.w}
+						height={boundHeight}
+						// width={boundWidth}
+						width={boundWidth}
 						preserveAspectRatio="xMidYMid meet"
 						xmlSpace="preserve"
 					>
@@ -455,8 +462,8 @@ export function Envelope({
 								<rect
 									x="0"
 									y="-200"
-									width={state.graph.w}
-									height={state.graph.h * 2}
+									width={boundWidth}
+									height={boundHeight * 2}
 								></rect>
 							</clipPath>
 							<clipPath id="graph_path_reveal">
@@ -464,7 +471,7 @@ export function Envelope({
 									x="0"
 									y="-200"
 									width="0"
-									height={state.graph.h * 2}
+									height={boundHeight * 2}
 									className="line_path_reveal"
 								></rect>
 							</clipPath>
@@ -472,8 +479,8 @@ export function Envelope({
 
 						<svg
 							id="svg_path"
-							width={state.graph.w}
-							height={state.graph.h}
+							width={boundWidth}
+							height={boundHeight}
 							preserveAspectRatio="xMidYMid meet"
 							xmlSpace="preserve"
 						>
@@ -481,7 +488,7 @@ export function Envelope({
 								className={styles.graph_bg}
 								x="0"
 								y="-150"
-								width={state.graph.w}
+								width={boundWidth}
 								height="650"
 								rx="0.2"
 								ry="0.2"
@@ -503,8 +510,8 @@ export function Envelope({
 							></path>
 
 							<rect
-								width={state.graph.w}
-								height={state.graph.h}
+								width={boundWidth}
+								height={boundHeight}
 								fill="#04948d"
 								fillOpacity="0.3"
 								onDoubleClick={(e: any) => addPoint(e)}
@@ -539,13 +546,13 @@ export function Envelope({
 					<svg
 						className={styles.progress_wrap + " progress_track_parameter"}
 						width={10}
-						height={state.graph.h}
+						height={boundHeight}
 					>
 						<rect
 							x={0}
 							y={0}
 							width={10}
-							height={state.graph.h}
+							height={boundHeight}
 							className={styles.progress_track}
 						/>
 						<circle
@@ -560,13 +567,13 @@ export function Envelope({
 
 				<svg
 					className={styles.progress_wrap + " progress_track_time"}
-					width={state.graph.w}
+					width={boundWidth}
 					height={10}
 				>
 					<rect
 						x={0}
 						y={0}
-						width={state.graph.w}
+						width={boundWidth}
 						height={10}
 						className={styles.progress_track}
 					/>
@@ -577,68 +584,6 @@ export function Envelope({
 					/>
 				</svg>
 			</div>
-
-			{/* <div className="debug_window">
-				<label>
-					<span> duration: </span>
-					<input
-						type="number"
-						step={0.1}
-						value={state.duration}
-						onChange={(e) =>
-							dispatch({
-								type: "SET_DURATION",
-								payload: Number(e.target.value),
-							})
-						}
-					/>
-				</label>
-
-				<h5> Path: </h5>
-				<p> {path ? path : "no_path"} </p>
-				<br />
-
-				<h5>direction: </h5>
-				<p>
-					{" "}
-					<code>{state.direction}</code>
-				</p>
-				<br />
-
-				<h5>customEase: </h5>
-				<p>
-					{" "}
-					<code> {state.customEase} </code>
-				</p>
-				
-				<table className={styles.table}>
-					<caption> Points (rounded numbers) </caption>
-					<thead>
-						<tr>
-							<td> index </td>
-							<td> id </td>
-							<td> command </td>
-							<td> coor 1 </td>
-							<td> coor 2 </td>
-							<td> coor 3 </td>
-							<td> coor 4 </td>
-						</tr>
-					</thead>
-					<tbody>
-						{state.points.map((p, i) => (
-							<tr key={i}>
-								<td>{i}</td>
-								<td>{p.id}</td>
-								<td>{p.command}</td>
-								<td>{Math.round(p.coordinates[0])}</td>
-								<td>{Math.round(p.coordinates[1])}</td>
-								<td>{Math.round(p.coordinates[2]) || "n/a"}</td>
-								<td>{Math.round(p.coordinates[3]) || "n/a"}</td>
-							</tr>
-						))}
-					</tbody>
-				</table>
-			</div> */}
 		</>
 	)
 }
@@ -744,7 +689,7 @@ function normalizeCoordinates(coordinates: number[], bounds: Bounds) {
 	})
 }
 
-function convertPathStringToPoints(path: string) {
+function convertPathStringToPoints(path: string, bounds: Bounds) {
 	const commands = path.match(/[a-z][^a-z]*/gi)
 	if (!commands) return defaultPoints
 	const points = commands.map((commandString, i) => {
@@ -758,8 +703,8 @@ function convertPathStringToPoints(path: string) {
 			id: i,
 			command,
 			coordinates: scaleCoordinates(coordinates, {
-				w: initGraph.w,
-				h: initGraph.h,
+				w: bounds.w,
+				h: bounds.h,
 			}),
 		}
 	})
@@ -809,6 +754,7 @@ type Action =
 	| { type: "SET_POINTS"; payload: Point[] }
 	// | { type: "SET_DURATION"; payload: number }
 	| { type: "SET_DIRECTION"; payload: string }
+	| { type: "SET_WIDTH"; payload: number }
 	| {
 			type: "SET_EASE"
 			payload: {
