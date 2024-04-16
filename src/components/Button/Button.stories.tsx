@@ -76,10 +76,10 @@ const S = {
   `,
 }
 
-export const Prefix = Template.bind({})
-Prefix.args = {
+export const PrefixChildren = Template.bind({})
+PrefixChildren.args = {
   text: 'Download',
-  prefix: <S.SelectedTransitionPreview src='/blendPreviews/Difference.jpg' />,
+  prefixChildren: <S.SelectedTransitionPreview src='/blendPreviews/Difference.jpg' />,
   compact: true
 }
 

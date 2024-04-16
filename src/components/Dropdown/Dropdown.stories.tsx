@@ -303,7 +303,7 @@ SearchableDropdownWithImages.args = {
   backgroundColor: 'var(--F_Surface)',
   items: blendModes.map(bl => ({
     text: bl.name,
-    prefix: (bl.name && !bl.name.includes('Modes')) ? <img src={`/blendPreviews/${bl.name}.jpg`} style={{ width: '60px', minWidth: '60px' }} /> : undefined,
+    prefixChildren: (bl.name && !bl.name.includes('Modes')) ? <img src={`/blendPreviews/${bl.name}.jpg`} style={{ width: '60px', minWidth: '60px' }} /> : undefined,
   }))
 }
 
@@ -321,16 +321,16 @@ const S = {
 }
 
 
-export const Prefix = BlendDropdownTemplate.bind({})
-Prefix.args = {
+export const PrefixChildren = BlendDropdownTemplate.bind({})
+PrefixChildren.args = {
   text: 'Normal',
-  prefix: <S.SelectedTransitionPreview src='/blendPreviews/Difference.jpg' />,
+  prefixChildren: <S.SelectedTransitionPreview src='/blendPreviews/Difference.jpg' />,
   maxWidth: '200px',
   compact: true,
   backgroundColor: 'var(--F_Surface)',
   items: blendModes.map(bl => ({
     text: bl.name,
-    prefix: (bl.name && !bl.name.includes('Modes')) ? <img src={`/blendPreviews/${bl.name}.jpg`} style={{ width: '60px', minWidth: '60px' }} /> : undefined,
+    prefixChildren: (bl.name && !bl.name.includes('Modes')) ? <img src={`/blendPreviews/${bl.name}.jpg`} style={{ width: '60px', minWidth: '60px' }} /> : undefined,
   }))
 }
 

@@ -33,7 +33,7 @@ export type ButtonProps = {
   expandVertical?: boolean
   compact?: boolean
   children?: React.ReactNode
-  prefix?: React.ReactNode
+  prefixChildren?: React.ReactNode
   disableCenter?: boolean
   off?: boolean
   invertTab?: boolean
@@ -76,7 +76,7 @@ export type ButtonProps = {
  * @param {boolean} [expandVertical] - If true, the button will expand to fill its container's height.
  * @param {boolean} [compact] - If true, the button has a compact style with less padding.
  * @param {React.ReactNode} [children] - Content to be rendered inside the button.
- * @param {React.ReactNode} [prefix] - Content to be rendered as a prefix inside the button.
+ * @param {React.ReactNode} [prefixChildren] - Content to be rendered as a prefix inside the button.
  * @param {boolean} [disableCenter] - If true, the content inside the button will not be centered.
  * @param {boolean} [off] - If true, the button will be visually turned off.
  * @param {boolean} [invertTab] - If true, the button's tab behavior will be inverted.
@@ -119,7 +119,7 @@ export const Button: FC<ButtonProps> = React.memo(({
   circle,
   expandVertical,
   compact,
-  prefix,
+  prefixChildren,
   disableCenter,
   children,
   off,
@@ -157,7 +157,7 @@ export const Button: FC<ButtonProps> = React.memo(({
         minimalIcon={minimalIcon}
         compact={compact}
         disableCenter={disableCenter}
-        prefix={+!!prefix}
+        prefixChildren={+!!prefixChildren}
         invertTab={invertTab}
         disablePadding={disablePadding}
         disableBorderRadius={disableBorderRadius}
@@ -165,7 +165,7 @@ export const Button: FC<ButtonProps> = React.memo(({
         focused={focused}
       >
         {
-          prefix
+          prefixChildren
         }
         {
           icon !== undefined
@@ -318,7 +318,7 @@ const calculatePadding = (props: ButtonProps) => {
     if (props.square || props.disablePadding) {
       return '0'
     }
-    else if (props.prefix) {
+    else if (props.prefixChildren) {
       return '0 .75rem 0 0'
     }
     else {
@@ -435,7 +435,7 @@ const S = {
   })<ButtonProps>`
     display: flex;
     align-items: center;
-    justify-content: ${props => props.prefix || props.disableCenter ? 'left' : 'center'};
+    justify-content: ${props => props.prefixChildren || props.disableCenter ? 'left' : 'center'};
     width: 100%;
     padding: ${props => calculatePadding(props)}; 
     background: ${props => calculateBackgroundColor(props)}; 
