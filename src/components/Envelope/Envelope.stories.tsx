@@ -19,6 +19,12 @@ export default {
 	tags: ["automation", "animation"],
 } as ComponentMeta<typeof Envelope>
 
+type Point = {
+	id: number
+	command: "M" | "Q" | "T" | string
+	coordinates: number[]
+}
+
 const Template: ComponentStory<typeof Envelope> = (props) => {
 	const [path, setPath] = useState<string>(props.path)
 	const [width, setWidth] = useState<number>(500)
@@ -26,7 +32,7 @@ const Template: ComponentStory<typeof Envelope> = (props) => {
 
 	// console.log(props)
 
-	const handlePathChange = (newPath: string) => {
+	const onChange = (newPath: string) => {
 		setPath(newPath)
 	}
 
@@ -34,7 +40,7 @@ const Template: ComponentStory<typeof Envelope> = (props) => {
 		if (graphRef.current) {
 			const width = graphRef.current.getBoundingClientRect().width
 			// todo, set graph width to `100%` and use this to calc width dynamically
-			console.log("Component width:", width)
+			// console.log("Component width:", width)
 			setWidth(width)
 		}
 	}
@@ -49,9 +55,10 @@ const Template: ComponentStory<typeof Envelope> = (props) => {
 		<Envelope
 			{...props}
 			path={path}
-			onChange={handlePathChange}
+			onChange={onChange}
 			graphRef={graphRef}
 			boundWidth={width}
+			// defaultPoints={defaultPoints}
 		/>
 	)
 }
@@ -62,6 +69,15 @@ Default.args = {
 	boundWidth: 500,
 	// linear line
 	path: "M0 0 Q0.25 0.25 0.5 0.5 T1 1",
+	duration: 1,
+}
+
+export const HalfHeightHook = Template.bind({})
+HalfHeightHook.args = {
+	boundHeight: 400,
+	boundWidth: 500,
+	// linear line
+	path: "M0 0 Q0.25 0.25 0.5 0.5 T1 0.5",
 	duration: 1,
 }
 

@@ -5,6 +5,7 @@ import React, {
 	type DragEvent,
 	useEffect,
 	RefObject,
+	useState,
 } from "react"
 import gsap from "gsap"
 import Draggable from "gsap/dist/Draggable"
@@ -12,43 +13,6 @@ import CustomEase from "gsap/dist/CustomEase"
 import { useGSAP } from "@gsap/react"
 // @ts-ignore
 import styles from "./envelope.module.css"
-
-// ? dimensions of the editor, hight doesn't like to go below 300ish
-// todo move this default to parent storybook wrapper
-const initGraph = {
-	w: 500,
-	h: 500,
-}
-
-//! make sure ids are unique! `id = 0` is reserved for `startPoint`. `M` should always be the first point
-const defaultPoints: Point[] = [
-	{
-		id: 0,
-		command: "M",
-		coordinates: [0, 0, 0, 0],
-	},
-	{
-		id: 1,
-		command: "Q",
-		coordinates: [
-			initGraph.w * 0.5,
-			initGraph.h * 0.5,
-			initGraph.w * 0.5,
-			initGraph.h * 0.1,
-		],
-	},
-	{
-		//? last point id must = last index of `initPoints.length`. `T` should always be the last point
-		id: 2,
-		command: "T",
-		coordinates: [
-			initGraph.w * 1,
-			initGraph.h * 1,
-			initGraph.w * 0.5,
-			initGraph.h * 0.98,
-		],
-	},
-]
 
 type Props = {
 	path: string
@@ -59,6 +23,60 @@ type Props = {
 	onChange: (path: string) => void
 }
 
+// const reducer = (state: EnvelopeState, action: Action) => {
+//   switch (action.type) {
+//     case "SET_POINTS":
+//       //? points must already be sorted going into this action
+//       // const sortedPoints = sortPoints(action.payload)
+//       return {
+//         ...state,
+//         points: action.payload,
+//         direction: writeScaledPath(action.payload, {
+//           h: boundHeight,
+//           w: boundWidth,
+//         }),
+//         customEase: writeNormalizedPath(action.payload, {
+//           h: boundHeight,
+//           w: boundWidth,
+//         }),
+//       }
+
+//     case "SET_DIRECTION":
+//       return {
+//         ...state,
+//         direction: action.payload,
+//       }
+
+//     // case "SET_DURATION":
+//     // 	return {
+//     // 		...state,
+//     // 		duration: action.payload,
+//     // 	}
+
+//     case "RESET":
+//       // return initState
+//       throw new Error("how do i grab `initState` out of component?")
+
+//     default:
+//       return state
+//   }
+// }
+
+// const initState: EnvelopeState = {
+//   // duration,
+//   graph: { h: boundHeight, w: boundWidth },
+//   points: convertPathStringToPoints(path, { h: boundHeight, w: boundWidth }),
+//   customEase: path,
+//   // customEase: writeNormalizedPath(initPoints, initGraph),
+//   direction: writeScaledPath(
+//     convertPathStringToPoints(path, { h: boundHeight, w: boundWidth }),
+//     {
+//       h: boundHeight,
+//       w: boundWidth,
+//     }
+//   ),
+// }
+
 export function Envelope({
 	path = "M0 0 Q0.25 0.25 0.5 0.5 T1 1",
 	duration = 4,
@@ -67,84 +85,51 @@ export function Envelope({
 	boundWidth,
 	graphRef,
 }: Props) {
-	const reducer = (state: EnvelopeState, action: Action) => {
-		switch (action.type) {
-			case "SET_POINTS":
-				//? points must already be sorted going into this action
-				// const sortedPoints = sortPoints(action.payload)
-				return {
-					...state,
-					points: action.payload,
-					direction: writeDirectionCurve(action.payload, {
-						h: boundHeight,
-						w: boundWidth,
-					}),
-					customEase: writeEaseCurve(action.payload, {
-						h: boundHeight,
-						w: boundWidth,
-					}),
-				}
-
-			case "SET_DIRECTION":
-				return {
-					...state,
-					direction: action.payload,
-				}
-
-			case "SET_WIDTH":
-				return {
-					...state,
-					graph: {
-						w: boundWidth,
-						h: action.payload,
-					},
-				}
-
-			// case "SET_DURATION":
-			// 	return {
-			// 		...state,
-			// 		duration: action.payload,
-			// 	}
-
-			case "RESET":
-				// return initState
-				throw new Error("how do i grab `initState` out of component?")
-
-			default:
-				return state
-		}
-	}
-
-	const initState: EnvelopeState = {
-		// duration,
-		graph: { h: boundHeight, w: boundWidth },
-		points: convertPathStringToPoints(path, { h: boundHeight, w: boundWidth }),
-		customEase: path,
-		// customEase: writeEaseCurve(initPoints, initGraph),
-		direction: writeDirectionCurve(
-			convertPathStringToPoints(path, { h: boundHeight, w: boundWidth }),
-			{
-				w: boundWidth,
-				h: boundHeight,
-			}
-		),
-	}
-
-	const [state, dispatch] = useReducer(reducer, initState)
+	// const [state, dispatch] = useReducer(reducer, initState)
+	const [points, setPoints] = useState<Point[]>(
+		convertPathStringToPoints(path, {
+			h: boundHeight,
+			w: boundWidth,
+		})
+	)
+	const [scaledPath, setScaledPath] = useState<string>(
+		writeScaledPath(points, {
+			h: boundHeight,
+			w: boundWidth,
+		})
+	)
 	const curveEditorRef = useRef<HTMLDivElement>(null)
 	const linePathRef = useRef<SVGPathElement>(null)
 
-	useEffect(() => {
-		dispatch({
-			type: "SET_POINTS",
-			payload: convertPathStringToPoints(path, {
-				h: boundHeight,
-				w: boundWidth,
-			}),
-		})
+	function handlePointsUpdateEnd(updatedPoints: Point[]) {
+		const bounds = { h: boundHeight, w: boundWidth }
 
-		// return () =>
-	}, [path])
+		setPoints(updatedPoints)
+		setScaledPath(writeScaledPath(updatedPoints, bounds))
+		//? set curve Path
+		onChange(writeNormalizedPath(updatedPoints, bounds))
+	}
+
+	// useEffect(() => {
+	// 	const bounds = { h: boundHeight, w: boundWidth }
+	// 	const initPoints = convertPathStringToPoints(path, {
+	// 		h: boundHeight,
+	// 		w: boundWidth,
+	// 	})
+
+	// 	handlePointsUpdateEnd(initPoints)
+	// 	setScaledPath(writeScaledPath(initPoints, bounds))
+	// 	// dispatch({
+	// 	// 	type: "SET_POINTS",
+	// 	// 	payload: convertPathStringToPoints(path, {
+	// 	// 		h: boundHeight,
+	// 	// 		w: boundWidth,
+	// 	// 	}),
+	// 	// })
+
+	// 	// return () =>
+	// }, [])
+	// }, [path, duration, boundHeight, boundWidth])
 
 	function getUpdatedPointsAndSort(
 		cursorPos: Draggable.Vars,
@@ -160,9 +145,9 @@ export function Envelope({
 		const gx = Number(x * boundWidth)
 		const gy = Number(y * boundHeight)
 
-		const pointIndex = state.points.findIndex((p: Point) => p.id === point.id)
-		if (pointIndex === -1) return state.points
-		const thisPoint = state.points[pointIndex]
+		const pointIndex = points.findIndex((p: Point) => p.id === point.id)
+		if (pointIndex === -1) return points
+		const thisPoint = points[pointIndex]
 
 		const updatedPointByCommand = () => {
 			switch (point.command) {
@@ -174,11 +159,7 @@ export function Envelope({
 				case "T":
 					return {
 						...thisPoint,
-						coordinates: [
-							// todo make this dynamic
-							boundWidth,
-							gy,
-						],
+						coordinates: [boundWidth, gy],
 					}
 				case "Q":
 					// todo hacky way of seeing if curve point or reg point. Maybe there is a more elgant way of doing this
@@ -210,9 +191,9 @@ export function Envelope({
 
 		//? remove the previous point by it's id/index and slot in the upadate one
 		const updatedPoints = [
-			...state.points.slice(0, pointIndex),
+			...points.slice(0, pointIndex),
 			updatedPoint,
-			...state.points.slice(pointIndex + 1),
+			...points.slice(pointIndex + 1),
 		]
 
 		// todo why sorting points here is buggy?
@@ -237,7 +218,7 @@ export function Envelope({
 
 			gsap.registerPlugin(Draggable)
 
-			state.points.map((point, i) => {
+			points.map((point, i) => {
 				// make all cyan white points draggable
 				Draggable.create(`.point_${point.id}`, {
 					bounds: graphRef.current,
@@ -247,32 +228,44 @@ export function Envelope({
 					// lockAxis: true,
 					// If point is start or end of line, lock the X axis
 					type:
-						point.id === 0 ||
-						point.id === state.points[state.points.length - 1].id
+						point.id === 0 || point.id === points[points.length - 1].id
 							? "y"
 							: "x,y",
 					// TODO how to get points to sit on edge of graph instead of just inside. account for radius
 					// bounds: {top: 0, left: 0, width: boundWidth + 10, height: boundHeight + 10},
 					//? update UI curve visually without effecting output easeCurve
 					onDrag: function () {
-						const pointIndex = state.points.findIndex((p) => p.id === point.id)
+						const pointIndex = points.findIndex((p) => p.id === point.id)
 						if (pointIndex === -1) return
 						const updatedPoints = getUpdatedPointsAndSort(this, point, "point")
-						dispatch({
-							type: "SET_DIRECTION",
-							payload: writeDirectionCurve(updatedPoints, {
+
+						// todo why is this making points barely draggable?
+						// handlePointDrag(updatedPoints)
+						setScaledPath(
+							writeScaledPath(updatedPoints, {
 								w: boundWidth,
 								h: boundHeight,
-							}),
-						})
+							})
+						)
+
+						// dispatch({
+						// 	type: "SET_DIRECTION",
+						// 	payload: writeScaledPath(updatedPoints, {
+						// 		h: boundHeight,
+						// 		w: boundWidth,
+						// 	}),
+						// })
 					},
 					//? actually update easeCurve and perform other clamp functions
 					onDragEnd: function () {
-						const pointIndex = state.points.findIndex((p) => p.id === point.id)
+						const pointIndex = points.findIndex((p) => p.id === point.id)
 						if (pointIndex === -1) return
 						const updatedPoints = getUpdatedPointsAndSort(this, point, "point")
-						onChange(writeEaseCurve(updatedPoints, state.graph))
-						dispatch({ type: "SET_POINTS", payload: updatedPoints })
+						// onChange(
+						// 	writeNormalizedPath(updatedPoints, { h: boundHeight, w: boundWidth })
+						// )
+						// dispatch({ type: "SET_POINTS", payload: updatedPoints })
+						handlePointsUpdateEnd(updatedPoints)
 					},
 				})
 
@@ -280,37 +273,45 @@ export function Envelope({
 				Draggable.create(`.point_curve_${point.id}`, {
 					bounds: graphRef.current,
 					type:
-						point.id === 0 ||
-						point.id === state.points[state.points.length - 1].id
+						point.id === 0 || point.id === points[points.length - 1].id
 							? "y"
 							: "x,y",
 					onDrag: function () {
-						const pointIndex = state.points.findIndex((p) => p.id === point.id)
+						const pointIndex = points.findIndex((p) => p.id === point.id)
 						if (pointIndex === -1) return
 						const updatedPoints = getUpdatedPointsAndSort(
 							this,
 							point,
 							"point_curve"
 						)
-
-						dispatch({
-							type: "SET_DIRECTION",
-							payload: writeDirectionCurve(updatedPoints, {
+						// todo why is this making points barely draggable?
+						// handlePointDrag(updatedPoints)
+						setScaledPath(
+							writeScaledPath(updatedPoints, {
 								w: boundWidth,
 								h: boundHeight,
-							}),
-						})
+							})
+						)
+
+						// dispatch({
+						// 	type: "SET_DIRECTION",
+						// 	payload: writeScaledPath(updatedPoints, {
+						// 		h: boundHeight,
+						// 		w: boundWidth,
+						// 	}),
+						// })
 					},
 					onDragEnd: function () {
-						const pointIndex = state.points.findIndex((p) => p.id === point.id)
+						const pointIndex = points.findIndex((p) => p.id === point.id)
 						if (pointIndex === -1) return
 						const updatedPoints = getUpdatedPointsAndSort(
 							this,
 							point,
 							"point_curve"
 						)
-						onChange(writeEaseCurve(updatedPoints, state.graph))
-						dispatch({ type: "SET_POINTS", payload: updatedPoints })
+						// onChange(writeNormalizedPath(updatedPoints, state.graph))
+						// dispatch({ type: "SET_POINTS", payload: updatedPoints })
+						handlePointsUpdateEnd(updatedPoints)
 					},
 				})
 			})
@@ -320,10 +321,8 @@ export function Envelope({
 		{
 			scope: graphRef,
 			dependencies: [
-				state.customEase,
-				// path,
-				state.points,
-				// state.duration
+				// scaledPath,
+				points,
 				duration,
 			],
 			revertOnUpdate: true,
@@ -336,7 +335,8 @@ export function Envelope({
 
 			mm.add("(min-width: 100px)", () => {
 				gsap.registerPlugin(CustomEase)
-				CustomEase.create("custom", state.customEase)
+				CustomEase.create("custom", path)
+
 				// CustomEase.create("custom", path)
 
 				gsap.to(".progress_dot_parameter", {
@@ -363,9 +363,8 @@ export function Envelope({
 		{
 			scope: curveEditorRef,
 			dependencies: [
-				state.customEase,
-				// path,
-				// state.duration
+				// scaledPath,
+				path,
 				duration,
 			],
 			revertOnUpdate: true,
@@ -399,11 +398,11 @@ export function Envelope({
 		const cursorPoint = getCursorPoint(event as any)
 		//! component works, idk what the type error is
 		// @ts-ignore
-		const sortedPoints = sortPoints([...state.points, cursorPoint])
+		const sortedPoints = sortPoints([...points, cursorPoint])
 		const index = sortedPoints.findIndex(
 			(point) => point.coordinates[0] === cursorPoint.coordinates[0]
 		)
-		const prevPoint = sortedPoints[index - 1] || state.points[0]
+		const prevPoint = sortedPoints[index - 1] || points[0]
 		const prevCoordinates: [number, number] = [
 			prevPoint.coordinates[prevPoint.command === "Q" ? 2 : 0],
 			prevPoint.coordinates[prevPoint.command === "Q" ? 3 : 1],
@@ -418,11 +417,12 @@ export function Envelope({
 				cursorPoint.coordinates[1],
 			],
 		} as Point
-		const newAreaPoints = [...state.points, newPoint]
+		const newAreaPoints = [...points, newPoint]
 
 		const sortedPoints2 = sortPoints(newAreaPoints)
-		onChange(writeEaseCurve(sortedPoints2, state.graph))
-		dispatch({ type: "SET_POINTS", payload: sortedPoints2 })
+		// onChange(writeNormalizedPath(sortedPoints2, state.graph))
+		// dispatch({ type: "SET_POINTS", payload: sortedPoints2 })
+		handlePointsUpdateEnd(sortedPoints2)
 	}
 
 	function removePoint(
@@ -430,12 +430,13 @@ export function Envelope({
 		index: number
 	) {
 		event.stopPropagation()
-		const newAreaPoints = [...state.points]
+		const newAreaPoints = [...points]
 		if (newAreaPoints.length > 3) {
 			newAreaPoints.splice(index, 1)
 			const sortedPoints = sortPoints(newAreaPoints)
-			onChange(writeEaseCurve(sortedPoints, state.graph))
-			dispatch({ type: "SET_POINTS", payload: sortedPoints })
+			// onChange(writeNormalizedPath(sortedPoints, state.graph))
+			// dispatch({ type: "SET_POINTS", payload: sortedPoints })
+			handlePointsUpdateEnd(sortedPoints)
 		}
 	}
 
@@ -451,7 +452,6 @@ export function Envelope({
 						x="0px"
 						y="0px"
 						height={boundHeight}
-						// width={boundWidth}
 						width={boundWidth}
 						preserveAspectRatio="xMidYMid meet"
 						xmlSpace="preserve"
@@ -462,16 +462,16 @@ export function Envelope({
 								<rect
 									x="0"
 									y="-200"
-									width={boundWidth}
 									height={boundHeight * 2}
+									width={boundWidth}
 								></rect>
 							</clipPath>
 							<clipPath id="graph_path_reveal">
 								<rect
 									x="0"
 									y="-200"
-									width="0"
 									height={boundHeight * 2}
+									width="0"
 									className="line_path_reveal"
 								></rect>
 							</clipPath>
@@ -479,8 +479,8 @@ export function Envelope({
 
 						<svg
 							id="svg_path"
-							width={boundWidth}
 							height={boundHeight}
+							width={boundWidth}
 							preserveAspectRatio="xMidYMid meet"
 							xmlSpace="preserve"
 						>
@@ -499,19 +499,19 @@ export function Envelope({
 								id="line_path"
 								ref={linePathRef}
 								className={styles.graph_path}
-								d={state.direction}
+								d={scaledPath}
 								clipPath="url(#graph_path)"
 							></path>
 
 							<path
 								className={styles.graph_path_reveal}
-								d={state.direction}
+								d={scaledPath}
 								clipPath="url(#graph_path_reveal)"
 							></path>
 
 							<rect
-								width={boundWidth}
 								height={boundHeight}
+								width={boundWidth}
 								fill="#04948d"
 								fillOpacity="0.3"
 								onDoubleClick={(e: any) => addPoint(e)}
@@ -519,12 +519,12 @@ export function Envelope({
 
 							<PointGroup
 								i={0}
-								p={state.points[0]}
+								p={points[0]}
 								className={"point_"}
 								isCurveEdit={false}
 							/>
 							{/* .slice removes 1st and last element (start end points) without mutating */}
-							{state.points.slice(1, -1).map((p, i) => (
+							{points.slice(1, -1).map((p, i) => (
 								<PointGroup
 									key={p.id}
 									i={i}
@@ -535,8 +535,8 @@ export function Envelope({
 								/>
 							))}
 							<PointGroup
-								i={state.points.length - 1}
-								p={state.points[state.points.length - 1]}
+								i={points.length - 1}
+								p={points[points.length - 1]}
 								className={"point_"}
 								isCurveEdit={false}
 							/>
@@ -545,14 +545,14 @@ export function Envelope({
 
 					<svg
 						className={styles.progress_wrap + " progress_track_parameter"}
-						width={10}
 						height={boundHeight}
+						width={10}
 					>
 						<rect
 							x={0}
 							y={0}
-							width={10}
 							height={boundHeight}
+							width={10}
 							className={styles.progress_track}
 						/>
 						<circle
@@ -648,7 +648,7 @@ function PointGroup({
 	)
 }
 
-function writeDirectionCurve(points: Point[], bounds: Bounds) {
+function writeScaledPath(points: Point[], bounds: Bounds) {
 	let directionString = ""
 
 	points.map((point) => {
@@ -657,59 +657,62 @@ function writeDirectionCurve(points: Point[], bounds: Bounds) {
 
 	return directionString
 }
-function writeEaseCurve(points: Point[], bounds: { w: number; h: number }) {
-	let easeString = ""
+
+function writeNormalizedPath(
+	points: Point[],
+	bounds: { w: number; h: number }
+) {
+	let normalizedPath = ""
 
 	points.map((point) => {
-		easeString +=
+		normalizedPath +=
 			point.command +
 			normalizeCoordinates(point.coordinates, bounds).join(" ") +
 			" "
 	})
 
-	return easeString
+	return normalizedPath
 }
 
 function scaleCoordinates(coordinates: number[], bounds: Bounds) {
-	return coordinates.map((num, i) => {
-		return i % 2 === 0
-			? //? if i is even number, scale by Y axis (height).
-			  num * bounds.h
-			: //? if i is odd number, scale by X axis (width).
+	const scaledCoordinates = coordinates.map((num, i) =>
+		i % 2 === 0
+			? //? if i is odd number, scale by X axis (width).
 			  num * bounds.w
-	})
+			: //? if i is even number, scale by Y axis (height).
+			  num * bounds.h
+	)
+
+	return scaledCoordinates
 }
 function normalizeCoordinates(coordinates: number[], bounds: Bounds) {
-	return coordinates.map((num, i) => {
-		return i % 2 === 0
-			? //? if i is even number, normalize by Y axis (height).
-			  num / bounds.h
-			: //? if i is odd number, normalize by X axis (width).
-			  num / bounds.w
-	})
+	const normalized = coordinates.map((num, i) =>
+		// if x axis / by w | if y axis / by h
+		i % 2 === 0 ? num / bounds.w : num / bounds.h
+	)
+
+	return normalized
 }
 
 function convertPathStringToPoints(path: string, bounds: Bounds) {
 	const commands = path.match(/[a-z][^a-z]*/gi)
-	if (!commands) return defaultPoints
-	const points = commands.map((commandString, i) => {
+	if (!commands) throw Error("no commands found")
+	const scaledPoints = commands.map((commandString, i) => {
 		const command = commandString[0]
 		const coordinates = commandString
 			.slice(1)
 			.trim()
 			.split(/[\s,]+/)
 			.map(Number)
+
 		return {
 			id: i,
 			command,
-			coordinates: scaleCoordinates(coordinates, {
-				w: bounds.w,
-				h: bounds.h,
-			}),
+			coordinates: scaleCoordinates(coordinates, bounds),
 		}
 	})
 
-	return points || defaultPoints
+	return scaledPoints
 }
 
 function sortPoints(points: Point[] | CursorPoint[]) {
@@ -749,19 +752,18 @@ type CursorPoint = {
 	coordinates: [number, number]
 }
 
-type Action =
-	| { type: "RESET" }
-	| { type: "SET_POINTS"; payload: Point[] }
-	// | { type: "SET_DURATION"; payload: number }
-	| { type: "SET_DIRECTION"; payload: string }
-	| { type: "SET_WIDTH"; payload: number }
-	| {
-			type: "SET_EASE"
-			payload: {
-				x: number
-				y: number
-			}
-	  }
+// type Action =
+// 	| { type: "RESET" }
+// 	| { type: "SET_POINTS"; payload: Point[] }
+// 	// | { type: "SET_DURATION"; payload: number }
+// 	| { type: "SET_DIRECTION"; payload: string }
+// 	| {
+// 			type: "SET_EASE"
+// 			payload: {
+// 				x: number
+// 				y: number
+// 			}
+// 	  }
 
 // Helpful docs
 // - https://css-tricks.com/svg-path-syntax-illustrated-guide/
