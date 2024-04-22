@@ -14,6 +14,8 @@
 			transparent 1px
 		),
 		linear-gradient(to bottom, rgb(64, 64, 64) 1px, transparent 1px);
+	/* //todo put this to 100% for full responsive */
+	/* width: 100%; */
 }
 
 .graph polyline {

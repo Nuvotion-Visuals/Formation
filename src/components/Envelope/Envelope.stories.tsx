@@ -4,7 +4,7 @@ import { ComponentStory, ComponentMeta } from "@storybook/react"
 
 import { Envelope } from "../../internal"
 
-// maybe rename to EnvelopeAutomation
+// todo `boundHeight` breaks when smaller than 200px
 export default {
 	component: Envelope,
 	title: "Input/Envelope",
@@ -30,26 +30,25 @@ const Template: ComponentStory<typeof Envelope> = (props) => {
 	const [width, setWidth] = useState<number>(500)
 	const graphRef = useRef<SVGSVGElement>(null)
 
-	// console.log(props)
-
 	const onChange = (newPath: string) => {
 		setPath(newPath)
 	}
 
-	const handleSetWidth = () => {
-		if (graphRef.current) {
-			const width = graphRef.current.getBoundingClientRect().width
-			// todo, set graph width to `100%` and use this to calc width dynamically
-			// console.log("Component width:", width)
-			setWidth(width)
-		}
-	}
+	// todo for responsive width
+	// const handleSetWidth = () => {
+	// 	if (graphRef.current) {
+	// 		const width = graphRef.current.getBoundingClientRect().width
+	// 		// todo, set graph width to `100%` and use this to calc width dynamically
+	// 		console.log("Component width:", width)
+	// 		setWidth(width)
+	// 	}
+	// }
 
-	useEffect(() => {
-		window.addEventListener("resize", handleSetWidth)
-		handleSetWidth()
-		return () => window.removeEventListener("resize", handleSetWidth)
-	}, [])
+	// useEffect(() => {
+	// 	window.addEventListener("resize", handleSetWidth)
+	// 	handleSetWidth()
+	// 	return () => window.removeEventListener("resize", handleSetWidth)
+	// }, [])
 
 	return (
 		<Envelope
@@ -57,7 +56,7 @@ const Template: ComponentStory<typeof Envelope> = (props) => {
 			path={path}
 			onChange={onChange}
 			graphRef={graphRef}
-			boundWidth={width}
+			// boundWidth={width}
 			// defaultPoints={defaultPoints}
 		/>
 	)
@@ -85,6 +84,22 @@ export const SCurve = Template.bind({})
 SCurve.args = {
 	boundHeight: 500,
 	boundWidth: 500,
+	path: "M0 0 Q0.5 0.1 0.5 0.5 T1 1",
+	duration: 2,
+}
+
+export const ShortestHeight = Template.bind({})
+ShortestHeight.args = {
+	boundHeight: 200,
+	boundWidth: 500,
+	path: "M0 0 Q0.5 0.1 0.5 0.5 T1 1",
+	duration: 2,
+}
+
+export const ShortestWidth = Template.bind({})
+ShortestWidth.args = {
+	boundHeight: 500,
+	boundWidth: 200,
 	path: "M0 0 Q0.5 0.1 0.5 0.5 T1 1",
 	duration: 2,
 }

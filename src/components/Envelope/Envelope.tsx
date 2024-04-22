@@ -23,60 +23,6 @@ type Props = {
 	onChange: (path: string) => void
 }
 
-// const reducer = (state: EnvelopeState, action: Action) => {
-//   switch (action.type) {
-//     case "SET_POINTS":
-//       //? points must already be sorted going into this action
-//       // const sortedPoints = sortPoints(action.payload)
-//       return {
-//         ...state,
-//         points: action.payload,
-//         direction: writeScaledPath(action.payload, {
-//           h: boundHeight,
-//           w: boundWidth,
-//         }),
-//         customEase: writeNormalizedPath(action.payload, {
-//           h: boundHeight,
-//           w: boundWidth,
-//         }),
-//       }
-
-//     case "SET_DIRECTION":
-//       return {
-//         ...state,
-//         direction: action.payload,
-//       }
-
-//     // case "SET_DURATION":
-//     // 	return {
-//     // 		...state,
-//     // 		duration: action.payload,
-//     // 	}
-
-//     case "RESET":
-//       // return initState
-//       throw new Error("how do i grab `initState` out of component?")
-
-//     default:
-//       return state
-//   }
-// }
-
-// const initState: EnvelopeState = {
-//   // duration,
-//   graph: { h: boundHeight, w: boundWidth },
-//   points: convertPathStringToPoints(path, { h: boundHeight, w: boundWidth }),
-//   customEase: path,
-//   // customEase: writeNormalizedPath(initPoints, initGraph),
-//   direction: writeScaledPath(
-//     convertPathStringToPoints(path, { h: boundHeight, w: boundWidth }),
-//     {
-//       h: boundHeight,
-//       w: boundWidth,
-//     }
-//   ),
-// }
-
 export function Envelope({
 	path = "M0 0 Q0.25 0.25 0.5 0.5 T1 1",
 	duration = 4,
@@ -109,27 +55,6 @@ export function Envelope({
 		//? set curve Path
 		onChange(writeNormalizedPath(updatedPoints, bounds))
 	}
-
-	// useEffect(() => {
-	// 	const bounds = { h: boundHeight, w: boundWidth }
-	// 	const initPoints = convertPathStringToPoints(path, {
-	// 		h: boundHeight,
-	// 		w: boundWidth,
-	// 	})
-
-	// 	handlePointsUpdateEnd(initPoints)
-	// 	setScaledPath(writeScaledPath(initPoints, bounds))
-	// 	// dispatch({
-	// 	// 	type: "SET_POINTS",
-	// 	// 	payload: convertPathStringToPoints(path, {
-	// 	// 		h: boundHeight,
-	// 	// 		w: boundWidth,
-	// 	// 	}),
-	// 	// })
-
-	// 	// return () =>
-	// }, [])
-	// }, [path, duration, boundHeight, boundWidth])
 
 	function getUpdatedPointsAndSort(
 		cursorPos: Draggable.Vars,
@@ -247,24 +172,12 @@ export function Envelope({
 								h: boundHeight,
 							})
 						)
-
-						// dispatch({
-						// 	type: "SET_DIRECTION",
-						// 	payload: writeScaledPath(updatedPoints, {
-						// 		h: boundHeight,
-						// 		w: boundWidth,
-						// 	}),
-						// })
 					},
 					//? actually update easeCurve and perform other clamp functions
 					onDragEnd: function () {
 						const pointIndex = points.findIndex((p) => p.id === point.id)
 						if (pointIndex === -1) return
 						const updatedPoints = getUpdatedPointsAndSort(this, point, "point")
-						// onChange(
-						// 	writeNormalizedPath(updatedPoints, { h: boundHeight, w: boundWidth })
-						// )
-						// dispatch({ type: "SET_POINTS", payload: updatedPoints })
 						handlePointsUpdateEnd(updatedPoints)
 					},
 				})
@@ -284,22 +197,13 @@ export function Envelope({
 							point,
 							"point_curve"
 						)
-						// todo why is this making points barely draggable?
-						// handlePointDrag(updatedPoints)
+
 						setScaledPath(
 							writeScaledPath(updatedPoints, {
 								w: boundWidth,
 								h: boundHeight,
 							})
 						)
-
-						// dispatch({
-						// 	type: "SET_DIRECTION",
-						// 	payload: writeScaledPath(updatedPoints, {
-						// 		h: boundHeight,
-						// 		w: boundWidth,
-						// 	}),
-						// })
 					},
 					onDragEnd: function () {
 						const pointIndex = points.findIndex((p) => p.id === point.id)
@@ -309,8 +213,7 @@ export function Envelope({
 							point,
 							"point_curve"
 						)
-						// onChange(writeNormalizedPath(updatedPoints, state.graph))
-						// dispatch({ type: "SET_POINTS", payload: updatedPoints })
+
 						handlePointsUpdateEnd(updatedPoints)
 					},
 				})
@@ -336,8 +239,6 @@ export function Envelope({
 			mm.add("(min-width: 100px)", () => {
 				gsap.registerPlugin(CustomEase)
 				CustomEase.create("custom", path)
-
-				// CustomEase.create("custom", path)
 
 				gsap.to(".progress_dot_parameter", {
 					// duration: state.duration,
@@ -420,8 +321,7 @@ export function Envelope({
 		const newAreaPoints = [...points, newPoint]
 
 		const sortedPoints2 = sortPoints(newAreaPoints)
-		// onChange(writeNormalizedPath(sortedPoints2, state.graph))
-		// dispatch({ type: "SET_POINTS", payload: sortedPoints2 })
+
 		handlePointsUpdateEnd(sortedPoints2)
 	}
 
@@ -434,8 +334,7 @@ export function Envelope({
 		if (newAreaPoints.length > 3) {
 			newAreaPoints.splice(index, 1)
 			const sortedPoints = sortPoints(newAreaPoints)
-			// onChange(writeNormalizedPath(sortedPoints, state.graph))
-			// dispatch({ type: "SET_POINTS", payload: sortedPoints })
+
 			handlePointsUpdateEnd(sortedPoints)
 		}
 	}
@@ -489,7 +388,7 @@ export function Envelope({
 								x="0"
 								y="-150"
 								width={boundWidth}
-								height="650"
+								height={boundHeight}
 								rx="0.2"
 								ry="0.2"
 								clipPath="url(#graph_path)"
@@ -607,18 +506,6 @@ function PointGroup({
 }: PointGroupProps) {
 	return (
 		<g id={`p_${p.id}`}>
-			<text
-				x={p.coordinates[p.command === "Q" ? 2 : 0]}
-				y={p.coordinates[p.command === "Q" ? 3 : 1]}
-				fontSize="10pt"
-				dy="0.35em"
-				fill="white"
-				style={{ transform: "scale(1,-1)" }}
-			>
-				{" "}
-				{`id:${p.id}`}
-			</text>
-
 			{isCurveEdit && (
 				<>
 					<polyline
@@ -751,19 +638,6 @@ type CursorPoint = {
 	command: "MOUSE"
 	coordinates: [number, number]
 }
-
-// type Action =
-// 	| { type: "RESET" }
-// 	| { type: "SET_POINTS"; payload: Point[] }
-// 	// | { type: "SET_DURATION"; payload: number }
-// 	| { type: "SET_DIRECTION"; payload: string }
-// 	| {
-// 			type: "SET_EASE"
-// 			payload: {
-// 				x: number
-// 				y: number
-// 			}
-// 	  }
 
 // Helpful docs
 // - https://css-tricks.com/svg-path-syntax-illustrated-guide/
