@@ -2,7 +2,8 @@ import React, { useEffect, useRef, useState } from 'react'
 
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { Box, Envelope, NumberInput } from '../../internal'
+import { Timeline } from './Timeline'
+import { Box, Envelope, Gap, NumberInput, NumberRange } from '../../internal'
 import gsap from 'gsap'
 import CustomEase from 'gsap/dist/CustomEase'
 gsap.registerPlugin(CustomEase)
@@ -81,19 +82,38 @@ const Template: ComponentStory<typeof Envelope> = (props) => {
     }
   }, [path, duration])
 
+	const [range, setRange] = useState<number[]>([0, 100])
+
   return (<Box maxWidth={'500px'} wrap>
-		<Envelope
-			{...props}
-			path={path}
-			value={value}
-			phase={phase}
-			onChange={newPath => setPath(newPath)}
-		/>
-		<NumberInput
-			value={duration}
-			onChange={val => setDuration(val)}
-			step={1}
-		/>
+		{/* Ignore this component */}
+		<div hidden>
+			<NumberRange
+				value={[0,0]}
+				min={0}
+				max={0}
+				onChange={() => {}}
+				step={1}
+			/>
+		</div>
+
+			<Timeline
+				value={range}
+				onChange={val => setRange(val)}
+				min={0}
+				max={100}
+				value2={value}
+				phase={phase}
+				duration={duration}
+				onDurationChange={newDuration => setDuration(newDuration)}
+			/>
+			<Envelope
+				{...props}
+				path={path}
+				value={value}
+				phase={phase}
+				onChange={newPath => setPath(newPath)}
+			/>
+			
 	</Box>)
 }
 

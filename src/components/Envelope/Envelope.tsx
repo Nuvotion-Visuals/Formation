@@ -250,11 +250,7 @@ export const Envelope = ({
 				cursorPoint.coordinates[1],
 			],
 		} as Point
-		const newAreaPoints = [...points, newPoint]
-
-		const sortedPoints2 = sortPoints(newAreaPoints)
-
-		handlePointsUpdateEnd(sortedPoints2)
+		handlePointsUpdateEnd(sortPoints([...points, newPoint]))
 	}
 
 	const removePoint = (
@@ -265,9 +261,7 @@ export const Envelope = ({
 		const newAreaPoints = [...points]
 		if (newAreaPoints.length > 3) {
 			newAreaPoints.splice(index, 1)
-			const sortedPoints = sortPoints(newAreaPoints)
-
-			handlePointsUpdateEnd(sortedPoints)
+			handlePointsUpdateEnd(sortPoints(newAreaPoints))
 		}
 	}
 
@@ -278,116 +272,110 @@ export const Envelope = ({
       const { width, height } = entries[0].contentRect
       setSize({ width, height })
     }
-
     const observer = new ResizeObserver(observeSize)
     if (graphRef.current) {
       observer.observe(graphRef.current)
     }
-
     return () => {
       observer.disconnect()
     }
   }, [])
 
 	return (
-		<>
-			<div className={styles.wrapper} ref={curveEditorRef}>
-				<div style={{ display: 'flex' }}>
-					<svg
-						className={styles.graph + ' graph_wrap_inner'}
-						ref={graphRef}
-						version='1.1'
-						xmlns='http://www.w3.org/2000/svg'
-						x='0px'
-						y='0px'
+		<div className={styles.wrapper} ref={curveEditorRef}>
+			<svg
+				className={styles.graph + ' graph_wrap_inner'}
+				ref={graphRef}
+				version='1.1'
+				xmlns='http://www.w3.org/2000/svg'
+				x='0px'
+				y='0px'
+				height={boundHeight}
+				width={boundWidth}
+				preserveAspectRatio='xMidYMid meet'
+				xmlSpace='preserve'
+			>
+				{/* //TODO this causes scaling issues when shrinking graph hight */}
+				<defs>
+					<clipPath id='graph_path'>
+						<rect
+							x='0'
+							y='-200'
+							height={boundHeight * 2}
+							width={boundWidth}
+						/>
+					</clipPath>
+					<clipPath id='graph_path_reveal'>
+						<rect
+							x='0'
+							y='-200'
+							height={boundHeight * 2}
+							width={size.width * phase}
+							className='line_path_reveal'
+						/>
+					</clipPath>
+				</defs>
+
+				<svg
+					id='svg_path'
+					height={boundHeight}
+					width={boundWidth}
+					preserveAspectRatio='xMidYMid meet'
+					xmlSpace='preserve'
+				>
+					<path
+						id='line_path'
+						ref={linePathRef}
+						className={styles.graph_path}
+						d={scaledPath}
+						clipPath='url(#graph_path)'
+					/>
+
+					<path
+						d={`M0,${boundHeight} ${scaledPath.slice(1)} V0 H0 Z`}
+						fill="var(--F_Surface_0)"
+					/>
+
+					<path
+						className={styles.graph_path_reveal}
+						d={scaledPath}
+						clipPath='url(#graph_path_reveal)'
+					/>
+
+					<rect
 						height={boundHeight}
 						width={boundWidth}
-						preserveAspectRatio='xMidYMid meet'
-						xmlSpace='preserve'
-					>
-						{/* //TODO this causes scaling issues when shrinking graph hight */}
-						<defs>
-							<clipPath id='graph_path'>
-								<rect
-									x='0'
-									y='-200'
-									height={boundHeight * 2}
-									width={boundWidth}
-								/>
-							</clipPath>
-							<clipPath id='graph_path_reveal'>
-								<rect
-									x='0'
-									y='-200'
-									height={boundHeight * 2}
-									width={size.width * phase}
-									className='line_path_reveal'
-								/>
-							</clipPath>
-						</defs>
+						fillOpacity='0'
+						onDoubleClick={(e: any) => addPoint(e)}
+					/>
 
-						<svg
-							id='svg_path'
-							height={boundHeight}
-							width={boundWidth}
-							preserveAspectRatio='xMidYMid meet'
-							xmlSpace='preserve'
-						>
-							<path
-								id='line_path'
-								ref={linePathRef}
-								className={styles.graph_path}
-								d={scaledPath}
-								clipPath='url(#graph_path)'
-							/>
-
-							<path
-								d={`M0,${boundHeight} ${scaledPath.slice(1)} V0 H0 Z`}
-								fill="var(--F_Surface_0)"
-							/>
-
-							<path
-								className={styles.graph_path_reveal}
-								d={scaledPath}
-								clipPath='url(#graph_path_reveal)'
-							/>
-
-							<rect
-								height={boundHeight}
-								width={boundWidth}
-								fillOpacity='0'
-								onDoubleClick={(e: any) => addPoint(e)}
-							/>
-
+					<PointGroup
+						i={0}
+						p={points[0]}
+						className={'point_'}
+						isCurveEdit={false}
+					/>
+					{
+						// .slice removes 1st and last element (start end points) without mutating
+						points.slice(1, -1).map((p, i) => (
 							<PointGroup
-								i={0}
-								p={points[0]}
+								key={p.id}
+								i={i}
+								p={p}
 								className={'point_'}
-								isCurveEdit={false}
+								removePoint={removePoint}
 							/>
-							{
-								// .slice removes 1st and last element (start end points) without mutating
-								points.slice(1, -1).map((p, i) => (
-									<PointGroup
-										key={p.id}
-										i={i}
-										p={p}
-										className={'point_'}
-										removePoint={removePoint}
-									/>
-								))
-							}
-							<PointGroup
-								i={points.length - 1}
-								p={points[points.length - 1]}
-								className={'point_'}
-								isCurveEdit={false}
-							/>
-						</svg>
-					</svg>
-				</div>
-			</div>
-		</>
+						))
+					}
+					<PointGroup
+						i={points.length - 1}
+						p={points[points.length - 1]}
+						className={'point_'}
+						isCurveEdit={false}
+					/>
+				</svg>
+			</svg>
+		</div>
 	)
 }
 
