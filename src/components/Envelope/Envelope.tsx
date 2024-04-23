@@ -1,18 +1,10 @@
-import React, {
-	useReducer,
-	useRef,
-	type MouseEvent,
-	type DragEvent,
-	useEffect,
-	RefObject,
-	useState,
-} from "react"
-import gsap from "gsap"
-import Draggable from "gsap/dist/Draggable"
-import CustomEase from "gsap/dist/CustomEase"
-import { useGSAP } from "@gsap/react"
+import React, { useRef, MouseEvent, DragEvent, RefObject, useState } from 'react'
+import gsap from 'gsap'
+import Draggable from 'gsap/dist/Draggable'
+import CustomEase from 'gsap/dist/CustomEase'
+import { useGSAP } from '@gsap/react'
 // @ts-ignore
-import styles from "./envelope.module.css"
+import styles from './envelope.module.css'
 
 type Props = {
 	path: string
@@ -23,15 +15,14 @@ type Props = {
 	onChange: (path: string) => void
 }
 
-export function Envelope({
-	path = "M0 0 Q0.25 0.25 0.5 0.5 T1 1",
+export const Envelope = ({
+	path = 'M0 0 Q0.25 0.25 0.5 0.5 T1 1',
 	duration = 4,
 	onChange,
 	boundHeight,
 	boundWidth,
 	graphRef,
-}: Props) {
-	// const [state, dispatch] = useReducer(reducer, initState)
+}: Props) => {
 	const [points, setPoints] = useState<Point[]>(
 		convertPathStringToPoints(path, {
 			h: boundHeight,
@@ -47,7 +38,7 @@ export function Envelope({
 	const curveEditorRef = useRef<HTMLDivElement>(null)
 	const linePathRef = useRef<SVGPathElement>(null)
 
-	function handlePointsUpdateEnd(updatedPoints: Point[]) {
+	const handlePointsUpdateEnd = (updatedPoints: Point[]) => {
 		const bounds = { h: boundHeight, w: boundWidth }
 
 		setPoints(updatedPoints)
@@ -56,11 +47,11 @@ export function Envelope({
 		onChange(writeNormalizedPath(updatedPoints, bounds))
 	}
 
-	function getUpdatedPointsAndSort(
+	const getUpdatedPointsAndSort = (
 		cursorPos: Draggable.Vars,
 		point: Point,
-		type: "point" | "point_curve"
-	) {
+		type: 'point' | 'point_curve'
+	) => {
 		const boundW = Math.abs(cursorPos.minX) + Math.abs(cursorPos.maxX)
 		const boundH = Math.abs(cursorPos.minY) + Math.abs(cursorPos.maxY)
 		const x = (cursorPos.x + Math.abs(cursorPos.minX)) / boundW
@@ -76,19 +67,19 @@ export function Envelope({
 
 		const updatedPointByCommand = () => {
 			switch (point.command) {
-				case "M":
+				case 'M':
 					return {
 						...thisPoint,
 						coordinates: [0, gy],
 					}
-				case "T":
+				case 'T':
 					return {
 						...thisPoint,
 						coordinates: [boundWidth, gy],
 					}
-				case "Q":
+				case 'Q':
 					// todo hacky way of seeing if curve point or reg point. Maybe there is a more elgant way of doing this
-					return type === "point"
+					return type === 'point'
 						? {
 								...thisPoint,
 								coordinates: [
@@ -123,161 +114,147 @@ export function Envelope({
 
 		// todo why sorting points here is buggy?
 		return sortPoints(updatedPoints)
-		// return updatedPoints
 	}
 
-	useGSAP(
-		(context) => {
-			let mm = gsap.matchMedia()
+	useGSAP(() => {
+		let mm = gsap.matchMedia()
 
-			mm.add("(min-width: 100px)", () => {
-				gsap.to(".line_path_reveal", {
-					width: boundWidth,
-					// duration: state.duration,
-					duration: duration,
-					repeat: -1,
-					ease: "none",
-					// reversed: true,
-				})
+		mm.add('(min-width: 100px)', () => {
+			gsap.to('.line_path_reveal', {
+				width: boundWidth,
+				// duration: state.duration,
+				duration: duration,
+				repeat: -1,
+				ease: 'none',
+				// reversed: true,
+			})
+		})
+
+		gsap.registerPlugin(Draggable)
+
+		points.map((point, i) => {
+			// make all cyan white points draggable
+			Draggable.create(`.point_${point.id}`, {
+				bounds: graphRef.current,
+				//! these bounds do not work
+				// bounds: {minX: 0, maxX: 10, minY: 0, maxY: 10},
+				// bounds: {top: 50, left: 50, width: 100, height: 100},
+				// lockAxis: true,
+				// If point is start or end of line, lock the X axis
+				type:
+					point.id === 0 || point.id === points[points.length - 1].id
+						? 'y'
+						: 'x,y',
+				// TODO how to get points to sit on edge of graph instead of just inside. account for radius
+				// bounds: {top: 0, left: 0, width: boundWidth + 10, height: boundHeight + 10},
+				//? update UI curve visually without effecting output easeCurve
+				onDrag: function () {
+					const pointIndex = points.findIndex((p) => p.id === point.id)
+					if (pointIndex === -1) return
+					const updatedPoints = getUpdatedPointsAndSort(this, point, 'point')
+
+					// todo why is this making points barely draggable?
+					// handlePointDrag(updatedPoints)
+					setScaledPath(
+						writeScaledPath(updatedPoints, {
+							w: boundWidth,
+							h: boundHeight,
+						})
+					)
+				},
+				//? actually update easeCurve and perform other clamp functions
+				onDragEnd: function () {
+					const pointIndex = points.findIndex((p) => p.id === point.id)
+					if (pointIndex === -1) return
+					const updatedPoints = getUpdatedPointsAndSort(this, point, 'point')
+					handlePointsUpdateEnd(updatedPoints)
+				},
 			})
 
-			gsap.registerPlugin(Draggable)
+			// hollow curve points
+			Draggable.create(`.point_curve_${point.id}`, {
+				bounds: graphRef.current,
+				type:
+					point.id === 0 || point.id === points[points.length - 1].id
+						? 'y'
+						: 'x,y',
+				onDrag: function () {
+					const pointIndex = points.findIndex((p) => p.id === point.id)
+					if (pointIndex === -1) return
+					const updatedPoints = getUpdatedPointsAndSort(
+						this,
+						point,
+						'point_curve'
+					)
 
-			points.map((point, i) => {
-				// make all cyan white points draggable
-				Draggable.create(`.point_${point.id}`, {
-					bounds: graphRef.current,
-					//! these bounds do not work
-					// bounds: {minX: 0, maxX: 10, minY: 0, maxY: 10},
-					// bounds: {top: 50, left: 50, width: 100, height: 100},
-					// lockAxis: true,
-					// If point is start or end of line, lock the X axis
-					type:
-						point.id === 0 || point.id === points[points.length - 1].id
-							? "y"
-							: "x,y",
-					// TODO how to get points to sit on edge of graph instead of just inside. account for radius
-					// bounds: {top: 0, left: 0, width: boundWidth + 10, height: boundHeight + 10},
-					//? update UI curve visually without effecting output easeCurve
-					onDrag: function () {
-						const pointIndex = points.findIndex((p) => p.id === point.id)
-						if (pointIndex === -1) return
-						const updatedPoints = getUpdatedPointsAndSort(this, point, "point")
+					setScaledPath(
+						writeScaledPath(updatedPoints, {
+							w: boundWidth,
+							h: boundHeight,
+						})
+					)
+				},
+				onDragEnd: function () {
+					const pointIndex = points.findIndex((p) => p.id === point.id)
+					if (pointIndex === -1) return
+					const updatedPoints = getUpdatedPointsAndSort(
+						this,
+						point,
+						'point_curve'
+					)
 
-						// todo why is this making points barely draggable?
-						// handlePointDrag(updatedPoints)
-						setScaledPath(
-							writeScaledPath(updatedPoints, {
-								w: boundWidth,
-								h: boundHeight,
-							})
-						)
-					},
-					//? actually update easeCurve and perform other clamp functions
-					onDragEnd: function () {
-						const pointIndex = points.findIndex((p) => p.id === point.id)
-						if (pointIndex === -1) return
-						const updatedPoints = getUpdatedPointsAndSort(this, point, "point")
-						handlePointsUpdateEnd(updatedPoints)
-					},
-				})
+					handlePointsUpdateEnd(updatedPoints)
+				},
+			})
+		})
+	},
+	{
+		scope: graphRef,
+		dependencies: [
+			points,
+			duration,
+		],
+		revertOnUpdate: true,
+	})
 
-				// hollow curve points
-				Draggable.create(`.point_curve_${point.id}`, {
-					bounds: graphRef.current,
-					type:
-						point.id === 0 || point.id === points[points.length - 1].id
-							? "y"
-							: "x,y",
-					onDrag: function () {
-						const pointIndex = points.findIndex((p) => p.id === point.id)
-						if (pointIndex === -1) return
-						const updatedPoints = getUpdatedPointsAndSort(
-							this,
-							point,
-							"point_curve"
-						)
+	useGSAP(() => {
+		let mm = gsap.matchMedia()
 
-						setScaledPath(
-							writeScaledPath(updatedPoints, {
-								w: boundWidth,
-								h: boundHeight,
-							})
-						)
-					},
-					onDragEnd: function () {
-						const pointIndex = points.findIndex((p) => p.id === point.id)
-						if (pointIndex === -1) return
-						const updatedPoints = getUpdatedPointsAndSort(
-							this,
-							point,
-							"point_curve"
-						)
+		mm.add('(min-width: 100px)', () => {
+			gsap.registerPlugin(CustomEase)
+			CustomEase.create('custom', path)
+			console.log(path)
 
-						handlePointsUpdateEnd(updatedPoints)
-					},
-				})
+			gsap.to('.progress_dot_parameter', {
+				duration: duration,
+				y: boundHeight,
+				repeat: -1,
+				ease: 'custom',
 			})
 
-			// return () => {}
-		},
-		{
-			scope: graphRef,
-			dependencies: [
-				// scaledPath,
-				points,
-				duration,
-			],
-			revertOnUpdate: true,
-		}
-	)
-
-	useGSAP(
-		(context) => {
-			let mm = gsap.matchMedia()
-
-			mm.add("(min-width: 100px)", () => {
-				gsap.registerPlugin(CustomEase)
-				CustomEase.create("custom", path)
-
-				gsap.to(".progress_dot_parameter", {
-					// duration: state.duration,
-					duration: duration,
-					y: boundHeight,
-					repeat: -1,
-					ease: "custom",
-					// reversed: true,
-				})
-
-				gsap.to(".progress_dot_time", {
-					// duration: state.duration,
-					duration: duration,
-					x: boundWidth,
-					repeat: -1,
-					ease: "none",
-					// reversed: true,
-				})
+			gsap.to('.progress_dot_time', {
+				duration: duration,
+				x: boundWidth,
+				repeat: -1,
+				ease: 'none',
 			})
-
-			// return () => {}
-		},
-		{
-			scope: curveEditorRef,
-			dependencies: [
-				// scaledPath,
-				path,
-				duration,
-			],
-			revertOnUpdate: true,
-		}
-	)
+		})
+	},
+	{
+		scope: curveEditorRef,
+		dependencies: [
+			path,
+			duration,
+		],
+		revertOnUpdate: true,
+	})
 
 	const getCursorPoint = (
 		event: DragEvent<SVGRectElement | SVGCircleElement>
 	) => {
 		if (!graphRef.current)
 			return {
-				command: "MOUSE",
+				command: 'MOUSE',
 				coordinates: [0, 0],
 			}
 		let cursorPoint = graphRef.current.createSVGPoint()
@@ -288,12 +265,12 @@ export function Envelope({
 		)
 
 		return {
-			command: "MOUSE",
+			command: 'MOUSE',
 			coordinates: [cursorPoint.x, cursorPoint.y],
 		}
 	}
 
-	function addPoint(event: MouseEvent<SVGRectElement, MouseEvent>) {
+	const addPoint = (event: MouseEvent<SVGRectElement, MouseEvent>) => {
 		event.stopPropagation()
 
 		const cursorPoint = getCursorPoint(event as any)
@@ -305,12 +282,12 @@ export function Envelope({
 		)
 		const prevPoint = sortedPoints[index - 1] || points[0]
 		const prevCoordinates: [number, number] = [
-			prevPoint.coordinates[prevPoint.command === "Q" ? 2 : 0],
-			prevPoint.coordinates[prevPoint.command === "Q" ? 3 : 1],
+			prevPoint.coordinates[prevPoint.command === 'Q' ? 2 : 0],
+			prevPoint.coordinates[prevPoint.command === 'Q' ? 3 : 1],
 		]
 		const newPoint = {
 			id: index,
-			command: "Q",
+			command: 'Q',
 			coordinates: [
 				lerp(prevCoordinates[0], cursorPoint.coordinates[0], 0.5),
 				lerp(prevCoordinates[1], cursorPoint.coordinates[1], 0.5),
@@ -325,10 +302,10 @@ export function Envelope({
 		handlePointsUpdateEnd(sortedPoints2)
 	}
 
-	function removePoint(
+	const removePoint = (
 		event: MouseEvent<SVGCircleElement, MouseEvent>,
 		index: number
-	) {
+	) => {
 		event.stopPropagation()
 		const newAreaPoints = [...points]
 		if (newAreaPoints.length > 3) {
@@ -342,84 +319,84 @@ export function Envelope({
 	return (
 		<>
 			<div className={styles.wrapper} ref={curveEditorRef}>
-				<div style={{ display: "flex" }}>
+				<div style={{ display: 'flex' }}>
 					<svg
-						className={styles.graph + " graph_wrap_inner"}
+						className={styles.graph + ' graph_wrap_inner'}
 						ref={graphRef}
-						version="1.1"
-						xmlns="http://www.w3.org/2000/svg"
-						x="0px"
-						y="0px"
+						version='1.1'
+						xmlns='http://www.w3.org/2000/svg'
+						x='0px'
+						y='0px'
 						height={boundHeight}
 						width={boundWidth}
-						preserveAspectRatio="xMidYMid meet"
-						xmlSpace="preserve"
+						preserveAspectRatio='xMidYMid meet'
+						xmlSpace='preserve'
 					>
 						{/* //TODO this causes scaling issues when shrinking graph hight */}
 						<defs>
-							<clipPath id="graph_path">
+							<clipPath id='graph_path'>
 								<rect
-									x="0"
-									y="-200"
+									x='0'
+									y='-200'
 									height={boundHeight * 2}
 									width={boundWidth}
 								></rect>
 							</clipPath>
-							<clipPath id="graph_path_reveal">
+							<clipPath id='graph_path_reveal'>
 								<rect
-									x="0"
-									y="-200"
+									x='0'
+									y='-200'
 									height={boundHeight * 2}
-									width="0"
-									className="line_path_reveal"
+									width='0'
+									className='line_path_reveal'
 								></rect>
 							</clipPath>
 						</defs>
 
 						<svg
-							id="svg_path"
+							id='svg_path'
 							height={boundHeight}
 							width={boundWidth}
-							preserveAspectRatio="xMidYMid meet"
-							xmlSpace="preserve"
+							preserveAspectRatio='xMidYMid meet'
+							xmlSpace='preserve'
 						>
 							<rect
 								className={styles.graph_bg}
-								x="0"
-								y="-150"
+								x='0'
+								y='-150'
 								width={boundWidth}
 								height={boundHeight}
-								rx="0.2"
-								ry="0.2"
-								clipPath="url(#graph_path)"
-							></rect>
+								rx='0.2'
+								ry='0.2'
+								clipPath='url(#graph_path)'
+							/>
 
 							<path
-								id="line_path"
+								id='line_path'
 								ref={linePathRef}
 								className={styles.graph_path}
 								d={scaledPath}
-								clipPath="url(#graph_path)"
-							></path>
+								clipPath='url(#graph_path)'
+							/>
 
 							<path
 								className={styles.graph_path_reveal}
 								d={scaledPath}
-								clipPath="url(#graph_path_reveal)"
-							></path>
+								clipPath='url(#graph_path_reveal)'
+							/>
 
 							<rect
 								height={boundHeight}
 								width={boundWidth}
-								fill="#04948d"
-								fillOpacity="0.3"
+								fill='#04948d'
+								fillOpacity='0.3'
 								onDoubleClick={(e: any) => addPoint(e)}
 							/>
 
 							<PointGroup
 								i={0}
 								p={points[0]}
-								className={"point_"}
+								className={'point_'}
 								isCurveEdit={false}
 							/>
 							{/* .slice removes 1st and last element (start end points) without mutating */}
@@ -428,7 +405,7 @@ export function Envelope({
 									key={p.id}
 									i={i}
 									p={p}
-									className={"point_"}
+									className={'point_'}
 									// dragPoint={dragPoint}
 									removePoint={removePoint}
 								/>
@@ -436,14 +413,14 @@ export function Envelope({
 							<PointGroup
 								i={points.length - 1}
 								p={points[points.length - 1]}
-								className={"point_"}
+								className={'point_'}
 								isCurveEdit={false}
 							/>
 						</svg>
 					</svg>
 
 					<svg
-						className={styles.progress_wrap + " progress_track_parameter"}
+						className={styles.progress_wrap + ' progress_track_parameter'}
 						height={boundHeight}
 						width={10}
 					>
@@ -455,17 +432,17 @@ export function Envelope({
 							className={styles.progress_track}
 						/>
 						<circle
-							className={styles.progress_dot + " progress_dot_parameter"}
+							className={styles.progress_dot + ' progress_dot_parameter'}
 							cx={5}
 							cy={0}
-							r="5"
-							fill="limegreen"
+							r='5'
+							fill='limegreen'
 						/>
 					</svg>
 				</div>
 
 				<svg
-					className={styles.progress_wrap + " progress_track_time"}
+					className={styles.progress_wrap + ' progress_track_time'}
 					width={boundWidth}
 					height={10}
 				>
@@ -477,9 +454,9 @@ export function Envelope({
 						className={styles.progress_track}
 					/>
 					<polygon
-						className={styles.progress_dot + " progress_dot_time"}
-						points="0,0 20,100 80,100"
-						fill="limegreen"
+						className={styles.progress_dot + ' progress_dot_time'}
+						points='0,0 20,100 80,100'
+						fill='limegreen'
 					/>
 				</svg>
 			</div>
@@ -490,20 +467,19 @@ export function Envelope({
 type PointGroupProps = {
 	i: number
 	p: Point
-	// dragPoint:(e:any,i:number) => any,
 	removePoint?: (e: any, i: number) => any
 	className: string
 	isCurveEdit?: boolean
 }
 
 // todo make more robust conditional depending on `command` type
-function PointGroup({
+const PointGroup = ({
 	i,
 	p,
 	removePoint = (e, i) => null,
-	className = "point_",
+	className = 'point_',
 	isCurveEdit = true,
-}: PointGroupProps) {
+}: PointGroupProps) => {
 	return (
 		<g id={`p_${p.id}`}>
 			{isCurveEdit && (
@@ -511,57 +487,56 @@ function PointGroup({
 					<polyline
 						className={styles.curve_tangent + ` point_tangent_${p.id}`}
 						points={`
-          ${p.coordinates[0]},${p.coordinates[1]},
-          ${p.coordinates[2]},${p.coordinates[3]}
-        `}
-					></polyline>
+							${p.coordinates[0]},${p.coordinates[1]},
+							${p.coordinates[2]},${p.coordinates[3]}
+						`}
+					/>
 					<circle
 						cx={p.coordinates[0]}
 						cy={p.coordinates[1]}
-						r="5"
+						r='5'
 						className={styles.curve_point + ` point_curve_${p.id}`}
 					/>
 				</>
 			)}
 			<circle
-				cx={p.coordinates[p.command === "Q" ? 2 : 0]}
-				cy={p.coordinates[p.command === "Q" ? 3 : 1]}
-				r="5"
+				cx={p.coordinates[p.command === 'Q' ? 2 : 0]}
+				cy={p.coordinates[p.command === 'Q' ? 3 : 1]}
+				r='5'
 				className={styles.point_2 + ` ${className + p.id}`}
-				// onDrag={(e) => dragPoint(e, i)}
 				onDoubleClick={(e: any) => removePoint(e, Number(p.id))}
 			/>
 		</g>
 	)
 }
 
-function writeScaledPath(points: Point[], bounds: Bounds) {
-	let directionString = ""
+const writeScaledPath = (points: Point[], bounds: Bounds) => {
+	let directionString = ''
 
 	points.map((point) => {
-		directionString += point.command + point.coordinates.join(" ") + " "
+		directionString += point.command + point.coordinates.join(' ') + ' '
 	})
 
 	return directionString
 }
 
-function writeNormalizedPath(
+const writeNormalizedPath = (
 	points: Point[],
 	bounds: { w: number; h: number }
-) {
-	let normalizedPath = ""
+) => {
+	let normalizedPath = ''
 
 	points.map((point) => {
 		normalizedPath +=
 			point.command +
-			normalizeCoordinates(point.coordinates, bounds).join(" ") +
-			" "
+			normalizeCoordinates(point.coordinates, bounds).join(' ') +
+			' '
 	})
 
 	return normalizedPath
 }
 
-function scaleCoordinates(coordinates: number[], bounds: Bounds) {
+const scaleCoordinates = (coordinates: number[], bounds: Bounds) => {
 	const scaledCoordinates = coordinates.map((num, i) =>
 		i % 2 === 0
 			? //? if i is odd number, scale by X axis (width).
@@ -569,21 +544,20 @@ function scaleCoordinates(coordinates: number[], bounds: Bounds) {
 			: //? if i is even number, scale by Y axis (height).
 			  num * bounds.h
 	)
-
 	return scaledCoordinates
 }
-function normalizeCoordinates(coordinates: number[], bounds: Bounds) {
+
+const normalizeCoordinates = (coordinates: number[], bounds: Bounds) => {
 	const normalized = coordinates.map((num, i) =>
 		// if x axis / by w | if y axis / by h
 		i % 2 === 0 ? num / bounds.w : num / bounds.h
 	)
-
 	return normalized
 }
 
-function convertPathStringToPoints(path: string, bounds: Bounds) {
+const convertPathStringToPoints = (path: string, bounds: Bounds) => {
 	const commands = path.match(/[a-z][^a-z]*/gi)
-	if (!commands) throw Error("no commands found")
+	if (!commands) throw Error('no commands found')
 	const scaledPoints = commands.map((commandString, i) => {
 		const command = commandString[0]
 		const coordinates = commandString
@@ -602,7 +576,7 @@ function convertPathStringToPoints(path: string, bounds: Bounds) {
 	return scaledPoints
 }
 
-function sortPoints(points: Point[] | CursorPoint[]) {
+const sortPoints = (points: Point[] | CursorPoint[]) => {
 	const sortedPoints = points.sort((a, b) => {
 		// return a.x - b.x
 		return a.coordinates[0] - b.coordinates[0]
@@ -611,31 +585,20 @@ function sortPoints(points: Point[] | CursorPoint[]) {
 	return sortedPoints.map((p, i) => ({ ...p, id: i }))
 }
 
-function lerp(start: number, end: number, amt: number) {
+const lerp = (start: number, end: number, amt: number) => {
 	return (1 - amt) * start + amt * end
-}
-
-type EnvelopeState = {
-	direction: string
-	// duration: number
-	customEase: string
-	graph: {
-		w: number
-		h: number
-	}
-	points: Point[]
 }
 
 type Point = {
 	id: number
-	command: "M" | "Q" | "T" | string
+	command: 'M' | 'Q' | 'T' | string
 	coordinates: number[]
 }
 
 type Bounds = { w: number; h: number }
 
 type CursorPoint = {
-	command: "MOUSE"
+	command: 'MOUSE'
 	coordinates: [number, number]
 }
 
