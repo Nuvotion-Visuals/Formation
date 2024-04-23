@@ -9,6 +9,21 @@ import CustomEase from 'gsap/dist/CustomEase'
 import styled from 'styled-components'
 gsap.registerPlugin(CustomEase)
 
+const isPlayingBackwards = (animation) => {
+  if (!animation) return false;
+
+  const reversed = animation.reversed();
+  const totalTime = animation.totalTime();
+  const cycleDuration = animation.duration() + animation.repeatDelay();
+
+  if (animation.repeat() && animation.yoyo() && totalTime < animation.totalDuration()) {
+    if (Math.floor(totalTime / cycleDuration) % 2 === 1) {
+      return !reversed;
+    }
+  }
+  return reversed;
+};
+
 // todo `boundHeight` breaks when smaller than 200px
 export default {
 	component: Envelope,
@@ -25,65 +40,67 @@ export default {
 	tags: ['automation', 'animation'],
 } as ComponentMeta<typeof Envelope>
 
+
 const Template: ComponentStory<typeof Envelope> = (props) => {
   const [path, setPath] = useState(props.path)
   const [value, setValue] = useState(props.value)
   const [phase, setPhase] = useState(props.phase)
-  const [duration, setDuration] = useState(4)
+  const [duration, setDuration] = useState(2)
   const [range, setRange] = useState<number[]>([0, 100])
   const [direction, setDirection] = useState<'reverse' | 'forward'>('forward')
-  const [mode, setMode] = useState<'loop' | 'reflect'>('loop')
+  const [mode, setMode] = useState<'loop' | 'reflect'>('reflect')
   const [measurement, setMeasurement] = useState<'seconds' | 'beats'>('seconds')
-
-  const valueTweenRef = useRef<gsap.core.Tween | null>(null)
-  const phaseTweenRef = useRef<gsap.core.Tween | null>(null)
+  
+  const timelineRef = useRef<gsap.core.Timeline | null>(null)
   const tweenProgressRef = useRef(0)
-  const directionRef = useRef<'reverse' | 'forward'>('forward') // useRef to persist direction state
-
+  
   useEffect(() => {
-    if (valueTweenRef.current && phaseTweenRef.current) {
-      tweenProgressRef.current = valueTweenRef.current.progress()
-      valueTweenRef.current.kill()
-      phaseTweenRef.current.kill()
+    if (timelineRef.current) {
+      tweenProgressRef.current = timelineRef.current.progress()
+      timelineRef.current.kill()
     }
-
-    directionRef.current = direction // Update the useRef with the current state
-
-    CustomEase.create('custom', path)
-    valueTweenRef.current = gsap.to({ value: 0 }, {
+  
+    const customEase = CustomEase.create('custom', path)
+  
+    timelineRef.current = gsap.timeline({
+      repeat: -1,
+      yoyo: mode === 'reflect',
+      paused: true,
+      onUpdate: function() {
+        setValue(this.getChildren()[0].targets()[0].value)
+        setPhase(this.getChildren()[1].targets()[0].phase)
+      },
+      onRepeat: function () {
+        setDirection(
+          isPlayingBackwards(timelineRef.current)
+            ? 'reverse'
+            : 'forward'
+        )
+      }
+    })
+  
+    timelineRef.current.to({ value: 0 }, {
       duration,
       value: 1,
-      ease: 'custom',
-      repeat: -1,
-      yoyo: mode === 'reflect',
-      onUpdate: function () {
-        setValue(this.targets()[0].value)
-      }
-    })
-
-    phaseTweenRef.current = gsap.to({ phase: 0 }, {
+      ease: customEase
+    }, 0)
+  
+    timelineRef.current.to({ phase: 0 }, {
       duration,
       phase: 1,
-      ease: 'none',
-      repeat: -1,
-      yoyo: mode === 'reflect',
-      onUpdate: function () {
-        setPhase(this.targets()[0].phase)
-      }
-    })
-
-    if (valueTweenRef.current && phaseTweenRef.current) {
-      valueTweenRef.current.progress(tweenProgressRef.current)
-      phaseTweenRef.current.progress(tweenProgressRef.current)
-      valueTweenRef.current.reversed(directionRef.current === 'reverse') // Apply direction from ref
-      phaseTweenRef.current.reversed(directionRef.current === 'reverse')
+      ease: 'none'
+    }, 0)
+  
+    if (timelineRef.current) {
+      timelineRef.current.progress(tweenProgressRef.current).resume()
     }
-
+  
     return () => {
-      if (valueTweenRef.current) valueTweenRef.current.kill()
-      if (phaseTweenRef.current) phaseTweenRef.current.kill()
+      if (timelineRef.current) {
+        timelineRef.current.kill()
+      }
     }
-  }, [path, duration, mode, direction]) // Include direction in the dependency array
+  }, [path, duration, mode, direction])
 
   const scaledValue = (value * (range[1] - range[0]) + range[0]) / 100
 
