@@ -85,12 +85,12 @@
 	background: rgb(37, 40, 38);
 }
 
-[class*="point_"] {
+/* [class*="point_"] {
 	stroke: var(--F_Font_Color);
 	stroke-width: 2px;
 	z-index: 3;
 	cursor: pointer;
-}
+} */
 
 .curve_point {
 	stroke: var(--F_Font_Color);
@@ -109,6 +109,10 @@
 }
 .point_2 {
 	fill: var(--F_Font_Color);
+}
+
+.activepoint {
+	fill: red !important;
 }
 
 .dot {

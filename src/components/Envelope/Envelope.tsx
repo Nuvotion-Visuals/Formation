@@ -4,6 +4,8 @@ import Draggable from 'gsap/dist/Draggable'
 import { useGSAP } from '@gsap/react'
 // @ts-ignore
 import styles from './envelope.module.css'
+import { Box, Gap, Select, Spacer } from '../../internal'
+import styled from 'styled-components'
 
 type Props = {
 	phase: number
@@ -281,6 +283,13 @@ export const Envelope = ({
     }
   }, [])
 
+	const [activePoint, setActivePoint] = useState<number | null>(0)
+	const [activeCurve, setActiveCurve] = useState('Quadratic')
+
+	useEffect(() => {
+		console.log(activePoint)
+	}, [activePoint])
+
 	return (
 		<div className={styles.wrapper} ref={curveEditorRef}>
 			<svg
@@ -354,6 +363,8 @@ export const Envelope = ({
 						p={points[0]}
 						className={'point_'}
 						isCurveEdit={false}
+						activePoint={activePoint}
+						onSetActivePoint={id => setActivePoint(id)}
 					/>
 					{
 						// .slice removes 1st and last element (start end points) without mutating
@@ -364,6 +375,8 @@ export const Envelope = ({
 								p={p}
 								className={'point_'}
 								removePoint={removePoint}
+								activePoint={activePoint}
+								onSetActivePoint={id => setActivePoint(id)}
 							/>
 						))
 					}
@@ -372,9 +385,44 @@ export const Envelope = ({
 						p={points[points.length - 1]}
 						className={'point_'}
 						isCurveEdit={false}
+						activePoint={activePoint}
+						onSetActivePoint={id => setActivePoint(id)}
 					/>
 				</svg>
 			</svg>
+			
+			<Box mt={.25}>
+				<Gap disableWrap gap={1}>
+					<S.Label>
+						{activePoint != null && (
+							`Phase: ${((points[activePoint].coordinates[points[activePoint].command === 'Q' ? 2 : 0] / size.width) * 100).toFixed(2)}%  `
+						)}
+					</S.Label>
+
+					<S.Label>
+					{activePoint != null && (
+						`Value: ${((points[activePoint].coordinates[points[activePoint].command === 'Q' ? 3 : 1] / size.height) * 100).toFixed(2)}`
+					)}
+					</S.Label>
+					<Spacer />
+					<S.Label>
+						Curve
+					</S.Label>
+					<Box width={8}>
+						<Select
+							value={activeCurve}
+							compact
+							options={[
+								{
+									value: 'Quadratic',
+									label: 'Quadratic'
+								}
+							]}
+							onChange={val => setActiveCurve(val)}
+						/>
+					</Box>
+				</Gap>
+			</Box>
 		</div>
 	)
 }
@@ -385,6 +433,8 @@ type PointGroupProps = {
 	removePoint?: (e: any, i: number) => any
 	className: string
 	isCurveEdit?: boolean
+	activePoint: number | null
+	onSetActivePoint: (id: number) => void
 }
 
 // todo make more robust conditional depending on `command` type
@@ -394,6 +444,8 @@ const PointGroup = ({
 	removePoint = (e, i) => null,
 	className = 'point_',
 	isCurveEdit = true,
+	activePoint,
+	onSetActivePoint
 }: PointGroupProps) => {
 	return (
 		<g id={`p_${p.id}`}>
@@ -418,8 +470,10 @@ const PointGroup = ({
 				cx={p.coordinates[p.command === 'Q' ? 2 : 0]}
 				cy={p.coordinates[p.command === 'Q' ? 3 : 1]}
 				r='5'
-				className={styles.point_2 + ` ${className + p.id}`}
+				fill={activePoint === p.id ? 'var(--F_Primary_Variant)' : 'white'}
+				className={`${className + p.id}`}
 				onDoubleClick={(e: any) => removePoint(e, Number(p.id))}
+				onClick={() => onSetActivePoint(p.id)}
 			/>
 		</g>
 	)
@@ -522,3 +576,10 @@ type CursorPoint = {
 // - https://css-tricks.com/svg-line-animation-works/
 // - https://www.w3schools.com/graphics/tryit.asp?filename=trysvg_path2
 // - https://gsap.com/docs/v3/Plugins/Draggable/
+
+const S = {
+	Label: styled.div`
+		font-size: var(--F_Font_Size_Small);
+		color: var(--F_Font_Color_Disabled);
+	`
+}
