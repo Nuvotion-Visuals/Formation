@@ -1,17 +1,17 @@
 import React, { useRef, MouseEvent, DragEvent, RefObject, useState } from 'react'
 import gsap from 'gsap'
 import Draggable from 'gsap/dist/Draggable'
-import CustomEase from 'gsap/dist/CustomEase'
 import { useGSAP } from '@gsap/react'
 // @ts-ignore
 import styles from './envelope.module.css'
 
 type Props = {
+	phase: number
+	value: number
 	path: string
 	duration: number
 	boundHeight: number
 	boundWidth: number
-	graphRef: RefObject<SVGSVGElement>
 	onChange: (path: string) => void
 }
 
@@ -21,8 +21,11 @@ export const Envelope = ({
 	onChange,
 	boundHeight,
 	boundWidth,
-	graphRef,
+	phase,
+	value
 }: Props) => {
+  const graphRef = useRef<SVGSVGElement>(null)
+
 	const [points, setPoints] = useState<Point[]>(
 		convertPathStringToPoints(path, {
 			h: boundHeight,
@@ -117,19 +120,6 @@ export const Envelope = ({
 	}
 
 	useGSAP(() => {
-		let mm = gsap.matchMedia()
-
-		mm.add('(min-width: 100px)', () => {
-			gsap.to('.line_path_reveal', {
-				width: boundWidth,
-				// duration: state.duration,
-				duration: duration,
-				repeat: -1,
-				ease: 'none',
-				// reversed: true,
-			})
-		})
-
 		gsap.registerPlugin(Draggable)
 
 		points.map((point, i) => {
@@ -212,38 +202,6 @@ export const Envelope = ({
 		scope: graphRef,
 		dependencies: [
 			points,
-			duration,
-		],
-		revertOnUpdate: true,
-	})
-
-	useGSAP(() => {
-		let mm = gsap.matchMedia()
-
-		mm.add('(min-width: 100px)', () => {
-			gsap.registerPlugin(CustomEase)
-			CustomEase.create('custom', path)
-			console.log(path)
-
-			gsap.to('.progress_dot_parameter', {
-				duration: duration,
-				y: boundHeight,
-				repeat: -1,
-				ease: 'custom',
-			})
-
-			gsap.to('.progress_dot_time', {
-				duration: duration,
-				x: boundWidth,
-				repeat: -1,
-				ease: 'none',
-			})
-		})
-	},
-	{
-		scope: curveEditorRef,
-		dependencies: [
-			path,
 			duration,
 		],
 		revertOnUpdate: true,
@@ -340,16 +298,15 @@ export const Envelope = ({
 									y='-200'
 									height={boundHeight * 2}
 									width={boundWidth}
-								></rect>
+								/>
 							</clipPath>
 							<clipPath id='graph_path_reveal'>
 								<rect
 									x='0'
 									y='-200'
 									height={boundHeight * 2}
-									width='0'
-									className='line_path_reveal'
-								></rect>
+									width={phase}
+								/>
 							</clipPath>
 						</defs>
 
@@ -400,16 +357,18 @@ export const Envelope = ({
 								isCurveEdit={false}
 							/>
 							{/* .slice removes 1st and last element (start end points) without mutating */}
-							{points.slice(1, -1).map((p, i) => (
-								<PointGroup
-									key={p.id}
-									i={i}
-									p={p}
-									className={'point_'}
-									// dragPoint={dragPoint}
-									removePoint={removePoint}
-								/>
-							))}
+							{
+								points.slice(1, -1).map((p, i) => (
+									<PointGroup
+										key={p.id}
+										i={i}
+										p={p}
+										className={'point_'}
+										// dragPoint={dragPoint}
+										removePoint={removePoint}
+									/>
+								))
+							}
 							<PointGroup
 								i={points.length - 1}
 								p={points[points.length - 1]}
@@ -433,8 +392,8 @@ export const Envelope = ({
 						/>
 						<circle
 							className={styles.progress_dot + ' progress_dot_parameter'}
+							cy={value}
 							cx={5}
-							cy={0}
 							r='5'
 							fill='limegreen'
 						/>
@@ -453,9 +412,11 @@ export const Envelope = ({
 						height={10}
 						className={styles.progress_track}
 					/>
-					<polygon
-						className={styles.progress_dot + ' progress_dot_time'}
-						points='0,0 20,100 80,100'
+					<circle
+						className={styles.progress_dot}
+						cy={5}
+						cx={phase}
+						r='5'
 						fill='limegreen'
 					/>
 				</svg>
@@ -539,10 +500,10 @@ const writeNormalizedPath = (
 const scaleCoordinates = (coordinates: number[], bounds: Bounds) => {
 	const scaledCoordinates = coordinates.map((num, i) =>
 		i % 2 === 0
-			? //? if i is odd number, scale by X axis (width).
-			  num * bounds.w
-			: //? if i is even number, scale by Y axis (height).
-			  num * bounds.h
+			 	//? if i is odd number, scale by X axis (width).
+			? num * bounds.w
+			 	//? if i is even number, scale by Y axis (height).
+			: num * bounds.h
 	)
 	return scaledCoordinates
 }
