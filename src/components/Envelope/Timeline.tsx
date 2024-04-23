@@ -14,6 +14,12 @@ interface Props {
   phase: number
   duration: number
   onDurationChange: (value: number) => void
+  direction: 'reverse' | 'forward'
+  onDirectionChange: (value: 'reverse' | 'forward') => void
+  mode: 'loop' | 'reflect'
+  onModeChange: (value: 'loop' | 'reflect') => void
+  measurement: 'seconds' | 'beats'
+  onMeasurementChange: (value: 'seconds' | 'beats') => void
 }
 
 export const Timeline = (props: Props) => {
@@ -42,21 +48,33 @@ export const Timeline = (props: Props) => {
           text='<'
           compact
           title='Reverse'
+          square
+          primary={props.direction === 'reverse'}
+          onClick={() => props.onDirectionChange('reverse')}
         />
         <Button
           text='>'
           compact
           title='Forward'
+          square
+          primary={props.direction === 'forward'}
+          onClick={() => props.onDirectionChange('forward')}
         />
         <Button
           text='L'
           compact
           title='Loop'
+          square
+          primary={props.mode === 'loop'}
+          onClick={() => props.onModeChange('loop')}
         />
         <Button
           text='R'
           compact
           title='Reflect'
+          square
+          primary={props.mode === 'reflect'}
+          onClick={() => props.onModeChange('reflect')}
         />
       </GroupRadius>
       <Spacer />
@@ -66,11 +84,17 @@ export const Timeline = (props: Props) => {
             text='S'
             compact
             title='Seconds'
+            square
+            primary={props.measurement === 'seconds'}
+            onClick={() => props.onMeasurementChange('seconds')}
           />
-            <Button
+          <Button
             text='B'
             compact
             title='Beats'
+            square
+            primary={props.measurement === 'beats'}
+            onClick={() => props.onMeasurementChange('beats')}
           />
         </GroupRadius>
       
@@ -97,7 +121,7 @@ const S = {
   Top: styled.div`
     width: 100%;
     position: relative;
-    padding-top: .5rem;
+    padding-top: 0.25rem;
   `,
  
   Overlay: styled.div<{

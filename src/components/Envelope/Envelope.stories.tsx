@@ -6,6 +6,7 @@ import { Timeline } from './Timeline'
 import { Box, Envelope, Gap, NumberInput, NumberRange } from '../../internal'
 import gsap from 'gsap'
 import CustomEase from 'gsap/dist/CustomEase'
+import styled from 'styled-components'
 gsap.registerPlugin(CustomEase)
 
 // todo `boundHeight` breaks when smaller than 200px
@@ -25,96 +26,129 @@ export default {
 } as ComponentMeta<typeof Envelope>
 
 const Template: ComponentStory<typeof Envelope> = (props) => {
-	const [path, setPath] = useState(props.path)
+  const [path, setPath] = useState(props.path)
   const [value, setValue] = useState(props.value)
   const [phase, setPhase] = useState(props.phase)
-	const [duration, setDuration] = useState(4)
+  const [duration, setDuration] = useState(4)
+  const [range, setRange] = useState<number[]>([0, 100])
+  const [direction, setDirection] = useState<'reverse' | 'forward'>('forward')
+  const [mode, setMode] = useState<'loop' | 'reflect'>('loop')
+  const [measurement, setMeasurement] = useState<'seconds' | 'beats'>('seconds')
+
   const valueTweenRef = useRef<gsap.core.Tween | null>(null)
   const phaseTweenRef = useRef<gsap.core.Tween | null>(null)
-  const tweenProgressRef = useRef(0)  // Store the current progress of the tween
+  const tweenProgressRef = useRef(0)
+  const directionRef = useRef<'reverse' | 'forward'>('forward') // useRef to persist direction state
 
   useEffect(() => {
     if (valueTweenRef.current && phaseTweenRef.current) {
-      // Capture the current progress before killing the tweens
       tweenProgressRef.current = valueTweenRef.current.progress()
-      // Kill the current tweens
       valueTweenRef.current.kill()
       phaseTweenRef.current.kill()
     }
 
-    // Create a new tween for value with the updated path and/or duration
+    directionRef.current = direction // Update the useRef with the current state
+
     CustomEase.create('custom', path)
     valueTweenRef.current = gsap.to({ value: 0 }, {
-      duration: duration,
+      duration,
       value: 1,
       ease: 'custom',
       repeat: -1,
+      yoyo: mode === 'reflect',
       onUpdate: function () {
         setValue(this.targets()[0].value)
       }
     })
 
-    // Create a new tween for phase
     phaseTweenRef.current = gsap.to({ phase: 0 }, {
-      duration: duration,
+      duration,
       phase: 1,
-      ease: 'none',  // Usually, phase animation does not use custom easing
+      ease: 'none',
       repeat: -1,
+      yoyo: mode === 'reflect',
       onUpdate: function () {
         setPhase(this.targets()[0].phase)
       }
     })
 
-    // Restore the progress to the tweens
     if (valueTweenRef.current && phaseTweenRef.current) {
       valueTweenRef.current.progress(tweenProgressRef.current)
       phaseTweenRef.current.progress(tweenProgressRef.current)
+      valueTweenRef.current.reversed(directionRef.current === 'reverse') // Apply direction from ref
+      phaseTweenRef.current.reversed(directionRef.current === 'reverse')
     }
 
-    // Return a cleanup function
     return () => {
-      if (valueTweenRef.current) {
-        valueTweenRef.current.kill()
-      }
-      if (phaseTweenRef.current) {
-        phaseTweenRef.current.kill()
-      }
+      if (valueTweenRef.current) valueTweenRef.current.kill()
+      if (phaseTweenRef.current) phaseTweenRef.current.kill()
     }
-  }, [path, duration])
+  }, [path, duration, mode, direction]) // Include direction in the dependency array
 
-	const [range, setRange] = useState<number[]>([0, 100])
+  const scaledValue = (value * (range[1] - range[0]) + range[0]) / 100
 
-  return (<Box maxWidth={'500px'} wrap>
-		{/* Ignore this component */}
-		<div hidden>
-			<NumberRange
-				value={[0,0]}
-				min={0}
-				max={0}
-				onChange={() => {}}
-				step={1}
-			/>
-		</div>
+  return (
+    <Box maxWidth={'500px'} wrap>
+      <div hidden>
+        <NumberRange
+          value={[0, 0]}
+          min={0}
+          max={0}
+          onChange={() => {}}
+          step={1}
+        />
+      </div>
 
-			<Timeline
-				value={range}
-				onChange={val => setRange(val)}
-				min={0}
-				max={100}
-				value2={value}
-				phase={phase}
-				duration={duration}
-				onDurationChange={newDuration => setDuration(newDuration)}
-			/>
-			<Envelope
-				{...props}
-				path={path}
-				value={value}
-				phase={phase}
-				onChange={newPath => setPath(newPath)}
-			/>
-			
-	</Box>)
+      <Timeline
+        value={range}
+        onChange={setRange}
+        min={0}
+        max={100}
+        value2={value}
+        phase={phase}
+        duration={duration}
+        onDurationChange={setDuration}
+        direction={direction}
+        onDirectionChange={setDirection}
+        mode={mode}
+        onModeChange={setMode}
+        measurement={measurement}
+        onMeasurementChange={setMeasurement}
+      />
+      <Envelope
+        {...props}
+        path={path}
+        value={value}
+        phase={phase}
+        onChange={setPath}
+      />
+      <S.TestContainer>
+        <S.Test scale={scaledValue} />
+      </S.TestContainer>
+    </Box>
+  )
+}
+
+
+const S = {
+	TestContainer: styled.div`
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 300px;
+		height: 300px;
+		margin-top: 1rem;
+	`,
+	Test: styled.div<{
+		scale: number
+	}>`
+		background: white;
+		border-radius: 100%;
+		width: 300px;
+		height: 300px;
+		transform: ${props => `scale(${props.scale})`};
+		transform-origin: center;
+	`
 }
 
 export const Default = Template.bind({})
