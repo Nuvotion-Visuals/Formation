@@ -69,6 +69,10 @@ const Template: ComponentStory<typeof Envelope> = (props) => {
       onUpdate: function() {
         setValue(this.getChildren()[0].targets()[0].value)
         setPhase(this.getChildren()[1].targets()[0].phase)
+        if (this.getChildren()[1].targets()[0].phase === 0 && this.reversed()) {
+          this.restart()
+          setDirection('forward')
+        }
       },
       onRepeat: function () {
         setDirection(
@@ -101,6 +105,14 @@ const Template: ComponentStory<typeof Envelope> = (props) => {
       }
     }
   }, [path, duration, mode, direction])
+
+  useEffect(() => {
+    if (timelineRef.current) {
+      if (direction === 'reverse') {
+        timelineRef.current.reversed(true)
+      }
+    }
+  }, [direction, mode])
 
   const scaledValue = (value * (range[1] - range[0]) + range[0]) / 100
 
