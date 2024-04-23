@@ -4,16 +4,16 @@ import Draggable from 'gsap/dist/Draggable'
 import { useGSAP } from '@gsap/react'
 // @ts-ignore
 import styles from './envelope.module.css'
-import { Box, Gap, Select, Spacer } from '../../internal'
+import { Box, Dropdown, Gap, NumberInput, Select, Spacer } from '../../internal'
 import styled from 'styled-components'
 
 type Props = {
 	phase: number
-	value: number
 	path: string
 	boundHeight: number
 	boundWidth: number
 	onChange: (path: string) => void
+	range: number[]
 }
 
 export const Envelope = ({
@@ -22,8 +22,8 @@ export const Envelope = ({
 	boundHeight,
 	boundWidth,
 	phase,
-	value
-}: Props) => {
+	range
+}: Props) => {	
   const graphRef = useRef<SVGSVGElement>(null)
 
 	const [points, setPoints] = useState<Point[]>(
@@ -59,15 +59,18 @@ export const Envelope = ({
 		const boundH = Math.abs(cursorPos.minY) + Math.abs(cursorPos.maxY)
 		const x = (cursorPos.x + Math.abs(cursorPos.minX)) / boundW
 		const y = (cursorPos.y + Math.abs(cursorPos.minY)) / boundH
-		// todo clamp x between neighboring point's x value
-		// todo if start or end point always make x = 0 || x = graph.w
 		const gx = Number(x * boundWidth)
 		const gy = Number(y * boundHeight)
-
+	
 		const pointIndex = points.findIndex((p: Point) => p.id === point.id)
-		if (pointIndex === -1) return points
+		if (pointIndex === -1) return points // Ensure the point exists
 		const thisPoint = points[pointIndex]
-
+		
+		if (!thisPoint || !thisPoint.coordinates) {
+			console.error("Point or coordinates undefined", thisPoint)
+			return points // Return the current points if the new point is undefined
+		}
+	
 		const updatedPointByCommand = () => {
 			switch (point.command) {
 				case 'M':
@@ -81,41 +84,42 @@ export const Envelope = ({
 						coordinates: [boundWidth, gy],
 					}
 				case 'Q':
-					// todo hacky way of seeing if curve point or reg point. Maybe there is a more elgant way of doing this
-					return type === 'point'
-						? {
-								...thisPoint,
-								coordinates: [
-									thisPoint.coordinates[0],
-									thisPoint.coordinates[1],
-									gx,
-									gy,
-								],
-						  }
-						: {
-								...thisPoint,
-								coordinates: [
-									gx,
-									gy,
-									thisPoint.coordinates[2],
-									thisPoint.coordinates[3],
-								],
-						  }
-
+					if (type === 'point' && thisPoint.coordinates.length >= 4) {
+						return {
+							...thisPoint,
+							coordinates: [
+								thisPoint.coordinates[0],
+								thisPoint.coordinates[1],
+								gx,
+								gy,
+							],
+						}
+					} else if (thisPoint.coordinates.length >= 4) {
+						return {
+							...thisPoint,
+							coordinates: [
+								gx,
+								gy,
+								thisPoint.coordinates[2],
+								thisPoint.coordinates[3],
+							],
+						}
+					}
+					break
 				default:
 					return thisPoint
 			}
 		}
+		
 		const updatedPoint = updatedPointByCommand()
-
-		//? remove the previous point by it's id/index and slot in the upadate one
+		
 		const updatedPoints = [
 			...points.slice(0, pointIndex),
 			updatedPoint,
 			...points.slice(pointIndex + 1),
 		]
-
-		// todo why sorting points here is buggy?
+	
+		// @ts-ignore fix this
 		return sortPoints(updatedPoints)
 	}
 
@@ -266,6 +270,22 @@ export const Envelope = ({
 			handlePointsUpdateEnd(sortPoints(newAreaPoints))
 		}
 	}
+	
+	useEffect(() => {
+		const newPoints = convertPathStringToPoints(path, {
+			h: boundHeight,
+			w: boundWidth,
+		})
+		if (!newPoints || newPoints.some(point => typeof point === 'undefined' || point === null)) {
+			console.error('Invalid points data:', newPoints);
+		} else {
+			setPoints(newPoints)
+			setScaledPath(writeScaledPath(newPoints, {
+				h: boundHeight,
+				w: boundWidth,
+			}))
+		}
+	}, [path, boundHeight, boundWidth])
 
 	const [size, setSize] = useState({ width: 0, height: 0 })
 
@@ -284,11 +304,64 @@ export const Envelope = ({
   }, [])
 
 	const [activePoint, setActivePoint] = useState<number | null>(0)
+
+	type CurveOption = {
+		value: string
+		label: string
+		controlPoints: (currentPoint: Point, prevPoint: Point, nextPoint: Point) => number[]
+	}
+	
+	// Example curve shapes with their control point logic
+	const curveOptions: CurveOption[] = [
+		{
+			value: 'linear',
+			label: 'Linear',
+			controlPoints: (currentPoint, prevPoint, nextPoint) => {
+				// Linear doesn't use control points, but we can calculate a midpoint
+				return [lerp(prevPoint.coordinates[0], nextPoint.coordinates[0], 0.5), lerp(prevPoint.coordinates[1], nextPoint.coordinates[1], 0.5)]
+			}
+		},
+		{
+			value: 'quadratic',
+			label: 'Quadratic',
+			controlPoints: (currentPoint, prevPoint, nextPoint) => {
+				// This is an example, you'd define your own logic for control point calculation
+				return [
+					lerp(prevPoint.coordinates[0], nextPoint.coordinates[0], 0.25),
+					lerp(prevPoint.coordinates[1], nextPoint.coordinates[1], 0.75)
+				]
+			}
+		},
+		// Add more curves as needed
+	]
+
 	const [activeCurve, setActiveCurve] = useState('Quadratic')
 
 	useEffect(() => {
 		console.log(activePoint)
 	}, [activePoint])
+
+	const updatePhase = (newPhase: number) => {
+		if (activePoint == null) return;
+		const newPoints = [...points];
+		newPoints[activePoint].coordinates[points[activePoint].command === 'Q' ? 2 : 0] = (newPhase / 100) * boundWidth;
+		handlePointsUpdateEnd(newPoints);
+	}
+	
+	const updateValue = (newValue: number) => {
+		if (activePoint == null) return;
+		const newPoints = [...points];
+		newPoints[activePoint].coordinates[points[activePoint].command === 'Q' ? 3 : 1] = (newValue / 100) * boundHeight;
+		handlePointsUpdateEnd(newPoints);
+	}
+
+	const customEases = [
+		{ label: 'Default', value: 'M0 0 L1 1' },
+		{ label: 'Digital', value: 'M0 0 L0.16 0 L0.16 1 L0.33 1 L0.33 0 L0.5 0 L0.5 1 L0.66 1 L0.66 0 L0.83 0 L0.83 1 L1 1' },
+		{ label: 'Jaws', value: 'M0 0 Q0.0625 0.8 0.125 0.8 Q0.1875 0 0.25 0 Q0.3125 0.8 0.375 0.8 Q0.4375 0 0.5 0 Q0.5625 0.8 0.625 0.8 Q0.6875 0 0.75 0 Q0.8125 0.8 0.875 0.8 Q0.9375 0 1 0' },
+		{ label: 'Noise', value: 'M0 0 Q0.05 0.3 0.1 0.6 Q0.15 0 0.2 0 Q0.25 0.4 0.3 0.4 Q0.35 0 0.4 1 Q0.45 0 0.5 0 Q0.55 0.3 0.6 0.6 Q0.65 1 0.7 1 Q0.75 0.1 0.8 0.2 Q0.85 0.9 0.9 0.8 Q0.95 0.2 1 0.4' },
+		{ label: 'Saw', value: 'M0 0 L0.125 1 L0.25 0 L0.375 1 L0.5 0 L0.625 1 L0.75 0 L0.875 1 L1 0' }
+	]
 
 	return (
 		<div className={styles.wrapper} ref={curveEditorRef}>
@@ -393,34 +466,66 @@ export const Envelope = ({
 			
 			<Box mt={.25}>
 				<Gap disableWrap gap={1}>
-					<S.Label>
-						{activePoint != null && (
-							`Phase: ${((points[activePoint].coordinates[points[activePoint].command === 'Q' ? 2 : 0] / size.width) * 100).toFixed(2)}%  `
-						)}
-					</S.Label>
-
-					<S.Label>
-					{activePoint != null && (
-						`Value: ${((points[activePoint].coordinates[points[activePoint].command === 'Q' ? 3 : 1] / size.height) * 100).toFixed(2)}`
-					)}
-					</S.Label>
+					<Gap autoWidth gap={.25}>
+						<S.Label>
+							Phase
+						</S.Label>
+							{
+								activePoint != null && 
+									<NumberInput
+										value={(points[activePoint]?.coordinates[points[activePoint].command === 'Q' ? 2 : 0] / boundWidth) * 100}
+										onChange={value => updatePhase(value)}
+									/>
+							}
+						<S.Label>
+							%
+						</S.Label>
+					</Gap>
+					
+					<Gap autoWidth gap={.25}>
+						<S.Label>
+							Value
+						</S.Label>
+						{
+							activePoint != null && 
+							<NumberInput
+								value={((points[activePoint]?.coordinates[points[activePoint].command === 'Q' ? 3 : 1] / boundHeight) * (range[1] - range[0]) + range[0])}
+								onChange={value => updateValue(value)}
+							/>
+						}
+					</Gap>
+					
 					<Spacer />
-					<S.Label>
-						Curve
-					</S.Label>
-					<Box width={8}>
-						<Select
-							value={activeCurve}
-							compact
-							options={[
-								{
-									value: 'Quadratic',
-									label: 'Quadratic'
-								}
-							]}
-							onChange={val => setActiveCurve(val)}
-						/>
-					</Box>
+					<Gap autoWidth gap={.5}>
+						<S.Label>
+							Curve
+						</S.Label>
+						<Box width={8}>
+							<Select
+								value={activeCurve}
+								compact
+								options={[
+									{
+										value: 'Quadratic',
+										label: 'Quadratic'
+									}
+								]}
+								onChange={val => setActiveCurve(val)}
+							/>
+						</Box>
+					</Gap>
+					<Dropdown
+						icon={'bars'}
+						iconPrefix='fas'
+						items={customEases.map(ease => ({
+							text: ease.label,
+							onClick: () => {
+								onChange(ease.value)
+							}
+						}))}
+						square
+						compact
+					/>
 				</Gap>
 			</Box>
 		</div>

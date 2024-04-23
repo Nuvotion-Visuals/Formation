@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
 import { Timeline } from './Timeline'
-import { Box, Envelope, Gap, NumberInput, NumberRange } from '../../internal'
+import { Box, Envelope, NumberRange } from '../../internal'
 import gsap from 'gsap'
 import CustomEase from 'gsap/dist/CustomEase'
 import styled from 'styled-components'
@@ -43,7 +43,7 @@ export default {
 
 const Template: ComponentStory<typeof Envelope> = (props) => {
   const [path, setPath] = useState(props.path)
-  const [value, setValue] = useState(props.value)
+  const [value, setValue] = useState(0)
   const [phase, setPhase] = useState(props.phase)
   const [duration, setDuration] = useState(2)
   const [range, setRange] = useState<number[]>([0, 100])
@@ -67,11 +67,19 @@ const Template: ComponentStory<typeof Envelope> = (props) => {
       yoyo: mode === 'reflect',
       paused: true,
       onUpdate: function() {
-        setValue(this.getChildren()[0].targets()[0].value)
-        setPhase(this.getChildren()[1].targets()[0].phase)
-        if (this.getChildren()[1].targets()[0].phase === 0 && this.reversed()) {
-          this.restart()
-          setDirection('forward')
+        const rawValue = this.getChildren()[0].targets()[0].value;
+        const rawPhase = this.getChildren()[1].targets()[0].phase;
+
+        // Clamp the value and phase within the specified range
+        const clampedValue = Math.min(Math.max(rawValue, 0), 1);
+        const clampedPhase = Math.min(Math.max(rawPhase, 0), 1);
+
+        setValue(clampedValue);
+        setPhase(clampedPhase);
+        
+        if (clampedPhase === 0 && this.reversed()) {
+          this.restart();
+          setDirection('forward');
         }
       },
       onRepeat: function () {
@@ -127,7 +135,6 @@ const Template: ComponentStory<typeof Envelope> = (props) => {
           step={1}
         />
       </div>
-
       <Timeline
         value={range}
         onChange={setRange}
@@ -147,37 +154,15 @@ const Template: ComponentStory<typeof Envelope> = (props) => {
       <Envelope
         {...props}
         path={path}
-        value={value}
         phase={phase}
         onChange={setPath}
+        range={range}
       />
       <S.TestContainer>
         <S.Test scale={scaledValue} />
       </S.TestContainer>
     </Box>
   )
-}
-
-
-const S = {
-	TestContainer: styled.div`
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		width: 300px;
-		height: 300px;
-		margin-top: 1rem;
-	`,
-	Test: styled.div<{
-		scale: number
-	}>`
-		background: white;
-		border-radius: 100%;
-		width: 300px;
-		height: 300px;
-		transform: ${props => `scale(${props.scale})`};
-		transform-origin: center;
-	`
 }
 
 export const Default = Template.bind({})
@@ -236,4 +221,25 @@ FivePoint.args = {
 	boundWidth: 500,
 	path: 'M0 0 Q0.054 0.121 0.108 0.242 Q0.25 0.25 0.5 0.5 Q0.661 0.591 0.822 0.682 T1 1 ',
 	duration: 5,
+}
+
+const S = {
+	TestContainer: styled.div`
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 300px;
+		height: 300px;
+		margin-top: 1rem;
+	`,
+	Test: styled.div<{
+		scale: number
+	}>`
+		background: white;
+		border-radius: 100%;
+		width: 300px;
+		height: 300px;
+		transform: ${props => `scale(${props.scale})`};
+		transform-origin: center;
+	`
 }

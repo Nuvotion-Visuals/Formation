@@ -104,12 +104,6 @@
 	stroke: var(--F_Surface_2);
 }
 
-.point_1 {
-	fill: rgb(131, 131, 255);
-}
-.point_2 {
-	fill: var(--F_Font_Color);
-}
 
 .activepoint {
 	fill: red !important;
