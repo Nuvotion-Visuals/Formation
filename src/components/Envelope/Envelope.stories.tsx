@@ -1,11 +1,11 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
 import { Envelope } from '../../internal'
-import CustomEase from 'gsap/dist/CustomEase'
 import gsap from 'gsap'
-import { useGSAP } from '@gsap/react'
+import CustomEase from 'gsap/dist/CustomEase'
+gsap.registerPlugin(CustomEase)
 
 // todo `boundHeight` breaks when smaller than 200px
 export default {
@@ -25,41 +25,64 @@ export default {
 } as ComponentMeta<typeof Envelope>
 
 const Template: ComponentStory<typeof Envelope> = (props) => {
-  const [path, setPath] = useState<string>(props.path)
-  const [phase, setPhase] = useState<number>(props.phase)
-  const [value, setValue] = useState<number>(props.value)
+	const [path, setPath] = useState(props.path)
+  const [value, setValue] = useState(props.value)
+  const [phase, setPhase] = useState(props.phase)
+  const valueTweenRef = useRef<gsap.core.Tween | null>(null)
+  const tweenProgressRef = useRef(0)  // Store the current progress of the tween
 
-  useGSAP(() => {
-		gsap.registerPlugin(CustomEase)
-		CustomEase.create('custom', path)
-		
-		gsap.to({}, {
-			duration: props.duration,
-			value: 500,
-			ease: 'custom',
-			repeat: -1,
-			onUpdate: function () {
-				setValue(this.targets()[0].value)
-			}
-		})
+  useEffect(() => {
+    valueTweenRef.current = gsap.to({ value: 0 }, {
+      duration: props.duration,
+      value: 1,
+      ease: CustomEase.create('custom', path),
+      repeat: -1,
+      onUpdate: function () {
+        setValue(this.targets()[0].value)
+      }
+    })
 
-		gsap.to({}, {
-			duration: props.duration,
-			phase: 500,
-			ease: 'none',
-			repeat: -1,
-			onUpdate: function () {
-				setPhase(this.targets()[0].phase)
-			}
-		})
-	}, 
-	{
-		revertOnUpdate: true,
-		dependencies: [
-			path,
-			props.duration,
-		]
-	})
+    gsap.to({ phase: 0 }, {
+      duration: props.duration,
+      phase: 1,
+      ease: 'none',
+      repeat: -1,
+      onUpdate: function () {
+        setPhase(this.targets()[0].phase)
+      }
+    })
+
+    return () => {
+      if (valueTweenRef.current) {
+        valueTweenRef.current.kill()
+      }
+    }
+  }, [props.duration])
+
+  useEffect(() => {
+    if (valueTweenRef.current) {
+      // Capture the current progress before killing the tween
+      tweenProgressRef.current = valueTweenRef.current.progress()
+
+      // Kill the current tween
+      valueTweenRef.current.kill()
+
+      // Create a new tween with the updated path and restore the progress
+      CustomEase.create('custom', path)
+      valueTweenRef.current = gsap.to({ value: 0 }, {
+        duration: props.duration,
+        value: 1,
+        ease: 'custom',
+        repeat: -1,
+        onUpdate: function () {
+          setValue(this.targets()[0].value)
+        }
+      })
+
+      // Restore the progress to the tween
+      valueTweenRef.current.progress(tweenProgressRef.current)
+    }
+  }, [path])
 
   return (
     <Envelope
@@ -71,7 +94,6 @@ const Template: ComponentStory<typeof Envelope> = (props) => {
     />
   )
 }
-
 
 export const Default = Template.bind({})
 Default.args = {

@@ -1,4 +1,4 @@
-import React, { useRef, MouseEvent, DragEvent, RefObject, useState } from 'react'
+import React, { useRef, MouseEvent, DragEvent, useState, useEffect } from 'react'
 import gsap from 'gsap'
 import Draggable from 'gsap/dist/Draggable'
 import { useGSAP } from '@gsap/react'
@@ -121,6 +121,15 @@ export const Envelope = ({
 
 	useGSAP(() => {
 		gsap.registerPlugin(Draggable)
+
+		// gsap.to('.line_path_reveal', {
+		// 	width: boundWidth,
+		// 	// duration: state.duration,
+		// 	duration: duration,
+		// 	repeat: -1,
+		// 	ease: 'none',
+		// 	// reversed: true,
+		// })
 
 		points.map((point, i) => {
 			// make all cyan white points draggable
@@ -274,6 +283,24 @@ export const Envelope = ({
 		}
 	}
 
+	const [size, setSize] = useState({ width: 0, height: 0 })
+
+	useEffect(() => {
+    const observeSize = (entries: ResizeObserverEntry[]) => {
+      const { width, height } = entries[0].contentRect
+      setSize({ width, height })
+    }
+
+    const observer = new ResizeObserver(observeSize)
+    if (graphRef.current) {
+      observer.observe(graphRef.current)
+    }
+
+    return () => {
+      observer.disconnect()
+    }
+  }, [])
+
 	return (
 		<>
 			<div className={styles.wrapper} ref={curveEditorRef}>
@@ -305,7 +332,8 @@ export const Envelope = ({
 									x='0'
 									y='-200'
 									height={boundHeight * 2}
-									width={phase}
+									width={size.width * phase}
+									className='line_path_reveal'
 								/>
 							</clipPath>
 						</defs>
@@ -392,7 +420,7 @@ export const Envelope = ({
 						/>
 						<circle
 							className={styles.progress_dot + ' progress_dot_parameter'}
-							cy={value}
+							cy={value * size.height}
 							cx={5}
 							r='5'
 							fill='limegreen'
@@ -415,7 +443,7 @@ export const Envelope = ({
 					<circle
 						className={styles.progress_dot}
 						cy={5}
-						cx={phase}
+						cx={phase * size.width}
 						r='5'
 						fill='limegreen'
 					/>

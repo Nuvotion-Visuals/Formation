@@ -60,7 +60,7 @@
 .graph_path_reveal {
 	fill: none;
 	stroke: #f1f2f3;
-	stroke-width: 0.4px;
+	stroke-width: 2px;
 	stroke-linecap: round;
 	stroke-linejoin: round;
 }
