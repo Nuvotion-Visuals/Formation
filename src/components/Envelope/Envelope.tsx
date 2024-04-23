@@ -333,23 +333,17 @@ export const Envelope = ({
 							preserveAspectRatio='xMidYMid meet'
 							xmlSpace='preserve'
 						>
-							<rect
-								className={styles.graph_bg}
-								x='0'
-								y='-150'
-								width={boundWidth}
-								height={boundHeight}
-								rx='0.2'
-								ry='0.2'
-								clipPath='url(#graph_path)'
-							/>
-
 							<path
 								id='line_path'
 								ref={linePathRef}
 								className={styles.graph_path}
 								d={scaledPath}
 								clipPath='url(#graph_path)'
+							/>
+
+							<path
+								d={`M0,${boundHeight} ${scaledPath.slice(1)} V0 H0 Z`}
+								fill="var(--F_Surface_0)"
 							/>
 
 							<path
@@ -361,8 +355,7 @@ export const Envelope = ({
 							<rect
 								height={boundHeight}
 								width={boundWidth}
-								fill='#04948d'
-								fillOpacity='0.3'
+								fillOpacity='0'
 								onDoubleClick={(e: any) => addPoint(e)}
 							/>
 
@@ -372,15 +365,14 @@ export const Envelope = ({
 								className={'point_'}
 								isCurveEdit={false}
 							/>
-							{/* .slice removes 1st and last element (start end points) without mutating */}
 							{
+								// .slice removes 1st and last element (start end points) without mutating
 								points.slice(1, -1).map((p, i) => (
 									<PointGroup
 										key={p.id}
 										i={i}
 										p={p}
 										className={'point_'}
-										// dragPoint={dragPoint}
 										removePoint={removePoint}
 									/>
 								))
@@ -393,49 +385,7 @@ export const Envelope = ({
 							/>
 						</svg>
 					</svg>
-
-					<svg
-						className={styles.progress_wrap + ' progress_track_parameter'}
-						height={boundHeight}
-						width={10}
-					>
-						<rect
-							x={0}
-							y={0}
-							height={boundHeight}
-							width={10}
-							className={styles.progress_track}
-						/>
-						<circle
-							className={styles.progress_dot + ' progress_dot_parameter'}
-							cy={value * size.height}
-							cx={5}
-							r='5'
-							fill='limegreen'
-						/>
-					</svg>
 				</div>
-
-				<svg
-					className={styles.progress_wrap + ' progress_track_time'}
-					width={boundWidth}
-					height={10}
-				>
-					<rect
-						x={0}
-						y={0}
-						width={boundWidth}
-						height={10}
-						className={styles.progress_track}
-					/>
-					<circle
-						className={styles.progress_dot}
-						cy={5}
-						cx={phase * size.width}
-						r='5'
-						fill='limegreen'
-					/>
-				</svg>
 			</div>
 		</>
 	)

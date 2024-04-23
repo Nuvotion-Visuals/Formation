@@ -99,7 +99,7 @@ const Template: ComponentStory<typeof Envelope> = (props) => {
 
 export const Default = Template.bind({})
 Default.args = {
-	boundHeight: 500,
+	boundHeight: 200,
 	boundWidth: 500,
 	// linear line
 	path: 'M0 0 Q0.25 0.25 0.5 0.5 T1 1',

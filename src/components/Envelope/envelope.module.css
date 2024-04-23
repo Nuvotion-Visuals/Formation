@@ -8,14 +8,18 @@
 .graph {
 	transform: var(--flip);
 	background-size: 40px 40px;
-	background-image: linear-gradient(
+	/* background-image: linear-gradient(
 			to right,
 			rgb(68, 68, 68) 1px,
 			transparent 1px
 		),
-		linear-gradient(to bottom, rgb(64, 64, 64) 1px, transparent 1px);
-	/* //todo put this to 100% for full responsive */
-	/* width: 100%; */
+		linear-gradient(to bottom, rgb(64, 64, 64) 1px, transparent 1px); */
+	background-image: linear-gradient(
+		to right,
+		var(--F_Surface_0) 1px,
+		transparent 1px
+	);
+	background-color: var(--F_Background_Alternating);
 }
 
 .graph polyline {
@@ -35,7 +39,7 @@
 }
 
 .progress_track {
-	fill: rgb(79, 79, 94);
+	fill: var(--F_Surface);
 }
 
 .line_graph {
@@ -46,20 +50,20 @@
 }
 
 .graph_bg {
-	fill: rgba(57, 68, 68, 0.208);
+	fill: var(--F_Background_Alternating);
 }
 
 .graph_path {
 	fill: none;
-	stroke: #666666;
-	stroke-width: 2px;
+	stroke: var(--F_Surface_1);
+	stroke-width: 3px;
 	stroke-linecap: round;
 	stroke-linejoin: round;
 }
 
 .graph_path_reveal {
 	fill: none;
-	stroke: #f1f2f3;
+	stroke: var(--F_Font_Color);
 	stroke-width: 2px;
 	stroke-linecap: round;
 	stroke-linejoin: round;
@@ -82,29 +86,29 @@
 }
 
 [class*="point_"] {
-	stroke: white;
-	stroke-width: 1px;
+	stroke: var(--F_Font_Color);
+	stroke-width: 2px;
 	z-index: 3;
 	cursor: pointer;
 }
 
 .curve_point {
-	stroke: rgb(156, 177, 182);
-	stroke-width: 1px;
+	stroke: var(--F_Font_Color);
+	stroke-width: 2px;
 	z-index: 3;
 	fill: transparent;
 	cursor: pointer;
 }
 
 .curve_tangent {
-	stroke: rgba(156, 156, 156, 0.347);
+	stroke: var(--F_Surface_2);
 }
 
 .point_1 {
 	fill: rgb(131, 131, 255);
 }
 .point_2 {
-	fill: rgb(140, 235, 250);
+	fill: var(--F_Font_Color);
 }
 
 .dot {
