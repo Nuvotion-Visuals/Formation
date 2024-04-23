@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { Envelope } from '../../internal'
+import { Box, Envelope, NumberInput } from '../../internal'
 import gsap from 'gsap'
 import CustomEase from 'gsap/dist/CustomEase'
 gsap.registerPlugin(CustomEase)
@@ -16,7 +16,6 @@ export default {
 		boundWidth: { type: 'number', defaultValue: 500 },
 		path: { type: 'string', defaultValue: 'M0 0 Q0.25 0.25 0.5 0.5 T1 1' },
 		// todo how do i min max constrain this value? -- https://storybook.js.org/docs/api/arg-types
-		duration: { type: 'number', defaultValue: 4, min: 0.1, max: 60, step: 0.1 },
 		onChange: { action: 'onChange' },
 		phase: { type: 'number', defaultValue: 0 },
 		value: { type: 'number', defaultValue: 0 },
@@ -28,71 +27,74 @@ const Template: ComponentStory<typeof Envelope> = (props) => {
 	const [path, setPath] = useState(props.path)
   const [value, setValue] = useState(props.value)
   const [phase, setPhase] = useState(props.phase)
+	const [duration, setDuration] = useState(4)
   const valueTweenRef = useRef<gsap.core.Tween | null>(null)
+  const phaseTweenRef = useRef<gsap.core.Tween | null>(null)
   const tweenProgressRef = useRef(0)  // Store the current progress of the tween
 
   useEffect(() => {
+    if (valueTweenRef.current && phaseTweenRef.current) {
+      // Capture the current progress before killing the tweens
+      tweenProgressRef.current = valueTweenRef.current.progress()
+      // Kill the current tweens
+      valueTweenRef.current.kill()
+      phaseTweenRef.current.kill()
+    }
+
+    // Create a new tween for value with the updated path and/or duration
+    CustomEase.create('custom', path)
     valueTweenRef.current = gsap.to({ value: 0 }, {
-      duration: props.duration,
+      duration: duration,
       value: 1,
-      ease: CustomEase.create('custom', path),
+      ease: 'custom',
       repeat: -1,
       onUpdate: function () {
         setValue(this.targets()[0].value)
       }
     })
 
-    gsap.to({ phase: 0 }, {
-      duration: props.duration,
+    // Create a new tween for phase
+    phaseTweenRef.current = gsap.to({ phase: 0 }, {
+      duration: duration,
       phase: 1,
-      ease: 'none',
+      ease: 'none',  // Usually, phase animation does not use custom easing
       repeat: -1,
       onUpdate: function () {
         setPhase(this.targets()[0].phase)
       }
     })
 
+    // Restore the progress to the tweens
+    if (valueTweenRef.current && phaseTweenRef.current) {
+      valueTweenRef.current.progress(tweenProgressRef.current)
+      phaseTweenRef.current.progress(tweenProgressRef.current)
+    }
+
+    // Return a cleanup function
     return () => {
       if (valueTweenRef.current) {
         valueTweenRef.current.kill()
       }
+      if (phaseTweenRef.current) {
+        phaseTweenRef.current.kill()
+      }
     }
-  }, [props.duration])
+  }, [path, duration])
 
-  useEffect(() => {
-    if (valueTweenRef.current) {
-      // Capture the current progress before killing the tween
-      tweenProgressRef.current = valueTweenRef.current.progress()
-
-      // Kill the current tween
-      valueTweenRef.current.kill()
-
-      // Create a new tween with the updated path and restore the progress
-      CustomEase.create('custom', path)
-      valueTweenRef.current = gsap.to({ value: 0 }, {
-        duration: props.duration,
-        value: 1,
-        ease: 'custom',
-        repeat: -1,
-        onUpdate: function () {
-          setValue(this.targets()[0].value)
-        }
-      })
-
-      // Restore the progress to the tween
-      valueTweenRef.current.progress(tweenProgressRef.current)
-    }
-  }, [path])
-
-  return (
-    <Envelope
-      {...props}
-      path={path}
-      value={value}
-      phase={phase}
-      onChange={newPath => setPath(newPath)}
-    />
-  )
+  return (<Box maxWidth={'500px'} wrap>
+		<Envelope
+			{...props}
+			path={path}
+			value={value}
+			phase={phase}
+			onChange={newPath => setPath(newPath)}
+		/>
+		<NumberInput
+			value={duration}
+			onChange={val => setDuration(val)}
+			step={1}
+		/>
+	</Box>)
 }
 
 export const Default = Template.bind({})

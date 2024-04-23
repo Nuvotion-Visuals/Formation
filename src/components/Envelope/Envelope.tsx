@@ -9,7 +9,6 @@ type Props = {
 	phase: number
 	value: number
 	path: string
-	duration: number
 	boundHeight: number
 	boundWidth: number
 	onChange: (path: string) => void
@@ -17,7 +16,6 @@ type Props = {
 
 export const Envelope = ({
 	path = 'M0 0 Q0.25 0.25 0.5 0.5 T1 1',
-	duration = 4,
 	onChange,
 	boundHeight,
 	boundWidth,
@@ -122,15 +120,6 @@ export const Envelope = ({
 	useGSAP(() => {
 		gsap.registerPlugin(Draggable)
 
-		// gsap.to('.line_path_reveal', {
-		// 	width: boundWidth,
-		// 	// duration: state.duration,
-		// 	duration: duration,
-		// 	repeat: -1,
-		// 	ease: 'none',
-		// 	// reversed: true,
-		// })
-
 		points.map((point, i) => {
 			// make all cyan white points draggable
 			Draggable.create(`.point_${point.id}`, {
@@ -211,7 +200,6 @@ export const Envelope = ({
 		scope: graphRef,
 		dependencies: [
 			points,
-			duration,
 		],
 		revertOnUpdate: true,
 	})
