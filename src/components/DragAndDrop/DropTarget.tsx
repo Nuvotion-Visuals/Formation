@@ -1,12 +1,14 @@
 import React, { FC, useState, memo, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import { DropCorners } from '../../internal'
+import { DropOverlay } from './DropOverlay'
 
 type DropTargetProps = {
-  onDrop: (data: any) => void,
-  acceptedOrigins: string[],
-  children: React.ReactNode,
+  onDrop: (data: any) => void
+  acceptedOrigins: string[]
+  children: React.ReactNode
   expandVertical?: boolean
+  overlay?: boolean
 }
 
 /**
@@ -19,6 +21,7 @@ type DropTargetProps = {
  * @param {string[]} acceptedOrigins - An array of origins that this drop target accepts. Only items from these origins will trigger the drop event.
  * @param {React.ReactNode} children - The components to be rendered inside the drop target area.
  * @param {boolean} [expandVertical] - Fill the vertical space of the container.
+ * @param {boolean} [overlay] - Use a translucent overlay rather than corners to indicate hover.
  *
  * @example
  * // A drop target that accepts items from 'list-item' origin
@@ -33,7 +36,8 @@ export const DropTarget: FC<DropTargetProps> = ({
   onDrop, 
   acceptedOrigins, 
   children,
-  expandVertical
+  expandVertical,
+  overlay
 }) => {
   const [isOver, setIsOver] = useState(false)
   const dropTargetRef = useRef<HTMLDivElement | null>(null)
@@ -121,8 +125,13 @@ export const DropTarget: FC<DropTargetProps> = ({
       onDragLeave={handleDragLeave}
       expandVertical={expandVertical}
     >
-      {isOver && <DropCorners />}
-      {children}
+      {
+        isOver &&
+          (overlay
+            ? <DropOverlay />
+            : <DropCorners />)
+      }
+      { children }
     </S.DropTarget>
   )
 }

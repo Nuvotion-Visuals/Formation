@@ -8,7 +8,7 @@ export default {
 } as ComponentMeta<typeof DragOrigin>
 
 
-const GenericTemplate: ComponentStory<typeof DragOrigin> = () => {
+const GenericTemplate: ComponentStory<typeof DragOrigin> = (args: any) => {
   const [activeItems, setActiveItems] = useState<string[]>([])
 
   const availableItems = ['Drag Origin 1', 'Drag Origin 2', 'Drag Origin 3']
@@ -34,6 +34,7 @@ const GenericTemplate: ComponentStory<typeof DragOrigin> = () => {
       <DropTarget
         onDrop={data => onDropHandler(data.item)}
         acceptedOrigins={['Generic']}
+        {...args.dropTarget}
       >
         <Box wrap>
           <Item title='Drag Target' />
@@ -50,7 +51,15 @@ const GenericTemplate: ComponentStory<typeof DragOrigin> = () => {
 }
 
 export const BasicExample = GenericTemplate.bind({})
-GenericTemplate.args = {}
+BasicExample.args = {}
+
+export const OverlayExample = GenericTemplate.bind({})
+OverlayExample.args = {
+  dropTarget: {
+    overlay: true
+  }
+}
+
 
 const Template: ComponentStory<typeof DragOrigin> = () => {
   const [todo, setTodo] = useState([
