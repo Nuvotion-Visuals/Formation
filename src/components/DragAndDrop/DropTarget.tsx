@@ -144,6 +144,6 @@ const S = {
   }>`
     position: relative;
     width: 100%;
-    height: ${props => props.expandVertical ? '100%' : 'auto'};
+    min-height: ${props => props.expandVertical ? '100%' : 'auto'};
   `
 }
