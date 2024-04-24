@@ -8,7 +8,7 @@ It’s easy to picture how a less saturated version of a color would look like, 
   --F_Primary_Active: hsl(4, 83%, 38%);
   --F_Primary_Hover_Subtle: rgba(192, 12, 0, 0.12);
   --F_Primary_Variant: hsl(4, 100%, 38%); /* More saturated, vibrant variant */
-  --F_Primary_Overlay: rgba(192, 12, 0, .15);
+  --F_Primary_Overlay: rgba(192, 12, 0, .2);
 
   --F_Background: hsla(0, 0%, 7%);
   --F_Background_Light: hsla(0, 0%, 7%, .4);
