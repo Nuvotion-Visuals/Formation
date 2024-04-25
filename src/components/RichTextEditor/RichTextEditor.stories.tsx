@@ -42,7 +42,7 @@ FixedHeight.args = {
   outline: true
 }
 
-const MinimalTemplate: ComponentStory<typeof RichTextEditor> = args => {
+const ExpandTemplate: ComponentStory<typeof RichTextEditor> = args => {
   const [value, set_value] = useState('')
 
   return (
@@ -50,10 +50,24 @@ const MinimalTemplate: ComponentStory<typeof RichTextEditor> = args => {
   )
 }
 
-export const Minimal = MinimalTemplate.bind({})
-Minimal.args = {
+export const Expand = ExpandTemplate.bind({})
+Expand.args = {
   px: 1,
   outline: true
+}
+
+export const Autofocus = ExpandTemplate.bind({})
+Autofocus.args = {
+  px: 1,
+  outline: true,
+  autoFocus: true
+}
+
+export const Minimal = ExpandTemplate.bind({})
+Minimal.args = {
+  px: 1,
+  outline: true,
+  minimal: true
 }
 
 const S = {

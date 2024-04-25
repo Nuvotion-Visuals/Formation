@@ -15,16 +15,26 @@ interface RichTextEditorProps {
   px?: number,
   outline?: boolean,
   iconPrefix?: IconPrefix
+  autoFocus?: boolean
+  minimal?: boolean
 }
 export const RichTextEditor: FC<RichTextEditorProps> = ({
   value,
   onChange,
   px,
   outline,
-  iconPrefix
+  iconPrefix,
+  autoFocus,
+  minimal
 }) => {
   const [loaded, setLoaded] = useState(false)
   const quillRef = useRef(null)
+
+  useEffect(() => {
+    if (autoFocus && quillRef?.current) {
+      (quillRef.current as any).getEditor().focus()
+    }
+  }, [autoFocus])
 
   const [headerValue, setHeaderValue] = useState('normal')
 
@@ -247,14 +257,16 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
       onClick={focus}
     >
       <StyleHTML>
-      <CustomToolbar handlers={handlers} />
+      {!minimal && (
+        <CustomToolbar handlers={handlers} />
+      )}
       <ReactQuill
         ref={quillRef}
         value={value}
         defaultValue={value}
         onChange={onChange}
         modules={{
-          toolbar: '#custom-toolbar',
+          toolbar: minimal ? false : '#custom-toolbar',
           clipboard: {
             matchVisual: false
           }
@@ -275,6 +287,11 @@ const S = {
     width: 100%;
     border-radius: .75rem;
     box-shadow: ${props => props.outline ? 'var(--F_Outline)' : 'none'};
+    .quill {
+      min-height: calc(var(--F_Input_Height) - 2px);
+      padding-top: 2px;
+      height: 100%;
+    }
     .ql-editor {
       padding: ${props => `0 ${props.px}rem !important`};
     }
