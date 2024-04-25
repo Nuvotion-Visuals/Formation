@@ -70,6 +70,31 @@ Minimal.args = {
   minimal: true
 }
 
+const OnEnterTemplate: ComponentStory<typeof RichTextEditor> = args => {
+  const [value, set_value] = useState('');
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      alert('Enter key pressed without Shift!');
+    }
+  };
+
+  return (
+    <RichTextEditor
+      {...args}
+      value={value}
+      onChange={set_value}
+      onKeyDown={handleKeyDown}
+    />
+  );
+};
+
+export const OnEnter = OnEnterTemplate.bind({});
+OnEnter.args = {
+  px: 1,
+  outline: true,
+};
+
 const S = {
   FullScreenContainer: styled.div`
     height: 100vh;

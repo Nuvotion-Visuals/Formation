@@ -17,6 +17,7 @@ interface RichTextEditorProps {
   iconPrefix?: IconPrefix
   autoFocus?: boolean
   minimal?: boolean
+  onKeyDown?: (event: React.KeyboardEvent<HTMLDivElement>) => void;
 }
 export const RichTextEditor: FC<RichTextEditorProps> = ({
   value,
@@ -25,7 +26,8 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
   outline,
   iconPrefix,
   autoFocus,
-  minimal
+  minimal,
+  onKeyDown
 }) => {
   const [loaded, setLoaded] = useState(false)
   const quillRef = useRef(null)
@@ -265,6 +267,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
         value={value}
         defaultValue={value}
         onChange={onChange}
+        onKeyDown={onKeyDown}
         modules={{
           toolbar: minimal ? false : '#custom-toolbar',
           clipboard: {
