@@ -301,7 +301,7 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
       {
         ((value === '' || value === '<p><br></p>') && placeholder) &&
           <S.Placeholder minimal={minimal}>
-            Placeholder
+            { placeholder }
           </S.Placeholder>
       }
     </S.RichTextEditor>
