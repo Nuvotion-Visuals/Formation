@@ -12,12 +12,13 @@ import { IconPrefix } from '@fortawesome/fontawesome-common-types'
 interface RichTextEditorProps {
   value: string
   onChange: (value: string) => void
-  px?: number,
-  outline?: boolean,
+  px?: number
+  outline?: boolean
   iconPrefix?: IconPrefix
   autoFocus?: boolean
   minimal?: boolean
-  onKeyDown?: (event: React.KeyboardEvent<HTMLDivElement>) => void;
+  onKeyDown?: (event: React.KeyboardEvent<HTMLDivElement>) => void
+  placeholder?: string
 }
 export const RichTextEditor: FC<RichTextEditorProps> = ({
   value,
@@ -27,7 +28,8 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
   iconPrefix,
   autoFocus,
   minimal,
-  onKeyDown
+  onKeyDown,
+  placeholder
 }) => {
   const [loaded, setLoaded] = useState(false)
   const quillRef = useRef(null)
@@ -252,6 +254,25 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
   }
 
   const ReactQuill = require('react-quill')
+
+  const [isEditorEmpty, setIsEditorEmpty] = useState(!value)
+
+  useEffect(() => {
+    const checkContentEmpty = () => {
+      const editor = (quillRef.current as any).getEditor()
+      const text = editor.getText().trim()
+      setIsEditorEmpty(text.length === 0)
+    }
+
+    if (quillRef.current) {
+      const editor = (quillRef.current as any).getEditor()
+      editor.on('text-change', checkContentEmpty)
+      return () => {
+        editor.off('text-change', checkContentEmpty)
+      }
+    }
+  }, [quillRef.current])
+
   return (
     <S.RichTextEditor 
       px={px || 0}
@@ -274,8 +295,15 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
             matchVisual: false
           }
         }}
+        placeholder={isEditorEmpty ? 'Compose an epic...' : ''}
       />
       </StyleHTML>
+      {
+        ((value === '' || value === '<p><br></p>') && placeholder) &&
+          <S.Placeholder minimal={minimal}>
+            Placeholder
+          </S.Placeholder>
+      }
     </S.RichTextEditor>
   )
 }
@@ -291,8 +319,8 @@ const S = {
     border-radius: .75rem;
     box-shadow: ${props => props.outline ? 'var(--F_Outline)' : 'none'};
     .quill {
-      min-height: calc(var(--F_Input_Height) - 2px);
-      padding-top: 2px;
+      min-height: calc(var(--F_Input_Height) - 1px);
+      padding-top: 1px;
       height: 100%;
     }
     .ql-editor {
@@ -333,5 +361,15 @@ const S = {
     option {
       background: var(--F_Background);
     }
+  `,
+  Placeholder: styled.div<{
+    minimal?: boolean
+  }>`
+    position: absolute;
+    top: ${props => props.minimal ? '11px' : '35px'};
+    left: 16px;
+    color: var(--F_Font_Color_Disabled);
+    font-size: var(--F_Font_Size);
+    pointer-events: none;
   `
 }

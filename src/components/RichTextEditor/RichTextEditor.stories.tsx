@@ -70,6 +70,14 @@ Minimal.args = {
   minimal: true
 }
 
+export const MinimalPlaceholder = ExpandTemplate.bind({})
+MinimalPlaceholder.args = {
+  px: 1,
+  outline: true,
+  minimal: true,
+  placeholder: true
+}
+
 const OnEnterTemplate: ComponentStory<typeof RichTextEditor> = args => {
   const [value, set_value] = useState('');
 
@@ -94,6 +102,14 @@ OnEnter.args = {
   px: 1,
   outline: true,
 };
+
+export const Placeholder = OnEnterTemplate.bind({});
+Placeholder.args = {
+  px: 1,
+  outline: true,
+  placeholder: true
+};
+
 
 const S = {
   FullScreenContainer: styled.div`
