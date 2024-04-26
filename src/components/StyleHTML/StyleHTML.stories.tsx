@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { StyleHTML } from '../../internal'
+import { StyleHTML, TextArea, markdownToHTML } from '../../internal'
 
 export default {
   title: 'Layout/StyleHTML',
@@ -94,4 +94,41 @@ BasicHTMLTags.args = {
     </table>
 
   </>
+}
+
+
+const MarkdownTemplate: ComponentStory<typeof StyleHTML> = args => {
+  const [value, setValue] = useState(`1. January
+  2. February
+  3. March
+  4. April
+  5. May
+  6. June
+  7. July
+  8. August
+  9. September
+  10. October
+  11. November
+  12. December`)
+
+  useEffect(() => {
+    console.log(markdownToHTML(value))
+  }, [])
+  
+  return (<>
+    <TextArea
+      value={value}
+      onChange={val => setValue(val)}
+      placeholder='Enter markdown here'
+    />
+    <StyleHTML>
+        <div dangerouslySetInnerHTML={{ __html: markdownToHTML(value) || '' }} />
+      </StyleHTML>
+    </>
+  )
+}
+
+export const Markdown = MarkdownTemplate.bind({})
+Markdown.args = {
+
 }
