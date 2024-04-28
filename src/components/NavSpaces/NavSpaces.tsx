@@ -274,7 +274,7 @@ export const NavSpaces = React.memo(({
 
 const S = {
   Container: styled.div`
-    width: 100vw;
+    width: 100%;
     display: flex;
   `,
   View: styled.div`
@@ -297,10 +297,8 @@ const S = {
     flex-wrap: wrap;
     position: relative;
     border-left: 1px solid var(--F_Surface);
-
     width: 380px;
     max-width: 380px;
-
     @media (min-width: 1600px) {
       width: 500px;
       max-width: 500px;
