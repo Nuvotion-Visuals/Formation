@@ -11,7 +11,7 @@ interface Props {
   spaces: Space[],
   onClickIndex: (index: number) => void,
   activeSpaceIndex: number,
-  children: React.ReactNode
+  children?: React.ReactNode
 }
 
 export const SpacesSidebar = memo(({ 

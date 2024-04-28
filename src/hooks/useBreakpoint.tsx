@@ -1,24 +1,34 @@
 import { useMediaQuery } from 'react-responsive'
 
 /**
- * A hook that returns the current breakpoint based on the device's width.
+ * A custom hook that allows for specifying custom breakpoints for mobile, tablet, and desktop devices.
+ * Users can override default breakpoints to better suit their application's responsive design needs.
+ * @param {object} customBreakpoints - An object containing the custom breakpoint values for mobile, tablet, and desktop.
  * @see {@link https://www.npmjs.com/package/react-responsive|react-responsive}.
  * @function
- * @returns {{ isMobile: boolean, isTablet: boolean, isDesktop: boolean }} An object containing three boolean values indicating if the current device is a mobile, tablet, or desktop.
+ * @returns {{ isMobile: boolean, isTablet: boolean, isDesktop: boolean }} An object with boolean values indicating device type.
  *
- * Example:
+ * Example usage:
  * ```js
- *  const { isMobile, isTablet, isDesktop } = useBreakpoint();
+ *  const { isMobile, isTablet, isDesktop } = useBreakpoint({
+ *    desktop: { minWidth: 1024 },
+ *    tablet: { minWidth: 768, maxWidth: 1023 },
+ *    mobile: { maxWidth: 767 }
+ *  })
  * 
- *  if (isMobile) {
- *    // ... Render mobile-specific component
+ *  if (isDesktop) {
+ *    // Render desktop-specific component
  *  }
  * ```
  */
-export const useBreakpoint = () => {
-  const isDesktop = useMediaQuery({ minWidth: 956 })
-  const isTablet = useMediaQuery({ minWidth: 621, maxWidth: 955 })
-  const isMobile = useMediaQuery({ maxWidth: 620 })
+export const useBreakpoint = ({
+  desktop = { minWidth: 1024 },
+  tablet = { minWidth: 621, maxWidth: 955 },
+  mobile = { maxWidth: 620 }
+} = {}) => {
+  const isDesktop = useMediaQuery({ minWidth: desktop.minWidth })
+  const isTablet = useMediaQuery({ minWidth: tablet.minWidth, maxWidth: tablet.maxWidth })
+  const isMobile = useMediaQuery({ maxWidth: mobile.maxWidth })
 
   return {
     isMobile,

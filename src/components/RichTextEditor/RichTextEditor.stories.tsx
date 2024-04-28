@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
-import { Gap, RichTextEditor, TextArea } from '../../internal'
+import { Button, Gap, RichTextEditor, TextArea } from '../../internal'
 import styled from 'styled-components'
 
 export default {
@@ -70,6 +70,33 @@ Minimal.args = {
   minimal: true
 }
 
+export const Children = ExpandTemplate.bind({})
+Children.args = {
+  pl: 1,
+  pr: 3.25,
+  outline: true,
+  minimal: true,
+  children: <Button
+    icon='arrow-up'
+    iconPrefix='fas'
+    circle
+    minimal
+  />
+}
+
+export const ChildrenMinimal = ExpandTemplate.bind({})
+ChildrenMinimal.args = {
+  pl: 1,
+  pr: 3.25,
+  outline: true,
+  children: <Button
+    icon='arrow-up'
+    iconPrefix='fas'
+    circle
+    minimal
+  />
+}
+
 export const MinimalPlaceholder = ExpandTemplate.bind({})
 MinimalPlaceholder.args = {
   px: 1,
@@ -109,7 +136,6 @@ Placeholder.args = {
   outline: true,
   placeholder: true
 };
-
 
 const S = {
   FullScreenContainer: styled.div`

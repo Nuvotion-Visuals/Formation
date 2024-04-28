@@ -96,7 +96,11 @@ export const NavSpaces = React.memo(({
   disableTablet,
   sidebarWidth
 }: Props) => {
-  const { isDesktop, isTablet, isMobile } = useBreakpoint()
+  const { isTablet, isDesktop } = useBreakpoint({
+    desktop: { minWidth: 1224 },
+    tablet: { minWidth: 768, maxWidth: 1223 },
+    mobile: { maxWidth: 767 }
+  })
 
   interface ViewProps {
     children: React.ReactNode,
@@ -229,7 +233,7 @@ export const NavSpaces = React.memo(({
           }
         </View>
 
-        <S.MainContent>
+        <S.SecondPage>
           <S.Scroll 
             numberOfNavBars={0}
           >
@@ -237,9 +241,9 @@ export const NavSpaces = React.memo(({
               secondPage
             }
           </S.Scroll>
-        </S.MainContent>
+        </S.SecondPage>
 
-        <S.SecondaryContent>
+        <S.ThirdPage>
           <S.Scroll 
             numberOfNavBars={0} 
             subtractBorder={true}
@@ -248,7 +252,7 @@ export const NavSpaces = React.memo(({
               thirdPage
             }
           </S.Scroll>
-        </S.SecondaryContent>
+        </S.ThirdPage>
       </S.Container>
     </>)
   }
@@ -282,23 +286,24 @@ const S = {
     display: flex;
     position: relative;
   `,
-  MainContent: styled.div`
+  SecondPage: styled.div`
     width: var(100vw - 640px);
     display: flex;
     flex-grow: 1;
     position: relative;
   `,
-  SecondaryContent: styled.div`
-    max-width: 320px;
+  ThirdPage: styled.div`
     display: flex;
     flex-wrap: wrap;
     position: relative;
     border-left: 1px solid var(--F_Surface);
-    min-width: 320px;
 
-    @media (min-width: 1400px) {
-      min-width: 600px;
-      max-width: 600px;
+    width: 380px;
+    max-width: 380px;
+
+    @media (min-width: 1600px) {
+      width: 500px;
+      max-width: 500px;
     }
   `,
   PagePlaceholder: styled.div<{

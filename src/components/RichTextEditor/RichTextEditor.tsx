@@ -12,24 +12,32 @@ import { IconPrefix } from '@fortawesome/fontawesome-common-types'
 interface RichTextEditorProps {
   value: string
   onChange: (value: string) => void
-  px?: number
   outline?: boolean
   iconPrefix?: IconPrefix
   autoFocus?: boolean
   minimal?: boolean
   onKeyDown?: (event: React.KeyboardEvent<HTMLDivElement>) => void
   placeholder?: string
+  p?: number,
+  pb?: number,
+  pt?: number,
+  pr?: number,
+  pl?: number,
+  px?: number,
+  py?: number,
+  children?: React.ReactNode
 }
 export const RichTextEditor: FC<RichTextEditorProps> = ({
   value,
   onChange,
-  px,
   outline,
   iconPrefix,
   autoFocus,
   minimal,
   onKeyDown,
-  placeholder
+  placeholder,
+  children,
+  ...rest
 }) => {
   const [loaded, setLoaded] = useState(false)
   const quillRef = useRef(null)
@@ -275,14 +283,16 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
 
   return (
     <S.RichTextEditor 
-      px={px || 0}
       outline={outline}
       onClick={focus}
+      {...rest}
     >
       <StyleHTML>
-      {!minimal && (
-        <CustomToolbar handlers={handlers} />
-      )}
+      {
+        !minimal && (
+          <CustomToolbar handlers={handlers} />
+        )
+      }
       <ReactQuill
         ref={quillRef}
         value={value}
@@ -304,15 +314,26 @@ export const RichTextEditor: FC<RichTextEditorProps> = ({
             { placeholder }
           </S.Placeholder>
       }
+      <S.Absolute minimal={minimal}>
+        {
+          children
+        }
+      </S.Absolute>
     </S.RichTextEditor>
   )
 }
 
+const calculatePadding = (props : any) => {
+  let pt = props.pt ?? props.py ?? props.p ?? 0
+  let pr = props.pr ?? props.px ?? props.p ?? 0
+  let pb = props.pb ?? props.py ?? props.p ?? 0
+  let pl = props.pl ?? props.px ?? props.p ?? 0
+
+  return `${pt}rem ${pr}rem ${pb}rem ${pl}rem`
+}
+
 const S = {
-  RichTextEditor: styled.div<{
-    px: number,
-    outline?: boolean
-  }>`
+  RichTextEditor: styled.div<Partial<RichTextEditorProps>>`
     position: relative;
     display: flex;
     width: 100%;
@@ -324,7 +345,7 @@ const S = {
       height: 100%;
     }
     .ql-editor {
-      padding: ${props => `0 ${props.px}rem !important`};
+      padding: ${props => calculatePadding(props)};
     }
     .ql-toolbar {
       padding: ${props => `0 ${props.px}rem !important`};
@@ -348,6 +369,14 @@ const S = {
         }
       }
     `}
+  `,
+  Absolute: styled.div<{
+    minimal?: boolean
+  }>`
+    position: absolute;
+    right: 0;
+    top: 0;
+    top: ${props => props.minimal ? '0' : '24px'};
   `,
   Toolbar: styled.div`
     width: calc(100% - 1.5rem);
