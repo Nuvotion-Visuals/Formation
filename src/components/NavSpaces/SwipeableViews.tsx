@@ -24,8 +24,8 @@ export const SwipeableViews = React.memo(({
     <ReactSwipeableViews 
       onChangeIndex={index => handle(index)} 
       index={activeSwipeIndex}
-      style={{ position: 'relative', overflowX: 'hidden', width: '100%' }}
-      containerStyle={{ width: activeSwipeIndex == 0 ? '90%' : '100%', position: 'relative'}}
+      style={{ position: 'relative', overflowX: 'hidden', width: '100%', height: '100%' }}
+      containerStyle={{ width: activeSwipeIndex == 0 ? '90%' : '100%', position: 'relative', height: '100%'}}
       slideStyle={{ position: 'relative' }}
     >
       {
@@ -70,6 +70,7 @@ const disappear = keyframes`
 const S = {
   View: styled.div`
     position: relative;
+    height: 100%;
     width: 100%;
   `,
   Backdrop: styled.div<{

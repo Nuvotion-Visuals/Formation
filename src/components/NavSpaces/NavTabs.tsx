@@ -24,7 +24,7 @@ export const NavTabs = ({ navs, borderBottom, vertical, compact } : Props) => {
   return (
     <S.NavTabs borderBottom={borderBottom} compact={compact}>
       {
-        navs.map((nav) =>
+        navs?.map((nav) =>
           <S.NavContainer width={100 / navs.length}>
             <NavTab
               {...nav}

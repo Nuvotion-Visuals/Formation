@@ -30,9 +30,6 @@ const S = {
   Header: styled.div<{
     trimRight?: boolean
   }>`
-    position: absolute;
-    bottom: 0;
-    z-index: 1;
     border-top: 1px solid var(--F_Surface);
     background: var(--F_Background);
     width: ${props => props.trimRight ? 'calc(100% - 1px)' : '100%'};
