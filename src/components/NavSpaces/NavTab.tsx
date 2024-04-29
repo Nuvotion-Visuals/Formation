@@ -91,6 +91,7 @@ const S = {
   }>`
     position: relative;
     display: flex;
+    cursor: pointer;
     height: calc(100% - .325rem);
     padding-top: .125rem;
     justify-content: center;
@@ -99,7 +100,6 @@ const S = {
     flex-wrap: ${props => props.vertical ? 'wrap' : 'nowrap'};
     gap: ${props => props.vertical ? '0' : '.25rem'};
     margin-bottom: ${props => props.vertical ? '0' : '-.125rem'};
-
     * {
       color: ${props => props.active ? 'var(--F_Font_Color)' : 'var(--F_Font_Color_Disabled)'};
     }
