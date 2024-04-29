@@ -1,10 +1,11 @@
-import React, { useState, createContext, useContext, useRef, useEffect } from 'react'
+import React, { useState, createContext, useContext, useRef, useEffect, Children } from 'react'
 import styled, { css, keyframes } from 'styled-components'
 import { Gap, Button, TextInput, Break, Fit } from '../../internal'
 
 interface DialogConfig {
   mode: 'alert' | 'confirm' | 'prompt'
-  message: string
+  message?: string
+  children?: React.ReactNode
   callback?: (value: boolean | string | null) => void
   placeholder?: string
 }
@@ -82,7 +83,13 @@ export const Dialog = () => {
       <S.Dialog ref={dialogRef} id='F_Dialog' show={isOpen} shake={shouldShake}>
         <S.DialogContent>
           <Gap gap={0.5} autoWidth center>
-            <S.Message>{config?.message}</S.Message>
+            {
+              config?.message && <S.Message>{config.message}</S.Message>
+            }
+            {
+              config?.children
+            }
+            
             <Break />
             {
               config?.mode === 'prompt' && (

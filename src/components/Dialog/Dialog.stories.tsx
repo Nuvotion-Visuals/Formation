@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
-import { Button, Gap, Dialog, DialogProvider, useDialog } from '../../internal'
+import { Button, Gap, Dialog, DialogProvider, useDialog, StyleHTML } from '../../internal'
 
 export default {
   title: 'Input/Dialog',
@@ -52,3 +52,32 @@ const UseDialogTemplate: ComponentStory<typeof Dialog> = () => {
 }
 
 export const UseDialog = UseDialogTemplate.bind({})
+
+const ChildrenTemplate: ComponentStory<typeof Dialog> = () => {
+  const { openDialog } = useDialog()
+  const [response, setResponse] = useState<string | boolean | null>('')
+
+  return (
+    <Gap>
+      <Button 
+        onClick={() => openDialog({
+          mode: 'confirm',
+          children: <StyleHTML>
+            <h1>Children</h1>
+            <p>It's possible to use children in a Dialog as well. This has several advatages:</p>
+            <ul>
+              <li>Not limited to text.</li>
+              <li>More control.</li>
+              <li>Show things like images or videos.</li>
+            </ul>
+          </StyleHTML>,
+          callback: (result) => setResponse(result)
+        })} 
+        text='Open confirmation dialog'
+      />
+      <p>{response !== null ? `Confirm response: ${response}` : ''}</p>
+    </Gap>
+  )
+}
+
+export const Children = ChildrenTemplate.bind({})
