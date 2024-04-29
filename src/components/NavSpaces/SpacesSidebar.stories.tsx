@@ -2,8 +2,6 @@ import React, { useState } from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
 import { SpacesSidebar } from './SpacesSidebar'
-import { SpaceSidebar } from './SpaceSidebar'
-import { Space } from './NavSpaces'
 
 export default {
   title: 'Spaces/SpacesSidebar',
@@ -24,8 +22,6 @@ const Template: ComponentStory<typeof SpacesSidebar> = (args) => {
   )
 } 
   
-
-
 export const Regular = Template.bind({})
 Regular.args = {
   spaces: [

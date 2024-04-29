@@ -51,7 +51,7 @@ export const List = React.memo(({
               }} 
               reorderId={reorderId} 
               holdTime={200}
-              placeholder={<Item emphasize={true} name={' '} labelColor='none' />}
+              placeholder={<Item primary={true} name={' '} labelColor='none' />}
             >
               {
                 value.map(props => <Item {...props} indent={indent}/>)

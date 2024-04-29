@@ -3,9 +3,20 @@ import styled from 'styled-components'
 
 import { SpaceIcon } from './SpaceIcon'
 
-import { Icon, Box, getLabelColor } from '../../internal'
+import { Box, LabelColor } from '../../internal'
+import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 
-import { Space } from './NavSpaces'
+interface Space {
+  src?: string
+  onClick?: (event: React.MouseEvent<Element, MouseEvent>) => void
+  date?: Date
+  href?: string
+  name?: string
+  active?: boolean
+  icon?: IconName
+  iconPrefix?: IconPrefix
+  labelColor?: LabelColor
+}
 
 interface Props {
   spaces: Space[],
@@ -23,7 +34,6 @@ export const SpacesSidebar = memo(({
 
   return (<>
     <S.Sidebar>
-
         <Box py={0} width='100%'/>
         {
           children
@@ -40,13 +50,13 @@ export const SpacesSidebar = memo(({
                     ? space.onClick(e)
                     : onClickIndex(index)
                 }
-                date={space.date}
-                href={space.href}
-                name={space.name}
+                date={space?.date}
+                href={space?.href}
+                name={space?.name}
                 active={activeSpaceIndex === index}
-                icon={space.icon}
-                iconPrefix={space.iconPrefix}
-                labelColor={space.labelColor}
+                icon={space?.icon}
+                iconPrefix={space?.iconPrefix}
+                labelColor={space?.labelColor}
               />
             </S.SidebarContainer>
           )
