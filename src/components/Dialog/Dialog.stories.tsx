@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
-import { Button, Gap, Dialog, DialogProvider, Break, dialogController } from '../../internal'
+import { Button, Gap, Dialog, DialogProvider, useDialog } from '../../internal'
 
 export default {
   title: 'Input/Dialog',
@@ -8,87 +8,47 @@ export default {
   decorators: [(Story) => (
     <DialogProvider>
       <Story />
+      <Dialog />
     </DialogProvider>
   )],
 } as ComponentMeta<typeof Dialog>
 
-const Template: ComponentStory<typeof Dialog> = (args: any) => {
+
+const UseDialogTemplate: ComponentStory<typeof Dialog> = () => {
+  const { openDialog } = useDialog()
   const [response, setResponse] = useState<string | boolean | null>('')
 
   return (
     <Gap>
-      <Button onClick={() => dialogController.openDialog({ 
-        mode: args.mode, 
-        message: args.message, 
-        callback: setResponse, 
-        placeholder: args.placeholder
-      })}>
-        {args.label}
-      </Button>
-      <p>{response !== null ? response.toString() : ''}</p>
-      <Dialog />
-    </Gap>
-  )
-}
-export const Alert = Template.bind({})
-Alert.args = {
-  label: 'Open Alert Dialog',
-  message: 'To create visuals with cameras, please give AVsync.LIVE permission to access your camera. Go to chrome://settings/content/camera',
-  mode: 'alert'
-}
-
-export const Confirm = Template.bind({})
-Confirm.args = {
-  label: 'Open Confirm Dialog',
-  message: 'Are you sure you want to delete this Scene?',
-  mode: 'confirm'
-}
-
-export const Prompt = Template.bind({})
-Prompt.args = {
-  label: 'Open Prompt Dialog',
-  message: 'Choose a title for your blog post',
-  placeholder: 'Title', // Add a placeholder for the prompt input
-  mode: 'prompt'
-}
-
-const AllDialogsTemplate: ComponentStory<typeof Dialog> = () => {
-  const [confirmResponse, setConfirmResponse] = useState<string | boolean | null>('')
-  const [promptResponse, setPromptResponse] = useState<string | boolean | null>('')
-
-  return (
-    <Gap>
-      <Button onClick={() => dialogController.openDialog({
+      <Button onClick={() => openDialog({
         mode: 'alert',
         message: 'This is an alert!',
+        callback: (result) => setResponse(result)
       })}>
         Open Alert Dialog
       </Button>
-      <Break />
+      <p>{response !== null ? `Alert response: ${response}` : ''}</p>
 
-      <Button onClick={() => dialogController.openDialog({
+      <Button onClick={() => openDialog({
         mode: 'confirm',
-        message: 'Are you sure you want to delete this Scene?',
-        callback: setConfirmResponse
+        message: 'Are you sure you want to proceed?',
+        callback: (result) => setResponse(result)
       })}>
         Open Confirm Dialog
       </Button>
-      <p>{confirmResponse !== null ? confirmResponse.toString() : ''}</p>
+      <p>{response !== null ? `Confirm response: ${response}` : ''}</p>
 
-      <Break />
-
-      <Button onClick={() => dialogController.openDialog({
+      <Button onClick={() => openDialog({
         mode: 'prompt',
-        message: 'Enter your name:',
-        callback: setPromptResponse,
-        placeholder: 'Name'
+        message: 'Please enter your name:',
+        placeholder: 'Name',
+        callback: (result) => setResponse(result)
       })}>
         Open Prompt Dialog
       </Button>
-      <p>{promptResponse !== null ? promptResponse.toString() : ''}</p>
-      <Dialog />
+      <p>{response !== null ? `Prompt response: ${response}` : ''}</p>
     </Gap>
   )
 }
 
-export const AllDialogs = AllDialogsTemplate.bind({})
+export const UseDialog = UseDialogTemplate.bind({})

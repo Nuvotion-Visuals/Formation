@@ -311,7 +311,7 @@ const Template: ComponentStory<typeof NavSpaces> = args => {
 export const Positions = Template.bind({})
 Positions.args = {
   label: 'Position title',
-  sidebarWidth: '320px',
+  sidebarWidth: '380px',
   secondaryTopNav: [
     {
       title: 'People',

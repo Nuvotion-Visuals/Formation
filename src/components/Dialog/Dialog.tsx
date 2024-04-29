@@ -1,8 +1,6 @@
-import React, { useState, useEffect, useRef, createContext, useContext } from 'react'
+import React, { useState, createContext, useContext, useRef, useEffect } from 'react'
 import styled, { css, keyframes } from 'styled-components'
 import { Gap, Button, TextInput, Break, Fit } from '../../internal'
-
-import { dialogController } from './DialogController'
 
 interface DialogConfig {
   mode: 'alert' | 'confirm' | 'prompt'
@@ -26,62 +24,22 @@ const DialogContext = createContext<DialogContextType>({
 
 export const useDialog = () => useContext(DialogContext)
 
-interface DialogProviderProps {
-  children: React.ReactNode
-}
+export const DialogProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [isOpen, setIsOpen] = useState(false)
+  const [config, setConfig] = useState<DialogConfig | undefined>()
 
-/**
- * `Dialog` is a customizable dialog component for creating alert, confirm, and prompt dialogs.
- * It provides an interactive way to display information and collect user input in a web application.
- * This component supports three modes: 'alert' for simple messages, 'confirm' for yes/no decisions,
- * and 'prompt' for user input. The dialog appears with an animation and can be configured with a
- * message, placeholder text for prompts, and a callback function to handle user responses.
- * 
- * The dialog also features an outside click detection to provide a shaking effect, enhancing the
- * user experience by drawing attention to the dialog when users click outside of it.
- *
- * @component
- * @param {function} useDialog - Custom hook to manage dialog state and configuration.
- * @param {function} useState - React useState hook for managing internal state.
- * @param {function} useEffect - React useEffect hook for handling side effects.
- * @param {function} useRef - React useRef hook for referencing DOM elements.
- * 
- * @example
- * // To create and use a confirm dialog with a custom message and callback function
- * const { showDialog, hideDialog } = useDialog();
- * showDialog({
- *   mode: 'confirm',
- *   message: 'Are you sure?',
- *   callback: (response) => console.log(`User response: ${response}`)
- * });
- *
- * @example
- * // To create and use a prompt dialog for user input
- * const { showDialog } = useDialog();
- * showDialog({
- *   mode: 'prompt',
- *   message: 'Enter your name:',
- *   placeholder: 'Name',
- *   callback: (input) => console.log(`User input: ${input}`)
- * });
- */
-export const DialogProvider: React.FC<DialogProviderProps> = ({ children }) => {
-  const [dialogState, setDialogState] = useState<DialogContextType>({
-    isOpen: false,
-    openDialog: (config) => {
-      setDialogState(prevState => ({ ...prevState, isOpen: true, config }))
-    },
-    closeDialog: () => {
-      setDialogState(prevState => ({ ...prevState, isOpen: false, config: undefined }))
-    }
-  })
+  const openDialog = (config: DialogConfig) => {
+    setConfig(config)
+    setIsOpen(true)
+  }
 
-  // Set the actual functions in the DialogController
-  dialogController.setOpenDialogFunction(dialogState.openDialog)
-  dialogController.setCloseDialogFunction(dialogState.closeDialog)
+  const closeDialog = () => {
+    setIsOpen(false)
+    setConfig(undefined)
+  }
 
   return (
-    <DialogContext.Provider value={dialogState}>
+    <DialogContext.Provider value={{ isOpen, config, openDialog, closeDialog }}>
       {children}
     </DialogContext.Provider>
   )
@@ -112,71 +70,7 @@ export const Dialog = () => {
 
   const handleClose = (value: boolean | string | null) => {
     closeDialog()
-    if (config && config.callback) {
-      config.callback(value)
-    }
-  }
-
-  useEffect(() => {
-    const blurFocusableElements = () => {
-      const focusableElements = document.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])')
-      focusableElements.forEach((element: any) => {
-        if (typeof element.blur === 'function') {
-          element.blur()
-        }
-      })
-    }
-
-    if (isOpen && config?.mode !== 'prompt') {
-      blurFocusableElements()
-    }
-  }, [isOpen, config])
-
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Enter' && isOpen && config?.mode !== 'prompt') {
-        event.preventDefault()
-        switch (config?.mode) {
-          case 'confirm':
-            handleClose(true)
-            break
-          case 'alert':
-            handleClose(null)
-            break
-          default:
-            break
-        }
-      }
-    }
-
-    document.addEventListener('keydown', handleKeyDown)
-
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown)
-    }
-  }, [isOpen, config, handleClose])
-
-  const renderButtons = () => {
-    switch (config?.mode) {
-      case 'alert':
-        return <Button onClick={() => handleClose(null)} primary expand>OK</Button>
-      case 'confirm':
-        return (
-          <>
-            <Button onClick={() => handleClose(true)} primary>Yes</Button>
-            <Button onClick={() => handleClose(false)}>No</Button>
-          </>
-        )
-      case 'prompt':
-        return (
-          <>
-            <Button onClick={() => handleClose(inputValue)} primary expand>OK</Button>
-            <Button onClick={() => handleClose(null)} expand>Cancel</Button>
-          </>
-        )
-      default:
-        return null
-    }
+    config?.callback?.(value)
   }
 
   useEffect(() => {
@@ -205,7 +99,21 @@ export const Dialog = () => {
               )
             }
             <Fit gap={0.5}>
-              {renderButtons()}
+              {config && (
+                config.mode === 'alert' ? <Button onClick={() => handleClose(null)} primary expand>OK</Button> :
+                config.mode === 'confirm' ? (
+                  <>
+                    <Button onClick={() => handleClose(true)} primary>Yes</Button>
+                    <Button onClick={() => handleClose(false)}>No</Button>
+                  </>
+                ) :
+                config.mode === 'prompt' ? (
+                  <>
+                    <Button onClick={() => handleClose(inputValue)} primary expand>OK</Button>
+                    <Button onClick={() => handleClose(null)} expand>Cancel</Button>
+                  </>
+                ) : null
+              )}
             </Fit>
           </Gap>
         </S.DialogContent>

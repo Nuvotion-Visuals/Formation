@@ -86,7 +86,6 @@ export { QRCode } from './components/QRCode/QRCode'
 export { Small } from './components/Small/Small'
 export { TextArea } from './components/TextArea/TextArea'
 export { Dialog, DialogProvider, useDialog } from './components/Dialog/Dialog'
-export { dialogController } from './components/Dialog/DialogController'
 export { DropCorners } from './components/DragAndDrop/DropCorners'
 
 import { Link } from './components/Link/Link'

@@ -127,7 +127,6 @@ export { ProgressTimer } from './components/ProgressTimer/ProgressTimer'
 export { Control } from './components/Control/Control'
 export { MultiSelect } from './components/MultiSelect/MultiSelect'
 export { Dialog, DialogProvider, useDialog } from './components/Dialog/Dialog'
-export { dialogController } from './components/Dialog/DialogController'
 
 // Tissue (2)
 export { Navigation } from './components/Navigation/Navigation'
