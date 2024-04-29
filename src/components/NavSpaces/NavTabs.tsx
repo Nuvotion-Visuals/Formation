@@ -10,17 +10,19 @@ interface Props {
     icon?: IconName,
     iconPrefix?: IconPrefix,
     title: string,
-    href: string,
+    href?: string,
     active?: boolean,
     count?: number
+    onClick?: (e: any) => void
   }[],
   borderBottom?: boolean,
-  vertical?: boolean
+  vertical?: boolean,
+  compact?: boolean
 }
 
-export const NavTabs = ({ navs, borderBottom, vertical } : Props) => {
+export const NavTabs = ({ navs, borderBottom, vertical, compact } : Props) => {
   return (
-    <S.NavTabs borderBottom={borderBottom}>
+    <S.NavTabs borderBottom={borderBottom} compact={compact}>
       {
         navs.map((nav) =>
           <S.NavContainer width={100 / navs.length}>
@@ -38,8 +40,9 @@ export const NavTabs = ({ navs, borderBottom, vertical } : Props) => {
 const S = {
   NavTabs: styled.div<{
     borderBottom?: boolean
+    compact?: boolean
   }>`
-    height: var(--F_Header_Height);
+    height: ${props => props.compact ? 'var(--F_Input_Height)' : 'var(--F_Header_Height)'};
     display: flex;
     align-items: center;
     width: 100%;

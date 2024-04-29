@@ -5,13 +5,14 @@ import { Icon, Badge, LinkContext, Link as IntLink } from '../../internal'
 import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 
 interface Props {
-  icon?: IconName,
-  iconPrefix?: IconPrefix,
-  title: string,
-  href: string,
-  active?: boolean,
-  count?: number,
+  icon?: IconName
+  iconPrefix?: IconPrefix
+  title: string
+  href?: string
+  active?: boolean
+  count?: number
   vertical?: boolean
+  onClick?: (e: any) => void
 }
 
 export const NavTab = ({
@@ -21,7 +22,8 @@ export const NavTab = ({
   href,
   active,
   count,
-  vertical
+  vertical,
+  onClick
 } : Props) => {
 
   const Link: any = useContext(LinkContext) || IntLink;
@@ -40,33 +42,45 @@ export const NavTab = ({
         : null
     }
   </>
-  
-  return (
-    <Link href={href}>
-      <S.NavTab vertical={vertical} active={active}>
-        {
-          count
-            ? <Badge labelColor='red' count={count}>
-                {
-                  renderIcon()
-                }
-              </Badge>
-            : renderIcon()
-        }
-        
-        <S.Title vertical={vertical} active={active}>
-          { 
-            title 
-          }
-        </S.Title>
 
-        {
-          active
-            ? <S.Active />
-            : null
-        }
-      </S.NavTab>
-    </Link>
+  const Content = () => <S.NavTab 
+    vertical={vertical} 
+    active={active} 
+    onClick={onClick}
+  >
+    {
+      count
+        ? <Badge labelColor='red' count={count}>
+            {
+              renderIcon()
+            }
+          </Badge>
+        : renderIcon()
+    }
+    
+    <S.Title vertical={vertical} active={active}>
+      { 
+        title 
+      }
+    </S.Title>
+
+    {
+      active
+        ? <S.Active />
+        : null
+    }
+  </S.NavTab>
+  
+  return (<>
+    {
+      href
+        ? <Link href={href}>
+            <Content />
+          </Link>
+        : <Content />
+    }
+  </>
+    
   )
 }
 

@@ -261,6 +261,7 @@ const Template: ComponentStory<typeof NavSpaces> = args => {
         <NavTabs
           navs={(args as any).secondaryTopNav}
           borderBottom={true}
+          compact
         />
         <Placeholders />
         <Placeholders />
