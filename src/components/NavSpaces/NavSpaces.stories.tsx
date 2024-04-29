@@ -186,7 +186,7 @@ const Template: ComponentStory<typeof NavSpaces> = args => {
       channels: eventChannels
     },
     {
-      name: 'New Organization 112',
+      name: '🐦',
       labelColor: 'cyan'
     },
     {
