@@ -10,18 +10,17 @@ export default {
 
 const Template: ComponentStory<typeof LoadingSpinner> = (args) => <LoadingSpinner {...args} />
 
-export const Regular = Template.bind({})
-Regular.args = {
+export const Default = Template.bind({})
+Default.args = {
   
 }
 
-export const Small = Template.bind({})
-Small.args = {
-  small: true
+export const Compact = Template.bind({})
+Compact.args = {
+  compact: true
 }
 
-export const Chat = Template.bind({})
-Chat.args = {
-  small: true,
-  chat: true
+export const Custom = Template.bind({})
+Custom.args = {
+  size: '64px'
 }
