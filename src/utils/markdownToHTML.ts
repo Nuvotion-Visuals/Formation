@@ -42,7 +42,7 @@ marked.setOptions({
  */
 export const markdownToHTML = (markdown: string) => {
   // Normalize list items by removing extra newline characters before conversion
-  const normalizedMarkdown = markdown.replace(/(\r\n|\r|\n){2,}(?=\d\.|\*|\+|\-)/g, '\n')
+  const normalizedMarkdown = markdown.replace(/(\r\n|\r|\n){2,}(?=\d+\.|\*|\+|\-)/g, '\n')
   
   // Convert markdown to HTML using marked library with the custom renderer
   const html = marked(normalizedMarkdown)
