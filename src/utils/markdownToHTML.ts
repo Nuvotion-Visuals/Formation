@@ -31,7 +31,8 @@ marked.setOptions({
  * and 'DOMPurify' to sanitize the HTML string generated. This approach helps in rendering user supplied content
  * (e.g., comments, posts in a forum, etc.) where markdown is used safely.
  *
- * @param {string} markdown - The markdown string to be converted to HTML.
+ * @param {string} markdown - The markdown string to be converted to HTML. Before conversion, removes extra newline characters
+ * between list items to avoid unnecessary spacing.
  * 
  * @returns {string} The sanitized HTML string obtained from the markdown.
  * 
@@ -40,8 +41,11 @@ marked.setOptions({
  * const htmlString = markdownToHTML(markdownString) // Returns '<h1>Hello World</h1>'
  */
 export const markdownToHTML = (markdown: string) => {
+  // Normalize list items by removing extra newline characters before conversion
+  const normalizedMarkdown = markdown.replace(/(\r\n|\r|\n){2,}(?=\d\.|\*|\+|\-)/g, '\n')
+  
   // Convert markdown to HTML using marked library with the custom renderer
-  const html = marked(markdown)
+  const html = marked(normalizedMarkdown)
   // Sanitize the HTML using DOMPurify
   return DOMPurify.sanitize(html, {
     ADD_TAGS: ['iframe'],
