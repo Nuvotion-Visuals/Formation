@@ -218,7 +218,7 @@ const S = {
     max-width: var(--F_Sidebar_Width);
     margin-top: var(--F_Header_Height);
     display: flex;
-    height: calc(calc(100vh * var(--F_Zoom_Scale)) - var(--F_Header_Height));
+    height: calc(calc(100% * var(--F_Zoom_Scale)) - var(--F_Header_Height));
     a {
       text-decoration: none;
     }
@@ -236,7 +236,7 @@ const S = {
     left: 0;
     top: 0;
     width: calc(100vw * var(--F_Zoom_Scale));
-    height: calc(100vh * var(--F_Zoom_Scale));
+    height: calc(100% * var(--F_Zoom_Scale));
     background: var(--F_Backdrop_Light);
     z-index: 2;
     @media screen and (min-width: 1024px) {
