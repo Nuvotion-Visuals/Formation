@@ -81,20 +81,30 @@ export const Envelope = ({
 		//todo change according to index "i start = 0" "i end = points.length - 1"
 		const updatedPointByCommand = () => {
 			//? if it's the first point, keep x at 0
-			if (point.id === 0) {
-				return {
-					...thisPoint,
-					coordinates: [0, gy],
-				}
-			}
-			// ? i guess i don't need to worry about the last point's x snapping
+			// if (point.id === 0) {
+			// 	return {
+			// 		...thisPoint,
+			// 		coordinates: [0, gy],
+			// 	}
+			// } else if (point.id === points.length - 1) {
+			// 	return {
+			// 		...thisPoint,
+			// 		coordinates: [
+			// 			thisPoint.coordinates[0],
+			// 			thisPoint.coordinates[1],
+			// 			boundWidth,
+			// 			gy,
+			// 		],
+			// 	}
+			// }
+
 			switch (point.command) {
 				//? for both "M" & "L"
 				case "M":
 				case "L":
 					return {
 						...thisPoint,
-						coordinates: [gx, gy],
+						coordinates: [point.id === 0 ? 0 : gx, gy],
 					}
 
 				default:
@@ -773,6 +783,10 @@ function coordinateAnchor(point: Point) {
 			}
 	}
 }
+
+// function updateCoordinatesByCommand(thisPoint:Point) {
+
+// }
 
 const sortPoints = (points: Point[] | CursorPoint[]) => {
 	const sortedPoints = points.sort((a, b) => {
