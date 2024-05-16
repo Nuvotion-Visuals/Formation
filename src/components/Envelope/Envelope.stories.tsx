@@ -196,7 +196,15 @@ export const SCurve = Template.bind({})
 SCurve.args = {
 	boundHeight: 500,
 	boundWidth: 500,
-	path: "M0 0 Q0.5 0.1 0.5 0.5 Q0.75 0.75 1 1",
+	path: "M0 0 Q0.5 0.1 0.5 0.5 Q0.5 0.98 1 1",
+	duration: 2,
+}
+
+export const MultiCurveTypes = Template.bind({})
+MultiCurveTypes.args = {
+	boundHeight: 500,
+	boundWidth: 500,
+	path: "M0 0 L0.1 0.2 L0.5 0.1 Q0.5 0.98 1 1",
 	duration: 2,
 }
 

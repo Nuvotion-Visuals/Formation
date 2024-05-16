@@ -12,6 +12,7 @@ import { useGSAP } from "@gsap/react"
 import styles from "./envelope.module.css"
 import { Box, Dropdown, Gap, NumberInput, Select, Spacer } from "../../internal"
 import styled from "styled-components"
+import { setActivePanelByTitle } from "components/Docking/dockingUtils"
 
 type Props = {
 	phase: number
@@ -79,22 +80,23 @@ export const Envelope = ({
 
 		//todo change according to index "i start = 0" "i end = points.length - 1"
 		const updatedPointByCommand = () => {
-			switch (point.id) {
-				case 0:
+			//? if it's the first point, keep x at 0
+			if (point.id === 0) {
+				return {
+					...thisPoint,
+					coordinates: [0, gy],
+				}
+			}
+			// ? i guess i don't need to worry about the last point's x snapping
+			switch (point.command) {
+				//? for both "M" & "L"
+				case "M":
+				case "L":
 					return {
 						...thisPoint,
-						coordinates: [0, gy],
+						coordinates: [gx, gy],
 					}
-				// case points.length - 1:
-				// 	return {
-				// 		...thisPoint,
-				// 		coordinates: [
-				// 			thisPoint.coordinates[0],
-				// 			thisPoint.coordinates[1],
-				// 			boundWidth,
-				// 			gy,
-				// 		],
-				// 	}
+
 				default:
 					if (type === "point" && thisPoint.coordinates.length >= 4) {
 						return {
@@ -131,6 +133,7 @@ export const Envelope = ({
 			updatedPoint,
 			...points.slice(pointIndex + 1),
 		]
+		// console.log({ updatedPoints })
 
 		// @ts-ignore fix this
 		return sortPoints(updatedPoints)
@@ -255,10 +258,6 @@ export const Envelope = ({
 		)
 		const prevPoint = sortedPoints[index - 1] || points[0]
 		const prevAnchor: SimpleCoordinate = coordinateAnchor(prevPoint)
-		// const prevAnchor: [number, number] = [
-		// 	prevPoint.coordinates[isMiddlePoint(prevPoint.id, points) ? 2 : 0],
-		// 	prevPoint.coordinates[isMiddlePoint(prevPoint.id, points) ? 3 : 1],
-		// ]
 		const newPoint = {
 			id: index,
 			command: "Q",
@@ -321,7 +320,9 @@ export const Envelope = ({
 		}
 	}, [])
 
-	const [activePoint, setActivePoint] = useState<number | null>(0)
+	const [activePoint, setActivePoint] = useState<Point>(
+		points[points.length - 1]
+	)
 
 	type CurveOption = {
 		value: string
@@ -360,17 +361,63 @@ export const Envelope = ({
 		// Add more curves as needed
 	]
 
-	const [activeCurve, setActiveCurve] = useState("Quadratic")
+	const prevPoint = points[activePoint.id - 1] || points[0]
+	const prevAnchor: SimpleCoordinate = coordinateAnchor(prevPoint)
 
-	useEffect(() => {
-		console.log(activePoint)
-	}, [activePoint])
+	// const [activeCurve, setActiveCurve] = useState("Q")
+	function handleCurveSelection(command: Command) {
+		// set `activePoint.command`
+		if (!activePoint) return
+		const updatedPoint = (() => {
+			switch (activePoint?.command) {
+				case "M":
+				case "L":
+					return {
+						...activePoint,
+						command: command,
+						coordinates: [
+							coordinateAnchor(activePoint).x,
+							coordinateAnchor(activePoint).y,
+						],
+					}
+				//? for all 4 number coordinates like "Q" or "S"
+				default:
+					return {
+						...activePoint,
+						command: command,
+						coordinates: [
+							lerp(prevAnchor.x, coordinateAnchor(activePoint).x, 0.5),
+							lerp(prevAnchor.y, coordinateAnchor(activePoint).y, 0.5),
+							coordinateAnchor(activePoint).x,
+							coordinateAnchor(activePoint).y,
+						],
+					}
+			}
+		})()
+
+		//@ts-ignore
+		setActivePoint(updatedPoint)
+		// // find activePoint.id in `points`
+		// // update points array
+		const updatedPoints = [
+			...points.slice(0, activePoint.id),
+			updatedPoint,
+			...points.slice(activePoint.id + 1),
+		]
+		// console.log({ updatedPoints })
+		// @ts-ignore fix this
+		setPoints(sortPoints(updatedPoints))
+	}
+
+	// useEffect(() => {
+	// 	console.log("activePoint: ", activePoint)
+	// }, [activePoint])
 
 	const updatePhase = (newPhase: number) => {
 		if (activePoint == null) return
 		const newPoints = [...points]
-		newPoints[activePoint].coordinates[
-			coordinateAnchor(points[activePoint]).x
+		newPoints[activePoint.id].coordinates[
+			coordinateAnchor(points[activePoint.id]).x
 		] = (newPhase / 100) * boundWidth
 		handlePointsUpdateEnd(newPoints)
 	}
@@ -378,8 +425,8 @@ export const Envelope = ({
 	const updateValue = (newValue: number) => {
 		if (activePoint == null) return
 		const newPoints = [...points]
-		newPoints[activePoint].coordinates[
-			coordinateAnchor(points[activePoint]).y
+		newPoints[activePoint.id].coordinates[
+			coordinateAnchor(points[activePoint.id]).y
 		] = (newValue / 100) * boundHeight
 		handlePointsUpdateEnd(newPoints)
 	}
@@ -477,7 +524,7 @@ export const Envelope = ({
 						className={"point_"}
 						isCurveEdit={false}
 						activePoint={activePoint}
-						onSetActivePoint={(id) => setActivePoint(id)}
+						onSetActivePoint={() => setActivePoint(points[0])}
 					/>
 					{
 						//// .slice removes 1st and last element (start end points) without mutating
@@ -490,10 +537,11 @@ export const Envelope = ({
 								className={"point_"}
 								removePoint={removePoint}
 								activePoint={activePoint}
-								onSetActivePoint={(id) => setActivePoint(id)}
+								onSetActivePoint={() => setActivePoint(p)}
 							/>
 						))
 					}
+					{/* //todo may git rid of as the map above inserts last point */}
 					{/* <PointGroup
 						i={points.length - 1}
 						p={points[points.length - 1]}
@@ -512,8 +560,8 @@ export const Envelope = ({
 						{activePoint != null && (
 							<NumberInput
 								value={
-									(points[activePoint]?.coordinates[
-										coordinateAnchor(points[activePoint]).x
+									(points[activePoint.id]?.coordinates[
+										coordinateAnchor(points[activePoint.id]).x
 									] /
 										boundWidth) *
 									100
@@ -529,8 +577,8 @@ export const Envelope = ({
 						{activePoint != null && (
 							<NumberInput
 								value={
-									(points[activePoint]?.coordinates[
-										coordinateAnchor(points[activePoint]).y
+									(points[activePoint.id]?.coordinates[
+										coordinateAnchor(points[activePoint.id]).y
 									] /
 										boundHeight) *
 										(range[1] - range[0]) +
@@ -546,19 +594,21 @@ export const Envelope = ({
 						<S.Label>Curve</S.Label>
 						<Box width={8}>
 							<Select
-								value={activeCurve}
+								value={(activePoint?.command as string) || "Q"}
 								compact
 								options={[
 									{
-										value: "Quadratic",
+										value: "Q",
 										label: "Quadratic",
 									},
 									{
-										value: "Linear",
+										value: "L",
 										label: "Linear",
 									},
 								]}
-								onChange={(val) => setActiveCurve(val)}
+								onChange={(val: unknown) =>
+									handleCurveSelection(val as Command)
+								}
 							/>
 						</Box>
 					</Gap>
@@ -576,6 +626,7 @@ export const Envelope = ({
 					/>
 				</Gap>
 			</Box>
+			<p>debug path: {path}</p>
 		</div>
 	)
 }
@@ -586,8 +637,8 @@ type PointGroupProps = {
 	removePoint?: (e: any, i: number) => any
 	className: string
 	isCurveEdit?: boolean
-	activePoint: number | null
-	onSetActivePoint: (id: number) => void
+	activePoint: Point | null
+	onSetActivePoint: (p: Point) => void
 }
 
 // todo make more robust conditional depending on `command` type
@@ -596,13 +647,14 @@ const PointGroup = ({
 	p,
 	removePoint = (e, i) => null,
 	className = "point_",
+	// todo is this necessary now?
 	isCurveEdit = true,
 	activePoint,
 	onSetActivePoint,
 }: PointGroupProps) => {
 	return (
 		<g id={`p_${p.id}`}>
-			{isCurveEdit && (
+			{p.coordinates.length > 2 && isCurveEdit && (
 				<>
 					<polyline
 						className={styles.curve_tangent + ` point_tangent_${p.id}`}
@@ -619,13 +671,15 @@ const PointGroup = ({
 			<circle
 				cx={coordinateAnchor(p).x}
 				cy={coordinateAnchor(p).y}
-				// cx={p.coordinates[p.command === "Q" ? 2 : 0]}
-				// cy={p.coordinates[p.command === "Q" ? 3 : 1]}
 				r="5"
-				fill={activePoint === p.id ? "var(--F_Primary_Variant)" : "white"}
+				fill={
+					activePoint && activePoint.id === p.id
+						? "var(--F_Primary_Variant)"
+						: "white"
+				}
 				className={`${className + p.id}`}
 				onDoubleClick={(e: any) => removePoint(e, Number(p.id))}
-				onClick={() => onSetActivePoint(p.id)}
+				onClick={() => onSetActivePoint(p)}
 			/>
 		</g>
 	)
@@ -677,6 +731,8 @@ const normalizeCoordinates = (coordinates: number[], bounds: Bounds) => {
 }
 
 const convertPathStringToPoints = (path: string, bounds: Bounds) => {
+	// console.log("path: ", path)
+
 	const commands = path.match(/[a-z][^a-z]*/gi)
 	if (!commands) throw Error("no commands found")
 	const scaledPoints = commands.map((commandString, i) => {
@@ -700,7 +756,9 @@ const convertPathStringToPoints = (path: string, bounds: Bounds) => {
 //? find the point coordinates physically connected to the line (the last 2 numbers in the `coordinates` array)
 function coordinateAnchor(point: Point) {
 	switch (point.command) {
-		case "Q" || "S":
+		// todo i believe this could be simplified to just `point.coordinates[point.coordinates.length - 2] ... .length -1]`
+		case "Q":
+		case "S":
 			return {
 				x: point.coordinates[point.coordinates.length - 2],
 				y: point.coordinates[point.coordinates.length - 1],
@@ -711,7 +769,7 @@ function coordinateAnchor(point: Point) {
 		default:
 			return {
 				x: point.coordinates[0],
-				y: point.coordinates[0],
+				y: point.coordinates[1],
 			}
 	}
 }
