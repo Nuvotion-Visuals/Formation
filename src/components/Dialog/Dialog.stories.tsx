@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
-import { Button, Gap, Dialog, DialogProvider, useDialog, StyleHTML } from '../../internal'
+import { Button, Gap, Dialog, DialogProvider, useDialog, StyleHTML, Box } from '../../internal'
 
 export default {
   title: 'Input/Dialog',
@@ -8,11 +8,10 @@ export default {
   decorators: [(Story) => (
     <DialogProvider>
       <Story />
-      <Dialog />
+      <Dialog center />
     </DialogProvider>
   )],
 } as ComponentMeta<typeof Dialog>
-
 
 const UseDialogTemplate: ComponentStory<typeof Dialog> = () => {
   const { openDialog } = useDialog()
@@ -62,15 +61,17 @@ const ChildrenTemplate: ComponentStory<typeof Dialog> = () => {
       <Button 
         onClick={() => openDialog({
           mode: 'confirm',
-          children: <StyleHTML>
-            <h1>Children</h1>
-            <p>It's possible to use children in a Dialog as well. This has several advatages:</p>
-            <ul>
-              <li>Not limited to text.</li>
-              <li>More control.</li>
-              <li>Show things like images or videos.</li>
-            </ul>
-          </StyleHTML>,
+          children: <Box mt={-1}>
+            <StyleHTML>
+              <h1>Children</h1>
+              <p>It's possible to use children in a Dialog as well. This has several advatages:</p>
+              <ul>
+                <li>Not limited to text.</li>
+                <li>More control.</li>
+                <li>Show things like images or videos.</li>
+              </ul>
+            </StyleHTML>
+          </Box>,
           callback: (result) => setResponse(result)
         })} 
         text='Open confirmation dialog'

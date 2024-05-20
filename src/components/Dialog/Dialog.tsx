@@ -46,7 +46,26 @@ export const DialogProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   )
 }
 
-export const Dialog = () => {
+/**
+ * `Dialog` is a versatile modal component that functions as an alert, confirmation, or prompt dialog.
+ * It is designed to be interactive and requires user interaction to be closed. The dialog integrates
+ * with a context to manage its open/close state and configuration, and it can optionally be centered on the screen.
+ * The dialog supports customizable messages, additional content, and input fields.
+ *
+ * This component must be wrapped in a `DialogProvider` component to provide the necessary context.
+ * You can use the `openDialog` function from the `useDialog` hook to open the dialog from anywhere in your application.
+ *
+ * @component
+ * @param {boolean} [center=false] - Whether to center the dialog vertically on the screen.
+ *
+ * @property {boolean} isOpen - Indicates if the dialog is currently open.
+ * @property {DialogConfig} config - Configuration object for the dialog, defining its mode, message, and callback.
+ * @property {function} closeDialog - Function to close the dialog, which invokes the callback with the user response.
+ *
+ * @returns {JSX.Element} The rendered dialog component.
+ */
+
+export const Dialog = ({ center }: { center?: boolean }) => {
   const { isOpen, config, closeDialog } = useDialog()
   const [inputValue, setInputValue] = useState('')
   const dialogRef = useRef<HTMLDivElement>(null)
@@ -79,8 +98,17 @@ export const Dialog = () => {
   }, [isOpen])
 
   return (
-    <S.DialogContainer show={isOpen}>
-      <S.Dialog ref={dialogRef} id='F_Dialog' show={isOpen} shake={shouldShake}>
+    <S.DialogContainer 
+      show={isOpen}
+      center={center}
+    >
+      <S.Dialog 
+        ref={dialogRef} 
+        id='F_Dialog' 
+        show={isOpen} 
+        shake={shouldShake}
+        center={center}
+      >
         <S.DialogContent>
           <Gap gap={0.5} autoWidth center>
             {
@@ -150,6 +178,7 @@ const shake = keyframes`
 const S = {
   DialogContainer: styled.div<{
     show?: boolean
+    center?: boolean
   }>`
     position: fixed;
     z-index: 1000;
@@ -160,18 +189,20 @@ const S = {
     display: ${props => props.show ? 'flex' : 'none'};
     justify-content: center;
     background: var(--F_Backdrop_Light);
-    align-items: flex-start;
+    align-items: ${props => props.center ? 'center' : 'flex-start'};
   `,
   Dialog: styled.div<{
-    show?: boolean, shake?: boolean
+    show?: boolean
+    shake?: boolean
+    center?: boolean
   }>`
     box-shadow: var(--F_Outline_Outset);
     background: var(--F_Background);
     border-radius: .5rem;
-    max-width: 90vw;
+    max-width: calc(100vw - 2rem);
     animation: ${props => props.show ? css`${slideDown} 0.125s ease-out` : 'none'},
                ${props => props.shake ? css`${shake} 0.5s ease` : 'none'};
-    margin-top: 2rem;
+    margin-top: ${props => props.center ? '0' : '2rem'};
     width: 400px;
   `,
   DialogContent: styled.div`
