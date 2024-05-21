@@ -9,6 +9,7 @@ import styled from 'styled-components'
  *
  * @component
  * @param {boolean} [expand] - If true, the component will expand to fill the width of its container; otherwise, it will fit to the content width.
+ * @param {React.ReactNode} children - The child elements to be grouped within the container.
  *
  * @example
  * // GroupRadius component with full width
@@ -27,6 +28,7 @@ import styled from 'styled-components'
 
 export const GroupRadius = React.memo(styled.div<{
   expand?: boolean
+  children: React.ReactNode
 }>`
   display: flex;
   gap: 1px;
