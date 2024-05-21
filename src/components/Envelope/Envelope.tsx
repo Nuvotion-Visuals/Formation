@@ -104,7 +104,14 @@ export const Envelope = ({
 				case "L":
 					return {
 						...thisPoint,
-						coordinates: [point.id === 0 ? 0 : gx, gy],
+						coordinates: [
+							point.id === 0
+								? 0
+								: point.id === points.length - 1
+								? boundWidth
+								: gx,
+							gy,
+						],
 					}
 
 				default:
@@ -143,9 +150,8 @@ export const Envelope = ({
 			updatedPoint,
 			...points.slice(pointIndex + 1),
 		]
-		// console.log({ updatedPoints })
-
-		// @ts-ignore fix this
+		//todo type error needs fixing
+		// @ts-ignore
 		return sortPoints(updatedPoints)
 	}
 
@@ -278,7 +284,7 @@ export const Envelope = ({
 				cursorPoint.coordinates[1],
 			],
 		} as Point
-		handlePointsUpdateEnd(sortPoints([...points, newPoint]))
+		handlePointsUpdateEnd(sortPoints([...points, newPoint], boundWidth))
 	}
 
 	const removePoint = (
@@ -289,7 +295,7 @@ export const Envelope = ({
 		const newAreaPoints = [...points]
 		if (newAreaPoints.length > 3) {
 			newAreaPoints.splice(index, 1)
-			handlePointsUpdateEnd(sortPoints(newAreaPoints))
+			handlePointsUpdateEnd(sortPoints(newAreaPoints, boundWidth))
 		}
 	}
 
@@ -384,7 +390,8 @@ export const Envelope = ({
 				case "L":
 					return {
 						...activePoint,
-						command: command,
+						//? keep start point as `M` command
+						command: activePoint.command === "M" ? "M" : command,
 						coordinates: [
 							coordinateAnchor(activePoint).x,
 							coordinateAnchor(activePoint).y,
@@ -404,24 +411,21 @@ export const Envelope = ({
 					}
 			}
 		})()
-
+		//todo why is this resetting curve point to lerp'd when anchor is dragged?
+		//todo fix type error
 		//@ts-ignore
 		setActivePoint(updatedPoint)
-		// // find activePoint.id in `points`
-		// // update points array
+
 		const updatedPoints = [
 			...points.slice(0, activePoint.id),
 			updatedPoint,
 			...points.slice(activePoint.id + 1),
 		]
-		// console.log({ updatedPoints })
-		// @ts-ignore fix this
+
+		//todo fix type error
+		// @ts-ignore
 		setPoints(sortPoints(updatedPoints))
 	}
-
-	// useEffect(() => {
-	// 	console.log("activePoint: ", activePoint)
-	// }, [activePoint])
 
 	const updatePhase = (newPhase: number) => {
 		if (activePoint == null) return
@@ -528,38 +532,17 @@ export const Envelope = ({
 						onDoubleClick={(e: any) => addPoint(e)}
 					/>
 
-					<PointGroup
-						i={0}
-						p={points[0]}
-						className={"point_"}
-						isCurveEdit={false}
-						activePoint={activePoint}
-						onSetActivePoint={() => setActivePoint(points[0])}
-					/>
-					{
-						//// .slice removes 1st and last element (start end points) without mutating
-						// .slice removes 1st  element (start point) without mutating
-						points.slice(1).map((p, i) => (
-							<PointGroup
-								key={p.id}
-								i={i}
-								p={p}
-								className={"point_"}
-								removePoint={removePoint}
-								activePoint={activePoint}
-								onSetActivePoint={() => setActivePoint(p)}
-							/>
-						))
-					}
-					{/* //todo may git rid of as the map above inserts last point */}
-					{/* <PointGroup
-						i={points.length - 1}
-						p={points[points.length - 1]}
-						className={"point_"}
-						isCurveEdit={true}
-						activePoint={activePoint}
-						onSetActivePoint={(id) => setActivePoint(id)}
-					/> */}
+					{points.map((p, i) => (
+						<PointGroup
+							key={p.id}
+							i={i}
+							p={p}
+							className={"point_"}
+							removePoint={removePoint}
+							activePoint={activePoint}
+							onSetActivePoint={() => setActivePoint(p)}
+						/>
+					))}
 				</svg>
 			</svg>
 
@@ -603,23 +586,31 @@ export const Envelope = ({
 					<Gap autoWidth gap={0.5}>
 						<S.Label>Curve</S.Label>
 						<Box width={8}>
-							<Select
-								value={(activePoint?.command as string) || "Q"}
-								compact
-								options={[
-									{
-										value: "Q",
-										label: "Quadratic",
-									},
-									{
-										value: "L",
-										label: "Linear",
-									},
-								]}
-								onChange={(val: unknown) =>
-									handleCurveSelection(val as Command)
-								}
-							/>
+							{activePoint?.command === "M" ? (
+								<p> --n/a-- </p>
+							) : (
+								<Select
+									value={(activePoint?.command as string) || "Q"}
+									compact
+									options={[
+										{
+											value: "Q",
+											label: "Quadratic",
+										},
+										{
+											value: "S",
+											label: "Smooth",
+										},
+										{
+											value: "L",
+											label: "Linear",
+										},
+									]}
+									onChange={(val: unknown) =>
+										handleCurveSelection(val as Command)
+									}
+								/>
+							)}
 						</Box>
 					</Gap>
 					<Dropdown
@@ -637,6 +628,8 @@ export const Envelope = ({
 				</Gap>
 			</Box>
 			<p>debug path: {path}</p>
+			<br />
+			<pre>debug activePoint: {JSON.stringify(activePoint, null, 2)}</pre>
 		</div>
 	)
 }
@@ -788,13 +781,55 @@ function coordinateAnchor(point: Point) {
 
 // }
 
-const sortPoints = (points: Point[] | CursorPoint[]) => {
+const sortPoints = (points: Point[] | CursorPoint[], boundWidth: number) => {
 	const sortedPoints = points.sort((a, b) => {
-		// return a.x - b.x
-		return a.coordinates[0] - b.coordinates[0]
+		// todo doesn't need index from point so just a dumb ts error
+		//@ts-ignore
+		return coordinateAnchor(a).x - coordinateAnchor(b).x
 	})
-	//? fix index number
-	return sortedPoints.map((p, i) => ({ ...p, id: i }))
+
+	const pointsWithIDs = sortedPoints.map((p, i) => ({ ...p, id: i }))
+	return pointsWithIDs
+	// todo all of this below was to correct sorting, leaving it for right now, but i prob won't need it once I get point clamping working
+	// snap start and end points to edge
+	// const snappedStartAndEndPoints = pointsWithIDs.map((p, i) => {
+	// 	if (p.id === 0 || p.id === pointsWithIDs.length - 1) {
+	// 		switch (p.command) {
+	// 			case "M":
+	// 			case "L":
+	// 				return {
+	// 					...p,
+	// 					coordinates: [
+	// 						p.id === 0
+	// 							? 0
+	// 							: p.id === points.length - 1
+	// 							? boundWidth
+	// 							: coordinateAnchor(p).x,
+	// 						coordinateAnchor(p).y,
+	// 					],
+	// 				}
+
+	// 			default:
+	// 				return {
+	// 					...p,
+	// 					coordinates: [
+	// 						p.coordinates[0],
+	// 						p.coordinates[1],
+	// 						p.id === 0
+	// 							? 0
+	// 							: p.id === points.length - 1
+	// 							? boundWidth
+	// 							: coordinateAnchor(p).x,
+	// 						coordinateAnchor(p).y,
+	// 					],
+	// 				}
+	// 		}
+	// 	} else {
+	// 		return p
+	// 	}
+	// })
+
+	// return snappedStartAndEndPoints
 }
 
 const lerp = (start: number, end: number, amt: number) => {
@@ -831,6 +866,7 @@ type CursorPoint = {
 }
 
 // Helpful docs
+// - https://svg-path-visualizer.netlify.app/#M140%2020C73%2020%2020%2074%2020%20140c0%20135%20136%20170%20228%20303%2088-132%20229-173%20229-303%200-66-54-120-120-120-48%200-90%2028-109%2069-19-41-60-69-108-69z
 // - https://css-tricks.com/svg-path-syntax-illustrated-guide/
 // - https://css-tricks.com/svg-line-animation-works/
 // - https://www.w3schools.com/graphics/tryit.asp?filename=trysvg_path2
