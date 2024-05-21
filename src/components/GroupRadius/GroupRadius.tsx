@@ -1,6 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
 
+interface Props {
+  expand?: boolean
+  children: React.ReactNode
+}
+
 /**
  * `GroupRadius` is a component that groups its children within a container that has a unified border radius.
  * The component ensures that all child elements have their border radius set to zero to maintain a consistent 
@@ -25,17 +30,27 @@ import styled from 'styled-components'
  *   <AnotherChildComponent />
  * </GroupRadius>
  */
+export const GroupRadius = React.memo(({
+  expand,
+  children
+}: Props) => (
+  <S.GroupRadius expand={expand}>
+    { children }
+  </S.GroupRadius>
+))
 
-export const GroupRadius = React.memo(styled.div<{
-  expand?: boolean
-  children: React.ReactNode
-}>`
-  display: flex;
-  gap: 1px;
-  overflow: hidden;
-  border-radius: var(--F_Tile_Radius);
-  width: ${props => props.expand ? '100%' : 'auto'};
-  * {
-    border-radius: 0 !important;
-  }
-`)
+const S = {
+  GroupRadius: styled.div<{
+    expand?: boolean
+    children: React.ReactNode
+  }>`
+    display: flex;
+    gap: 1px;
+    overflow: hidden;
+    border-radius: var(--F_Tile_Radius);
+    width: ${props => props.expand ? '100%' : 'auto'};
+    * {
+      border-radius: 0 !important;
+    }
+  `
+}
