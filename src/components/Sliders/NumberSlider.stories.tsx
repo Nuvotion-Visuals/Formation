@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-import { NumberSlider } from '../../internal'
+import { NumberSlider, ContextMenu } from '../../internal'
 
 export default {
   title: 'Input/NumberSlider',
@@ -19,6 +19,42 @@ const Template: ComponentStory<typeof NumberSlider> = (args) => {
 
 export const Default = Template.bind({})
 Default.args = {
+  min: 0,
+  max: 100,
+  value: 50
+}
+
+const ContextMenuTemplate: ComponentStory<typeof NumberSlider> = (args) => {
+  const [value, setValue] = useState<number>(args.value)
+  return <>
+  <div hidden>
+    <NumberSlider 
+      {...args} 
+      onChange={() => {}}
+      value={0}
+    />
+  </div>
+    
+  <ContextMenu
+    dropdownProps={{
+      items: [
+       {
+        text: 'Ttest'
+       }
+      ]
+    }}
+  >
+    <NumberSlider 
+      {...args} 
+      onChange={newValue => setValue(newValue)}
+      value={value}
+    />
+  </ContextMenu>
+  </>
+}
+
+export const ContextMenu2 = ContextMenuTemplate.bind({})
+ContextMenu2.args = {
   min: 0,
   max: 100,
   value: 50

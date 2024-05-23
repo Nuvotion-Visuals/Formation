@@ -160,6 +160,44 @@ const Slider = React.forwardRef((props: SliderProps, ref: React.Ref<SliderRef>) 
   const handlesRef = React.useRef<HandlesRef>();
   const containerRef = React.useRef<HTMLDivElement>();
 
+  React.useEffect(() => {
+    const element = containerRef.current
+
+    const onSliderMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+      e.stopPropagation()
+      e.preventDefault()
+      const { clientX, clientY } = e
+      handleStartDrag(clientX, clientY, e)
+    }
+
+    const onSliderTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+      e.stopPropagation()
+      e.preventDefault()
+      const touch = e.touches[0]
+      const { clientX, clientY } = touch
+      handleStartDrag(clientX, clientY, e)
+    }
+
+    const onContextMenu = (e: MouseEvent) => {
+      e.stopPropagation()
+      e.preventDefault()
+    }
+
+    if (element) {
+      element.addEventListener('touchstart', onSliderTouchStart as unknown as EventListener)
+      element.addEventListener('mousedown', onSliderMouseDown as unknown as EventListener)
+      element.addEventListener('contextmenu', onContextMenu)
+    }
+
+    return () => {
+      if (element) {
+        element.removeEventListener('touchstart', onSliderTouchStart as unknown as EventListener)
+        element.removeEventListener('mousedown', onSliderMouseDown as unknown as EventListener)
+        element.removeEventListener('contextmenu', onContextMenu)
+      }
+    }
+  }, [])
+
   const direction: Direction = React.useMemo(() => {
     if (vertical) {
       return reverse ? 'ttb' : 'btt';
@@ -347,18 +385,7 @@ const Slider = React.forwardRef((props: SliderProps, ref: React.Ref<SliderRef>) 
     onStartDrag(originalEvent, -1, formattedValue)
   }
   
-  const onSliderMouseDown: React.MouseEventHandler<HTMLDivElement> = (e) => {
-    e.preventDefault()
-    const { clientX, clientY } = e
-    handleStartDrag(clientX, clientY, e)
-  }
   
-  const onSliderTouchStart: React.TouchEventHandler<HTMLDivElement> = (e) => {
-    e.preventDefault()
-    const touch = e.touches[0]
-    const { clientX, clientY } = touch
-    handleStartDrag(clientX, clientY, e)
-  }
   
   // =========================== Keyboard ===========================
   const [keyboardValue, setKeyboardValue] = React.useState<number | null>(null);
@@ -513,8 +540,8 @@ const Slider = React.forwardRef((props: SliderProps, ref: React.Ref<SliderRef>) 
           [`${prefixCls}-with-marks`]: markList.length,
         })}
         style={style}
-        onMouseDown={onSliderMouseDown}
-        onTouchStart={onSliderTouchStart}
+        // onMouseDown={onSliderMouseDown}
+        // onTouchStart={onSliderTouchStart}
       >
         <div className={`${prefixCls}-rail`} style={railStyle}>
         {
