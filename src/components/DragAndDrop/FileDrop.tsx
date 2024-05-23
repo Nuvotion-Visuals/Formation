@@ -2,8 +2,12 @@ import React, { ReactNode, useState } from 'react'
 import styled from 'styled-components'
 import { DropCorners } from '../../internal'
 
+interface FileWithPath extends File {
+  path: string
+}
+
 interface Props {
-  onFileDrop: (files: File[]) => void
+  onFileDrop: (files: FileWithPath[]) => void
   children: ReactNode,
   single?: boolean,
   expandVertical?: boolean
@@ -60,6 +64,7 @@ export const FileDrop: React.FC<Props> = ({
 
     if (fileList.length > 0) {
       const filesArray = Array.from(fileList)
+      // @ts-ignore
       onFileDrop(single ? [filesArray[0]] : filesArray)
     }
   }
