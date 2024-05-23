@@ -29,9 +29,10 @@ export const Channels = ({ channels }: Props) => {
       }
     
       {
-        channels?.map(channel =>
+        channels?.map((channel, index) =>
           channel.name
             ? <Item
+                key={index}
                 icon={channel.icon}
                 iconPrefix={channel.iconPrefix}
                 href={channel.href}

@@ -54,7 +54,10 @@ export const TileGridPlaceholder = React.memo(({
         <Grid maxWidth={maxWidth} gap={.125}>
           {
             Array(tiles).fill(0).map((_, index) =>
-              <S.TilePlaceholder disableRounded={disableRounded}>
+              <S.TilePlaceholder 
+                disableRounded={disableRounded}
+                key={index}
+              >
                 <AspectRatio ratio={4/3}>
                 </AspectRatio>
               </S.TilePlaceholder>

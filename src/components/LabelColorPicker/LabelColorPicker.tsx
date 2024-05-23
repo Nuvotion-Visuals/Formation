@@ -36,8 +36,9 @@ const Dropdown = ({
 
   return <S.DropdownDropdown ref={scrollContainerRef}>
     {
-      options.map(item => 
+      options.map((item, index) => 
         <LabelColorCircle
+          key={index}
           labelColor={item as any}
           ref={value === item ? scrollToRef : null}
           onClick={() => {

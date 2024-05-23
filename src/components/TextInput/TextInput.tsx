@@ -277,9 +277,8 @@ export const TextInput = React.memo(({
           && <Box mr={-.5}>
                 <S.Divider />
                 {
-                  buttons.map(buttonProps => <Button {...buttonProps}/>)
+                  buttons.map((buttonProps, index) => <Button key={index} {...buttonProps}/>)
                 }
-              
               </Box>
       }
 

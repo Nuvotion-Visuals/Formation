@@ -75,7 +75,7 @@ export const LabelManager = ({ value, onChange }: Props) => {
     {
       value.map(({ name, description, labelColor }, index) =>
       <>
-        <Box p={.5}>
+        <Box p={.5} key={index}>
           <Gap autoWidth={true}>
           {
             editingIndex === index

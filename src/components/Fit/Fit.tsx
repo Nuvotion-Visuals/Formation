@@ -39,7 +39,7 @@ export const Fit: React.FC<FitProps> = ({ children, disableRadius, gap }) => {
     <S.Fit disableRadius={disableRadius} gap={gapValue}>
       {
         React.Children.map(children, child => (
-          <>{child}</>
+          <>{ child }</>
         ))
       }
     </S.Fit>

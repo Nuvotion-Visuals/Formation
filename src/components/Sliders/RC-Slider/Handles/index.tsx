@@ -41,33 +41,35 @@ const Handles = React.forwardRef((props: HandlesProps, ref: React.Ref<HandlesRef
 
   return (
     <>
-      {values.map((value, index) => (
-        <Handle
-          ref={(node) => {
-            if (!node) {
-              delete handlesRef.current[index];
-            } else {
-              handlesRef.current[index] = node;
-            }
-          }}
-          dragging={draggingIndex === index}
-          prefixCls={prefixCls}
-          style={getIndex(style, index)}
-          key={index}
-          value={value}
-          valueIndex={index}
-          onStartMove={onStartMove}
-          onOffsetChange={onOffsetChange}
-          render={handleRender}
-          {...restProps}
-        />
-      ))}
+      {
+        values.map((value, index) => (
+          <Handle
+            ref={(node) => {
+              if (!node) {
+                delete handlesRef.current[index];
+              } else {
+                handlesRef.current[index] = node;
+              }
+            }}
+            dragging={draggingIndex === index}
+            prefixCls={prefixCls}
+            style={getIndex(style, index)}
+            key={index}
+            value={value}
+            valueIndex={index}
+            onStartMove={onStartMove}
+            onOffsetChange={onOffsetChange}
+            render={handleRender}
+            {...restProps}
+          />
+        ))
+      }
     </>
-  );
-});
+  )
+})
 
 if (process.env.NODE_ENV !== 'production') {
-  Handles.displayName = 'Handles';
+  Handles.displayName = 'Handles'
 }
 
-export default Handles;
+export default Handles

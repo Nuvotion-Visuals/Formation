@@ -37,15 +37,17 @@ export default function Steps(props: StepsProps) {
 
   return (
     <div className={`${prefixCls}-step`}>
-      {stepDots.map((dotValue) => (
-        <Dot
-          prefixCls={prefixCls}
-          key={dotValue}
-          value={dotValue}
-          style={style}
-          activeStyle={activeStyle}
-        />
-      ))}
+      {
+        stepDots.map((dotValue, index) => (
+          <Dot
+            prefixCls={prefixCls}
+            key={dotValue}
+            value={dotValue}
+            style={style}
+            activeStyle={activeStyle}
+          />
+        ))
+      }
     </div>
   );
 }

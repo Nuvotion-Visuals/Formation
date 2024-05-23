@@ -1,9 +1,9 @@
-import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
-import { Icon, Box, LineBreak, Gap, Item, ItemProps } from '../../internal'
+import { Box, LineBreak, Item, ItemProps } from '../../internal'
 
+// @ts-ignore
 interface Props extends ItemProps {
   options: ItemProps[],
   value: string[],
@@ -48,19 +48,23 @@ export const Checkboxes = (props : Props) => {
   return <S.Checkboxes minimal={minimal || false}><Box wrap width='100%'>
     {
       (icon || label) &&
-      <Item
-        label={label} icon={icon} iconPrefix={iconPrefix}
-        {
-          ...props
-        }
-      />
+        // @ts-ignore
+        <Item
+          label={label} icon={icon} iconPrefix={iconPrefix}
+          {
+            ...props
+          }
+        />
     }
 
     { !minimal && <LineBreak light />}
     
     {
       options.map((option, index) => 
-      <S.OptionLabel htmlFor={option.name}>
+      <S.OptionLabel 
+        key={index}
+        htmlFor={option.name}
+      >
           <Item 
             {
               ...option

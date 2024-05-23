@@ -123,7 +123,6 @@ const Times = ({
         '11:00 PM',
         '11:30 PM',
       ].map((item, index) =>
-        
         <S.Item 
           key={index}
           onClick={() => {

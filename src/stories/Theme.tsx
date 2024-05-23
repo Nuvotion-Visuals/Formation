@@ -114,7 +114,7 @@ export const Theme = ({  }: Props) => {
           </tr>
           {
             colors.map(color =>
-              <tr>
+              <tr key={color}>
                 <S.Label>{
                   color
                 }</S.Label>
@@ -138,7 +138,7 @@ export const Theme = ({  }: Props) => {
           </tr>
           {
             labelColors.map(color =>
-              <tr>
+              <tr key={color}>
                 <S.Label>{
                   color
                 }</S.Label>
@@ -162,7 +162,7 @@ export const Theme = ({  }: Props) => {
           </tr>
           {
             outlines.map(outline =>
-              <tr>
+              <tr key={outline}>
                 <S.Label>
                   {
                     outline
@@ -187,7 +187,7 @@ export const Theme = ({  }: Props) => {
           </tr>
           {
             fontColors.map(fontColor =>
-              <tr>
+              <tr key={fontColor}>
                 <S.Label>{
                   fontColor
                 }</S.Label>
@@ -211,7 +211,7 @@ export const Theme = ({  }: Props) => {
           </tr>
           {
             fontSizes.map(fontSize =>
-              <tr>
+              <tr key={fontSize}>
                 <S.Label>
                   {
                     fontSize

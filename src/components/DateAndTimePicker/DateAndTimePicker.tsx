@@ -97,8 +97,6 @@ export const DateAndTimePicker = ({
   }
 
   const setValue = (index: number, field: 'date' | 'startTime' | 'endTime', fieldValue: string) => {
-
-    console.log(value, 'value')
     onChange(
       value?.map((day, i) =>
         index === i

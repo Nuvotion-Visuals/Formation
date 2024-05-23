@@ -97,9 +97,8 @@ export const Tags = ({
       <S.Tags ref={ref} onScroll={onScroll} noPadding={noPadding}>
         {
           allTags.map((tag, index) => 
-            
             tag.name !== undefined  
-                ?<S.ButtonContainer key={`tag${index}`}>
+              ? <S.ButtonContainer key={`tag${index}`}>
                   <Button 
                     text={tag.name}
                     primary={activeTags.includes(tag.name)}
@@ -108,9 +107,9 @@ export const Tags = ({
                     labelColor={tag.labelColor}
                     compact
                   />
-              </S.ButtonContainer>
-              :<></>)
-          
+                </S.ButtonContainer>
+              : <></>
+          )
         }
         <S.Padding_R />
       </S.Tags>

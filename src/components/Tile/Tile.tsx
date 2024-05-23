@@ -74,8 +74,8 @@ export const Tile = ({
         footers &&
           <S.Footers>
             {
-              footers.map(footer =>
-                <S.FooterWrapper>
+              footers.map((footer, index) =>
+                <S.FooterWrapper key={index}>
                   <Item { ...footer } />
                 </S.FooterWrapper>
               )

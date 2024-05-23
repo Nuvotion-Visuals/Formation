@@ -14,8 +14,11 @@ export const Steps = React.memo(({
   return (
     <S.Steps>
       {
-        new Array(numberOfSteps).fill(0).map((step, stepIndex) =>
-          <S.Step active={stepIndex <= activeStepIndex} />
+        new Array(numberOfSteps).fill(0).map((_, stepIndex) =>
+          <S.Step 
+            key={stepIndex}
+            active={stepIndex <= activeStepIndex} 
+          />
         )
       }
     </S.Steps>

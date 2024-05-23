@@ -82,7 +82,11 @@ export const ExpandableLists = ({
           : <>
               {
                 value?.map((expandableList, index) => 
-                  <ExpandableList {...expandableList} onExpand={() => onExpand(index)}/>  
+                  <ExpandableList 
+                    key={index}
+                    {...expandableList} 
+                    onExpand={() => onExpand(index)}
+                  />  
                 )
               }
             </>

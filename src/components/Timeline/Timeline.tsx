@@ -159,8 +159,13 @@ export const Clip = ({
         }}
       >
         {
-          clipData.previews.map(preview =>
-            <img src={preview} style={{height: '100%'}} draggable="false" />
+          clipData.previews.map((preview, index) =>
+            <img 
+              src={preview} 
+              style={{height: '100%'}} 
+              draggable="false" 
+              key={index}
+            />
           )
         }
       </Tk.DragHandleInner>
@@ -250,8 +255,9 @@ export const Track = ({
   return (
     <L.Track>
       {
-        clipData.map(clip =>
+        clipData.map((clip, index) =>
           <Clip 
+            key={index}
             width={((clip.out - clip.in) / totalDuration) * 100} 
             offset={(clip.offset / totalDuration) * 100}
             clipData={clip} 
@@ -1040,8 +1046,11 @@ export const Timeline = ({ }: TimelineProps) => {
                 mediaMode === 'grid'
                   ?  <Grid maxWidth={mediaMode === 'grid' ? mediaZoom : 100} gap={.25}>
                       {
-                        clipData.filter(clip => clip.name.toLowerCase().includes(mediaSearch)).map(clip =>
-                          <DragOrigin data={{origin: 'media', clip}}>
+                        clipData.filter(clip => clip.name.toLowerCase().includes(mediaSearch)).map((clip, index) =>
+                          <DragOrigin 
+                            key={index}
+                            data={{origin: 'media', clip}}
+                          >
                             <VideoPreview
                               text={`${clip.name.slice(0, 10)}...`}
                               imageUrl={clip.previews[0]}
@@ -1055,8 +1064,11 @@ export const Timeline = ({ }: TimelineProps) => {
                     </Grid>
                   : <Gap>
                    {
-                      clipData.filter(clip => clip.name.toLowerCase().includes(mediaSearch)).map(clip =>
-                        <DragOrigin data={{origin: 'media', clip}}>
+                      clipData.filter(clip => clip.name.toLowerCase().includes(mediaSearch)).map((clip, index) =>
+                        <DragOrigin 
+                          key={index}
+                          data={{origin: 'media', clip}}
+                        >
                           <Item
                             text={clip.name}
                             subtitle={`${clip.type} - ${clip.dimensions.width}x${clip.dimensions.height}`}

@@ -54,12 +54,12 @@ export const List = React.memo(({
               placeholder={<Item primary={true} name={' '} labelColor='none' />}
             >
               {
-                value.map(props => <Item {...props} indent={indent}/>)
+                value.map((props, index) => <Item key={index} {...props} indent={indent}/>)
               }
             </Reorder>
           : <>
               {
-                value.map(props => <Item {...props} indent={indent} />)
+                value.map((props, index) => <Item key={index} {...props} indent={indent} />)
               }
             </>
       }
