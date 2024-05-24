@@ -336,9 +336,7 @@ export const Envelope = ({
 		}
 	}, [])
 
-	const [activePoint, setActivePoint] = useState<Point>(
-		points[points.length - 1]
-	)
+	const [activePoint, setActivePoint] = useState<Point | undefined>()
 
 	type CurveOption = {
 		value: string
@@ -350,40 +348,44 @@ export const Envelope = ({
 		) => number[]
 	}
 
+	// todo get rid of this if not using
 	// Example curve shapes with their control point logic
-	const curveOptions: CurveOption[] = [
-		{
-			value: "linear",
-			label: "Linear",
-			controlPoints: (currentPoint, prevPoint, nextPoint) => {
-				// Linear doesn't use control points, but we can calculate a midpoint
-				return [
-					lerp(prevPoint.coordinates[0], nextPoint.coordinates[0], 0.5),
-					lerp(prevPoint.coordinates[1], nextPoint.coordinates[1], 0.5),
-				]
-			},
-		},
-		{
-			value: "quadratic",
-			label: "Quadratic",
-			controlPoints: (currentPoint, prevPoint, nextPoint) => {
-				// This is an example, you'd define your own logic for control point calculation
-				return [
-					lerp(prevPoint.coordinates[0], nextPoint.coordinates[0], 0.25),
-					lerp(prevPoint.coordinates[1], nextPoint.coordinates[1], 0.75),
-				]
-			},
-		},
-		// Add more curves as needed
-	]
-
-	const prevPoint = points[activePoint.id - 1] || points[0]
-	const prevAnchor: SimpleCoordinate = coordinateAnchor(prevPoint)
+	// const curveOptions: CurveOption[] = [
+	// 	{
+	// 		value: "linear",
+	// 		label: "Linear",
+	// 		controlPoints: (currentPoint, prevPoint, nextPoint) => {
+	// 			// Linear doesn't use control points, but we can calculate a midpoint
+	// 			return [
+	// 				lerp(prevPoint.coordinates[0], nextPoint.coordinates[0], 0.5),
+	// 				lerp(prevPoint.coordinates[1], nextPoint.coordinates[1], 0.5),
+	// 			]
+	// 		},
+	// 	},
+	// 	{
+	// 		value: "quadratic",
+	// 		label: "Quadratic",
+	// 		controlPoints: (currentPoint, prevPoint, nextPoint) => {
+	// 			// This is an example, you'd define your own logic for control point calculation
+	// 			return [
+	// 				lerp(prevPoint.coordinates[0], nextPoint.coordinates[0], 0.25),
+	// 				lerp(prevPoint.coordinates[1], nextPoint.coordinates[1], 0.75),
+	// 			]
+	// 		},
+	// 	},
+	// 	// Add more curves as needed
+	// ]
 
 	// const [activeCurve, setActiveCurve] = useState("Q")
 	function handleCurveSelection(command: Command) {
 		// set `activePoint.command`
 		if (!activePoint) return
+		console.log("## bug handleCurveSelection command; ", command)
+		console.log("## bug handleCurveSelection activePoint; ", activePoint)
+
+		const prevPoint = points[activePoint.id - 1] || points[0]
+		const prevAnchor: SimpleCoordinate = coordinateAnchor(prevPoint)
+
 		const updatedPoint = (() => {
 			switch (activePoint?.command) {
 				case "M":
@@ -420,11 +422,17 @@ export const Envelope = ({
 			...points.slice(0, activePoint.id),
 			updatedPoint,
 			...points.slice(activePoint.id + 1),
-		]
+		] as Point[]
 
 		//todo fix type error
 		// @ts-ignore
 		setPoints(sortPoints(updatedPoints))
+
+		const bounds = { w: boundWidth, h: boundHeight }
+
+		setScaledPath(writeScaledPath(updatedPoints, bounds))
+		//? set curve Path
+		onChange(writeNormalizedPath(updatedPoints, bounds))
 	}
 
 	const updatePhase = (newPhase: number) => {
@@ -606,9 +614,9 @@ export const Envelope = ({
 											label: "Linear",
 										},
 									]}
-									onChange={(val: unknown) =>
+									onChange={(val: unknown) => {
 										handleCurveSelection(val as Command)
-									}
+									}}
 								/>
 							)}
 						</Box>
@@ -640,7 +648,7 @@ type PointGroupProps = {
 	removePoint?: (e: any, i: number) => any
 	className: string
 	isCurveEdit?: boolean
-	activePoint: Point | null
+	activePoint: Point | undefined
 	onSetActivePoint: (p: Point) => void
 }
 
