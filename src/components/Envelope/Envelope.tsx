@@ -39,16 +39,20 @@ export const Envelope = ({
 			w: boundWidth,
 		})
 	)
-	const [scaledPath, setScaledPath] = useState<string>(
-		writeScaledPath(points, {
+	const [scaledPath, setScaledPath] = useState<string>(() => {
+		// console.log("## state scaledPath")
+
+		return writeScaledPath(points, {
 			h: boundHeight,
 			w: boundWidth,
 		})
-	)
+	})
 	const curveEditorRef = useRef<HTMLDivElement>(null)
 	const linePathRef = useRef<SVGPathElement>(null)
 
 	const handlePointsUpdateEnd = (updatedPoints: Point[]) => {
+		// console.log("handlePointsUpdateEnd")
+
 		const bounds = { h: boundHeight, w: boundWidth }
 
 		setPoints(updatedPoints)
@@ -160,6 +164,8 @@ export const Envelope = ({
 					// bounds: {top: 0, left: 0, width: boundWidth + 10, height: boundHeight + 10},
 					//? update UI curve visually without effecting output easeCurve
 					onDrag: function () {
+						// console.log("Draggable .point")
+
 						const pointIndex = points.findIndex((p) => p.id === point.id)
 						if (pointIndex === -1) return
 						const updatedPoints = getUpdatedPointsAndSort(this, point, "point")
@@ -295,6 +301,8 @@ export const Envelope = ({
 			console.error("Invalid points data:", newPoints)
 		} else {
 			setPoints(newPoints)
+			// console.log("useEffect setScaledPath")
+
 			setScaledPath(
 				writeScaledPath(newPoints, {
 					h: boundHeight,
@@ -304,74 +312,32 @@ export const Envelope = ({
 		}
 	}, [path, boundHeight, boundWidth])
 
-	const [size, setSize] = useState({ width: 0, height: 0 })
+	// const [size, setSize] = useState({ width: 0, height: 0 })
 
-	useEffect(() => {
-		const observeSize = (entries: ResizeObserverEntry[]) => {
-			const { width, height } = entries[0].contentRect
-			setSize({ width, height })
-		}
-		const observer = new ResizeObserver(observeSize)
-		if (graphRef.current) {
-			observer.observe(graphRef.current)
-		}
-		return () => {
-			observer.disconnect()
-		}
-	}, [])
+	// useEffect(() => {
+	// 	const observeSize = (entries: ResizeObserverEntry[]) => {
+	// 		const { width, height } = entries[0].contentRect
+	// 		setSize({ width, height })
+	// 	}
+	// 	const observer = new ResizeObserver(observeSize)
+	// 	if (graphRef.current) {
+	// 		observer.observe(graphRef.current)
+	// 	}
+	// 	return () => {
+	// 		observer.disconnect()
+	// 	}
+	// }, [])
 
 	const [activePoint, setActivePoint] = useState<Point | undefined>()
 
-	type CurveOption = {
-		value: string
-		label: string
-		controlPoints: (
-			currentPoint: Point,
-			prevPoint: Point,
-			nextPoint: Point
-		) => number[]
-	}
-
-	// todo get rid of this if not using
-	// Example curve shapes with their control point logic
-	// const curveOptions: CurveOption[] = [
-	// 	{
-	// 		value: "linear",
-	// 		label: "Linear",
-	// 		controlPoints: (currentPoint, prevPoint, nextPoint) => {
-	// 			// Linear doesn't use control points, but we can calculate a midpoint
-	// 			return [
-	// 				lerp(prevPoint.coordinates[0], nextPoint.coordinates[0], 0.5),
-	// 				lerp(prevPoint.coordinates[1], nextPoint.coordinates[1], 0.5),
-	// 			]
-	// 		},
-	// 	},
-	// 	{
-	// 		value: "quadratic",
-	// 		label: "Quadratic",
-	// 		controlPoints: (currentPoint, prevPoint, nextPoint) => {
-	// 			// This is an example, you'd define your own logic for control point calculation
-	// 			return [
-	// 				lerp(prevPoint.coordinates[0], nextPoint.coordinates[0], 0.25),
-	// 				lerp(prevPoint.coordinates[1], nextPoint.coordinates[1], 0.75),
-	// 			]
-	// 		},
-	// 	},
-	// 	// Add more curves as needed
-	// ]
-
-	// const [activeCurve, setActiveCurve] = useState("Q")
-	function handleCurveSelection(command: Command) {
-		// set `activePoint.command`
+	function handleCurveSelection(command: CommandLetter) {
 		if (!activePoint) return
-		console.log("## bug handleCurveSelection command; ", command)
-		console.log("## bug handleCurveSelection activePoint; ", activePoint)
 
 		const prevPoint = points[activePoint.id - 1] || points[0]
 		const prevAnchor: SimpleCoordinate = coordinateAnchor(prevPoint)
 
 		const updatedPoint = (() => {
-			switch (activePoint?.command) {
+			switch (command) {
 				case "M":
 				case "L":
 					return {
@@ -401,7 +367,7 @@ export const Envelope = ({
 					}
 			}
 		})()
-		//todo why is this resetting curve point to lerp'd when anchor is dragged?
+
 		//todo fix type error
 		//@ts-ignore
 		setActivePoint(updatedPoint)
@@ -489,7 +455,7 @@ export const Envelope = ({
 							x="0"
 							y="-200"
 							height={boundHeight * 2}
-							width={size.width * phase}
+							width={boundWidth * phase}
 							className="line_path_reveal"
 						/>
 					</clipPath>
@@ -614,7 +580,7 @@ export const Envelope = ({
 										},
 									]}
 									onChange={(val: unknown) => {
-										handleCurveSelection(val as Command)
+										handleCurveSelection(val as CommandLetter)
 									}}
 								/>
 							)}
@@ -701,6 +667,8 @@ const writeScaledPath = (points: Point[], bounds: Bounds) => {
 	points.map((point) => {
 		directionString += point.command + point.coordinates.join(" ") + " "
 	})
+	// todo why is this fn triggering every frame?
+	// console.log("## scaledPath, ", directionString)
 
 	return directionString
 }
@@ -765,23 +733,27 @@ const convertPathStringToPoints = (path: string, bounds: Bounds) => {
 
 //? find the point coordinates physically connected to the line (the last 2 numbers in the `coordinates` array)
 function coordinateAnchor(point: Point) {
-	switch (point.command) {
-		// todo i believe this could be simplified to just `point.coordinates[point.coordinates.length - 2] ... .length -1]`
-		case "Q":
-		case "S":
-			return {
-				x: point.coordinates[point.coordinates.length - 2],
-				y: point.coordinates[point.coordinates.length - 1],
-			}
-		// case "M" || "T" || "L":
-		// 	return point.coordinates
-		//? for all 2 value coordinates `[x,y]`
-		default:
-			return {
-				x: point.coordinates[0],
-				y: point.coordinates[1],
-			}
+	return {
+		x: point.coordinates[point.coordinates.length - 2],
+		y: point.coordinates[point.coordinates.length - 1],
 	}
+	// switch (point.command) {
+	// 	// todo i believe this could be simplified to just `point.coordinates[point.coordinates.length - 2] ... .length -1]`
+	// 	case "Q":
+	// 	case "S":
+	// 		return {
+	// 			x: point.coordinates[point.coordinates.length - 2],
+	// 			y: point.coordinates[point.coordinates.length - 1],
+	// 		}
+	// 	// case "M" || "T" || "L":
+	// 	// 	return point.coordinates
+	// 	//? for all 2 value coordinates `[x,y]`
+	// 	default:
+	// 		return {
+	// 			x: point.coordinates[0],
+	// 			y: point.coordinates[1],
+	// 		}
+	// }
 }
 
 // function updateCoordinatesByCommand(thisPoint:Point) {
@@ -808,6 +780,8 @@ const originPoint: Point = {
 	command: "M",
 	coordinates: [0, 0],
 }
+
+type CommandLetter = "M" | "L" | "Q" | "S"
 
 type Command = {
 	M: [number, number]
