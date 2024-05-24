@@ -76,6 +76,17 @@ export const Envelope = ({
 		const pointIndex = points.findIndex((p: Point) => p.id === point.id)
 		if (pointIndex === -1) return points // Ensure the point exists
 		const thisPoint = points[pointIndex]
+		const prevAnchorX = points[pointIndex - 1]
+			? coordinateAnchor(points[pointIndex - 1]).x
+			: 0
+		// const nextAnchorX = points[pointIndex + 1]
+		// 	? coordinateAnchor(points[pointIndex + 1]).x
+		// 	: boundWidth
+
+		// console.table({
+		// 	prevAnchorX: prevAnchorX,
+		// 	thisX: coordinateAnchor(thisPoint).x,
+		// })
 
 		if (!thisPoint || !thisPoint.coordinates) {
 			console.error("Point or coordinates undefined", thisPoint)
@@ -107,7 +118,7 @@ export const Envelope = ({
 						return {
 							...thisPoint,
 							coordinates: [
-								thisPoint.coordinates[0],
+								clampAxis(thisPoint.coordinates[0], prevAnchorX, gx),
 								thisPoint.coordinates[1],
 								//? if last point, clamp value to right edge
 								point.id === points.length - 1 ? boundWidth : gx,
@@ -119,7 +130,8 @@ export const Envelope = ({
 						return {
 							...thisPoint,
 							coordinates: [
-								gx,
+								// todo clamp this val between prevAnchor.x and nextAnchor.x
+								clampAxis(gx, prevAnchorX, coordinateAnchor(thisPoint).x),
 								gy,
 								thisPoint.coordinates[2],
 								thisPoint.coordinates[3],
@@ -179,6 +191,8 @@ export const Envelope = ({
 					},
 					//? actually update easeCurve and perform other clamp functions
 					onDragEnd: function () {
+						console.log("## point onDragEnd")
+
 						const pointIndex = points.findIndex((p) => p.id === point.id)
 						if (pointIndex === -1) return
 						const updatedPoints = getUpdatedPointsAndSort(this, point, "point")
@@ -189,10 +203,6 @@ export const Envelope = ({
 				// hollow curve points
 				Draggable.create(`.point_curve_${point.id}`, {
 					bounds: graphRef.current,
-					// type:
-					// 	point.id === 0 || point.id === points[points.length - 1].id
-					// 		? "y"
-					// 		: "x,y",
 					type: "x,y",
 					onDrag: function () {
 						const pointIndex = points.findIndex((p) => p.id === point.id)
@@ -301,7 +311,6 @@ export const Envelope = ({
 			console.error("Invalid points data:", newPoints)
 		} else {
 			setPoints(newPoints)
-			// console.log("useEffect setScaledPath")
 
 			setScaledPath(
 				writeScaledPath(newPoints, {
@@ -312,6 +321,7 @@ export const Envelope = ({
 		}
 	}, [path, boundHeight, boundWidth])
 
+	// todo removed this for now as I think it's causing constant re renders
 	// const [size, setSize] = useState({ width: 0, height: 0 })
 
 	// useEffect(() => {
@@ -709,8 +719,6 @@ const normalizeCoordinates = (coordinates: number[], bounds: Bounds) => {
 }
 
 const convertPathStringToPoints = (path: string, bounds: Bounds) => {
-	// console.log("path: ", path)
-
 	const commands = path.match(/[a-z][^a-z]*/gi)
 	if (!commands) throw Error("no commands found")
 	const scaledPoints = commands.map((commandString, i) => {
@@ -737,28 +745,7 @@ function coordinateAnchor(point: Point) {
 		x: point.coordinates[point.coordinates.length - 2],
 		y: point.coordinates[point.coordinates.length - 1],
 	}
-	// switch (point.command) {
-	// 	// todo i believe this could be simplified to just `point.coordinates[point.coordinates.length - 2] ... .length -1]`
-	// 	case "Q":
-	// 	case "S":
-	// 		return {
-	// 			x: point.coordinates[point.coordinates.length - 2],
-	// 			y: point.coordinates[point.coordinates.length - 1],
-	// 		}
-	// 	// case "M" || "T" || "L":
-	// 	// 	return point.coordinates
-	// 	//? for all 2 value coordinates `[x,y]`
-	// 	default:
-	// 		return {
-	// 			x: point.coordinates[0],
-	// 			y: point.coordinates[1],
-	// 		}
-	// }
 }
-
-// function updateCoordinatesByCommand(thisPoint:Point) {
-
-// }
 
 const sortPoints = (points: Point[] | CursorPoint[], boundWidth: number) => {
 	const sortedPoints = points.sort((a, b) => {
@@ -775,10 +762,21 @@ const lerp = (start: number, end: number, amt: number) => {
 	return (1 - amt) * start + amt * end
 }
 
-const originPoint: Point = {
-	id: 0,
-	command: "M",
-	coordinates: [0, 0],
+function clampAxis(
+	currentPosition: number,
+	prevAnchorAxis: number,
+	thisAnchorAxis: number
+) {
+	switch (true) {
+		case currentPosition > thisAnchorAxis:
+			return thisAnchorAxis
+
+		case currentPosition < prevAnchorAxis:
+			return prevAnchorAxis
+
+		default:
+			return currentPosition
+	}
 }
 
 type CommandLetter = "M" | "L" | "Q" | "S"
