@@ -199,6 +199,13 @@ SCurve.args = {
 	path: "M0 0 Q0.5 0.1 0.5 0.5 Q0.5 0.98 1 1",
 	duration: 2,
 }
+export const SmoothCamel = Template.bind({})
+SmoothCamel.args = {
+	boundHeight: 500,
+	boundWidth: 500,
+	path: "M0 0 S0.1 0.65 0.4 0.40 S0.44 0.9 1 0.74",
+	duration: 2,
+}
 
 export const MultiCurveTypes = Template.bind({})
 MultiCurveTypes.args = {

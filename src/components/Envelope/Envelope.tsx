@@ -81,22 +81,6 @@ export const Envelope = ({
 		//todo change according to index "i start = 0" "i end = points.length - 1"
 		const updatedPointByCommand = () => {
 			//? if it's the first point, keep x at 0
-			// if (point.id === 0) {
-			// 	return {
-			// 		...thisPoint,
-			// 		coordinates: [0, gy],
-			// 	}
-			// } else if (point.id === points.length - 1) {
-			// 	return {
-			// 		...thisPoint,
-			// 		coordinates: [
-			// 			thisPoint.coordinates[0],
-			// 			thisPoint.coordinates[1],
-			// 			boundWidth,
-			// 			gy,
-			// 		],
-			// 	}
-			// }
 
 			switch (point.command) {
 				//? for both "M" & "L"
@@ -405,8 +389,12 @@ export const Envelope = ({
 						...activePoint,
 						command: command,
 						coordinates: [
-							lerp(prevAnchor.x, coordinateAnchor(activePoint).x, 0.5),
-							lerp(prevAnchor.y, coordinateAnchor(activePoint).y, 0.5),
+							activePoint.coordinates.length > 2
+								? activePoint.coordinates[0]
+								: lerp(prevAnchor.x, coordinateAnchor(activePoint).x, 0.5),
+							activePoint.coordinates.length > 2
+								? activePoint.coordinates[1]
+								: lerp(prevAnchor.y, coordinateAnchor(activePoint).y, 0.5),
 							coordinateAnchor(activePoint).x,
 							coordinateAnchor(activePoint).y,
 						],
@@ -532,6 +520,17 @@ export const Envelope = ({
 						d={scaledPath}
 						clipPath="url(#graph_path_reveal)"
 					/>
+
+					{/* // todo put polyline points here so they update onDrag */}
+					{/* {convertPathStringToPoints(path, {
+						w: boundWidth,
+						h: boundHeight,
+					}).map((p) => (
+						<polyline
+							className={styles.curve_tangent + ` point_tangent_${p.id}`}
+							points={p.coordinates.join(",")}
+						/>
+					))} */}
 
 					<rect
 						height={boundHeight}
@@ -798,46 +797,6 @@ const sortPoints = (points: Point[] | CursorPoint[], boundWidth: number) => {
 
 	const pointsWithIDs = sortedPoints.map((p, i) => ({ ...p, id: i }))
 	return pointsWithIDs
-	// todo all of this below was to correct sorting, leaving it for right now, but i prob won't need it once I get point clamping working
-	// snap start and end points to edge
-	// const snappedStartAndEndPoints = pointsWithIDs.map((p, i) => {
-	// 	if (p.id === 0 || p.id === pointsWithIDs.length - 1) {
-	// 		switch (p.command) {
-	// 			case "M":
-	// 			case "L":
-	// 				return {
-	// 					...p,
-	// 					coordinates: [
-	// 						p.id === 0
-	// 							? 0
-	// 							: p.id === points.length - 1
-	// 							? boundWidth
-	// 							: coordinateAnchor(p).x,
-	// 						coordinateAnchor(p).y,
-	// 					],
-	// 				}
-
-	// 			default:
-	// 				return {
-	// 					...p,
-	// 					coordinates: [
-	// 						p.coordinates[0],
-	// 						p.coordinates[1],
-	// 						p.id === 0
-	// 							? 0
-	// 							: p.id === points.length - 1
-	// 							? boundWidth
-	// 							: coordinateAnchor(p).x,
-	// 						coordinateAnchor(p).y,
-	// 					],
-	// 				}
-	// 		}
-	// 	} else {
-	// 		return p
-	// 	}
-	// })
-
-	// return snappedStartAndEndPoints
 }
 
 const lerp = (start: number, end: number, amt: number) => {
