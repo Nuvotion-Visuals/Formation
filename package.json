@@ -4,7 +4,7 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
   },
-  "version": "1.0.128",
+  "version": "1.0.129",
   "description": "Formation is a comprehensive component library powered by React, Styled Components, and CSS variables for creating apps and websites that demand responsive, unified cross-platform experiences.",
   "resolutions": {
     "string-width": "^4",
@@ -125,12 +125,12 @@
   "types": "dist/index.d.ts",
   "dependencies": {
     "@etchteam/storybook-addon-css-variables-theme": "^1.6.0",
-    "@fortawesome/fontawesome-common-types": "^6.1.2",
-    "@fortawesome/fontawesome-free": "^6.1.2",
-    "@fortawesome/fontawesome-svg-core": "^6.1.2",
-    "@fortawesome/free-regular-svg-icons": "^6.1.2",
-    "@fortawesome/free-solid-svg-icons": "^6.1.2",
-    "@fortawesome/react-fontawesome": "^0.2.0",
+    "@fortawesome/fontawesome-common-types": "^6.5.2",
+    "@fortawesome/fontawesome-free": "^6.5.2",
+    "@fortawesome/fontawesome-svg-core": "^6.5.2",
+    "@fortawesome/free-regular-svg-icons": "^6.5.2",
+    "@fortawesome/free-solid-svg-icons": "^6.5.2",
+    "@fortawesome/react-fontawesome": "^0.2.2",
     "@gsap/react": "^2.1.0",
     "gsap": "^3.12.5",
     "html2plaintext": "^2.1.4",
