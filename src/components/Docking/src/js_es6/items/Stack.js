@@ -24,7 +24,7 @@ import AbstractContentItem from "./AbstractContentItem";
 import RowOrColumn from "./RowOrColumn";
 import Header from "../controls/Header";
 import { fnBind, copy, indexOf } from "../utils/utils";
-import $ from "cash-dom";
+import $ from "jquery";
 
 var Stack = /*#__PURE__*/function (_AbstractContentItem) {
   _inherits(Stack, _AbstractContentItem);

@@ -5,7 +5,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 import { now, animFrame, fnBind } from '../utils/utils';
-import $ from 'cash-dom';
+import $ from 'jquery';
 
 var TransitionIndicator = /*#__PURE__*/function () {
   function TransitionIndicator() {

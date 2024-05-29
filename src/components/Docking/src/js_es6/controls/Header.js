@@ -24,7 +24,7 @@ import EventEmitter from '../utils/EventEmitter';
 import Tab from './Tab';
 import HeaderButton from './HeaderButton';
 import { fnBind } from '../utils/utils';
-import $ from 'cash-dom';
+import $ from 'jquery';
 
 var _template = ['<div class="lm_header">', '<ul class="lm_tabs"></ul>', '<ul class="lm_controls"></ul>', '<ul class="lm_tabdropdown_list"></ul>', '</div>'].join('');
 /**

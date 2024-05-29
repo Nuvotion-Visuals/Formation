@@ -23,7 +23,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 import AbstractContentItem from './AbstractContentItem';
 import ItemContainer from '../container/ItemContainer';
 import ReactComponentHandler from '../utils/ReactComponentHandler';
-import $ from 'cash-dom';
+import $ from 'jquery';
 /**
  * @param {[type]} layoutManager [description]
  * @param {[type]} config      [description]

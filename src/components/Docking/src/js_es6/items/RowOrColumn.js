@@ -24,7 +24,7 @@ import AbstractContentItem from './AbstractContentItem';
 import Stack from './Stack';
 import Splitter from '../controls/Splitter';
 import { fnBind, animFrame, indexOf } from '../utils/utils';
-import $ from 'cash-dom';
+import $ from 'jquery';
 
 var RowOrColumn = /*#__PURE__*/function (_AbstractContentItem) {
   _inherits(RowOrColumn, _AbstractContentItem);

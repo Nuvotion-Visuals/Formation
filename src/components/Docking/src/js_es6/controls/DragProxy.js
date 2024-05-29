@@ -22,7 +22,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 import EventEmitter from '../utils/EventEmitter';
 import { stripTags, getTouchEvent } from '../utils/utils';
-import $ from 'cash-dom';
+import $ from 'jquery';
 
 var _template = '<div class="lm_dragProxy">' + '<div class="lm_header">' + '<ul class="lm_tabs">' + '<li class="lm_tab lm_active"><i class="lm_left"></i>' + '<span class="lm_title"></span>' + '<i class="lm_right"></i></li>' + '</ul>' + '</div>' + '<div class="lm_content"></div>' + '</div>';
 /**

@@ -35,7 +35,7 @@ import TransitionIndicator from './controls/TransitionIndicator';
 import ConfigurationError from './errors/ConfigurationError';
 import defaultConfig from './config/defaultConfig';
 import { fnBind, objectKeys, copy, getUniqueId, indexOf, isFunction, stripTags, getQueryStringParam } from './utils/utils';
-import $ from 'cash-dom';
+import $ from 'jquery';
 export var REACT_COMPONENT_ID = 'lm-react-component';
 /**
  * The main class that will be exposed as GoldenLayout.

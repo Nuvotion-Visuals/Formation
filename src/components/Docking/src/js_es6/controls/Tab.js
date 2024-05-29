@@ -7,7 +7,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 import DragListener from '../utils/DragListener';
 import DragProxy from './DragProxy';
 import { fnBind, stripTags } from '../utils/utils';
-import $ from 'cash-dom';
+import $ from 'jquery';
 /**
  * Represents an individual tab within a Stack's header
  *

@@ -23,7 +23,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 import EventEmitter from '../utils/EventEmitter';
 import ConfigMinifier from '../utils/ConfigMinifier';
 import { fnBind, getUniqueId } from '../utils/utils';
-import $ from 'cash-dom';
+import $ from 'jquery';
 /**
  * Pops a content item out into a new browser window.
  * This is achieved by
