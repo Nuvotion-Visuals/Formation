@@ -21,7 +21,7 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 import EventEmitter from '../utils/EventEmitter';
-import $ from 'jquery';
+import $ from 'cash-dom';
 
 var ItemContainer = /*#__PURE__*/function (_EventEmitter) {
   _inherits(ItemContainer, _EventEmitter);

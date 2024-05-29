@@ -23,7 +23,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 import EventEmitter from './EventEmitter';
 import { ALL_EVENT } from './EventEmitter';
 import { fnBind } from './utils';
-import $ from 'jquery';
+import $ from 'cash-dom';
 /**
  * An EventEmitter singleton that propagates events
  * across multiple windows. This is a little bit trickier since

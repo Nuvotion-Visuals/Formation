@@ -7,7 +7,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 import DragListener from '../utils/DragListener';
 import DragProxy from './DragProxy';
 import { isFunction } from '../utils/utils';
-import $ from 'jquery';
+import $ from 'cash-dom';
 /**
  * Allows for any DOM item to create a component on drag
  * start tobe dragged into the Layout

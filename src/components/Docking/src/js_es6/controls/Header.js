@@ -24,7 +24,7 @@ import EventEmitter from '../utils/EventEmitter';
 import Tab from './Tab';
 import HeaderButton from './HeaderButton';
 import { fnBind } from '../utils/utils';
-import $ from 'jquery';
+import $ from 'cash-dom';
 
 var _template = ['<div class="lm_header">', '<ul class="lm_tabs"></ul>', '<ul class="lm_controls"></ul>', '<ul class="lm_tabdropdown_list"></ul>', '</div>'].join('');
 /**
@@ -72,7 +72,9 @@ var Header = /*#__PURE__*/function (_EventEmitter) {
     _this.dockButton = null;
     _this.tabDropdownButton = null;
     _this.hideAdditionalTabsDropdown = fnBind(_this._hideAdditionalTabsDropdown, _assertThisInitialized(_this));
-    $(document).mouseup(_this.hideAdditionalTabsDropdown);
+    document.addEventListener('mouseup', function() {
+      _this.hideAdditionalTabsDropdown()
+    })
     _this._lastVisibleTabIndex = -1;
     _this._tabControlOffset = _this.layoutManager.config.settings.tabControlOffset;
 

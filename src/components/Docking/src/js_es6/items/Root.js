@@ -22,7 +22,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 import AbstractContentItem from './AbstractContentItem';
 import RowOrColumn from './RowOrColumn';
-import $ from 'jquery';
+import $ from 'cash-dom';
 
 var Root = /*#__PURE__*/function (_AbstractContentItem) {
   _inherits(Root, _AbstractContentItem);

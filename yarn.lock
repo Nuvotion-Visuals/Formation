@@ -63,6 +63,7 @@ __metadata:
     babel-jest: "npm:^27.3.1"
     babel-loader: "npm:^8.2.3"
     babel-plugin-styled-components: "npm:^2.0.7"
+    cash-dom: "npm:^8.1.5"
     cross-env: "npm:^7.0.3"
     css-loader: "npm:5.2.7"
     gh-pages: "npm:^4.0.0"
@@ -74,7 +75,6 @@ __metadata:
     javascript-time-ago: "npm:^2.5.9"
     jest: "npm:^28.1.3"
     jest-environment-jsdom: "npm:^28.1.3"
-    jquery: "npm:^3.7.1"
     lodash.union: "npm:^4.6.0"
     lodash.xor: "npm:^4.5.0"
     marked: "npm:^4.0.19"
@@ -5813,6 +5813,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"cash-dom@npm:^8.1.5":
+  version: 8.1.5
+  resolution: "cash-dom@npm:8.1.5"
+  checksum: 10c0/6eb86cc69724a967f8ea1392680a352f0998d81671297110403d8b24d38f13db2c6a6dc6ab33c68d0c0771deb685d33a5126b7a53b7a1fecc51afd02685de585
+  languageName: node
+  linkType: hard
+
 "chalk@npm:^2.4.2":
   version: 2.4.2
   resolution: "chalk@npm:2.4.2"
@@ -9926,13 +9933,6 @@ __metadata:
   bin:
     jest: bin/jest.js
   checksum: 10c0/2423e06159976c026be8899fc6a6e4a0c314a4d8020edbfa51b70b7e30a2ddc8629401872483cc9d9c8939eaee494cbe777ed48b522920a51e01640c7ec8370f
-  languageName: node
-  linkType: hard
-
-"jquery@npm:^3.7.1":
-  version: 3.7.1
-  resolution: "jquery@npm:3.7.1"
-  checksum: 10c0/808cfbfb758438560224bf26e17fcd5afc7419170230c810dd11f5c1792e2263e2970cca8d659eb84fcd9acc301edb6d310096e450277d54be4f57071b0c82d9
   languageName: node
   linkType: hard
 
