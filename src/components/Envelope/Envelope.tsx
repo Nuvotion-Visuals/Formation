@@ -344,6 +344,8 @@ export const Envelope = ({
 		if (!activePoint) return
 
 		const prevPoint = points[activePoint.id - 1] || points[0]
+		const nextPoint = points[activePoint.id + 1] || points[points.length - 1]
+		const nextAnchor: SimpleCoordinate = coordinateAnchor(prevPoint)
 		const prevAnchor: SimpleCoordinate = coordinateAnchor(prevPoint)
 
 		const updatedPoint = (() => {
@@ -351,41 +353,45 @@ export const Envelope = ({
 				case "M":
 				case "L":
 					return {
-						...activePoint,
+						...nextPoint,
 						//? keep start point as `M` command
-						command: activePoint.command === "M" ? "M" : command,
+						command: nextPoint.command === "M" ? "M" : command,
 						coordinates: [
-							coordinateAnchor(activePoint).x,
-							coordinateAnchor(activePoint).y,
+							coordinateAnchor(nextPoint).x,
+							coordinateAnchor(nextPoint).y,
 						],
 					}
 				//? for all 4 number coordinates like "Q" or "S"
 				default:
 					return {
-						...activePoint,
+						...nextPoint,
 						command: command,
 						coordinates: [
-							activePoint.coordinates.length > 2
-								? activePoint.coordinates[0]
-								: lerp(prevAnchor.x, coordinateAnchor(activePoint).x, 0.5),
-							activePoint.coordinates.length > 2
-								? activePoint.coordinates[1]
-								: lerp(prevAnchor.y, coordinateAnchor(activePoint).y, 0.5),
-							coordinateAnchor(activePoint).x,
-							coordinateAnchor(activePoint).y,
+							nextPoint.coordinates.length > 2
+								? nextPoint.coordinates[0]
+								: lerp(
+										coordinateAnchor(activePoint).x,
+										coordinateAnchor(nextPoint).x,
+										0.5
+								  ),
+							nextPoint.coordinates.length > 2
+								? nextPoint.coordinates[1]
+								: lerp(
+										coordinateAnchor(activePoint).y,
+										coordinateAnchor(nextPoint).y,
+										0.5
+								  ),
+							coordinateAnchor(nextPoint).x,
+							coordinateAnchor(nextPoint).y,
 						],
 					}
 			}
 		})()
 
-		//todo fix type error
-		//@ts-ignore
-		setActivePoint(updatedPoint)
-
 		const updatedPoints = [
-			...points.slice(0, activePoint.id),
+			...points.slice(0, nextPoint.id),
 			updatedPoint,
-			...points.slice(activePoint.id + 1),
+			...points.slice(nextPoint.id + 1),
 		] as Point[]
 
 		//todo fix type error
@@ -569,11 +575,16 @@ export const Envelope = ({
 					<Gap autoWidth gap={0.5}>
 						<S.Label>Curve</S.Label>
 						<Box width={8}>
-							{activePoint?.command === "M" ? (
+							{/* //? if last point do not allow curve selection */}
+							{activePoint?.id === points.length - 1 ? (
 								<p> --n/a-- </p>
 							) : (
 								<Select
-									value={(activePoint?.command as string) || "Q"}
+									value={
+										activePoint
+											? (getNextPoint(activePoint, points).command as string)
+											: "Q"
+									}
 									compact
 									options={[
 										{
@@ -745,6 +756,11 @@ function coordinateAnchor(point: Point) {
 		x: point.coordinates[point.coordinates.length - 2],
 		y: point.coordinates[point.coordinates.length - 1],
 	}
+}
+
+function getNextPoint(activePoint: Point, points: Point[]) {
+	const nextPoint = points[activePoint.id + 1] || points[points.length - 1]
+	return nextPoint
 }
 
 const sortPoints = (points: Point[] | CursorPoint[], boundWidth: number) => {
