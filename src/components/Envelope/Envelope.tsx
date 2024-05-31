@@ -12,7 +12,6 @@ import { useGSAP } from "@gsap/react"
 import styles from "./envelope.module.css"
 import { Box, Dropdown, Gap, NumberInput, Select, Spacer } from "../../internal"
 import styled from "styled-components"
-import { setActivePanelByTitle } from "components/Docking/dockingUtils"
 
 type Props = {
 	phase: number
@@ -428,7 +427,7 @@ export const Envelope = ({
 		{
 			label: "Digital",
 			value:
-				"M0 0 L0.16 0 L0.16 1 L0.33 1 L0.33 0 L0.5 0 L0.5 1 L0.66 1 L0.66 0 L0.83 0 L0.83 1 L1 1",
+				"M0 0 L0 1 L0.25 1 L0.25001 0 L0.5 0 L0.50001 1 L0.75 1 L0.75001 0 L1 0",
 		},
 		{
 			label: "Jaws",
