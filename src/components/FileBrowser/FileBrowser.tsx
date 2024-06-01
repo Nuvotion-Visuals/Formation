@@ -100,7 +100,7 @@ interface FolderStructureProps {
  *   iconPrefix="fas"
  * />
  */
-export const FileBrowser = ({
+export const FileBrowser = React.memo(({
   sourceNames, 
   selectedSourceName, 
   setPendingSourceToApply, 
@@ -424,7 +424,7 @@ export const FileBrowser = ({
       }
     </S.SourceTree>
   )
-}
+})
 
 const S = {
   SourceTree: styled.div`
