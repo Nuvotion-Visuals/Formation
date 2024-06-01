@@ -65,8 +65,9 @@ export const Tabs = React.memo(({
 
   const Content = () => <>
    {
-      tabs.map(({ name, icon, onClick, prefix, suffix, iconPrefix }) => 
-        <Button
+      tabs.map(({ name, icon, onClick, prefix, suffix, iconPrefix }) => {
+        const active = name === localActiveTab
+        return <Button
           key={name}
           text={`${prefix ? prefix : ''}${name}${suffix ? suffix : ''}`} 
           icon={icon} 
@@ -77,10 +78,13 @@ export const Tabs = React.memo(({
               ? onClick(e)
               : null
           }} 
-          secondary={name !== localActiveTab}
+          secondary={!active}
+          off={!active}
           tab={true}
           compact={compact}
         /> 
+      }
+        
       )
     }
   </>

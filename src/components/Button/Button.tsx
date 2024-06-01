@@ -199,6 +199,7 @@ export const Button: FC<ButtonProps> = React.memo(({
                 hero={hero}
                 icon={icon}
                 compact={compact}
+                off={off}
               >
                 {
                   children
@@ -253,6 +254,7 @@ interface TextProps {
   hero?: boolean,
   icon?: string,
   compact?: boolean
+  off?: boolean
 }
 
 const calculateWidth = (props: ContainerProps) => {
@@ -411,12 +413,12 @@ const S = {
     height: ${props => calculateHeight(props)};
     max-width: ${props => calculateWidth(props)};
     width: ${props => calculateWidth(props)};
-    opacity: ${props => props.off ? '.5' : '1'};
     display: flex;
     align-items: center;
     a {
       height: 100%;
     }
+   
   `),
   Text: React.memo(styled.div<TextProps>`
     font-size: ${props => 
@@ -428,6 +430,7 @@ const S = {
     };
     display: flex;
     flex-shrink: 0;
+    opacity: ${props => props.off ? '.5' : '1'};
   `),
   Button: React.memo(styled.button.attrs({
     type: 'submit',
