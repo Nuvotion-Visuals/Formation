@@ -51,10 +51,6 @@ export default [
         include: '**/index.light.css',
         extract: 'css/index.light.css'
       }),
-      postcss({
-        include: '**/envelope.module.css',
-        modules: true,
-      }),
       visualizer(),
       autoExternal(),
       cleanup(),

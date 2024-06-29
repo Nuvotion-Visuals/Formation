@@ -4,14 +4,12 @@ import React, {
 	DragEvent,
 	useState,
 	useEffect,
-} from "react"
-import gsap from "gsap"
-import Draggable from "gsap/dist/Draggable"
-import { useGSAP } from "@gsap/react"
-// @ts-ignore
-import styles from "./envelope.module.css"
-import { Box, Dropdown, Gap, NumberInput, Select, Spacer } from "../../internal"
-import styled from "styled-components"
+} from 'react'
+import gsap from 'gsap'
+import Draggable from 'gsap/dist/Draggable'
+import { useGSAP } from '@gsap/react'
+import styled from 'styled-components'
+import { Box, Dropdown, Gap, NumberInput, Select, Spacer } from '../../internal'
 
 type Props = {
 	phase: number
@@ -23,7 +21,7 @@ type Props = {
 }
 
 export const Envelope = ({
-	path = "M0 0 Q0.25 0.25 0.5 0.5 T1 1",
+	path = 'M0 0 Q0.25 0.25 0.5 0.5 T1 1',
 	onChange,
 	boundHeight,
 	boundWidth,
@@ -39,8 +37,6 @@ export const Envelope = ({
 		})
 	)
 	const [scaledPath, setScaledPath] = useState<string>(() => {
-		// console.log("## state scaledPath")
-
 		return writeScaledPath(points, {
 			h: boundHeight,
 			w: boundWidth,
@@ -50,20 +46,17 @@ export const Envelope = ({
 	const linePathRef = useRef<SVGPathElement>(null)
 
 	const handlePointsUpdateEnd = (updatedPoints: Point[]) => {
-		// console.log("handlePointsUpdateEnd")
-
 		const bounds = { h: boundHeight, w: boundWidth }
 
 		setPoints(updatedPoints)
 		setScaledPath(writeScaledPath(updatedPoints, bounds))
-		//? set curve Path
 		onChange(writeNormalizedPath(updatedPoints, bounds))
 	}
 
 	const getUpdatedPointsAndSort = (
 		cursorPos: Draggable.Vars,
 		point: Point,
-		type: "point" | "point_curve"
+		type: 'point' | 'point_curve'
 	) => {
 		const boundW = Math.abs(cursorPos.minX) + Math.abs(cursorPos.maxX)
 		const boundH = Math.abs(cursorPos.minY) + Math.abs(cursorPos.maxY)
@@ -73,33 +66,21 @@ export const Envelope = ({
 		const gy = Number(y * boundHeight)
 
 		const pointIndex = points.findIndex((p: Point) => p.id === point.id)
-		if (pointIndex === -1) return points // Ensure the point exists
+		if (pointIndex === -1) return points
 		const thisPoint = points[pointIndex]
 		const prevAnchorX = points[pointIndex - 1]
 			? coordinateAnchor(points[pointIndex - 1]).x
 			: 0
-		// const nextAnchorX = points[pointIndex + 1]
-		// 	? coordinateAnchor(points[pointIndex + 1]).x
-		// 	: boundWidth
-
-		// console.table({
-		// 	prevAnchorX: prevAnchorX,
-		// 	thisX: coordinateAnchor(thisPoint).x,
-		// })
 
 		if (!thisPoint || !thisPoint.coordinates) {
-			console.error("Point or coordinates undefined", thisPoint)
-			return points // Return the current points if the new point is undefined
+			console.error('Point or coordinates undefined', thisPoint)
+			return points
 		}
 
-		//todo change according to index "i start = 0" "i end = points.length - 1"
 		const updatedPointByCommand = () => {
-			//? if it's the first point, keep x at 0
-
 			switch (point.command) {
-				//? for both "M" & "L"
-				case "M":
-				case "L":
+				case 'M':
+				case 'L':
 					return {
 						...thisPoint,
 						coordinates: [
@@ -113,23 +94,20 @@ export const Envelope = ({
 					}
 
 				default:
-					if (type === "point" && thisPoint.coordinates.length >= 4) {
+					if (type === 'point' && thisPoint.coordinates.length >= 4) {
 						return {
 							...thisPoint,
 							coordinates: [
 								clampAxis(thisPoint.coordinates[0], prevAnchorX, gx),
 								thisPoint.coordinates[1],
-								//? if last point, clamp value to right edge
 								point.id === points.length - 1 ? boundWidth : gx,
 								gy,
 							],
 						}
-						//? calc the hollow curve point
 					} else if (thisPoint.coordinates.length >= 4) {
 						return {
 							...thisPoint,
 							coordinates: [
-								// todo clamp this val between prevAnchor.x and nextAnchor.x
 								clampAxis(gx, prevAnchorX, coordinateAnchor(thisPoint).x),
 								gy,
 								thisPoint.coordinates[2],
@@ -149,8 +127,6 @@ export const Envelope = ({
 			updatedPoint,
 			...points.slice(pointIndex + 1),
 		]
-		//todo type error needs fixing
-		// @ts-ignore
 		return sortPoints(updatedPoints)
 	}
 
@@ -159,27 +135,16 @@ export const Envelope = ({
 			gsap.registerPlugin(Draggable)
 
 			points.map((point, i) => {
-				// make all white/red points "on line" draggable
 				Draggable.create(`.point_${point.id}`, {
 					bounds: graphRef.current,
-					//! these bounds do not work
-					// bounds: {minX: 0, maxX: 10, minY: 0, maxY: 10},
-					// bounds: {top: 50, left: 50, width: 100, height: 100},
-					// lockAxis: true,
-					// If point is start or end of line, lock the X axis
 					type:
 						point.id === 0 || point.id === points[points.length - 1].id
-							? "y"
-							: "x,y",
-					// TODO how to get points to sit on edge of graph instead of just inside. account for radius
-					// bounds: {top: 0, left: 0, width: boundWidth + 10, height: boundHeight + 10},
-					//? update UI curve visually without effecting output easeCurve
+							? 'y'
+							: 'x,y',
 					onDrag: function () {
-						// console.log("Draggable .point")
-
 						const pointIndex = points.findIndex((p) => p.id === point.id)
 						if (pointIndex === -1) return
-						const updatedPoints = getUpdatedPointsAndSort(this, point, "point")
+						const updatedPoints = getUpdatedPointsAndSort(this, point, 'point')
 
 						setScaledPath(
 							writeScaledPath(updatedPoints, {
@@ -188,28 +153,26 @@ export const Envelope = ({
 							})
 						)
 					},
-					//? actually update easeCurve and perform other clamp functions
 					onDragEnd: function () {
-						console.log("## point onDragEnd")
+						console.log('## point onDragEnd')
 
 						const pointIndex = points.findIndex((p) => p.id === point.id)
 						if (pointIndex === -1) return
-						const updatedPoints = getUpdatedPointsAndSort(this, point, "point")
+						const updatedPoints = getUpdatedPointsAndSort(this, point, 'point')
 						handlePointsUpdateEnd(updatedPoints)
 					},
 				})
 
-				// hollow curve points
 				Draggable.create(`.point_curve_${point.id}`, {
 					bounds: graphRef.current,
-					type: "x,y",
+					type: 'x,y',
 					onDrag: function () {
 						const pointIndex = points.findIndex((p) => p.id === point.id)
 						if (pointIndex === -1) return
 						const updatedPoints = getUpdatedPointsAndSort(
 							this,
 							point,
-							"point_curve"
+							'point_curve'
 						)
 
 						setScaledPath(
@@ -225,7 +188,7 @@ export const Envelope = ({
 						const updatedPoints = getUpdatedPointsAndSort(
 							this,
 							point,
-							"point_curve"
+							'point_curve'
 						)
 
 						handlePointsUpdateEnd(updatedPoints)
@@ -245,7 +208,7 @@ export const Envelope = ({
 	) => {
 		if (!graphRef.current)
 			return {
-				command: "MOUSE",
+				command: 'MOUSE',
 				coordinates: [0, 0],
 			}
 		let cursorPoint = graphRef.current.createSVGPoint()
@@ -256,7 +219,7 @@ export const Envelope = ({
 		)
 
 		return {
-			command: "MOUSE",
+			command: 'MOUSE',
 			coordinates: [cursorPoint.x, cursorPoint.y],
 		}
 	}
@@ -265,7 +228,6 @@ export const Envelope = ({
 		event.stopPropagation()
 
 		const cursorPoint = getCursorPoint(event as any)
-		//! component works, idk what the type error is
 		// @ts-ignore
 		const sortedPoints = sortPoints([...points, cursorPoint])
 		const index = sortedPoints.findIndex(
@@ -275,7 +237,7 @@ export const Envelope = ({
 		const prevAnchor: SimpleCoordinate = coordinateAnchor(prevPoint)
 		const newPoint = {
 			id: index,
-			command: "Q",
+			command: 'Q',
 			coordinates: [
 				lerp(prevAnchor.x, cursorPoint.coordinates[0], 0.5),
 				lerp(prevAnchor.y, cursorPoint.coordinates[1], 0.5),
@@ -305,9 +267,9 @@ export const Envelope = ({
 		})
 		if (
 			!newPoints ||
-			newPoints.some((point) => typeof point === "undefined" || point === null)
+			newPoints.some((point) => typeof point === 'undefined' || point === null)
 		) {
-			console.error("Invalid points data:", newPoints)
+			console.error('Invalid points data:', newPoints)
 		} else {
 			setPoints(newPoints)
 
@@ -319,23 +281,6 @@ export const Envelope = ({
 			)
 		}
 	}, [path, boundHeight, boundWidth])
-
-	// todo removed this for now as I think it's causing constant re renders
-	// const [size, setSize] = useState({ width: 0, height: 0 })
-
-	// useEffect(() => {
-	// 	const observeSize = (entries: ResizeObserverEntry[]) => {
-	// 		const { width, height } = entries[0].contentRect
-	// 		setSize({ width, height })
-	// 	}
-	// 	const observer = new ResizeObserver(observeSize)
-	// 	if (graphRef.current) {
-	// 		observer.observe(graphRef.current)
-	// 	}
-	// 	return () => {
-	// 		observer.disconnect()
-	// 	}
-	// }, [])
 
 	const [activePoint, setActivePoint] = useState<Point | undefined>()
 
@@ -349,18 +294,16 @@ export const Envelope = ({
 
 		const updatedPoint = (() => {
 			switch (command) {
-				case "M":
-				case "L":
+				case 'M':
+				case 'L':
 					return {
 						...nextPoint,
-						//? keep start point as `M` command
-						command: nextPoint.command === "M" ? "M" : command,
+						command: nextPoint.command === 'M' ? 'M' : command,
 						coordinates: [
 							coordinateAnchor(nextPoint).x,
 							coordinateAnchor(nextPoint).y,
 						],
 					}
-				//? for all 4 number coordinates like "Q" or "S"
 				default:
 					return {
 						...nextPoint,
@@ -393,14 +336,11 @@ export const Envelope = ({
 			...points.slice(nextPoint.id + 1),
 		] as Point[]
 
-		//todo fix type error
-		// @ts-ignore
 		setPoints(sortPoints(updatedPoints))
 
 		const bounds = { w: boundWidth, h: boundHeight }
 
 		setScaledPath(writeScaledPath(updatedPoints, bounds))
-		//? set curve Path
 		onChange(writeNormalizedPath(updatedPoints, bounds))
 	}
 
@@ -423,100 +363,85 @@ export const Envelope = ({
 	}
 
 	const customEases = [
-		{ label: "Default", value: "M0 0 L1 1" },
+		{ label: 'Default', value: 'M0 0 L1 1' },
 		{
-			label: "Digital",
+			label: 'Digital',
 			value:
-				"M0 0 L0 1 L0.25 1 L0.25001 0 L0.5 0 L0.50001 1 L0.75 1 L0.75001 0 L1 0",
+				'M0 0 L0 1 L0.25 1 L0.25001 0 L0.5 0 L0.50001 1 L0.75 1 L0.75001 0 L1 0',
 		},
 		{
-			label: "Jaws",
+			label: 'Jaws',
 			value:
-				"M0 0 Q0.0625 0.8 0.125 0.8 Q0.1875 0 0.25 0 Q0.3125 0.8 0.375 0.8 Q0.4375 0 0.5 0 Q0.5625 0.8 0.625 0.8 Q0.6875 0 0.75 0 Q0.8125 0.8 0.875 0.8 Q0.9375 0 1 0",
+				'M0 0 Q0.0625 0.8 0.125 0.8 Q0.1875 0 0.25 0 Q0.3125 0.8 0.375 0.8 Q0.4375 0 0.5 0 Q0.5625 0.8 0.625 0.8 Q0.6875 0 0.75 0 Q0.8125 0.8 0.875 0.8 Q0.9375 0 1 0',
 		},
 		{
-			label: "Noise",
+			label: 'Noise',
 			value:
-				"M0 0 Q0.05 0.3 0.1 0.6 Q0.15 0 0.2 0 Q0.25 0.4 0.3 0.4 Q0.35 0 0.4 1 Q0.45 0 0.5 0 Q0.55 0.3 0.6 0.6 Q0.65 1 0.7 1 Q0.75 0.1 0.8 0.2 Q0.85 0.9 0.9 0.8 Q0.95 0.2 1 0.4",
+				'M0 0 Q0.05 0.3 0.1 0.6 Q0.15 0 0.2 0 Q0.25 0.4 0.3 0.4 Q0.35 0 0.4 1 Q0.45 0 0.5 0 Q0.55 0.3 0.6 0.6 Q0.65 1 0.7 1 Q0.75 0.1 0.8 0.2 Q0.85 0.9 0.9 0.8 Q0.95 0.2 1 0.4',
 		},
 		{
-			label: "Saw",
+			label: 'Saw',
 			value:
-				"M0 0 L0.125 1 L0.25 0 L0.375 1 L0.5 0 L0.625 1 L0.75 0 L0.875 1 L1 0",
+				'M0 0 L0.125 1 L0.25 0 L0.375 1 L0.5 0 L0.625 1 L0.75 0 L0.875 1 L1 0',
 		},
 	]
 
 	return (
-		<div className={styles.wrapper} ref={curveEditorRef}>
-			<svg
-				className={styles.graph + " graph_wrap_inner"}
+		<S.Wrapper ref={curveEditorRef}>
+			<S.Graph
 				ref={graphRef}
-				version="1.1"
-				xmlns="http://www.w3.org/2000/svg"
-				x="0px"
-				y="0px"
+				version='1.1'
+				xmlns='http://www.w3.org/2000/svg'
+				x='0px'
+				y='0px'
 				height={boundHeight}
 				width={boundWidth}
-				preserveAspectRatio="xMidYMid meet"
-				xmlSpace="preserve"
+				preserveAspectRatio='xMidYMid meet'
+				xmlSpace='preserve'
 			>
-				{/* //TODO this causes scaling issues when shrinking graph hight */}
 				<defs>
-					<clipPath id="graph_path">
-						<rect x="0" y="-200" height={boundHeight * 2} width={boundWidth} />
+					<clipPath id='graph_path'>
+						<rect x='0' y='-200' height={boundHeight * 2} width={boundWidth} />
 					</clipPath>
-					<clipPath id="graph_path_reveal">
+					<clipPath id='graph_path_reveal'>
 						<rect
-							x="0"
-							y="-200"
+							x='0'
+							y='-200'
 							height={boundHeight * 2}
 							width={boundWidth * phase}
-							className="line_path_reveal"
+							className='line_path_reveal'
 						/>
 					</clipPath>
 				</defs>
 
 				<svg
-					id="svg_path"
+					id='svg_path'
 					height={boundHeight}
 					width={boundWidth}
-					preserveAspectRatio="xMidYMid meet"
-					xmlSpace="preserve"
+					preserveAspectRatio='xMidYMid meet'
+					xmlSpace='preserve'
 				>
-					<path
-						id="line_path"
+					<S.GraphPath
+						id='line_path'
 						ref={linePathRef}
-						className={styles.graph_path}
 						d={scaledPath}
-						clipPath="url(#graph_path)"
+						clipPath='url(#graph_path)'
 					/>
 
 					<path
 						d={`M0,${boundHeight} ${scaledPath.slice(1)} V0 H0 Z`}
-						fill="var(--F_Surface_0)"
+						fill='var(--F_Surface_0)'
 					/>
 
-					<path
-						className={styles.graph_path_reveal}
+					<S.GraphPathReveal
 						d={scaledPath}
-						clipPath="url(#graph_path_reveal)"
+						clipPath='url(#graph_path_reveal)'
 					/>
-
-					{/* // todo put polyline points here so they update onDrag */}
-					{/* {convertPathStringToPoints(path, {
-						w: boundWidth,
-						h: boundHeight,
-					}).map((p) => (
-						<polyline
-							className={styles.curve_tangent + ` point_tangent_${p.id}`}
-							points={p.coordinates.join(",")}
-						/>
-					))} */}
 
 					<rect
 						height={boundHeight}
 						width={boundWidth}
-						fillOpacity="0"
+						fillOpacity='0'
 						onDoubleClick={(e: any) => addPoint(e)}
 					/>
 
@@ -525,14 +450,14 @@ export const Envelope = ({
 							key={p.id}
 							i={i}
 							p={p}
-							className={"point_"}
+							className={'point_'}
 							removePoint={removePoint}
 							activePoint={activePoint}
 							onSetActivePoint={() => setActivePoint(p)}
 						/>
 					))}
 				</svg>
-			</svg>
+			</S.Graph>
 
 			<Box mt={0.25}>
 				<Gap disableWrap gap={1}>
@@ -574,7 +499,6 @@ export const Envelope = ({
 					<Gap autoWidth gap={0.5}>
 						<S.Label>Curve</S.Label>
 						<Box width={8}>
-							{/* //? if last point do not allow curve selection */}
 							{activePoint?.id === points.length - 1 ? (
 								<p> --n/a-- </p>
 							) : (
@@ -582,21 +506,21 @@ export const Envelope = ({
 									value={
 										activePoint
 											? (getNextPoint(activePoint, points).command as string)
-											: "Q"
+											: 'Q'
 									}
 									compact
 									options={[
 										{
-											value: "Q",
-											label: "Quadratic",
+											value: 'Q',
+											label: 'Quadratic',
 										},
 										{
-											value: "S",
-											label: "Smooth",
+											value: 'S',
+											label: 'Smooth',
 										},
 										{
-											value: "L",
-											label: "Linear",
+											value: 'L',
+											label: 'Linear',
 										},
 									]}
 									onChange={(val: unknown) => {
@@ -607,8 +531,8 @@ export const Envelope = ({
 						</Box>
 					</Gap>
 					<Dropdown
-						icon={"bars"}
-						iconPrefix="fas"
+						icon={'bars'}
+						iconPrefix='fas'
 						items={customEases.map((ease) => ({
 							text: ease.label,
 							onClick: () => {
@@ -623,7 +547,7 @@ export const Envelope = ({
 			<p>debug path: {path}</p>
 			<br />
 			<pre>debug activePoint: {JSON.stringify(activePoint, null, 2)}</pre>
-		</div>
+		</S.Wrapper>
 	)
 }
 
@@ -637,13 +561,11 @@ type PointGroupProps = {
 	onSetActivePoint: (p: Point) => void
 }
 
-// todo make more robust conditional depending on `command` type
 const PointGroup = ({
 	i,
 	p,
 	removePoint = (e, i) => null,
-	className = "point_",
-	// todo is this necessary now?
+	className = 'point_',
 	isCurveEdit = true,
 	activePoint,
 	onSetActivePoint,
@@ -652,26 +574,26 @@ const PointGroup = ({
 		<g id={`p_${p.id}`}>
 			{p.coordinates.length > 2 && isCurveEdit && (
 				<>
-					<polyline
-						className={styles.curve_tangent + ` point_tangent_${p.id}`}
-						points={p.coordinates.join(",")}
+					<S.CurveTangent
+						className={`point_tangent_${p.id}`}
+						points={p.coordinates.join(',')}
 					/>
-					<circle
+					<S.CurvePoint
 						cx={p.coordinates[0]}
 						cy={p.coordinates[1]}
-						r="5"
-						className={styles.curve_point + ` point_curve_${p.id}`}
+						r='5'
+						className={`point_curve_${p.id}`}
 					/>
 				</>
 			)}
 			<circle
 				cx={coordinateAnchor(p).x}
 				cy={coordinateAnchor(p).y}
-				r="5"
+				r='5'
 				fill={
 					activePoint && activePoint.id === p.id
-						? "var(--F_Primary_Variant)"
-						: "white"
+						? 'var(--F_Primary_Variant)'
+						: 'white'
 				}
 				className={`${className + p.id}`}
 				onDoubleClick={(e: any) => removePoint(e, Number(p.id))}
@@ -682,13 +604,11 @@ const PointGroup = ({
 }
 
 const writeScaledPath = (points: Point[], bounds: Bounds) => {
-	let directionString = ""
+	let directionString = ''
 
 	points.map((point) => {
-		directionString += point.command + point.coordinates.join(" ") + " "
+		directionString += point.command + point.coordinates.join(' ') + ' '
 	})
-	// todo why is this fn triggering every frame?
-	// console.log("## scaledPath, ", directionString)
 
 	return directionString
 }
@@ -697,13 +617,13 @@ const writeNormalizedPath = (
 	points: Point[],
 	bounds: { w: number; h: number }
 ) => {
-	let normalizedPath = ""
+	let normalizedPath = ''
 
 	points.map((point) => {
 		normalizedPath +=
 			point.command +
-			normalizeCoordinates(point.coordinates, bounds).join(" ") +
-			" "
+			normalizeCoordinates(point.coordinates, bounds).join(' ') +
+			' '
 	})
 
 	return normalizedPath
@@ -712,17 +632,14 @@ const writeNormalizedPath = (
 const scaleCoordinates = (coordinates: number[], bounds: Bounds) => {
 	const scaledCoordinates = coordinates.map((num, i) =>
 		i % 2 === 0
-			? //? if i is odd number, scale by X axis (width).
-			  num * bounds.w
-			: //? if i is even number, scale by Y axis (height).
-			  num * bounds.h
+			? num * bounds.w
+			: num * bounds.h
 	)
 	return scaledCoordinates
 }
 
 const normalizeCoordinates = (coordinates: number[], bounds: Bounds) => {
 	const normalized = coordinates.map((num, i) =>
-		// if x axis / by w | if y axis / by h
 		i % 2 === 0 ? num / bounds.w : num / bounds.h
 	)
 	return normalized
@@ -730,7 +647,7 @@ const normalizeCoordinates = (coordinates: number[], bounds: Bounds) => {
 
 const convertPathStringToPoints = (path: string, bounds: Bounds) => {
 	const commands = path.match(/[a-z][^a-z]*/gi)
-	if (!commands) throw Error("no commands found")
+	if (!commands) throw Error('no commands found')
 	const scaledPoints = commands.map((commandString, i) => {
 		const command = commandString[0]
 		const coordinates = commandString
@@ -749,7 +666,6 @@ const convertPathStringToPoints = (path: string, bounds: Bounds) => {
 	return scaledPoints
 }
 
-//? find the point coordinates physically connected to the line (the last 2 numbers in the `coordinates` array)
 function coordinateAnchor(point: Point) {
 	return {
 		x: point.coordinates[point.coordinates.length - 2],
@@ -762,15 +678,13 @@ function getNextPoint(activePoint: Point, points: Point[]) {
 	return nextPoint
 }
 
-const sortPoints = (points: Point[] | CursorPoint[], boundWidth: number) => {
+const sortPoints = (points: Point[] | CursorPoint[], boundWidth?: number) => {
 	const sortedPoints = points.sort((a, b) => {
-		// todo doesn't need index from point so just a dumb ts error
-		//@ts-ignore
-		return coordinateAnchor(a).x - coordinateAnchor(b).x
+		return coordinateAnchor(a as Point).x - coordinateAnchor(b as Point).x
 	})
 
 	const pointsWithIDs = sortedPoints.map((p, i) => ({ ...p, id: i }))
-	return pointsWithIDs
+	return pointsWithIDs as Point[]
 }
 
 const lerp = (start: number, end: number, amt: number) => {
@@ -794,7 +708,7 @@ function clampAxis(
 	}
 }
 
-type CommandLetter = "M" | "L" | "Q" | "S"
+type CommandLetter = 'M' | 'L' | 'Q' | 'S'
 
 type Command = {
 	M: [number, number]
@@ -815,18 +729,48 @@ type Bounds = { w: number; h: number }
 type SimpleCoordinate = { x: number; y: number }
 
 type CursorPoint = {
-	command: "MOUSE"
+	command: 'MOUSE'
 	coordinates: [number, number]
 }
 
-// Helpful docs
-// - https://svg-path-visualizer.netlify.app/#M140%2020C73%2020%2020%2074%2020%20140c0%20135%20136%20170%20228%20303%2088-132%20229-173%20229-303%200-66-54-120-120-120-48%200-90%2028-109%2069-19-41-60-69-108-69z
-// - https://css-tricks.com/svg-path-syntax-illustrated-guide/
-// - https://css-tricks.com/svg-line-animation-works/
-// - https://www.w3schools.com/graphics/tryit.asp?filename=trysvg_path2
-// - https://gsap.com/docs/v3/Plugins/Draggable/
-
 const S = {
+	Wrapper: styled.div`
+		display: grid;
+	`,
+	Graph: styled.svg`
+		transform: scale(1, -1);
+		background-size: 40px 40px;
+		background-image: linear-gradient(
+			to right,
+			var(--F_Surface_0) 1px,
+			transparent 1px
+		);
+		background-color: var(--F_Background_Alternating);
+	`,
+	GraphPath: styled.path`
+		fill: none;
+		stroke: var(--F_Surface_1);
+		stroke-width: 3px;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+	`,
+	GraphPathReveal: styled.path`
+		fill: none;
+		stroke: var(--F_Font_Color);
+		stroke-width: 2px;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+	`,
+	CurveTangent: styled.polyline`
+		stroke: var(--F_Surface_2);
+	`,
+	CurvePoint: styled.circle`
+		stroke: var(--F_Font_Color);
+		stroke-width: 2px;
+		z-index: 3;
+		fill: transparent;
+		cursor: pointer;
+	`,
 	Label: styled.div`
 		font-size: var(--F_Font_Size_Small);
 		color: var(--F_Font_Color_Disabled);

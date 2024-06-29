@@ -1,5 +1,5 @@
 import React from 'react'
-import { AspectRatio, AspectRatioProps, Empty, Item, ItemProps } from '../../internal'
+import { AspectRatio, AspectRatioProps, Item, ItemProps } from '../../internal'
 import styled, { css, keyframes } from 'styled-components'
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {

@@ -179,72 +179,8 @@ Default.args = {
 	boundHeight: 200,
 	boundWidth: 500,
 	// linear line
-	path: "M0 0 Q0.25 0.25 0.5 0.5 Q0.75 0.75 1 1",
+	path: 'M0 0 Q0.25 0.25 0.5 0.5 Q0.75 0.75 1 1',
 	duration: 1,
-}
-
-export const HalfHeightHook = Template.bind({})
-HalfHeightHook.args = {
-	boundHeight: 400,
-	boundWidth: 500,
-	// linear line
-	path: "M0 0 Q0.25 0.25 0.5 0.5 Q0.75 0.75 1 0.5 ",
-	duration: 1,
-}
-
-export const SCurve = Template.bind({})
-SCurve.args = {
-	boundHeight: 500,
-	boundWidth: 500,
-	path: "M0 0 Q0.5 0.1 0.5 0.5 Q0.5 0.98 1 1",
-	duration: 2,
-}
-export const SmoothCamel = Template.bind({})
-SmoothCamel.args = {
-	boundHeight: 500,
-	boundWidth: 500,
-	path: "M0 0 S0.1 0.65 0.4 0.40 S0.44 0.9 1 0.74",
-	duration: 2,
-}
-
-export const MultiCurveTypes = Template.bind({})
-MultiCurveTypes.args = {
-	boundHeight: 500,
-	boundWidth: 500,
-	path: "M0 0 L0.1 0.2 L0.5 0.1 Q0.5 0.98 1 1",
-	duration: 2,
-}
-
-export const ShortestHeight = Template.bind({})
-ShortestHeight.args = {
-	boundHeight: 200,
-	boundWidth: 500,
-	path: "M0 0 Q0.5 0.1 0.5 0.5 Q0.75 0.75 1 1",
-	duration: 2,
-}
-
-export const ShortestWidth = Template.bind({})
-ShortestWidth.args = {
-	boundHeight: 500,
-	boundWidth: 200,
-	path: "M0 0 Q0.5 0.1 0.5 0.5 Q0.75 0.75 1 1",
-	duration: 2,
-}
-
-export const LowHump = Template.bind({})
-LowHump.args = {
-	boundHeight: 400,
-	boundWidth: 500,
-	path: "M0 0 Q0.25 0.25 0.5 0.1 Q0.75 0.75 1 1",
-	duration: 3,
-}
-
-export const FivePoint = Template.bind({})
-FivePoint.args = {
-	boundHeight: 300,
-	boundWidth: 500,
-	path: "M0 0 Q0.054 0.121 0.108 0.242 Q0.25 0.25 0.5 0.5 Q0.661 0.591 0.822 0.682 Q0.75 0.75 1 1",
-	duration: 5,
 }
 
 const S = {

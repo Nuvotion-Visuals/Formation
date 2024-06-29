@@ -6,7 +6,6 @@ import { IconName, IconPrefix } from '@fortawesome/fontawesome-common-types'
 import { Icon, Box, LabelColor, getLabelColor, Button, ButtonProps } from '../../internal'
 import { LabelColorCircle } from '../LabelColorPicker/LabelColorCircle'
 
-
 export type TextInputProps = {
   name?: string,
   label?: string,
